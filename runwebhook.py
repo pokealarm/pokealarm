@@ -19,7 +19,7 @@ def trigger_alert():
 	log.debug("POST request response has been triggered.")
 	data = json.loads(request.data)
 	if data['type'] == 'pokemon' :
-		log.debug("POST request is  a pokemon")
+		log.debug("POST request is  a pokemon.")
 		pkmn = data['message']
 		alerts.trigger_pkmn(pkmn)			
 	elif data['type'] == 'pokestop' : 
@@ -36,5 +36,4 @@ if __name__ == '__main__':
 	
 	config = set_config(os.path.abspath(os.path.dirname(__file__)))
 	
-	log.debug(config)
 	app.run(host=config['HOST'], port=config['PORT'])

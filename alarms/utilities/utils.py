@@ -1,6 +1,7 @@
 import os
+import json
 import logging
-import datetime
+from datetime import datetime
 import configargparse
 
 from .. import config
@@ -18,13 +19,11 @@ def set_config(root_path):
 	args = parser.parse_args()
 	
 	config['ROOT_PATH'] = root_path
-	log.debug(root_path)
 	config['HOST'] = args.host
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
 	
-	log.debug(config)
 	return config
 
 def pkmn_alert_text(name):

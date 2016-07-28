@@ -38,15 +38,16 @@ class Alarm_Manager:
 	def trigger_pkmn(self, pkmn):
 		if pkmn['encounter_id'] not in self.seen:
 			name = pkmn['pokemon_id']
-			time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
 			pkinfo = {
 				'alert': pkmn_name(name),
 				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
-				'time_text': pkmn_time_text(pkmn['disappear_time']),
-				'disappear_time': pkmn['disappear_time']
+				'time_text': pkmn_time_text(dissapear_time),
+				'disappear_time': dissapear_time
 			}
+			log.info(type(dissapear_time))
 			self.seen[id] = pkinfo
-			if(self.notify_list[name] == "True"):
+			if self.notify_list[name] == "True" and dissapear_time < datetime.utcnow():
 				log.info(name+" notifications have been triggered!")
 				for alarm in self.alarms:
 					alarm.pokemon_alert(pkinfo)
