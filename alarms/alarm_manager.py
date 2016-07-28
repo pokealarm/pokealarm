@@ -1,9 +1,11 @@
 import os
 import json
 import logging
+import time
+from threading import Lock
 from datetime import datetime
 
-from utilities import pkmn_name, gmaps_link, pkmn_time_text
+from utilities import pkmn_name, pkmn_alert_text, gmaps_link, pkmn_time_text
 from . import config
 from pushbullet_alarm import Pushbullet_Alarm
 from slack_alarm import Slack_Alarm
@@ -21,6 +23,7 @@ class Alarm_Manager:
 			self.notify_list = settings["pokemon"]
 			self.seen = {}
 			self.alarms = []
+			self.lock = Lock()
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
 					if alarm['type'] == 'pushbullet' :
@@ -36,26 +39,27 @@ class Alarm_Manager:
 			
 	#Send a notification to alarms about a found pokemon
 	def trigger_pkmn(self, pkmn):
-		if pkmn['encounter_id'] not in self.seen:
-			name = pkmn_name(pkmn['pokemon_id'])
-			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
-			pkinfo = {
-				'name': name,
-				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
-				'time_text': pkmn_time_text(dissapear_time),
-				'disappear_time': dissapear_time
-			}
-			self.seen[id] = pkinfo
-			if self.notify_list[name] != "True" :
-				log.debug(name + " notification was not triggered because alarm is disabled.")
-			elif dissapear_time < datetime.utcnow() :
-				log.debug(name + " notification was not triggered because alarm is disabled.")
-			else:
-				log.info(name + " notication was triggered!")
-				for alarm in self.alarms:
-					alarm.pokemon_alert(pkinfo)
-		if len(self.seen) > 10000 :
-			self.clear_stale();
+		with self.lock:
+			if pkmn['encounter_id'] not in self.seen:
+				name = pkmn_name(pkmn['pokemon_id'])
+				dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+				pkinfo = {
+					'alert': pkmn_alert_text(name),
+					'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
+					'time_text': pkmn_time_text(dissapear_time),
+					'disappear_time': dissapear_time
+				}
+				self.seen[id] = pkinfo
+				if self.notify_list[name] != "True" :
+					log.debug(name + " notification was not triggered because alarm is disabled.")
+				elif dissapear_time < datetime.utcnow() :
+					log.debug(name + " notification was not triggered because alarm is disabled.")
+				else:
+					log.info(name + " notication was triggered!")
+					for alarm in self.alarms:
+						alarm.pokemon_alert(pkinfo)
+			if len(self.seen) > 10000 :
+				self.clear_stale();
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):

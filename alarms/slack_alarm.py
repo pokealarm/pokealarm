@@ -13,14 +13,14 @@ class Slack_Alarm(Alarm):
 		log_msg = "Slack Alarm intialized"
 		if 'name' in settings:
 			self.name = settings['name']
-			log_msg = log_msg + ":" + self.name
+			log_mst = log_msg + ": " + self.name
 		log.info(log_msg)
 		self.client.chat.post_message(self.channel, 'PokeAlarm activated! We will alert this channel about pokemon.')
 		
-	def pokemon_alert(self, pkmn):
+	def pokemon_alert(self, pkinfo):
 		notification_text = pkinfo['alert']
-		if self.name :
+		if hasattr(self, 'name') :
 			notification_text = self.name + ": " + notification_text
 		gmaps_link = pkinfo['gmaps_link']
 		time_text =  pkinfo['time_text']
-		self.client.chat.post_message(self.channel, notification_text + " " + time_text + " " + google_maps_link)
+		self.client.chat.post_message(self.channel, notification_text + " " + time_text + " " + gmaps_link)

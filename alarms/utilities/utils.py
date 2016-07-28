@@ -27,7 +27,7 @@ def set_config(root_path):
 	return config
 
 def pkmn_alert_text(name):
-	return "A wild " + pokemon['name'].title() + " has appeared!"
+	return "A wild " + name.title() + " has appeared!"
 	
 def gmaps_link(lat, lng):
 		latLon = '{},{}'.format(repr(lat), repr(lng))
