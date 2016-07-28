@@ -6,7 +6,7 @@ from flask import Flask, request
 
 from alarms import config
 from alarms.alarm_manager import Alarm_Manager
-from alarms.utilities import get_args
+from alarms.utilities import set_config
 
 logging.basicConfig(format='%(asctime)s [%(module)14s] [%(levelname)7s] %(message)s')
 log = logging.getLogger()
@@ -19,8 +19,8 @@ def trigger_alert():
 	log.debug("POST request response has been triggered.")
 	data = json.loads(request.data)
 	if data['type'] == 'pokemon' :
+		log.debug("POST request is  a pokemon")
 		pkmn = data['message']
-		log.debug('message')
 		alerts.trigger_pkmn(pkmn)			
 	elif data['type'] == 'pokestop' : 
 		log.debug("Pokestop notifications not yet implimented.")
@@ -31,8 +31,10 @@ def trigger_alert():
 	return "OK"
 	
 if __name__ == '__main__':
-	#config['ROOT_PATH'] = os.path.join(os.path.dirname(__file__))
 	log.setLevel(logging.DEBUG);
+	logging.getLogger("alarms.utilities").setLevel(logging.DEBUG)
 	
-	log.info("App started")
-	app.run()
+	config = set_config(os.path.abspath(os.path.dirname(__file__)))
+	
+	log.debug(config)
+	app.run(host=config['HOST'], port=config['PORT'])

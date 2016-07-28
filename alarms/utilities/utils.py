@@ -1,17 +1,31 @@
 import os
 import logging
 import datetime
+import configargparse
 
 from .. import config
 
 log = logging.getLogger(__name__)
 
-def get_args():
-	#parser = configargparse.ArgParser(default_config_files=[configpath])
+def set_config(root_path):
+	parser = configargparse.ArgParser()
 	parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
 	parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
+	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
 	parser.set_defaults(DEBUG=False)
+	
+	args = parser.parse_args()
+	
+	config['ROOT_PATH'] = root_path
+	log.debug(root_path)
+	config['HOST'] = args.host
+	config['PORT'] = args.port
+	config['LOCALE'] = args.locale
+	config['DEBUG'] = args.debug
+	
+	log.debug(config)
+	return config
 
 def pkmn_alert_text(name):
 	return "A wild " + pokemon['name'].title() + " has appeared!"
@@ -30,13 +44,13 @@ def pkmn_time_text(time):
 	
 
 def pkmn_name(pokemon_id):
-    if not hasattr(get_pokemon_name, 'names'):
+    if not hasattr(pkmn_name, 'names'):
         file_path = os.path.join(
             config['ROOT_PATH'],
             config['LOCALES_DIR'],
             'pokemon.{}.json'.format(config['LOCALE']))
 
         with open(file_path, 'r') as f:
-            get_pokemon_name.names = json.loads(f.read())
+            pkmn_name.names = json.loads(f.read())
 
-    return get_pokemon_name.names[str(pokemon_id)]
+    return pkmn_name.names[str(pokemon_id)]
