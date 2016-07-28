@@ -28,12 +28,8 @@ def trigger_alert():
 	elif data['type'] == 'pokegym' :
 		log.debug("Pokegym notifications not yet implimented.")
 		#do nothing
-	return "OK"
+	return ""
 
-@app.errorhandler(Exception)
-def unhandled_exception(e):
-    app.logger.error('Unhandled Exception: %s', (e))
-	
 if __name__ == '__main__':
 	config = set_config(os.path.abspath(os.path.dirname(__file__)))
 	if config['DEBUG']:
@@ -41,6 +37,8 @@ if __name__ == '__main__':
 		logging.getLogger("alarms.utilities").setLevel(logging.DEBUG)
 		logging.getLogger("alarms.alarm_managers").setLevel(logging.DEBUG)
 	else :
-		log.setLevel(logging.INFO)
+		logging.getLogger("requests").setLevel(logging.WARNING)
+		logging.getLogger('werkzeug').setLevel(logging.ERROR)
+		logging.getLogger("alarms").setLevel(logging.INFO)
 	
 	app.run(debug=config['DEBUG'],host=config['HOST'], port=config['PORT'])
