@@ -15,7 +15,7 @@ class Alarm_Manager:
 
 	def __init__(self):
 		filepath = config['ROOT_PATH']
-		with open(os.path.join(filepath, '..', 'alarms.json')) as file:
+		with open(os.path.join(filepath, 'alarms.json')) as file:
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
 			self.notify_list = settings["pokemon"]
@@ -37,22 +37,23 @@ class Alarm_Manager:
 	#Send a notification to alarms about a found pokemon
 	def trigger_pkmn(self, pkmn):
 		if pkmn['encounter_id'] not in self.seen:
-			name = pkmn['pokemon_id']
+			name = pkmn_name(pkmn['pokemon_id'])
 			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
 			pkinfo = {
-				'alert': pkmn_name(name),
+				'name': name,
 				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
 				'time_text': pkmn_time_text(dissapear_time),
 				'disappear_time': dissapear_time
 			}
-			log.info(type(dissapear_time))
 			self.seen[id] = pkinfo
-			if self.notify_list[name] == "True" and dissapear_time < datetime.utcnow():
-				log.info(name+" notifications have been triggered!")
+			if self.notify_list[name] != "True" :
+				log.debug(name + " notification was not triggered because alarm is disabled.")
+			elif dissapear_time < datetime.utcnow() :
+				log.debug(name + " notification was not triggered because alarm is disabled.")
+			else:
+				log.info(name + " notication was triggered!")
 				for alarm in self.alarms:
 					alarm.pokemon_alert(pkinfo)
-			else:
-				log.debug(name + " notification was not triggered")
 		if len(self.seen) > 10000 :
 			self.clear_stale();
 

@@ -31,9 +31,12 @@ def trigger_alert():
 	return "OK"
 	
 if __name__ == '__main__':
-	log.setLevel(logging.DEBUG);
-	logging.getLogger("alarms.utilities").setLevel(logging.DEBUG)
-	
 	config = set_config(os.path.abspath(os.path.dirname(__file__)))
+	if config['DEBUG']:
+		log.setLevel(logging.DEBUG)
+		logging.getLogger("alarms.utilities").setLevel(logging.DEBUG)
+		logging.getLogger("alarms.alarm_managers").setLevel(logging.DEBUG)
+	else :
+		log.setLevel(logging.INFO)
 	
 	app.run(host=config['HOST'], port=config['PORT'])
