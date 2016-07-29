@@ -9,6 +9,7 @@ from . import config
 from pushbullet_alarm import Pushbullet_Alarm
 from slack_alarm import Slack_Alarm
 from twilio_alarm import Twilio_Alarm
+from telegram_alarm import Telegram_Alarm
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +23,6 @@ class Alarm_Manager:
 			self.notify_list = settings["pokemon"]
 			self.seen = {}
 			self.alarms = []
-			self.lock = Lock()
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
 					if alarm['type'] == 'pushbullet' :
@@ -32,7 +32,7 @@ class Alarm_Manager:
 					elif alarm['type'] == 'twilio' :
 						self.alarms.append(Twilio_Alarm(alarm))
 					elif alarm['type'] == 'telegram' :
-						self.alarms.append(Twilio_Alarm(alarm))
+						self.alarms.append(Telegram_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 				else:

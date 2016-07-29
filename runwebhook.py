@@ -33,12 +33,11 @@ def trigger_alert():
 if __name__ == '__main__':
 	config = set_config(os.path.abspath(os.path.dirname(__file__)))
 	if config['DEBUG']:
-		log.setLevel(logging.DEBUG)
-		logging.getLogger("alarms").setLevel(logging.DEBUG)
-		logging.getLogger("requests").setLevel(logging.DEBUG)
+		logging.basicConfig(level=logging.DEBUG)
 	else :
-		logging.getLogger('werkzeug').setLevel(logging.ERROR)
-		logging.getLogger("requests").setLevel(logging.WARNING)
+		logging.getLogger('requests').setLevel(logging.DEBUG)
+		logging.getLogger('alarms').setLevel(logging.INFO)
+
 
 	
 	app.run(debug=config['DEBUG'],host=config['HOST'], port=config['PORT'])
