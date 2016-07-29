@@ -35,6 +35,7 @@ if __name__ == '__main__':
 	if config['DEBUG']:
 		logging.basicConfig(level=logging.DEBUG)
 	else :
+		logging.getLogger('werkzeug').setLevel(logging.ERROR)
 		logging.getLogger('requests').setLevel(logging.DEBUG)
 		logging.getLogger('alarms').setLevel(logging.INFO)
 		logging.getLogger('alarms').setLevel(logging.INFO)
