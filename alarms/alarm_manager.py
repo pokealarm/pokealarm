@@ -44,6 +44,8 @@ class Alarm_Manager:
 			name = pkmn_name(pkmn['pokemon_id'])
 			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
 			pkinfo = {
+				'id': pkmn['pokemon_id'],
+				'name': name,
 				'alert': pkmn_alert_text(name),
 				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
 				'time_text': pkmn_time_text(dissapear_time),
