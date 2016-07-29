@@ -36,7 +36,7 @@ class Alarm_Manager:
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 				else:
-					log.info("Alarm not activated: " + alarm['type'] + "because value not set to \"True\"")
+					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
 			
 	#Send a notification to alarms about a found pokemon
 	def trigger_pkmn(self, pkmn):
@@ -51,9 +51,9 @@ class Alarm_Manager:
 			}
 			self.seen[pkmn['encounter_id']] = pkinfo
 			if self.notify_list[name] != "True" :
-				log.debug(name + " notification was not triggered because alarm is disabled.")
+				log.info(name + " notification was not triggered because alarm is disabled.")
 			elif dissapear_time < datetime.utcnow() :
-				log.debug(name + " notification was not triggered because alarm is disabled.")
+				log.info(name + " notification was not triggered because time_left had passed.")
 			else:
 				log.info(name + " notication was triggered!")
 				for alarm in self.alarms:

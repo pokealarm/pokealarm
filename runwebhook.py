@@ -37,6 +37,7 @@ if __name__ == '__main__':
 	else :
 		logging.getLogger('requests').setLevel(logging.DEBUG)
 		logging.getLogger('alarms').setLevel(logging.INFO)
+		logging.getLogger('alarms').setLevel(logging.INFO)
 
 
 	
