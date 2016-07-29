@@ -32,5 +32,5 @@ class Slack_Alarm(Alarm):
             channel=self.channel,
             username=pkinfo['name'],
             text='<{}|{}> {}'.format(gmaps_link, notification_text, time_text),
-            icon_url='http://media.pldh.net/pokemon/ken_sugimori/update1/{id:03d}.png'.format(**pkinfo)
+            icon_emoji=':pokemon-{name}:'.format(pkinfo['name'].lower())
         )
