@@ -8,7 +8,7 @@ from alarms import config
 from alarms.alarm_manager import Alarm_Manager
 from alarms.utilities import set_config
 
-logging.basicConfig(format='%(asctime)s [%(module)14s] [%(levelname)7s] %(message)s')
+logging.basicConfig(format='%(asctime)s [%(module)14s] [%(levelname)7s] %(message)s', level=logging.INFO)
 log = logging.getLogger()
 
 app = Flask(__name__)
@@ -34,11 +34,11 @@ if __name__ == '__main__':
 	config = set_config(os.path.abspath(os.path.dirname(__file__)))
 	if config['DEBUG']:
 		log.setLevel(logging.DEBUG)
-		logging.getLogger("alarms.utilities").setLevel(logging.DEBUG)
-		logging.getLogger("alarms.alarm_managers").setLevel(logging.DEBUG)
+		logging.getLogger("alarms").setLevel(logging.DEBUG)
+		logging.getLogger("requests").setLevel(logging.DEBUG)
 	else :
-		logging.getLogger("requests").setLevel(logging.WARNING)
 		logging.getLogger('werkzeug').setLevel(logging.ERROR)
-		logging.getLogger("alarms").setLevel(logging.INFO)
+		logging.getLogger("requests").setLevel(logging.WARNING)
+
 	
 	app.run(debug=config['DEBUG'],host=config['HOST'], port=config['PORT'])

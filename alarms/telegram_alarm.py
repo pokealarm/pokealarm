@@ -7,9 +7,9 @@ log = logging.getLogger(__name__)
  
 class Telegram_Alarm(Alarm):
  	
-	def __init__(self, pkinfo):
- 		self.client = telepot.Bot(pkinfo['api_key']) 
- 		self.channel = chatid
+	def __init__(self, settings):
+ 		self.client = telepot.Bot(settings['api_key']) 
+ 		self.channel = settings['chat_id']
 		log_msg = "Telegram Alarm intialized"
 		if 'name' in settings:
 			self.name = settings['name']
