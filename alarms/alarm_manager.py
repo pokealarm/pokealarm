@@ -42,7 +42,7 @@ class Alarm_Manager:
 	def trigger_pkmn(self, pkmn):
 		if pkmn['encounter_id'] not in self.seen:
 			name = pkmn_name(pkmn['pokemon_id'])
-			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+			dissapear_time = datetime.fromtimestamp(pkmn['disappear_time']);
 			pkinfo = {
 				'alert': pkmn_alert_text(name),
 				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
