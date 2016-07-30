@@ -7,6 +7,7 @@ from flask import Flask, request
 from alarms import config
 from alarms.alarm_manager import Alarm_Manager
 from alarms.utilities import set_config
+from threading import Thread
 
 logging.basicConfig(format='%(asctime)s [%(module)14s] [%(levelname)7s] %(message)s', level=logging.INFO)
 log = logging.getLogger()
@@ -21,7 +22,7 @@ def trigger_alert():
 	if data['type'] == 'pokemon' :
 		log.debug("POST request is  a pokemon.")
 		pkmn = data['message']
-		alerts.trigger_pkmn(pkmn)			
+		Thread(target=alerts.trigger_pkmn, args=(pkmn, )).start()
 	elif data['type'] == 'pokestop' : 
 		log.debug("Pokestop notifications not yet implimented.")
 		#do nothing
