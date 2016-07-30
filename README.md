@@ -12,7 +12,7 @@ If you are experiencing trouble with setup or other user difficulties, please se
 
 1. Setup and run [AHAAAAAAA's PokemonGo-Map](https://github.com/AHAAAAAAA/PokemonGo-Map) to make sure you have everything working.
 
-2. Clone a local copy of PokeAlarm (`git clone https://github.com/kvangent/PokeAlarm`) and navigate niside the folder.
+2. Clone a local copy of PokeAlarm (`git clone https://github.com/kvangent/PokeAlarm`) and navigate inside the folder.
 
 3. Run pip to install requirments `pip install -r requriements`
 
