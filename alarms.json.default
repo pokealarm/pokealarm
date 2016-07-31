@@ -18,7 +18,13 @@
 			"auth_token":"",
 			"to_number":"+11234567890",
 			"from_number":"+11234567890"
-		}
+		},
+		{
+		        "active": "True",
+		        "type":"telegram",
+		        "chat_id":"your bot chat ID",
+		        "bot_token":"your bot API"
+    		}
 	],
 	"pokemon":{
 		"Bulbasaur":"False",
