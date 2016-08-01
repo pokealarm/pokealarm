@@ -1,8 +1,9 @@
 import os
 import json
 import logging
-from datetime import datetime, timedelta
 import configargparse
+import time
+from datetime import datetime, timedelta
 
 from .. import config
 
@@ -14,6 +15,7 @@ def set_config(root_path):
 	parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
+	parser.add_argument('-tf', '--time_fix', help='Apply time_fix offset to received times.', action='store_true')
 	parser.set_defaults(DEBUG=False)
 	
 	args = parser.parse_args()
@@ -23,6 +25,7 @@ def set_config(root_path):
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
+	config['TIME_FIX'] = args.time_fix
 	
 	return config
 
@@ -33,15 +36,14 @@ def gmaps_link(lat, lng):
 	latLon = '{},{}'.format(repr(lat), repr(lng))
 	return 'http://maps.google.com/maps?q={}'.format(latLon)
 		
-def pkmn_time_text(time):
-	s = (time - datetime.utcnow()).total_seconds()
+def pkmn_time_text(t):
+	s = (t - datetime.utcnow()).total_seconds()
 	(m, s) = divmod(s, 60)
 	(h, m) = divmod(m, 60)
 	d = timedelta(hours = h, minutes = m, seconds = s)
 	disappear_time = datetime.now() + d
 	return "Available until %s (%dm %ds)." % (disappear_time.strftime("%H:%M:%S"),m,s)
 	
-
 def pkmn_name(pokemon_id):
     if not hasattr(pkmn_name, 'names'):
         file_path = os.path.join(
@@ -53,3 +55,8 @@ def pkmn_name(pokemon_id):
             pkmn_name.names = json.loads(f.read())
 
     return pkmn_name.names[str(pokemon_id)]
+	
+def time_fix(t):
+	diff = datetime.utcnow() - datetime.utcfromtimestamp(time.mktime(datetime.utcnow().timetuple()))
+	log.info("Time Fix diff is :" + str(diff))
+	return t+diff

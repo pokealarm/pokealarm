@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 from threading import Thread
 
-from utilities import pkmn_name, pkmn_alert_text, gmaps_link, pkmn_time_text
+from utilities import pkmn_name, pkmn_alert_text, gmaps_link, pkmn_time_text, time_fix
 from . import config
 from pushbullet_alarm import Pushbullet_Alarm
 from slack_alarm import Slack_Alarm
@@ -64,6 +64,8 @@ class Alarm_Manager(Thread):
 	def trigger_pkmn(self, pkmn):
 		name = pkmn_name(pkmn['pokemon_id'])
 		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+		if config['TIME_FIX'] :
+			dissapear_time = time_fix(dissapear_time)
 		pkinfo = {
 			'alert': pkmn_alert_text(name),
 			'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
@@ -72,7 +74,7 @@ class Alarm_Manager(Thread):
 		}
 		self.seen[pkmn['encounter_id']] = pkinfo
 		if self.notify_list[name] != "True" :
-			log.info(name + " ignored: not on notify list.")
+			log.info(name + " ignored: notify not set to \"True\".")
 		elif dissapear_time < datetime.utcnow() :
 			log.info(name + " ignore: time_left has passed.")
 		else:
