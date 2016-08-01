@@ -80,11 +80,11 @@ class Alarm_Manager:
                                 }
                         self.lured_seen[pkmn['pokestop_id']] = pkinfo
                         if self.notify_list[name] != "True" :
-                                log.info(name + " notification was not triggered because alarm is disabled.")
+                                log.info("Lured " + name + " notification was not triggered because alarm is disabled.")
                         elif disappear_time < datetime.utcnow() :
-                                log.info(name + " notification was not triggered because time_left had passed.")
+                                log.info("Lured " + name + " notification was not triggered because time_left had passed.")
                         else:
-                                log.info(name + " notication was triggered!")
+                                log.info("Lured " + name + " notication was triggered!")
                                 for alarm in self.alarms:
                                         alarm.pokemon_alert(pkinfo)
                         if len(self.lured_seen) > 10000:
