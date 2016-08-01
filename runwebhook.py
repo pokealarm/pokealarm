@@ -9,7 +9,6 @@ import json
 import logging
 import os
 from Queue import Queue
-from threading import Thread
 
 #Local imports
 from alarms import config
@@ -23,6 +22,7 @@ log = logging.getLogger()
 #Intialize globals
 app = Flask(__name__)
 data_queue = Queue()
+
 
 @app.route('/',methods=['POST'])
 def trigger_alert():
@@ -40,8 +40,7 @@ if __name__ == '__main__':
 		logging.getLogger('requests').setLevel(logging.DEBUG)
 		logging.getLogger('alarms').setLevel(logging.INFO)
 
-	alerts = Alarm_Manager()
-	alarm_thread = Thread(target=alerts.process_data, args=(data_queue))
+	alarm_thread = Alarm_Manager(data_queue)
 	alarm_thread.start()
 	
 	log.info("Webhook server running on http://%s:%s" % (config['HOST'], config['PORT']))

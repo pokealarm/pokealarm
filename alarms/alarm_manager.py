@@ -3,6 +3,7 @@ import json
 import logging
 import time
 from datetime import datetime
+from threading import Thread
 
 from utilities import pkmn_name, pkmn_alert_text, gmaps_link, pkmn_time_text
 from . import config
@@ -13,9 +14,10 @@ from telegram_alarm import Telegram_Alarm
 
 log = logging.getLogger(__name__)
 
-class Alarm_Manager:
+class Alarm_Manager(Thread):
 
-	def __init__(self):
+	def __init__(self, queue):
+		super(Alarm_Manager, self).__init__()
 		filepath = config['ROOT_PATH']
 		with open(os.path.join(filepath, 'alarms.json')) as file:
 			settings = json.load(file)
@@ -23,6 +25,7 @@ class Alarm_Manager:
 			self.notify_list = settings["pokemon"]
 			self.seen = {}
 			self.alarms = []
+			self.queue = queue
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
 					if alarm['type'] == 'pushbullet' :
@@ -39,12 +42,12 @@ class Alarm_Manager:
 					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
 	
 	#threaded loop to process request data from the queue 
-	def process_data(self, q):
-		log.info("Process data loop started!")
+	def run(self):
+		log.info("Alarm_Manager has started!")
 		while True:
 			for i in range(1000):
-				data = q.get(blocked=True)
-				q.task_done()
+				data = self.queue.get(block=True)
+				self.queue.task_done()
 				if data['type'] == 'pokemon' :
 					if data['message']['encounter_id'] not in self.seen:
 						log.debug("Pokemon data object processing.")
