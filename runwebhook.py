@@ -1,8 +1,12 @@
 import json
 import logging
 import os
+import time
 
+from gevent import monkey
+monkey.patch_all()
 from flask import Flask, request
+from gevent import wsgi
 
 from alarms import config
 from alarms.alarm_manager import Alarm_Manager
@@ -41,5 +45,6 @@ if __name__ == '__main__':
 		logging.getLogger('alarms').setLevel(logging.INFO)
 
 
-	
-	app.run(debug=config['DEBUG'],host=config['HOST'], port=config['PORT'])
+	server = wsgi.WSGIServer(('127.0.0.1', 4000), app)
+	server.serve_forever()
+	#app.run(debug=config['DEBUG'],host=config['HOST'], port=config['PORT'])
