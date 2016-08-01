@@ -49,38 +49,36 @@ class Alarm_Manager(Thread):
 				data = self.queue.get(block=True)
 				self.queue.task_done()
 				if data['type'] == 'pokemon' :
+					log.debug("Request processed for #%s" % data['message']['pokemon_id'])
 					if data['message']['encounter_id'] not in self.seen:
-						log.debug("Pokemon data object processing.")
 						self.trigger_pkmn(data['message'])
 				elif data['type'] == 'pokestop' : 
 					log.debug("Pokestop notifications not yet implimented.")
 					#do nothing
 				elif data['type'] == 'pokegym' :
 					log.debug("Pokegym notifications not yet implimented.")
+			log.debug("Cleaning up 'seen' set...")
 			self.clear_stale();
 			
 	#Send a notification to alarms about a found pokemon
 	def trigger_pkmn(self, pkmn):
-		if pkmn['encounter_id'] not in self.seen:
-			name = pkmn_name(pkmn['pokemon_id'])
-			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
-			pkinfo = {
-				'alert': pkmn_alert_text(name),
-				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
-				'time_text': pkmn_time_text(dissapear_time),
-				'disappear_time': dissapear_time
-			}
-			self.seen[pkmn['encounter_id']] = pkinfo
-			if self.notify_list[name] != "True" :
-				log.info(name + " notification was not triggered because alarm is disabled.")
-			elif dissapear_time < datetime.utcnow() :
-				log.info(name + " notification was not triggered because time_left had passed.")
-			else:
-				log.info(name + " notication was triggered!")
-				for alarm in self.alarms:
-					alarm.pokemon_alert(pkinfo)
-
-			
+		name = pkmn_name(pkmn['pokemon_id'])
+		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+		pkinfo = {
+			'alert': pkmn_alert_text(name),
+			'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
+			'time_text': pkmn_time_text(dissapear_time),
+			'disappear_time': dissapear_time
+		}
+		self.seen[pkmn['encounter_id']] = pkinfo
+		if self.notify_list[name] != "True" :
+			log.info(name + " ignored: not on notify list.")
+		elif dissapear_time < datetime.utcnow() :
+			log.info(name + " ignore: time_left has passed.")
+		else:
+			log.info(name + " notication was triggered!")
+			for alarm in self.alarms:
+				alarm.pokemon_alert(pkinfo)
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
