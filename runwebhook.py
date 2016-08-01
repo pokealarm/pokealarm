@@ -3,6 +3,8 @@ import logging
 import os
 
 from flask import Flask, request
+from Queue import Queue
+from threading import Thread
 
 from alarms import config
 from alarms.alarm_manager import Alarm_Manager
@@ -12,7 +14,18 @@ logging.basicConfig(format='%(asctime)s [%(module)14s] [%(levelname)7s] %(messag
 log = logging.getLogger()
 
 app = Flask(__name__)
-alerts = Alarm_Manager()
+queue = Queue()
+
+class Worker(Thread):
+	def __init__(self, queue):
+		super(Worker, self).__init__()
+		self.queue = queue
+		self.alerts = Alarm_Manager()
+
+	def run(self):
+		while True:
+			pkmn = self.queue.get(block=True, timeout=None)
+			self.alerts.trigger_pkmn(pkmn)
 
 @app.route('/',methods=['POST'])
 def trigger_alert():
@@ -21,7 +34,7 @@ def trigger_alert():
 	if data['type'] == 'pokemon' :
 		log.debug("POST request is  a pokemon.")
 		pkmn = data['message']
-		alerts.trigger_pkmn(pkmn)			
+		queue.put(pkmn)
 	elif data['type'] == 'pokestop' : 
 		log.debug("Pokestop notifications not yet implimented.")
 		#do nothing
@@ -40,6 +53,9 @@ if __name__ == '__main__':
 		logging.getLogger('alarms').setLevel(logging.INFO)
 		logging.getLogger('alarms').setLevel(logging.INFO)
 
+	worker = Worker(queue)
+	worker.daemon = True
+	worker.start()
 
 	
 	app.run(debug=config['DEBUG'],host=config['HOST'], port=config['PORT'])
