@@ -58,5 +58,4 @@ def pkmn_name(pokemon_id):
 	
 def time_fix(t):
 	diff = datetime.utcnow() - datetime.utcfromtimestamp(time.mktime(datetime.utcnow().timetuple()))
-	log.info("Time Fix diff is :" + str(diff))
 	return t+diff

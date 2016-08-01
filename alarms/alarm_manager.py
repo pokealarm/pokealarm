@@ -67,6 +67,8 @@ class Alarm_Manager(Thread):
 		if config['TIME_FIX'] :
 			dissapear_time = time_fix(dissapear_time)
 		pkinfo = {
+			'id': pkmn['pokemon_id'],
+ +			'name': name,
 			'alert': pkmn_alert_text(name),
 			'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
 			'time_text': pkmn_time_text(dissapear_time),
