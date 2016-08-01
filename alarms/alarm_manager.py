@@ -37,13 +37,15 @@ class Alarm_Manager:
 						log.info("Alarm type not found: " + alarm['type'])
 				else:
 					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
-			
+
 	#Send a notification to alarms about a found pokemon
 	def trigger_pkmn(self, pkmn):
 		if pkmn['encounter_id'] not in self.seen:
 			name = pkmn_name(pkmn['pokemon_id'])
 			dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
 			pkinfo = {
+				'id': pkmn['pokemon_id'],
+				'name': name,
 				'alert': pkmn_alert_text(name),
 				'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
 				'time_text': pkmn_time_text(dissapear_time),
@@ -64,11 +66,11 @@ class Alarm_Manager:
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
 		raise NotImplementedError("This method is not yet implimented.")
-	
+
 	#Send a notifcation about pokemon gym detected
 	def notify_gyms(self, gyms):
 		raise NotImplementedError("This method is not yet implimented.")
-		
+
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):
 		old = []
@@ -77,5 +79,3 @@ class Alarm_Manager:
 				old.append(id)
 		for id in old:
 			del self.seen[id]
-	
-	
