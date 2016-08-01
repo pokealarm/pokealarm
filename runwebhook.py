@@ -19,9 +19,13 @@ def trigger_alert():
 	log.debug("POST request response has been triggered.")
 	data = json.loads(request.data)
 	if data['type'] == 'pokemon' :
-		log.debug("POST request is  a pokemon.")
+		log.debug("POST request is a pokemon.")
 		pkmn = data['message']
-		alerts.trigger_pkmn(pkmn)			
+		alerts.trigger_normal_pkmn(pkmn)			
+        elif data['type'] == 'lured_pokemon' :
+		log.debug("POST request is a lured pokemon.")
+		pkmn = data['message']
+		alerts.trigger_lured_pkmn(pkmn)			
 	elif data['type'] == 'pokestop' : 
 		log.debug("Pokestop notifications not yet implimented.")
 		#do nothing
