@@ -31,6 +31,6 @@ class Slack_Alarm(Alarm):
         self.client.chat.post_message(
             channel=self.channel,
             username=pkinfo['name'],
-            text='<{}|{}> {}'.format(gmaps_link, notification_text, time_text),
+            text='<{}|{}> {}'.format(gmaps_link,  notification_text.encode("utf-8") , time_text),
             icon_url='https://raw.githubusercontent.com/AHAAAAAAA/PokemonGo-Map/master/static/icons/{id:d}.png'.format(**pkinfo)
         )
