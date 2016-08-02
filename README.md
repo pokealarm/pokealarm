@@ -29,7 +29,7 @@ This is a problem with the PokemonGo-Map sending an object with UTC time listed 
 
 2. Clone a local copy of PokeAlarm (`git clone https://github.com/kvangent/PokeAlarm`) and navigate inside the folder.
 
-3. Run pip to install requirments `pip install -r requriements.txt`
+3. Run pip to install requirments `pip install -r requirements.txt`
 
 4. Copy alarms.json.default and rename it alarms.json. Edit the file (Windows User's: NOT with notepad) with your configuration settings. Make sure to change the pokemon you want to be alerted to "True". Each alarm configuration will be added to the wiki shortly. All the fields are required except for the 'name' field - it can be left blank or not included in the config at all. You can also add multplies of the same alarm type.
 
