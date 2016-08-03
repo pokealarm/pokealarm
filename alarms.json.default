@@ -4,6 +4,7 @@
 			"active": "False",
 			"type":"pushbullet",
 			"api_key":""
+			"channel":""
 		},
 		{
 			"active": "False",

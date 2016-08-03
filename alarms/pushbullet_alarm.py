@@ -1,7 +1,7 @@
 import logging
 
 from alarm import Alarm
-from pushbullet import PushBullet
+from pushbullet import PushBullet, PushbulletError
 
 log = logging.getLogger(__name__)
 
@@ -10,6 +10,8 @@ class Pushbullet_Alarm(Alarm):
 	def __init__(self, settings):
 		self.client = PushBullet(settings['api_key']) 
 		log_msg = "Pushbullet Alarm intialized"
+		if settings['channel']:
+			self.channel = get_channel(self.client, settings['channel'])
 		if 'name' in settings:
 			self.name = settings['name']
 			log_mst = log_msg + ": " + self.name
@@ -22,5 +24,15 @@ class Pushbullet_Alarm(Alarm):
 			notification_text = self.name + ": " + notification_text
 		gmaps_link = pkinfo['gmaps_link']
 		time_text =  pkinfo['time_text']
-		push = self.client.push_link(notification_text, gmaps_link, body=time_text)
-	
+		if hasattr(self, 'channel'):
+			push = self.channel.push_link(notification_text, gmaps_link, body=time_text)
+		else:
+			push = self.client.push_link(notification_text, gmaps_link, body=time_text)
+
+def get_channel(client, channel_tag):
+	req_channel = next((channel for channel in client.channels if channel.channel_tag == channel_tag), None)
+
+	if req_channel is None:
+		raise PushbulletError('No channel found with channel_tag "{}"'.format(channel_tag))
+
+	return req_channel
