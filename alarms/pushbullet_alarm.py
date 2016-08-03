@@ -13,6 +13,7 @@ class Pushbullet_Alarm(Alarm):
 		if settings['channel']:
 			try:
 				self.channel = get_channel(self.client, settings['channel'])
+                                log.info('Pushing to channel "' + settings['channel'] + '"')
 			except PushbulletError:
 				log.info('No channel found with channel_tag "' +
 						settings['channel'] + '", pushing to all devices instead')
