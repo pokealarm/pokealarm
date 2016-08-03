@@ -11,7 +11,12 @@ class Pushbullet_Alarm(Alarm):
 		self.client = PushBullet(settings['api_key']) 
 		log_msg = "Pushbullet Alarm intialized"
 		if settings['channel']:
-			self.channel = get_channel(self.client, settings['channel'])
+			try:
+				self.channel = get_channel(self.client, settings['channel'])
+			except PushbulletError:
+				log.info('No channel found with channel_tag "' +
+						settings['channel'] + '", pushing to all devices instead')
+				pass
 		if 'name' in settings:
 			self.name = settings['name']
 			log_mst = log_msg + ": " + self.name
