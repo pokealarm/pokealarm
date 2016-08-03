@@ -16,7 +16,6 @@ class Pushbullet_Alarm(Alarm):
 			except PushbulletError:
 				log.info('No channel found with channel_tag "' +
 						settings['channel'] + '", pushing to all devices instead')
-				pass
 		if 'name' in settings:
 			self.name = settings['name']
 			log_mst = log_msg + ": " + self.name
