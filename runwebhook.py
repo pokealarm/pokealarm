@@ -7,11 +7,11 @@ from gevent import wsgi
 import json
 import logging
 import os
-from Queue import Queue
+import Queue
 
 #Local imports
 from alarms import config
-from alarms.utilities import set_config
+from alarms import set_config
 from alarms.alarm_manager import Alarm_Manager
 
 #Set up logging
@@ -20,7 +20,7 @@ log = logging.getLogger()
 
 #Intialize globals
 app = Flask(__name__)
-data_queue = Queue()
+data_queue = Queue.Queue()
 
 
 @app.route('/',methods=['POST'])

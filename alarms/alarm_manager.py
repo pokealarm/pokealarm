@@ -1,28 +1,37 @@
+#Setup Logging
+import logging
+log = logging.getLogger(__name__)
+
+#Python Utility imports
 import os
 import json
-import logging
 import time
 from datetime import datetime
 from threading import Thread
 
-from utilities import pkmn_name, pkmn_alert_text, gmaps_link, pkmn_time_text, time_fix
+#Local imports
 from . import config
 from pushbullet_alarm import Pushbullet_Alarm
 from slack_alarm import Slack_Alarm
 from twilio_alarm import Twilio_Alarm
 from telegram_alarm import Telegram_Alarm
-
-log = logging.getLogger(__name__)
+from utils import *
 
 class Alarm_Manager(Thread):
 
 	def __init__(self, queue):
+		#Intialize as Thread
 		super(Alarm_Manager, self).__init__()
+		#Import settings from Alarms.json
 		filepath = config['ROOT_PATH']
 		with open(os.path.join(filepath, 'alarms.json')) as file:
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
-			self.notify_list = settings["pokemon"]
+			self.notify_list = make_notify_list(settings["pokemon"])
+			out = ""
+			for id in self.notify_list:
+				out = out + "{}, ".format(get_pkmn_name(id))
+			log.info("You will be notified of the following pokemon: \n" + out[:-2])
 			self.seen = {}
 			self.alarms = []
 			self.queue = queue
@@ -41,9 +50,9 @@ class Alarm_Manager(Thread):
 				else:
 					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
 	
-	#threaded loop to process request data from the queue 
+	#Threaded loop to process request data from the queue 
 	def run(self):
-		log.info("Alarm_Manager has started!")
+		log.info("PokeAlarm has started! Your alarms should trigger now.")
 		while True:
 			for i in range(1000):
 				data = self.queue.get(block=True)
@@ -54,7 +63,6 @@ class Alarm_Manager(Thread):
 						self.trigger_pkmn(data['message'])
 				elif data['type'] == 'pokestop' : 
 					log.debug("Pokestop notifications not yet implimented.")
-					#do nothing
 				elif data['type'] == 'pokegym' :
 					log.debug("Pokegym notifications not yet implimented.")
 			log.debug("Cleaning up 'seen' set...")
@@ -62,27 +70,53 @@ class Alarm_Manager(Thread):
 			
 	#Send a notification to alarms about a found pokemon
 	def trigger_pkmn(self, pkmn):
-		name = pkmn_name(pkmn['pokemon_id'])
+		#Mark the pokemon as seen along with exipre time
 		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+		#Apply optional time fix if selected (Bug correction for PokemonGo-Map)
 		if config['TIME_FIX'] :
-			dissapear_time = time_fix(dissapear_time)
-		pkinfo = {
-			'id': pkmn['pokemon_id'],
- 			'name': name,
-			'alert': pkmn_alert_text(name),
-			'gmaps_link': gmaps_link(pkmn['latitude'], pkmn['longitude']),
-			'time_text': pkmn_time_text(dissapear_time),
-			'disappear_time': dissapear_time
-		}
-		self.seen[pkmn['encounter_id']] = pkinfo
-		if self.notify_list[name] != "True" :
-			log.info(name + " ignored: notify not set to \"True\".")
-		elif dissapear_time < datetime.utcnow() :
+			dissapear_time = time_fix(pkmn['disappear_time'])
+		self.seen[pkmn['encounter_id']] = dissapear_time
+		
+		#Check if Pokemon is on the notify list
+		pkmn_id = pkmn['pokemon_id']
+		name = get_pkmn_name(pkmn_id)
+		if pkmn_id not in self.notify_list:
+			log.info(name + " ignored: notify not enabled.")
+			return
+		
+		#Check if the Pokemon is outside of notify range
+		lat = pkmn['latitude']
+		lng = pkmn['longitude']
+		dist = get_dist([lat, lng])
+		if dist >= self.notify_list[pkmn_id]:
+			log.info(name + " ignored: outside range")
+			log.info(dist)
+			log.info(self.notify_list[pkmn_id])
+			return
+		
+		#Check if the Pokemon has already expired
+		if dissapear_time < datetime.utcnow() :
 			log.info(name + " ignore: time_left has passed.")
-		else:
-			log.info(name + " notication was triggered!")
-			for alarm in self.alarms:
-				alarm.pokemon_alert(pkinfo)
+			return
+			
+		#Trigger the notifcations
+		log.info(name + " notication was triggered!")
+		timestamps = get_timestamps(dissapear_time)
+		pkinfo = {
+			'id': pkmn_id,
+ 			'pkmn': name,
+			'addr': get_address(lat, lng),
+			'loc' : "{},{}".format(lat,lng),
+			'gmaps': get_gmaps_link(lat, lng),
+			'dist': "%dm" % dist,
+			'time_left': timestamps[0],
+			'12h_time': timestamps[1],
+			'24h_time': timestamps[2]
+			
+		}
+		
+		for alarm in self.alarms:
+			alarm.pokemon_alert(pkinfo)
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
@@ -96,7 +130,7 @@ class Alarm_Manager(Thread):
 	def clear_stale(self):
 		old = []
 		for id in self.seen:
-			if self.seen[id]['disappear_time'] < datetime.utcnow() :
+			if self.seen[id] < datetime.utcnow() :
 				old.append(id)
 		for id in old:
 			del self.seen[id]
