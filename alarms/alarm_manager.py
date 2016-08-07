@@ -103,7 +103,7 @@ class Alarm_Manager(Thread):
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
 		pkinfo = {
-			'id': pkmn_id,
+			'id': str(pkmn_id),
  			'pkmn': name,
 			'addr': get_address(lat, lng),
 			'loc' : "{},{}".format(lat,lng),

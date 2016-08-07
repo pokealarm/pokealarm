@@ -4,6 +4,7 @@ from flask import Flask, request
 from gevent import wsgi
 
 #Python Utility imports
+import sys
 import json
 import logging
 import os
@@ -17,6 +18,8 @@ from alarms.alarm_manager import Alarm_Manager
 #Set up logging
 logging.basicConfig(format='%(asctime)s [%(module)18s] [%(levelname)7s] %(message)s', level=logging.INFO)
 log = logging.getLogger()
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 #Intialize globals
 app = Flask(__name__)

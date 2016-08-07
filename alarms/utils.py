@@ -134,10 +134,7 @@ def get_timestamps(t):
 def replace(string, pkinfo):
 	s = string.encode('utf-8')
 	for key in pkinfo:
-		k8 = key.encode('utf-8')
-		val = str(pkinfo[key]).encode('utf-8')
-		target = "<{}>".format(k8).encode('utf-8')
-		s = s.replace(target, val)
+		s = s.replace("<{}>".format(key), pkinfo[key])
 	return s
 
 #Get the latitude and longiture of a Place	
