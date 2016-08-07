@@ -90,7 +90,7 @@ def get_pkmn_name(pokemon_id):
 #Returns a String representing the nearest address to a lng, lat	
 def get_address(lat, lng):
 	loc = geocoder.google([lat,lng], method='reverse')
-	return loc.housenumber + " " + loc.street
+	return "%s %s" % (loc.housenumber, loc.street)
 
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):
@@ -132,9 +132,9 @@ def get_timestamps(t):
 	
 #Return a version of the string with the correct substitutions made	
 def replace(string, pkinfo):
-	s = string
+	s = string.encode('utf-8')
 	for key in pkinfo:
-		s = s.replace("<{}>".format(key), str(pkinfo[key]))
+		s = s.replace("<{}>".format(key), str(pkinfo[key]).encode('utf-8'))
 	return s
 
 #Get the latitude and longiture of a Place	
