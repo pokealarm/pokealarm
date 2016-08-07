@@ -24,7 +24,13 @@
 		        "type":"telegram",
 		        "chat_id":"your bot chat ID",
 		        "bot_token":"your bot API"
-    		}
+    		},
+		{
+                        "active": "False",
+                        "type": "pushover",
+                        "app_token": "",
+                        "user_key": ""
+                }
 	],
 	"pokemon":{
 		"Bulbasaur":"False",
