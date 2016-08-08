@@ -35,5 +35,5 @@ class Slack_Alarm(Alarm):
 			channel=channel.replace(u"\u2642", "M").replace(u"\u2640", "F"),
 			username=username,
 			text='<{}|{}> {}'.format(link,  notify_text , body_text),
-			icon_url='https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/master/static/icons/{id}.png'.format(**pkinfo)
+			icon_url='https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/master/develop/icons/{id}.png'.format(**pkinfo)
 		)
