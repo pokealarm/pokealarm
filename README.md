@@ -8,6 +8,7 @@ The following services are currently supported:
 * Twilio (SMS)
 * Telegram 
 * Pushover
+
 _Pushbullet support will likely be dicontinued after August 1st (because I am a poor college student)._ 
 
 If you are experience issues with the alarm or would like to see new features, please open a ticket here on github. 
