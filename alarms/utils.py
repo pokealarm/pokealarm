@@ -103,7 +103,7 @@ def get_gmaps_link(lat, lng):
 def get_dir(lat, lng):
 	origin_point = config.get("LOCATION")
 	if origin_point is None:
-		return 0 #No location set
+		return "NoLocationSet" #No location set
 	origin_point = LatLng.from_degrees(origin_point[0], origin_point[1])
 	latLon = LatLng.from_degrees(lat, lng)
 	diff = latLon - origin_point
