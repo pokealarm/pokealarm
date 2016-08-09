@@ -15,6 +15,7 @@ from pushbullet_alarm import Pushbullet_Alarm
 from slack_alarm import Slack_Alarm
 from twilio_alarm import Twilio_Alarm
 from telegram_alarm import Telegram_Alarm
+from pushover_alarm import Pushover_Alarm
 from utils import *
 
 class Alarm_Manager(Thread):
@@ -45,6 +46,8 @@ class Alarm_Manager(Thread):
 						self.alarms.append(Twilio_Alarm(alarm))
 					elif alarm['type'] == 'telegram' :
 						self.alarms.append(Telegram_Alarm(alarm))
+					elif alarm['type'] == 'pushover' :
+						self.alarms.append(Pushover_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 				else:

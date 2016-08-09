@@ -2,7 +2,14 @@
 
 PokeAlarm is a third party extension for [PokemonGo-Map](https://github.com/PokemonGoMap/PokemonGo-Map) that allows you to receive external notifications via the service of your choice.
 
-We currently support Pushbullet, Slacker, Twilio (SMS), and Telegram. Pushbullet support will likely be dicontinued after August 1st (because I am a poor college student). 
+The following services are currently supported:
+* Pushbullet
+* Slacker
+* Twilio (SMS)
+* Telegram 
+* Pushover
+
+_Pushbullet support will likely be dicontinued after August 1st (because I am a poor college student)._ 
 
 If you are experiencing issues with the alarm or would like to see new features, please open a ticket here on github. 
 
