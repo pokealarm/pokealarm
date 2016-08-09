@@ -9,10 +9,13 @@
 
 ## Your Environment
 <!--- Please post as many details of your Environment as possible -->
-Operating System:
-Environment name and version (e.g. Python 2.7):
-PokemonGo-Map command: ``
-PokeAlarm command: ``
+Operating System:  
+Environment name and version (e.g. Python 2.7):  
+PokemonGo-Map command: `<cmd>`  
+PokeAlarm command: `<cmd>`
+
+##Console Output
+<!--- Please post any relevant output provided from the PokeAlarm when you ran it -->
 
 ## Your Alarms Config
 <!--- Please post the config for your alarms in the space below -->
@@ -24,4 +27,4 @@ PokeAlarm command: ``
 ##Troubleshooting Checklist
 [ ] Updated PokemonGo-Map
 [ ] Updated PokeAlarm
-[ ] Check the Wiki for specified Service
+[ ] Checked the Wiki for specified Service
