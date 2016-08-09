@@ -13,6 +13,7 @@ import re
 from glob import glob
 from datetime import datetime, timedelta
 from math import radians, sin, cos, atan2, sqrt
+from s2sphere import LatLng
 
 #Local imports
 from . import config
@@ -96,6 +97,21 @@ def get_address(lat, lng):
 def get_gmaps_link(lat, lng):
 	latLon = '{},{}'.format(repr(lat), repr(lng))
 	return 'http://maps.google.com/maps?q={}'.format(latLon)
+		
+
+#Returns a cardinal direction (N/S/E/W) of the pokemon from the origin point, if set
+def get_dir(lat, lng):
+	origin_point = config.get("LOCATION")
+	if origin_point is None:
+		return 0 #No location set
+	origin_point = LatLng.from_degrees(origin_point[0], origin_point[1])
+	latLon = LatLng.from_degrees(lat, lng)
+	diff = latLon - origin_point
+	diff_lat = diff.lat().degrees
+	diff_lng = diff.lng().degrees
+	direction = (('N' if diff_lat >= 0 else 'S') if abs(diff_lat) > 1e-4 else '') + \
+		(('E' if diff_lng >= 0 else 'W') if abs(diff_lng) > 1e-4 else '')
+	return direction
 
 #Returns an integer representing the distance between A and B in meters	
 def get_dist(ptA, ptB="default"):

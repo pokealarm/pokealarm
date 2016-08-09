@@ -111,7 +111,8 @@ class Alarm_Manager(Thread):
 			'dist': "%dm" % dist,
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
-			'24h_time': timestamps[2]
+			'24h_time': timestamps[2],
+			'dir': get_dir(lat,lng)
 			
 		}
 		
