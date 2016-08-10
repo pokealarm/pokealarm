@@ -35,7 +35,6 @@ def set_config(root_path):
 	parser.add_argument('-l', '--location', type=parse_unicode, help='Location, can be an address or coordinates')
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
-	parser.add_argument('-tf', '--time_fix', help='Apply time_fix offset to received times.', action='store_true')
 	parser.set_defaults(DEBUG=False)
 	
 	args = parser.parse_args()
@@ -45,7 +44,6 @@ def set_config(root_path):
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
-	config['TIME_FIX'] = args.time_fix
 	
 	if args.location:
 		config['LOCATION'] =  get_pos_by_name(args.location)
@@ -167,7 +165,20 @@ def get_pos_by_name(location_name):
 			latitude, longitude = loc.lat, loc.lng
 
 	return [latitude, longitude]
+
+#Attempts to send the alert with the specified args, reconnecting if neccesary	
+def try_sending(alarmLog, reconnect, name, send_alert, args):
+	for i in range(1,6):
+		try:
+			send_alert(**args)
+			if i is not 1:
+				log.info("%s alert succesfully resent." % name)
+			return #message sent succesfull
+		except Exception as e:
+			alarmLog.error(e)
+			alarmLog.error("Error sending %s alert. %d attempt of 5." % (name, i))
+			time.sleep(5)
+			reconnect()
+	alarmLog.error("Could not send %s alert... Giving up." % name)
 	
-def time_fix(t):
-	diff = datetime.utcnow() - datetime.utcfromtimestamp(time.mktime(datetime.utcnow().timetuple()))
-	return t+diff
+	

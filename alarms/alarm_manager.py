@@ -75,9 +75,6 @@ class Alarm_Manager(Thread):
 	def trigger_pkmn(self, pkmn):
 		#Mark the pokemon as seen along with exipre time
 		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
-		#Apply optional time fix if selected (Bug correction for PokemonGo-Map)
-		if config['TIME_FIX'] :
-			dissapear_time = time_fix(pkmn['disappear_time'])
 		self.seen[pkmn['encounter_id']] = dissapear_time
 		
 		#Check if Pokemon is on the notify list

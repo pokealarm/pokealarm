@@ -11,26 +11,46 @@ class Pushover_Alarm(Alarm):
 	def __init__(self, settings):
 		self.app_token = settings['app_token']
 		self.user_key = settings['user_key']
+		self.title = settings.get('title', 
+			"A wild <pkmn> has appeared!")
+		self.url = settings.get('url', 
+			"<gmaps>")
+		self.url_title = settings.get('url', 
+			"Google Maps Link")
 		self.message = settings.get('message', 
-			"A wild <pkmn> has appeared! Available until <24h_time> (<time_left>).")
+			"Available until <24h_time> (<time_left>).")
 		log.info("Pushover Alarm intialized")
 		self.send_pushover("PokeAlarm has been activated! We will text this account about pokemon.")
+	
+	#Empty - no reconnect needed
+	def connect(self):
+		pass
 		
 	def pokemon_alert(self, pkinfo):
-		message = replace(self.message, pkinfo)
-		self.send_pushover(message, pkinfo)
+		args  = {
+			'message': replace(self.message, pkinfo),
+			'title': replace(self.title, pkinfo),
+			'url': replace(self.url, pkinfo),
+			'url_title': replace(self.url_title, pkinfo)
+		}
+		try_sending(log, self.connect, "Pushover",  self.send_pushover, args)
 		
-	def send_pushover(self, msg, pkinfo=None):
-		connection = httplib.HTTPSConnection("api.pushover.net:443")
+	def send_pushover(self, message, title='PokeAlert', url=None, url_title="URL"):
+		##Establish connection
+		connection = httplib.HTTPSConnection("api.pushover.net:443", timeout=10)
+		
 		payload = {"token": self.app_token, 
 				"user": self.user_key, 
-				"title": "PokeAlert",
-				"message": msg}
-		
-		if pkinfo is not None:
-			payload['url'] = pkinfo['gmaps']
-			payload['url_title'] = "GMaps-Link"
+				"title": title,
+				"message": message}
+				
+		if url is not None:
+			payload['url'] = url
+			payload['url_title'] = url_title
 		
 		connection.request("POST", "/1/messages.json", urllib.urlencode(payload), 
 			{"Content-Type": "application/x-www-form-urlencoded"})
-		connection.getresponse()
+		r = connection.getresponse()
+		if r.status != 200:
+			raise httplib.HTTPException("Response not 200")
+		
