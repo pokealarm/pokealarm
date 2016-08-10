@@ -4,6 +4,7 @@
 #   docker build -t pokealarm
 #   docker run -d --net container:PokemonGo-Map --name PokeAlarm -P pokealarm
 # Change "PokemonGo-Map" to the name of your PokemonGo-Map docker
+# For newer versions of docker maybe you have to change --net to --network
 
 FROM python:2.7-alpine
 
