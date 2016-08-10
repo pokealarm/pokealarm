@@ -9,11 +9,13 @@ The following services are currently supported:
 * Telegram 
 * Pushover
 
-_Pushbullet support will likely be dicontinued after August 1st (because I am a poor college student)._ 
-
 If you are experiencing issues with the alarm or would like to see new features, please open a ticket here on github. 
 
 If you are experiencing trouble with setup or other user difficulties, please see the reddit thread.
+ 
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5W9ZTLMS5NB28&lc=US&item_name=PokeAlarm&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)   
+_If you wish to leave me a tip or buy me a month of PushBullet Pro, please use the link above._  
 
 ## Common Problems
 
