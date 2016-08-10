@@ -38,6 +38,6 @@ class Slack_Alarm(Alarm):
 			'channel': channel.replace(u"\u2642", "M").replace(u"\u2640", "F"),
 			'username': replace(self.username, pkinfo),
 			'text': '<{}|{}> {}'.format(link,  title , body_text),
-			'icon_url': 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/master/develop/icons/{id}.png'.format(**pkinfo)
+			'icon_url': 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/develop/static/icons/{}.png'.format(pkinfo['id'])
 		}
 		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
