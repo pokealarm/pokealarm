@@ -1,36 +1,36 @@
 {
 	"alarms":[
 		{
-			"active": "False",
+			"active":"False",
 			"type":"pushbullet",
-			"api_key":""
+			"api_key":"YOUR_API_KEY"
 		},
 		{
 			"active": "False",
 			"type":"slack",
-			"api_key":"",
+			"api_key":"YOUR_API_KEY",
 			"channel":"#general"
 		},
 		{
 			"active": "False",
 			"type":"twilio",
-			"account_sid":"",
-			"auth_token":"",
-			"to_number":"+11234567890",
-			"from_number":"+11234567890"
+			"account_sid":"YOUR_API_KEY",
+			"auth_token":"YOUR_AUTH_TOKEN",
+			"from_number":"YOUR_FROM_NUM",
+			"to_number":"YOUR_TO_NUM"
 		},
 		{
-		        "active": "True",
-		        "type":"telegram",
-		        "chat_id":"your bot chat ID",
-		        "bot_token":"your bot API"
-    		},
+			"active": "True",
+			"type":"telegram",
+			"bot_token":"YOUR_BOT_TOKEN",
+			"chat_id":"YOUR_CHAT_ID"
+		},
 		{
-                        "active": "False",
-                        "type": "pushover",
-                        "app_token": "",
-                        "user_key": ""
-                }
+			"active": "False",
+			"type": "pushover",
+			"app_token": "YOUR_APP_TOKEN",
+			"user_key": "YOUR_USER_KEY"
+        }
 	],
 	"pokemon":{
 		"Bulbasaur":"False",

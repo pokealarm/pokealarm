@@ -30,11 +30,12 @@ class Telegram_Alarm(Alarm):
 			'parse_mode': 'HTML',
 			'disable_web_page_preview': 'False',
 		}
-		try_sending(log, self.connect, "Telegram", self.client.sendMessage, args)
-		args = { 
-			'chat_id': self.chat_id,
-			'latitude': pkinfo['lat'],
-			'longitude':  pkinfo['lng']
-		}
 		if self.send_map is True:
-			try_sending(log, self.connect, "Telegram (loc)", self.client.sendLocation, args)
+			locargs = { 
+				'chat_id': self.chat_id,
+				'latitude': pkinfo['lat'],
+				'longitude':  pkinfo['lng']
+			}
+			try_sending(log, self.connect, "Telegram (loc)", self.client.sendLocation, locargs)
+			
+		try_sending(log, self.connect, "Telegram", self.client.sendMessage, args)
