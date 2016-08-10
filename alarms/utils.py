@@ -91,7 +91,7 @@ def get_pkmn_name(pokemon_id):
 #Returns a String representing the nearest address to a lng, lat	
 def get_address(lat, lng):
 	loc = geocoder.google([lat,lng], method='reverse')
-	return "%s %s" % (loc.housenumber, loc.street)
+	return "%s %s %s" % (loc.housenumber, loc.street, loc.postal)
 
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):
