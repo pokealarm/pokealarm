@@ -14,6 +14,7 @@ from glob import glob
 from datetime import datetime, timedelta
 from math import radians, sin, cos, atan2, sqrt
 from s2sphere import LatLng
+from ast import literal_eval
 
 #Local imports
 from . import config
@@ -36,6 +37,7 @@ def set_config(root_path):
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
 	parser.add_argument('-tf', '--time_fix', help='Apply time_fix offset to received times.', action='store_true')
+	parser.add_argument('-ply', '--polygon', help='Only notify if pokemon are within geofence/polygon')
 	parser.set_defaults(DEBUG=False)
 	
 	args = parser.parse_args()
@@ -171,3 +173,22 @@ def get_pos_by_name(location_name):
 def time_fix(t):
 	diff = datetime.utcnow() - datetime.utcfromtimestamp(time.mktime(datetime.utcnow().timetuple()))
 	return t+diff
+	
+#Return true if x,y points are inside polygon
+def point_in_poly(x,y):
+        poly = config['POLYGON']
+        n = len(poly)
+        inside = False
+
+        p1x,p1y = poly[0]
+        for i in range(n+1):
+                p2x,p2y = poly[i % n]
+                if y > min(p1y,p2y):
+                        if y <= max(p1y,p2y):
+                                if x <= max(p1x,p2x):
+                                        if p1y != p2y:
+                                                xints = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+                                        if p1x == p2x or x <= xints:
+                                                inside = not inside
+                p1x,p1y = p2x,p2y
+        return inside
