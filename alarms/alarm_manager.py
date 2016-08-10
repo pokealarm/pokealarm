@@ -97,6 +97,11 @@ class Alarm_Manager(Thread):
 			log.info(self.notify_list[pkmn_id])
 			return
 		
+		if config["POLYGON"] = false :
+                        if point_in_poly(lat,lng) == False:
+                                log.info(name + " ignored: outside geofence/polygon")
+                                return
+                                
 		#Check if the Pokemon has already expired
 		if dissapear_time < datetime.utcnow() :
 			log.info(name + " ignore: time_left has passed.")
