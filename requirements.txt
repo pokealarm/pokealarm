@@ -6,3 +6,4 @@ twilio==5.4.0
 telepot==8.3
 gevent==1.1.2
 geocoder==1.15.1
+s2sphere==0.2.4
