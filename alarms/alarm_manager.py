@@ -61,6 +61,9 @@ class Alarm_Manager(Thread):
 				data = self.queue.get(block=True)
 				self.queue.task_done()
 				if data['type'] == 'pokemon' :
+					if 'pokemon_id' not in data['message']:
+						log.debug("Invalid pokemon format - ignoring.")
+						break
 					log.debug("Request processed for #%s" % data['message']['pokemon_id'])
 					if data['message']['encounter_id'] not in self.seen:
 						self.trigger_pkmn(data['message'])
