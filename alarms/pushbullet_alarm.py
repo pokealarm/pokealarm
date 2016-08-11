@@ -12,7 +12,7 @@ class Pushbullet_Alarm(Alarm):
 		self.api_key = settings['api_key']
 		self.channel = settings.get('channel')
 		self.connect()
-		self.notify_text = settings.get('title', "A wild <pkmn> has appeared!")
+		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
 		log.info("Pushbullet Alarm intialized")
@@ -34,7 +34,7 @@ class Pushbullet_Alarm(Alarm):
 
 	def pokemon_alert(self, pkinfo):
 		args = {
-			'title': replace(self.notify_text, pkinfo),
+			'title': replace(self.title, pkinfo),
 			'url': replace(self.url, pkinfo),
 			'body': replace(self.body, pkinfo)
 		}

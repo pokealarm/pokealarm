@@ -102,10 +102,12 @@ class Alarm_Manager(Thread):
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
+		loc = get_nearest_location(lat, lng)
 		pkinfo = {
 			'id': str(pkmn_id),
  			'pkmn': name,
-			'addr': get_address(lat, lng),
+			'addr': "%s %s" % (loc.housenumber, loc.street),
+			'postal': "%s" % (loc.postal),
 			'lat' : "{}".format(lat),
 			'lng' : "{}".format(lng),
 			'gmaps': get_gmaps_link(lat, lng),
