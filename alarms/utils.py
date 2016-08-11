@@ -182,5 +182,14 @@ def try_sending(alarmLog, reconnect, name, send_alert, args):
 			time.sleep(5)
 			reconnect()
 	alarmLog.error("Could not send %s alert... Giving up." % name)
+
+#Used for lazy installs - installs required module with pip
+def pip_install(module, version):
+	import pip
+	import subprocess
+	target = "{}=={}".format(module, version)
+	log.info("Attempting to pip install %s..." % target)
+	subprocess.call(['pip', 'install', target])
+	log.info("%s install complete." % target)
 	
 	

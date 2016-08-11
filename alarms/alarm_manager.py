@@ -48,6 +48,9 @@ class Alarm_Manager(Thread):
 						self.alarms.append(Telegram_Alarm(alarm))
 					elif alarm['type'] == 'pushover' :
 						self.alarms.append(Pushover_Alarm(alarm))
+					elif alarm['type'] == 'twitter' :
+						from Twitter import Twitter_Alarm
+						self.alarms.append(Twitter_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 				else:
@@ -144,5 +147,6 @@ class Alarm_Manager(Thread):
 				old.append(id)
 		for id in old:
 			del self.seen[id]
+	
 	
 	
