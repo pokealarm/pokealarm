@@ -20,7 +20,7 @@ PokeAlarm startup command: `<cmd>`
 
 Did the issue persist after restarting the script?: yes/no
 
-##Console Output
+## Console Output
 <!--- Please post any relevant output provided from the PokeAlarm when you ran it -->
 ```
 	<CONSOLE OUTPUT GOES HERE>
@@ -33,7 +33,7 @@ Did the issue persist after restarting the script?: yes/no
     <CONFIG HERE>
 ```
 
-##Troubleshooting Checklist
+## Troubleshooting Checklist
 [ ] Most recent version of PokemonGo-Map
 [ ] Most recent version of PokemonGo-Map
 [ ] Checked the Wiki for specified Service
@@ -46,7 +46,7 @@ Did the issue persist after restarting the script?: yes/no
 ## Use cases
 <!--- Please describe why you think this improvement will be useful -->
 
-##Other Links
+## Other Links
 <!--- If you are suggesting a new service, please include a link to relevant API or Python module -->
 
 <!--- END OF [ENHANCEMENT] TEMPLATE  --------------------------------------------------------------->
