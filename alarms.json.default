@@ -30,7 +30,7 @@
 			"type": "pushover",
 			"app_token": "YOUR_APP_TOKEN",
 			"user_key": "YOUR_USER_KEY"
-        }
+		}
 	],
 	"pokemon":{
 		"Bulbasaur":"False",

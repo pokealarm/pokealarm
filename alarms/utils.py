@@ -35,6 +35,7 @@ def set_config(root_path):
 	parser.add_argument('-l', '--location', type=parse_unicode, help='Location, can be an address or coordinates')
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
+	parser.add_argument('-sl', '--skip_lured', help='Do not alert for a lured Pokemon.', action='store_true')
 	parser.set_defaults(DEBUG=False)
 	
 	args = parser.parse_args()
@@ -44,6 +45,7 @@ def set_config(root_path):
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
+	config['SKIP_LURED'] = args.skip_lured
 	
 	if args.location:
 		config['LOCATION'] =  get_pos_by_name(args.location)

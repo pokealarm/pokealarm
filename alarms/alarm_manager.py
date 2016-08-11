@@ -83,7 +83,10 @@ class Alarm_Manager(Thread):
 		if pkmn_id not in self.notify_list:
 			log.info(name + " ignored: notify not enabled.")
 			return
-		
+		#Check if we are ignoring lured Pokemon
+		if config['SKIP_LURED'] and pkmn['is_lured']:
+			log.info(name + " ignored: lured pokemon not enabled.")
+			return
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
