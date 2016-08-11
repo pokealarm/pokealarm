@@ -1,4 +1,8 @@
-<!--- Provide a general summary of your changes in the Title above -->
+<!--- PULL REQUESTS CREATED NOT USING THE BELOW TEMPLATE WILL BE CLOSED WITHOUT RESPONSE --->
+<!--- PULL REQUESTS CREATED NOT USING THE BELOW TEMPLATE WILL BE CLOSED WITHOUT RESPONSE --->
+<!--- PULL REQUESTS CREATED NOT USING THE BELOW TEMPLATE WILL BE CLOSED WITHOUT RESPONSE --->
+<!--- PULL REQUESTS CREATED NOT USING THE BELOW TEMPLATE WILL BE CLOSED WITHOUT RESPONSE --->
+
 
 ## Description
 <!--- Describe your changes in detail -->
@@ -15,6 +19,10 @@
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Wiki Update
+<!--- Please create a Wiki page (or snippet) desciribing how to use your changes --->
+<!--- Please keep them simple and user friendly                                  --->
 
 ## Checklist:
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->

@@ -1,30 +1,52 @@
-<!--- Provide a general summary of the issue in the Title above -->
-<!--- Please add [BUG], [ENHANCEMENT], or [USER] if approriate -->
-<!--- Before creating an issue, please make sure you read the WIKI -->
-<!--- ANY ISSUE NOT WITH THIS FORMAT WILL BE CLOSED  -->
+<!--- ALL ISSUES CREATED NOT USING ONE OF THE BELOW ISSUE TEMPLATES WILL BE CLOSED WITHOUT RESPONSE --->
+<!--- ALL ISSUES CREATED NOT USING ONE OF THE BELOW ISSUE TEMPLATES WILL BE CLOSED WITHOUT RESPONSE --->
+<!--- ALL ISSUES CREATED NOT USING ONE OF THE BELOW ISSUE TEMPLATES WILL BE CLOSED WITHOUT RESPONSE --->
+<!--- ALL ISSUES CREATED NOT USING ONE OF THE BELOW ISSUE TEMPLATES WILL BE CLOSED WITHOUT RESPONSE --->
 
-## Bug/Feature Description
-<!--- If describing a bug, tell us what happens instead of the expected behavior -->
-<!--- If suggesting a change/improvement, explain the difference from current behavior -->
+<!--- Please add one of the following flairs to title if appropriate: [BUG] or [ENHANCEMENT] -->
+<!--- Pick one of of the below templates and remove the other - either [BUG/USER SPEICFIC] or [ENHANCEMENT] --->
+
+
+<!--- [BUG/USER SPECIFIC] Use this template if PokeAlarm is behaving in an incorrect or unexpected way.   --->
+## Problem Description
+<!--- Please describe the problem you are experiencing.  -->
 
 ## Your Environment
-<!--- Please post as many details of your Environment as possible -->
+<!--- Please post as many details  -->
 Operating System:  
-Environment name and version (e.g. Python 2.7):  
-PokemonGo-Map command: `<cmd>`  
-PokeAlarm command: `<cmd>`
+Python Version: (use `python -V`)  
+PokemonGo-Map startup command: `<cmd>`  
+PokeAlarm startup command: `<cmd>`
+
+Did the issue persist after restarting the script?: yes/no
 
 ##Console Output
 <!--- Please post any relevant output provided from the PokeAlarm when you ran it -->
+```
+	<CONSOLE OUTPUT GOES HERE>
+```
 
 ## Your Alarms Config
 <!--- Please post the config for your alarms in the space below -->
 <!--- Remove all person data such as API_KEYs or CHAT_IDs -->
 ```json
-<CONFIG HERE>
+    <CONFIG HERE>
 ```
 
 ##Troubleshooting Checklist
-[ ] Updated PokemonGo-Map
-[ ] Updated PokeAlarm
+[ ] Most recent version of PokemonGo-Map
+[ ] Most recent version of PokemonGo-Map
 [ ] Checked the Wiki for specified Service
+
+<!--- END OF [BUG/USER SPECIFIC] TEMPLATE --------------------------------------------------------->
+<!--- [ENHANCEMENT] Use this template if you have a suggestion for improving PokeAlarm  --->
+## Enhancement Description
+<!--- Please describe the improvement you are proposing.  -->
+
+## Use cases
+<!--- Please describe why you think this improvement will be useful -->
+
+##Other Links
+<!--- If you are suggesting a new service, please include a link to relevant API or Python module -->
+
+<!--- END OF [ENHANCEMENT] TEMPLATE  --------------------------------------------------------------->
