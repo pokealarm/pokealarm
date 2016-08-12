@@ -106,7 +106,7 @@ class Alarm_Manager(Thread):
 			return
         
 		#Check if the Pokemon is in the geofence
-		if config['GEOFENCE'] is not None and not config['GEOFENCE'].contains(lat,lng):
+		if 'GEOFENCE' in config and not config['GEOFENCE'].contains(lat,lng):
 			log.info(name + " ignored: outside geofence")
 			return
 		#Trigger the notifcations
