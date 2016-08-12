@@ -12,7 +12,6 @@ from threading import Thread
 #Local imports
 from . import config
 from pushbullet_alarm import Pushbullet_Alarm
-from slack_alarm import Slack_Alarm
 from twilio_alarm import Twilio_Alarm
 from telegram_alarm import Telegram_Alarm
 from pushover_alarm import Pushover_Alarm
@@ -41,6 +40,7 @@ class Alarm_Manager(Thread):
 					if alarm['type'] == 'pushbullet' :
 						self.alarms.append(Pushbullet_Alarm(alarm))
 					elif alarm['type'] == 'slack' :
+						from Slack import Slack_Alarm
 						self.alarms.append(Slack_Alarm(alarm))
 					elif alarm['type'] == 'twilio' :
 						self.alarms.append(Twilio_Alarm(alarm))

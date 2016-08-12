@@ -174,14 +174,14 @@ def try_sending(alarmLog, reconnect, name, send_alert, args):
 		try:
 			send_alert(**args)
 			if i is not 1:
-				log.info("%s alert succesfully resent." % name)
+				log.info("%s successly reconnected." % name)
 			return #message sent succesfull
 		except Exception as e:
 			alarmLog.error(e)
-			alarmLog.error("Error sending %s alert. %d attempt of 5." % (name, i))
+			alarmLog.error("%s is having connection issues. %d attempt of 5." % (name, i))
 			time.sleep(5)
 			reconnect()
-	alarmLog.error("Could not send %s alert... Giving up." % name)
+	alarmLog.error("Could not connect to %s... Giving up." % name)
 
 #Used for lazy installs - installs required module with pip
 def pip_install(module, version):

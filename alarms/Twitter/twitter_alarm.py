@@ -14,6 +14,7 @@ from twitter import Twitter, OAuth
 
 class Twitter_Alarm(Alarm):
 
+	#Gather settings and create alarm
 	def __init__(self, settings):
 		self.token = settings['access_token']
 		self.token_key = settings['access_secret']
@@ -22,11 +23,13 @@ class Twitter_Alarm(Alarm):
 		self.status = settings.get('status', "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>). <gmaps>")
 		self.connect()
 		self.client.statuses.update(status="%s: PokeAlarm has intialized!" % datetime.utcnow().strftime("%H:%M:%S"))
-		
+	
+	#Establish connection with Twitter
 	def connect(self):
 		self.client = Twitter(
 			auth=OAuth(self.token, self.token_key, self.con_secret, self.con_secret_key))
-		
+	
+	#Post Pokemon Status
 	def pokemon_alert(self, pkinfo):
 		args = { "status": replace(self.status, pkinfo)}
 		try_sending(log, self.connect, "Twitter", self.client.statuses.update, args)
