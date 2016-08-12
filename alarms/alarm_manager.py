@@ -83,16 +83,18 @@ class Alarm_Manager(Thread):
 		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
 		self.seen[pkmn['encounter_id']] = dissapear_time
 		
+		#Check if the Pokemon has already expired
+		if dissapear_time < datetime.utcnow() :
+			log.info(name + " ignore: time_left has passed.")
+			return
+		
 		#Check if Pokemon is on the notify list
 		pkmn_id = pkmn['pokemon_id']
 		name = get_pkmn_name(pkmn_id)
 		if pkmn_id not in self.notify_list:
 			log.info(name + " ignored: notify not enabled.")
 			return
-		#Check if we are ignoring lured Pokemon
-		if config['SKIP_LURED'] and pkmn['is_lured']:
-			log.info(name + " ignored: lured pokemon not enabled.")
-			return
+
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
@@ -102,12 +104,11 @@ class Alarm_Manager(Thread):
 			log.info(dist)
 			log.info(self.notify_list[pkmn_id])
 			return
-		
-		#Check if the Pokemon has already expired
-		if dissapear_time < datetime.utcnow() :
-			log.info(name + " ignore: time_left has passed.")
+        
+		#Check if the Pokemon is in the geofence
+		if config['GEOFENCE'] is not None and not config['GEOFENCE'].contains(lat,lng):
+			log.info(name + " ignored: outside geofence")
 			return
-			
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
@@ -147,6 +148,3 @@ class Alarm_Manager(Thread):
 				old.append(id)
 		for id in old:
 			del self.seen[id]
-	
-	
-	

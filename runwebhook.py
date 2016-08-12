@@ -15,8 +15,7 @@ import os
 import Queue
 
 #Local Modules
-from alarms import config
-from alarms import set_config
+from alarms import config, set_config
 from alarms.alarm_manager import Alarm_Manager
 
 reload(sys)

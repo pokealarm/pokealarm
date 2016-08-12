@@ -17,6 +17,7 @@ from s2sphere import LatLng
 
 #Local imports
 from . import config
+from geofence import Geofence
 
 def parse_unicode(bytestring):
     decoded_string = bytestring.decode(sys.getfilesystemencoding())
@@ -35,7 +36,7 @@ def set_config(root_path):
 	parser.add_argument('-l', '--location', type=parse_unicode, help='Location, can be an address or coordinates')
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
-	parser.add_argument('-sl', '--skip_lured', help='Do not alert for a lured Pokemon.', action='store_true')
+	parser.add_argument('-gf', '--geofence', help='Specify a file of coordinates, limiting alerts to within this area')
 	parser.set_defaults(DEBUG=False)
 	
 	args = parser.parse_args()
@@ -45,13 +46,16 @@ def set_config(root_path):
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
-	config['SKIP_LURED'] = args.skip_lured
 	
 	if args.location:
 		config['LOCATION'] =  get_pos_by_name(args.location)
 	
-	return config
+	if args.geofence:
+		config['GEOFENCE'] = Geofence(os.path.join(root_path, args.geofence))
 	
+	return config
+
+#Parse notify list
 def make_notify_list(want_list):
 	notify = {}
 	for name in want_list:
@@ -64,7 +68,7 @@ def make_notify_list(want_list):
 			except ValueError:
 				continue
 	return notify
-
+	
 #Returns the id corresponding with the pokemon name
 def get_pkmn_id(pokemon_name):
 	name = pokemon_name.lower()
@@ -191,5 +195,3 @@ def pip_install(module, version):
 	log.info("Attempting to pip install %s..." % target)
 	subprocess.call(['pip', 'install', target])
 	log.info("%s install complete." % target)
-	
-	
