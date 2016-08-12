@@ -42,6 +42,10 @@ class Slack_Alarm(Alarm):
 		response = self.client.channels.list().body
 		for channel in response['channels']:
 			self.channels.add(channel['name'])
+		response = self.client.groups.list().body
+		for channel in response['groups']:
+			self.channels.add(channel['name'])
+		log.debug(self.channels)
 	
 	#Returns a string s that is in proper channel format
 	def channel_format(self, name):
