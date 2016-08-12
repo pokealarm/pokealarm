@@ -82,6 +82,8 @@ class Alarm_Manager(Thread):
 		#Mark the pokemon as seen along with exipre time
 		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
 		self.seen[pkmn['encounter_id']] = dissapear_time
+		pkmn_id = pkmn['pokemon_id']
+		name = get_pkmn_name(pkmn_id)
 		
 		#Check if the Pokemon has already expired
 		if dissapear_time < datetime.utcnow() :
@@ -89,8 +91,6 @@ class Alarm_Manager(Thread):
 			return
 		
 		#Check if Pokemon is on the notify list
-		pkmn_id = pkmn['pokemon_id']
-		name = get_pkmn_name(pkmn_id)
 		if pkmn_id not in self.notify_list:
 			log.info(name + " ignored: notify not enabled.")
 			return
