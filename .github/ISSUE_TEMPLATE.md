@@ -35,8 +35,8 @@ Did the issue persist after restarting the script?: yes/no
 
 ## Troubleshooting Checklist
 [ ] Most recent version of PokemonGo-Map
-[ ] Most recent version of PokemonGo-Map
-[ ] Checked the Wiki for specified Service
+[ ] Most recent version of PokeAlarm
+[ ] Checked the Wiki page for service in question
 
 <!--- END OF [BUG/USER SPECIFIC] TEMPLATE ---REMOVE ABOVE OR BELOW THIS LINE             ----->
 <!--- [ENHANCEMENT] Use this template if you have a suggestion for improving PokeAlarm   ----->
