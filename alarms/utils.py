@@ -229,21 +229,21 @@ def calculate_compass_bearing(ptB, ptA="default"):
 def compass_bearing_to_arrow(bearing):   
     
     if bearing >= 337.5 or bearing < 22.5:
-        value = "?"
+        value = u'\u2B06'   # upwards black arrow
     elif bearing < 67.5:
-        value = "?"
+        value = u'\u2B08'   # north east black arrow
     elif bearing < 112.5:
-        value = "?"
+        value = u'\u27A1'   # black rightwards arrow
     elif bearing < 157.5:
-        value = "?"
+        value = u'\u2B0A'   # south east black arrow
     elif bearing < 202.5:
-        value = "?"
+        value = u'\u2B07'   # downwards black arrow
     elif bearing < 247.5:
-        value = "?"
+        value = u'\u2B0B'   # south west black arrow
     elif bearing < 292.5:
-        value = "?"
+        value = u'\u2B05'   # leftwards black arrow
     elif bearing < 337.5:
-        value = "?"
+        value = u'\u2B09'   # north west black arrow
     
     return value
    
@@ -283,9 +283,9 @@ def get_gmaps_info(gmapsclient, dissapear_time, travel_method, ptA, ptB="default
         # Return an icon to indicate go or no-go
         timedif = dissapear_time-datetime.utcnow()
         if timedif.seconds > result['duration']:
-            result['pedestrian'] = "??"
+            result['pedestrian'] = u'\U0001f6b6'.encode("utf-8")
         else:
-            result['pedestrian'] = "??"
+            result['pedestrian'] = u'\U0001F6AB'.encode("utf-8")
         
         #text = "%s[%s%s%s%dm]" % (unicode(pedestrian, "utf-8"), distance_s, unicode(direction, "utf-8"), unicode("?", "utf-8"), m2 )
         

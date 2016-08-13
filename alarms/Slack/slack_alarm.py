@@ -26,7 +26,7 @@ class Slack_Alarm(Alarm):
 		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
-		self.username = settings.get('username', unicode("<pedestrian>[<g_distance><bearing_arrow>?<g_duration>m]<pkmn>", "utf-8"))
+		self.username = settings.get('username', u'<pedestrian>[<g_distance><bearing_arrow>\u231A<g_duration>m]<pkmn>')
 		log.info("Slack Alarm intialized.")
 		self.post_message(
 			channel=self.channel,

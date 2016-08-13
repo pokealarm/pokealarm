@@ -35,8 +35,11 @@ class Alarm_Manager(Thread):
 			self.seen = {}
 			self.alarms = []
 			self.queue = queue
-			self.gmapsclient = googlemaps.Client(key=settings["gmaps-key"])
-			
+			if "gmaps-key" in settings and settings["gmaps-key"] != "":
+				self.gmapsclient = googlemaps.Client(key=settings["gmaps-key"])
+			else:
+				self.gmapsclient = None
+				
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
 					if alarm['type'] == 'pushbullet' :
@@ -111,8 +114,6 @@ class Alarm_Manager(Thread):
 		if 'GEOFENCE' in config and not config['GEOFENCE'].contains(lat,lng):
 			log.info(name + " ignored: outside geofence")
 			return
-		#Trigger the notifcations
-		log.info(name + " notication was triggered!")
 				
 		#Calculate bearing
 		bearing = calculate_compass_bearing((lat,lng))
@@ -141,23 +142,24 @@ class Alarm_Manager(Thread):
 		}
 		
 		# Load up the google maps info 
-		gmaps_result = get_gmaps_info(self.gmapsclient, dissapear_time, "walking", [lat,lng])
-		
-		if gmaps_result != 0:
-			pkinfo['g_distance'] = gmaps_result['distance_str']
-			pkinfo['g_duration'] = gmaps_result['duration_m']
-			pkinfo['pedestrian'] = gmaps_result['pedestrian']
+		if self.gmapsclient:
+			gmaps_result = get_gmaps_info(self.gmapsclient, dissapear_time, "walking", [lat,lng])
+			
+			if gmaps_result != 0:
+				pkinfo['g_distance'] = gmaps_result['distance_str']
+				pkinfo['g_duration'] = gmaps_result['duration_m']
+				pkinfo['pedestrian'] = gmaps_result['pedestrian']
 				
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkinfo)
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
-		raise NotImplementedError("This method is not yet implimented.")
+		raise NotImplementedError("This method is not yet implemented.")
 	
 	#Send a notifcation about pokemon gym detected
 	def notify_gyms(self, gyms):
-		raise NotImplementedError("This method is not yet implimented.")
+		raise NotImplementedError("This method is not yet implemented.")
 		
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):
