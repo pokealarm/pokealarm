@@ -14,6 +14,8 @@ from glob import glob
 from datetime import datetime, timedelta
 from math import radians, sin, cos, atan2, sqrt
 from s2sphere import LatLng
+import urllib
+import yaml
 
 #Local imports
 from . import config
@@ -186,6 +188,35 @@ def try_sending(alarmLog, reconnect, name, send_alert, args):
 			time.sleep(5)
 			reconnect()
 	alarmLog.error("Could not connect to %s... Giving up." % name)
+
+#Returns a string containing travel time in travel mode specified
+def get_travel_time(ptA,  mode, ptB="default"):
+	if ptB is "default":
+	        ptB = config.get("LOCATION")
+	if ptB is None:
+	        return 0 #No location set
+	ptaA = [42.028632, -87.788187]
+	ptB = [42.024679, -87.769819]
+	url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s,%s&destinations=%s,%s&mode=%s&units=imperial" % (ptA[0], ptA[1], ptB[0], ptB[1], mode)
+	response = urllib.urlopen(url)
+	data = yaml.safe_load(response.read())
+	if (data.get("rows")[0].get("elements")[0].get("status") != "OK"):
+			log.debug("Travel time is returning no results for " + mode)
+			return 0
+	return parse_duration(data.get("rows")[0].get("elements")[0].get("duration").get("text"))
+
+def parse_duration (duration):
+	regex = re.compile(r'((?P<days>\d+?) days?)? ?((?P<hours>\d+?) hours?)? ?((?P<minutes>\d+?) mins?)?')
+	parts = regex.match(duration)
+	partsdict = parts.groupdict()
+	durationstring = ""
+	if partsdict['days'] != None:
+		durationstring += partsdict['days'] + "day "
+	if partsdict['hours'] != None:
+		durationstring += partsdict['hours'] + "hr "
+	if partsdict['minutes'] != None:
+		durationstring += partsdict['minutes'] + "min "
+	return durationstring
 
 #Used for lazy installs - installs required module with pip
 def pip_install(module, version):
