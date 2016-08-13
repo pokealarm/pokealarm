@@ -13,6 +13,7 @@ import sys
 import json
 import os
 import Queue
+import re
 
 #Local Modules
 from alarms import config, set_config
@@ -32,6 +33,21 @@ def trigger_alert():
 	data = json.loads(request.data)
 	data_queue.put(data)
 	return ""
+
+@app.route('/location/')
+def get_location():
+	if 'LOCATION' in config:
+		return "%s,%s" % (config['LOCATION'][0], config['LOCATION'][1])
+	else:
+		return "No location configured"
+
+@app.route('/location/<string:new_loc_str>')
+def change_location(new_loc_str):
+	loc_match = re.match('^([-]?(?:[1-8]?\d(?:\.\d+)?|90(?:\.0+))),\s*([-]?(?:180(?:\.0+)?|(?:(?:1[0-7]\d)|(?:[1-9]?\d))(?:\.\d+)?))$', new_loc_str) # Validate coordinate input
+	if loc_match is None:
+		return "Invalid location formatting"
+	config['LOCATION'] = [loc_match.group(1), loc_match.group(2)]
+	return "Location set: %s,%s" % (loc_match.group(1), loc_match.group(2)) 
 
 if __name__ == '__main__':
 	#Parse arguments and set up config
