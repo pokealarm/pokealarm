@@ -42,8 +42,8 @@
 		{
 			"active": "False",
 			"type":"ifttt",
-			"api_key":"bryeq0dWmIgBlDxUiBWaQ3",
-			"event":"pokemon_found",
+			"api_key":"YOUR_MAKER_KEY",
+			"event":"YOUR_EVENT_NAME",
 			"value1":"A wild <pkmn> appeared",
 			"value2":"at the address <addr>",
 			"value3":"with <time_left> left"
