@@ -125,8 +125,9 @@ class Alarm_Manager(Thread):
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
-			'dir': get_dir(lat,lng)
-			
+			'dir': get_dir(lat,lng),
+			'walking_time': "%s" % get_travel_time([lat, lng], "walking"),
+			'driving_time': "%s" % get_travel_time([lat, lng], "driving")
 		}
 		
 		for alarm in self.alarms:
