@@ -8,6 +8,7 @@ The following services are currently supported:
 * Twilio (SMS)
 * Telegram 
 * Pushover
+* IFTTT Maker Channel
 
 If you are experiencing issues with the alarm or would like to see new features, please open a ticket here on github. 
 
