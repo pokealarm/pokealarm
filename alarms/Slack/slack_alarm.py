@@ -24,6 +24,7 @@ class Slack_Alarm(Alarm):
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
 		self.username = settings.get('username', "<pkmn>")
+		self.staticmap = settings.get('staticmap')
 		log.info("Slack Alarm intialized.")
 		self.post_message(
 			channel=self.channel,
@@ -64,43 +65,70 @@ class Slack_Alarm(Alarm):
 		return channel
 
 	#Post a message to channel
-	def post_message(self, channel, username, text, icon_url=None, img=None):
-		if img is not None:
-			args = {
+	def post_message(self, channel, username, text, icon_url=None, staticmap_queries=None):
+		args = {
 			'channel': self.get_channel(channel),
 			'username': username,
 			'text': text,
 			'icon_url': icon_url,
-			'attachments': [
+		}
+		
+		if staticmap_queries is not None:
+			args['attachments'] = [
 				{
 					'fallback': 'LocationFar',
-					'image_url': img['far']
+					'image_url': staticmap_queries['map_far']
 				},
 				{
 					'fallback': 'LocationClose',
-					'image_url': img['close']
+					'image_url': staticmap_queries['map_close']
 				}
 			]
-		}
-		
-		if img is None:
-			args = {
-				'channel': self.get_channel(channel),
-				'username': username,
-				'text': text,
-				'icon_url': icon_url
-			}
-		
+					
 		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
-		
 	
 	#Send Pokemon Info to Slack
 	def pokemon_alert(self, pkinfo):
+		#Slack message parameters part 1
 		channel = replace(self.channel, pkinfo)
-		username = replace(self.username, pkinfo),
-		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo)),
+		username = replace(self.username, pkinfo)
+		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo))
 		icon_url = 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/develop/static/icons/{}.png'.format(pkinfo['id'])
-		img_far = replace('https://maps.googleapis.com/maps/api/staticmap?center=<lat>,<lng>&zoom=14&size=300x100&maptype=roadmap&markers=color:red%7C<lat>,<lng>', pkinfo)
-		img_close = replace('https://maps.googleapis.com/maps/api/staticmap?center=<lat>,<lng>&zoom=16&size=300x100&maptype=roadmap&markers=color:red%7C<lat>,<lng>&maptype=satellite', pkinfo)
-		self.post_message(channel, username, text, icon_url, {'far': img_far, 'close': img_close})
 		
+		#Check if the user wants to embed static maps into the post
+		staticmap_enabled = False
+		if self.staticmap is not None:
+			staticmap_enabled = self.staticmap.get('enabled', 'False')
+			
+		if staticmap_enabled == "True":
+			#Get static map parameters
+			width = self.staticmap.get('width', '300')
+			height = self.staticmap.get('height', '100')
+			far_zoom = self.staticmap.get('far_zoom', '14')
+			far_maptype = self.staticmap.get('far_maptype', 'roadmap')
+			close_zoom = self.staticmap.get('close_zoom', '16')
+			close_maptype = self.staticmap.get('close_maptype', 'hybrid')
+			
+			#Slack message parameters part 2
+			map_far = self.build_staticmap_query(pkinfo['lat'], pkinfo['lng'], width, height, far_zoom, far_maptype)
+			map_close = self.build_staticmap_query(pkinfo['lat'], pkinfo['lng'], width, height, close_zoom, close_maptype)
+				
+			self.post_message(channel, username, text, icon_url, {'map_far': map_far, 'map_close': map_close})
+		else:
+			self.post_message(channel, username, text, icon_url)
+	
+	# Build a query for a static map of the pokemon location
+	def build_staticmap_query(self, lat, lng, width, height, zoom, maptype):
+		center = '{},{}'.format(lat, lng)
+		query_center = 'center={}'.format(center)
+		query_markers =  'markers=color:red%7C{}'.format(center)
+		query_size = 'size={}x{}'.format(width, height)
+		query_zoom = 'zoom={}'.format(zoom)
+		query_maptype = 'maptype={}'.format(maptype)
+		
+		return ('https://maps.googleapis.com/maps/api/staticmap?' +
+					query_center + '&' +
+					query_markers + '&' +
+					query_maptype + '&' +
+					query_size + '&' +
+					query_zoom)
