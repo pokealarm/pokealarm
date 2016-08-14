@@ -64,13 +64,33 @@ class Slack_Alarm(Alarm):
 		return channel
 
 	#Post a message to channel
-	def post_message(self, channel, username, text, icon_url=None):
-		args = {
+	def post_message(self, channel, username, text, icon_url=None, img=None):
+		if img is not None:
+			args = {
 			'channel': self.get_channel(channel),
 			'username': username,
 			'text': text,
-			'icon_url': icon_url
+			'icon_url': icon_url,
+			'attachments': [
+				{
+					'fallback': 'LocationFar',
+					'image_url': img['far']
+				},
+				{
+					'fallback': 'LocationClose',
+					'image_url': img['close']
+				}
+			]
 		}
+		
+		if img is None:
+			args = {
+				'channel': self.get_channel(channel),
+				'username': username,
+				'text': text,
+				'icon_url': icon_url
+			}
+		
 		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
 		
 	
@@ -80,5 +100,7 @@ class Slack_Alarm(Alarm):
 		username = replace(self.username, pkinfo),
 		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo)),
 		icon_url = 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/develop/static/icons/{}.png'.format(pkinfo['id'])
-		self.post_message(channel, username, text, icon_url)
+		img_far = replace('https://maps.googleapis.com/maps/api/staticmap?center=<lat>,<lng>&zoom=14&size=300x100&maptype=roadmap&markers=color:red%7C<lat>,<lng>', pkinfo)
+		img_close = replace('https://maps.googleapis.com/maps/api/staticmap?center=<lat>,<lng>&zoom=16&size=300x100&maptype=roadmap&markers=color:red%7C<lat>,<lng>&maptype=satellite', pkinfo)
+		self.post_message(channel, username, text, icon_url, {'far': img_far, 'close': img_close})
 		
