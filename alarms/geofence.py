@@ -20,10 +20,10 @@ class Geofence(object):
 				p = Point(float(row[0]), float(row[1]))
 				points.append(p)
                 if len(points) == 2:
-                    p1 = Point(points[0][0], points[0][1])
-                    p2 = Point(points[1][0], points[0][1])
-                    p3 = Point(points[1][0], points[1][1])
-                    p4 = Point(points[0][0], points[1][1])
+                    p1 = Point(points[0].x, points[0].y)
+                    p2 = Point(points[1].x, points[0].y)
+                    p3 = Point(points[1].x, points[1].y)
+                    p4 = Point(points[0].x, points[1].y)
                     self.polygon = Polygon(p1, p2, p3, p4)
                     log.info(self.polygon)
                 elif len(points) > 2:
