@@ -126,7 +126,6 @@ class Alarm_Manager(Thread):
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng)
-			
 		}
 		
 		for alarm in self.alarms:
