@@ -17,13 +17,13 @@ class Geofence(object):
 			rows = csv.reader(file, delimiter=',')
 			for row in rows:
 				log.info("got to here")
-				p = Point(float(row[0]), float(row[1]))
+				p = Point(float(row[0]), float(row[1]), evaluate=False)
 				points.append(p)
                 if len(points) == 2:
-                    p1 = Point(points[0].x, points[0].y)
-                    p2 = Point(points[1].x, points[0].y)
-                    p3 = Point(points[1].x, points[1].y)
-                    p4 = Point(points[0].x, points[1].y)
+                    p1 = Point(points[0].x, points[0].y, evaluate=False)
+                    p2 = Point(points[1].x, points[0].y, evaluate=False)
+                    p3 = Point(points[1].x, points[1].y, evaluate=False)
+                    p4 = Point(points[0].x, points[1].y, evaluate=False)
                     self.polygon = Polygon(p1, p2, p3, p4)
                     log.info(self.polygon)
                 elif len(points) > 2:
