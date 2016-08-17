@@ -9,7 +9,16 @@
 			"active": "False",
 			"type":"slack",
 			"api_key":"YOUR_API_KEY",
-			"channel":"#general"
+			"channel":"#general",
+			"staticmap":{
+				"enabled":"True",
+				"width":"300",
+				"height":"100",
+				"far_zoom":"14",
+				"far_maptype":"roadmap",
+				"close_zoom":"16",
+				"close_maptype":"hybrid"
+			}
 		},
 		{
 			"active": "False",
