@@ -27,7 +27,7 @@ class Geofence(object):
                     self.polygon = Polygon(p1, p2, p3, p4)
                     log.info(self.polygon)
                 elif len(points) > 2:
-                    self.polygon(points)
+                    self.polygon = Polygon(points)
                     log.info(self.polygon)
 		log.info("Geofence successfully loaded!")
 
