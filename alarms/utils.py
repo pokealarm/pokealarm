@@ -195,8 +195,6 @@ def get_travel_time(ptA,  mode, ptB="default"):
 	        ptB = config.get("LOCATION")
 	if ptB is None:
 	        return 0 #No location set
-	ptaA = [42.028632, -87.788187]
-	ptB = [42.024679, -87.769819]
 	url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s,%s&destinations=%s,%s&mode=%s&units=imperial" % (ptA[0], ptA[1], ptB[0], ptB[1], mode)
 	response = urllib.urlopen(url)
 	data = yaml.safe_load(response.read())
