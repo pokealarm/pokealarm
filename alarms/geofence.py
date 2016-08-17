@@ -36,4 +36,4 @@ class Geofence(object):
 		if self.polygon is not None:
 			return self.polygon.encloses_point(Point(x,y))
 		else:
-			return False
+			return True
