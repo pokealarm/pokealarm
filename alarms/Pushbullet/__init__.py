@@ -3,9 +3,9 @@
 
 #Check for needed module, otherwise install 
 try:
-	import slacker
+	import pushbullet
 except ImportError:
 	from ..utils import pip_install
-	pip_install('slacker', '0.9.24')
+	pip_install('pushbullet.py', '0.10.0')
 
-from slack_alarm import Slack_Alarm
+from pushbullet_alarm import Pushbullet_Alarm

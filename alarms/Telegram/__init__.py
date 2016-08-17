@@ -3,9 +3,9 @@
 
 #Check for needed module, otherwise install 
 try:
-	import slacker
+	import telepot
 except ImportError:
 	from ..utils import pip_install
-	pip_install('slacker', '0.9.24')
+	pip_install('telepot', '8.3')
 
-from slack_alarm import Slack_Alarm
+from telegram_alarm import Telegram_Alarm

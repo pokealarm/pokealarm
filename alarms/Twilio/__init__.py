@@ -3,9 +3,9 @@
 
 #Check for needed module, otherwise install 
 try:
-	import slacker
+	from twilio.rest import TwilioRestClient
 except ImportError:
 	from ..utils import pip_install
-	pip_install('slacker', '0.9.24')
+	pip_install('twilio', '5.4.0')
 
-from slack_alarm import Slack_Alarm
+from twilio_alarm import Twilio_Alarm

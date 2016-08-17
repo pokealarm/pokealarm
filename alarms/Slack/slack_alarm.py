@@ -12,7 +12,6 @@ from ..utils import *
 #External modules
 from slacker import Slacker
 
-
 class Slack_Alarm(Alarm):
 
 	#Gather settings and create alarm
