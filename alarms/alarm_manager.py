@@ -31,6 +31,11 @@ class Alarm_Manager(Thread):
 			self.seen = {}
 			self.alarms = []
 			self.queue = queue
+			if "gmaps-key" in settings and settings["gmaps-key"] != "":
+				self.gmapsclient = googlemaps.Client(key=settings["gmaps-key"])
+			else:
+				self.gmapsclient = None
+				
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
 					if alarm['type'] == 'pushbullet' :
@@ -109,8 +114,13 @@ class Alarm_Manager(Thread):
 		if 'GEOFENCE' in config and not config['GEOFENCE'].contains(lat,lng):
 			log.info(name + " ignored: outside geofence")
 			return
-		#Trigger the notifcations
-		log.info(name + " notication was triggered!")
+				
+		#Calculate bearing
+		bearing = calculate_compass_bearing((lat,lng))
+		
+		#Trigger the notifications
+		log.info(name + " notification was triggered!")
+		
 		timestamps = get_timestamps(dissapear_time)
 		loc = get_nearest_location(lat, lng)
 		pkinfo = {
@@ -125,20 +135,31 @@ class Alarm_Manager(Thread):
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
+			'bearing': bearing,
+			'bearing_arrow': compass_bearing_to_arrow(bearing),
 			'dir': get_dir(lat,lng)
 			
 		}
 		
+		# Load up the google maps info 
+		if self.gmapsclient:
+			gmaps_result = get_gmaps_info(self.gmapsclient, dissapear_time, "walking", [lat,lng])
+			
+			if gmaps_result != 0:
+				pkinfo['g_distance'] = gmaps_result['distance_str']
+				pkinfo['g_duration'] = gmaps_result['duration_m']
+				pkinfo['pedestrian'] = gmaps_result['pedestrian']
+				
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkinfo)
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
-		raise NotImplementedError("This method is not yet implimented.")
+		raise NotImplementedError("This method is not yet implemented.")
 	
 	#Send a notifcation about pokemon gym detected
 	def notify_gyms(self, gyms):
-		raise NotImplementedError("This method is not yet implimented.")
+		raise NotImplementedError("This method is not yet implemented.")
 		
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):

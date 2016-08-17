@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #Setup Logging
 import logging
 log = logging.getLogger(__name__)
@@ -22,7 +25,7 @@ class Slack_Alarm(Alarm):
 		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
-		self.username = settings.get('username', "<pkmn>")
+		self.username = settings.get('username', u'<pedestrian>[<g_distance><bearing_arrow>\u231A<g_duration>m]<pkmn>')
 		log.info("Slack Alarm intialized.")
 		self.post_message(
 			channel=self.channel,
@@ -75,9 +78,9 @@ class Slack_Alarm(Alarm):
 	
 	#Send Pokemon Info to Slack
 	def pokemon_alert(self, pkinfo):
-		channel = replace(self.channel, pkinfo)
-		username = replace(self.username, pkinfo),
-		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo)),
+		channel = replace(self.channel, pkinfo).encode("utf-8")
+		username = replace(self.username, pkinfo).encode("utf-8"),
+		text = '<{}|{}> {}'.format(replace(self.url, pkinfo).encode("utf-8"),  replace(self.title, pkinfo).encode("utf-8") , replace(self.body, pkinfo).encode("utf-8")),
 		icon_url = 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/develop/static/icons/{}.png'.format(pkinfo['id'])
 		self.post_message(channel, username, text, icon_url)
 		

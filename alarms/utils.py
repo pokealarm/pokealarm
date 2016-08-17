@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 #Logging
 import logging
 log = logging.getLogger(__name__)
@@ -10,9 +13,11 @@ import time
 import geocoder
 import sys
 import re
+import googlemaps
 from glob import glob
 from datetime import datetime, timedelta
-from math import radians, sin, cos, atan2, sqrt
+from math import radians, sin, cos, atan2, sqrt, degrees
+from googlemaps.distance_matrix import distance_matrix
 from s2sphere import LatLng
 
 #Local imports
@@ -154,7 +159,7 @@ def get_timestamps(t):
 def replace(string, pkinfo):
 	s = string.encode('utf-8')
 	for key in pkinfo:
-		s = s.replace("<{}>".format(key), pkinfo[key])
+		s = s.replace("<{}>".format(key), str(pkinfo[key]))
 	return s
 
 #Get the latitude and longiture of a Place	
@@ -195,3 +200,96 @@ def pip_install(module, version):
 	log.info("Attempting to pip install %s..." % target)
 	subprocess.call(['pip', 'install', target])
 	log.info("%s install complete." % target)
+	
+def calculate_compass_bearing(ptB, ptA="default"):
+    if ptA is "default":
+        ptA = config.get("LOCATION")
+    if ptA is None:
+        return 0 #No location set
+    
+    lat1 = radians(ptA[0])
+    lat2 = radians(ptB[0])
+
+    diffLong = radians(ptB[1] - ptA[1])
+
+    x = sin(diffLong) * cos(lat2)
+    y = cos(lat1) * sin(lat2) - (sin(lat1)
+            * cos(lat2) * cos(diffLong))
+
+    initial_bearing = atan2(x, y)
+
+    # Now we have the initial bearing but math.atan2 return values
+    # from -180 to + 180 which is not what we want for a compass bearing
+    # The solution is to normalize the initial bearing as shown below
+    initial_bearing = degrees(initial_bearing)
+    compass_bearing = (initial_bearing + 360) % 360
+
+    return compass_bearing
+
+def compass_bearing_to_arrow(bearing):   
+    
+    if bearing >= 337.5 or bearing < 22.5:
+        value = u'\u2B06'   # upwards black arrow
+    elif bearing < 67.5:
+        value = u'\u2B08'   # north east black arrow
+    elif bearing < 112.5:
+        value = u'\u27A1'   # black rightwards arrow
+    elif bearing < 157.5:
+        value = u'\u2B0A'   # south east black arrow
+    elif bearing < 202.5:
+        value = u'\u2B07'   # downwards black arrow
+    elif bearing < 247.5:
+        value = u'\u2B0B'   # south west black arrow
+    elif bearing < 292.5:
+        value = u'\u2B05'   # leftwards black arrow
+    elif bearing < 337.5:
+        value = u'\u2B09'   # north west black arrow
+    
+    return value
+   
+    
+def get_gmaps_info(gmapsclient, dissapear_time, travel_method, ptA, ptB="default"):
+    if ptB is "default":
+        ptB = config.get("LOCATION")
+    if ptB is None:
+        return 0 #No location set
+    
+    gmaps_result = gmapsclient.distance_matrix( (ptA[0], ptA[1]),(ptB[0], ptB[1]),travel_method)
+    if gmaps_result['status'] == "OK" and gmaps_result['rows'][0]['elements'][0]['status'] == "OK":
+        
+        result = {}
+        
+        # Get the distance in a meters 
+        #result.update({'distance_m', gmaps_result['rows'][0]['elements'][0]['distance']['value']})
+        result['distance_m'] = gmaps_result['rows'][0]['elements'][0]['distance']['value']
+        
+        # Get the distance in a prettier format 
+        if result['distance_m'] < 1000:
+            result['distance_str'] = "%dm" % ( int(result['distance_m']) )
+        else:
+            result['distance_str'] = "%.1fkm" % ( result['distance_m'] /1000 )
+        
+        # Get the duration in seconds
+        result['duration'] = gmaps_result['rows'][0]['elements'][0]['duration']['value']
+ 
+        # Get the walking duration in minutes (rounded)
+        s2 = result['duration']
+        (m2, s2) = divmod(s2, 60)
+        (h2, m2) = divmod(m2, 60)
+        if s2 >= 30:
+            m2 += 1
+        result['duration_m'] = m2
+
+        # Return an icon to indicate go or no-go
+        timedif = dissapear_time-datetime.utcnow()
+        if timedif.seconds > result['duration']:
+            result['pedestrian'] = u'\U0001f6b6'.encode("utf-8")
+        else:
+            result['pedestrian'] = u'\U0001F6AB'.encode("utf-8")
+        
+        #text = "%s[%s%s%s%dm]" % (unicode(pedestrian, "utf-8"), distance_s, unicode(direction, "utf-8"), unicode("?", "utf-8"), m2 )
+        
+        return result
+    
+    return 0
+	
