@@ -1,13 +1,19 @@
+#Setup Logging
 import logging
-
-from alarm import Alarm
-from pushbullet import PushBullet
-from utils import *
-
 log = logging.getLogger(__name__)
+
+#Python modules
+
+#Local modules
+from ..alarm import Alarm
+from ..utils import *
+
+#External modules
+from pushbullet import PushBullet
 
 class Pushbullet_Alarm(Alarm):
 	
+	#Gather settings and create alarm
 	def __init__(self, settings):
 		self.api_key = settings['api_key']
 		self.channel = settings.get('channel')
@@ -15,7 +21,7 @@ class Pushbullet_Alarm(Alarm):
 		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
-		log.info("Pushbullet Alarm intialized")
+		log.info("Pushbullet Alarm intialized.")
 		push = self.sender.push_note("PokeAlarm activated!", "We will alert you about pokemon.")
 	
 	#(Re)establishes Pushbullet connection
@@ -32,6 +38,7 @@ class Pushbullet_Alarm(Alarm):
 			log.info("Pushing to channel %s." % channel_tag)
 		return req_channel
 
+	#Send Pokemon Info 
 	def pokemon_alert(self, pkinfo):
 		args = {
 			'title': replace(self.title, pkinfo),

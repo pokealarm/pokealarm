@@ -1,13 +1,19 @@
+#Setup Logging
 import logging
-import telepot
- 
-from alarm import Alarm
-from utils import *
- 
 log = logging.getLogger(__name__)
+
+#Python modules
+
+#Local modules
+from ..alarm import Alarm
+from ..utils import *
+
+#External modules
+import telepot
  
 class Telegram_Alarm(Alarm):
  	
+	#Gather settings and create alarm
 	def __init__(self, settings):
 		self.bot_token = settings['bot_token']
  		self.connect()
@@ -15,12 +21,14 @@ class Telegram_Alarm(Alarm):
 		self.send_map = parse_boolean(settings.get('send_map', "True"))
 		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.body = settings.get('body', "<gmaps> \n Available until <24h_time> (<time_left>).")
-		log.info("Telegram Alarm intialized")
+		log.info("Telegram Alarm intialized.")
 		self.client.sendMessage(self.chat_id, 'PokeAlarm activated! We will alert this chat about pokemon.')
-		
+	
+	#(Re)establishes Telegram connection
 	def connect(self):
 		self.client = telepot.Bot(self.bot_token) 
  		
+	#Send Pokemon Info 
  	def pokemon_alert(self, pkinfo):
 		title = replace(self.title, pkinfo)
 		body =  replace(self.body, pkinfo)

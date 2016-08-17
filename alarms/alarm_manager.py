@@ -11,10 +11,6 @@ from threading import Thread
 
 #Local imports
 from . import config
-from pushbullet_alarm import Pushbullet_Alarm
-from twilio_alarm import Twilio_Alarm
-from telegram_alarm import Telegram_Alarm
-from pushover_alarm import Pushover_Alarm
 from utils import *
 
 class Alarm_Manager(Thread):
@@ -38,16 +34,20 @@ class Alarm_Manager(Thread):
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
 					if alarm['type'] == 'pushbullet' :
+						from Pushbullet import Pushbullet_Alarm
 						self.alarms.append(Pushbullet_Alarm(alarm))
+					elif alarm['type'] == 'pushover' :
+						from Pushover import Pushover_Alarm
+						self.alarms.append(Pushover_Alarm(alarm))
 					elif alarm['type'] == 'slack' :
 						from Slack import Slack_Alarm
 						self.alarms.append(Slack_Alarm(alarm))
-					elif alarm['type'] == 'twilio' :
-						self.alarms.append(Twilio_Alarm(alarm))
 					elif alarm['type'] == 'telegram' :
+						from Telegram import Telegram_Alarm
 						self.alarms.append(Telegram_Alarm(alarm))
-					elif alarm['type'] == 'pushover' :
-						self.alarms.append(Pushover_Alarm(alarm))
+					elif alarm['type'] == 'twilio' :
+						from Twilio import Twilio_Alarm
+						self.alarms.append(Twilio_Alarm(alarm))
 					elif alarm['type'] == 'twitter' :
 						from Twitter import Twitter_Alarm
 						self.alarms.append(Twitter_Alarm(alarm))
@@ -126,7 +126,6 @@ class Alarm_Manager(Thread):
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng)
-			
 		}
 		
 		for alarm in self.alarms:

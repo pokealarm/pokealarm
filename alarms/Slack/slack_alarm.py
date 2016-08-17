@@ -12,7 +12,6 @@ from ..utils import *
 #External modules
 from slacker import Slacker
 
-
 class Slack_Alarm(Alarm):
 
 	#Gather settings and create alarm
@@ -24,6 +23,7 @@ class Slack_Alarm(Alarm):
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
 		self.username = settings.get('username', "<pkmn>")
+		self.setup_map(settings.get('map', {}))
 		log.info("Slack Alarm intialized.")
 		self.post_message(
 			channel=self.channel,
@@ -64,21 +64,58 @@ class Slack_Alarm(Alarm):
 		return channel
 
 	#Post a message to channel
-	def post_message(self, channel, username, text, icon_url=None):
+	def post_message(self, channel, username, text, icon_url=None, map=None):
 		args = {
 			'channel': self.get_channel(channel),
 			'username': username,
 			'text': text,
-			'icon_url': icon_url
+			'icon_url': icon_url,
 		}
-		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
 		
+		if map is not None:
+			args['attachments'] = map
+			
+		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
 	
 	#Send Pokemon Info to Slack
 	def pokemon_alert(self, pkinfo):
 		channel = replace(self.channel, pkinfo)
-		username = replace(self.username, pkinfo),
-		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo)),
+		username = replace(self.username, pkinfo)
+		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo))
 		icon_url = 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/develop/static/icons/{}.png'.format(pkinfo['id'])
-		self.post_message(channel, username, text, icon_url)
+		map = self.get_map_url(pkinfo['lat'], pkinfo['lng'])
+		self.post_message(channel, username, text, icon_url, map)
+			
+	#Set stack map attributes
+	def setup_map(self, settings):
+		if parse_boolean(settings.get('enabled', "True")) is False:
+			self.map = None
+			return
+		width = settings.get('width', '250')
+		height = settings.get('height', '125')
+		maptype = settings.get('maptype', 'roadmap')
+		zoom = settings.get('zoom', '15')
+	
+		center = '<CENTER>'
+		query_center = 'center={}'.format(center)
+		query_markers =  'markers=color:red%7C{}'.format(center)
+		query_size = 'size={}x{}'.format(width, height)
+		query_zoom = 'zoom={}'.format(zoom)
+		query_maptype = 'maptype={}'.format(maptype)
+		
+		self.map = ('https://maps.googleapis.com/maps/api/staticmap?' +
+					query_center + '&' + query_markers + '&' +
+					query_maptype + '&' + query_size + '&' + query_zoom)
+	
+	# Build a query for a static map of the pokemon location
+	def get_map_url(self, lat, lng):
+		if self.map is None: #If no map is set
+			return None
+		map = [
+			{
+				'fallback': 'Map_Preview',
+				'image_url':  self.map.replace('<CENTER>', '{},{}'.format(lat,lng))
+			}
+		]
+		return map
 		

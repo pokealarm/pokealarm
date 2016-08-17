@@ -1,13 +1,19 @@
+#Setup Logging
 import logging
-
-import httplib, urllib
-from alarm import Alarm
-from utils import *
-
 log = logging.getLogger(__name__)
+
+#Python modules
+import httplib
+import urllib
+
+#Local modules
+from ..alarm import Alarm
+from ..utils import *
+
 
 class Pushover_Alarm(Alarm):
 	
+	#Gather settings and create alarm
 	def __init__(self, settings):
 		self.app_token = settings['app_token']
 		self.user_key = settings['user_key']
@@ -25,7 +31,8 @@ class Pushover_Alarm(Alarm):
 	#Empty - no reconnect needed
 	def connect(self):
 		pass
-		
+	
+	#Send pokemon alert to pushover	
 	def pokemon_alert(self, pkinfo):
 		args  = {
 			'message': replace(self.message, pkinfo),
@@ -34,7 +41,8 @@ class Pushover_Alarm(Alarm):
 			'url_title': replace(self.url_title, pkinfo)
 		}
 		try_sending(log, self.connect, "Pushover",  self.send_pushover, args)
-		
+	
+	#Generic send pushover
 	def send_pushover(self, message, title='PokeAlert', url=None, url_title="URL"):
 		##Establish connection
 		connection = httplib.HTTPSConnection("api.pushover.net:443", timeout=10)
