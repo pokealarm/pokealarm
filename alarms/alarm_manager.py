@@ -71,9 +71,9 @@ class Alarm_Manager(Thread):
 					if data['message']['encounter_id'] not in self.seen:
 						self.trigger_pkmn(data['message'])
 				elif data['type'] == 'pokestop' : 
-					log.debug("Pokestop notifications not yet implimented.")
+					log.debug("Pokestop notifications not yet implemented.")
 				elif data['type'] == 'pokegym' :
-					log.debug("Pokegym notifications not yet implimented.")
+					log.debug("Pokegym notifications not yet implemented.")
 			log.debug("Cleaning up 'seen' set...")
 			self.clear_stale();
 			
@@ -133,11 +133,11 @@ class Alarm_Manager(Thread):
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
-		raise NotImplementedError("This method is not yet implimented.")
+		raise NotImplementedError("This method is not yet implemented.")
 	
 	#Send a notifcation about pokemon gym detected
 	def notify_gyms(self, gyms):
-		raise NotImplementedError("This method is not yet implimented.")
+		raise NotImplementedError("This method is not yet implemented.")
 		
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):
