@@ -21,9 +21,11 @@ class Twitter_Alarm(Alarm):
 		self.con_secret = settings['consumer_key']
 		self.con_secret_key = settings['consumer_secret']
 		self.status = settings.get('status', "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>). <gmaps>")
+		self.tweet_at_init = settings.get('tweet_at_init', "True")
 		self.connect()
 		log.info("Twitter Alarm intialized.")
-		self.client.statuses.update(status="%s: PokeAlarm has intialized!" % datetime.utcnow().strftime("%H:%M:%S"))
+		if self.tweet_at_init != "False" :
+			self.client.statuses.update(status="%s: PokeAlarm has intialized!" % datetime.utcnow().strftime("%H:%M:%S"))
 	
 	#Establish connection with Twitter
 	def connect(self):
