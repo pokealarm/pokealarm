@@ -24,7 +24,7 @@ class Twitter_Alarm(Alarm):
 		self.startup_message = settings.get('startup_message', "True")
 		self.connect()
 		log.info("Twitter Alarm intialized.")
-		if self.startup_message != "False" :
+		if parse_boolean(self.startup_message):
 			self.client.statuses.update(status="%s: PokeAlarm has intialized!" % datetime.utcnow().strftime("%H:%M:%S"))
 	
 	#Establish connection with Twitter
