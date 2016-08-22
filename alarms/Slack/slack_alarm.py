@@ -82,7 +82,7 @@ class Slack_Alarm(Alarm):
 		channel = replace(self.channel, pkinfo)
 		username = replace(self.username, pkinfo)
 		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo))
-		icon_url = 'https://raw.githubusercontent.com/PokemonGoMap/PokemonGo-Map/develop/static/icons/{}.png'.format(pkinfo['id'])
+		icon_url = 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/{}.png'.format(pkinfo['id'])
 		map = self.get_map_url(pkinfo['lat'], pkinfo['lng'])
 		self.post_message(channel, username, text, icon_url, map)
 			
