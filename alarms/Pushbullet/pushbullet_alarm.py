@@ -21,8 +21,10 @@ class Pushbullet_Alarm(Alarm):
 		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.url = settings.get('url', "<gmaps>")
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
+		self.startup_message = settings.get('startup_message', "True")
 		log.info("Pushbullet Alarm intialized.")
-		push = self.sender.push_note("PokeAlarm activated!", "We will alert you about pokemon.")
+		if parse_boolean(self.startup_message):
+			push = self.sender.push_note("PokeAlarm activated!", "We will alert you about pokemon.")
 	
 	#(Re)establishes Pushbullet connection
 	def connect(self):

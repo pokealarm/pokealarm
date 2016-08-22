@@ -21,8 +21,10 @@ class Telegram_Alarm(Alarm):
 		self.send_map = parse_boolean(settings.get('send_map', "True"))
 		self.title = settings.get('title', "A wild <pkmn> has appeared!")
 		self.body = settings.get('body', "<gmaps> \n Available until <24h_time> (<time_left>).")
+		self.startup_message = settings.get('startup_message', "True")
 		log.info("Telegram Alarm intialized.")
-		self.client.sendMessage(self.chat_id, 'PokeAlarm activated! We will alert this chat about pokemon.')
+		if parse_boolean(self.startup_message):
+			self.client.sendMessage(self.chat_id, 'PokeAlarm activated! We will alert this chat about pokemon.')
 	
 	#(Re)establishes Telegram connection
 	def connect(self):
