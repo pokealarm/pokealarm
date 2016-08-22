@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 import sys
 import csv
 from sympy.geometry import Point, Polygon
+from sympy.core.cache import clear_cache
 
 class Geofence(object):	
 
@@ -36,7 +37,7 @@ class Geofence(object):
 
 	#Return true if x,y points are inside geofence
 	def contains(self, x, y):
-		if self.polygon is not None:
-			return self.polygon.encloses_point(Point(x,y))
-		else:
-			return True
+		rtn = self.polygon.encloses_point(Point(x,y, evaluate=False))
+		clear_cache()
+		return rtn
+
