@@ -4,14 +4,14 @@
 			"active":"False",
 			"type":"pushbullet",
 			"api_key":"YOUR_API_KEY",
-			"startup_message: "True"
+			"startup_message": "True"
 		},
 		{
 			"active": "False",
 			"type":"slack",
 			"api_key":"YOUR_API_KEY",
 			"channel":"#general",
-			"startup_message: "True"
+			"startup_message": "True"
 		},
 		{
 			"active": "False",
@@ -20,21 +20,21 @@
 			"auth_token":"YOUR_AUTH_TOKEN",
 			"from_number":"YOUR_FROM_NUM",
 			"to_number":"YOUR_TO_NUM",
-			"startup_message: "True"
+			"startup_message": "True"
 		},
 		{
 			"active": "True",
 			"type":"telegram",
 			"bot_token":"YOUR_BOT_TOKEN",
 			"chat_id":"YOUR_CHAT_ID",
-			"startup_message: "True"
+			"startup_message": "True"
 		},
 		{
 			"active": "False",
 			"type": "pushover",
 			"app_token": "YOUR_APP_TOKEN",
 			"user_key": "YOUR_USER_KEY",
-			"startup_message: "True"
+			"startup_message": "True"
 		},
 		{
 			"active": "False",
@@ -43,7 +43,7 @@
 			"access_secret": "YOUR_ACCESS_SECRET",
 			"consumer_key": "YOUR_CONSUMER_KEY",
 			"consumer_secret": "YOUR_CONSUMER_SECRET",
-			"startup_message: "True"
+			"startup_message": "True"
         }
 	],
 	"pokemon":{
