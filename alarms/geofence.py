@@ -30,7 +30,7 @@ class Geofence(object):
 			self.polygon = Polygon(p1, p2, p3, p4)
 			log.info(self.polygon)
 		elif len(points) > 2:
-			self.polygon = Polygon(points)
+			self.polygon = Polygon(*points)
 		log.debug(self.polygon)
 		log.info("Geofence established!")
 
