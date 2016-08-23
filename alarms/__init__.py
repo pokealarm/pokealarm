@@ -7,7 +7,8 @@ config = {
 	'ROOT_PATH': '',
 	'HOST':'127.0.0.1',
 	'PORT':'4000',
-	'SKIP_LURED':False
+	'SKIP_LURED':False,
+        'CONFIG_FILE': 'alarms.json'
 }
 
 from utils import  *

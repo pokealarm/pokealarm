@@ -37,6 +37,7 @@ def set_config(root_path):
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
 	parser.add_argument('-gf', '--geofence', help='Specify a file of coordinates, limiting alerts to within this area')
+	parser.add_argument('-cn', '--config', help='Config file. default: alarms.json', default='alarms.json')
 	parser.set_defaults(DEBUG=False)
 	
 	args = parser.parse_args()
@@ -46,6 +47,7 @@ def set_config(root_path):
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
+        config['CONFIG_FILE'] = args.config
 	
 	if args.location:
 		config['LOCATION'] =  get_pos_by_name(args.location)
