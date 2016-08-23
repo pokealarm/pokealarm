@@ -67,9 +67,10 @@ class Alarm_Manager(Thread):
 					if 'pokemon_id' not in data['message']:
 						log.debug("Invalid pokemon format - ignoring.")
 						break
-					log.debug("Request processed for #%s" % data['message']['pokemon_id'])
+					log.debug("Request processing for #%s" % data['message']['pokemon_id'])
 					if data['message']['encounter_id'] not in self.seen:
 						self.trigger_pkmn(data['message'])
+					log.debug("Finished processing for #%s" % data['message']['pokemon_id'])
 				elif data['type'] == 'pokestop' : 
 					log.debug("Pokestop notifications not yet implemented.")
 				elif data['type'] == 'pokegym' :
@@ -106,9 +107,10 @@ class Alarm_Manager(Thread):
 			return
         
 		#Check if the Pokemon is in the geofence
-		if 'GEOFENCE' in config and not config['GEOFENCE'].contains(lat,lng):
-			log.info(name + " ignored: outside geofence")
-			return
+		if 'GEOFENCE' in config:
+			if config['GEOFENCE'].contains(lat,lng) is not False:
+				log.info(name + " ignored: outside geofence")
+				return
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
