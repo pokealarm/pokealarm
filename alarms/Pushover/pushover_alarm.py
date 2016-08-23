@@ -25,8 +25,10 @@ class Pushover_Alarm(Alarm):
 			"Google Maps Link")
 		self.message = settings.get('message', 
 			"Available until <24h_time> (<time_left>).")
+		self.startup_message = settings.get('startup_message', "True")
 		log.info("Pushover Alarm intialized")
-		self.send_pushover("PokeAlarm has been activated! We will text this account about pokemon.")
+		if parse_boolean(self.startup_message):
+		    self.send_pushover("PokeAlarm has been activated! We will text this account about pokemon.")
 	
 	#Empty - no reconnect needed
 	def connect(self):

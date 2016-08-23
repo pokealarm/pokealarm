@@ -22,8 +22,10 @@ class Twilio_Alarm(Alarm):
 		self.to_num = settings['to_number']
 		self.message = settings.get('message', 
 			"A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).")
+		self.startup_message = settings.get('startup_message', "True")
 		log.info("Twilio Alarm intialized.")
-		self.send_sms("PokeAlarm has been activated! We will text this number about pokemon.")
+		if parse_boolean(self.startup_message):
+		    self.send_sms("PokeAlarm has been activated! We will text this number about pokemon.")
 	
 	#(Re)establishes Telegram connection
 	def connect(self):

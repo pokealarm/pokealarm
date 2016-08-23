@@ -24,12 +24,14 @@ class Slack_Alarm(Alarm):
 		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
 		self.username = settings.get('username', "<pkmn>")
 		self.setup_map(settings.get('map', {}))
+		self.startup_message = settings.get('startup_message', "True")
 		log.info("Slack Alarm intialized.")
-		self.post_message(
-			channel=self.channel,
-			username='PokeAlarm',
-			text='PokeAlarm activated! We will alert this channel about pokemon.'
-		)
+		if parse_boolean(self.startup_message):
+			self.post_message(
+				channel=self.channel,
+				username='PokeAlarm',
+				text='PokeAlarm activated! We will alert this channel about pokemon.'
+			)
 	
 	#Establish connection with Slack
 	def connect(self):
