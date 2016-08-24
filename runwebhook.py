@@ -1,6 +1,6 @@
 #Server imports
 from gevent import monkey; monkey.patch_all()
-from flask import Flask, request
+from flask import Flask, request, abort
 from gevent import wsgi
 
 #Set up logging
@@ -17,6 +17,7 @@ import Queue
 #Local Modules
 from alarms import config, set_config
 from alarms.alarm_manager import Alarm_Manager
+from alarms.utils import get_pos_by_name
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -32,6 +33,20 @@ def trigger_alert():
 	data = json.loads(request.data)
 	data_queue.put(data)
 	return ""
+	
+@app.route('/location/',methods=['GET'])
+def return_location():
+	return "Current location is %s" % config.get('LOCATION')
+	
+@app.route('/location/',methods=['POST'])
+def update_location():
+	try:
+		config['LOCATION'] = get_pos_by_name(request.args.get('location'))
+	except Exception as e:
+		log.error("Error changing location: %s" % e)
+		abort(400)
+	log.info("Location updated via POST request!")
+	return "Location changed to : %s" % config['LOCATION']
 
 if __name__ == '__main__':
 	#Parse arguments and set up config
