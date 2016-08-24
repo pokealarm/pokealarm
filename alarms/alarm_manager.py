@@ -61,7 +61,7 @@ class Alarm_Manager(Thread):
 	def run(self):
 		log.info("PokeAlarm has started! Your alarms should trigger now.")
 		while True:
-			for i in range(1000):
+			for i in range(5000): #Take a break and clean house every 5000 requests handled
 				data = self.queue.get(block=True)
 				self.queue.task_done()
 				if data['type'] == 'pokemon' :
@@ -121,15 +121,22 @@ class Alarm_Manager(Thread):
 			'lat' : "{}".format(lat),
 			'lng' : "{}".format(lng),
 			'gmaps': get_gmaps_link(lat, lng),
-			'dist': "%dm" % dist,
+			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng)
 		}
-		
+		log.info(config['UNITS'])
 		if config['REV_LOC']:
 			pkmn_info.update(**reverse_location(pkmn_info))
+		if config['DM_WALK']:
+			pkmn_info.update(**get_walking_data(pkmn_info))
+		if config['DM_BIKE']:
+			pkmn_info.update(**get_biking_data(pkmn_info))
+		if config['DM_DRIVE']:
+			pkmn_info.update(**get_driving_data(pkmn_info))
+			
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkmn_info)
 

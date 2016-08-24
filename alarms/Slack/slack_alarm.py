@@ -95,8 +95,8 @@ class Slack_Alarm(Alarm):
 		map = [
 			{
 				'fallback': 'Map_Preview',
-				'image_url':  self.map.replace('<lat>', lat).replace('<lng>', lng)
+				'image_url':  self.map.replace('<lat>', repr(lat)).replace('<lng>', repr(lng))
 			}
 		]
-		return map
 		
+		return map
