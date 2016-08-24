@@ -1,6 +1,6 @@
 Flask==0.11.1
 configargparse==0.10.0
 gevent==1.1.2
-geocoder==1.15.1
+googlemaps==2.4.4
 s2sphere==0.2.4
 sympy==1.0

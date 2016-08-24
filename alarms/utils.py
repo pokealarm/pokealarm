@@ -7,9 +7,9 @@ import os
 import json
 import configargparse
 import time
-import geocoder
 import sys
 import re
+import googlemaps
 from glob import glob
 from datetime import datetime, timedelta
 from math import radians, sin, cos, atan2, sqrt
@@ -33,12 +33,12 @@ def set_config(root_path):
 	parser = configargparse.ArgParser()
 	parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
 	parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
+	parser.add_argument('-k', '--key', help='Specify a Google Maps API Key to use.')
 	parser.add_argument('-l', '--location', type=parse_unicode, help='Location, can be an address or coordinates')
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
-	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true')
+	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true',  default=False)
 	parser.add_argument('-gf', '--geofence', help='Specify a file of coordinates, limiting alerts to within this area')
-	parser.add_argument('-cn', '--config', help='Config file. default: alarms.json', default='alarms.json')
-	parser.set_defaults(DEBUG=False)
+	parser.add_argument('-c', '--config', help='Config file. default: alarms.json', default='alarms.json')
 	
 	args = parser.parse_args()
 	
@@ -47,13 +47,18 @@ def set_config(root_path):
 	config['PORT'] = args.port
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
-        config['CONFIG_FILE'] = args.config
+	config['CONFIG_FILE'] = args.config
+	
+	if args.key:
+		config['GMAPS_CLIENT'] = googlemaps.Client(key=args.key)
 	
 	if args.location:
 		config['LOCATION'] =  get_pos_by_name(args.location)
 	
 	if args.geofence:
 		config['GEOFENCE'] = Geofence(os.path.join(root_path, args.geofence))
+		
+	config['REV_LOC'] = False
 	
 	return config
 
@@ -94,10 +99,41 @@ def get_pkmn_name(pokemon_id):
             get_pkmn_name.names = json.loads(f.read())
     return get_pkmn_name.names.get(str(pokemon_id)).encode("utf-8")
 
-#Returns a String representing the nearest address to a lng, lat	
-def get_nearest_location(lat, lng):
-	return geocoder.google([lat,lng], method='reverse')
-	 
+#Returns true if string contains an argument that requires 
+def set_optional_args(line):
+	rev_loc_args = { 'address', 'postal', 'neighborhood', 'sublocality', 'city', 'county', 'state', 'country' }
+	config['REV_LOC'] = config['REV_LOC'] or contains_arg(line, rev_loc_args) 
+	log.debug("REV_LOC set to %s" % config['REV_LOC'])
+
+#Returns true if any args are in line
+def contains_arg(line, args):
+	for word in args:
+		if ('<' + word + '>') in line:
+			return True
+	return False
+	
+#Returns information on location based on info	
+def reverse_location(info):
+	if 'GMAPS_CLIENT' not in config: #Check if key was provided
+			log.error("No Google Maps API key provided - unable to reverse geocode.")
+			return {}
+	lat, lng = info['lat'], info['lng']
+	result = config['GMAPS_CLIENT'].reverse_geocode((lat,lng))[0]
+	loc = {}
+	for item in result['address_components']:
+		for category in item['types']:
+			loc[category] = item['short_name']
+	details = {
+		'address': "%s %s" % (loc.get('street_number'), loc.get('route'),),
+		'postal': "%s" % (loc.get('postal_code')),
+		'neighborhood': loc.get('neighborhood'),
+		'sublocality': loc.get('sublocality'),
+		'city': loc.get('locality', loc.get('postal_town')), #try postal town if no city
+		'county': loc.get('administrative_area_level_2'),
+		'state': loc.get('administrative_area_level_1'),
+		'country': loc.get('country')
+	}
+	return details
 
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):
@@ -156,7 +192,7 @@ def get_timestamps(t):
 def replace(string, pkinfo):
 	s = string.encode('utf-8')
 	for key in pkinfo:
-		s = s.replace("<{}>".format(key), pkinfo[key])
+		s = s.replace("<{}>".format(key), str(pkinfo[key]))
 	return s
 
 #Get the latitude and longiture of a Place	
@@ -167,12 +203,40 @@ def get_pos_by_name(location_name):
 	if res:
 		latitude, longitude = float(res.group(1)), float(res.group(2))
 	elif location_name:
-		loc = geocoder.google(location_name)
-		log.info(loc)
-		if loc:
-			latitude, longitude = loc.lat, loc.lng
-
+		if 'GMAPS_CLIENT' not in config: #Check if key was provided
+			log.error("No Google Maps API key provided - unable to find location by name.")
+			return None
+		result = config['GMAPS_CLIENT'].geocode(location_name)
+		loc = result[0]['geometry']['location']
+		latitude, longitude = loc.get("lat"), loc.get("lng")
+	log.info("Location found: %f,%f" % (latitude, longitude))
 	return [latitude, longitude]
+
+#Returns a static map url with <lat> and <lng> parameters for dynamic test
+def get_static_map_url(settings):
+	if not parse_boolean(settings.get('enabled', 'True')):
+		return None
+	width = settings.get('width', '250')
+	height = settings.get('height', '125')
+	maptype = settings.get('maptype', 'roadmap')
+	zoom = settings.get('zoom', '15')
+
+	center = '<lat>,<lng>'
+	query_center = 'center={}'.format(center)
+	query_markers =  'markers=color:red%7C{}'.format(center)
+	query_size = 'size={}x{}'.format(width, height)
+	query_zoom = 'zoom={}'.format(zoom)
+	query_maptype = 'maptype={}'.format(maptype)
+	
+	map = ('https://maps.googleapis.com/maps/api/staticmap?' +
+				query_center + '&' + query_markers + '&' +
+				query_maptype + '&' + query_size + '&' + query_zoom)
+	
+	if 'API_KEY' in config:
+		map = map + ('&key=%s' % config['API_KEY'])
+		log.debug("API_KEY added to static map url.")
+	
+	return map
 
 #Attempts to send the alert with the specified args, reconnecting if neccesary	
 def try_sending(alarmLog, reconnect, name, send_alert, args):

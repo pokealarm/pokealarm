@@ -53,6 +53,7 @@ class Alarm_Manager(Thread):
 						self.alarms.append(Twitter_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
+					set_optional_args(str(alarm))
 				else:
 					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
 	
@@ -114,12 +115,9 @@ class Alarm_Manager(Thread):
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
-		loc = get_nearest_location(lat, lng)
-		pkinfo = {
+		pkmn_info = {
 			'id': str(pkmn_id),
  			'pkmn': name,
-			'addr': "%s %s" % (loc.housenumber, loc.street),
-			'postal': "%s" % (loc.postal),
 			'lat' : "{}".format(lat),
 			'lng' : "{}".format(lng),
 			'gmaps': get_gmaps_link(lat, lng),
@@ -130,8 +128,10 @@ class Alarm_Manager(Thread):
 			'dir': get_dir(lat,lng)
 		}
 		
+		if config['REV_LOC']:
+			pkmn_info.update(**reverse_location(pkmn_info))
 		for alarm in self.alarms:
-			alarm.pokemon_alert(pkinfo)
+			alarm.pokemon_alert(pkmn_info)
 
 	#Send a notication about pokemon lure found
 	def notify_lures(self, lures):
