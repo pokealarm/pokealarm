@@ -8,7 +8,7 @@ The following services are currently supported in this fork:
 * Slacker
 * Telegram 
 * Twilio (SMS)
-* blynk/ Hardware
+* blynk/ Hardware (proof of concept; still much to fix)
 
 ## Basic Setup
 
@@ -29,6 +29,12 @@ The following services are currently supported in this fork:
 
 
 ##Optional additional Setup for Hardware blynk Device
+This is how the device looks and should work
+![alt tag](https://github.com/DavidM42/PokeAlarm/blynk_hardware_extras/docu/backside.JPG)
+![alt tag](https://github.com/DavidM42/PokeAlarm/blynk_hardware_extras/docu/frontside_wait.JPG)
+![alt tag](https://github.com/DavidM42/PokeAlarm/blynk_hardware_extras/docu/frontside_detected.JPG)
+![alt tag](https://github.com/DavidM42/PokeAlarm/blynk_hardware_extras/docu/notification.png)
+![alt tag](https://github.com/DavidM42/PokeAlarm/blynk_hardware_extras/docu/gmaps.png)
 
 ###Hardware Needed:
 1. ESP8266 (best use ESP8266 dev boards with usb like wemos d1 mini or nodemcu)
