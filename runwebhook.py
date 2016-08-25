@@ -18,7 +18,7 @@ import Queue
 from alarms import config, set_config
 from alarms.alarm_manager import Alarm_Manager
 from alarms.utils import get_pos_by_name
-from alarms.utils import get_geofence_static_map
+from alarms.geofence import get_geofence_static_map
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -53,7 +53,7 @@ def update_location():
 def return_geofence():
 	geofence_url = get_geofence_static_map()
 	if geofence_url != False:
-		return '<img src="%s">' % (geofence_url)
+		return '<img src="{}">'.format(geofence_url)
 	else:
 		return 'No location or geofence set'
 

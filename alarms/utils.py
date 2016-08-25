@@ -247,32 +247,6 @@ def get_static_map_url(settings):
 	log.debug("Static Map URL: " + map)
 	return map
 
-# Gets the url of the currently set geofence and/or location 
-def get_geofence_static_map():
-	if 'GEOFENCE' not in config and ('LOCATION' not in config or config['LOCATION'] == None): # No location or Geofence set
-		return False
-
-	url_string = "https://maps.googleapis.com/maps/api/staticmap?size=600x600&maptype=roadmap"
-
-	#Draw polygon
-	if 'GEOFENCE' in config:
-		poly_string = "&path=color%3A0x0000ff80%7Cfillcolor%3A0x00000022%7Cweight%3A3"
-		vert = config['GEOFENCE'].polygon.vertices
-		for pt_lat, pt_lng in vert:
-			poly_string = poly_string + "|" + str(float(pt_lat)) + "," + str(float(pt_lng))
-		poly_string = poly_string + "|" + str(float(vert[0][0])) + "," + str(float(vert[0][1])) # Close polygon with first point
-		url_string = url_string + poly_string
-
-	#Draw point
-	if 'LOCATION' in config and config['LOCATION'] != None:
-		url_string = url_string + "&markers=color%3Ablue%7C%s,%s" % (config['LOCATION'][0], config['LOCATION'][1])
-
-	#Include API Key is specified
-	if 'API_KEY' in config:
-		url_string = url_string + "&key=" & conf
-
-	return url_string
-
 #Checks is a line contains any subsititions located in args
 def contains_arg(line, args):
 	for word in args:

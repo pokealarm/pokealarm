@@ -7,6 +7,9 @@ import sys
 import csv
 from sympy.geometry import Point, Polygon
 from sympy.core.cache import clear_cache
+from urllib import urlencode
+
+from . import config
 
 class Geofence(object):	
 
@@ -40,4 +43,36 @@ class Geofence(object):
 		rtn = self.polygon.encloses_point(Point(x,y, evaluate=False))
 		clear_cache()
 		return rtn
+
+# Gets the url of a static google map of the currently set geofence and/or location 
+def get_geofence_static_map():
+	geofence = config.get('GEOFENCE')
+	location = config.get('LOCATION')
+	api_key = config.get('API_KEY')
+	if geofence is None and location is None: # No location or Geofence set
+		return False
+
+	url_string = "https://maps.googleapis.com/maps/api/staticmap?size=600x600&maptype=roadmap"
+
+	#Draw polygon
+	if geofence is not None:
+		poly_string = "color:0x0000ff80|fillcolor:0x00000022|weight:3"
+		vert = geofence.polygon.vertices
+		for pt_lat, pt_lng in vert:
+			poly_string = poly_string + '|{!s},{!s}'.format(float(pt_lat),float(pt_lng))
+		poly_string = poly_string + '|{!s},{!s}'.format(float(vert[0][0]), float(vert[0][1])) # Close polygon with first point
+		url_string = url_string + '&' + urlencode({'path':poly_string})
+
+	#Draw location marker
+	if location is not None:
+		marker_string = 'fillcolor:blue|{!s},{!s}'.format(location[0], location[1])
+		url_string = url_string + '&' + urlencode({'markers':marker_string})
+
+	#Include API Key if specified
+	if api_key is not None:
+		url_string = url_string + "&key={}".format(api_key)
+	else:
+		print "API KEY not provided"
+
+	return url_string
 
