@@ -118,8 +118,8 @@ class Alarm_Manager(Thread):
 		pkmn_info = {
 			'id': str(pkmn_id),
  			'pkmn': name,
-			'lat' : "{}".format(lat),
-			'lng' : "{}".format(lng),
+			'lat' : "{}".format(repr(lat)),
+			'lng' : "{}".format(repr(lng)),
 			'gmaps': get_gmaps_link(lat, lng),
 			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
 			'time_left': timestamps[0],
@@ -127,7 +127,6 @@ class Alarm_Manager(Thread):
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng)
 		}
-		log.info(config['UNITS'])
 		if config['REV_LOC']:
 			pkmn_info.update(**reverse_location(pkmn_info))
 		if config['DM_WALK']:

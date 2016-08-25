@@ -85,18 +85,18 @@ class Slack_Alarm(Alarm):
 		username = replace(self.username, pkinfo)
 		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo))
 		icon_url = 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/{}.png'.format(pkinfo['id'])
-		map = self.get_map_url(pkinfo['lat'], pkinfo['lng'])
+		map = self.get_map(pkinfo)
 		self.post_message(channel, username, text, icon_url, map)
 
 	# Build a query for a static map of the pokemon location
-	def get_map_url(self, lat, lng):
+	def get_map(self, info):
 		if self.map is None: #If no map is set
 			return None
 		map = [
 			{
 				'fallback': 'Map_Preview',
-				'image_url':  self.map.replace('<lat>', repr(lat)).replace('<lng>', repr(lng))
+				'image_url':  replace(self.map, info)
 			}
 		]
-		
+		log.debug(map[0].get('image_url'))
 		return map

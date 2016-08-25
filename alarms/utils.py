@@ -81,6 +81,7 @@ def set_config(root_path):
 	config['UNITS'] = args.units
 	
 	if args.key:
+		config['API_KEY'] = key=args.key
 		config['GMAPS_CLIENT'] = googlemaps.Client(key=args.key)
 	
 	if args.location:
@@ -229,7 +230,7 @@ def get_static_map_url(settings):
 	maptype = settings.get('maptype', 'roadmap')
 	zoom = settings.get('zoom', '15')
 
-	center = '<lat>,<lng>'
+	center = '{},{}'.format('<lat>','<lng>')
 	query_center = 'center={}'.format(center)
 	query_markers =  'markers=color:red%7C{}'.format(center)
 	query_size = 'size={}x{}'.format(width, height)
@@ -243,7 +244,7 @@ def get_static_map_url(settings):
 	if 'API_KEY' in config:
 		map = map + ('&key=%s' % config['API_KEY'])
 		log.debug("API_KEY added to static map url.")
-	
+	log.debug("Static Map URL: " + map)
 	return map
 
 #Checks is a line contains any subsititions located in args
