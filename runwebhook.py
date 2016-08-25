@@ -18,6 +18,7 @@ import Queue
 from alarms import config, set_config
 from alarms.alarm_manager import Alarm_Manager
 from alarms.utils import get_pos_by_name
+from alarms.utils import get_geofence_static_map
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -47,6 +48,14 @@ def update_location():
 		abort(400)
 	log.info("Location updated via POST request!")
 	return "Location changed to : %s" % config['LOCATION']
+
+@app.route('/geofence/',methods=['GET'])
+def return_geofence():
+	geofence_url = get_geofence_static_map()
+	if geofence_url != False:
+		return '<img src="%s">' % (geofence_url)
+	else:
+		return 'No location or geofence set'
 
 if __name__ == '__main__':
 	#Parse arguments and set up config
