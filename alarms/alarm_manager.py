@@ -51,6 +51,9 @@ class Alarm_Manager(Thread):
 					elif alarm['type'] == 'twitter' :
 						from Twitter import Twitter_Alarm
 						self.alarms.append(Twitter_Alarm(alarm))
+					elif alarm['type'] == 'blynk' :
+						from blynk import blynk_alarm
+						self.alarms.append(blynk_alarm(alarm))	
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 					set_optional_args(str(alarm))
