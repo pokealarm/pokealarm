@@ -1,37 +1,14 @@
-# PokeAlarm
+# Fork of PokeAlarm with support for blynk
 
 PokeAlarm is a third party extension for [PokemonGo-Map](https://github.com/PokemonGoMap/PokemonGo-Map) that allows you to receive external notifications via the service of your choice.
 
-The following services are currently supported:
+The following services are currently supported in this fork:
 * Pushbullet
 * Pushover
 * Slacker
 * Telegram 
 * Twilio (SMS)
-
-If you are experiencing issues with the alarm or would like to see new features, please open a ticket here on github. Make sure you use the supplied issue template, or else your issue will be ignored.
-
-## Upcoming Features
-
-PokeAlarm is still under development. However, as I'm sure many have noticed, updates have slowed down. Between school, work, and a few other big life events quickly approching, my time to work on this project has taken a drastic dive. However, I still plan to add updates and support when I can. If you are interested in helping out, please contact me via the discord channel.
- 
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5W9ZTLMS5NB28&lc=US&item_name=PokeAlarm&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)    
-
-## Common Problems
-
-### Windows: socket.error: [Errno 10053] An established connection was aborted by the software in your host machine OR Linux: socket.error: [Errno 32] Broken pipe
-
-This problem is an issue with the PokemonGo-Map. The Map sends the POST request but does not leave proper time for the server to respond. Because of the setup of Flask, this error seems to be impossible for me to fix. You can either make a pull of my fixed version [here](https://github.com/kvangent/PokemonGo-Map/tree/time_fix) or you can apply the following changes yourself: 
-
-Go to PokemonGo-Map/pgom/utils.py and find the line `requests.post(w, json=data, timeout=(None, 1))`. Change to `requests.post(w, json=data, timeout=(None, 5))`. If you still experience the problem with 5, try to up it to 10. This should fix the problem for you.
-
-### Problems with receiving in UTC time or Notifications not sending because time_left has passed.
-
-This is a problem with the PokemonGo-Map sending an object with UTC time listed as a native time object. I have corrected the mistake in my fork [here](https://github.com/kvangent/PokemonGo-Map/tree/time_fix) or you can apply the following changes yourself: 
-
-1. Change the line (4-5) 'import time' to `import calendar`. 
-2. Change the line (269ish) `'disappear_time': time.mktime(d_t.timetuple()).` to `'disappear_time': calendar.timegm(d_t.timetuple())`
+* blynk
 
 ## Setup
 
@@ -48,20 +25,3 @@ This is a problem with the PokemonGo-Map sending an object with UTC time listed 
 6. When you start the PokemonGo-Map, add the argument `-wh http://127.0.0.1:4000` (with the host and port that the webhook is running on). You may also set this up in PokemonGo-Map's config.ini (just make sure you remove the hashtag and don't use quotations). 
 
 7. If your PokeAlert process is receiving hits, you are all set! Go catch 'em all!
-
-## FAQ
-
-Q. Which version of PokemonGo-Map do I need?
-A. Either dev or master, both have included webhook support. This program is an extension, so we can update one without affecting the other. The master branch is more stable, so I would recommend that. 
-
-Q. Will you be adding support for XXX?
-A. Open a ticket with a link to the service API you are interested in and I will see what I can do.
-
-Q. Man I wish this could do XXX!
-A. Open an issue request and I will look into it. (Or do it yourself and open a pull request)
-
-Q. I am receiving XXX error from PokemonGo-Map! What do?
-A. Checkout the [PokemonGo-Map Wiki](https://github.com/PokemonGoMap/PokemonGo-Map/wiki) or the reddit thread to see if anyone has any suggestions for you.
-
-Q. I am receiving error about JSON input from PokeAlarm?
-A. If you are a Windows user, stop using notepad and start using Notepad++. Make a fresh copy of the alarms.json and remake your changes. If you aren't a Windows user (or you are already using Notepad++) check your JSON format with a JSON formatter for issues.
