@@ -256,7 +256,7 @@ def get_geofence_static_map():
 
 	#Draw polygon
 	if 'GEOFENCE' in config:
-		poly_string = "&path=color%3A0x0000ff80%7Cfillcolor%3A0xFFFF0033%7Cweight%3A5"
+		poly_string = "&path=color%3A0x0000ff80%7Cfillcolor%3A0x00000022%7Cweight%3A3"
 		vert = config['GEOFENCE'].polygon.vertices
 		for pt_lat, pt_lng in vert:
 			poly_string = poly_string + "|" + str(float(pt_lat)) + "," + str(float(pt_lng))
