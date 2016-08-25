@@ -28,19 +28,21 @@ The following services are currently supported in this fork:
 
 
 
-Optional additional Setup for Hardware blynk Device
+##Optional additional Setup for Hardware blynk Device
 
-Hardware Needed:
+###Hardware Needed:
 1. ESP8266 (best use ESP8266 dev boards with usb like wemos d1 mini or nodemcu)
 2. pushbutton or touch button
-3. SparkFun Micro OLED Breakout or if you use a wemos 1 mini you could use the oled shield like I did
+3. [SparkFun Micro OLED Breakout](https://www.sparkfun.com/products/13003) or if you use a wemos 1 mini you could use the oled shield like I did
 (other oleds screen should work to but require some knowledge and adjustment to the code and librarys used)
+
+### setup of hardware and plugins
 
 1. Open up your blynk app for ios/android and create a new project. As hardware set ESP8266 and send the api key to your email adress.
 
-2. Edit your alarms.json, set blynk to true, put in the Blynk api Key you sent to your Email, optionally edit the search radius you desire (tipps for this in the alarms.json.editors_choice) and don't forget to set some Pokemon to true but not too much so your Hardware don't overflows.
+2. Edit your `alarms.json`, set blynk to true, put in the Blynk api Key you sent to your Email, optionally edit the search radius you desire (tipps for this in the `alarms.json.editors_choice`) and don't forget to set some Pokemon to true, but not too many so your Hardware won't overflows.
 
-3. You need to install two libraries into the Arduino IDE first you need the blynk library from here http://www.blynk.cc/getting-started/ and then you need a modified version of the sparkfun oled library from here https://github.com/EdwinRobotics/ER_Micro_OLED_Arduino_Library
+3. You need to install two libraries into the Arduino IDE first you need the [Blynk Arduino library](http://www.blynk.cc/getting-started/) and then you need a [modified version of the sparkfun oled library](https://github.com/EdwinRobotics/ER_Micro_OLED_Arduino_Library)
 
 4. Connect your ESP8266 per usb serial com device or esp8266 development boards (like the by wemos d1 mini used by me) to load the Arduino sketch onto the hardware.
    
@@ -48,8 +50,8 @@ Hardware Needed:
 
 6. Connect a push button to the Pin defined in the arduino sketch.
 
-7. Set up a Web server with php activated (there are many tutorials out there for apache2 or lighttpd) and copy the gps.php and gps.txt to /var/www/html. Change the permissions of gps.txt to owner modify, group and user read and on a command line sudo chown www-data:www-data gps.txt    
+7. Set up a Web server with php activated (there are many tutorials out there for apache2 or lighttpd) and copy the `gps.php` and `gps.txt` to `/var/www/html`. Change the permissions of` gps.txt` to owner modify, group and user read and on a command line `sudo chown www-data:www-data gps.txt`    
 
-8. Install the gps logger app for android (https://play.google.com/store/apps/details?id=com.mendhak.gpslogger) or any app, that can send your gps to http://YOURSERVER/gps.php?lat=%LAT&long=%LON 
+8. Install the gps logger app for android (https://play.google.com/store/apps/details?id=com.mendhak.gpslogger) or any app, that can send your gps to `http://YOURSERVER/gps.php?lat=%LAT&long=%LON`
 
 9. On your phone set up a Mobile Hotspot with the SSID and password you defined in the Arduino sketch
