@@ -1,6 +1,6 @@
 *.pyc
 coords.txt
-config.ini
+config/config.ini
 
 # ignore multiple configuration files and possible startup scripts
 /*.json
