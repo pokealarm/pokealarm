@@ -103,7 +103,7 @@ class Alarm_Manager(Thread):
 		dist = get_dist([lat, lng])
 		if dist >= self.notify_list[pkmn_id]:
 			log.info(name + " ignored: outside range")
-			log.debug("Pokemon must be less than %f, but was %f." % (self.notify_list[pkmn_id]), dist)
+			log.debug("Pokemon must be less than %f, but was %f." % (self.notify_list[pkmn_id], dist))
 			return
         
 		#Check if the Pokemon is in the geofence
