@@ -46,6 +46,7 @@ class Telegram_Alarm(Alarm):
 			locargs = { 
 				'chat_id': self.chat_id,
 				'latitude': pkinfo['lat'],
-				'longitude':  pkinfo['lng']
+				'longitude':  pkinfo['lng'],
+				'disable_notification': 'False'
 			}
 			try_sending(log, self.connect, "Telegram (loc)", self.client.sendLocation, locargs)
