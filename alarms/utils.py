@@ -66,19 +66,21 @@ def set_config(root_path):
 	parser.add_argument('-c', '--config', help='Alarms configuration file. default: alarms.json', default='alarms.json')
 	parser.add_argument('-l', '--location', type=parse_unicode, help='Location, can be an address or coordinates')
 	parser.add_argument('-L', '--locale', help='Locale for Pokemon names: default en, check locale folder for more options', default='en')
-	parser.add_argument('-gf', '--geofence', help='Specify a file of coordinates, limiting alerts to within this area')
 	parser.add_argument('-u' , '--units',  help='Specify either metric or imperial . Default: metric', choices=['metric', 'imperial'], default='metric')
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true',  default=False)
+	parser.add_argument('-gf', '--geofence', help='Specify a file of coordinates, limiting alerts to within this area')
+	parser.add_argument('-tl', '--timelimit', type=int, help='Minimum number of seconds remaining on a pokemon to notify', default=0)
 	
 	args = parser.parse_args()
 	
 	config['ROOT_PATH'] = root_path
 	config['HOST'] = args.host
 	config['PORT'] = args.port
+	config['CONFIG_FILE'] = args.config
 	config['LOCALE'] = args.locale
 	config['DEBUG'] = args.debug
-	config['CONFIG_FILE'] = args.config
 	config['UNITS'] = args.units
+	config['TIME_LIMIT'] = args.timelimit
 	
 	if args.key:
 		config['API_KEY'] = key=args.key

@@ -88,8 +88,10 @@ class Alarm_Manager(Thread):
 		name = get_pkmn_name(pkmn_id)
 		
 		#Check if the Pokemon has already expired
-		if dissapear_time < datetime.utcnow() :
-			log.info(name + " ignore: time_left has passed.")
+		seconds_left = (dissapear_time - datetime.utcnow()).total_seconds()
+		if seconds_left < config['TIME_LIMIT'] :
+			log.info(name + " ignore: not enough time remaining.")
+			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
 			return
 		
 		#Check if Pokemon is on the notify list
@@ -103,7 +105,7 @@ class Alarm_Manager(Thread):
 		dist = get_dist([lat, lng])
 		if dist >= self.notify_list[pkmn_id]:
 			log.info(name + " ignored: outside range")
-			log.debug("Pokemon must be less than %f, but was %f." % (self.notify_list[pkmn_id], dist))
+			log.debug("Pokemon must be less than %d, but was %d." % (self.notify_list[pkmn_id], dist))
 			return
         
 		#Check if the Pokemon is in the geofence
