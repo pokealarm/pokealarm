@@ -1,3 +1,7 @@
 *.pyc
-alarms.json
 coords.txt
+
+# ignore multiple configuration files and possible startup scripts
+/*.json
+/*.bat
+/*.sh
