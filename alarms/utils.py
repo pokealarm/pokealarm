@@ -30,6 +30,11 @@ def parse_boolean(val):
 	if b in {'t', 'true', 'y', 'yes'}:
 		return True
 	return False
+	
+def get_path(path):
+	if not os.path.isabs(path): #If not absolute path
+		path = os.path.join(config['ROOT_PATH'], path)
+	return path
 
 #Attempts to send the alert with the specified args, reconnecting if neccesary	
 def try_sending(alarmLog, reconnect, name, send_alert, args):
@@ -59,7 +64,8 @@ def pip_install(module, version):
 
 ########################## CONFIG UTILITIES #########################	
 def set_config(root_path):
-	configpath = os.path.join(os.path.dirname(__file__), '../config/config.ini')
+	config['ROOT_PATH'] = root_path
+	configpath = get_path('config/config.ini')
 	parser = configargparse.ArgParser(default_config_files=[configpath])
 	parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
 	parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
@@ -74,7 +80,6 @@ def set_config(root_path):
 	
 	args = parser.parse_args()
 	
-	config['ROOT_PATH'] = root_path
 	config['HOST'] = args.host
 	config['PORT'] = args.port
 	config['CONFIG_FILE'] = args.config

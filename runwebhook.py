@@ -58,6 +58,13 @@ def return_geofence():
 		return 'No location or geofence set'
 
 if __name__ == '__main__':
+	#Standard Logging
+	log.setLevel(logging.INFO)
+	logging.getLogger('alarms').setLevel(logging.INFO)
+	logging.getLogger('requests').setLevel(logging.WARNING)
+	logging.getLogger('pywsgi').setLevel(logging.WARNING)
+	logging.getLogger('connectionpool').setLevel(logging.WARNING)
+	
 	#Parse arguments and set up config
 	config = set_config(os.path.abspath(os.path.dirname(__file__)))
 	
@@ -65,15 +72,10 @@ if __name__ == '__main__':
 	if config['DEBUG']:
 		log.info("Debug mode activated!")
 		log.setLevel(logging.DEBUG)
-		logging.getLogger('requests').setLevel(logging.DEBUG)
 		logging.getLogger('flask').setLevel(logging.DEBUG)
 		logging.getLogger('pywsgi').setLevel(logging.DEBUG)
-	else:
-		log.setLevel(logging.INFO)
-		logging.getLogger('requests').setLevel(logging.WARNING)
-		logging.getLogger('alarms').setLevel(logging.INFO)
-		logging.getLogger('pywsgi').setLevel(logging.WARNING)
-	
+		logging.getLogger('requests').setLevel(logging.DEBUG)
+
 	#Start up Alarm_Manager
 	alarm_thread = Alarm_Manager(data_queue)
 	alarm_thread.start()

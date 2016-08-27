@@ -19,8 +19,7 @@ class Alarm_Manager(Thread):
 		#Intialize as Thread
 		super(Alarm_Manager, self).__init__()
 		#Import settings from Alarms.json
-		filepath = config['ROOT_PATH']
-		with open(os.path.join(filepath, config['CONFIG_FILE'])) as file:
+		with open(get_path(config['CONFIG_FILE'])) as file:
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
 			self.notify_list = make_notify_list(settings["pokemon"])
