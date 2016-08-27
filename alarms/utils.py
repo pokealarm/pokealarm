@@ -59,7 +59,7 @@ def pip_install(module, version):
 
 ########################## CONFIG UTILITIES #########################	
 def set_config(root_path):
-	configpath = os.path.join(os.path.dirname(__file__), '../config.ini')
+	configpath = os.path.join(os.path.dirname(__file__), '../config/config.ini')
 	parser = configargparse.ArgParser(default_config_files=[configpath])
 	parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
 	parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
