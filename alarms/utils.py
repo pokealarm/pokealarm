@@ -105,7 +105,7 @@ def set_config(root_path):
 		log.info("Timezone set to: %s" % args.timezone)
 	except pytz.exceptions.UnknownTimeZoneError:
 		log.error("Invalid timezone. For a list of valid timezones, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
-		sys.exit(0)
+		sys.exit(1)
 		
 	config['REV_LOC'] = False
 	config['DM_WALK'] = False
@@ -212,7 +212,7 @@ def get_timestamps(t):
 	(h, m) = divmod(m, 60)
 	d = timedelta(hours = h, minutes = m, seconds = s)
 	disappear_time = datetime.now() + d
-        disappear_time = disappear_time.replace(tzinfo=pytz.utc).astimezone(config.get("TIMEZONE"))
+	disappear_time = disappear_time.replace(tzinfo=pytz.utc).astimezone(config.get("TIMEZONE"))
 	time_left = "%dm %ds" % (m, s)
 	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower() + disappear_time.strftime(" %Z")
 	time_24 = disappear_time.strftime("%H:%M:%S%Z")
