@@ -215,7 +215,7 @@ def get_timestamps(t):
 	disappear_time = disappear_time.replace(tzinfo=pytz.utc).astimezone(config.get("TIMEZONE"))
 	time_left = "%dm %ds" % (m, s)
 	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower() + disappear_time.strftime(" %Z")
-	time_24 = disappear_time.strftime("%H:%M:%S%Z")
+	time_24 = disappear_time.strftime("%H:%M:%S %Z")
 	return (time_left, time_12, time_24)
 	
 #########################################################################
