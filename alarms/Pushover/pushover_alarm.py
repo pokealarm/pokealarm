@@ -34,10 +34,10 @@ class Pushover_Alarm(Alarm):
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		
 		#Connect and send startup message
-		log.info("Pushover Alarm intialized")
 		if parse_boolean(self.startup_message):
 		    self.send_pushover("PokeAlarm has been activated! We will alert this channel about pokemon.")
-	
+		log.info("Pushover Alarm intialized")
+		
 	#(Re)establishes Pushover connection
 	def connect(self):
 		#Empty - no reconnect needed

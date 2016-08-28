@@ -36,13 +36,13 @@ class Slack_Alarm(Alarm):
 		
 		#Connect and send startup message
 		self.connect()
-		log.info("Slack Alarm intialized.")
 		if parse_boolean(self.startup_message):
 			self.client.chat.post_message(
 				channel=self.pokemon['channel'],
 				username='PokeAlarm',
 				text='PokeAlarm activated! We will alert this channel about pokemon.'
 			)
+		log.info("Slack Alarm intialized.")
 
 	#Establish connection with Slack
 	def connect(self):

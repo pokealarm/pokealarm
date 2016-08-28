@@ -32,9 +32,9 @@ class Pushbullet_Alarm(Alarm):
 		
 		#Connect and send startup message
 		self.connect()
-		log.info("Pushbullet Alarm intialized.")
 		if parse_boolean(self.startup_message):
 			push = self.pokemon['sender'].push_note("PokeAlarm activated!", "We will alert you about pokemon.")
+		log.info("Pushbullet Alarm intialized.")
 	
 	#Attempt to get the channel, otherwise default to all devices
 	def get_sender(self, client, channel_tag):
