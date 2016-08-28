@@ -23,9 +23,11 @@ class Pushbullet_Alarm(Alarm):
 	
 	#Gather settings and create alarm
 	def __init__(self, settings):
+		#Service Info
 		self.api_key = settings['api_key']
+		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-		
+		#Connect and send startup message
 		self.connect()
 		self.startup_message = settings.get('startup_message', "True")
 		log.info("Pushbullet Alarm intialized.")

@@ -10,6 +10,12 @@ log = logging.getLogger(__name__)
 
 class Alarm(object):
 	
+	_defaults = {
+		"pokemon":{},
+		"lures":{},
+		"gyms":{}		
+	}
+	
 	#Gather settings and create alarm
 	def __init__(self):
 		raise NotImplementedError("This is an abstract method.")
