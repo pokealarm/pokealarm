@@ -20,6 +20,7 @@ class Twilio_Alarm(Alarm):
 			'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).",
 		}
 	}
+	
 	#Gather settings and create alarm
 	def __init__(self, settings):
 		#Service Info
