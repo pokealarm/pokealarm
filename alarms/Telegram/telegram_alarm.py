@@ -15,7 +15,7 @@ class Telegram_Alarm(Alarm):
  	
 	_defaults = {
 		'pokemon':{
-			'chat_id':None,
+			#'chat_id': Required
 			'title': "A wild <pkmn> has appeared!",
 			'body': "<gmaps> \n Available until <24h_time> (<time_left>).",
 			'location': "True"
@@ -26,6 +26,7 @@ class Telegram_Alarm(Alarm):
 	def __init__(self, settings):
 		#Service Info
 		self.bot_token = settings['bot_token']
+		settings.chat_id = settings.get('chat_id')
 		self.startup_message = settings.get('startup_message', "True")
 		
 		#Set Alerts
@@ -44,8 +45,7 @@ class Telegram_Alarm(Alarm):
 	#Set the appropriate settings for each alert
 	def set_alert(self, settings, default):
 		alert = {}
-		
-		alert['chat_id'] = settings['chat_id']
+		alert['chat_id'] = settings.get('chat_id', self.chat_id)
 		
 		alert['title'] = settings.get('title', default['title'])
 		alert['body'] = settings.get('body', default['body'])
