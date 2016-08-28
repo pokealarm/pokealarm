@@ -14,29 +14,70 @@ from slacker import Slacker
 
 class Slack_Alarm(Alarm):
 
+	_defaults = {
+		'pokemon':{
+			'channel':"general",
+			'username':"<pkmn>",
+			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
+			'title':"A wild <pkmn> has appeared!",
+			'url':"<gmaps>",
+			'body': "Available until <24h_time> (<time_left>)."
+		}
+	}
+	
 	#Gather settings and create alarm
 	def __init__(self, settings):
+		#Service Info
 		self.api_key = settings['api_key']
-		self.connect()
-		self.channel = settings.get('channel', "general")
-		self.title = settings.get('title', "A wild <pkmn> has appeared!")
-		self.url = settings.get('url', "<gmaps>")
-		self.body = settings.get('body', "Available until <24h_time> (<time_left>).")
-		self.username = settings.get('username', "<pkmn>")
-		self.map = get_static_map_url(settings.get('map', {}))
 		self.startup_message = settings.get('startup_message', "True")
+		
+		#Set Alerts
+		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
+		
+		#Connect and send startup message
+		self.connect()
 		log.info("Slack Alarm intialized.")
 		if parse_boolean(self.startup_message):
-			self.post_message(
-				channel=self.channel,
+			self.client.chat.post_message(
+				channel=self.pokemon['channel'],
 				username='PokeAlarm',
 				text='PokeAlarm activated! We will alert this channel about pokemon.'
 			)
-	
+
 	#Establish connection with Slack
 	def connect(self):
 		self.client = Slacker(self.api_key)
 		self.update_channels()
+	
+	#Set the appropriate settings for each alert
+	def set_alert(self, settings, default):
+		alert = {}
+		alert['channel'] = settings.get('channel', default['channel'])
+		alert['username'] = settings.get('title', default['title'])
+		alert['icon_url'] = settings.get('icon_url', default['icon_url'])
+		alert['title'] = settings.get('title', default['title'])
+		alert['url'] = settings.get('url', default['url'])
+		alert['body'] = settings.get('body', default['body'])
+		
+		alert['map'] = get_static_map_url(settings.get('map',{}))
+		
+		return alert
+
+	#Send Alert to Slack
+	def send_alert(self, alert, info):		
+		args = {
+			'channel': self.get_channel(replace(alert['channel'], info)),
+			'username': replace(alert['username'], info),
+			'text': '<{}|{}> - {}'.format(replace(alert['url'], info),  replace(alert['title'], info) , replace(alert['body'], info)),
+			'icon_url': replace(alert['icon_url'], info),
+			'attachments': self.make_map(alert['map'], info['lat'], info['lng'])
+		}
+			
+		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
+		
+	#Trigger an alert based on Pokemon info
+	def pokemon_alert(self, pokemon_info):
+		self.send_alert(self.pokemon, pokemon_info)
 	
 	#Update channels list
 	def update_channels(self):
@@ -49,14 +90,6 @@ class Slack_Alarm(Alarm):
 			self.channels.add(channel['name'])
 		log.debug(self.channels)
 	
-	#Returns a string s that is in proper channel format
-	def channel_format(self, name):
-		if name[0] == '#': #Remove # if added 
-			name = name[1:]
-		name = name.replace(u"\u2642", "m").replace(u"\u2640", "f").lower()
-		pattern = re.compile("[^a-z0-9-]+")
-		return pattern.sub("", name)
-	
 	#Checks for valid channel, otherwise defaults to general
 	def get_channel(self, name):
 		channel = self.channel_format(name)
@@ -64,38 +97,24 @@ class Slack_Alarm(Alarm):
 			log.debug("No channel created named %s... Posting to general instead." % channel)
 			return "#general"
 		return channel
-
-	#Post a message to channel
-	def post_message(self, channel, username, text, icon_url=None, map=None):
-		args = {
-			'channel': self.get_channel(channel),
-			'username': username,
-			'text': text,
-			'icon_url': icon_url,
-		}
-		
-		if map is not None:
-			args['attachments'] = map
-			
-		try_sending(log, self.connect, "Slack", self.client.chat.post_message, args)
 	
-	#Send Pokemon Info to Slack
-	def pokemon_alert(self, pkinfo):
-		channel = replace(self.channel, pkinfo)
-		username = replace(self.username, pkinfo)
-		text = '<{}|{}> {}'.format(replace(self.url, pkinfo),  replace(self.title, pkinfo) , replace(self.body, pkinfo))
-		icon_url = 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/{}.png'.format(pkinfo['id'])
-		map = self.get_map(pkinfo)
-		self.post_message(channel, username, text, icon_url, map)
+	#Returns a string s that is in proper channel format
+	def channel_format(self, name):
+		if name[0] == '#': #Remove # if added 
+			name = name[1:]
+		name = name.replace(u"\u2642", "m").replace(u"\u2640", "f").lower()
+		pattern = re.compile("[^a-z0-9-]+")
+		return pattern.sub("", name)
 
+		
 	# Build a query for a static map of the pokemon location
-	def get_map(self, info):
-		if self.map is None: #If no map is set
+	def make_map(self, map_url, lat, lng):
+		if map_url is None: #If no map is set
 			return None
 		map = [
 			{
 				'fallback': 'Map_Preview',
-				'image_url':  replace(self.map, info)
+				'image_url':  replace(map_url, {'lat':lat, 'lng':lng} )
 			}
 		]
 		log.debug(map[0].get('image_url'))

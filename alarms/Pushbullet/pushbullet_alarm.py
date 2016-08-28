@@ -25,11 +25,13 @@ class Pushbullet_Alarm(Alarm):
 	def __init__(self, settings):
 		#Service Info
 		self.api_key = settings['api_key']
+		self.startup_message = settings.get('startup_message', "True")
+		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
+		
 		#Connect and send startup message
 		self.connect()
-		self.startup_message = settings.get('startup_message', "True")
 		log.info("Pushbullet Alarm intialized.")
 		if parse_boolean(self.startup_message):
 			push = self.pokemon['sender'].push_note("PokeAlarm activated!", "We will alert you about pokemon.")
@@ -56,12 +58,9 @@ class Pushbullet_Alarm(Alarm):
 		alert['body'] = settings.get('body', default['body'])
 		alert['channel'] = settings.get('channel')
 		return alert
-		
-	#Trigger an alert based on Pokemon info
-	def pokemon_alert(self, pokemon_info):
-		self.send_alert(self.pokemon, pokemon_info)
-		
-	#Send Alert to the Pushbullet
+	
+			
+	#Send Alert to Pushbullet
 	def send_alert(self, alert, info):
 		args = {
 			'title': replace(alert['title'], info),
@@ -70,8 +69,6 @@ class Pushbullet_Alarm(Alarm):
 		}
 		try_sending(log, self.connect, "PushBullet", alert['sender'].push_link, args)
 		
-
-		
-
-		
-	
+	#Trigger an alert based on Pokemon info
+	def pokemon_alert(self, pokemon_info):
+		self.send_alert(self.pokemon, pokemon_info)

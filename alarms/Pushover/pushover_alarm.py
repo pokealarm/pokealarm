@@ -28,30 +28,15 @@ class Pushover_Alarm(Alarm):
 		#Service Info
 		self.app_token = settings['app_token']
 		self.user_key = settings['user_key']
+		self.startup_message = settings.get('startup_message', "True")
+		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
+		
 		#Connect and send startup message
-		self.startup_message = settings.get('startup_message', "True")
 		log.info("Pushover Alarm intialized")
 		if parse_boolean(self.startup_message):
 		    self.send_pushover("PokeAlarm has been activated! We will alert this channel about pokemon.")
-	
-	#Generic send pushover
-	def send_pushover(self, message, title='PokeAlert', url=None, url_title=None):
-		##Establish connection
-		connection = httplib.HTTPSConnection("api.pushover.net:443", timeout=10)
-		payload = {"token": self.app_token, 
-				"user": self.user_key, 
-				"title": title,
-				"message": message}	
-		if url is not None:
-			payload['url'] = url
-			payload['url_title'] = url_title
-		connection.request("POST", "/1/messages.json", urllib.urlencode(payload), 
-			{"Content-Type": "application/x-www-form-urlencoded"})
-		r = connection.getresponse()
-		if r.status != 200:
-			raise httplib.HTTPException("Response not 200")
 	
 	#(Re)establishes Pushover connection
 	def connect(self):
@@ -80,6 +65,21 @@ class Pushover_Alarm(Alarm):
 			'url_title': replace(alert['url_title'], info)
 		}
 		try_sending(log, self.connect, "Pushover",  self.send_pushover, args)
-	
 
-		
+			
+	#Generic send pushover
+	def send_pushover(self, message, title='PokeAlert', url=None, url_title=None):
+		#Establish connection
+		connection = httplib.HTTPSConnection("api.pushover.net:443", timeout=10)
+		payload = {"token": self.app_token, 
+				"user": self.user_key, 
+				"title": title,
+				"message": message}	
+		if url is not None:
+			payload['url'] = url
+			payload['url_title'] = url_title
+		connection.request("POST", "/1/messages.json", urllib.urlencode(payload), 
+			{"Content-Type": "application/x-www-form-urlencoded"})
+		r = connection.getresponse()
+		if r.status != 200:
+			raise httplib.HTTPException("Response not 200")
