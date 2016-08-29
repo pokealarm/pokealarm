@@ -40,6 +40,7 @@
 			"consumer_secret": "YOUR_CONSUMER_SECRET"
         }
 	],
+	"pokestops":"True",
 	"pokemon":{
 		"Bulbasaur":"False",
 		"Ivysaur":"False",

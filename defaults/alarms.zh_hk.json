@@ -1,6 +1,7 @@
 {
 	"alarms":[
 	],
+	"pokestops":"True",
 	"pokemon":{
 		"奇異種子":"False",
 		"奇異草":"False",

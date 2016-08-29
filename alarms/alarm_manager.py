@@ -72,7 +72,8 @@ class Alarm_Manager(Thread):
 					log.debug("Finished processing for Pokemon #%s" % data['message']['pokemon_id'])
 				elif data['type'] == 'pokestop' : 
 					log.debug("Request processing for Pokestop #%s" % data['message']['pokestop_id'])
-					self.trigger_pokestop(data['message'])
+					if self.notify_list['pokestops'] is not None:
+						self.trigger_pokestop(data['message'])
 					log.debug("Finished processing for Pokestop #%s" % data['message']['pokestop_id'])
 				elif data['type'] == 'pokegym' :
 					log.debug("Pokegym notifications not yet implemented.")
