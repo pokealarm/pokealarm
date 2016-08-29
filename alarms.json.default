@@ -16,7 +16,7 @@
 			"type":"slack",
 			"api_key":"YOUR_API_KEY"
 		},
-				{
+		{
 			"active": "False",
 			"type":"telegram",
 			"bot_token":"YOUR_BOT_TOKEN",
