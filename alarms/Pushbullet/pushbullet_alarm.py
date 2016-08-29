@@ -42,15 +42,6 @@ class Pushbullet_Alarm(Alarm):
 			push = self.pokemon['sender'].push_note("PokeAlarm activated!", "We will alert you about pokemon.")
 		log.info("Pushbullet Alarm intialized.")
 	
-	#Attempt to get the channel, otherwise default to all devices
-	def get_sender(self, client, channel_tag):
-		req_channel = next((channel for channel in client.channels if channel.channel_tag == channel_tag), self.client)
-		if req_channel is self.client and channel_tag is not None:
-			log.error("Unable to find channel... Pushing to all devices instead...")
-		else:
-			log.info("Pushing to channel %s." % channel_tag)
-		return req_channel
-	
 	#(Re)establishes Pushbullet connection
 	def connect(self):
 		self.client = PushBullet(self.api_key)
@@ -83,3 +74,12 @@ class Pushbullet_Alarm(Alarm):
 		#Trigger an alert based on Pokemon info
 	def pokestop_alert(self, pokemon_info):
 		self.send_alert(self.pokestop, pokemon_info)
+		
+	#Attempt to get the channel, otherwise default to all devices
+	def get_sender(self, client, channel_tag):
+		req_channel = next((channel for channel in client.channels if channel.channel_tag == channel_tag), self.client)
+		if req_channel is self.client and channel_tag is not None:
+			log.error("Unable to find channel... Pushing to all devices instead...")
+		else:
+			log.info("Pushing to channel %s." % channel_tag)
+		return req_channel
