@@ -18,6 +18,11 @@ class Twilio_Alarm(Alarm):
 			#'from_number': Required
 			#'to_number': Required
 			'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).",
+		},
+		'pokestop':{
+			#'from_number': Required
+			#'to_number': Required
+			'message': "Someone has placed a lure on a Pokestop! <gmaps> Lure will expire at <24h_time> (<time_left>).",
 		}
 	}
 	
@@ -33,7 +38,7 @@ class Twilio_Alarm(Alarm):
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-		
+		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		#Connect and send startup message
 		self.connect()
 		if parse_boolean(self.startup_message):
@@ -69,6 +74,10 @@ class Twilio_Alarm(Alarm):
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
+		
+	#Trigger an alert based on Pokestop info
+	def pokestop_alert(self, pokestop_info):
+		self.send_alert(self.pokestop, pokestop_info)
 		
 	#Send message through Twilio
 	def send_sms(self, to_num, from_num, msg):

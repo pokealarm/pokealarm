@@ -19,6 +19,12 @@ class Telegram_Alarm(Alarm):
 			'title': "A wild <pkmn> has appeared!",
 			'body': "<gmaps> \n Available until <24h_time> (<time_left>).",
 			'location': "True"
+		},
+		'pokestop':{
+			#'chat_id': Required
+			'title':"Someone has placed a lure on a Pokestop!",
+			'body': "<gmaps> \n Lure will expire at <24h_time> (<time_left>).",
+			'location': "True"
 		}
 	}
 	
@@ -26,11 +32,12 @@ class Telegram_Alarm(Alarm):
 	def __init__(self, settings):
 		#Service Info
 		self.bot_token = settings['bot_token']
-		settings.chat_id = settings.get('chat_id')
+		self.chat_id = settings.get('chat_id')
 		self.startup_message = settings.get('startup_message', "True")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
+		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		
 		#Connect and send startup message
  		self.connect()
@@ -50,7 +57,6 @@ class Telegram_Alarm(Alarm):
 		alert['title'] = settings.get('title', default['title'])
 		alert['body'] = settings.get('body', default['body'])
 		alert['location'] = parse_boolean(settings.get('location', default['location']))
-		
 		return alert
  		
 	#Send Alert to Telegram
@@ -75,3 +81,7 @@ class Telegram_Alarm(Alarm):
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
+		
+	#Trigger an alert based on Pokestop info
+	def pokestop_alert(self, pokestop_info):
+		self.send_alert(self.pokestop, pokestop_info)

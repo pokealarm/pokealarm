@@ -62,7 +62,7 @@ class Slack_Alarm(Alarm):
 	def set_alert(self, settings, default):
 		alert = {}
 		alert['channel'] = settings.get('channel', default['channel'])
-		alert['username'] = settings.get('title', default['title'])
+		alert['username'] = settings.get('username', default['username'])
 		alert['icon_url'] = settings.get('icon_url', default['icon_url'])
 		alert['title'] = settings.get('title', default['title'])
 		alert['url'] = settings.get('url', default['url'])
