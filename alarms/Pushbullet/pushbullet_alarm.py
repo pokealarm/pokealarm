@@ -23,6 +23,11 @@ class Pushbullet_Alarm(Alarm):
 			'title':"Someone has placed a lure on a Pokestop!",
 			'url':"<gmaps>",
 			'body':"Lure will expire at <24h_time> (<time_left>)."
+		},
+		'gym':{
+			'title':"The <old_team> gym has fallen!",
+			'url':"<gmaps>",
+			'body':"It is now controlled by <new_team>."
 		}
 	}
 	
@@ -35,6 +40,7 @@ class Pushbullet_Alarm(Alarm):
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
 		
 		#Connect and send startup message
 		self.connect()
@@ -47,6 +53,7 @@ class Pushbullet_Alarm(Alarm):
 		self.client = PushBullet(self.api_key)
 		self.pokemon['sender'] = self.get_sender(self.client, self.pokemon['channel'])
 		self.pokestop['sender'] = self.get_sender(self.client, self.pokestop['channel'])
+		self.gym['sender'] = self.get_sender(self.client, self.gym['channel'])
 		
 	#Set the appropriate settings for each alert
 	def set_alert(self, settings, default):
@@ -74,6 +81,10 @@ class Pushbullet_Alarm(Alarm):
 	#Trigger an alert based on Pokestop info
 	def pokestop_alert(self, pokestop_info):
 		self.send_alert(self.pokestop, pokestop_info)
+		
+	#Trigger an alert based on Gym info
+	def gym_alert(self, gym_info):
+		self.send_alert(self.gym, gym_info)
 		
 	#Attempt to get the channel, otherwise default to all devices
 	def get_sender(self, client, channel_tag):

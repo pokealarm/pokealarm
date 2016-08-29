@@ -72,6 +72,7 @@ if __name__ == '__main__':
 	if config['DEBUG']:
 		log.info("Debug mode activated!")
 		log.setLevel(logging.DEBUG)
+		logging.getLogger('alarms').setLevel(logging.DEBUG)
 		logging.getLogger('flask').setLevel(logging.DEBUG)
 		logging.getLogger('pywsgi').setLevel(logging.DEBUG)
 		logging.getLogger('requests').setLevel(logging.DEBUG)

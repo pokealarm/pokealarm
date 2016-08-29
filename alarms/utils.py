@@ -105,6 +105,18 @@ def set_config(root_path):
 	
 	return config
 
+#Returns +inf if True, else float, else None
+def parse_alert_param(value):
+	v = None
+	if parse_boolean(value):
+			v = float('inf')
+	else:
+		try:
+			v = float(value)
+		except ValueError:
+			log.debug("Alert Param: Unable to parse into float")
+	return v
+	
 #Parse notify list
 def make_notify_list(want_list):
 	notify = {}
@@ -119,17 +131,20 @@ def make_notify_list(want_list):
 				continue
 	return notify
 
-def parse_alert_param(value):
-	v = None
-	if parse_boolean(value):
-			v = float('inf')
-	else:
-		try:
-			v = float(value)
-		except ValueError:
-			log.debug("Alert Param: Unable to parse into float")
-	return v
-	
+def make_pokestops_list(settings):
+	notify = {}
+	if 'Lured' in settings:
+		notify['lured'] = parse_alert_param(settings['Lured'])
+	return notify
+
+def make_gym_list(settings):
+	notify = {}
+	for key in settings:
+		param = settings[key]
+		if param is not None:
+			notify[key] = param
+	return notify
+		
 #########################################################################
 
 ############################# INFO UTILITIES ############################
@@ -156,6 +171,10 @@ def get_pkmn_name(pokemon_id):
         with open(file_path, 'r') as f:
             get_pkmn_name.names = json.loads(f.read())
     return get_pkmn_name.names.get(str(pokemon_id)).encode("utf-8")
+
+_gym_names = {0:"Neutral", 1:"Mystic", 2:"Valor", 3:"Instinct"}
+def get_team_name(team_number):
+    return _gym_names[team_number]
 	
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):

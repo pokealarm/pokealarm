@@ -27,10 +27,9 @@ class Alarm_Manager(Thread):
 			for id in self.notify_list:
 				out = out + "{}, ".format(get_pkmn_name(id))
 			log.info("You will be notified of the following pokemon: \n" + out[:-2])
-			self.notify_list['pokestops'] = parse_alert_param(settings["pokestops"])
-			self.pokemon = {}
-			self.pokestops = {}
-			self.gyms = {}
+			self.stop_list =  make_pokestops_list(settings["pokestops"])
+			self.gym_list = make_gym_list(settings["gyms"])
+			self.pokemon, self.pokestops, self.gyms   = {}, {}, {}
 			self.alarms = []
 			self.queue = queue
 			for alarm in alarm_settings:
@@ -71,12 +70,15 @@ class Alarm_Manager(Thread):
 					self.trigger_pokemon(data['message'])
 					log.debug("Finished processing for Pokemon #%s" % data['message']['pokemon_id'])
 				elif data['type'] == 'pokestop' : 
-					log.debug("Request processing for Pokestop #%s" % data['message']['pokestop_id'])
-					if self.notify_list['pokestops'] is not None:
-						self.trigger_pokestop(data['message'])
-					log.debug("Finished processing for Pokestop #%s" % data['message']['pokestop_id'])
-				elif data['type'] == 'pokegym' :
-					log.debug("Pokegym notifications not yet implemented.")
+					log.debug("Request processing for Pokestop %s" % data['message']['pokestop_id'])
+					self.trigger_pokestop(data['message'])
+					log.debug("Finished processing for Pokestop %s" % data['message']['pokestop_id'])
+				elif data['type'] == 'gym' :
+					log.debug("Request processing for Gym %s" % data['message']['gym_id'])
+					self.trigger_gym(data['message'])
+					log.debug("Finished processing for Gym %s" % data['message']['gym_id'])
+				else:
+					log.debug("Invalid type specified.")
 			log.debug("Cleaning up 'seen' sets...")
 			self.clear_stale();
 			
@@ -145,6 +147,10 @@ class Alarm_Manager(Thread):
 		if stop['lure_expiration'] is None:
 			return
 		
+		#If Lures are enabled
+		if 'lured' not in self.stop_list:
+			return
+			
 		#If already alerted, skip
 		id = stop['pokestop_id']
 		dissapear_time = datetime.utcfromtimestamp(stop['lure_expiration'])
@@ -163,7 +169,7 @@ class Alarm_Manager(Thread):
 		lat = stop['latitude']
 		lng = stop['longitude']
 		dist = get_dist([lat, lng])
-		if dist >= self.notify_list['pokestops']:
+		if dist >=  self.stop_list['lured']:
 			log.info("Pokestop ignored: outside range")
 			log.debug("Pokestop must be less than %d, but was %d." % (self.notify_list[pkmn_id], dist))
 			return
@@ -196,8 +202,58 @@ class Alarm_Manager(Thread):
 
 	
 	#Send a notifcation about pokemon gym detected
-	def trigger_gym(self, gyms):
-		raise NotImplementedError("This method is not yet implemented.")
+	def trigger_gym(self, gym):
+		id = gym['gym_id']
+		old_team = self.gyms.get(id)
+		new_team = gym['team_id'] 	
+		self.gyms[id] = new_team
+		
+		#Check to see if the gym has changed 
+		if old_team == None or new_team == old_team:
+			log.debug("Gym ignored: no change detected")
+			return #ignore neutral for now
+		
+		#Check for Alert settings
+		old_team = get_team_name(old_team)
+		new_team = get_team_name(new_team)
+		L = [self.gym_list.get("From_%s" % old_team), self.gym_list.get("To_%s" % new_team)]
+		min_dist = max((x for x in L if x is not None), -1)
+		if min_dist is -1:
+			log.info("Gym ignored: alert not set")
+			return
+			
+		#Check if the Gym is outside of notify range
+		lat = gym['latitude']
+		lng = gym['longitude']
+		dist = get_dist([lat, lng])
+		if dist >= min_dist:
+			log.info("Gym ignored: outside range")
+			log.debug("Gym must be less than %d, but was %d." % (self.notify_list[pkmn_id], dist))
+			return
+		
+		#Check if the Gym is in the geofence
+		if 'GEOFENCE' in config:
+			if config['GEOFENCE'].contains(lat,lng) is not True:
+				log.info("Gym ignored: outside geofence")
+				return
+		
+		#Trigger the notifcations
+		log.info("Gym notication was triggered!")
+		gym_info = {
+			'id': id,
+			'lat' : "{}".format(repr(lat)),
+			'lng' : "{}".format(repr(lng)),
+			'gmaps': get_gmaps_link(lat, lng),
+			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
+			'dir': get_dir(lat,lng),
+			'points': gym['gym_points'],
+			'old_team': old_team,
+			'new_team': new_team
+		}
+		gym_info = self.optional_arguments(gym_info)
+		
+		for alarm in self.alarms:
+			alarm.gym_alert(gym_info)
 		
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):
