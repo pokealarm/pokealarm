@@ -18,6 +18,11 @@ class Pushbullet_Alarm(Alarm):
 			'title':"A wild <pkmn> has appeared!",
 			'url':"<gmaps>",
 			'body':"Available until <24h_time> (<time_left>)."
+		},
+		'pokestop':{
+			'title':"Someone has placed a lure on a Pokestop!",
+			'url':"<gmaps>",
+			'body':"Lure will expire at <24h_time> (<time_left>)."
 		}
 	}
 	
@@ -29,6 +34,7 @@ class Pushbullet_Alarm(Alarm):
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
+		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		
 		#Connect and send startup message
 		self.connect()
@@ -49,6 +55,7 @@ class Pushbullet_Alarm(Alarm):
 	def connect(self):
 		self.client = PushBullet(self.api_key)
 		self.pokemon['sender'] = self.get_sender(self.client, self.pokemon['channel'])
+		self.pokestop['sender'] = self.get_sender(self.client, self.pokestop['channel'])
 		
 	#Set the appropriate settings for each alert
 	def set_alert(self, settings, default):
@@ -72,3 +79,7 @@ class Pushbullet_Alarm(Alarm):
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
+		
+		#Trigger an alert based on Pokemon info
+	def pokestop_alert(self, pokemon_info):
+		self.send_alert(self.pokestop, pokemon_info)

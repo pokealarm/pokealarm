@@ -119,6 +119,17 @@ def make_notify_list(want_list):
 				continue
 	return notify
 
+def parse_alert_param(value):
+	v = None
+	if parse_boolean(value):
+			v = float('inf')
+	else:
+		try:
+			v = float(value)
+		except ValueError:
+			log.debug("Alert Param: Unable to parse into float")
+	return v
+	
 #########################################################################
 
 ############################# INFO UTILITIES ############################
@@ -149,7 +160,7 @@ def get_pkmn_name(pokemon_id):
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):
 	latLon = '{},{}'.format(repr(lat), repr(lng))
-	return 'http://maps.google.com/maps?q={}'.format(latLon)
+	return 'http://maps.google.com/maps?q={} '.format(latLon)
 	
 #Return a version of the string with the correct substitutions made	
 def replace(string, pkinfo):
