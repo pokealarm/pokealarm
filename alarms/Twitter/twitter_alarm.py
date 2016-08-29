@@ -17,6 +17,9 @@ class Twitter_Alarm(Alarm):
 	_defaults = {
 		'pokemon':{
 			'status': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).",
+		},
+		'pokestop':{
+			'status': "Someone has placed a lure on a Pokestop! <gmaps> Lure will expire at <24h_time> (<time_left>).",
 		}
 	}
 
@@ -31,7 +34,8 @@ class Twitter_Alarm(Alarm):
 				
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-		
+		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+				
 		#Connect and send startup message
 		self.connect()
 		if parse_boolean(self.startup_message):
@@ -57,3 +61,7 @@ class Twitter_Alarm(Alarm):
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
+	
+	#Trigger an alert based on Pokestop info
+	def pokestop_alert(self, pokestop_info):
+		self.send_alert(self.pokestop, pokestop_info)

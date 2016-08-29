@@ -39,6 +39,7 @@ class Twilio_Alarm(Alarm):
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+		
 		#Connect and send startup message
 		self.connect()
 		if parse_boolean(self.startup_message):
