@@ -82,7 +82,7 @@ class Alarm_Manager(Thread):
 	#Send a notification to alarms about a found pokemon
 	def trigger_pokemon(self, pkmn):
 		#If already alerted, skip
-		if data['message']['encounter_id'] in self.pokemon:
+		if pkmn['encounter_id'] in self.pokemon:
 			return
 			
 		#Mark the pokemon as seen along with exipre time

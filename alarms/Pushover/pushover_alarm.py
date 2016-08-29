@@ -38,7 +38,7 @@ class Pushover_Alarm(Alarm):
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-		self.pokemon = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		
 		#Connect and send startup message
 		if parse_boolean(self.startup_message):
@@ -73,9 +73,9 @@ class Pushover_Alarm(Alarm):
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
 	
-	#Trigger an alert based on Pokemon info
-	def pokestop_alert(self, pokemon_info):
-		self.send_alert(self.pokemon, pokemon_info)
+	#Trigger an alert based on Pokestop info
+	def pokestop_alert(self, pokestop_info):
+		self.send_alert(self.pokestop, pokestop_info)
 			
 	#Generic send pushover
 	def send_pushover(self, message, title='PokeAlert', url=None, url_title=None):

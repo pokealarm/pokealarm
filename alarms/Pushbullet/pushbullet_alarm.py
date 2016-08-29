@@ -71,9 +71,9 @@ class Pushbullet_Alarm(Alarm):
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
 		
-		#Trigger an alert based on Pokemon info
-	def pokestop_alert(self, pokemon_info):
-		self.send_alert(self.pokestop, pokemon_info)
+	#Trigger an alert based on Pokestop info
+	def pokestop_alert(self, pokestop_info):
+		self.send_alert(self.pokestop, pokestop_info)
 		
 	#Attempt to get the channel, otherwise default to all devices
 	def get_sender(self, client, channel_tag):
