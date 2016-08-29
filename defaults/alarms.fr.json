@@ -1,6 +1,7 @@
 {
 	"alarms":[
 	],
+	"pokestops":"True",
 	"pokemon":{
 		"Bulbizarre":"False",
 		"Herbizarre":"False",
