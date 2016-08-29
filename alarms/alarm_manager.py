@@ -207,7 +207,7 @@ class Alarm_Manager(Thread):
 				if dict[id] < datetime.utcnow() :
 					old.append(id)
 			for id in old:
-				del self.seen[id]
+				del dict[id]
 	
 	#clear expired pokemon so that the seen set is not too large
 	def optional_arguments(self, info):
