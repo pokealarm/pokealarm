@@ -26,6 +26,12 @@ class Pushover_Alarm(Alarm):
 			'url':"<gmaps>",
 			'url_title':"Google Maps Link",
 			'message':"Lure will expire at <24h_time> (<time_left>)."
+		},
+		'gym':{
+			'title':"A Team <old_team> gym has fallen!",
+			'url':"<gmaps>",
+			'url_title':"Google Maps Link",
+			'message':"It is now controlled by <new_team>."
 		}
 	}
 	
@@ -39,6 +45,7 @@ class Pushover_Alarm(Alarm):
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
 		
 		#Connect and send startup message
 		if parse_boolean(self.startup_message):
@@ -76,6 +83,10 @@ class Pushover_Alarm(Alarm):
 	#Trigger an alert based on Pokestop info
 	def pokestop_alert(self, pokestop_info):
 		self.send_alert(self.pokestop, pokestop_info)
+	
+	#Trigger an alert based on Pokestop info
+	def gym_alert(self, gym_info):
+		self.send_alert(self.gym, gym_info)
 			
 	#Generic send pushover
 	def send_pushover(self, message, title='PokeAlert', url=None, url_title=None):

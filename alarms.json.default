@@ -20,7 +20,7 @@
 			"to_number":"YOUR_TO_NUM"
 		},
 		{
-			"active": "True",
+			"active": "False",
 			"type":"telegram",
 			"bot_token":"YOUR_BOT_TOKEN",
 			"chat_id":"YOUR_CHAT_ID"

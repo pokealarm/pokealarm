@@ -25,7 +25,7 @@ class Pushbullet_Alarm(Alarm):
 			'body':"Lure will expire at <24h_time> (<time_left>)."
 		},
 		'gym':{
-			'title':"The <old_team> gym has fallen!",
+			'title':"A Team <old_team> gym has fallen!",
 			'url':"<gmaps>",
 			'body':"It is now controlled by <new_team>."
 		}
