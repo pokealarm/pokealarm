@@ -1,7 +1,17 @@
 {
 	"alarms":[
 	],
-	"pokestops":"True",
+	"gyms":{
+		"To_Valor":"False",
+		"To_Mystic":"False",
+		"To_Instinct":"False",
+		"From_Valor":"False",
+		"From_Mystic":"False",
+		"From_Instinct":"False",
+	},
+	"pokestops":{
+		"Lured":"false",
+	},
 	"pokemon":{
 		"Bulbizarre":"False",
 		"Herbizarre":"False",
