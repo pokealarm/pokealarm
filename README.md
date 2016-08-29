@@ -1,6 +1,10 @@
 # PokeAlarm
 
-[Discord Link](https://discordapp.com/invite/am66rag)   
+# THERE HAVE BEEN NON-TRIVIAL CHANGES TO THE CONFIG OPTIONS
+# PLEASE CONSULT THE [ALARM CONFIGURATION PAGE](https://github.com/kvangent/PokeAlarm/wiki/Alarm-Configuration) BEFORE OPENING AN ISSUE 
+
+[Discord Link](https://discordapp.com/invite/am66rag) 
+Please stick to the #general and #troubleshooting chats, and avoid sending private messages to devs. We're working hard, we promise!
 
 PokeAlarm is a third party extension for [PokemonGo-Map](https://github.com/PokemonGoMap/PokemonGo-Map) that allows you to receive external notifications via the service of your choice.
 
