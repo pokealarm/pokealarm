@@ -15,15 +15,21 @@ class Telegram_Alarm(Alarm):
  	
 	_defaults = {
 		'pokemon':{
-			#'chat_id': Required
+			#'chat_id': If no default, required
 			'title': "A wild <pkmn> has appeared!",
 			'body': "<gmaps> \n Available until <24h_time> (<time_left>).",
 			'location': "True"
 		},
 		'pokestop':{
-			#'chat_id': Required
+			#'chat_id': If no default, required
 			'title':"Someone has placed a lure on a Pokestop!",
 			'body': "<gmaps> \n Lure will expire at <24h_time> (<time_left>).",
+			'location': "True"
+		},
+		'gym':{
+			#'chat_id': If no default, required
+			'title':"A Team <old_team> gym has fallen!",
+			'body': "<gmaps> \n It is now controlled by <new_team>.",
 			'location': "True"
 		}
 	}
@@ -38,6 +44,7 @@ class Telegram_Alarm(Alarm):
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+		self.gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 		
 		#Connect and send startup message
  		self.connect()
@@ -85,3 +92,7 @@ class Telegram_Alarm(Alarm):
 	#Trigger an alert based on Pokestop info
 	def pokestop_alert(self, pokestop_info):
 		self.send_alert(self.pokestop, pokestop_info)
+		
+	#Trigger an alert based on Pokestop info
+	def gym_alert(self, gym_info):
+		self.send_alert(self.gym, gym_info)
