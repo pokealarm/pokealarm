@@ -20,6 +20,9 @@ class Twitter_Alarm(Alarm):
 		},
 		'pokestop':{
 			'status': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).  <gmaps>",
+		},
+		'gym':{
+			'status':"A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>"
 		}
 	}
 
@@ -35,7 +38,8 @@ class Twitter_Alarm(Alarm):
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-				
+		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
+		
 		#Connect and send startup message
 		self.connect()
 		if parse_boolean(self.startup_message):
@@ -65,3 +69,7 @@ class Twitter_Alarm(Alarm):
 	#Trigger an alert based on Pokestop info
 	def pokestop_alert(self, pokestop_info):
 		self.send_alert(self.pokestop, pokestop_info)
+		
+	#Trigger an alert based on Gym info
+	def gym_alert(self, gym_info):
+		self.send_alert(self.gym, gym_info)
