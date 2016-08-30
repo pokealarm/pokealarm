@@ -16,7 +16,7 @@ class Slack_Alarm(Alarm):
 
 	_defaults = {
 		'pokemon':{
-			'channel':"general",
+			#'channel':"general",
 			'username':"<pkmn>",
 			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
 			'title':"A wild <pkmn> has appeared!",
@@ -24,7 +24,7 @@ class Slack_Alarm(Alarm):
 			'body': "Available until <24h_time> (<time_left>)."
 		},
 		'pokestop':{
-			'channel':"general",
+			#'channel':"general",
 			'username':"Pokestop",
 			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
 			'title':"Someone has placed a lure on a Pokestop!",
@@ -32,7 +32,7 @@ class Slack_Alarm(Alarm):
 			'body':"Lure will expire at <24h_time> (<time_left>)."
 		},
 		'gym':{
-			'channel':"general",
+			#'channel':"general",
 			'username':"Pokemon Gym",
 			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym.png",
 			'title':"A Team <old_team> gym has fallen!",
@@ -46,6 +46,7 @@ class Slack_Alarm(Alarm):
 		#Service Info
 		self.api_key = settings['api_key']
 		self.startup_message = settings.get('startup_message', "True")
+		self.channel = settings.get('channel', "general")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
@@ -61,6 +62,7 @@ class Slack_Alarm(Alarm):
 				text='PokeAlarm activated! We will alert this channel about pokemon.'
 			)
 		log.info("Slack Alarm intialized.")
+		log.debug("Attempting to push to the following channels: Pokemon:%s, Pokestops:%s, Gyms:%s" %(self.pokemon['channel'], self.pokestop['channel'], self.gym['channel']))
 
 	#Establish connection with Slack
 	def connect(self):
@@ -70,7 +72,7 @@ class Slack_Alarm(Alarm):
 	#Set the appropriate settings for each alert
 	def set_alert(self, settings, default):
 		alert = {}
-		alert['channel'] = settings.get('channel', default['channel'])
+		alert['channel'] = settings.get('channel', self.channel)
 		alert['username'] = settings.get('username', default['username'])
 		alert['icon_url'] = settings.get('icon_url', default['icon_url'])
 		alert['title'] = settings.get('title', default['title'])
