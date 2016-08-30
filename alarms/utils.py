@@ -150,7 +150,7 @@ def make_pokestops_list(settings):
 def make_gym_list(settings):
 	notify = {}
 	for key in settings:
-		param = settings[key]
+		param = parse_alert_param(settings[key])
 		if param is not None:
 			notify[key] = param
 	return notify

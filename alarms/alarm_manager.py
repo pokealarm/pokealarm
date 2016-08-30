@@ -216,9 +216,8 @@ class Alarm_Manager(Thread):
 		#Check for Alert settings
 		old_team = get_team_name(old_team)
 		new_team = get_team_name(new_team)
-		L = [self.gym_list.get("From_%s" % old_team), self.gym_list.get("To_%s" % new_team)]
-		min_dist = max((x for x in L if x is not None), -1)
-		if min_dist is -1:
+		max_dist = max(self.gym_list.get("From_%s" % old_team, -1), self.gym_list.get("To_%s" % new_team, -1))
+		if max_dist is -1:
 			log.info("Gym ignored: alert not set")
 			return
 			
@@ -226,9 +225,9 @@ class Alarm_Manager(Thread):
 		lat = gym['latitude']
 		lng = gym['longitude']
 		dist = get_dist([lat, lng])
-		if dist >= min_dist:
+		if dist >= max_dist:
 			log.info("Gym ignored: outside range")
-			log.debug("Gym must be less than %d, but was %d." % (self.notify_list[pkmn_id], dist))
+			log.debug("Gym must be less than %d, but was %d." % (max_dist, dist))
 			return
 		
 		#Check if the Gym is in the geofence
