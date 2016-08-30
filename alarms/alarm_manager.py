@@ -257,7 +257,7 @@ class Alarm_Manager(Thread):
 		
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):
-		for dict in (self.pokemon, self.pokestops, self.gyms):
+		for dict in (self.pokemon, self.pokestops):
 			old = []
 			for id in dict:
 				if dict[id] < datetime.utcnow() :
