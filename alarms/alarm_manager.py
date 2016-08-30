@@ -73,12 +73,12 @@ class Alarm_Manager(Thread):
 					log.debug("Request processing for Pokestop %s" % data['message']['pokestop_id'])
 					self.trigger_pokestop(data['message'])
 					log.debug("Finished processing for Pokestop %s" % data['message']['pokestop_id'])
-				elif data['type'] == 'gym' :
-					log.debug("Request processing for Gym %s" % data['message']['gym_id'])
+				elif data['type'] == 'gym' or data['type'] == 'gym_details'  :
+					log.debug("Request processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
 					self.trigger_gym(data['message'])
-					log.debug("Finished processing for Gym %s" % data['message']['gym_id'])
+					log.debug("Finished processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
 				else:
-					log.debug("Invalid type specified.")
+					log.debug("Invalid type specified: %s" % data['type'])
 			log.debug("Cleaning up 'seen' sets...")
 			self.clear_stale();
 			
@@ -203,9 +203,9 @@ class Alarm_Manager(Thread):
 	
 	#Send a notifcation about pokemon gym detected
 	def trigger_gym(self, gym):
-		id = gym['gym_id']
+		id = gym.get('gym_id', gym.get('id'))
 		old_team = self.gyms.get(id)
-		new_team = gym['team_id'] 	
+		new_team = gym.get('team_id', gym.get('team')) 	
 		self.gyms[id] = new_team
 		
 		#Check to see if the gym has changed 
@@ -246,7 +246,7 @@ class Alarm_Manager(Thread):
 			'gmaps': get_gmaps_link(lat, lng),
 			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
 			'dir': get_dir(lat,lng),
-			'points': gym['gym_points'],
+			'points': str(gym.get('gym_points')),
 			'old_team': old_team,
 			'new_team': new_team
 		}
