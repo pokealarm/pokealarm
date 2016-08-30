@@ -10,6 +10,7 @@ import time
 import sys
 import re
 import googlemaps
+import pytz
 from glob import glob
 from datetime import datetime, timedelta
 from math import radians, sin, cos, atan2, sqrt
@@ -77,6 +78,7 @@ def set_config(root_path):
 	parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true',  default=False)
 	parser.add_argument('-gf', '--geofence', help='Specify a file of coordinates, limiting alerts to within this area')
 	parser.add_argument('-tl', '--timelimit', type=int, help='Minimum number of seconds remaining on a pokemon to notify', default=0)
+	parser.add_argument('-tz', '--timezone', help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
 	
 	args = parser.parse_args()
 	
@@ -97,7 +99,15 @@ def set_config(root_path):
 	
 	if args.geofence:
 		config['GEOFENCE'] = Geofence(os.path.join(root_path, args.geofence))
-		
+
+	if args.timezone:
+		try:
+			config['TIMEZONE'] = pytz.timezone(args.timezone)
+			log.info("Timezone set to: %s" % args.timezone)
+		except pytz.exceptions.UnknownTimeZoneError:
+			log.error("Invalid timezone. For a list of valid timezones, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
+			sys.exit(1)
+
 	config['REV_LOC'] = False
 	config['DM_WALK'] = False
 	config['DM_BIKE'] = False
@@ -232,10 +242,13 @@ def get_timestamps(t):
 	(m, s) = divmod(s, 60)
 	(h, m) = divmod(m, 60)
 	d = timedelta(hours = h, minutes = m, seconds = s)
-	disappear_time = datetime.now() + d
+	if "TIMEZONE" in config:
+		disappear_time = datetime.now(tz=config.get("TIMEZONE")) + d
+	else:
+		disappear_time = datetime.now() + d
 	time_left = "%dm %ds" % (m, s)
-	time_12 = disappear_time.strftime("%I:%M") + disappear_time.strftime("%p").lower()
-	time_24 = disappear_time.strftime("%H:%M:%S")
+	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower() + disappear_time.strftime(" %Z")
+	time_24 = disappear_time.strftime("%H:%M:%S %Z")
 	return (time_left, time_12, time_24)
 	
 #########################################################################
