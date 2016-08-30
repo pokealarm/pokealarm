@@ -30,6 +30,14 @@ class Slack_Alarm(Alarm):
 			'title':"Someone has placed a lure on a Pokestop!",
 			'url':"<gmaps>",
 			'body':"Lure will expire at <24h_time> (<time_left>)."
+		},
+		'gym':{
+			'channel':"general",
+			'username':"Pokemon Gym",
+			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym.png",
+			'title':"A Team <old_team> gym has fallen!",
+			'url':"<gmaps>",
+			'body': "It is now controlled by <new_team>."
 		}
 	}
 	
@@ -42,6 +50,7 @@ class Slack_Alarm(Alarm):
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+		self.gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 		
 		#Connect and send startup message
 		self.connect()
@@ -91,6 +100,10 @@ class Slack_Alarm(Alarm):
 	#Trigger an alert based on Pokestop info
 	def pokestop_alert(self, pokestop_info):
 		self.send_alert(self.pokestop, pokestop_info)
+		
+	#Trigger an alert based on Pokestop info
+	def gym_alert(self, gym_info):
+		self.send_alert(self.gym, gym_info)
 	
 	#Update channels list
 	def update_channels(self):

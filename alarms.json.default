@@ -7,17 +7,14 @@
 		},
 		{
 			"active": "False",
-			"type":"slack",
-			"api_key":"YOUR_API_KEY",
-			"channel":"#general"
+			"type": "pushover",
+			"app_token": "YOUR_APP_TOKEN",
+			"user_key": "YOUR_USER_KEY"
 		},
 		{
 			"active": "False",
-			"type":"twilio",
-			"account_sid":"YOUR_API_KEY",
-			"auth_token":"YOUR_AUTH_TOKEN",
-			"from_number":"YOUR_FROM_NUM",
-			"to_number":"YOUR_TO_NUM"
+			"type":"slack",
+			"api_key":"YOUR_API_KEY"
 		},
 		{
 			"active": "False",
@@ -27,9 +24,11 @@
 		},
 		{
 			"active": "False",
-			"type": "pushover",
-			"app_token": "YOUR_APP_TOKEN",
-			"user_key": "YOUR_USER_KEY"
+			"type":"twilio",
+			"account_sid":"YOUR_API_KEY",
+			"auth_token":"YOUR_AUTH_TOKEN",
+			"from_number":"YOUR_FROM_NUM",
+			"to_number":"YOUR_TO_NUM"
 		},
 		{
 			"active": "False",
@@ -46,10 +45,10 @@
 		"To_Instinct":"False",
 		"From_Valor":"False",
 		"From_Mystic":"False",
-		"From_Instinct":"False"
+		"From_Instinct":"False",
 	},
 	"pokestops":{
-		"Lured":"True"
+		"Lured":"false",
 	},
 	"pokemon":{
 		"Bulbasaur":"False",
