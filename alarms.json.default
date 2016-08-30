@@ -7,9 +7,20 @@
 		},
 		{
 			"active": "False",
+			"type": "pushover",
+			"app_token": "YOUR_APP_TOKEN",
+			"user_key": "YOUR_USER_KEY"
+		},
+		{
+			"active": "False",
 			"type":"slack",
-			"api_key":"YOUR_API_KEY",
-			"channel":"#general"
+			"api_key":"YOUR_API_KEY"
+		},
+		{
+			"active": "False",
+			"type":"telegram",
+			"bot_token":"YOUR_BOT_TOKEN",
+			"chat_id":"YOUR_CHAT_ID"
 		},
 		{
 			"active": "False",
@@ -20,18 +31,6 @@
 			"to_number":"YOUR_TO_NUM"
 		},
 		{
-			"active": "True",
-			"type":"telegram",
-			"bot_token":"YOUR_BOT_TOKEN",
-			"chat_id":"YOUR_CHAT_ID"
-		},
-		{
-			"active": "False",
-			"type": "pushover",
-			"app_token": "YOUR_APP_TOKEN",
-			"user_key": "YOUR_USER_KEY"
-		},
-		{
 			"active": "False",
 			"type": "twitter",
 			"access_token": "YOUR_ACCESS_TOKEN",
@@ -40,6 +39,17 @@
 			"consumer_secret": "YOUR_CONSUMER_SECRET"
         }
 	],
+	"gyms":{
+		"To_Valor":"False",
+		"To_Mystic":"False",
+		"To_Instinct":"False",
+		"From_Valor":"False",
+		"From_Mystic":"False",
+		"From_Instinct":"False"
+	},
+	"pokestops":{
+		"Lured":"false"
+	},
 	"pokemon":{
 		"Bulbasaur":"False",
 		"Ivysaur":"False",
