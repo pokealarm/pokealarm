@@ -62,26 +62,29 @@ class Alarm_Manager(Thread):
 	def run(self):
 		log.info("PokeAlarm has started! Your alarms should trigger now.")
 		while True:
-			for i in range(5000): #Take a break and clean house every 5000 requests handled
-				data = self.queue.get(block=True)
-				self.queue.task_done()
-				if data['type'] == 'pokemon' :
-					log.debug("Request processing for Pokemon #%s" % data['message']['pokemon_id'])
-					self.trigger_pokemon(data['message'])
-					log.debug("Finished processing for Pokemon #%s" % data['message']['pokemon_id'])
-				elif data['type'] == 'pokestop' : 
-					log.debug("Request processing for Pokestop %s" % data['message']['pokestop_id'])
-					self.trigger_pokestop(data['message'])
-					log.debug("Finished processing for Pokestop %s" % data['message']['pokestop_id'])
-				elif data['type'] == 'gym' or data['type'] == 'gym_details'  :
-					log.debug("Request processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
-					self.trigger_gym(data['message'])
-					log.debug("Finished processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
-				else:
-					log.debug("Invalid type specified: %s" % data['type'])
-			log.debug("Cleaning up 'seen' sets...")
-			self.clear_stale();
-			
+			try:
+				for i in range(5000): #Take a break and clean house every 5000 requests handled
+					data = self.queue.get(block=True)
+					self.queue.task_done()
+					if data['type'] == 'pokemon' :
+						log.debug("Request processing for Pokemon #%s" % data['message']['pokemon_id'])
+						self.trigger_pokemon(data['message'])
+						log.debug("Finished processing for Pokemon #%s" % data['message']['pokemon_id'])
+					elif data['type'] == 'pokestop' : 
+						log.debug("Request processing for Pokestop %s" % data['message']['pokestop_id'])
+						self.trigger_pokestop(data['message'])
+						log.debug("Finished processing for Pokestop %s" % data['message']['pokestop_id'])
+					elif data['type'] == 'gym' or data['type'] == 'gym_details'  :
+						log.debug("Request processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
+						self.trigger_gym(data['message'])
+						log.debug("Finished processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
+					else:
+						log.debug("Invalid type specified: %s" % data['type'])
+				log.debug("Cleaning up 'seen' sets...")
+				self.clear_stale();
+			except Exception as e:
+				log.error("Error while processing request: %s" % e)
+				log.debug("Request format: \n %s " % json.dumps(data, indent=4, sort_keys=True))
 	#Send a notification to alarms about a found pokemon
 	def trigger_pokemon(self, pkmn):
 		#If already alerted, skip
