@@ -147,8 +147,8 @@ class Alarm_Manager(Thread):
 		if stop['lure_expiration'] is None:
 			return
 		
-		#If Lures are enabled
-		if 'lured' not in self.stop_list:
+		#If Lures are not enabled
+		if self.stop_list.get('lured') is None:
 			return
 			
 		#If already alerted, skip
@@ -171,7 +171,7 @@ class Alarm_Manager(Thread):
 		dist = get_dist([lat, lng])
 		if dist >=  self.stop_list['lured']:
 			log.info("Pokestop ignored: outside range")
-			log.debug("Pokestop must be less than %d, but was %d." % (self.notify_list[pkmn_id], dist))
+			log.debug("Pokestop must be less than %d, but was %d." % (self.stop_list['lured'], dist))
 			return
 		
 		#Check if the Pokestop is in the geofence
