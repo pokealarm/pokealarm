@@ -7,10 +7,10 @@
 		"To_Instinct":"False",
 		"From_Valor":"False",
 		"From_Mystic":"False",
-		"From_Instinct":"False",
+		"From_Instinct":"False"
 	},
 	"pokestops":{
-		"Lured":"false",
+		"Lured":"false"
 	},
 	"pokemon":{
 		"Bulbasaur":"False",
