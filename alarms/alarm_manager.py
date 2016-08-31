@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 import os
 import json
 import time
+import traceback
 from datetime import datetime
 from threading import Thread
 
@@ -89,6 +90,7 @@ class Alarm_Manager(Thread):
 				self.clear_stale();
 			except Exception as e:
 				log.error("Error while processing request: %s" % e)
+				log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 				log.debug("Request format: \n %s " % json.dumps(data, indent=4, sort_keys=True))
 	#Send a notification to alarms about a found pokemon
 	def trigger_pokemon(self, pkmn):
@@ -120,7 +122,7 @@ class Alarm_Manager(Thread):
 		dist = get_dist([lat, lng])
 		if dist >= config["NOTIFY_LIST"][pkmn_id]:
 			log.info(name + " ignored: outside range")
-			log.debug("Pokemon must be less than %d, but was %d." % (self.config["NOTIFY_LIST"][pkmn_id], dist))
+			log.debug("Pokemon must be less than %d, but was %d." % (config["NOTIFY_LIST"][pkmn_id], dist))
 			return
         
 		#Check if the Pokemon is in the geofence
