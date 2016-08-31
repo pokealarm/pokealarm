@@ -41,15 +41,19 @@ class Pushover_Alarm(Alarm):
 		self.app_token = settings['app_token']
 		self.user_key = settings['user_key']
 		self.startup_message = settings.get('startup_message', "True")
+		self.startup_list = settings.get('startup_list', "True")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
 		
-		#Connect and send startup message
+		#Connect and send startup messages
 		if parse_boolean(self.startup_message):
 		    self.send_pushover("PokeAlarm has been activated! We will alert this channel about pokemon.")
+		if parse_boolean(self.startup_list):
+			for line in notify_list_multi_msgs(config["NOTIFY_LIST"],1024,"We will alert this channel of the following pokemon:"):
+				self.send_pushover(line)
 		log.info("Pushover Alarm intialized")
 		
 	#(Re)establishes Pushover connection

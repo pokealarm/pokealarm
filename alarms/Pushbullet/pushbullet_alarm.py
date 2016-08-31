@@ -36,16 +36,20 @@ class Pushbullet_Alarm(Alarm):
 		#Service Info
 		self.api_key = settings['api_key']
 		self.startup_message = settings.get('startup_message', "True")
+		self.startup_list = settings.get('startup_list', "True")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
 		
-		#Connect and send startup message
+		#Connect and send startup messages
 		self.connect()
 		if parse_boolean(self.startup_message):
 			push = self.pokemon['sender'].push_note("PokeAlarm activated!", "We will alert you about pokemon.")
+		if parse_boolean(self.startup_list):
+			for line in notify_list_multi_msgs(config["NOTIFY_LIST"],4000,"We will alert this channel of the following pokemon"):
+				push = self.pokemon['sender'].push_note("We will alert this channel of the following pokemon", line)
 		log.info("Pushbullet Alarm intialized.")
 	
 	#(Re)establishes Pushbullet connection
