@@ -1,4 +1,4 @@
-{
+sticker_list = {
     "1": "BQADBAADJwADA6ZnAU_NNRcf64d1Ag",
     "2": "BQADBAADKQADA6ZnAd09yoh66pIfAg",
     "3": "BQADBAADKwADA6ZnAdELYlYwzKbIAg",
