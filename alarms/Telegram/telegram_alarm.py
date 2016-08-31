@@ -47,12 +47,18 @@ class Telegram_Alarm(Alarm):
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 		
+		self.sticker = parse_boolean(settings.get('send_sticker', 'False'))
+		#load sticker file_id list from json
+		if self.sticker:
+			with open(get_path('alarms/Telegram/telegram_stickers.json')) as file:
+				self.stickerlist = json.load(file)
+
 		#Connect and send startup message
  		self.connect()
 		if parse_boolean(self.startup_message):
 			self.client.sendMessage(self.pokemon['chat_id'], 'PokeAlarm activated! We will alert this chat about pokemon.')
 		log.info("Telegram Alarm intialized.")
-	
+
 	#(Re)establishes Telegram connection
 	def connect(self):
 		self.client = telepot.Bot(self.bot_token) 
@@ -70,6 +76,15 @@ class Telegram_Alarm(Alarm):
  		
 	#Send Alert to Telegram
  	def send_alert(self, alert, info):
+		if self.sticker:
+			if info['id'] in self.stickerlist:
+				stickerargs = {
+					'chat_id': alert['chat_id'],
+					'sticker': self.stickerlist[info['id']],
+					'disable_notification': 'True'
+				}
+				try_sending(log, self.connect, 'Telegram', self.client.sendSticker, stickerargs)
+
 		args = {
 			'chat_id': alert['chat_id'],
 			'text': '<b>' + replace(alert['title'], info) + '</b> \n' + replace(alert['body'], info),
@@ -87,7 +102,7 @@ class Telegram_Alarm(Alarm):
 				'disable_notification': "%s" % self.disable_map_notification
 			}
 			try_sending(log, self.connect, "Telegram (Loc)", self.client.sendLocation, locargs)
-			
+
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
 		self.send_alert(self.pokemon, pokemon_info)
