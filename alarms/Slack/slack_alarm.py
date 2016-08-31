@@ -48,19 +48,29 @@ class Slack_Alarm(Alarm):
 		self.startup_message = settings.get('startup_message', "True")
 		self.channel = settings.get('channel', "general")
 		self.map = settings.get('map', {})
+		self.startup_list = settings.get('startup_list', "True")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 		
-		#Connect and send startup message
+		#Connect and send startup messages
 		self.connect()
 		if parse_boolean(self.startup_message):
 			self.client.chat.post_message(
 				channel=self.pokemon['channel'],
 				username='PokeAlarm',
 				text='PokeAlarm activated! We will alert this channel about pokemon.'
+			)
+		if parse_boolean(self.startup_list):
+			poke_list = "We will alert this chat of the following pokemon:\n"
+			for line in notify_list_lines(config["NOTIFY_LIST"],4):
+				poke_list = poke_list + line + "\n"
+			self.client.chat.post_message(
+				channel=self.pokemon['channel'],
+				username='PokeAlarm',
+				text=poke_list
 			)
 		log.info("Slack Alarm intialized.")
 		log.debug("Attempting to push to the following channels: Pokemon:%s, Pokestops:%s, Gyms:%s" %(self.pokemon['channel'], self.pokestop['channel'], self.gym['channel']))
@@ -110,13 +120,14 @@ class Slack_Alarm(Alarm):
 	
 	#Update channels list
 	def update_channels(self):
-		self.channels = set()
-		response = self.client.channels.list().body
+		self.channels = dict()
+		response = self.client.channels.list(True).body
 		for channel in response['channels']:
-			self.channels.add(channel['name'])
+			self.channels[channel['name']] = channel['id']
 		response = self.client.groups.list().body
 		for channel in response['groups']:
-			self.channels.add(channel['name'])
+			self.channels[channel['name']] = channel['id']
+			self.channels.update((channel['name']),(channel['id']))
 		log.debug(self.channels)
 	
 	#Checks for valid channel, otherwise defaults to general
@@ -135,7 +146,6 @@ class Slack_Alarm(Alarm):
 		pattern = re.compile("[^a-z0-9-]+")
 		return pattern.sub("", name)
 
-		
 	# Build a query for a static map of the pokemon location
 	def make_map(self, map_url, lat, lng):
 		if map_url is None: #If no map is set

@@ -22,11 +22,16 @@ class Alarm_Manager(Thread):
 		with open(get_path(config['CONFIG_FILE'])) as file:
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
-			self.notify_list = make_notify_list(settings["pokemon"])
+			config["NOTIFY_LIST"] = make_notify_list(settings["pokemon"])
 			out = ""
-			for id in self.notify_list:
-				out = out + "{}, ".format(get_pkmn_name(id))
-			log.info("You will be notified of the following pokemon: \n" + out[:-2])
+			output_list = notify_list_lines(config["NOTIFY_LIST"],4)
+			if len(output_list) == 0:
+				log.info("No pokemon are set for notification.")
+			else:
+				log.info("You will be notified of the following pokemon:")
+				for line in output_list:
+					log.info(line)
+			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
 			self.pokemon, self.pokestops, self.gyms   = {}, {}, {}
@@ -105,7 +110,7 @@ class Alarm_Manager(Thread):
 			return
 		
 		#Check if Pokemon is on the notify list
-		if pkmn_id not in self.notify_list:
+		if pkmn_id not in config["NOTIFY_LIST"]:
 			log.info(name + " ignored: notify not enabled.")
 			return
 
@@ -113,9 +118,9 @@ class Alarm_Manager(Thread):
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
 		dist = get_dist([lat, lng])
-		if dist >= self.notify_list[pkmn_id]:
+		if dist >= config["NOTIFY_LIST"][pkmn_id]:
 			log.info(name + " ignored: outside range")
-			log.debug("Pokemon must be less than %d, but was %d." % (self.notify_list[pkmn_id], dist))
+			log.debug("Pokemon must be less than %d, but was %d." % (self.config["NOTIFY_LIST"][pkmn_id], dist))
 			return
         
 		#Check if the Pokemon is in the geofence
