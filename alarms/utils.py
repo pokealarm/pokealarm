@@ -141,6 +141,33 @@ def make_notify_list(want_list):
 				continue
 	return notify
 
+def notify_list_lines(notify_list, num_per_line=3):
+	sorted_list = sorted(notify_list.iteritems())
+	lines=[]
+	for i in range(len(sorted_list)/num_per_line+1):
+		line = ""
+		for j in sorted_list[i*num_per_line:(i+1)*num_per_line]:
+			dist = "Unl" if j[1] == float('inf') else str(j[1])
+			line = line + "{} ({}), ".format(get_pkmn_name(j[0]), dist) # Add "PokemonName (distance) " to line
+		if line != "": lines.append(line)
+	if len(lines) > 0: lines[len(lines)-1] = lines[len(lines)-1][:-2] #Remove last comma
+	return lines
+
+def notify_list_multi_msgs(notify_list, msg_char_limit,preceding_text="", timestamp=''):
+	sorted_list = sorted(notify_list.iteritems())
+	messages=[]
+	msg = ''
+	if timestamp != '': msg = '{} - '.format(timestamp)
+	if preceding_text != "": msg = msg + '{}: '.format(preceding_text) 
+	while len(sorted_list)>0:
+		if len(msg) + len(get_pkmn_name(sorted_list[0][0])) + 2 < msg_char_limit:
+			msg = msg + get_pkmn_name(sorted_list.pop(0)[0]) + ", "
+		else:
+			messages.append(msg[:-2])
+			msg = '' if timestamp == '' else '{} - '.format(timestamp)
+	messages.append(msg[:-2])
+	return messages
+
 def make_pokestops_list(settings):
 	notify = {}
 	if 'Lured' in settings:

@@ -41,16 +41,22 @@ class Telegram_Alarm(Alarm):
 		self.chat_id = settings.get('chat_id')
 		self.disable_map_notification = settings.get('disable_map_notification', "True")
 		self.startup_message = settings.get('startup_message', "True")
-		
+		self.startup_list = settings.get('startup_list', "True")
+
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 		
-		#Connect and send startup message
+		#Connect and send startup messages
  		self.connect()
 		if parse_boolean(self.startup_message):
 			self.client.sendMessage(self.pokemon['chat_id'], 'PokeAlarm activated! We will alert this chat about pokemon.')
+		if parse_boolean(self.startup_list):
+			poke_list = "We will alert this chat of the following pokemon:\n"
+			for line in notify_list_lines(config["NOTIFY_LIST"],4):
+				poke_list = poke_list + line + "\n"
+			self.client.sendMessage(self.pokemon['chat_id'], poke_list)
 		log.info("Telegram Alarm intialized.")
 	
 	#(Re)establishes Telegram connection
@@ -61,7 +67,6 @@ class Telegram_Alarm(Alarm):
 	def set_alert(self, settings, default):
 		alert = {}
 		alert['chat_id'] = settings.get('chat_id', self.chat_id)
-		
 		alert['title'] = settings.get('title', default['title'])
 		alert['body'] = settings.get('body', default['body'])
 		alert['location'] = parse_boolean(settings.get('location', default['location']))
