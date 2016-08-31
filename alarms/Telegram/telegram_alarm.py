@@ -39,6 +39,7 @@ class Telegram_Alarm(Alarm):
 		#Service Info
 		self.bot_token = settings['bot_token']
 		self.chat_id = settings.get('chat_id')
+		self.disable_map_notification = settings.get('disable_map_notification', "True")
 		self.startup_message = settings.get('startup_message', "True")
 		
 		#Set Alerts
@@ -64,6 +65,7 @@ class Telegram_Alarm(Alarm):
 		alert['title'] = settings.get('title', default['title'])
 		alert['body'] = settings.get('body', default['body'])
 		alert['location'] = parse_boolean(settings.get('location', default['location']))
+		alert['disable_map_notification'] = settings.get("disable_map_notification", self.disable_map_notification)
 		return alert
  		
 	#Send Alert to Telegram
@@ -73,6 +75,7 @@ class Telegram_Alarm(Alarm):
 			'text': '<b>' + replace(alert['title'], info) + '</b> \n' + replace(alert['body'], info),
 			'parse_mode': 'HTML',
 			'disable_web_page_preview': 'False',
+			'disable_notification': 'False'
 		}
 		try_sending(log, self.connect, "Telegram", self.client.sendMessage, args)
 		
@@ -81,7 +84,7 @@ class Telegram_Alarm(Alarm):
 				'chat_id': alert['chat_id'],
 				'latitude': info['lat'],
 				'longitude':  info['lng'],
-				'disable_notification': 'True'
+				'disable_notification': "%s" % self.disable_map_notification
 			}
 			try_sending(log, self.connect, "Telegram (Loc)", self.client.sendLocation, locargs)
 			
