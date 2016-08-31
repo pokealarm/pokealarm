@@ -47,6 +47,7 @@ class Slack_Alarm(Alarm):
 		self.api_key = settings['api_key']
 		self.startup_message = settings.get('startup_message', "True")
 		self.channel = settings.get('channel', "general")
+		self.map = settings.get('map', {})
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
@@ -79,7 +80,7 @@ class Slack_Alarm(Alarm):
 		alert['url'] = settings.get('url', default['url'])
 		alert['body'] = settings.get('body', default['body'])
 		
-		alert['map'] = get_static_map_url(settings.get('map',{}))
+		alert['map'] = get_static_map_url(settings.get('map', self.map))
 		
 		return alert
 
