@@ -127,7 +127,6 @@ class Slack_Alarm(Alarm):
 		response = self.client.groups.list().body
 		for channel in response['groups']:
 			self.channels[channel['name']] = channel['id']
-			self.channels.update((channel['name']),(channel['id']))
 		log.debug(self.channels)
 	
 	#Checks for valid channel, otherwise defaults to general
