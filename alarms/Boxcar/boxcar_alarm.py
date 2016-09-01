@@ -26,14 +26,14 @@ class Boxcar_Alarm(Alarm):
 			'title':"Someone has placed a lure on a Pokestop!",
 			'long_message':"<a href='<gmaps>'>This lure</a> will expire at <24h_time> (<time_left>).",
 			'url':"<gmaps>",
-			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
+			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
 			'sound':"beep-crisp"
 		},
 		'gym':{
 			'title':"A Team <old_team> gym has fallen!",
 			'long_message':"<a href='<gmaps>'>Gym</a> is now controlled by <new_team>.",
 			'url':"<gmaps>",
-			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
+			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym.png",
 			'sound':"beep-crisp"
 		}
 	}
@@ -47,8 +47,6 @@ class Boxcar_Alarm(Alarm):
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-		print "Settings.get %s" % settings.get('pokemon', {})
-		print "Defaults %s" % self._defaults['pokemon']
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
 		
