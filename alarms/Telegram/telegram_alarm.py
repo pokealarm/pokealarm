@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 #Local modules
 from ..alarm import Alarm
 from ..utils import *
+from telegram_stickers import stickerlist
 
 #External modules
 import telepot
@@ -46,11 +47,7 @@ class Telegram_Alarm(Alarm):
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 		
-		self.sticker = parse_boolean(settings.get('send_sticker', 'False'))
-		#load sticker file_id list from json
-		if self.sticker:
-			with open(get_path('alarms/Telegram/telegram_stickers.json')) as file:
-				self.stickerlist = json.load(file)
+		self.stickers = parse_boolean(settings.get('send_stickers', 'True'))
 
 		#Connect and send startup message
  		self.connect()
@@ -74,11 +71,11 @@ class Telegram_Alarm(Alarm):
  		
 	#Send Alert to Telegram
  	def send_alert(self, alert, info):
-		if self.sticker:
-			if info['id'] in self.stickerlist:
+		if self.stickers:
+			if info['id'] in stickerlist:
 				stickerargs = {
 					'chat_id': alert['chat_id'],
-					'sticker': self.stickerlist[info['id']],
+					'sticker': stickerlist[info['id']], # needs to be gym or stop icon
 					'disable_notification': 'True'
 				}
 				try_sending(log, self.connect, 'Telegram', self.client.sendSticker, stickerargs)
