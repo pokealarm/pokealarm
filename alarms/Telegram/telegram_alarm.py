@@ -19,19 +19,22 @@ class Telegram_Alarm(Alarm):
 			#'chat_id': If no default, required
 			'title': "A wild <pkmn> has appeared!",
 			'body': "<gmaps> \n Available until <24h_time> (<time_left>).",
-			'location': "True"
+			'location': "True",
+			'sticker_id':'none' #<<- seems wrong!
 		},
 		'pokestop':{
 			#'chat_id': If no default, required
 			'title':"Someone has placed a lure on a Pokestop!",
 			'body': "<gmaps> \n Lure will expire at <24h_time> (<time_left>).",
-			'location': "True"
+			'location': "True",
+			'sticker_id':'BQADBAADAgADjGt_DTYHnWDBC7UfAg'
 		},
 		'gym':{
 			#'chat_id': If no default, required
 			'title':"A Team <old_team> gym has fallen!",
 			'body': "<gmaps> \n It is now controlled by <new_team>.",
-			'location': "True"
+			'location': "True",
+			'sticker_id':'BQADBAADBAADjGt_DX0Eqdtyxko2Ag'
 		}
 	}
 	
@@ -67,18 +70,27 @@ class Telegram_Alarm(Alarm):
 		alert['title'] = settings.get('title', default['title'])
 		alert['body'] = settings.get('body', default['body'])
 		alert['location'] = parse_boolean(settings.get('location', default['location']))
+		alert['sticker_id'] = settings.get('send_stickers', default['sticker_id'])
 		return alert
  		
 	#Send Alert to Telegram
  	def send_alert(self, alert, info):
 		if self.stickers:
+			#Use id for pokemon sticker
 			if info['id'] in stickerlist:
 				stickerargs = {
 					'chat_id': alert['chat_id'],
-					'sticker': stickerlist[info['id']], # needs to be gym or stop icon
+					'sticker': stickerlist[info['id']],
 					'disable_notification': 'True'
 				}
-				try_sending(log, self.connect, 'Telegram', self.client.sendSticker, stickerargs)
+			#Using hardcoded file_id in _defaults for stops & gyms
+			else:
+				stickerargs = {
+					'chat_id': alert['chat_id'],
+					'sticker': alert['sticker_id'],
+					'disable_notification': 'True'
+				}
+			try_sending(log, self.connect, 'Telegram', self.client.sendSticker, stickerargs)
 
 		args = {
 			'chat_id': alert['chat_id'],
