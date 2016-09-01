@@ -21,7 +21,7 @@
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
 
 ## Wiki Update
-<!--- Please create a Wiki page (or snippet) desciribing how to use your changes --->
+<!--- Please create a Wiki page (or snippet) describing how to use your changes --->
 <!--- Please keep them simple and user friendly                                  --->
 
 ## Checklist:
