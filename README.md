@@ -1,4 +1,10 @@
+#PokeAlarm
+
 PokeAlarm is a third party extension of [PokemonGo-Map](https://github.com/PokemonGoMap/PokemonGo-Map) that allows you to receive external notifications via one or more message services.  Customized notifications are available by configuring the `alarms.json` file.
+
+![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
+[![license](https://img.shields.io/github/license/kvangent/PokeAlarm.svg)]()
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5W9ZTLMS5NB28&lc=US&item_name=PokeAlarm&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)  
 
 We currently support the following services:
 * [Pushbullet](https://github.com/kvangent/PokeAlarm/wiki/Pushbullet) (support likely be discontinued soon due to changes in the API pricing structure)
@@ -19,9 +25,9 @@ Visit us at our [**Discord channel**](https://discordapp.com/invite/am66rag) if 
 ### Github
 If you are experiencing issues with the alarm or would like to see new features, please open a ticket on github [here](https://github.com/kvangent/PokeAlarm/issues/new). Be sure to complete the included suppport template and provide as much information as possible.  **Support tickets that do not fully complete the request template may be closed without notice.**
 
-## Upcoming Features
+## What exactly is PokeAlarm?
 
-PokeAlarm is under development. Though school, work, and a few other big life events are quickly approaching, I still plan to add updates and provide support in my free time. If you are interested in helping out, please contact me via the [discord channel](https://discordapp.com/invite/am66rag).
+PokeAlarm is a lightweight webserver designed to receive POST requests from your local PokemonGo-Map server. It sorts through these requests, letting you know through your favorite service something has happend. It might be a tweet when a rare pokemon spawning down the street, a Telegram message letting you know a lured pokestop only a few minutes away, or else a Pushbullet notification letting you know your teams gym has fallen.
 
 ## FAQ
 
