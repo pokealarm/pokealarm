@@ -10,11 +10,13 @@ We currently support the following services:
 
 ## Support
 
-** READ THE WIKI BEFORE ASKING FOR HELP!!!** It contains all the setup and configuration information for PokeAlarm. 
+### Wiki
+Please read the [**Wiki**](https://github.com/kvangent/PokeAlarm/wiki) before contacting us for support. It should answer all your questions about installation and configuration.
 
-### [Discord](https://discordapp.com/invite/am66rag) <--- VISIT ONLY AFTER YOU HAVE READ THE WIKI
-For questions about setup, visit us at our [Discord channel](https://discordapp.com/invite/am66rag). Please stick to the `#general` and `#troubleshooting` chats and avoid sending private messages to devs. We're working hard, we promise!
+### Discord
+Visit us at our [**Discord channel**](https://discordapp.com/invite/am66rag) if you still have issues with your setup. Please stick to the `#troubleshooting` and `#general` chats and avoid sending private messages to devs. We're working hard, we promise!
 
+### Github
 If you are experiencing issues with the alarm or would like to see new features, please open a ticket on github [here](https://github.com/kvangent/PokeAlarm/issues/new). Be sure to complete the included suppport template and provide as much information as possible.  **Support tickets that do not fully complete the request template may be closed without notice.**
 
 ## Upcoming Features
