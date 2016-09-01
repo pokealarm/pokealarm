@@ -59,7 +59,7 @@ class Slack_Alarm(Alarm):
 		self.connect()
 		if parse_boolean(self.startup_message):
 			self.client.chat.post_message(
-				channel=self.pokemon['channel'],
+				channel=self.get_channel(self.pokemon['channel']),
 				username='PokeAlarm',
 				text='PokeAlarm activated! We will alert this channel about pokemon.'
 			)
@@ -68,7 +68,7 @@ class Slack_Alarm(Alarm):
 			for line in notify_list_lines(config["NOTIFY_LIST"],4):
 				poke_list = poke_list + line + "\n"
 			self.client.chat.post_message(
-				channel=self.pokemon['channel'],
+				channel=self.get_channel(self.pokemon['channel']),
 				username='PokeAlarm',
 				text=poke_list
 			)
@@ -133,8 +133,14 @@ class Slack_Alarm(Alarm):
 	def get_channel(self, name):
 		channel = self.channel_format(name)
 		if channel not in self.channels:
-			log.debug("No channel created named %s... Posting to general instead." % channel)
-			return "#general"
+			if name == self.channel:
+				log.error("Default channel %s not found... Posting to general instead." % channel)
+				return "#general"
+			else:
+				default = self.get_channel(self.channel)
+				log.debug("No channel created named %s... Reverting to default." % channel)
+				return "#general"
+			
 		return channel
 	
 	#Returns a string s that is in proper channel format
