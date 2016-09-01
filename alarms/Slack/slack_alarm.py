@@ -137,10 +137,9 @@ class Slack_Alarm(Alarm):
 				log.error("Default channel %s not found... Posting to general instead." % channel)
 				return "#general"
 			else:
-				default = self.get_channel(self.channel)
 				log.debug("No channel created named %s... Reverting to default." % channel)
-				return "#general"
-			
+				default = self.get_channel(self.channel)
+				return default
 		return channel
 	
 	#Returns a string s that is in proper channel format
