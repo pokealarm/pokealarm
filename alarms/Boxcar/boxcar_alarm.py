@@ -40,7 +40,7 @@ class Boxcar_Alarm(Alarm):
 		#Service Info
 		self.user_credentials = settings['user_credentials']
 		self.startup_message = settings.get('startup_message', "True")
-		self.startup_list = settings.get('startup_list', "True")
+		self.startup_list = settings.get('startup_list', "False")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])

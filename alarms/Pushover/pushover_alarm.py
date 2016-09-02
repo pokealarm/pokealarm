@@ -41,7 +41,7 @@ class Pushover_Alarm(Alarm):
 		self.app_token = settings['app_token']
 		self.user_key = settings['user_key']
 		self.startup_message = settings.get('startup_message', "True")
-		self.startup_list = settings.get('startup_list', "True")
+		self.startup_list = settings.get('startup_list', "False")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])

@@ -48,7 +48,7 @@ class Slack_Alarm(Alarm):
 		self.startup_message = settings.get('startup_message', "True")
 		self.channel = settings.get('channel', "general")
 		self.map = settings.get('map', {})
-		self.startup_list = settings.get('startup_list', "True")
+		self.startup_list = settings.get('startup_list', "False")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
