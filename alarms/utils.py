@@ -216,7 +216,7 @@ def get_team_name(team_number):
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):
 	latLon = '{},{}'.format(repr(lat), repr(lng))
-	return 'http://maps.google.com/maps?q={} '.format(latLon)
+	return 'http://maps.google.com/maps?q={}'.format(latLon)
 	
 #Return a version of the string with the correct substitutions made	
 def replace(string, pkinfo):

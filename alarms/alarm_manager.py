@@ -40,6 +40,9 @@ class Alarm_Manager(Thread):
 			self.queue = queue
 			for alarm in alarm_settings:
 				if alarm['active'] == "True" :
+					if alarm['type'] == 'boxcar' :
+						from Boxcar import Boxcar_Alarm
+						self.alarms.append(Boxcar_Alarm(alarm))
 					if alarm['type'] == 'pushbullet' :
 						from Pushbullet import Pushbullet_Alarm
 						self.alarms.append(Pushbullet_Alarm(alarm))

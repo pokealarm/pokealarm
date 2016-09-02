@@ -1,5 +1,5 @@
 *.pyc
-coords.txt
+coords*.txt
 config/config.ini
 nohup.out
 

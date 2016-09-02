@@ -2,6 +2,11 @@
 	"alarms":[
 		{
 			"active":"False",
+			"type":"boxcar",
+			"user_credentials":"YOUR_API_KEY"
+		},
+		{
+			"active":"False",
 			"type":"pushbullet",
 			"api_key":"YOUR_API_KEY"
 		},
