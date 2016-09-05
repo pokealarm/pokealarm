@@ -439,3 +439,16 @@ def get_driving_data(info):
 #####################################################################
 
 
+#########################################################################
+
+###################### FILTERS ######################
+
+# Distance range filter
+def filter_in_range(distance, latlon1, latlon2):
+	dist = get_dist(latlon1, latlon2)
+	if dist <= distance:
+		return True
+	else:
+		return False
+
+#####################################################################

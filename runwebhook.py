@@ -83,5 +83,6 @@ if __name__ == '__main__':
 	
 	#Start up Server
 	log.info("Webhook server running on http://%s:%s" % (config['HOST'], config['PORT']))
-	server = wsgi.WSGIServer((config['HOST'], config['PORT']), app, log=logging.getLogger('pywsgi'))
+	# server = wsgi.WSGIServer((config['HOST'], config['PORT']), app, log=logging.getLogger('pywsgi'))
+	server = wsgi.WSGIServer(("0.0.0.0", config['PORT']), app, log=logging.getLogger('pywsgi'))
 	server.serve_forever()

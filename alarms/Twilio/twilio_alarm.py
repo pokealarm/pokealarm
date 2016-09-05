@@ -37,11 +37,13 @@ class Twilio_Alarm(Alarm):
 		#Service Info
 		self.account_sid = settings['account_sid']
 		self.auth_token = settings['auth_token']
+		self.location = settings.get('location', False)
+		self.distance = settings.get('distance', False)
 		
 		self.from_number = settings.get('from_number')
 		self.to_number = settings.get('to_number')
-		self.startup_message = settings.get('startup_message', "True")
-		self.startup_list = settings.get('startup_message', "True")
+		self.startup_message = settings.get('startup_message', True)
+		self.startup_list = settings.get('startup_message', True)
 
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
