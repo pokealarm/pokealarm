@@ -39,7 +39,7 @@ class Alarm_Manager(Thread):
 			self.alarms = []
 			self.queue = queue
 			for alarm in alarm_settings:
-				if alarm['active'] == "True" :
+				if alarm['active'] :
 					if alarm['type'] == 'boxcar' :
 						from Boxcar import Boxcar_Alarm
 						self.alarms.append(Boxcar_Alarm(alarm))
@@ -152,7 +152,8 @@ class Alarm_Manager(Thread):
 		pkmn_info = self.optional_arguments(pkmn_info)
 			
 		for alarm in self.alarms:
-			alarm.pokemon_alert(pkmn_info)
+			if alarm.local_filters(pkmn):
+				alarm.pokemon_alert(pkmn_info)
 
 	#Send a notication about Pokestop
 	def trigger_pokestop(self, stop):
@@ -211,7 +212,8 @@ class Alarm_Manager(Thread):
 		stop_info = self.optional_arguments(stop_info)
 		
 		for alarm in self.alarms:
-			alarm.pokestop_alert(stop_info)
+			if alarm.local_filters(stop):
+				alarm.pokestop_alert(stop_info)
 
 	
 	#Send a notifcation about pokemon gym detected
@@ -265,7 +267,8 @@ class Alarm_Manager(Thread):
 		gym_info = self.optional_arguments(gym_info)
 		
 		for alarm in self.alarms:
-			alarm.gym_alert(gym_info)
+			if alarm.local_filters(gym):
+				alarm.gym_alert(gym_info)
 		
 	#clear expired pokemon so that the seen set is not too large
 	def clear_stale(self):

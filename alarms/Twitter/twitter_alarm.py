@@ -33,8 +33,10 @@ class Twitter_Alarm(Alarm):
 		self.token_key = settings['access_secret']
 		self.con_secret = settings['consumer_key']
 		self.con_secret_key = settings['consumer_secret']
-		self.startup_message = settings.get('startup_message', "True")
-		self.startup_list = settings.get('startup_list', "True")
+		self.startup_message = settings.get('startup_message', True)
+		self.startup_list = settings.get('startup_list', True)
+		self.location = settings.get('location', False)
+		self.distance = settings.get('distance', False)
 				
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
@@ -64,7 +66,6 @@ class Twitter_Alarm(Alarm):
 	#Post Pokemon Status
 	def send_alert(self, alert, info):
 		args = { "status": replace(alert['status'], info)}
-		try_sending(log, self.connect, "Twitter", self.client.statuses.update, args)
 		
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
