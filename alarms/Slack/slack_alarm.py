@@ -149,7 +149,7 @@ class Slack_Alarm(Alarm):
 		if name[0] == '#': #Remove # if added 
 			name = name[1:]
 		name = name.replace(u"\u2642", "m").replace(u"\u2640", "f").lower()
-		pattern = re.compile("[^a-z0-9-]+")
+		pattern = re.compile("[^_a-z0-9-]+")
 		return pattern.sub("", name)
 
 	# Build a query for a static map of the pokemon location
