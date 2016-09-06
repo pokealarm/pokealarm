@@ -107,16 +107,16 @@ class Alarm_Manager(Thread):
 		pkmn_id = pkmn['pokemon_id']
 		name = get_pkmn_name(pkmn_id)
 		
+		#Check if Pokemon is on the notify list
+		if pkmn_id not in config["NOTIFY_LIST"]:
+			log.info(name + " ignored: notify not enabled.")
+			return
+		
 		#Check if the Pokemon has already expired
 		seconds_left = (dissapear_time - datetime.utcnow()).total_seconds()
 		if seconds_left < config['TIME_LIMIT'] :
 			log.info(name + " ignored: not enough time remaining.")
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
-			return
-		
-		#Check if Pokemon is on the notify list
-		if pkmn_id not in config["NOTIFY_LIST"]:
-			log.info(name + " ignored: notify not enabled.")
 			return
 
 		#Check if the Pokemon is outside of notify range
