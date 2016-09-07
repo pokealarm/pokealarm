@@ -220,6 +220,7 @@ class Alarm_Manager(Thread):
 		old_team = self.gyms.get(id)
 		new_team = gym.get('team_id', gym.get('team')) 	
 		self.gyms[id] = new_team
+		log.debug("Gym %s - %s to %s" % (id, old_team, new_team))
 		
 		#Check to see if the gym has changed 
 		if old_team == None or new_team == old_team:
