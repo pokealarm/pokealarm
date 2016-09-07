@@ -43,10 +43,11 @@ class Twitter_Alarm(Alarm):
 		
 		#Connect and send startup messages
 		self.connect()
+		timestamps = get_timestamps(datetime.utcnow());
 		if parse_boolean(self.startup_message):
-			self.client.statuses.update(status="%s: PokeAlarm has intialized!" % datetime.now().strftime("%H:%M:%S"))
+			self.client.statuses.update(status="%s - PokeAlarm has intialized!" % timestamps[2])
 		if parse_boolean(self.startup_list):
-			for line in notify_list_multi_msgs(config["NOTIFY_LIST"],140, "We will tweet about the following pokemon", datetime.now().strftime("%H:%M:%S")):
+			for line in notify_list_multi_msgs(config["NOTIFY_LIST"],140, "We will tweet about the following pokemon", timestamps[2]):
 				self.client.statuses.update(status="%s" % line)
 		log.info("Twitter Alarm intialized.")
 		
