@@ -274,8 +274,8 @@ def get_timestamps(t):
 	else:
 		disappear_time = datetime.now() + d
 	time_left = "%dm %ds" % (m, s)
-	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower() + disappear_time.strftime(" %Z")
-	time_24 = disappear_time.strftime("%H:%M:%S %Z")
+	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
+	time_24 = disappear_time.strftime("%H:%M:%S")
 	return (time_left, time_12, time_24)
 	
 #########################################################################
