@@ -16,7 +16,7 @@ class Twitter_Alarm(Alarm):
 
 	_defaults = {
 		'pokemon':{
-			'status': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>). <gmaps>",
+			'status': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>). <gmaps><addinfo>",
 		},
 		'pokestop':{
 			'status': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).  <gmaps>",
