@@ -145,7 +145,7 @@ class Alarm_Manager(Thread):
 		#Check if the Pokemon have IVs config but no IVs
 		if pkmn['move_1'] is None and int(config["IVS_LIST"][pkmn_id]) > 0:
 			log.info(name + " ignored: not have IVs to compare.")
-			log.debug("Move 1 was %f, so no IVs" % (pkmn['move_1']))
+			log.debug("Move 1 was {}, so no IVs".format(pkmn['move_1']))
 			return
 
 		#Check if the Pokemon is outside of notify range
@@ -178,7 +178,6 @@ class Alarm_Manager(Thread):
 			mov1 = get_pkmn_move(mov1id)
 			mov2 = get_pkmn_move(mov2id)
 			iv = (atk + dfs + sta)*100/45
-			log.info("IVs %f %f %f %f %f" % (atk, dfs, sta, mov1, mov2))
 
 			#Check if Pokemon IVs is equal or bigger than setting
 			if iv < int(config["IVS_LIST"][pkmn_id]):
