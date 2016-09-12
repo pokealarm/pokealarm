@@ -26,6 +26,7 @@ class Alarm_Manager(Thread):
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
 			config["NOTIFY_LIST"] = make_notify_list(settings["pokemon"])
+			config["IVS_LIST"] = make_notify_list(settings["ivs"])
 			out = ""
 			output_list = notify_list_lines(config["NOTIFY_LIST"],4)
 			if len(output_list) == 0:
@@ -141,10 +142,17 @@ class Alarm_Manager(Thread):
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
 			return
 
+		#Check if the Pokemon have IVs config but no IVs
+		if pkmn['move_1'] is None and int(config["IVS_LIST"][pkmn_id]) > 0:
+			log.info(name + " ignored: not have IVs to compare.")
+			log.debug("Move 1 was %f, so no IVs" % (pkmn['move_1']))
+			return
+
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
 		dist = get_dist([lat, lng])
+
 		if dist >= config["NOTIFY_LIST"][pkmn_id]:
 			log.info(name + " ignored: outside range")
 			log.debug("Pokemon must be less than %d, but was %d." % (config["NOTIFY_LIST"][pkmn_id], dist))
@@ -155,22 +163,67 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info(name + " ignored: outside geofence")
 				return
-				
+		
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
-		pkmn_info = {
-			'id': str(pkmn_id),
- 			'pkmn': name,
-			'lat' : "{}".format(repr(lat)),
-			'lng' : "{}".format(repr(lng)),
-			'gmaps': get_gmaps_link(lat, lng),
-			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
-			'time_left': timestamps[0],
-			'12h_time': timestamps[1],
-			'24h_time': timestamps[2],
-			'dir': get_dir(lat,lng)
-		}
+		
+		#Only update IVs if it's exist to avoid Error on int convert
+		if pkmn['move_1'] is not None:
+			atk = int(pkmn['individual_attack'])
+			dfs = int(pkmn['individual_defense'])
+			sta = int(pkmn['individual_stamina'])
+			mov1id = int(pkmn['move_1'])
+			mov2id = int(pkmn['move_2'])
+			mov1 = get_pkmn_move(mov1id)
+			mov2 = get_pkmn_move(mov2id)
+			iv = (atk + dfs + sta)*100/45
+			log.info("IVs %f %f %f %f %f" % (atk, dfs, sta, mov1, mov2))
+
+			#Check if Pokemon IVs is equal or bigger than setting
+			if iv < int(config["IVS_LIST"][pkmn_id]):
+				log.info(name + " ignored: IVs less than setting.")
+				log.debug("IVs %f is less than %f" % (iv, int(config["IVS_LIST"][pkmn_id])))
+				return
+			else:
+				pkmn_info = {
+					'id': str(pkmn_id),
+		 			'pkmn': name,
+					'lat' : "{}".format(repr(lat)),
+					'lng' : "{}".format(repr(lng)),
+					'gmaps': get_gmaps_link(lat, lng),
+					'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
+					'time_left': timestamps[0],
+					'12h_time': timestamps[1],
+					'24h_time': timestamps[2],
+					'dir': get_dir(lat,lng),
+					'move1': mov1,
+					'move2': mov2,
+					'atk': atk,
+					'dfs': dfs,
+					'sta': sta,
+					'iv': iv
+				}
+		else:
+			pkmn_info = {
+				'id': str(pkmn_id),
+	 			'pkmn': name,
+				'lat' : "{}".format(repr(lat)),
+				'lng' : "{}".format(repr(lng)),
+				'gmaps': get_gmaps_link(lat, lng),
+				'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
+				'time_left': timestamps[0],
+				'12h_time': timestamps[1],
+				'24h_time': timestamps[2],
+				'dir': get_dir(lat,lng),
+				'move1': 'None',
+				'move2': 'None',
+				'atk': 'None',
+				'dfs': 'None',
+				'sta': 'None',
+				'iv': 'None'
+			}
+
 		pkmn_info = self.optional_arguments(pkmn_info)
 			
 		for alarm in self.alarms:
