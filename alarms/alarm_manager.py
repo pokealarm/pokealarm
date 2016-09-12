@@ -183,7 +183,6 @@ class Alarm_Manager(Thread):
 			#Check if Pokemon IVs is equal or bigger than setting
 			if iv < int(config["IVS_LIST"][pkmn_id]):
 				log.info(name + " ignored: IVs less than setting.")
-				log.debug("IVs %f is less than %f" % (iv, int(config["IVS_LIST"][pkmn_id])))
 				return
 			else:
 				pkmn_info = {
