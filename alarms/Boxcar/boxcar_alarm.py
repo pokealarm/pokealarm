@@ -17,7 +17,7 @@ class Boxcar_Alarm(Alarm):
 	_defaults = {
 		'pokemon':{
 			'title':"A wild <pkmn> has appeared!",
-			'long_message':"Available <a href='<gmaps>'>here</a> until <24h_time> (<time_left>).",
+			'long_message':"Available <a href='<gmaps>'>here</a> until <24h_time> (<time_left>).\n IV: <iv>% (<atk>/<dfs>/<sta>) \n Move 1: <move1> \n Move 2: <move2>",
 			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
 			'sound':"beep-crisp"
 		},

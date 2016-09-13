@@ -17,7 +17,7 @@ class Telegram_Alarm(Alarm):
 		'pokemon':{
 			#'chat_id': If no default, required
 			'title': "<pkmn> appear!",
-			'body': "<gmaps> \n Expiring at <24h_time> (<time_left>)! \n IV: <iv>% (<atk>/<dfs>/<sta>) \n Move 1: <move1> \n Move 2: <move2>",
+			'body': "Available <a href='<gmaps>'>here</a> until <24h_time> (<time_left>)! \n IV: <iv>% (<atk>/<dfs>/<sta>) \n Move 1: <move1> \n Move 2: <move2>",
 		},
 		'pokestop':{
 			#'chat_id': If no default, required
