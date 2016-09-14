@@ -27,14 +27,14 @@ class Telegram_Alarm(Alarm):
 			'title':"Someone has placed a lure on a Pokestop!",
 			'body': "<gmaps> \n Lure will expire at <24h_time> (<time_left>).",
 			'location': "True",
-			'sticker_id':'BQADBAADDQADjGt_DfP0-pH40rzPAg'
+			'sticker_id':'BQADBAADFwADjGt_DaQ-N7VAroZ7Ag'
 		},
 		'gym':{
 			#'chat_id': If no default, required
 			'title':"A Team <old_team> gym has fallen!",
 			'body': "<gmaps> \n It is now controlled by <new_team>.",
 			'location': "True",
-			'sticker_id':'BQADBAADDwADjGt_DRa96Tf4yQ2wAg'
+			'sticker_id':'BQADBAADEwADjGt_DcvoR3XehWjEAg'
 		}
 	}
 	
