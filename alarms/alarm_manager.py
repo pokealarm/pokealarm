@@ -214,12 +214,12 @@ class Alarm_Manager(Thread):
 				'12h_time': timestamps[1],
 				'24h_time': timestamps[2],
 				'dir': get_dir(lat,lng),
-				'move1': 'None',
-				'move2': 'None',
-				'atk': 'None',
-				'dfs': 'None',
-				'sta': 'None',
-				'iv': 'None'
+				'move1': 'N/A',
+				'move2': 'N/A',
+				'atk': '0',
+				'dfs': '0',
+				'sta': '0',
+				'iv': '0'
 			}
 
 		pkmn_info = self.optional_arguments(pkmn_info)
