@@ -38,7 +38,7 @@ class Alarm_Manager(Thread):
 			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
-			self.pokemon, self.pokestops, self.gyms   = {}, {}, {}
+			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
 			self.alarms = []
 			self.queue = Queue.Queue()
 			self.data = {}
@@ -167,7 +167,8 @@ class Alarm_Manager(Thread):
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
-		
+		ivs = {}
+
 		#Only update IVs if it's exist to avoid Error on int convert
 		if pkmn['move_1'] is not None:
 			atk = int(pkmn['individual_attack'])
@@ -178,49 +179,37 @@ class Alarm_Manager(Thread):
 			mov1 = get_pkmn_move(mov1id)
 			mov2 = get_pkmn_move(mov2id)
 			iv = (atk + dfs + sta)*100/45
-
+			ivs = {
+				'move1': mov1,
+				'move2': mov2,
+				'atk': atk,
+				'dfs': dfs,
+				'sta': sta,
+				'iv': iv
+			}
 			#Check if Pokemon IVs is equal or bigger than setting
 			if iv < int(config["IVS_LIST"][pkmn_id]):
 				log.info(name + " ignored: IVs less than setting.")
 				return
-			else:
-				pkmn_info = {
-					'id': str(pkmn_id),
-		 			'pkmn': name,
-					'lat' : "{}".format(repr(lat)),
-					'lng' : "{}".format(repr(lng)),
-					'gmaps': get_gmaps_link(lat, lng),
-					'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
-					'time_left': timestamps[0],
-					'12h_time': timestamps[1],
-					'24h_time': timestamps[2],
-					'dir': get_dir(lat,lng),
-					'move1': mov1,
-					'move2': mov2,
-					'atk': atk,
-					'dfs': dfs,
-					'sta': sta,
-					'iv': iv
-				}
-		else:
-			pkmn_info = {
-				'id': str(pkmn_id),
-	 			'pkmn': name,
-				'lat' : "{}".format(repr(lat)),
-				'lng' : "{}".format(repr(lng)),
-				'gmaps': get_gmaps_link(lat, lng),
-				'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
-				'time_left': timestamps[0],
-				'12h_time': timestamps[1],
-				'24h_time': timestamps[2],
-				'dir': get_dir(lat,lng),
-				'move1': 'N/A',
-				'move2': 'N/A',
-				'atk': '0',
-				'dfs': '0',
-				'sta': '0',
-				'iv': '0'
-			}
+
+		pkmn_info = {
+			'id': str(pkmn_id),
+ 			'pkmn': name,
+			'lat' : "{}".format(repr(lat)),
+			'lng' : "{}".format(repr(lng)),
+			'gmaps': get_gmaps_link(lat, lng),
+			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
+			'time_left': timestamps[0],
+			'12h_time': timestamps[1],
+			'24h_time': timestamps[2],
+			'dir': get_dir(lat,lng),
+			'move1': ivs.get('move1','N/A'),
+			'move2': ivs.get('move2','N/A'),
+			'atk': ivs.get('atk','0'),
+			'dfs': ivs.get('dfs','0'),
+			'sta': ivs.get('sta','0'),
+			'iv': ivs.get('iv','0')
+		}
 
 		pkmn_info = self.optional_arguments(pkmn_info)
 			
