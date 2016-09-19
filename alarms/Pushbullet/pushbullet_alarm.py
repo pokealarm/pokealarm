@@ -17,7 +17,7 @@ class Pushbullet_Alarm(Alarm):
 		'pokemon':{
 			'title':"A wild <pkmn> has appeared!",
 			'url':"<gmaps>",
-			'body':"Available until <24h_time> (<time_left>).\n IV: <iv>% (<atk>/<dfs>/<sta>) \n Move 1: <move1> \n Move 2: <move2>"
+			'body':"Available until <24h_time> (<time_left>)."
 		},
 		'pokestop':{
 			'title':"Someone has placed a lure on a Pokestop!",

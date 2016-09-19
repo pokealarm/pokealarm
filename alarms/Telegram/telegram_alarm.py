@@ -12,12 +12,12 @@ from ..utils import *
 import telepot
  
 class Telegram_Alarm(Alarm):
-
+ 	
 	_defaults = {
 		'pokemon':{
 			#'chat_id': If no default, required
-			'title': "<pkmn> appear!",
-			'body': "Available <a href='<gmaps>'>here</a> until <24h_time> (<time_left>)! \n IV: <iv>% (<atk>/<dfs>/<sta>) \n Move 1: <move1> \n Move 2: <move2>",
+			'title': "A wild <pkmn> has appeared!",
+			'body': "Available until <24h_time> (<time_left>)."
 		},
 		'pokestop':{
 			#'chat_id': If no default, required
