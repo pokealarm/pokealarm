@@ -155,7 +155,7 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info(name + " ignored: outside geofence")
 				return
-				
+
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
@@ -172,7 +172,14 @@ class Alarm_Manager(Thread):
 			'dir': get_dir(lat,lng)
 		}
 		pkmn_info = self.optional_arguments(pkmn_info)
-			
+
+		#Check if the Pokemon will be back after a hidden phase
+		#Addinfo values: 1=2x15 point, 2=1x60h2 point, 3=1x60h3 point, 4=1x60h23 point, only needs to be added, if scanned before the break
+		addinfo = pkmn.get('addinfo',0)
+		reappear_texts = ('','\n15m later back for 15m.', '\n15m later back for 30m.', '\n30m later back for 15m.')
+		reappear_ind = (0, 1, 2, 1, 3)
+		pkmn_info['addinfo'] = reappear_texts[reappear_ind[addinfo]]
+
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkmn_info)
 
@@ -214,7 +221,7 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info("Pokestop ignored: outside geofence")
 				return
-		
+
 		#Trigger the notifcations
 		log.info("Pokestop notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)

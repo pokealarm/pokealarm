@@ -21,7 +21,7 @@ class Slack_Alarm(Alarm):
 			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
 			'title':"A wild <pkmn> has appeared!",
 			'url':"<gmaps>",
-			'body': "Available until <24h_time> (<time_left>)."
+			'body': "Available until <24h_time> (<time_left>).<addinfo>"
 		},
 		'pokestop':{
 			#'channel':"general",

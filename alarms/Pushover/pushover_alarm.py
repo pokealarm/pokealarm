@@ -19,7 +19,7 @@ class Pushover_Alarm(Alarm):
 			'title':"A wild <pkmn> has appeared!",
 			'url':"<gmaps>",
 			'url_title':"Google Maps Link",
-			'message':"Available until <24h_time> (<time_left>)."
+			'message':"Available until <24h_time> (<time_left>).<addinfo>"
 		},
 		'pokestop':{
 			'title':"Someone has placed a lure on a Pokestop!",

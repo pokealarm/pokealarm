@@ -18,7 +18,7 @@ class Twilio_Alarm(Alarm):
 		'pokemon':{
 			#'from_number': Required
 			#'to_number': Required
-			'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).",
+			'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).<addinfo>",
 		},
 		'pokestop':{
 			#'from_number': Required
