@@ -94,7 +94,7 @@ class Boxcar_Alarm(Alarm):
 				"notification[title]": title,
 				"notification[long_message]": long_message,
 				"notification[icon_url]": icon_url,
-				"sound": sound}	
+				"notification[sound]": sound}	
 		if url is not None:
 			payload["notification[open_url]"] = url
 		connection.request("POST", "/api/notifications", urllib.urlencode(payload), 
