@@ -170,7 +170,7 @@ class Alarm_Manager(Thread):
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng),
-			'addinfo': get_addinfo(pkmn.get('addinfo',0))
+			'respawn_text': get_respawn_text(pkmn.get('respawn_info', 0))
 		}
 		pkmn_info = self.optional_arguments(pkmn_info)
 		for alarm in self.alarms:

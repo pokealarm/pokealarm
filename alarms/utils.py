@@ -279,11 +279,11 @@ def get_timestamps(t):
 	return (time_left, time_12, time_24)
 	
 # Check if the Pokemon will be back after a hidden phase
-# Addinfo values: 1=2x15 point, 2=1x60h2 point, 3=1x60h3 point, 4=1x60h23 point, only needs to be added, if scanned before the break
-def get_addinfo(addinfo):
-	reappear_texts = ('', '15m later back for 15m.', '15m later back for 30m.', '30m later back for 15m.')
-	reappear_ind = (0, 1, 2, 1, 3)
-	return reappear_texts[reappear_ind[addinfo]]
+# Spawn description values: 1=2x15 point, 2=1x60h2 point, 3=1x60h3 point, 4=1x60h23 point, only needs to be added, if scanned before the break
+def get_respawn_text(respawn_info):
+	respawn_texts = ('', '15m later back for 15m.', '15m later back for 30m.', '30m later back for 15m.')
+	respawn_inds = (0, 1, 2, 1, 3)
+	return respawn_texts[respawn_inds[respawn_info]]
 
 #########################################################################
 
