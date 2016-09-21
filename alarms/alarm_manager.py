@@ -26,6 +26,7 @@ class Alarm_Manager(Thread):
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
 			config["NOTIFY_LIST"] = make_notify_list(settings["pokemon"])
+			config["IVS_LIST"] = make_notify_list(settings["ivs"])
 			out = ""
 			output_list = notify_list_lines(config["NOTIFY_LIST"],4)
 			if len(output_list) == 0:
@@ -37,7 +38,7 @@ class Alarm_Manager(Thread):
 			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
-			self.pokemon, self.pokestops, self.gyms   = {}, {}, {}
+			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
 			self.alarms = []
 			self.queue = Queue.Queue()
 			self.data = {}
@@ -141,10 +142,17 @@ class Alarm_Manager(Thread):
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
 			return
 
+		#Check if the Pokemon have IVs config but no IVs
+		if pkmn['move_1'] is None and int(config["IVS_LIST"][pkmn_id]) > 0:
+			log.info(name + " ignored: not have IVs to compare.")
+			log.debug("Move 1 was {}, so no IVs".format(pkmn['move_1']))
+			return
+
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
 		dist = get_dist([lat, lng])
+
 		if dist >= config["NOTIFY_LIST"][pkmn_id]:
 			log.info(name + " ignored: outside range")
 			log.debug("Pokemon must be less than %d, but was %d." % (config["NOTIFY_LIST"][pkmn_id], dist))
@@ -155,10 +163,35 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info(name + " ignored: outside geofence")
 				return
-				
+		
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
+		ivs = {}
+
+		#Only update IVs if it's exist to avoid Error on int convert
+		if pkmn['move_1'] is not None:
+			atk = int(pkmn['individual_attack'])
+			dfs = int(pkmn['individual_defense'])
+			sta = int(pkmn['individual_stamina'])
+			mov1id = int(pkmn['move_1'])
+			mov2id = int(pkmn['move_2'])
+			mov1 = get_pkmn_move(mov1id)
+			mov2 = get_pkmn_move(mov2id)
+			iv = (atk + dfs + sta)*100/45
+			ivs = {
+				'move1': mov1,
+				'move2': mov2,
+				'atk': atk,
+				'dfs': dfs,
+				'sta': sta,
+				'iv': iv
+			}
+			#Check if Pokemon IVs is equal or bigger than setting
+			if iv < int(config["IVS_LIST"][pkmn_id]):
+				log.info(name + " ignored: IVs less than setting.")
+				return
+
 		pkmn_info = {
 			'id': str(pkmn_id),
  			'pkmn': name,
@@ -169,8 +202,15 @@ class Alarm_Manager(Thread):
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
-			'dir': get_dir(lat,lng)
+			'dir': get_dir(lat,lng),
+			'move1': ivs.get('move1','N/A'),
+			'move2': ivs.get('move2','N/A'),
+			'atk': ivs.get('atk','0'),
+			'dfs': ivs.get('dfs','0'),
+			'sta': ivs.get('sta','0'),
+			'iv': ivs.get('iv','0')
 		}
+
 		pkmn_info = self.optional_arguments(pkmn_info)
 			
 		for alarm in self.alarms:
