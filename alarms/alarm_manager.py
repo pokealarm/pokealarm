@@ -35,9 +35,9 @@ class Alarm_Manager(Thread):
 				for line in output_list:
 					log.info(line)
 			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
-			self.stop_list =  make_pokestops_list(settings["pokestops"])
+			self.stop_list = make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
-			self.pokemon, self.pokestops, self.gyms   = {}, {}, {}
+			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
 			self.alarms = []
 			self.queue = Queue.Queue()
 			self.data = {}
@@ -104,7 +104,7 @@ class Alarm_Manager(Thread):
 						log.debug("Request processing for Pokestop %s" % data['message']['pokestop_id'])
 						self.trigger_pokestop(data['message'])
 						log.debug("Finished processing for Pokestop %s" % data['message']['pokestop_id'])
-					elif data['type'] == 'gym' or data['type'] == 'gym_details'  :
+					elif data['type'] == 'gym' or data['type'] == 'gym_details':
 						log.debug("Request processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
 						self.trigger_gym(data['message'])
 						log.debug("Finished processing for Gym %s" % data['message'].get('gym_id', data['message'].get('id')))
@@ -149,7 +149,7 @@ class Alarm_Manager(Thread):
 			log.info(name + " ignored: outside range")
 			log.debug("Pokemon must be less than %d, but was %d." % (config["NOTIFY_LIST"][pkmn_id], dist))
 			return
-        
+
 		#Check if the Pokemon is in the geofence
 		if 'GEOFENCE' in config:
 			if config['GEOFENCE'].contains(lat,lng) is not True:
@@ -204,7 +204,7 @@ class Alarm_Manager(Thread):
 		lat = stop['latitude']
 		lng = stop['longitude']
 		dist = get_dist([lat, lng])
-		if dist >=  self.stop_list['lured']:
+		if dist >= self.stop_list['lured']:
 			log.info("Pokestop ignored: outside range")
 			log.debug("Pokestop must be less than %d, but was %d." % (self.stop_list['lured'], dist))
 			return
@@ -265,13 +265,13 @@ class Alarm_Manager(Thread):
 			log.info("Gym ignored: outside range")
 			log.debug("Gym must be less than %d, but was %d." % (max_dist, dist))
 			return
-		
+
 		#Check if the Gym is in the geofence
 		if 'GEOFENCE' in config:
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info("Gym ignored: outside geofence")
 				return
-		
+
 		#Trigger the notifcations
 		log.info("Gym notication was triggered!")
 		gym_info = {
