@@ -66,6 +66,9 @@ class Alarm_Manager(Thread):
 					elif alarm['type'] == 'twitter' :
 						from Twitter import Twitter_Alarm
 						self.alarms.append(Twitter_Alarm(alarm))
+                                        elif alarm['type'] == 'groupme' :
+						from Groupme import Groupme_Alarm
+						self.alarms.append(Groupme_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 					set_optional_args(str(alarm))
