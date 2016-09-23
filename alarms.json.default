@@ -42,7 +42,13 @@
 			"access_secret": "YOUR_ACCESS_SECRET",
 			"consumer_key": "YOUR_CONSUMER_KEY",
 			"consumer_secret": "YOUR_CONSUMER_SECRET"
-        }
+		},
+		{
+			"active":"False",
+			"type":"groupme",
+			"bot_id":"YOUR_BOT_TOKEN",
+			"group_id":"YOUR_GROUP_ID"
+		}
 	],
 	"gyms":{
 		"To_Valor":"False",
