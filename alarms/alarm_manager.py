@@ -37,6 +37,7 @@ class Alarm_Manager(Thread):
 			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
 			self.stop_list = make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
+			self.options = settings["options"]
 			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
 			self.alarms = []
 			self.queue = Queue.Queue()
