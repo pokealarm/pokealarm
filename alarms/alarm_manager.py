@@ -244,7 +244,11 @@ class Alarm_Manager(Thread):
 		new_team = gym.get('team_id', gym.get('team')) 	
 		self.gyms[id] = new_team
 		log.debug("Gym %s - %s to %s" % (id, old_team, new_team))
-		
+
+		#Set blank variables
+		gym_name = "A Gym"
+		defenders = ""
+
 		#Check to see if the gym has changed 
 		if old_team == None or new_team == old_team:
 			log.debug("Gym ignored: no change detected")
@@ -257,7 +261,17 @@ class Alarm_Manager(Thread):
 		if max_dist is -1:
 			log.info("Gym ignored: alert not set")
 			return
-			
+
+		#check for gym_details
+		if self.options['Details_Only'] == "True":
+			if gym.has_key('name'):
+				gym_name = gym['name']
+				for pokemon in gym['pokemon']:
+					defenders += "{0} (CP {1}) trained by {2} ({3})\n".format(get_pkmn_name(pokemon['pokemon_id']), pokemon['cp'], pokemon['trainer_name'], pokemon['trainer_level'])
+			else:
+				log.debug("'gym' hook ignored, waiting for 'gym_details'")
+				return
+
 		#Check if the Gym is outside of notify range
 		lat = gym['latitude']
 		lng = gym['longitude']
@@ -284,7 +298,9 @@ class Alarm_Manager(Thread):
 			'dir': get_dir(lat,lng),
 			'points': str(gym.get('gym_points')),
 			'old_team': old_team,
-			'new_team': new_team
+			'new_team': new_team,
+			'gym_name': gym_name,
+			'defenders': defenders
 		}
 		gym_info = self.optional_arguments(gym_info)
 		
