@@ -34,7 +34,7 @@ class Slack_Alarm(Alarm):
 		'gym':{
 			#'channel':"general",
 			'username':"Pokemon Gym",
-			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym.png",
+			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<new_team>.png",
 			'title':"A Team <old_team> gym has fallen!",
 			'url':"<gmaps>",
 			'body': "It is now controlled by <new_team>."

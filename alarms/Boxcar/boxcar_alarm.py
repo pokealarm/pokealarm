@@ -30,7 +30,7 @@ class Boxcar_Alarm(Alarm):
 		'gym':{
 			'title':"A Team <old_team> gym has fallen!",
 			'long_message':"<a href='<gmaps>'>Gym</a> is now controlled by <new_team>.",
-			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym.png",
+			'icon_url':"https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<new_team>.png",
 			'sound':"beep-crisp"
 		}
 	}
