@@ -25,17 +25,10 @@ class Alarm_Manager(Thread):
 		with open(get_path(config['CONFIG_FILE'])) as file:
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
-			config["NOTIFY_LIST"] = make_notify_list(settings["pokemon"])
-			config["IVS_LIST"] = make_notify_list(settings["ivs"])
-			out = ""
-			output_list = notify_list_lines(config["NOTIFY_LIST"],4)
-			if len(output_list) == 0:
-				log.info("No pokemon are set for notification.")
-			else:
-				log.info("You will be notified of the following pokemon:")
-				for line in output_list:
-					log.info(line)
-			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
+			self.set_pokemon(settings["pokemon"])
+			log.info("The following pokemon are set:")
+			for id in self.pokemon_list:
+				log.info("{name}: dist({dist}), ivs({ivs}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
 			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
@@ -71,6 +64,33 @@ class Alarm_Manager(Thread):
 					set_optional_args(str(alarm))
 				else:
 					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
+	
+	#Update this object with a list of pokemon 
+	def set_pokemon(self, settings):
+		pokemon = {}
+		for name in settings:
+			id = get_pkmn_id(name)
+			if id is None:
+				log.info("Unable to find pokemon named %s... Skipping." % name )
+				continue
+			if parse_boolean(settings[name]) == False : #If set to false, skip.
+				log.debug("%s name set to 'false'. Skipping... " % name)
+				continue
+			else:
+				try:
+					info = settings[name]
+					if parse_boolean(settings[name]) == True:
+						info = {}
+					pokemon[id] = {
+						"name": get_pkmn_name(id),
+						"dist": float(info.get('dist', 'inf')),
+						"ivs": float(info.get('ivs', '0')),
+						"move_1": info.get("move1", 'all'),
+						"move_2": info.get("move2", 'all')
+					}
+				except Exception as e: 
+					log.debug("%s error has occured trying to set Pokemon %s" % (str(e), id))
+		self.pokemon_list = pokemon
 	
 	#Update data about this request
 	def update(self, id, info):
@@ -118,6 +138,7 @@ class Alarm_Manager(Thread):
 				log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 				if data:
 					log.debug("Request format: \n %s " % json.dumps(data, indent=4, sort_keys=True))
+					
 	#Send a notification to alarms about a found pokemon
 	def trigger_pokemon(self, pkmn):
 		#If already alerted, skip
@@ -130,8 +151,9 @@ class Alarm_Manager(Thread):
 		pkmn_id = pkmn['pokemon_id']
 		name = get_pkmn_name(pkmn_id)
 		
-		#Check if Pokemon is on the notify list
-		if pkmn_id not in config["NOTIFY_LIST"]:
+		#Check if Pokemon has any filters set up
+		filter = self.pokemon_list.get(pkmn_id)
+		if filter is None:
 			log.info(name + " ignored: notify not enabled.")
 			return
 		
@@ -142,18 +164,33 @@ class Alarm_Manager(Thread):
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
 			return
 
-		#Check if the Pokemon have IVs config but no IVs
-		if pkmn['move_1'] is None and int(config["IVS_LIST"][pkmn_id]) > 0:
-			log.info(name + " ignored: not have IVs to compare.")
-			log.debug("Move 1 was {}, so no IVs".format(pkmn['move_1']))
+		#Check if the Pokemon IV's
+		atk = int(pkmn.get('individual_attack', 0))
+		dfs = int(pkmn.get('individual_defense', 0))
+		sta = int(pkmn.get('individual_stamina', 0))
+		iv = ((atk + dfs + sta)*100)/float(45)
+		if filter.get('ivs') > float(iv):
+			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('ivs')))
 			return
+		
+		#Check moveset
+		move1 = get_pkmn_move(pkmn.get('move_1', 'none'))
+		move2 = get_pkmn_move(pkmn.get('move_2', 'none'))
+		if not filter.get('move1') == 'all' and filter.get('move_1').find(move1) == -1:
+			log.info("%s ignored: Incorrect Move1 (%s)" %(name, move1))
+			return
+		log.debug(filter.get('move_2') == 'all')
+		if not (filter.get('move_2') == 'all') and filter.get('move_2').find(move2) == -1:
+			log.info("%s ignored: Incorrect Move2 (%s)" %(name, move2))
+			return
+
 
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
 		dist = get_dist([lat, lng])
 
-		if dist >= config["NOTIFY_LIST"][pkmn_id]:
+		if dist >= filter.get('dist'):
 			log.info(name + " ignored: outside range")
 			log.debug("Pokemon must be less than %d, but was %d." % (config["NOTIFY_LIST"][pkmn_id], dist))
 			return
@@ -167,30 +204,6 @@ class Alarm_Manager(Thread):
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
-		ivs = {}
-
-		#Only update IVs if it's exist to avoid Error on int convert
-		if pkmn['move_1'] is not None:
-			atk = int(pkmn['individual_attack'])
-			dfs = int(pkmn['individual_defense'])
-			sta = int(pkmn['individual_stamina'])
-			mov1id = int(pkmn['move_1'])
-			mov2id = int(pkmn['move_2'])
-			mov1 = get_pkmn_move(mov1id)
-			mov2 = get_pkmn_move(mov2id)
-			iv = (atk + dfs + sta)*100/45
-			ivs = {
-				'move1': mov1,
-				'move2': mov2,
-				'atk': atk,
-				'dfs': dfs,
-				'sta': sta,
-				'iv': iv
-			}
-			#Check if Pokemon IVs is equal or bigger than setting
-			if iv < int(config["IVS_LIST"][pkmn_id]):
-				log.info(name + " ignored: IVs less than setting.")
-				return
 
 		pkmn_info = {
 			'id': str(pkmn_id),
@@ -203,12 +216,12 @@ class Alarm_Manager(Thread):
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng),
-			'move1': ivs.get('move1','N/A'),
-			'move2': ivs.get('move2','N/A'),
-			'atk': ivs.get('atk','0'),
-			'dfs': ivs.get('dfs','0'),
-			'sta': ivs.get('sta','0'),
-			'iv': ivs.get('iv','0')
+			'move1': move1,
+			'move2': move2,
+			'atk': atk,
+			'dfs': dfs,
+			'sta': sta,
+			'iv': iv
 		}
 
 		pkmn_info = self.optional_arguments(pkmn_info)

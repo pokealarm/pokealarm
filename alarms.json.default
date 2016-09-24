@@ -59,8 +59,8 @@
 		"Bulbasaur":{
 			"dist":"1000",
 			"ivs":"0",
-			"move_1":"Move1, Move2",
-			"move_2":"Move3, Move4"
+			"move1":"Vine Whip",
+			"move2":"Move3, Move4"
 		},
 		"Ivysaur":"False",
 		"Venusaur":"False",

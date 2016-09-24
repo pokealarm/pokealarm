@@ -27,10 +27,12 @@ def parse_unicode(bytestring):
     return decoded_string
 	
 def parse_boolean(val):
-	b = val.lower()
+	b = str(val).lower()
 	if b in {'t', 'true', 'y', 'yes'}:
 		return True
-	return False
+	if b in ('f', 'false', 'n', 'no'):
+		return False
+	return None
 	
 def get_path(path):
 	if not os.path.isabs(path): #If not absolute path
@@ -208,6 +210,7 @@ def get_pkmn_name(pokemon_id):
         with open(file_path, 'r') as f:
             get_pkmn_name.names = json.loads(f.read())
     return get_pkmn_name.names.get(str(pokemon_id)).encode("utf-8")
+	
 #Test for Movesets
 def get_pkmn_move(move_id):
     if not hasattr(get_pkmn_move, 'moves'):
@@ -215,7 +218,7 @@ def get_pkmn_move(move_id):
             'moves.{}.json'.format(config['LOCALE']))
         with open(file_path, 'r') as f:
             get_pkmn_move.moves = json.loads(f.read())
-    return get_pkmn_move.moves.get(str(move_id)).encode("utf-8")
+    return str(get_pkmn_move.moves.get(move_id)).encode("utf-8")
 
 _gym_names = {0:"Neutral", 1:"Mystic", 2:"Valor", 3:"Instinct"}
 def get_team_name(team_number):
