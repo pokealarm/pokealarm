@@ -68,8 +68,8 @@ class Alarm_Manager(Thread):
 	#Update this object with a list of pokemon 
 	def set_pokemon(self, settings):
 		pokemon = {}
-		default_dist = float(settings.get('dist', 'inf'));
-		default_iv = float(settings.get('ivs', 0));
+		default_dist = float(settings.get('dist') or 'inf');
+		default_iv = float(settings.get('ivs') or 0);
 		for name in settings:
 			id = get_pkmn_id(name)
 			if id is None:
@@ -167,9 +167,9 @@ class Alarm_Manager(Thread):
 			return
 
 		#Check if the Pokemon IV's
-		atk = int(pkmn.get('individual_attack', 0))
-		dfs = int(pkmn.get('individual_defense', 0))
-		sta = int(pkmn.get('individual_stamina', 0))
+		atk = int(pkmn.get('individual_attack') or 0)
+		dfs = int(pkmn.get('individual_defense') or 0)
+		sta = int(pkmn.get('individual_stamina') or 0)
 		iv = ((atk + dfs + sta)*100)/float(45)
 		if filter.get('ivs') > float(iv):
 			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('ivs')))

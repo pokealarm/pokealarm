@@ -51,11 +51,6 @@ class Telegram_Alarm(Alarm):
  		self.connect()
 		if parse_boolean(self.startup_message):
 			self.client.sendMessage(self.pokemon['chat_id'], 'PokeAlarm activated! We will alert this chat about pokemon.')
-		if parse_boolean(self.startup_list):
-			poke_list = "We will alert this chat of the following pokemon:\n"
-			for line in notify_list_lines(config["NOTIFY_LIST"],4):
-				poke_list = poke_list + line + "\n"
-			self.client.sendMessage(self.pokemon['chat_id'], poke_list)
 		log.info("Telegram Alarm intialized.")
 	
 	#(Re)establishes Telegram connection
