@@ -177,7 +177,7 @@ def get_pkmn_move(move_id):
             'moves.{}.json'.format(config['LOCALE']))
         with open(file_path, 'r') as f:
             get_pkmn_move.moves = json.loads(f.read())
-    return str(get_pkmn_move.moves.get(move_id)).encode("utf-8")
+    return str(get_pkmn_move.moves.get(str(move_id))).encode("utf-8")
 
 _gym_names = {0:"Neutral", 1:"Mystic", 2:"Valor", 3:"Instinct"}
 def get_team_name(team_number):
