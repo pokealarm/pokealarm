@@ -70,6 +70,7 @@ class Alarm_Manager(Thread):
 		pokemon = {}
 		default_dist = float(settings.get('dist') or 'inf');
 		default_iv = float(settings.get('ivs') or 0);
+		log.info("Defaults for pokemon are set: max_dist (%.2f) and iv(%.2f)" % (default_dist, default_iv))
 		for name in settings:
 			id = get_pkmn_id(name)
 			if id is None:
