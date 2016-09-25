@@ -251,7 +251,7 @@ class Alarm_Manager(Thread):
 		
 		# Preserve old_team so that there is no "Neutral" announcement
 		# Has the side effect of delaying the takedown until next scan.
-		if old_team == 0:
+		if new_team == 0:
 			self.gyms[id] = old_team
 			log.debug("Gym ignored: migration to neutral, preserving old_team")
 			return
