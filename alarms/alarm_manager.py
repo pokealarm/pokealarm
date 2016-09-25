@@ -68,6 +68,8 @@ class Alarm_Manager(Thread):
 	#Update this object with a list of pokemon 
 	def set_pokemon(self, settings):
 		pokemon = {}
+		default_dist = float(settings.get('dist', 'inf'));
+		default_iv = float(settings.get('ivs', 0));
 		for name in settings:
 			id = get_pkmn_id(name)
 			if id is None:
@@ -83,10 +85,10 @@ class Alarm_Manager(Thread):
 						info = {}
 					pokemon[id] = {
 						"name": get_pkmn_name(id),
-						"dist": float(info.get('dist', 'inf')),
-						"ivs": float(info.get('ivs', '0')),
-						"move_1": info.get("move1", 'all'),
-						"move_2": info.get("move2", 'all')
+						"dist": float(info.get('dist', default_dist)),
+						"ivs": float(info.get('ivs', default_iv)),
+						"move_1": info.get("move_1", 'all'),
+						"move_2": info.get("move_2", 'all')
 					}
 				except Exception as e: 
 					log.debug("%s error has occured trying to set Pokemon %s" % (str(e), id))
@@ -176,12 +178,12 @@ class Alarm_Manager(Thread):
 		#Check moveset
 		move1 = get_pkmn_move(pkmn.get('move_1', 'none'))
 		move2 = get_pkmn_move(pkmn.get('move_2', 'none'))
-		if not filter.get('move1') == 'all' and filter.get('move_1').find(move1) == -1:
-			log.info("%s ignored: Incorrect Move1 (%s)" %(name, move1))
+		if not filter.get('move_1') == 'all' and filter.get('move_1').find(move1) == -1:
+			log.info("%s ignored: Incorrect Move_1 (%s)" %(name, move1))
 			return
-		log.debug(filter.get('move_2') == 'all')
+			
 		if not (filter.get('move_2') == 'all') and filter.get('move_2').find(move2) == -1:
-			log.info("%s ignored: Incorrect Move2 (%s)" %(name, move2))
+			log.info("%s ignored: Incorrect Move_2 (%s)" %(name, move2))
 			return
 
 
