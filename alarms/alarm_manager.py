@@ -26,6 +26,7 @@ class Alarm_Manager(Thread):
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
 			self.set_pokemon(settings["pokemon"])
+			config["NOTIFY_LIST"] = make_notify_list(settings["pokemon"])
 			log.info("The following pokemon are set:")
 			for id in self.pokemon_list:
 				log.info("{name}: dist({dist}), ivs({ivs}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
