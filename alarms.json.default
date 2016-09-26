@@ -44,6 +44,9 @@
 			"consumer_secret": "YOUR_CONSUMER_SECRET"
         }
 	],
+	"options":{
+		"Details_Only":"False"
+	},
 	"gyms":{
 		"To_Valor":"False",
 		"To_Mystic":"False",
