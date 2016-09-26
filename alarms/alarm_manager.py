@@ -172,8 +172,8 @@ class Alarm_Manager(Thread):
 		dfs = int(pkmn.get('individual_defense') or 0)
 		sta = int(pkmn.get('individual_stamina') or 0)
 		iv = float(((atk + dfs + sta)*100)/float(45))
-		if filter.get('ivs') > float(iv):
-			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('ivs')))
+		if filter.get('min_iv') > float(iv):
+			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('min_iv')))
 			return
 		
 		#Check moveset
@@ -183,7 +183,7 @@ class Alarm_Manager(Thread):
 			log.info("%s ignored: Incorrect Move_1 (%s)" %(name, move1))
 			return
 			
-		if move2 != "unknown" and not filter.get('move_2') != 'all' and filter.get('move_2').find(move2) == -1:
+		if move2 != "unknown" and filter.get('move_2') != 'all' and filter.get('move_2').find(move2) == -1:
 			log.info("%s ignored: Incorrect Move_2 (%s)" %(name, move2))
 			return
 
