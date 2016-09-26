@@ -171,7 +171,7 @@ class Alarm_Manager(Thread):
 		atk = int(pkmn.get('individual_attack') or 0)
 		dfs = int(pkmn.get('individual_defense') or 0)
 		sta = int(pkmn.get('individual_stamina') or 0)
-		iv = ((atk + dfs + sta)*100)/float(45)
+		iv = float("{0:.2f}".format(((atk + dfs + sta)*100)/float(45)))
 		if filter.get('ivs') > float(iv):
 			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('ivs')))
 			return
