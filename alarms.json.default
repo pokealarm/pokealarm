@@ -56,7 +56,7 @@
 		"Lured":"False"
 	},
 	"pokemon":{
-		"max_dist":"1000",
+		"max_dist":"inf",
 		"min_iv":"0",
 		"Bulbasaur":{ "max_dist":"1000", "min_iv":"100", "move_1":"all", "move_2":"Power Whip Seed Bomb" },
 		"Ivysaur":"False",
