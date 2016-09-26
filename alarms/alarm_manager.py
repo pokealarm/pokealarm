@@ -138,7 +138,7 @@ class Alarm_Manager(Thread):
 				self.clear_stale();
 			except Exception as e:
 				log.error("Error while processing request: %s" % e)
-				log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+				log.error("Stack trace: \n {}".format(traceback.format_exc()))
 				if data:
 					log.debug("Request format: \n %s " % json.dumps(data, indent=4, sort_keys=True))
 					
@@ -168,9 +168,9 @@ class Alarm_Manager(Thread):
 			return
 
 		#Check if the Pokemon IV's
-		atk = int(pkmn.get('individual_attack', 0))
-		dfs = int(pkmn.get('individual_defense', 0))
-		sta = int(pkmn.get('individual_stamina', 0))
+		atk = int(pkmn.get('individual_attack') or 0)
+		dfs = int(pkmn.get('individual_defense') or 0)
+		sta = int(pkmn.get('individual_stamina') or 0)
 		iv = ((atk + dfs + sta)*100)/float(45)
 		if filter.get('ivs') > float(iv):
 			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('ivs')))
