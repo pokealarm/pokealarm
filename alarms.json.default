@@ -56,14 +56,9 @@
 		"Lured":"False"
 	},
 	"pokemon":{
-		"dist":"1000",
-		"ivs":"0",
-		"Bulbasaur":{
-			"dist":"1000",
-			"ivs":"0",
-			"move_1":"Vine Whip",
-			"move_2":"Move3, Move4"
-		},
+		"max_dist":"1000",
+		"min_iv":"0",
+		"Bulbasaur":{ "max_dist":"1000", "min_iv":"100", "move_1":"all", "move_2":"Power Whip Seed Bomb" },
 		"Ivysaur":"False",
 		"Venusaur":"False",
 		"Charmander":"False",
