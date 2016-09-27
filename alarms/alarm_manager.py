@@ -203,7 +203,7 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info(name + " ignored: outside geofence")
 				return
-		
+
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
@@ -224,11 +224,11 @@ class Alarm_Manager(Thread):
 			'atk': atk,
 			'def': dfs,
 			'sta': sta,
-			'iv': "%.2f" % iv
+			'iv': "%.2f" % iv,
+			'respawn_text': get_respawn_text(pkmn.get('respawn_info', 0))
 		}
 
 		pkmn_info = self.optional_arguments(pkmn_info)
-			
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkmn_info)
 
@@ -270,7 +270,7 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info("Pokestop ignored: outside geofence")
 				return
-		
+
 		#Trigger the notifcations
 		log.info("Pokestop notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)

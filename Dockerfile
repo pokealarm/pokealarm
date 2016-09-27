@@ -15,7 +15,7 @@ EXPOSE 4000
 WORKDIR /usr/src/app
 
 # Set Entrypoint with hard-coded options
-ENTRYPOINT ["python", "./runwebhook.py"]
+ENTRYPOINT ["python", "./runwebhook.py", "--host", "0.0.0.0"]
 
 # Install required system packages
 RUN apk add --no-cache ca-certificates
