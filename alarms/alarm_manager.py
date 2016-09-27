@@ -25,19 +25,13 @@ class Alarm_Manager(Thread):
 		with open(get_path(config['CONFIG_FILE'])) as file:
 			settings = json.load(file)
 			alarm_settings = settings["alarms"]
-			config["NOTIFY_LIST"] = make_notify_list(settings["pokemon"])
-			out = ""
-			output_list = notify_list_lines(config["NOTIFY_LIST"],4)
-			if len(output_list) == 0:
-				log.info("No pokemon are set for notification.")
-			else:
-				log.info("You will be notified of the following pokemon:")
-				for line in output_list:
-					log.info(line)
-			output_list_twitter = notify_list_multi_msgs(config["NOTIFY_LIST"],140)
+			self.set_pokemon(settings["pokemon"])
+			log.info("The following pokemon are set:")
+			for id in sorted(self.pokemon_list.keys()):
+				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
-			self.pokemon, self.pokestops, self.gyms   = {}, {}, {}
+			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
 			self.alarms = []
 			self.queue = Queue.Queue()
 			self.data = {}
@@ -70,6 +64,36 @@ class Alarm_Manager(Thread):
 					set_optional_args(str(alarm))
 				else:
 					log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
+	
+	#Update this object with a list of pokemon 
+	def set_pokemon(self, settings):
+		pokemon = {}
+		default_dist = float(settings.pop('max_dist', None) or 'inf');
+		default_iv = float(settings.pop('min_iv', None) or 0);
+		log.info("Pokemon Defaults: max_dist (%.2f) and min_iv (%.2f)" % (default_dist, default_iv))
+		for name in settings:
+			id = get_pkmn_id(name)
+			if id is None:
+				log.info("Unable to find pokemon named %s... Skipping." % name )
+				continue
+			if parse_boolean(settings[name]) == False : #If set to false, skip.
+				log.debug("%s name set to 'false'. Skipping... " % name)
+				continue
+			else:
+				try:
+					info = settings[name]
+					if parse_boolean(info) == True:
+						info = {}
+					pokemon[id] = {
+						"name": get_pkmn_name(id),
+						"max_dist": float(info.get('max_dist', None) or default_dist),
+						"min_iv": float(info.get('min_iv', None) or default_iv),
+						"move_1": info.get("move_1", 'all'),
+						"move_2": info.get("move_2", 'all')
+					}
+				except Exception as e: 
+					log.debug("%s error has occured trying to set Pokemon %s" % (str(e), id))
+		self.pokemon_list = pokemon
 	
 	#Update data about this request
 	def update(self, id, info):
@@ -117,6 +141,7 @@ class Alarm_Manager(Thread):
 				log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 				if data:
 					log.debug("Request format: \n %s " % json.dumps(data, indent=4, sort_keys=True))
+					
 	#Send a notification to alarms about a found pokemon
 	def trigger_pokemon(self, pkmn):
 		#If already alerted, skip
@@ -129,8 +154,9 @@ class Alarm_Manager(Thread):
 		pkmn_id = pkmn['pokemon_id']
 		name = get_pkmn_name(pkmn_id)
 		
-		#Check if Pokemon is on the notify list
-		if pkmn_id not in config["NOTIFY_LIST"]:
+		#Check if Pokemon has any filters set up
+		filter = self.pokemon_list.get(pkmn_id)
+		if filter is None:
 			log.info(name + " ignored: notify not enabled.")
 			return
 		
@@ -141,13 +167,35 @@ class Alarm_Manager(Thread):
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
 			return
 
+		#Check if the Pokemon IV's
+		atk = int(pkmn.get('individual_attack') or 0)
+		dfs = int(pkmn.get('individual_defense') or 0)
+		sta = int(pkmn.get('individual_stamina') or 0)
+		iv = float(((atk + dfs + sta)*100)/float(45))
+		if filter.get('min_iv') > float(iv):
+			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('min_iv')))
+			return
+		
+		#Check moveset
+		move1 = get_pkmn_move(pkmn.get('move_1', "none"))
+		move2 = get_pkmn_move(pkmn.get('move_2', "none"))
+		if move1 != "unknown" and filter.get('move_1') != 'all' and filter.get('move_1').find(move1) == -1:
+			log.info("%s ignored: Incorrect Move_1 (%s)" %(name, move1))
+			return
+			
+		if move2 != "unknown" and filter.get('move_2') != 'all' and filter.get('move_2').find(move2) == -1:
+			log.info("%s ignored: Incorrect Move_2 (%s)" %(name, move2))
+			return
+
+
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
 		dist = get_dist([lat, lng])
-		if dist >= config["NOTIFY_LIST"][pkmn_id]:
+
+		if dist >= filter.get('max_dist'):
 			log.info(name + " ignored: outside range")
-			log.debug("Pokemon must be less than %d, but was %d." % (config["NOTIFY_LIST"][pkmn_id], dist))
+			log.debug("Pokemon must be less than %d, but was %d." % (filter['max_dist'], dist))
 			return
         
 		#Check if the Pokemon is in the geofence
@@ -159,6 +207,7 @@ class Alarm_Manager(Thread):
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
 		timestamps = get_timestamps(dissapear_time)
+
 		pkmn_info = {
 			'id': str(pkmn_id),
  			'pkmn': name,
@@ -170,8 +219,15 @@ class Alarm_Manager(Thread):
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
 			'dir': get_dir(lat,lng),
+			'move1': str(move1),
+			'move2': str(move2),
+			'atk': atk,
+			'def': dfs,
+			'sta': sta,
+			'iv': "%.2f" % iv,
 			'respawn_text': get_respawn_text(pkmn.get('respawn_info', 0))
 		}
+
 		pkmn_info = self.optional_arguments(pkmn_info)
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkmn_info)

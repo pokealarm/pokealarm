@@ -27,10 +27,12 @@ def parse_unicode(bytestring):
     return decoded_string
 	
 def parse_boolean(val):
-	b = val.lower()
+	b = str(val).lower()
 	if b in {'t', 'true', 'y', 'yes'}:
 		return True
-	return False
+	if b in ('f', 'false', 'n', 'no'):
+		return False
+	return None
 	
 def get_path(path):
 	if not os.path.isabs(path): #If not absolute path
@@ -126,47 +128,6 @@ def parse_alert_param(value):
 		except ValueError:
 			log.debug("Alert Param: Unable to parse into float")
 	return v
-	
-#Parse notify list
-def make_notify_list(want_list):
-	notify = {}
-	for name in want_list:
-		id = get_pkmn_id(name)
-		if parse_boolean(want_list[name]) :
-			notify[id] = float('inf')
-		else:
-			try:
-				notify[id] = float(want_list[name])
-			except ValueError:
-				continue
-	return notify
-
-def notify_list_lines(notify_list, num_per_line=3):
-	sorted_list = sorted(notify_list.iteritems())
-	lines=[]
-	for i in range(len(sorted_list)/num_per_line+1):
-		line = ""
-		for j in sorted_list[i*num_per_line:(i+1)*num_per_line]:
-			dist = "Unl" if j[1] == float('inf') else str(j[1])
-			line = line + "{} ({}), ".format(get_pkmn_name(j[0]), dist) # Add "PokemonName (distance) " to line
-		if line != "": lines.append(line)
-	if len(lines) > 0: lines[len(lines)-1] = lines[len(lines)-1][:-2] #Remove last comma
-	return lines
-
-def notify_list_multi_msgs(notify_list, msg_char_limit,preceding_text="", timestamp=''):
-	sorted_list = sorted(notify_list.iteritems())
-	messages=[]
-	msg = ''
-	if timestamp != '': msg = '{} - '.format(timestamp)
-	if preceding_text != "": msg = msg + '{}: '.format(preceding_text) 
-	while len(sorted_list)>0:
-		if len(msg) + len(get_pkmn_name(sorted_list[0][0])) + 2 < msg_char_limit:
-			msg = msg + get_pkmn_name(sorted_list.pop(0)[0]) + ", "
-		else:
-			messages.append(msg[:-2])
-			msg = '' if timestamp == '' else '{} - '.format(timestamp)
-	messages.append(msg[:-2])
-	return messages
 
 def make_pokestops_list(settings):
 	notify = {}
@@ -208,6 +169,15 @@ def get_pkmn_name(pokemon_id):
         with open(file_path, 'r') as f:
             get_pkmn_name.names = json.loads(f.read())
     return get_pkmn_name.names.get(str(pokemon_id)).encode("utf-8")
+	
+#Test for Movesets
+def get_pkmn_move(move_id):
+    if not hasattr(get_pkmn_move, 'moves'):
+        file_path = os.path.join( config['ROOT_PATH'], config['LOCALES_DIR'],
+            'moves.{}.json'.format(config['LOCALE']))
+        with open(file_path, 'r') as f:
+            get_pkmn_move.moves = json.loads(f.read())
+    return get_pkmn_move.moves.get(str(move_id), "unknown").encode("utf-8")
 
 _gym_names = {0:"Neutral", 1:"Mystic", 2:"Valor", 3:"Instinct"}
 def get_team_name(team_number):

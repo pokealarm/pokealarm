@@ -55,19 +55,6 @@ class Twilio_Alarm(Alarm):
 				to_num=self.pokemon['to_number'],
 				from_num=self.pokemon['from_number'],
 				msg="PokeAlarm has been activated! We will text this number about pokemon.")
-		if parse_boolean(self.startup_list):
-			self.send_sms(
-				to_num=self.pokemon['to_number'],
-				from_num=self.pokemon['from_number'],
-				msg="PokeAlarm has been activated! We will text this number about pokemon.")
-			sleep(0.5)
-			for line in notify_list_multi_msgs(config["NOTIFY_LIST"],160, "We will text about the following pokemon"):
-				self.send_sms(
-					to_num=self.pokemon['to_number'],
-					from_num=self.pokemon['from_number'],
-					msg=line
-				)
-				sleep(0.5)
 		log.info("Twilio Alarm intialized.")
 		
 	#(Re)establishes Telegram connection

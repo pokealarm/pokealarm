@@ -50,9 +50,6 @@ class Boxcar_Alarm(Alarm):
 		#Connect and send startup messages
 		if parse_boolean(self.startup_message):
 			self.send_boxcar("PokeAlarm activated!", "We will alert you about pokemon.")
-		if parse_boolean(self.startup_list):
-			for line in notify_list_multi_msgs(config["NOTIFY_LIST"],4000,"We will alert this channel of the following pokemon"):
-				self.send_boxcar(line, 'We will alert this channel of the following pokemon',icon_url="https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/PokemonGo.png",sound=self.pokemon['sound'])
 		log.info("Boxcar Alarm intialized.")
 	
 		

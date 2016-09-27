@@ -63,15 +63,6 @@ class Slack_Alarm(Alarm):
 				username='PokeAlarm',
 				text='PokeAlarm activated! We will alert this channel about pokemon.'
 			)
-		if parse_boolean(self.startup_list):
-			poke_list = "We will alert this chat of the following pokemon:\n"
-			for line in notify_list_lines(config["NOTIFY_LIST"],4):
-				poke_list = poke_list + line + "\n"
-			self.client.chat.post_message(
-				channel=self.get_channel(self.pokemon['channel']),
-				username='PokeAlarm',
-				text=poke_list
-			)
 		log.info("Slack Alarm intialized.")
 		log.debug("Attempting to push to the following channels: Pokemon:%s, Pokestops:%s, Gyms:%s" %(self.pokemon['channel'], self.pokestop['channel'], self.gym['channel']))
 
