@@ -24,10 +24,6 @@ class Telegram_Alarm(Alarm):
 			#'chat_id': If no default, required
 			'title':"Someone has placed a lure on a Pokestop!",
 			'body': "Lure will expire at <24h_time> (<time_left>)."
-
-			'body': "<gmaps> \n Lure will expire at <24h_time> (<time_left>).",
-			'location': "True",
-			'sticker_id':
 		},
 		'gym':{
 			#'chat_id': If no default, required
@@ -117,22 +113,22 @@ class Telegram_Alarm(Alarm):
 			
 	#Trigger an alert based on Pokemon info
 	def pokemon_alert(self, pokemon_info):
-		if alert['stickers']:
+		if self.pokemon['stickers']:
 			self.send_alert(self.pokemon, pokemon_info, stickerlist.get(pokemon_info['id']))
-		elif:
+		else:
 			self.send_alert(self.pokemon, pokemon_info)
 		
 		
 	#Trigger an alert based on Pokestop info
 	def pokestop_alert(self, pokestop_info):
-		if alert['stickers']:
+		if self.pokestop['stickers']:
 			self.send_alert(self.pokestop, pokestop_info, stickerlist.get('pokestop'))
-		elif:
+		else:
 			self.send_alert(self.pokestop, pokestop_info)
 		
 	#Trigger an alert based on Pokestop info
 	def gym_alert(self, gym_info):
-		if alert['stickers']:
-			self.send_alert(self.pokestop, pokestop_info, stickerlist.get('gym'))
-		elif:
+		if self.gym['stickers']:
+			self.send_alert(self.gym, gym_info, stickerlist.get('gym'))
+		else:
 			self.send_alert(self.gym, gym_info)
