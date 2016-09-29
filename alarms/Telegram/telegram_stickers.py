@@ -1,6 +1,9 @@
 stickerlist = {
+	'valor':'BQADBAADGQADjGt_DbsN-MC0jtwKAg',
+	'mystic':'BQADBAADHQADjGt_DWh6bmUsF_GeAg',
+	'instinct':'BQADBAADGwADjGt_DcVn_7MprUVwAg',
+	'neutral':'BQADBAADHwADjGt_DWwRwTlwYq71Ag',
 	'pokestop':'BQADBAADFwADjGt_DaQ-N7VAroZ7Ag',
-	'gym':'BQADBAADEwADjGt_DcvoR3XehWjEAg',
     '1': 'BQADBAADJwADA6ZnAU_NNRcf64d1Ag',
     '2': 'BQADBAADKQADA6ZnAd09yoh66pIfAg',
     '3': 'BQADBAADKwADA6ZnAdELYlYwzKbIAg',
