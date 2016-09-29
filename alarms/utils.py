@@ -27,10 +27,12 @@ def parse_unicode(bytestring):
     return decoded_string
 	
 def parse_boolean(val):
-	b = val.lower()
+	b = str(val).lower()
 	if b in {'t', 'true', 'y', 'yes'}:
 		return True
-	return False
+	if b in ('f', 'false', 'n', 'no'):
+		return False
+	return None
 	
 def get_path(path):
 	if not os.path.isabs(path): #If not absolute path
@@ -126,20 +128,6 @@ def parse_alert_param(value):
 		except ValueError:
 			log.debug("Alert Param: Unable to parse into float")
 	return v
-	
-#Parse notify list
-def make_notify_list(want_list):
-	notify = {}
-	for name in want_list:
-		id = get_pkmn_id(name)
-		if parse_boolean(want_list[name]) :
-			notify[id] = float('inf')
-		else:
-			try:
-				notify[id] = float(want_list[name])
-			except ValueError:
-				continue
-	return notify
 
 def make_pokestops_list(settings):
 	notify = {}
@@ -150,7 +138,7 @@ def make_pokestops_list(settings):
 def make_gym_list(settings):
 	notify = {}
 	for key in settings:
-		param = settings[key]
+		param = parse_alert_param(settings[key])
 		if param is not None:
 			notify[key] = param
 	return notify
@@ -181,6 +169,15 @@ def get_pkmn_name(pokemon_id):
         with open(file_path, 'r') as f:
             get_pkmn_name.names = json.loads(f.read())
     return get_pkmn_name.names.get(str(pokemon_id)).encode("utf-8")
+	
+#Test for Movesets
+def get_pkmn_move(move_id):
+    if not hasattr(get_pkmn_move, 'moves'):
+        file_path = os.path.join( config['ROOT_PATH'], config['LOCALES_DIR'],
+            'moves.{}.json'.format(config['LOCALE']))
+        with open(file_path, 'r') as f:
+            get_pkmn_move.moves = json.loads(f.read())
+    return get_pkmn_move.moves.get(str(move_id), "unknown").encode("utf-8")
 
 _gym_names = {0:"Neutral", 1:"Mystic", 2:"Valor", 3:"Instinct"}
 def get_team_name(team_number):
@@ -189,7 +186,7 @@ def get_team_name(team_number):
 #Returns a String link to Google Maps Pin at the location	
 def get_gmaps_link(lat, lng):
 	latLon = '{},{}'.format(repr(lat), repr(lng))
-	return 'http://maps.google.com/maps?q={} '.format(latLon)
+	return 'http://maps.google.com/maps?q={}'.format(latLon)
 	
 #Return a version of the string with the correct substitutions made	
 def replace(string, pkinfo):
@@ -247,10 +244,17 @@ def get_timestamps(t):
 	else:
 		disappear_time = datetime.now() + d
 	time_left = "%dm %ds" % (m, s)
-	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower() + disappear_time.strftime(" %Z")
-	time_24 = disappear_time.strftime("%H:%M:%S %Z")
+	time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
+	time_24 = disappear_time.strftime("%H:%M:%S")
 	return (time_left, time_12, time_24)
 	
+# Check if the Pokemon will be back after a hidden phase
+# Spawn description values: 1=2x15 point, 2=1x60h2 point, 3=1x60h3 point, 4=1x60h23 point, only needs to be added, if scanned before the break
+def get_respawn_text(respawn_info):
+	respawn_texts = ('', '15m later back for 15m.', '15m later back for 30m.', '30m later back for 15m.')
+	respawn_inds = (0, 1, 2, 1, 3)
+	return respawn_texts[respawn_inds[respawn_info]]
+
 #########################################################################
 
 ###################### PARAMS THAT REQUIRE API_KEY ######################

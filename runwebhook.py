@@ -12,7 +12,6 @@ log = logging.getLogger()
 import sys
 import json
 import os
-import Queue
 
 #Local Modules
 from alarms import config, set_config
@@ -25,15 +24,28 @@ sys.setdefaultencoding('utf8')
 
 #Intialize globals
 app = Flask(__name__)
-data_queue = Queue.Queue()
+alarm_thread = None
 
 
 @app.route('/',methods=['POST'])
 def trigger_alert():
 	log.debug("POST request received from %s." % (request.remote_addr))
 	data = json.loads(request.data)
-	data_queue.put(data)
-	return ""
+	id = get_id(data)
+	alarm_thread.update(id, data)
+	return "OK"
+	
+def get_id(data):
+	if data['type'] == 'pokemon':
+		return data.get('encounter_id')
+	elif data['type'] == 'pokestop':
+		return data.get('pokestop_id')
+	elif data['type'] == 'gym':
+		return data.get('gym_id')
+	elif data['type'] == 'gym-details':
+		return data.get('id')
+	else:
+		return None
 	
 @app.route('/location/',methods=['GET'])
 def return_location():
@@ -78,7 +90,7 @@ if __name__ == '__main__':
 		logging.getLogger('requests').setLevel(logging.DEBUG)
 
 	#Start up Alarm_Manager
-	alarm_thread = Alarm_Manager(data_queue)
+	alarm_thread = Alarm_Manager()
 	alarm_thread.start()
 	
 	#Start up Server

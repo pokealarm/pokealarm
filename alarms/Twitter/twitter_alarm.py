@@ -34,16 +34,18 @@ class Twitter_Alarm(Alarm):
 		self.con_secret = settings['consumer_key']
 		self.con_secret_key = settings['consumer_secret']
 		self.startup_message = settings.get('startup_message', "True")
+		self.startup_list = settings.get('startup_list', "True")
 				
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
 		self.gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
 		
-		#Connect and send startup message
+		#Connect and send startup messages
 		self.connect()
+		timestamps = get_timestamps(datetime.utcnow());
 		if parse_boolean(self.startup_message):
-			self.client.statuses.update(status="%s: PokeAlarm has intialized!" % datetime.now().strftime("%H:%M:%S"))
+			self.client.statuses.update(status="%s - PokeAlarm has intialized!" % timestamps[2])
 		log.info("Twitter Alarm intialized.")
 		
 	#Establish connection with Twitter
