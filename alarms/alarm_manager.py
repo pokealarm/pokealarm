@@ -89,9 +89,7 @@ class Alarm_Manager(Thread):
 						"max_dist": float(info.get('max_dist', None) or default_dist),
 						"min_iv": float(info.get('min_iv', None) or default_iv),
 						"move_1": info.get("move_1", 'all'),
-						"move_2": info.get("move_2", 'all'),
-						"prio": info.get("prio", none),
-						"pkmn_sound": info.get("pkmn_sound", none)
+						"move_2": info.get("move_2", 'all')
 					}
 				except Exception as e: 
 					log.debug("%s error has occured trying to set Pokemon %s" % (str(e), id))
@@ -228,9 +226,7 @@ class Alarm_Manager(Thread):
 			'def': dfs,
 			'sta': sta,
 			'iv': "%.2f" % iv,
-			'respawn_text': get_respawn_text(pkmn.get('respawn_info', 0)),
-			'prio': str(prio),
-			'pkmn_sound': str(pkmn_sound)
+			'respawn_text': get_respawn_text(pkmn.get('respawn_info', 0))
 		}
 
 		pkmn_info = self.optional_arguments(pkmn_info)
