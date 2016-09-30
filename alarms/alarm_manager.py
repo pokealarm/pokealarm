@@ -28,7 +28,7 @@ class Alarm_Manager(Thread):
 			self.set_pokemon(settings["pokemon"])
 			log.info("The following pokemon are set:")
 			for id in sorted(self.pokemon_list.keys()):
-				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
+				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), move1({move_1}), move2({move_2}), prio({prio}), pkmn_sound({pkmn_sound})".format(**self.pokemon_list[id]))
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
 			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
