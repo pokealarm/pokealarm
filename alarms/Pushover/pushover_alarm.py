@@ -73,14 +73,15 @@ class Pushover_Alarm(Alarm):
 	#Send Alert to the Pushover
 	def send_alert(self, alert, info):
 		#If the pokemon has no specific sound set we use the default_pokemon_sound when this variable is also set
+		tmp_sound = alert['sound']
 		if replace(alert['sound'], info) == 'None' and alert['def_pkmn_sound'] != None:
-			alert['sound'] = alert['def_pkmn_sound']
+			tmp_sound = alert['def_pkmn_sound']
 		args  = {
 			'message': replace(alert['message'], info),
 			'title': replace(alert['title'], info),
 			'url': replace(alert['url'], info),
 			'url_title': replace(alert['url_title'], info),
-			'sound': replace(alert['sound'], info)
+			'sound': replace(tmp_sound, info)
 		}
 		try_sending(log, self.connect, "Pushover",  self.send_pushover, args)
 	
