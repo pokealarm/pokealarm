@@ -28,7 +28,7 @@ class Alarm_Manager(Thread):
 			self.set_pokemon(settings["pokemon"])
 			log.info("The following pokemon are set:")
 			for id in sorted(self.pokemon_list.keys()):
-				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
+				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), move1({move_1}), move2({move_2}), pkmn_sound({pkmn_sound})".format(**self.pokemon_list[id]))
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
 			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
@@ -89,7 +89,8 @@ class Alarm_Manager(Thread):
 						"max_dist": float(info.get('max_dist', None) or default_dist),
 						"min_iv": float(info.get('min_iv', None) or default_iv),
 						"move_1": info.get("move_1", 'all'),
-						"move_2": info.get("move_2", 'all')
+						"move_2": info.get("move_2", 'all'),
+						"pkmn_sound": info.get("pkmn_sound")
 					}
 				except Exception as e: 
 					log.debug("%s error has occured trying to set Pokemon %s" % (str(e), id))
@@ -175,7 +176,7 @@ class Alarm_Manager(Thread):
 		if filter.get('min_iv') > float(iv):
 			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('min_iv')))
 			return
-		
+	
 		#Check moveset
 		move1 = get_pkmn_move(pkmn.get('move_1', "none"))
 		move2 = get_pkmn_move(pkmn.get('move_2', "none"))
@@ -186,8 +187,7 @@ class Alarm_Manager(Thread):
 		if move2 != "unknown" and filter.get('move_2') != 'all' and filter.get('move_2').find(move2) == -1:
 			log.info("%s ignored: Incorrect Move_2 (%s)" %(name, move2))
 			return
-
-
+ 		
 		#Check if the Pokemon is outside of notify range
 		lat = pkmn['latitude']
 		lng = pkmn['longitude']
@@ -203,6 +203,9 @@ class Alarm_Manager(Thread):
 			if config['GEOFENCE'].contains(lat,lng) is not True:
 				log.info(name + " ignored: outside geofence")
 				return
+
+		#Set Pokemon sound
+		pkmn_sound = filter.get('pkmn_sound')
 
 		#Trigger the notifcations
 		log.info(name + " notication was triggered!")
@@ -226,6 +229,7 @@ class Alarm_Manager(Thread):
 			'def': dfs,
 			'sta': sta,
 			'iv': "%.2f" % iv,
+			'pkmn_sound': str(pkmn_sound),
 			'respawn_text': get_respawn_text(pkmn.get('respawn_info', 0))
 		}
 

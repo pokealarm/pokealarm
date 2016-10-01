@@ -42,7 +42,8 @@ class Pushover_Alarm(Alarm):
 		self.user_key = settings['user_key']
 		self.startup_message = settings.get('startup_message', "True")
 		self.startup_list = settings.get('startup_list', "True")
-		
+		self.sound = settings.get('sound')
+		self.def_pkmn_sound = settings.get('default_pkmn_sound')
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
@@ -50,7 +51,7 @@ class Pushover_Alarm(Alarm):
 		
 		#Connect and send startup messages
 		if parse_boolean(self.startup_message):
-		    self.send_pushover("PokeAlarm has been activated! We will alert this channel about pokemon.")
+		    self.send_pushover("PokeAlarm has been activated! We will alert this channel about pokemon.", sound = self.sound)
 		log.info("Pushover Alarm intialized")
 		
 	#(Re)establishes Pushover connection
@@ -65,15 +66,21 @@ class Pushover_Alarm(Alarm):
 		alert['url'] = settings.get('url', default['url'])
 		alert['url_title'] = settings.get('url_title', default['url_title'])
 		alert['message'] = settings.get('message', default['message'])
+		alert['sound'] = settings.get('sound', self.sound)
+		alert['def_pkmn_sound'] = settings.get('default_pkmn_sound', self.def_pkmn_sound)
 		return alert
 		
 	#Send Alert to the Pushover
 	def send_alert(self, alert, info):
+		#If the pokemon has no specific sound set we use the default_pokemon_sound when this variable is also set
+		if replace(alert['sound'], info) == 'None' and alert['def_pkmn_sound'] != None:
+			alert['sound'] = alert['def_pkmn_sound']
 		args  = {
 			'message': replace(alert['message'], info),
 			'title': replace(alert['title'], info),
 			'url': replace(alert['url'], info),
-			'url_title': replace(alert['url_title'], info)
+			'url_title': replace(alert['url_title'], info),
+			'sound': replace(alert['sound'], info)
 		}
 		try_sending(log, self.connect, "Pushover",  self.send_pushover, args)
 	
@@ -90,7 +97,7 @@ class Pushover_Alarm(Alarm):
 		self.send_alert(self.gym, gym_info)
 			
 	#Generic send pushover
-	def send_pushover(self, message, title='PokeAlert', url=None, url_title=None):
+	def send_pushover(self, message, title='PokeAlert', url=None, url_title=None, sound=None):
 		#Establish connection
 		connection = httplib.HTTPSConnection("api.pushover.net:443", timeout=10)
 		payload = {"token": self.app_token, 
@@ -100,6 +107,8 @@ class Pushover_Alarm(Alarm):
 		if url is not None:
 			payload['url'] = url
 			payload['url_title'] = url_title
+		if sound is not None:
+			payload['sound'] = sound
 		connection.request("POST", "/1/messages.json", urllib.urlencode(payload), 
 			{"Content-Type": "application/x-www-form-urlencoded"})
 		r = connection.getresponse()
