@@ -230,6 +230,18 @@ def get_dist(ptA, ptB="default"):
 	dist = c * radius
 	return dist
 
+def get_dist_str(dist):
+	units = 'yd' if config['UNITS'] == 'imperial' else 'm'
+	if units == 'm' and dist > 1000:
+		dist = "%.1f" % (dist / 1000)
+		units = 'km'
+	elif units == 'yd' and dist > 1760:
+		dist = "%.1f" % (dist / 1760)
+		units = 'miles'
+	else:
+		dist = "%d" % dist
+	return '%s%s' % (str(dist), units)
+
 #Return back the following:
 #time_left = Time remaining in minutes and seconds
 #time_12 = Dissapear time in 12h format, eg "2:30:16 PM"	
