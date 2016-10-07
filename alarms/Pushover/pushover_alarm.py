@@ -44,6 +44,7 @@ class Pushover_Alarm(Alarm):
 		self.startup_list = settings.get('startup_list', "True")
 		self.sound = settings.get('sound')
 		self.def_pkmn_sound = settings.get('default_pkmn_sound')
+
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
@@ -68,7 +69,6 @@ class Pushover_Alarm(Alarm):
 		alert['message'] = settings.get('message', default['message'])
 		alert['sound'] = settings.get('sound', self.sound)
 		alert['def_pkmn_sound'] = settings.get('default_pkmn_sound', self.def_pkmn_sound)
-		return alert
 		
 	#Send Alert to the Pushover
 	def send_alert(self, alert, info):
@@ -111,7 +111,7 @@ class Pushover_Alarm(Alarm):
 		if sound is not None:
 			payload['sound'] = sound
 		connection.request("POST", "/1/messages.json", urllib.urlencode(payload), 
-			{"Content-Type": "application/x-www-form-urlencoded"})
+				{"Content-Type": "application/x-www-form-urlencoded"})
 		r = connection.getresponse()
 		if r.status != 200:
 			raise httplib.HTTPException("Response not 200")
