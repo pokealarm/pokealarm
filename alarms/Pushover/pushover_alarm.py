@@ -69,6 +69,7 @@ class Pushover_Alarm(Alarm):
 		alert['message'] = settings.get('message', default['message'])
 		alert['sound'] = settings.get('sound', self.sound)
 		alert['def_pkmn_sound'] = settings.get('default_pkmn_sound', self.def_pkmn_sound)
+		return alert
 		
 	#Send Alert to the Pushover
 	def send_alert(self, alert, info):
