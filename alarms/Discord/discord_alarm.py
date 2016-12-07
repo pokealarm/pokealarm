@@ -18,9 +18,9 @@ class Discord_Alarm(Alarm):
 		'pokemon':{
 			'username':"<pkmn>",
 			'icon_url' : "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
-			'title':"<pkmn> with <iv>% (<atk>/<def>/<sta>) has spawned!",
+			'title':"A wild <pkmn> has appeared!",
 			'url':"<gmaps>",
-			'body': "In <city>, Available until <24h_time> (<time_left>)."
+			'body': "Available until <24h_time> (<time_left>)."
 		},
 		'pokestop':{
 			'username':"Pokestop",
