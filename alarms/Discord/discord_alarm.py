@@ -85,7 +85,7 @@ class Discord_Alarm(Alarm):
 			'title': replace(alert['title'], info),
 			'url': replace(alert['url'], info),
 			'description': replace(alert['body'], info),
-			'thumbnail': replace(alert['icon_url'], info)
+			'thumbnail': replace(alert['icon_url'], info),
 			'attachments': replace(alert['map'], {'lat':info['lat'], 'lng':info['lng']} )
 		}
 		try_sending(log, self.connect, "Discord", self.send_webhook, args)
