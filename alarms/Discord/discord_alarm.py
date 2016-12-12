@@ -74,6 +74,8 @@ class Discord_Alarm(Alarm):
 		alert['url'] = settings.get('url', default['url'])
 		alert['body'] = settings.get('body', default['body'])
 		
+		alert['map'] = get_static_map_url(settings.get('map', self.map))
+		
 		return alert
 		
 	#Send Alert to Discord
@@ -84,6 +86,7 @@ class Discord_Alarm(Alarm):
 			'url': replace(alert['url'], info),
 			'description': replace(alert['body'], info),
 			'thumbnail': replace(alert['icon_url'], info)
+			'attachments': replace(alert['map'], {'lat':info['lat'], 'lng':info['lng']} )
 		}
 		try_sending(log, self.connect, "Discord", self.send_webhook, args)
 	
@@ -100,7 +103,8 @@ class Discord_Alarm(Alarm):
 					'title': args['title'],
 					'url': args['url'],
 					'description': args['description'],
-					'thumbnail': {'url': args['thumbnail']}
+					'thumbnail': {'url': args['thumbnail']},
+					'image': { 'url': args['attachments'] }
 				}]
 			}
 		try:
