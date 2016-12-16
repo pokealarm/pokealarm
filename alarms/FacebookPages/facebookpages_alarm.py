@@ -17,15 +17,15 @@ class FacebookPages_Alarm(Alarm):
 	_defaults = {
 		'pokemon':{
 			'message': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>).",
-			'location': "True"
+			'link': "<gmaps>"
 		},
 		'pokestop':{
 			'message': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).",
-			'location': "True"
+			'link': "<gmaps>"
 		},
 		'gym':{
 			'message':"A Team <old_team> gym has fallen! It is now controlled by <new_team>.",
-			'location': "True"
+			'link': "<gmaps>"
 		}
 	}
 
@@ -56,20 +56,16 @@ class FacebookPages_Alarm(Alarm):
 	def set_alert(self, settings, default):
 		alert = {}
 		alert['message'] = settings.get('message', default['message'])
-		
-		if parse_boolean(settings.get('location', default['location'])):
-			alert['attachment'] = { 'link': "<gmaps>" }
+		alert['attachment'] = { 'link': settings.get('link', default['link']) }
 			
 		return alert
 	
 	#Post Pokemon Message
 	def send_alert(self, alert, info):
-		args = { "message": replace(alert['message'], info) }
-		
-		if alert['attachment']:
-			args['attachment'] = {
-				"link": replace(alert['attachment']['link'], info)
-			}		
+		args = {
+			"message": replace(alert['message'], info)
+			"attachment": { "link": replace(alert['attachment']['link'], info) }
+		}
 		
 		try_sending(log, self.connect, "FacebookPages", self.client.put_wall_post, args)
 		
