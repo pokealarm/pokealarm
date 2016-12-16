@@ -42,11 +42,16 @@
 			"access_secret": "YOUR_ACCESS_SECRET",
 			"consumer_key": "YOUR_CONSUMER_KEY",
 			"consumer_secret": "YOUR_CONSUMER_SECRET"
-		},
+		,
 		{
 			"active": "False",
 			"type":"discord",
 			"api_key":"YOUR_WEBHOOK_URL"
+		},
+		{
+			"active": "False",
+			"type":"facebookpages",
+			"page_access_toke":"YOUR_PAGE_ACCESS_TOKEN"
 		}
 	],
 	"gyms":{
