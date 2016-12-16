@@ -56,15 +56,15 @@ class FacebookPages_Alarm(Alarm):
 	def set_alert(self, settings, default):
 		alert = {}
 		alert['message'] = settings.get('message', default['message'])
-		alert['attachment'] = { 'link': settings.get('link', default['link']) }
+		alert['link'] = settings.get('link', default['link'])
 			
 		return alert
 	
 	#Post Pokemon Message
 	def send_alert(self, alert, info):
 		args = {
-			"message": replace(alert['message'], info)
-			"attachment": { "link": replace(alert['attachment']['link'], info) }
+			"message": replace(alert['message'], info),
+			"attachment": { "link": replace(alert['link'], info) }
 		}
 		
 		try_sending(log, self.connect, "FacebookPages", self.client.put_wall_post, args)
