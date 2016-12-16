@@ -59,9 +59,9 @@ class Alarm_Manager(Thread):
 					elif alarm['type'] == 'twitter' :
 						from Twitter import Twitter_Alarm
 						self.alarms.append(Twitter_Alarm(alarm))
-					elif alarm['type'] == 'discord' :
-					        from Discord import Discord_Alarm
-						self.alarms.append(Discord_Alarm(alarm))
+					elif alarm['type'] == 'facebookpages' :
+						from FacebookPages import FacebookPages_Alarm
+						self.alarms.append(FacebookPages_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 					set_optional_args(str(alarm))
@@ -213,12 +213,11 @@ class Alarm_Manager(Thread):
 
 		pkmn_info = {
 			'id': str(pkmn_id),
-			'encounter_id': pkmn['encounter_id'],
  			'pkmn': name,
 			'lat' : "{}".format(repr(lat)),
 			'lng' : "{}".format(repr(lng)),
 			'gmaps': get_gmaps_link(lat, lng),
-			'dist': get_dist_str(dist),
+			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
@@ -283,7 +282,7 @@ class Alarm_Manager(Thread):
 			'lat' : "{}".format(repr(lat)),
 			'lng' : "{}".format(repr(lng)),
 			'gmaps': get_gmaps_link(lat, lng),
-			'dist': get_dist_str(dist),
+			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
 			'time_left': timestamps[0],
 			'12h_time': timestamps[1],
 			'24h_time': timestamps[2],
@@ -339,7 +338,7 @@ class Alarm_Manager(Thread):
 			'lat' : "{}".format(repr(lat)),
 			'lng' : "{}".format(repr(lng)),
 			'gmaps': get_gmaps_link(lat, lng),
-			'dist': get_dist_str(dist),
+			'dist': "%d%s" % (dist, 'yd' if config['UNITS'] == 'imperial' else 'm'),
 			'dir': get_dir(lat,lng),
 			'points': str(gym.get('gym_points')),
 			'old_team': old_team,
