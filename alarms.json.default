@@ -51,7 +51,7 @@
 		{
 			"active": "False",
 			"type":"facebookpages",
-			"page_access_toke":"YOUR_PAGE_ACCESS_TOKEN"
+			"page_access_token":"YOUR_PAGE_ACCESS_TOKEN"
 		}
 	],
 	"gyms":{
