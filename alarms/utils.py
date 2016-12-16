@@ -244,8 +244,8 @@ def get_dist_str(dist):
 
 #Return back the following:
 #time_left = Time remaining in minutes and seconds
-#time_12 = Dissapear time in 12h format, eg "2:30:16 PM"	
-#time_24 = Dissapear time in 24h format including seconds, eg "14:30:16"
+#time_12 = Disappear time in 12h format, eg "2:30:16 PM"
+#time_24 = Disappear time in 24h format including seconds, eg "14:30:16"
 def get_timestamps(t):
 	s = (t - datetime.utcnow()).total_seconds()
 	(m, s) = divmod(s, 60)
