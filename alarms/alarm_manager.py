@@ -216,6 +216,7 @@ class Alarm_Manager(Thread):
 
 		pkmn_info = {
 			'id': str(pkmn_id),
+			'encounter_id': pkmn['encounter_id'],
  			'pkmn': name,
 			'lat' : "{}".format(repr(lat)),
 			'lng' : "{}".format(repr(lng)),
