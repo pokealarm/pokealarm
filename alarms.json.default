@@ -19,7 +19,8 @@
 		{
 			"active": "False",
 			"type":"slack",
-			"api_key":"YOUR_API_KEY"
+			"api_key":"YOUR_API_KEY",
+            "at_channel_on_perfect":"False"
 		},
 		{
 			"active": "False",

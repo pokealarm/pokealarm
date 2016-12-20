@@ -49,6 +49,7 @@ class Slack_Alarm(Alarm):
 		self.channel = settings.get('channel', "general")
 		self.map = settings.get('map', {})
 		self.startup_list = settings.get('startup_list', "True")
+                self.at_channel_on_perfect = settings.get('at_channel_on_perfect', "False")
 		
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
@@ -80,6 +81,7 @@ class Slack_Alarm(Alarm):
 		alert['title'] = settings.get('title', default['title'])
 		alert['url'] = settings.get('url', default['url'])
 		alert['body'] = settings.get('body', default['body'])
+                alert['body_with_at_channel'] = "{} - <!channel>".format(alert['body'])
 		
 		alert['map'] = get_static_map_url(settings.get('map', self.map))
 		
@@ -90,7 +92,7 @@ class Slack_Alarm(Alarm):
 		args = {
 			'channel': self.get_channel(replace(alert['channel'], info)),
 			'username': replace(alert['username'], info),
-			'text': '<{}|{}> - {}'.format(replace(alert['url'], info),  replace(alert['title'], info) , replace(alert['body'], info)),
+                        'text': '<{}|{}> - {}'.format(replace(alert['url'], info),  replace(alert['title'], info) , replace(alert['body_with_at_channel'] if info['iv'] == '100.00' and parse_boolean(self.at_channel_on_perfect) else alert['body'], info)),
 			'icon_url': replace(alert['icon_url'], info),
 			'attachments': self.make_map(alert['map'], info['lat'], info['lng'])
 		}
