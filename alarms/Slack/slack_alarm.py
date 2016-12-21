@@ -92,7 +92,7 @@ class Slack_Alarm(Alarm):
 		args = {
 			'channel': self.get_channel(replace(alert['channel'], info)),
 			'username': replace(alert['username'], info),
-                        'text': '<{}|{}> - {}'.format(replace(alert['url'], info),  replace(alert['title'], info) , replace(alert['body_with_at_channel'] if info['iv'] == '100.00' and parse_boolean(self.at_channel_on_perfect) else alert['body'], info)),
+                        'text': '<{}|{}> - {}'.format(replace(alert['url'], info),  replace(alert['title'], info) , replace(alert['body_with_at_channel'] if info['iv'] == '100.00' and parse_boolean(self.at_channel_on_perfect) and '<!channel>' not in alert['body'] else alert['body'], info)),
 			'icon_url': replace(alert['icon_url'], info),
 			'attachments': self.make_map(alert['map'], info['lat'], info['lng'])
 		}
