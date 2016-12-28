@@ -47,6 +47,11 @@
 			"active": "False",
 			"type":"discord",
 			"api_key":"YOUR_WEBHOOK_URL"
+		},
+		{
+			"active": "False",
+			"type":"facebookpages",
+			"page_access_token":"YOUR_PAGE_ACCESS_TOKEN"
 		}
 	],
 	"gyms":{

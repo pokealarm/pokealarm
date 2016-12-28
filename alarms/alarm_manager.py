@@ -59,9 +59,12 @@ class Alarm_Manager(Thread):
 					elif alarm['type'] == 'twitter' :
 						from Twitter import Twitter_Alarm
 						self.alarms.append(Twitter_Alarm(alarm))
-					elif alarm['type'] == 'discord' :
-					        from Discord import Discord_Alarm
+ 					elif alarm['type'] == 'discord' :
+						from Discord import Discord_Alarm
 						self.alarms.append(Discord_Alarm(alarm))
+					elif alarm['type'] == 'facebookpages' :
+						from FacebookPages import FacebookPages_Alarm
+						self.alarms.append(FacebookPages_Alarm(alarm))
 					else:
 						log.info("Alarm type not found: " + alarm['type'])
 					set_optional_args(str(alarm))
