@@ -1,13 +1,20 @@
-                    GNU GENERAL PUBLIC LICENSE
+                    GNU GENERAL PUBLIC LICENSE 
                        Version 3, 29 June 2007
+                       Modified for PokeAlarm
 
 Copyright 2016 Kurtis Van Gent
 
 This file is part of PokeAlarm.
 
-PokeAlarm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+PokeAlarm is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free 
+Software Foundation, either version 3 of the License, or (at your option) 
+any later version.
 
-PokeAlarm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+PokeAlarm is distributed in the hope that it will be useful, but WITHOUT 
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+for more details.
 
   The GNU General Public License is a free, copyleft license for
 software and other kinds of works.
@@ -674,3 +681,14 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
+
+Aditional Terms and Exceptions:
+
+1. You may not resell or redistribute original or modified code for a price without explicit 
+permission from the owner of PokeAlarm. 
+
+2. You may not charge for the operating of PokeAlarm or for access to its output in any form, nor use it to incentise any other paid 
+services without the explicit permission from the owner of PokeAlarm.
+
+3. Any use of PokeAlarm should include a link to the original source code and a statement of 
+credit to the developer of PokeAlarm.
