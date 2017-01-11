@@ -155,8 +155,8 @@ class Alarm_Manager(Thread):
 			return
 			
 		#Mark the pokemon as seen along with exipre time
-		dissapear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
-		self.pokemon[pkmn['encounter_id']] = dissapear_time
+		disappear_time = datetime.utcfromtimestamp(pkmn['disappear_time']);
+		self.pokemon[pkmn['encounter_id']] = disappear_time
 		pkmn_id = pkmn['pokemon_id']
 		name = get_pkmn_name(pkmn_id)
 		
@@ -167,7 +167,7 @@ class Alarm_Manager(Thread):
 			return
 		
 		#Check if the Pokemon has already expired
-		seconds_left = (dissapear_time - datetime.utcnow()).total_seconds()
+		seconds_left = (disappear_time - datetime.utcnow()).total_seconds()
 		if seconds_left < config['TIME_LIMIT'] :
 			log.info(name + " ignored: not enough time remaining.")
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
@@ -211,8 +211,8 @@ class Alarm_Manager(Thread):
 				return
 
 		#Trigger the notifcations
-		log.info(name + " notication was triggered!")
-		timestamps = get_timestamps(dissapear_time)
+		log.info(name + " notification was triggered!")
+		timestamps = get_timestamps(disappear_time)
 
 		pkmn_info = {
 			'id': str(pkmn_id),
@@ -239,7 +239,7 @@ class Alarm_Manager(Thread):
 		for alarm in self.alarms:
 			alarm.pokemon_alert(pkmn_info)
 
-	#Send a notication about Pokestop
+	#Send a notification about Pokestop
 	def trigger_pokestop(self, stop):
 		#Check if stop is lured or not
 		if stop['lure_expiration'] is None:
@@ -251,13 +251,13 @@ class Alarm_Manager(Thread):
 			
 		#If already alerted, skip
 		id = stop['pokestop_id']
-		dissapear_time = datetime.utcfromtimestamp(stop['lure_expiration'])
-		if id in self.pokestops and self.pokestops[id] == dissapear_time:
+		disappear_time = datetime.utcfromtimestamp(stop['lure_expiration'])
+		if id in self.pokestops and self.pokestops[id] == disappear_time:
 			return
-		self.pokestops[id] = dissapear_time
+		self.pokestops[id] = disappear_time
 		
 		#Check if the Pokestop has already expired
-		seconds_left = (dissapear_time - datetime.utcnow()).total_seconds()
+		seconds_left = (disappear_time - datetime.utcnow()).total_seconds()
 		if seconds_left < config['TIME_LIMIT'] :
 			log.info("Pokestop ignored: not enough time remaining.")
 			log.debug("Time left must be %f, but was %f." % (config['TIME_LIMIT'], seconds_left))
@@ -279,8 +279,8 @@ class Alarm_Manager(Thread):
 				return
 
 		#Trigger the notifcations
-		log.info("Pokestop notication was triggered!")
-		timestamps = get_timestamps(dissapear_time)
+		log.info("Pokestop notification was triggered!")
+		timestamps = get_timestamps(disappear_time)
 		stop_info = {
 			'id': id,
 			'lat' : "{}".format(repr(lat)),
@@ -336,7 +336,7 @@ class Alarm_Manager(Thread):
 				return
 		
 		#Trigger the notifcations
-		log.info("Gym notication was triggered!")
+		log.info("Gym notification was triggered!")
 		gym_info = {
 			'id': id,
 			'lat' : "{}".format(repr(lat)),
