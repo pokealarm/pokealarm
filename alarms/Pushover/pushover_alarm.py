@@ -43,7 +43,8 @@ class Pushover_Alarm(Alarm):
 		self.startup_message = settings.get('startup_message', "True")
 		self.startup_list = settings.get('startup_list', "True")
 		self.sound = settings.get('sound')
-		
+		self.def_pkmn_sound = settings.get('default_pkmn_sound')
+
 		#Set Alerts
 		self.pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
 		self.pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
@@ -67,16 +68,21 @@ class Pushover_Alarm(Alarm):
 		alert['url_title'] = settings.get('url_title', default['url_title'])
 		alert['message'] = settings.get('message', default['message'])
 		alert['sound'] = settings.get('sound', self.sound)
+		alert['def_pkmn_sound'] = settings.get('default_pkmn_sound', self.def_pkmn_sound)
 		return alert
 		
 	#Send Alert to the Pushover
 	def send_alert(self, alert, info):
+		#If the pokemon has no specific sound set we use the default_pokemon_sound when this variable is also set
+		tmp_sound = alert['sound']
+		if replace(alert['sound'], info) == 'None' and alert['def_pkmn_sound'] != None:
+			tmp_sound = alert['def_pkmn_sound']
 		args  = {
 			'message': replace(alert['message'], info),
 			'title': replace(alert['title'], info),
 			'url': replace(alert['url'], info),
 			'url_title': replace(alert['url_title'], info),
-			'sound':alert['sound']
+			'sound': replace(tmp_sound, info)
 		}
 		try_sending(log, self.connect, "Pushover",  self.send_pushover, args)
 	
@@ -105,7 +111,6 @@ class Pushover_Alarm(Alarm):
 			payload['url_title'] = url_title
 		if sound is not None:
 			payload['sound'] = sound
-			
 		connection.request("POST", "/1/messages.json", urllib.urlencode(payload), 
 				{"Content-Type": "application/x-www-form-urlencoded"})
 		r = connection.getresponse()
