@@ -14,7 +14,7 @@ import googlemaps
 from . import config
 
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_pkmn_id, get_team_id,\
-    get_time_as_str, parse_boolean
+    get_time_as_str, parse_boolean, parse_unicode
 
 log = logging.getLogger('Manager')
 
@@ -46,7 +46,7 @@ class Manager(object):
         # Create the alarms to send notifications out with
         self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
         self.__alarms = []
-        self.create_alarms(get_path(alarms))
+        self.__alarms_file = get_path(alarms)
 
         # Set the location
         self.__latlng = self.get_lat_lng_by_name(location) if location is not None else None
@@ -83,22 +83,29 @@ class Manager(object):
     ####################################################################################################################
     ################################################## HANDLE EVENTS  ##################################################
 
-    def run(self):
-        # Get config from the main process
+    # Set up some variables that don't get moved into the new process correctly
+    def intialize_process(self):
+        # Update config
         config.update(**self.__config)
-        logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.WARNING)
+        config['API_KEY'] = self.__google_key
+        config['UNITS'] = self.__units
+
+        # Hush some new loggers
+        logging.getLogger('requests').setLevel(logging.WARNING)
+        logging.getLogger('urllib3').setLevel(logging.WARNING)
 
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
 
-        # Set some process specific variables
-        config['API_KEY'] = self.__google_key
-        config['UNITS'] = self.__units
+        # Make the Alarms
+        self.create_alarms(self.__alarms_file)
+
+    def run(self):
+        self.intialize_process()
 
         last_clean = datetime.utcnow()
 
         while True:  # Run forever and ever
-
             # Get next object to process
             obj = self.__queue.get(block=True)
             # Clean out visited every 3 minutes
@@ -119,7 +126,7 @@ class Manager(object):
                     log.error("!!! Manager does not support {} objects!".format(kind))
                 log.debug("Finished processing object {} with id {}".format(obj['type'], obj['type']))
             except Exception as e:
-                log.error("Encountered error during processing: {}".format(e))
+                log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 
 
@@ -473,15 +480,15 @@ class Manager(object):
         with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
             names = json.loads(f.read())
             for pkmn_id, value in names.iteritems():
-                self.__pokemon_name[int(pkmn_id)] = value
+                self.__pokemon_name[int(pkmn_id)] = parse_unicode(value)
         with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
             moves = json.loads(f.read())
             for move_id, value in moves.iteritems():
-                self.__move_name[int(move_id)] = value
+                self.__move_name[int(move_id)] = parse_unicode(value)
         with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
-                self.__team_name[int(team_id)] = value
+                self.__team_name[int(team_id)] = parse_unicode(value)
 
     ####################################################################################################################
 
@@ -489,7 +496,7 @@ class Manager(object):
 
     def create_alarms(self, file_path):
         with open(file_path, 'r') as f:
-            alarm_settings = json.loads(f.read())
+            alarm_settings = json.load(f)
         for alarm in alarm_settings:
             if alarm['active'] == "True":
                 if alarm['type'] == 'boxcar':

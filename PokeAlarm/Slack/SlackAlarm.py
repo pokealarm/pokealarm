@@ -5,12 +5,11 @@ import re
 from slacker import Slacker
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean
+from ..Utils import parse_boolean, get_static_map_url
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('Slack')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
-get_static_map_url = Alarm.get_static_map_url
 
 
 #####################################################  ATTENTION!  #####################################################
@@ -133,7 +132,7 @@ class SlackAlarm(Alarm):
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
-        channel = self.__channel_format(name)
+        channel = SlackAlarm.channel_format(name)
         if channel not in self.__channels:
             if name == self.__channel:
                 log.error("Default channel %s not found... Posting to general instead." % channel)

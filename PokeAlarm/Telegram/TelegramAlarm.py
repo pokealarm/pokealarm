@@ -7,7 +7,7 @@ from ..Alarm import Alarm
 from Stickers import sticker_list
 from ..Utils import parse_boolean
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('Telegram')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -106,7 +106,6 @@ class TelegramAlarm(Alarm):
             args = {
                 'chat_id': alert['chat_id'],
                 'text': '<b>' + replace(alert['title'], info) + '</b> \n' + replace(alert['body'], info),
-                'parse_mode': 'HTML',
                 'disable_web_page_preview': 'False',
                 'disable_notification': 'False'
             }
