@@ -103,11 +103,11 @@ def parse_settings(root_path):
                         help='Names of Manager processes to start.')
     parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[None],
                         help='Specify a Google API Key to use.')
-    parser.add_argument('-f', '--filter', type=parse_unicode, action='append', default=['filters.json'],
+    parser.add_argument('-f', '--filters', type=parse_unicode, action='append', default=['filters.json'],
                         help='Filters configuration file. default: filters.json', )
-    parser.add_argument('-a', '--alarm', type=parse_unicode, action='append', default=['alarms.json'],
+    parser.add_argument('-a', '--alarms', type=parse_unicode, action='append', default=['alarms.json'],
                         help='Alarms configuration file. default: alarms.json', )
-    parser.add_argument('-gf', '--geofence', type=parse_unicode, action='append', default=['none'],
+    parser.add_argument('-gf', '--geofences', type=parse_unicode, action='append', default=['none'],
                         help='Alarms configuration file. default: alarms.json')
     parser.add_argument('-l', '--location', type=parse_unicode, default=['none'],
                         help='Location, can be an address or coordinates')
@@ -124,12 +124,16 @@ def parse_settings(root_path):
 
     args = parser.parse_args()
 
-    config['DEBUG'] = args.debug
+    if args.debug:
+        log.setLevel(logging.DEBUG)
+        logging.getLogger('PokeAlarm').setLevel(logging.DEBUG)
+
+
     config['HOST'] = args.host
     config['PORT'] = args.port
     config['QUIET'] = False
 
-    for list in [args.key, args.filter, args.alarm, args.geofence, args.location, args.units, args.timelimit]:
+    for list in [args.key, args.filters, args.alarms, args.geofences, args.location, args.units, args.timelimit]:
         log.debug(list)
         size = len(list)
         if size != 1 and size != args.mgr_count:
@@ -145,11 +149,11 @@ def parse_settings(root_path):
             name=args.managers[m_ct] if m_ct < len(args.managers) else "Manager_{}".format(m_ct),
             google_key=args.key[m_ct] if len(args.key) > 1 else args.key[0],
             filters=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
-            geofences=args.geofence[m_ct] if len(args.geofence) > 1 else args.geofence[0],
+            geofences=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
             alarms=args.alarms[m_ct] if len(args.alarms) > 1 else args.alarms[0],
             location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
             locale=args.locale[m_ct] if len(args.locale) > 1 else args.locale[0],
-            units=args.unit[m_ct] if len(args.unit) > 1 else args.unit[0],
+            units=args.units[m_ct] if len(args.units) > 1 else args.units[0],
             time_limit=args.timelimit[m_ct] if len(args.timelimit) > 1 else args.timelimit[0],
             timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0]
         )
