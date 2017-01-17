@@ -4,6 +4,7 @@ import gevent
 import logging
 import json
 import multiprocessing
+import traceback
 import os
 import re
 # 3rd Party Imports
@@ -19,6 +20,7 @@ log = logging.getLogger('Manager')
 
 
 class Manager(object):
+
     def __init__(self, name, google_key, filters, geofences, alarms, location, locale, units, time_limit, timezone):
 
         # Set the name of the Manager
@@ -47,7 +49,7 @@ class Manager(object):
         self.create_alarms(get_path(alarms))
 
         # Set the location
-        self.__latlng = self.get_lat_lng_by_name(location)
+        self.__latlng = self.get_lat_lng_by_name(location) if location is not None else None
 
         # Set the locale to use for names and moves
         self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
@@ -64,6 +66,7 @@ class Manager(object):
         self.__timezone = timezone if str(timezone).lower() != 'none' else None
 
         # Initialize the queue and start the process
+        self.__config = config
         self.__threads = []  # Notification threads
         self.__queue = multiprocessing.Queue()
         self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
@@ -81,12 +84,17 @@ class Manager(object):
     ################################################## HANDLE EVENTS  ##################################################
 
     def run(self):
-        logging.getLogger("requests.packages.urllib3.connectionpool").setLevel(logging.WARNING)
+        # Get config from the main process
+        config.update(**self.__config)
+        logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.WARNING)
+
+        if config['DEBUG'] is True:
+            logging.getLogger().setLevel(logging.DEBUG)
+
         # Set some process specific variables
         config['API_KEY'] = self.__google_key
-        config['TIMEZONE'] = self.__timezone
         config['UNITS'] = self.__units
-        config['QUIET'] = False  # TODO
+
         last_clean = datetime.utcnow()
 
         while True:  # Run forever and ever
@@ -95,18 +103,24 @@ class Manager(object):
             obj = self.__queue.get(block=True)
             # Clean out visited every 3 minutes
             if datetime.utcnow() - last_clean > timedelta(minutes=3):
+                log.debug("Cleaning history...")
                 self.clean_hist()
                 last_clean = datetime.utcnow()
-
-            kind = obj['type']
-            if kind == "pokemon":
-                self.handle_pokemon(obj)
-            elif kind == "pokestop":
-                self.handle_pokestop(obj)
-            elif kind == "gym":
-                self.handle_gym(obj)
-            else:
-                log.error("!!! Manager does not support {} objects!".format(kind))
+            try:
+                kind = obj['type']
+                log.debug("Processing object {} with id {}".format(obj['type'], obj['type']))
+                if kind == "pokemon":
+                    self.handle_pokemon(obj)
+                elif kind == "pokestop":
+                    self.handle_pokestop(obj)
+                elif kind == "gym":
+                    self.handle_gym(obj)
+                else:
+                    log.error("!!! Manager does not support {} objects!".format(kind))
+                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['type']))
+            except Exception as e:
+                log.error("Encountered error during processing: {}".format(e))
+                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 
 
     # Clean out the expired objects from histories (to prevent oversized sets)
@@ -186,7 +200,7 @@ class Manager(object):
 
         # TODO: Check GEOFENCE
 
-        time_str = get_time_as_str(pkmn['disappear_time'])
+        time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
@@ -250,7 +264,7 @@ class Manager(object):
 
         # TODO something something geofence
 
-        time_str = get_time_as_str(expire_time)
+        time_str = get_time_as_str(expire_time, self.__timezone)
         stop.update({
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'time_left': time_str[0],
@@ -425,9 +439,9 @@ class Manager(object):
             "min_dist":float(settings.pop('min_dist', None) or 0),
             "max_dist": float(settings.pop('max_dist', None) or 'inf')
         }
-        log.info("Gym distance: {:.2f} to {:.2f}".format(gyms['min_dist'], gyms['max_dist']))
-        if gyms['ignore_neutral']:
-            log.info("Ignoring neutral gyms...")
+        log.info("Gym distance: {:.2f} to {:.2f}. Ignoring Neutral set to {}".format(
+            gyms['min_dist'], gyms['max_dist'], gyms['ignore_neutral']))
+
         for name in settings:
             team_id = get_team_id(name)
             if team_id is None:

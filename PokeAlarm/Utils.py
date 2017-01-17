@@ -38,26 +38,6 @@ def parse_boolean(val):
         return False
     return None
 
-
-# Return back the following:
-# time_left = Time remaining in minutes and seconds
-# time_12 = Disappear time in 12h format, eg "2:30:16 PM"
-# time_24 = Disappear time in 24h format including seconds, eg "14:30:16"
-def get_timestamps(t):
-    s = (t - datetime.utcnow()).total_seconds()
-    (m, s) = divmod(s, 60)
-    (h, m) = divmod(m, 60)
-    d = timedelta(hours=h, minutes=m, seconds=s)
-    if "TIMEZONE" in config:
-        disappear_time = datetime.now(tz=config.get("TIMEZONE")) + d
-    else:
-        disappear_time = datetime.now() + d
-    time_left = "%dm %ds" % (m, s)
-    time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
-    time_24 = disappear_time.strftime("%H:%M:%S")
-    return time_left, time_12, time_24
-
-
 def parse_unicode(bytestring):
     decoded_string = bytestring.decode(sys.getfilesystemencoding())
     return decoded_string
@@ -195,12 +175,12 @@ def get_earth_dist(ptA, ptB):
 
 
 # Return the time as a string in different formats
-def get_time_as_str(t):
+def get_time_as_str(t, timezone=None):
     s = (t - datetime.utcnow()).total_seconds()
     (m, s) = divmod(s, 60)
     (h, m) = divmod(m, 60)
     d = timedelta(hours=h, minutes=m, seconds=s)
-    if config["TIMEZONE"] is not None:
+    if timezone is not None:
         disappear_time = datetime.now(tz=config.get("TIMEZONE")) + d
     else:
         disappear_time = datetime.now() + d
@@ -210,6 +190,6 @@ def get_time_as_str(t):
     time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
     # Dissapear time in 24h format including seconds, eg "14:30:16"
     time_24 = disappear_time.strftime("%H:%M:%S")
-    return (time_left, time_12, time_24)
+    return time_left, time_12, time_24
 
 ########################################################################################################################

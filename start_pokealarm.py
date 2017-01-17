@@ -7,7 +7,7 @@ monkey.patch_all()
 
 # Setup Logging
 import logging
-logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.INFO)
 
 
 # Standard Library Imports
@@ -63,7 +63,7 @@ def manage_webhook_data(queue):
             for name, mgr in managers.iteritems():
                 mgr.update(obj)
                 log.debug("Distributed to {}.".format(name))
-            log.debug("Finished distributing object {}".format(obj['id']))  # TODO: Change to ID later
+            log.debug("Finished distributing object with id {}".format(obj['id']))
         queue.task_done()
 
 
@@ -83,7 +83,6 @@ def start_server():
     # Start Webhook Manager in a Thread
     spawn(manage_webhook_data, data_queue)
 
-
     # Start up Server
     log.info("Webhook server running on http://%s:%s" % ( config['HOST'], config['PORT']))
     server = wsgi.WSGIServer(( config['HOST'], config['PORT']), app, log=logging.getLogger('pyswgi'))
@@ -99,48 +98,51 @@ def parse_settings(root_path):
     parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
     parser.add_argument('-m', '--mgr_count', type=int, default=1,
                         help='Number of Manager processes to start.')
-    parser.add_argument('-M', '--managers', type=parse_unicode, action='append', default=[],
+    parser.add_argument('-M', '--managers', type=parse_unicode, action=AppendPlus, default=[],
                         help='Names of Manager processes to start.')
-    parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[],
+    parser.add_argument('-k', '--key', type=parse_unicode, action=AppendPlus, default=[None],
                         help='Specify a Google API Key to use.')
-    parser.add_argument('-f', '--filters', type=parse_unicode, action='append', default=[],
+    parser.add_argument('-f', '--filters', type=parse_unicode, action=AppendPlus, default=['filters.json'],
                         help='Filters configuration file. default: filters.json', )
-    parser.add_argument('-a', '--alarms', type=parse_unicode, action='append', default=[],
+    parser.add_argument('-a', '--alarms', type=parse_unicode, action=AppendPlus, default=['alarms.json'],
                         help='Alarms configuration file. default: alarms.json', )
-    parser.add_argument('-gf', '--geofences', type=parse_unicode, action='append', default=[],
-                        help='Alarms configuration file. default: alarms.json')
-    parser.add_argument('-l', '--location', type=parse_unicode, default=['none'],
+    parser.add_argument('-gf', '--geofences', type=parse_unicode, action=AppendPlus, default=['geofences.json'],
+                        help='Alarms configuration file. default: geofences.json')
+    parser.add_argument('-l', '--location', action=AppendPlus, default=[None],
                         help='Location, can be an address or coordinates')
-    parser.add_argument('-L', '--locale', type=parse_unicode, action='append', default=[],
+    parser.add_argument('-L', '--locale', type=parse_unicode, action=AppendPlus, default=['en'],
                         choices=['de', 'en', 'fr', 'it', 'pt_br', 'ru', 'zh_cn', 'zh_hk', 'zh_tw'],
                         help='Locale for Pokemon and Move names: default en, check locale folder for more options')
-    parser.add_argument('-u', '--units', type=parse_unicode, default=[], action='append',
+    parser.add_argument('-u', '--units', type=parse_unicode, default=['imperial'], action=AppendPlus,
                         choices=['metric', 'imperial'],
                         help='Specify either metric or imperial units to use for distance measurements. ')
-    parser.add_argument('-tl', '--timelimit', type=int, default=[], action='append',
+    parser.add_argument('-tl', '--timelimit', type=int, default=[0], action=AppendPlus,
                         help='Minimum number of seconds remaining on a pokemon to send a notify')
-    parser.add_argument('-tz', '--timezone', default=[], action='append',
+    parser.add_argument('-tz', '--timezone',type=parse_unicode, action=AppendPlus, default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
 
     args = parser.parse_args()
 
     if args.debug:
         log.setLevel(logging.DEBUG)
+        logging.getLogger().setLevel(logging.DEBUG)
         logging.getLogger('PokeAlarm').setLevel(logging.DEBUG)
-
+        logging.getLogger('Manager').setLevel(logging.DEBUG)
+        log.debug("Debug mode enabled!")
 
     config['HOST'] = args.host
     config['PORT'] = args.port
     config['QUIET'] = False
+    config['DEBUG'] = args.debug
 
-    for list in [args.key, args.filters, args.alarms, args.geofences, args.location, args.units, args.timelimit]:
-        log.debug(list)
-        size = len(list)
+    for list_ in [args.key, args.filters, args.alarms, args.geofences, args.location, args.units, args.timelimit]:
+        log.debug(list_)
+        size = len(list_)
         if size != 1 and size != args.mgr_count:
-            log.critical("\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
+            log.critical("\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
                          "Incorrect number of arguments applied: must be either 1 for all processes or else the " +
                          "number of arguments must match the number of processes. Process will exit.")
-            log.critical(list)
+            log.critical(list_)
             sys.exit(1)
 
     # Construct the managers
@@ -164,6 +166,18 @@ def parse_settings(root_path):
             log.critical("\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
                          "Names of Manager processes must be unique (regardless of capitalization)! Process will exit.")
             sys.exit(1)
+
+
+# Class uses to help replace defaults with new arguements
+class AppendPlus(configargparse.Action):
+    def __call__(self, parser, namespace, values, option_strings=None):
+        dest = getattr(namespace, self.dest, None)
+        if (not hasattr(dest, 'extend') or dest == self.default):
+            dest = []
+            setattr(namespace, self.dest, dest)
+            parser.set_defaults(**{self.dest: None})
+
+            dest.append(values)
 
 
 ########################################################################################################################
