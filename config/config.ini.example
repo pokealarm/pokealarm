@@ -1,0 +1,18 @@
+# Copy this file to config.ini and modify to suit your needs
+# Uncomment a line (remove the #) when you want to change its default value. Alternatively, all of these options can be set at the command line
+# To run multiple Manager Processes, supply multiple values inside brackets: eg key:[KEY1, KEY2]
+
+# Server Settings
+#debug:                     # Enables debugging mode
+#host: 						# Address to listen on (default 127.0.0.1)
+#port: 						# Port to listen on (default: 4000)
+#mgr_count:                 # Number of Manager Processes to run. default: 1
+#key: 						# Google Maps API Key to use
+#filter: 					# Specify a file describing filter rules. default: filters.json
+#alarms: 					# Specify a file describing Alarm services. default: alarms.json
+#geofence: 					# Specify a file describing geofences. default: geofences.json
+#location: 					# Location, can be an address or coordinates
+#locale: 					# Locale for Pokemon names
+#unit: 					    # Specify either metric or imperial
+#timelimit: 				# Minimum number of seconds remaining on a pokemon to notify
+#timezone:                  # T

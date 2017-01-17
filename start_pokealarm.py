@@ -7,7 +7,7 @@ monkey.patch_all()
 
 # Setup Logging
 import logging
-logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.INFO)
 
 
 # Standard Library Imports
@@ -103,9 +103,9 @@ def parse_settings(root_path):
                         help='Names of Manager processes to start.')
     parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[None],
                         help='Specify a Google API Key to use.')
-    parser.add_argument('-f', '--filters', type=parse_unicode, action='append', default=['filters.json'],
+    parser.add_argument('-f', '--filter', type=parse_unicode, action='append', default=['filters.json'],
                         help='Filters configuration file. default: filters.json', )
-    parser.add_argument('-a', '--alarms', type=parse_unicode, action='append', default=['alarms.json'],
+    parser.add_argument('-a', '--alarm', type=parse_unicode, action='append', default=['alarms.json'],
                         help='Alarms configuration file. default: alarms.json', )
     parser.add_argument('-gf', '--geofence', type=parse_unicode, action='append', default=['none'],
                         help='Alarms configuration file. default: alarms.json')
@@ -114,7 +114,7 @@ def parse_settings(root_path):
     parser.add_argument('-L', '--locale', type=parse_unicode, action='append', default=['en'],
                         choices=['de', 'en', 'fr', 'it', 'pt_br', 'ru', 'zh_cn', 'zh_hk', 'zh_tw'],
                         help='Locale for Pokemon and Move names: default en, check locale folder for more options')
-    parser.add_argument('-u', '--unit', type=parse_unicode, default=['metric'], action='append',
+    parser.add_argument('-u', '--units', type=parse_unicode, default=['metric'], action='append',
                         choices=['metric', 'imperial'],
                         help='Specify either metric or imperial units to use for distance measurements. ')
     parser.add_argument('-tl', '--timelimit', type=int, default=[0], action='append',
@@ -129,7 +129,7 @@ def parse_settings(root_path):
     config['PORT'] = args.port
     config['QUIET'] = False
 
-    for list in [args.key, args.filters, args.alarms, args.geofence, args.location, args.unit, args.timelimit]:
+    for list in [args.key, args.filter, args.alarm, args.geofence, args.location, args.units, args.timelimit]:
         log.debug(list)
         size = len(list)
         if size != 1 and size != args.mgr_count:

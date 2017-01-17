@@ -120,6 +120,11 @@ class Manager(object):
                 del dict_[id_]
 
     def handle_pokemon(self, pkmn):
+        # Quick check for enabled
+        if self.__pokemon_filter['enabled'] is False:
+            log.debug("Pokemon ignored: notifications are disabled.")
+            return
+
         _id = pkmn['id']
         pkmn_id = pkmn['pkmn_id']
         name = self.__pokemon_name[pkmn_id]
@@ -142,7 +147,7 @@ class Manager(object):
         # Check the distance from the set location
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
-        if dist is not 'unkn':
+        if dist != 'unkn':
             if dist < filt['min_dist'] or filt['max_dist'] < dist:
                 if config['QUIET'] is False:
                     log.info("{} ignored: distance was not in range {:.2f} to {:.2f}.".format(
@@ -153,7 +158,7 @@ class Manager(object):
 
         # Check the IV's of the Pokemon
         iv = pkmn['iv']
-        if iv is not 'unkn':
+        if iv != 'unkn':
             if iv < filt['min_iv'] or filt['max_iv'] < iv:
                 if config['QUIET'] is False:
                     log.info("{} ignored: IV's not in range {:.2f} to {:.2f}.".format(
@@ -166,13 +171,13 @@ class Manager(object):
         move_1 = self.__move_name.get(pkmn['move_1_id'], 'unknown')
         move_2 = self.__move_name.get(pkmn['move_2_id'], 'unknown')
         # TODO: Move damage
-        if move_1 is not 'unknown' and move_2 is not 'unknown':
+        if move_1 != 'unknown' and move_2 != 'unknown':
             move_1_f, move_2_f = filt['move_1'], filt['move_2']
-            if move_1_f is not None and move_1_f.find(move_1) == -1:
+            if move_1_f != None and move_1_f.find(move_1) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
-            if move_1_f is not None and move_1_f.find(move_1) == -1:
+            if move_1_f != None and move_1_f.find(move_1) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
@@ -184,7 +189,7 @@ class Manager(object):
         time_str = get_time_as_str(pkmn['disappear_time'])
         pkmn.update({
             'pkmn': name,
-            "dist": get_dist_as_str(dist) if dist is not 'unkn' else 'unkn',
+            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'move_1': move_1,
             'move_2': move_2,
             'time_left': time_str[0],
@@ -207,8 +212,9 @@ class Manager(object):
             thread.join()
 
     def handle_pokestop(self, stop):
-        # Quick check for completely disabled
-        if self.__pokestop_filter is False:
+        # Quick check for enabled
+        if self.__pokestop_filter['enabled'] is False:
+            log.debug("Pokestop ignored: notifications are disabled.")
             return
 
         id_ = stop['id']
@@ -233,7 +239,7 @@ class Manager(object):
         # Check the distance from the set location
         lat, lng = stop['lat'], stop['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
-        if dist is not 'unkn':
+        if dist != 'unkn':
             if dist < filt['min_dist'] or filt['max_dist'] < dist:
                 if config['QUIET'] is False:
                     log.info("Pokestop ({}) ignored: distance was not in range {:.2f} to {:.2f}.".format(
@@ -246,7 +252,7 @@ class Manager(object):
 
         time_str = get_time_as_str(expire_time)
         stop.update({
-            "dist": get_dist_as_str(dist) if dist is not 'unkn' else 'unkn',
+            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -269,6 +275,11 @@ class Manager(object):
 
 
     def handle_gym(self, gym):
+        # Quick check for enabled
+        if self.__gym_filter['enabled'] is False:
+            log.debug("Gym ignored: notifications are disabled.")
+            return
+
         _id = gym['id']
         team_id = gym['team_id']
         old_team = self.__gym_hist.get(_id) # default to neutral
@@ -292,7 +303,7 @@ class Manager(object):
 
         lat, lng = gym['lat'], gym['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
-        if dist is not 'unkn':
+        if dist != 'unkn':
             old_range, new_range = False
             old_f = self.__gym_filter.get(old_team)
             if old_f is not None:
@@ -314,7 +325,7 @@ class Manager(object):
         # TODO something something geofence
 
         gym.update({
-            "dist": get_dist_as_str(dist) if dist is not 'unkn' else 'unkn',
+            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'new_team': self.__team_name[team_id],
             'old_team': self.__team_name[old_team],
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
@@ -361,13 +372,14 @@ class Manager(object):
     # Update the pokemon according to settings
     def set_pokemon(self, settings):
         # Start a new dict to track filters
-        pokemon = {}
+        pokemon = {'enabled': settings.pop('enabled', False)}
         min_dist = float(settings.pop('min_dist', None) or 0)
         max_dist = float(settings.pop('max_dist', None) or 'inf')
         min_iv = float(settings.pop('min_iv', None) or 0)
         max_iv = float(settings.pop('max_iv', None) or 100)
-        log.info("Pokemon defaults: distance {:.2f} to {:.2f} / IV's {:.2f} to {:.2f}".format(
-            min_dist, max_dist, min_iv, max_iv))
+        if pokemon['enabled']:
+            log.info("Pokemon defaults: distance {:.2f} to {:.2f} / IV's {:.2f} to {:.2f}".format(
+                min_dist, max_dist, min_iv, max_iv))
         for name in settings:
             pkmn_id = get_pkmn_id(name)
             if pkmn_id is None:
@@ -397,25 +409,24 @@ class Manager(object):
         self.__pokemon_filter = pokemon
 
     def set_pokestops(self, settings):
-        if parse_boolean(settings) is True:
-            settings = {}
-        elif parse_boolean(settings) is False:
-            self.__pokestop_filter = False
-            return
         pokestops = {
+            "enabled": bool(settings.get('enabled') or False),
             "min_dist": float(settings.get('max_dist', None) or 0),
             "max_dist": float(settings.get('max_dist', None) or 'inf')
         }
-        log.info("Pokestop distance: {} to {}".format(pokestops['min_dist'], pokestops['max_dist']))
+        if pokestops['enabled']:
+            log.info("Pokestop distance: {} to {}".format(pokestops['min_dist'], pokestops['max_dist']))
         self.__pokestop_filter = pokestops
 
     def set_gyms(self, settings):
-        min_dist = float(settings.pop('min_dist', None) or 0)
-        max_dist = float(settings.pop('max_dist', None) or 'inf')
-        ignore_neutral = bool(parse_boolean(settings.pop('ignore_neutral', None)) or False)
-        gyms = {'ignore_neutral': ignore_neutral}
-        log.info("Gym distance: {:.2f} to {:.2f}".format(min_dist, max_dist))
-        if ignore_neutral:
+        gyms = {
+            "enabled": bool(settings.pop("enabled") or False),
+            "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False),
+            "min_dist":float(settings.pop('min_dist', None) or 0),
+            "max_dist": float(settings.pop('max_dist', None) or 'inf')
+        }
+        log.info("Gym distance: {:.2f} to {:.2f}".format(gyms['min_dist'], gyms['max_dist']))
+        if gyms['ignore_neutral']:
             log.info("Ignoring neutral gyms...")
         for name in settings:
             team_id = get_team_id(name)
@@ -431,8 +442,8 @@ class Manager(object):
                     if parse_boolean(info):  # Allow all defaults
                         info = {}
                     gyms[team_id] = {
-                        "min_dist": float(info.get('min_dist', None) or min_dist),
-                        "max_dist": float(info.get('max_dist', None) or max_dist),
+                        "min_dist": float(info.get('min_dist', None) or gyms['min_dist']),
+                        "max_dist": float(info.get('max_dist', None) or gyms['max_dist']),
                     }
                     log.debug("Team #{} was set to the following: {}".format(
                         team_id, json.dumps(gyms[team_id], sort_keys=True, indent=4)))

@@ -5,9 +5,9 @@
     "user_credentials": "YOUR_API_KEY"
   },
   {
-    "active": "True",
+    "active": "False",
     "type": "discord",
-    "api_key": "https://discordapp.com/api/webhooks/270596197318656000/N_oUPsK6f9yrhzl84v7YJzVRQ9UVL_rxItt5wDqICL2-ilJxg79a-0YCmLQU5Y28xgKk"
+    "api_key": "YOUR_WEBHOOK_URL"
   },
   {
     "active": "False",

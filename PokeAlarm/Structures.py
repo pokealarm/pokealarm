@@ -43,7 +43,7 @@ class PokemonGoMap:
             pkmn['move_1_id'] = int(data['move_1'])
             pkmn['move_2_id'] = int(data['move_2'])
         else:
-            pkmn['move_1_id'], pkmn['move_2_id'] = 'unkown'
+            pkmn['move_1_id'] = pkmn['move_2_id'] = 'unknown'
 
         if all(iv in data for iv in ['individual_attack', 'individual_defense', 'individual_stamina']):
             atk = int(data.get('individual_attack'))
@@ -52,7 +52,7 @@ class PokemonGoMap:
             pkmn['atk'], pkmn['def'], pkmn['sta'] = atk, def_, sta
             pkmn['iv'] = float(((atk + def_ + sta)*100)/float(45))
         else:
-            pkmn['iv'], pkmn['atk'], pkmn['def'], pkmn['sta'] = 'unkn'
+            pkmn['iv'] = pkmn['atk'] = pkmn['def'] = pkmn['sta'] = 'unkn'
         return pkmn
 
     @staticmethod
