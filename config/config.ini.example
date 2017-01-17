@@ -15,4 +15,4 @@
 #locale: 					# Locale for Pokemon names
 #unit: 					    # Specify either metric or imperial
 #timelimit: 				# Minimum number of seconds remaining on a pokemon to notify
-#timezone:                  # T
+#timezone:                  # Timezone used for notifications.  Ex: "America/Los_Angeles"

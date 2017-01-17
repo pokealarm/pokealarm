@@ -7,7 +7,7 @@ monkey.patch_all()
 
 # Setup Logging
 import logging
-logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.DEBUG)
 
 
 # Standard Library Imports
@@ -93,7 +93,7 @@ def start_server():
 
 def parse_settings(root_path):
     config['ROOT_PATH'] = root_path
-    parser = configargparse.ArgParser(default_config_files=get_path('config/config.ini'))
+    parser = configargparse.ArgParser(default_config_files=[get_path('config/config.ini')])
     parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
@@ -101,25 +101,25 @@ def parse_settings(root_path):
                         help='Number of Manager processes to start.')
     parser.add_argument('-M', '--managers', type=parse_unicode, action='append', default=[],
                         help='Names of Manager processes to start.')
-    parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[None],
+    parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[],
                         help='Specify a Google API Key to use.')
-    parser.add_argument('-f', '--filters', type=parse_unicode, action='append', default=['filters.json'],
+    parser.add_argument('-f', '--filters', type=parse_unicode, action='append', default=[],
                         help='Filters configuration file. default: filters.json', )
-    parser.add_argument('-a', '--alarms', type=parse_unicode, action='append', default=['alarms.json'],
+    parser.add_argument('-a', '--alarms', type=parse_unicode, action='append', default=[],
                         help='Alarms configuration file. default: alarms.json', )
-    parser.add_argument('-gf', '--geofences', type=parse_unicode, action='append', default=['none'],
+    parser.add_argument('-gf', '--geofences', type=parse_unicode, action='append', default=[],
                         help='Alarms configuration file. default: alarms.json')
     parser.add_argument('-l', '--location', type=parse_unicode, default=['none'],
                         help='Location, can be an address or coordinates')
-    parser.add_argument('-L', '--locale', type=parse_unicode, action='append', default=['en'],
+    parser.add_argument('-L', '--locale', type=parse_unicode, action='append', default=[],
                         choices=['de', 'en', 'fr', 'it', 'pt_br', 'ru', 'zh_cn', 'zh_hk', 'zh_tw'],
                         help='Locale for Pokemon and Move names: default en, check locale folder for more options')
-    parser.add_argument('-u', '--units', type=parse_unicode, default=['metric'], action='append',
+    parser.add_argument('-u', '--units', type=parse_unicode, default=[], action='append',
                         choices=['metric', 'imperial'],
                         help='Specify either metric or imperial units to use for distance measurements. ')
-    parser.add_argument('-tl', '--timelimit', type=int, default=[0], action='append',
+    parser.add_argument('-tl', '--timelimit', type=int, default=[], action='append',
                         help='Minimum number of seconds remaining on a pokemon to send a notify')
-    parser.add_argument('-tz', '--timezone', default=['none'], action='append',
+    parser.add_argument('-tz', '--timezone', default=[], action='append',
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
 
     args = parser.parse_args()
