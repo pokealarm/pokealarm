@@ -530,17 +530,17 @@ class Manager(object):
         with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
             names = json.loads(f.read())
             for pkmn_id, value in names.iteritems():
-                self.__pokemon_name[int(pkmn_id)] = parse_unicode(value)
+                self.__pokemon_name[int(pkmn_id)] = value
         # Update move names
         with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
             moves = json.loads(f.read())
             for move_id, value in moves.iteritems():
-                self.__move_name[int(move_id)] = parse_unicode(value)
+                self.__move_name[int(move_id)] = value
         # Update team names
         with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
-                self.__team_name[int(team_id)] = parse_unicode(value)
+                self.__team_name[int(team_id)] = value
 
     ####################################################################################################################
 
