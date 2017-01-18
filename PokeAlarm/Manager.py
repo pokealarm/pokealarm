@@ -97,6 +97,7 @@ class Manager(object):
 
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
+            #logging.getLogger('Telegram').setLevel(logging.DEBUG)
 
         # Make the Alarms
         self.create_alarms(self.__alarms_file)
@@ -546,7 +547,7 @@ class Manager(object):
         with open(file_path, 'r') as f:
             alarm_settings = json.load(f)
         for alarm in alarm_settings:
-            if alarm['active'] == "True":
+            if parse_boolean(alarm['active']) is True:
                 if alarm['type'] == 'boxcar':
                     from Boxcar import BoxcarAlarm
                     self.__alarms.append(BoxcarAlarm(alarm))

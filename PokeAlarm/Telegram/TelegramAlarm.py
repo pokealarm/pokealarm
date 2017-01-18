@@ -53,8 +53,11 @@ class TelegramAlarm(Alarm):
 
         # Set Alerts
         self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
+        log.debug(self.__pokemon)
         self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
+        log.debug(self.__pokestop)
         self.__gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
+        log.debug(self.__gym)
 
         # Connect and send startup messages
         self.__client = None
@@ -90,7 +93,7 @@ class TelegramAlarm(Alarm):
                 'sticker': sticker_id,
                 'disable_notification': 'True'
             }
-            try_sending(log, self.connect, 'Telegram', self.__client.sendSticker, stickerargs)
+            try_sending(log, self.connect, 'Telegram (sticker)', self.__client.sendSticker, stickerargs)
 
         if alert['venue']:
             args = {
@@ -101,13 +104,14 @@ class TelegramAlarm(Alarm):
                 'address': replace(alert['body'], info),
                 'disable_notification': 'False'
             }
-            try_sending(log, self.connect, "Telegram (Loc)", self.__client.sendVenue, args)
+            try_sending(log, self.connect, "Telegram (venue)", self.__client.sendVenue, args)
         else:
             args = {
                 'chat_id': alert['chat_id'],
                 'text': '<b>' + replace(alert['title'], info) + '</b> \n' + replace(alert['body'], info),
                 'disable_web_page_preview': 'False',
-                'disable_notification': 'False'
+                'disable_notification': 'False',
+                'parse_mode':'HTML'
             }
             try_sending(log, self.connect, "Telegram", self.__client.sendMessage, args)
         if alert['location']:
@@ -117,12 +121,12 @@ class TelegramAlarm(Alarm):
                 'longitude': info['lng'],
                 'disable_notification': "%s" % alert['disable_map_notification']
             }
-            try_sending(log, self.connect, "Telegram (Loc)", self.__client.sendLocation, args)
+            try_sending(log, self.connect, "Telegram (loc)", self.__client.sendLocation, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
         if self.__pokemon['stickers']:
-            self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(pokemon_info['id']))
+            self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['pkmn_id'])))
         else:
             self.send_alert(self.__pokemon, pokemon_info)
 
