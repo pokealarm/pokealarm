@@ -29,7 +29,7 @@ class PokemonGoMap:
                 return PokemonGoMap.gym(data.get('message'))
             log.error("Invalid type specified ({}). Are you using the correct map type?".format(type))
         except Exception as e:
-            log.error("Encountered error while prcoessing webhook ({}: {})".format(type(e).__name__, e))
+            log.error("Encountered error while processing webhook ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return None
 

@@ -208,7 +208,17 @@ class Manager(object):
         else:
             log.debug("Pokemon moves were not checked because they are unknown.")
 
-        # TODO: Check GEOFENCE
+        # Check if in geofences
+        if len(self.__geofences) > 0:
+            inside = False
+            for gf in self.__geofences:
+                inside |= gf.contains(lat, lng)
+            if not inside:
+                if config['QUIET'] is False:
+                    log.info("{} ignored: located outside geofences.".format(name))
+                return
+        else:
+            log.debug("Pokemon inside geofences was not checked because no geofences were set.")
 
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
@@ -273,7 +283,17 @@ class Manager(object):
         else:
             log.debug("Pokestop distance was not checked because no location was set.")
 
-        # TODO something something geofence
+        # Check if in geofences
+        if len(self.__geofences) > 0:
+            inside = False
+            for gf in self.__geofences:
+                inside |= gf.contains(lat, lng)
+            if not inside:
+                if config['QUIET'] is False:
+                    log.info("Pokestop ignored: located outside geofences.")
+                return
+        else:
+            log.debug("Pokestop inside geofences was not checked because no geofences were set.")
 
         time_str = get_time_as_str(expire_time, self.__timezone)
         stop.update({
@@ -288,6 +308,7 @@ class Manager(object):
         self.optional_arguments(stop)
         if config['QUIET'] is False:
             log.info("Pokestop ({}) notification has been triggered!".format(id_))
+
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -337,16 +358,26 @@ class Manager(object):
                 new_range = old_f['min_dist'] <= dist <= old_f['max_dist']
             if not old_range and not new_range:
                 if config['QUIET'] is False:
-                    log.debug("Gym update ignored: both teams outside range")
+                    log.info("Gym update ignored: both teams outside range")
         else:
             log.debug("Gym distance was not checked because no location was set.")
+
+        # Check if in geofences
+        if len(self.__geofences) > 0:
+            inside = False
+            for gf in self.__geofences:
+                inside |= gf.contains(lat, lng)
+            if inside is False:
+                if config['QUIET'] is False:
+                    log.info("Gym update ignored: located outside geofences.")
+                return
+        else:
+            log.debug("Gym inside geofences was not checked because no geofences were set.")
 
         # Optional Stuff
         self.optional_arguments(gym)
         if config['QUIET'] is False:
             log.info("Gym ({}) notification has been triggered!".format(id_))
-
-        # TODO something something geofence
 
         gym.update({
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
@@ -366,14 +397,15 @@ class Manager(object):
 
     # Retrieve optional requirements
     def optional_arguments(self, info):
+        lat, lng = info['lat'], info['lng']
         if self.__api_req['REVERSE_LOCATION']:
-            info.update(**self.reverse_location(*self.__latlng))
+            info.update(**self.reverse_location(lat, lng))
         if self.__api_req['WALK_DIST']:
-            info.update(**self.get_walking_data(*self.__latlng))
+            info.update(**self.get_walking_data(lat, lng))
         if self.__api_req['BIKE_DIST']:
-            info.update(**self.get_biking_data(*self.__latlng))
+            info.update(**self.get_biking_data(lat, lng))
         if self.__api_req['DRIVE_DIST']:
-            info.update(**self.get_driving_data(*self.__latlng))
+            info.update(**self.get_driving_data(lat, lng))
 
     ####################################################################################################################
 
@@ -487,7 +519,9 @@ class Manager(object):
                     geofences[cur].append([float(x) for x in line.split(",")])
         for name, points in geofences.iteritems():
             self.__geofences.append(Geofence(name, points))
-            log.debug("Geofence {} created: \n {}".format(name, points))
+            log.info("Geofence {} added.".format(name))
+            log.debug("Geofence has the following points: \n {}".format(points))
+
 
     def update_locales(self):
         locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
@@ -614,7 +648,8 @@ class Manager(object):
                 'country': loc.get('country')
             }
         except Exception as e:
-            log.error("Error getting reverse location : {}".format(e))
+            log.error("Encountered error while getting reverse location data ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return details
 
     # Returns a set with walking dist and walking duration via Google Distance Matrix API
@@ -633,7 +668,8 @@ class Manager(object):
                 'walk_time': result.get('duration').get('text').encode('utf-8'),
             }
         except Exception as e:
-            log.error("Error getting walking data : {}".format(e))
+            log.error("Encountered error while getting walking data ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return data
 
     # Returns a set with biking dist and biking duration via Google Distance Matrix API
@@ -645,14 +681,15 @@ class Manager(object):
         dest = "{},{}".format(lat, lng)
         data = {'bike_dist': "!error!", 'bike_time': "!error!"}
         try:
-            result = config['GMAPS_CLIENT'].distance_matrix(origin, dest, mode='bicycling', units=config['UNITS'])
+            result = self.__gmaps_client.distance_matrix(origin, dest, mode='bicycling', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
             data = {
                 'bike_dist': result.get('distance').get('text').encode('utf-8'),
                 'bike_time': result.get('duration').get('text').encode('utf-8'),
             }
         except Exception as e:
-            log.error("Error geting biking data : {}".format(e))
+            log.error("Encountered error while getting biking data ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return data
 
     # Returns a set with driving dist and biking duration via Google Distance Matrix API
@@ -664,14 +701,15 @@ class Manager(object):
         dest = "{},{}".format(lat, lng)
         data = {'drive_dist': "!error!", 'drive_time': "!error!"}
         try:
-            result = config['GMAPS_CLIENT'].distance_matrix(origin, dest, mode='driving', units=config['UNITS'])
+            result = self.__gmaps_client.distance_matrix(origin, dest, mode='driving', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
             data = {
                 'drive_dist': result.get('distance').get('text').encode('utf-8'),
                 'drive_time': result.get('duration').get('text').encode('utf-8'),
             }
         except Exception as e:
-            log.error("Error geting driving data : {}".format(e))
+            log.error("Encountered error while getting driving data ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return data
 
     ####################################################################################################################

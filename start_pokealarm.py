@@ -19,7 +19,7 @@ import json
 import os
 import sys
 # 3rd Party Imports
-from flask import Flask, request
+from flask import Flask, request, abort
 # Local Imports
 from PokeAlarm import config
 from PokeAlarm.Manager import Manager
@@ -47,9 +47,13 @@ def index():
 
 @app.route('/', methods=['POST'])
 def accept_webhook():
-    log.debug("POST request received from {}.".format(request.remote_addr))
-    data = json.loads(request.data)
-    data_queue.put(data)
+    try:
+        log.debug("POST request received from {}.".format(request.remote_addr))
+        data = json.loads(request.data)
+        data_queue.put(data)
+    except Exception as e:
+        log.error("Encountered error while receiving webhook ({}: {})".format(type(e).__name__, e))
+        abort(400)
     return "OK"  # request ok
 
 
