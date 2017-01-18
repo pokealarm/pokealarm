@@ -164,7 +164,7 @@ class Manager(object):
         seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if config['QUIET'] is False:
-                log.info("{} ignored: only {} seconds remaining.".format(name, seconds_left))
+                log.info("{} ignored: {} seconds remaining.".format(name, seconds_left))
             return
 
         filt = self.__pokemon_filter[pkmn_id]
@@ -175,8 +175,8 @@ class Manager(object):
         if dist != 'unkn':
             if dist < filt['min_dist'] or filt['max_dist'] < dist:
                 if config['QUIET'] is False:
-                    log.info("{} ignored: distance was not in range {:.2f} to {:.2f}.".format(
-                        name, filt['min_dist'], filt['max_dist']))
+                    log.info("{} ignored: distance ({}) was not in range {:.2f} to {:.2f}.".format(
+                        name, dist, filt['min_dist'], filt['max_dist']))
                 return
         else:
             log.debug("Pokemon dist was not checked because no location was set.")
@@ -186,8 +186,8 @@ class Manager(object):
         if iv != 'unkn':
             if iv < filt['min_iv'] or filt['max_iv'] < iv:
                 if config['QUIET'] is False:
-                    log.info("{} ignored: IV's not in range {:.2f} to {:.2f}.".format(
-                        name, filt['min_iv'], filt['max_iv']))
+                    log.info("{} ignored: IVs ({}) not in range {:.2f} to {:.2f}.".format(
+                        name, iv, filt['min_iv'], filt['max_iv']))
                 return
         else:
             log.debug("Pokemon IV's were not checked because they are unknown.")
@@ -204,7 +204,7 @@ class Manager(object):
                 return
             if move_1_f is not None and move_1_f.find(move1) == -1:
                 if config['QUIET'] is False:
-                    log.info("{} ignored: Move 1 was incorrect.".format(name))
+                    log.info("{} ignored: Move 2 was incorrect.".format(name))
                 return
         else:
             log.debug("Pokemon moves were not checked because they are unknown.")
@@ -526,14 +526,17 @@ class Manager(object):
 
     def update_locales(self):
         locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
+        # Update pokemon names
         with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
             names = json.loads(f.read())
             for pkmn_id, value in names.iteritems():
                 self.__pokemon_name[int(pkmn_id)] = parse_unicode(value)
+        # Update move names
         with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
             moves = json.loads(f.read())
             for move_id, value in moves.iteritems():
                 self.__move_name[int(move_id)] = parse_unicode(value)
+        # Update team names
         with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
