@@ -214,6 +214,7 @@ class Manager(object):
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
+            'iv': "{:.1f}".format(iv),
             'move1': move1,
             'move2': move2,
             'time_left': time_str[0],

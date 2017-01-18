@@ -2,11 +2,12 @@
 from datetime import datetime
 import logging
 import multiprocessing
+import traceback
 # 3rd Party Imports
 # Local Imports
 from Utils import get_gmaps_link
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('Structures')
 
 ################################################## Webhook Standards  ##################################################
 
@@ -18,18 +19,28 @@ class PokemonGoMap:
 
     @staticmethod
     def make_object(data):
-        kind = data.get('type')
-        if kind == 'pokemon':
-            return PokemonGoMap.pokemon(data.get('message'))
-        elif data['type'] == 'pokestop':
-            return PokemonGoMap.pokestop(data.get('message'))
-        elif data['type'] == 'gym' or data['type'] == 'gym_details':
-            return PokemonGoMap.gym(data.get('message'))
-        log.error("Invalid type specified ({}). Are you using the correct map type?".format(type))
+        try:
+            kind = data.get('type')
+            if kind == 'pokemon':
+                return PokemonGoMap.pokemon(data.get('message'))
+            elif data['type'] == 'pokestop':
+                return PokemonGoMap.pokestop(data.get('message'))
+            elif data['type'] == 'gym' or data['type'] == 'gym_details':
+                return PokemonGoMap.gym(data.get('message'))
+            log.error("Invalid type specified ({}). Are you using the correct map type?".format(type))
+        except Exception as e:
+            log.error("Encountered error while prcoessing webhook ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return None
 
     @staticmethod
     def pokemon(data):
+        log.debug("Converting to pokemon: \n {}".format(data))
+
+        # Check optional data
+        move_1_id, move_2_id = data.get('move_1'), data.get('move_2')
+        atk, def_, sta = data.get('individual_attack'), data.get('individual_defense'), data.get('individual_stamina')
+
         pkmn = {
             'type': "pokemon",
             'id': data['encounter_id'],
@@ -37,23 +48,18 @@ class PokemonGoMap:
             'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+            'move_1_id': int(move_1_id) if move_1_id is not None else 'unknown',
+            'move_2_id': int(move_2_id) if move_2_id is not None else 'unknown',
+            'atk':  int(atk) if atk is not None else 'unkn',
+            'def': int(def_) if def_ is not None else 'unkn',
+            'sta': int(sta) if sta is not None else 'unkn'
         }
         pkmn['gmaps'] = get_gmaps_link(pkmn['lat'], pkmn['lng'])
-
-        if all(move in data for move in ['move_1', 'move_2']):
-            pkmn['move_1_id'] = int(data['move_1'])
-            pkmn['move_2_id'] = int(data['move_2'])
+        if atk is None or def_ is None or sta is None:
+            pkmn['iv'] = 'unknown'
         else:
-            pkmn['move_1_id'] = pkmn['move_2_id'] = 'unknown'
+            pkmn['iv'] = float(((atk + def_ + sta) * 100) / float(45))
 
-        if all(iv in data for iv in ['individual_attack', 'individual_defense', 'individual_stamina']):
-            atk = int(data.get('individual_attack'))
-            def_ = int(data.get('individual_defense'))
-            sta = int(data.get('individual_stamina'))
-            pkmn['atk'], pkmn['def'], pkmn['sta'] = atk, def_, sta
-            pkmn['iv'] = float(((atk + def_ + sta)*100)/float(45))
-        else:
-            pkmn['iv'] = pkmn['atk'] = pkmn['def'] = pkmn['sta'] = 'unkn'
         return pkmn
 
     @staticmethod
@@ -72,10 +78,10 @@ class PokemonGoMap:
     def gym(data):
         gym = {
             'type': "gym",
-            'id': data['gym_id'],
-            "team_id": int(data['team_id']),
-            "points": int(data['gym_points']),
-            "guard_pkmn_id": int(data['guard_pokemon_id']),
+            'id': data.get('gym_id',  data.get('id')),
+            "team_id": int(data.get('team_id',  data.get('team'))),
+            "points": str(data.get('gym_points')),
+            "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude'])
         }
