@@ -7,7 +7,8 @@ monkey.patch_all()
 
 # Setup Logging
 import logging
-logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.100s][%(levelname)8.8s] %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(levelname)8.8s] %(message)s',
+                    level=logging.INFO)
 
 
 # Standard Library Imports
@@ -46,7 +47,7 @@ def index():
 
 @app.route('/', methods=['POST'])
 def accept_webhook():
-    log.debug(u"POST request received from {}.".format(request.remote_addr))
+    log.debug("POST request received from {}.".format(request.remote_addr))
     data = json.loads(request.data)
     data_queue.put(data)
     return "OK"  # request ok
@@ -67,7 +68,6 @@ def manage_webhook_data(queue):
         queue.task_done()
 
 
-
 # Configure and run PokeAlarm
 def start_server():
     log.setLevel(logging.INFO)
@@ -84,11 +84,13 @@ def start_server():
     spawn(manage_webhook_data, data_queue)
 
     # Start up Server
-    log.info("Webhook server running on http://%s:%s" % ( config['HOST'], config['PORT']))
-    server = wsgi.WSGIServer(( config['HOST'], config['PORT']), app, log=logging.getLogger('pyswgi'))
+    log.info("Webhook server running on http://%s:%s" % (config['HOST'], config['PORT']))
+    server = wsgi.WSGIServer((config['HOST'], config['PORT']), app, log=logging.getLogger('pyswgi'))
     server.serve_forever()
 
+
 ################################################## CONFIG UTILITIES  ###################################################
+
 
 def parse_settings(root_path):
     config['ROOT_PATH'] = root_path
@@ -106,8 +108,8 @@ def parse_settings(root_path):
                         help='Filters configuration file. default: filters.json', )
     parser.add_argument('-a', '--alarms', type=parse_unicode, action=AppendPlus, default=['alarms.json'],
                         help='Alarms configuration file. default: alarms.json', )
-    parser.add_argument('-gf', '--geofences', type=parse_unicode, action=AppendPlus, default=['geofences.json'],
-                        help='Alarms configuration file. default: geofences.json')
+    parser.add_argument('-gf', '--geofences', type=parse_unicode, action=AppendPlus, default=[None],
+                        help='Alarms configuration file. default: None')
     parser.add_argument('-l', '--location', action=AppendPlus, default=[None],
                         help='Location, can be an address or coordinates')
     parser.add_argument('-L', '--locale', type=parse_unicode, action=AppendPlus, default=['en'],
@@ -118,7 +120,7 @@ def parse_settings(root_path):
                         help='Specify either metric or imperial units to use for distance measurements. ')
     parser.add_argument('-tl', '--timelimit', type=int, default=[0], action=AppendPlus,
                         help='Minimum number of seconds remaining on a pokemon to send a notify')
-    parser.add_argument('-tz', '--timezone',type=parse_unicode, action=AppendPlus, default=[None],
+    parser.add_argument('-tz', '--timezone', type=parse_unicode, action=AppendPlus, default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
 
     args = parser.parse_args()
@@ -172,13 +174,12 @@ def parse_settings(root_path):
 class AppendPlus(configargparse.Action):
     def __call__(self, parser, namespace, values, option_strings=None):
         dest = getattr(namespace, self.dest, None)
-        if (not hasattr(dest, 'extend') or dest == self.default):
+        if not hasattr(dest, 'extend') or dest == self.default:
             dest = []
             setattr(namespace, self.dest, dest)
             parser.set_defaults(**{self.dest: None})
 
             dest.append(values)
-
 
 ########################################################################################################################
 

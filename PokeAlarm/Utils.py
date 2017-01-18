@@ -38,6 +38,7 @@ def parse_boolean(val):
         return False
     return None
 
+
 def parse_unicode(bytestring):
     decoded_string = bytestring.decode(sys.getfilesystemencoding())
     return decoded_string
@@ -68,12 +69,12 @@ def get_pkmn_id(pokemon_name):
     if not hasattr(get_pkmn_id, 'ids'):
         get_pkmn_id.ids = {}
         files = glob(get_path('locales/*/pokemon.json'))
-        for file in files:
-            with open(file, 'r') as f:
+        for file_ in files:
+            with open(file_, 'r') as f:
                 j = json.loads(f.read())
-                for id in j:
-                    nm = j[id].lower()
-                    get_pkmn_id.ids[nm] = int(id)
+                for id_ in j:
+                    nm = j[id_].lower()
+                    get_pkmn_id.ids[nm] = int(id_)
     return get_pkmn_id.ids.get(name)
 
 
@@ -83,12 +84,12 @@ def get_team_id(pokemon_name):
     if not hasattr(get_team_id, 'ids'):
         get_team_id.ids = {}
         files = glob(get_path('locales/*/teams.json'))
-        for file in files:
-            with open(file, 'r') as f:
+        for file_ in files:
+            with open(file_, 'r') as f:
                 j = json.loads(f.read())
-                for id in j:
-                    nm = j[id].lower()
-                    get_team_id.ids[nm] = int(id)
+                for id_ in j:
+                    nm = j[id_].lower()
+                    get_team_id.ids[nm] = int(id_)
     return get_team_id.ids.get(name)
 
 
@@ -98,7 +99,7 @@ def get_team_id(pokemon_name):
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
-def get_static_map_url(settings):
+def get_static_map_url(settings):  # TODO: optimize formatting
     if not parse_boolean(settings.get('enabled', 'True')):
         return None
     width = settings.get('width', '250')
@@ -113,14 +114,14 @@ def get_static_map_url(settings):
     query_zoom = 'zoom={}'.format(zoom)
     query_maptype = 'maptype={}'.format(maptype)
 
-    map = ('https://maps.googleapis.com/maps/api/staticmap?' +
-           query_center + '&' + query_markers + '&' +
-           query_maptype + '&' + query_size + '&' + query_zoom)
+    map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
+            query_center + '&' + query_markers + '&' +
+            query_maptype + '&' + query_size + '&' + query_zoom)
 
-    if 'API_KEY' in config:
-        map += ('&key=%s' % config['API_KEY'])
+    if config['API_KEY'] is not None:
+        map_ += ('&key=%s' % config['API_KEY'])
         log.debug("API_KEY added to static map url.")
-    return map
+    return map_
 
 
 ########################################################################################################################
@@ -128,11 +129,11 @@ def get_static_map_url(settings):
 ################################################## GENERAL UTILITIES ###################################################
 
 # Returns a cardinal direction (N/S/E/W) of the pokemon from the origin point, if set
-def get_cardinal_dir(ptA, ptB):
-    if ptB is None:
+def get_cardinal_dir(pt_a, pt_b):
+    if len(pt_b) < 2:
         return '?'
-    origin_point = LatLng.from_degrees(*ptB)
-    lat_lng = LatLng.from_degrees(*ptA)
+    origin_point = LatLng.from_degrees(*pt_b)
+    lat_lng = LatLng.from_degrees(*pt_a)
     diff = lat_lng - origin_point
     diff_lat = diff.lat().degrees
     diff_lng = diff.lng().degrees
@@ -156,16 +157,16 @@ def get_dist_as_str(dist):
 
 
 # Returns an integer representing the distance between A and B
-def get_earth_dist(ptA, ptB):
-    if ptB is None:
+def get_earth_dist(pt_a, pt_b=[]):
+    if len(pt_b) < 2:
         return 'unkn'  # No location set
-    lat_a = radians(ptA[0])
-    lng_a = radians(ptA[1])
-    lat_b = radians(ptB[0])
-    lng_b = radians(ptB[1])
-    dLat = lat_b - lat_a
-    dLng = lng_b - lng_a
-    a = sin(dLat / 2) ** 2 + cos(lat_a) * cos(lat_b) * sin(dLng / 2) ** 2
+    lat_a = radians(pt_a[0])
+    lng_a = radians(pt_a[1])
+    lat_b = radians(pt_b[0])
+    lng_b = radians(pt_b[1])
+    lat_delta = lat_b - lat_a
+    lng_delta = lng_b - lng_a
+    a = sin(lat_delta / 2) ** 2 + cos(lat_a) * cos(lat_b) * sin(lng_delta / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     radius = 6373000  # radius of earth in meters
     if config['UNITS'] == 'imperial':

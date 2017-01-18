@@ -8,10 +8,11 @@ from Utils import get_gmaps_link
 
 log = logging.getLogger(__name__)
 
+################################################## Webhook Standards  ##################################################
+
 
 # PokemonGo-Map Standards
 class PokemonGoMap:
-
     def __init__(self):
         raise NotImplementedError("This is a static class not meant to be initiated")
 
@@ -80,22 +81,63 @@ class PokemonGoMap:
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         return gym
+########################################################################################################################
 
 
-# Class to allow optimization of waiting requests (not process sage)
+class Geofence(object):
+
+    # Expects points to be
+    def __init__(self, name, points):
+        self.__name = name
+        self.__points = points
+
+        self.__min_x = points[0][0]
+        self.__max_x = points[0][0]
+        self.__min_y = points[0][1]
+        self.__max_y = points[0][1]
+
+        for p in points:
+            self.__min_x = min(p[0], self.__min_x)
+            self.__max_x = max(p[0], self.__max_x)
+            self.__min_y = min(p[1], self.__min_x)
+            self.__max_y = max(p[1], self.__max_y)
+
+    def contains(self, x, y):
+        # Quick check the boundary box of the entire polygon
+        if (self.__max_x < x < self.__min_x) or (self.__max_y < y < self.__min_y):
+            return False
+
+        inside = False
+        p1x, p1y = self.__points[0]
+        n = len(self.__points)
+        for i in range(1, n+1):
+            p2x, p2y = self.__points[i % n]
+            if min(p1y, p2y) < y <= max(p1y, p2y) and x <= max(p1x, p2x):
+                        if p1y != p2y:
+                            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                        if p1x == p2x or x <= xinters:
+                            inside = not inside
+            p1x, p1y = p2x, p2y
+        return inside
+
+    def get_name(self):
+        return self.__name
+
+
+# Class to allow optimization of waiting requests (not process safe)
 class QueueSet(object):
     def __init__(self):
         self.__queue = multiprocessing.Queue()
         self.__lock = multiprocessing.Lock()
-        self.__data_set = {}  # TODO: This set will probably not be process safe... so that is a thing
+        self.__data_set = {}
 
     # Add or update an object to the QueueSet
-    def add(self, id, obj):
+    def add(self, id_, obj):
         self.__lock.acquire()
         try:
-            if id not in self.__data_set:
-                self.__queue.put(id)
-            self.__data_set[id] = obj  # Update info incase it had changed
+            if id_ not in self.__data_set:
+                self.__queue.put(id_)
+            self.__data_set[id_] = obj  # Update info incase it had changed
         except Exception as e:
             log.error("QueueSet error encountered in add: \n {}".format(e))
         finally:
@@ -106,9 +148,9 @@ class QueueSet(object):
         self.__lock.acquire()
         data = None
         try:
-            id = self.__queue.get(block=True)  # get the next id
-            data = self.__data_set[id]  # extract the relevant data
-            del self.__data_set[id]  # remove the id from the set
+            id_ = self.__queue.get(block=True)  # get the next id
+            data = self.__data_set[id_]  # extract the relevant data
+            del self.__data_set[id_]  # remove the id from the set
         except Exception as e:
             log.error("QueueSet error encountered in remove: \n {}".format(e))
         finally:

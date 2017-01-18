@@ -12,7 +12,7 @@ import gipc
 import googlemaps
 # Local Imports
 from . import config
-
+from Structures import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_pkmn_id, get_team_id,\
     get_time_as_str, parse_boolean, parse_unicode
 
@@ -41,7 +41,8 @@ class Manager(object):
         self.create_filters(get_path(filters))
 
         # Create the Geofences to filter with from given file
-        self.create_geofences(get_path(geofences))
+        self.__geofences = []
+        self.__geofences_config = geofences
 
         # Create the alarms to send notifications out with
         self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
@@ -49,7 +50,7 @@ class Manager(object):
         self.__alarms_file = get_path(alarms)
 
         # Set the location
-        self.__latlng = self.get_lat_lng_by_name(location) if location is not None else None
+        self.__latlng = self.get_lat_lng_by_name(location) if location is not None else []
 
         # Set the locale to use for names and moves
         self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
@@ -99,6 +100,9 @@ class Manager(object):
 
         # Make the Alarms
         self.create_alarms(self.__alarms_file)
+        if self.__geofences_config is not None:
+            self.create_geofences(get_path(self.__geofences_config))
+
 
     def run(self):
         self.intialize_process()
@@ -115,7 +119,7 @@ class Manager(object):
                 last_clean = datetime.utcnow()
             try:
                 kind = obj['type']
-                log.debug("Processing object {} with id {}".format(obj['type'], obj['type']))
+                log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
                 if kind == "pokemon":
                     self.handle_pokemon(obj)
                 elif kind == "pokestop":
@@ -124,11 +128,10 @@ class Manager(object):
                     self.handle_gym(obj)
                 else:
                     log.error("!!! Manager does not support {} objects!".format(kind))
-                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['type']))
+                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
             except Exception as e:
                 log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-
 
     # Clean out the expired objects from histories (to prevent oversized sets)
     def clean_hist(self):
@@ -146,16 +149,16 @@ class Manager(object):
             log.debug("Pokemon ignored: notifications are disabled.")
             return
 
-        _id = pkmn['id']
+        id_ = pkmn['id']
         pkmn_id = pkmn['pkmn_id']
         name = self.__pokemon_name[pkmn_id]
 
         # Check for previously processed
-        if _id in self.__pokemon_hist:
+        if id_ in self.__pokemon_hist:
             if config['QUIET'] is False:
                 log.debug("{} was skipped because it was previously processed.".format(name))
             return
-        self.__pokemon_hist[_id] = pkmn['disappear_time']
+        self.__pokemon_hist[id_] = pkmn['disappear_time']
         # Check the time remaining
         seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
@@ -189,16 +192,16 @@ class Manager(object):
             log.debug("Pokemon IV's were not checked because they are unknown.")
 
         # Check the moves of the Pokemon
-        move_1 = self.__move_name.get(pkmn['move_1_id'], 'unknown')
-        move_2 = self.__move_name.get(pkmn['move_2_id'], 'unknown')
+        move1 = self.__move_name.get(pkmn['move_1_id'], 'unknown')
+        move2 = self.__move_name.get(pkmn['move_2_id'], 'unknown')
         # TODO: Move damage
-        if move_1 != 'unknown' and move_2 != 'unknown':
+        if move1 != 'unknown' and move2 != 'unknown':
             move_1_f, move_2_f = filt['move_1'], filt['move_2']
-            if move_1_f != None and move_1_f.find(move_1) == -1:
+            if move_1_f is not None and move_1_f.find(move1) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
-            if move_1_f != None and move_1_f.find(move_1) == -1:
+            if move_1_f is not None and move_1_f.find(move1) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
@@ -211,8 +214,8 @@ class Manager(object):
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'move_1': move_1,
-            'move_2': move_2,
+            'move1': move1,
+            'move2': move2,
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -249,7 +252,7 @@ class Manager(object):
         self.__pokemon_hist[id_] = expire_time = stop['expire_time']
 
         # Check the time remaining
-        seconds_left =  (expire_time - datetime.utcnow()).total_seconds()
+        seconds_left = (expire_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if config['QUIET'] is False:
                 log.info("Pokestop ({}) ignored: only {} seconds remaining.".format(id_, seconds_left))
@@ -294,23 +297,22 @@ class Manager(object):
         for thread in threads:
             thread.join()
 
-
     def handle_gym(self, gym):
         # Quick check for enabled
         if self.__gym_filter['enabled'] is False:
             log.debug("Gym ignored: notifications are disabled.")
             return
 
-        _id = gym['id']
+        id_ = gym['id']
         team_id = gym['team_id']
-        old_team = self.__gym_hist.get(_id) # default to neutral
+        old_team = self.__gym_hist.get(id_)
 
         # Ignore changes to neutral
         if self.__gym_filter['ignore_neutral'] and team_id == 0:
             log.debug("Gym update ignored: changed to neutral")
             return
 
-        self.__gym_hist[_id] = team_id
+        self.__gym_hist[id_] = team_id
 
         # Ignore first time updates
         if old_team is None:
@@ -341,7 +343,7 @@ class Manager(object):
         # Optional Stuff
         self.optional_arguments(gym)
         if config['QUIET'] is False:
-            log.info("Gym ({}) notification has been triggered!".format(_id))
+            log.info("Gym ({}) notification has been triggered!".format(id_))
 
         # TODO something something geofence
 
@@ -432,7 +434,7 @@ class Manager(object):
     def set_pokestops(self, settings):
         pokestops = {
             "enabled": bool(settings.get('enabled') or False),
-            "min_dist": float(settings.get('max_dist', None) or 0),
+            "min_dist": float(settings.get('min_dist', None) or 0),
             "max_dist": float(settings.get('max_dist', None) or 'inf')
         }
         if pokestops['enabled']:
@@ -443,7 +445,7 @@ class Manager(object):
         gyms = {
             "enabled": bool(settings.pop("enabled") or False),
             "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False),
-            "min_dist":float(settings.pop('min_dist', None) or 0),
+            "min_dist": float(settings.pop('min_dist', None) or 0),
             "max_dist": float(settings.pop('max_dist', None) or 'inf')
         }
         log.info("Gym distance: {:.2f} to {:.2f}. Ignoring Neutral set to {}".format(
@@ -473,7 +475,18 @@ class Manager(object):
         self.__gym_filter = gyms
 
     def create_geofences(self, file_path):
-        pass  # TODO
+        geofences = {}
+        with open(file_path, 'r') as file_:
+            for line in file_:
+                name = re.match("\[([^]]+)\]", line) # (?<=\[).*(?=\])
+                if name:
+                    cur = name.group(1)
+                    geofences[cur] = []
+                else:
+                    geofences[cur].append([float(x) for x in line.split(",")])
+        for name, points in geofences.iteritems():
+            self.__geofences.append(Geofence(name, points))
+            log.debug("Geofence {} created: \n {}".format(name, points))
 
     def update_locales(self):
         locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
@@ -568,7 +581,7 @@ class Manager(object):
         elif location_name:
             if self.__gmaps_client is None:  # Check if key was provided
                 log.error("No Google Maps API key provided - unable to find location by name.")
-                return None
+                return []
             result = self.__gmaps_client.geocode(location_name)
             loc = result[0]['geometry']['location']  # Get the first (most likely) result
             latitude, longitude = loc.get("lat"), loc.get("lng")
