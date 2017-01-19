@@ -28,7 +28,7 @@ class Alarm_Manager(Thread):
 			self.set_pokemon(settings["pokemon"])
 			log.info("The following pokemon are set:")
 			for id in sorted(self.pokemon_list.keys()):
-				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
+				log.info("{name}: max_dist({max_dist}), min_iv({min_iv}), max_iv({max_iv}), move1({move_1}), move2({move_2})".format(**self.pokemon_list[id]))
 			self.stop_list =  make_pokestops_list(settings["pokestops"])
 			self.gym_list = make_gym_list(settings["gyms"])
 			self.pokemon, self.pokestops, self.gyms = {}, {}, {}
@@ -75,8 +75,9 @@ class Alarm_Manager(Thread):
 	def set_pokemon(self, settings):
 		pokemon = {}
 		default_dist = float(settings.pop('max_dist', None) or 'inf');
-		default_iv = float(settings.pop('min_iv', None) or 0);
-		log.info("Pokemon Defaults: max_dist (%.2f) and min_iv (%.2f)" % (default_dist, default_iv))
+		default_min_iv = float(settings.pop('min_iv', None) or 0);
+		default_max_iv = float(settings.pop('max_iv', None) or 100);
+		log.info("Pokemon Defaults: max_dist (%.2f) and min_iv (%.2f) and max_iv (%.2f)" % (default_dist, default_min_iv, default_max_iv))
 		for name in settings:
 			id = get_pkmn_id(name)
 			if id is None:
@@ -93,7 +94,8 @@ class Alarm_Manager(Thread):
 					pokemon[id] = {
 						"name": get_pkmn_name(id),
 						"max_dist": float(info.get('max_dist', None) or default_dist),
-						"min_iv": float(info.get('min_iv', None) or default_iv),
+						"min_iv": float(info.get('min_iv', None) or default_min_iv),
+						"max_iv": float(info.get('max_iv', None) or default_max_iv),
 						"move_1": info.get("move_1", 'all'),
 						"move_2": info.get("move_2", 'all')
 					}
@@ -181,7 +183,10 @@ class Alarm_Manager(Thread):
 		if filter.get('min_iv') > float(iv):
 			log.info("%s ignored: IV was %f (needs to be %f)" % (name, iv, filter.get('min_iv')))
 			return
-		
+		elif filter.get('max_iv') < float(iv):
+			log.info("%s ignored: IV was %f (needs to be below %f)" % (name, iv, filter.get('max_iv')))
+			return
+            		
 		#Check moveset
 		move1 = get_pkmn_move(pkmn.get('move_1', "none"))
 		move2 = get_pkmn_move(pkmn.get('move_2', "none"))
