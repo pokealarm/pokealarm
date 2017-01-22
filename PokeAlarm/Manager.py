@@ -165,6 +165,12 @@ class Manager(object):
                 log.info("{} ignored: {} seconds remaining.".format(name, seconds_left))
             return
 
+        # Check that the filter is set
+        if pkmn_id not in self.__pokemon_filter:
+            if config['QUIET'] is False:
+                log.info("{} ignored: filter was not set".format(name, seconds_left))
+                return
+
         filt = self.__pokemon_filter[pkmn_id]
 
         # Check the distance from the set location
@@ -439,7 +445,7 @@ class Manager(object):
             if pkmn_id is None:
                 log.error("Unable to find pokemon named {}...".format(name))
                 continue
-            if parse_boolean(settings[name]) is False:  # If set to false, skip altogether.
+            if parse_boolean(settings[name]) is False:  # If set to false, set it as false
                 log.debug("{} name set to 'false'. Skipping... ".format(name))
                 continue
             else:
@@ -489,7 +495,7 @@ class Manager(object):
                 log.error("Unable to find team named {}...".format(name))
                 continue
             if parse_boolean(settings[name]) is False:  # If set to false, skip altogether.
-                log.debug("{} name set to 'false'. Skipping... ".format(name))
+                log.debug("{} name set to 'false'. Skipping...".format(name))
                 continue
             else:
                 try:
