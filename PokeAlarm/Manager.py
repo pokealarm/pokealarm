@@ -179,7 +179,7 @@ class Manager(object):
         if dist != 'unkn':
             if dist < filt['min_dist'] or filt['max_dist'] < dist:
                 if config['QUIET'] is False:
-                    log.info("{} ignored: distance ({}) was not in range {:.2f} to {:.2f}.".format(
+                    log.info("{} ignored: distance ({:.2f}) was not in range {:.2f} to {:.2f}.".format(
                         name, dist, filt['min_dist'], filt['max_dist']))
                 return
         else:
@@ -328,10 +328,16 @@ class Manager(object):
         if self.__gym_filter['enabled'] is False:
             log.debug("Gym ignored: notifications are disabled.")
             return
+        log.debug("Gyms set to {}.".format(self.__gym_filter['enabled']))
 
         id_ = gym['id']
         team_id = gym['team_id']
         old_team = self.__gym_hist.get(id_)
+
+        # Ignore gyms when there is no change
+        if (old_team == team_id):
+            log.debug("Gym update ignored: team didn't change")
+            return
 
         # Ignore changes to neutral
         if self.__gym_filter['ignore_neutral'] and team_id == 0:
@@ -481,7 +487,7 @@ class Manager(object):
 
     def set_gyms(self, settings):
         gyms = {
-            "enabled": bool(settings.pop("enabled") or False),
+            "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False),
             "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False),
             "min_dist": float(settings.pop('min_dist', None) or 0),
             "max_dist": float(settings.pop('max_dist', None) or 'inf')

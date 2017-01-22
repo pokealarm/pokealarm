@@ -56,7 +56,7 @@ class PokemonGoMap:
         }
         pkmn['gmaps'] = get_gmaps_link(pkmn['lat'], pkmn['lng'])
         if atk is None or def_ is None or sta is None:
-            pkmn['iv'] = 'unknown'
+            pkmn['iv'] = 'unkn'
         else:
             pkmn['iv'] = float(((atk + def_ + sta) * 100) / float(45))
 
