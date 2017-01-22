@@ -14,7 +14,7 @@ import googlemaps
 from . import config
 from Structures import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_pkmn_id, get_team_id,\
-    get_time_as_str, parse_boolean, parse_unicode
+    get_time_as_str, parse_boolean
 
 log = logging.getLogger('Manager')
 
@@ -97,13 +97,11 @@ class Manager(object):
 
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
-            #logging.getLogger('Telegram').setLevel(logging.DEBUG)
 
         # Make the Alarms
         self.create_alarms(self.__alarms_file)
         if self.__geofences_config is not None:
             self.create_geofences(get_path(self.__geofences_config))
-
 
     def run(self):
         self.intialize_process()
@@ -186,7 +184,7 @@ class Manager(object):
         if iv != 'unkn':
             if iv < filt['min_iv'] or filt['max_iv'] < iv:
                 if config['QUIET'] is False:
-                    log.info("{} ignored: IVs ({}) not in range {:.2f} to {:.2f}.".format(
+                    log.info("{} ignored: IVs ({:.2f}) not in range {:.2f} to {:.2f}.".format(
                         name, iv, filt['min_iv'], filt['max_iv']))
                 return
         else:
@@ -310,7 +308,6 @@ class Manager(object):
         if config['QUIET'] is False:
             log.info("Pokestop ({}) notification has been triggered!".format(id_))
 
-
         threads = []
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
@@ -350,7 +347,7 @@ class Manager(object):
         lat, lng = gym['lat'], gym['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
         if dist != 'unkn':
-            old_range, new_range = False
+            old_range, new_range = False, False
             old_f = self.__gym_filter.get(old_team)
             if old_f is not None:
                 old_range = old_f['min_dist'] <= dist <= old_f['max_dist']
@@ -462,7 +459,8 @@ class Manager(object):
                     log.debug("#{} was set to the following: \n{}".format(
                         pkmn_id, json.dumps(pokemon[pkmn_id], sort_keys=True, indent=4)))
                 except Exception as e:
-                    log.error("Try to set pokemon {} gave error: \n {}".format(pkmn_id, e))
+                    log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
+                    log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         self.__pokemon_filter = pokemon
 
     def set_pokestops(self, settings):
@@ -505,14 +503,16 @@ class Manager(object):
                     log.debug("Team #{} was set to the following: {}".format(
                         team_id, json.dumps(gyms[team_id], sort_keys=True, indent=4)))
                 except Exception as e:
-                    log.error("Try to set pokemon {} gave error: \n {}".format(team_id, e))
+                    log.error("Trying to set gym {} gave error: \n {}".format(team_id, e))
+                    log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+
         self.__gym_filter = gyms
 
     def create_geofences(self, file_path):
         geofences = {}
         with open(file_path, 'r') as file_:
             for line in file_:
-                name = re.match("\[([^]]+)\]", line) # (?<=\[).*(?=\])
+                name = re.match("\[([^]]+)\]", line)
                 if name:
                     cur = name.group(1)
                     geofences[cur] = []
@@ -522,7 +522,6 @@ class Manager(object):
             self.__geofences.append(Geofence(name, points))
             log.info("Geofence {} added.".format(name))
             log.debug("Geofence has the following points: \n {}".format(points))
-
 
     def update_locales(self):
         locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))

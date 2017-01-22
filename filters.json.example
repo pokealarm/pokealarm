@@ -1,9 +1,12 @@
 {
     "gyms":{
 		"enabled":"False",
-        "Valor":"False",
-        "Mystic":"False",
-        "Instinct":"False"
+		"ignore_neutral":"True",
+		"min_dist":"0",
+		"max_dist":"inf",
+        "Valor":"True",
+        "Mystic":"True",
+        "Instinct":"True"
     },
     "pokestops":{
 		"enabled":"False",
