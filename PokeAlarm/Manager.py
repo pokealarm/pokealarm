@@ -158,6 +158,7 @@ class Manager(object):
                 log.debug("{} was skipped because it was previously processed.".format(name))
             return
         self.__pokemon_hist[id_] = pkmn['disappear_time']
+
         # Check the time remaining
         seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
@@ -193,6 +194,7 @@ class Manager(object):
                     log.info("{} ignored: IVs ({:.2f}) not in range {:.2f} to {:.2f}.".format(
                         name, iv, filt['min_iv'], filt['max_iv']))
                 return
+            pkmn['iv'] = "{:.1f}".format(iv)
         else:
             log.debug("Pokemon IV's were not checked because they are unknown.")
 
@@ -229,7 +231,6 @@ class Manager(object):
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'iv': "{:.1f}".format(iv),
             'move1': move1,
             'move2': move2,
             'time_left': time_str[0],
