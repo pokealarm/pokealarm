@@ -159,18 +159,18 @@ class Manager(object):
             return
         self.__pokemon_hist[id_] = pkmn['disappear_time']
 
+        # Check that the filter is set
+        if pkmn_id not in self.__pokemon_filter:
+            if config['QUIET'] is False:
+                log.info("{} ignored: filter was not set".format(name))
+                return
+
         # Check the time remaining
         seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if config['QUIET'] is False:
                 log.info("{} ignored: {} seconds remaining.".format(name, seconds_left))
             return
-
-        # Check that the filter is set
-        if pkmn_id not in self.__pokemon_filter:
-            if config['QUIET'] is False:
-                log.info("{} ignored: filter was not set".format(name, seconds_left))
-                return
 
         filt = self.__pokemon_filter[pkmn_id]
 
