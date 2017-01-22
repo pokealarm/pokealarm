@@ -261,12 +261,12 @@ class Manager(object):
         id_ = stop['id']
 
         # Check for previously processed (and make sure previous lure hasn't expired)
-        if id_ in self.__pokestop_hist and self.__pokemon_hist[id_] < datetime.utcnow():
+        if id_ in self.__pokestop_hist and self.__pokestop_hist[id_] < datetime.utcnow():
             if config['QUIET'] is False:
                 log.debug("Pokestop ({}) ignored: because it was previously notified.".format(id_))
             return
 
-        self.__pokemon_hist[id_] = expire_time = stop['expire_time']
+        self.__pokestop_hist[id_] = expire_time = stop['expire_time']
 
         # Check the time remaining
         seconds_left = (expire_time - datetime.utcnow()).total_seconds()
@@ -478,7 +478,7 @@ class Manager(object):
 
     def set_pokestops(self, settings):
         pokestops = {
-            "enabled": bool(settings.get('enabled') or False),
+            "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False),
             "min_dist": float(settings.get('min_dist', None) or 0),
             "max_dist": float(settings.get('max_dist', None) or 'inf')
         }
