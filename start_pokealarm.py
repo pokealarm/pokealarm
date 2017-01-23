@@ -114,10 +114,10 @@ def parse_settings(root_path):
                         help='Alarms configuration file. default: alarms.json', )
     parser.add_argument('-gf', '--geofences', type=parse_unicode, action='append', default=[None],
                         help='Alarms configuration file. default: None')
-    parser.add_argument('-l', '--location', action='append', default=[None],
+    parser.add_argument('-l', '--location', type=parse_unicode, action='append', default=[None],
                         help='Location, can be an address or coordinates')
     parser.add_argument('-L', '--locale', type=parse_unicode, action='append', default=['en'],
-                        choices=['de', 'en', 'fr', 'it', 'pt_br', 'ru', 'zh_cn', 'zh_hk', 'zh_tw'],
+                        choices=['de', 'en', 'fr', 'it', 'es'],
                         help='Locale for Pokemon and Move names: default en, check locale folder for more options')
     parser.add_argument('-u', '--units', type=parse_unicode, default=['imperial'], action='append',
                         choices=['metric', 'imperial'],
