@@ -141,7 +141,8 @@ def parse_settings(root_path):
     config['QUIET'] = False
     config['DEBUG'] = args.debug
 
-    for list_ in [args.key, args.filters, args.alarms, args.geofences, args.location, args.units, args.timelimit]:
+    for list_ in [args.key, args.filters, args.alarms, args.geofences,
+                  args.location, args.units, args.timelimit, args.timezone]:
         if len(list_) > 1:  # Remove defaults from the list
             list_.pop(0)
         size = len(list_)

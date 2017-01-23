@@ -88,6 +88,7 @@ class Manager(object):
     def intialize_process(self):
         # Update config
         config.update(**self.__config)
+        config['TIMEZONE'] = self.__timezone
         config['API_KEY'] = self.__google_key
         config['UNITS'] = self.__units
 
