@@ -177,12 +177,14 @@ def get_earth_dist(pt_a, pt_b=[]):
 
 # Return the time as a string in different formats
 def get_time_as_str(t, timezone=None):
+    if timezone is None:
+        timezone = config.get("TIMEZONE")
     s = (t - datetime.utcnow()).total_seconds()
     (m, s) = divmod(s, 60)
     (h, m) = divmod(m, 60)
     d = timedelta(hours=h, minutes=m, seconds=s)
     if timezone is not None:
-        disappear_time = datetime.now(tz=config.get("TIMEZONE")) + d
+        disappear_time = datetime.now(tz=timezone) + d
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds

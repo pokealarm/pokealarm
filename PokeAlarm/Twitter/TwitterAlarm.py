@@ -5,7 +5,7 @@ import logging
 from twitter import Twitter, OAuth
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_timestamps
+from ..Utils import parse_boolean, get_time_as_str
 
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
@@ -51,7 +51,7 @@ class  TwitterAlarm(Alarm):
         # Connect and send startup messages
         self.__client = None
         self.connect()
-        timestamps = get_timestamps(datetime.utcnow())
+        timestamps = get_time_as_str(datetime.utcnow())
         if parse_boolean(self.__startup_message):
             self.__client.statuses.update(status="%s - PokeAlarm has intialized!" % timestamps[2])
         log.info("Twitter Alarm intialized.")
