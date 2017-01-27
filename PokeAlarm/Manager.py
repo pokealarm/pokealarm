@@ -209,7 +209,7 @@ class Manager(object):
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
-            if move_1_f is not None and move_1_f.find(move1) == -1:
+            if move_2_f is not None and move_2_f.find(move2) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 2 was incorrect.".format(name))
                 return
