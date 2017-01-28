@@ -42,7 +42,7 @@ class Manager(object):
 
         # Create the Geofences to filter with from given file
         self.__geofences = []
-        self.__geofences_config = geofences
+        self.__geofences_config = timezone if str(timezone).lower() != 'none' else None
 
         # Create the alarms to send notifications out with
         self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
@@ -523,6 +523,8 @@ class Manager(object):
         self.__gym_filter = gyms
 
     def create_geofences(self, file_path):
+        if file_path is None:
+            return
         geofences = {}
         with open(file_path, 'r') as file_:
             for line in file_:
