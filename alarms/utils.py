@@ -13,7 +13,7 @@ import googlemaps
 import pytz
 from glob import glob
 from datetime import datetime, timedelta
-from math import radians, sin, cos, atan2, sqrt, pi, degrees
+from math import radians, sin, cos, atan2, sqrt, degrees
 from s2sphere import LatLng
 
 #Local imports
