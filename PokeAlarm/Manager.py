@@ -368,10 +368,11 @@ class Manager(object):
                 old_range = old_f['min_dist'] <= dist <= old_f['max_dist']
             new_f = self.__gym_filter.get(team_id)
             if new_f is not None:
-                new_range = old_f['min_dist'] <= dist <= old_f['max_dist']
-            if not old_range and not new_range:
+                new_range = new_f['min_dist'] <= dist <= new_f['max_dist']
+            if old_range is False and new_range is False:
                 if config['QUIET'] is False:
                     log.info("Gym update ignored: both teams outside range")
+                return
         else:
             log.debug("Gym distance was not checked because no location was set.")
 
@@ -491,12 +492,14 @@ class Manager(object):
     def set_gyms(self, settings):
         gyms = {
             "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False),
-            "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False),
+            "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False)
+        }
+        defaults = {
             "min_dist": float(settings.pop('min_dist', None) or 0),
             "max_dist": float(settings.pop('max_dist', None) or 'inf')
         }
         log.info("Gym distance: {:.2f} to {:.2f}. Ignoring Neutral set to {}".format(
-            gyms['min_dist'], gyms['max_dist'], gyms['ignore_neutral']))
+            defaults['min_dist'], defaults['max_dist'], gyms['ignore_neutral']))
 
         for name in settings:
             team_id = get_team_id(name)
@@ -512,8 +515,8 @@ class Manager(object):
                     if parse_boolean(info):  # Allow all defaults
                         info = {}
                     gyms[team_id] = {
-                        "min_dist": float(info.get('min_dist', None) or gyms['min_dist']),
-                        "max_dist": float(info.get('max_dist', None) or gyms['max_dist']),
+                        "min_dist": float(info.get('min_dist', None) or defaults['min_dist']),
+                        "max_dist": float(info.get('max_dist', None) or defaults['max_dist']),
                     }
                     log.debug("Team #{} was set to the following: {}".format(
                         team_id, json.dumps(gyms[team_id], sort_keys=True, indent=4)))
