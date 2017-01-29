@@ -442,7 +442,7 @@ class Manager(object):
     # Update the pokemon according to settings
     def set_pokemon(self, settings):
         # Start a new dict to track filters
-        pokemon = {'enabled': settings.pop('enabled', False)}
+        pokemon = {'enabled': bool(parse_boolean(settings.pop('enabled', False)))}
         min_dist = float(settings.pop('min_dist', None) or 0)
         max_dist = float(settings.pop('max_dist', None) or 'inf')
         min_iv = float(settings.pop('min_iv', None) or 0)
