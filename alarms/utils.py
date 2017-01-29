@@ -13,7 +13,7 @@ import googlemaps
 import pytz
 from glob import glob
 from datetime import datetime, timedelta
-from math import radians, sin, cos, atan2, sqrt
+from math import radians, sin, cos, atan2, sqrt, pi, degrees
 from s2sphere import LatLng
 
 #Local imports
@@ -195,19 +195,18 @@ def replace(string, pkinfo):
 		s = s.replace("<{}>".format(key), str(pkinfo[key]))
 	return s
 
-#Returns a cardinal direction (N/S/E/W) of the pokemon from the origin point, if set
+#Returns a cardinal direction (N/NW/W/SW, etc) of the pokemon from the origin point, if set
 def get_dir(lat, lng):
 	origin_point = config.get("LOCATION")
 	if origin_point is None:
-		return "NoLocationSet" #No location set
-	origin_point = LatLng.from_degrees(origin_point[0], origin_point[1])
-	latLon = LatLng.from_degrees(lat, lng)
-	diff = latLon - origin_point
-	diff_lat = diff.lat().degrees
-	diff_lng = diff.lng().degrees
-	direction = (('N' if diff_lat >= 0 else 'S') if abs(diff_lat) > 1e-4 else '') + \
-		(('E' if diff_lng >= 0 else 'W') if abs(diff_lng) > 1e-4 else '')
-	return direction
+		return "NoLocationSet"  # No location set
+
+	lat1, lng1, lat2, lng2 = map(radians, [origin_point[0], origin_point[1], lat, lng])
+	directions = ["S", "SE", "E", "NE", "N", "NW", "W", "SW", "S"]
+	bearing = (degrees(atan2(cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lng2 - lng1),
+							 sin(lng2 - lng1) * cos(lat2))) + 450) % 360
+	return directions[int(round(bearing / 45))]
+
 
 #Returns an integer representing the distance between A and B	
 def get_dist(ptA, ptB="default"):
