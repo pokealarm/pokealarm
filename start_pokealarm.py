@@ -17,6 +17,7 @@ from gevent import wsgi, spawn
 import Queue
 import json
 import os
+import pytz
 import sys
 # 3rd Party Imports
 from flask import Flask, request, abort
@@ -124,7 +125,7 @@ def parse_settings(root_path):
                         help='Specify either metric or imperial units to use for distance measurements. ')
     parser.add_argument('-tl', '--timelimit', type=int, default=[0], action='append',
                         help='Minimum number of seconds remaining on a pokemon to send a notify')
-    parser.add_argument('-tz', '--timezone', type=parse_unicode, action='append', default=[None],
+    parser.add_argument('-tz', '--timezone', type=str, action='append', default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
 
     args = parser.parse_args()
@@ -141,17 +142,32 @@ def parse_settings(root_path):
     config['QUIET'] = False
     config['DEBUG'] = args.debug
 
+    # Check to make sure that the same number of arguements are included
     for list_ in [args.key, args.filters, args.alarms, args.geofences, args.location,
                   args.locale, args.units, args.timelimit, args.timezone]:
         if len(list_) > 1:  # Remove defaults from the list
             list_.pop(0)
         size = len(list_)
         if size != 1 and size != args.mgr_count:
-            log.critical("\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
+            log.critical("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
                          "Incorrect number of arguments applied: must be either 1 for all processes or else the " +
                          "number of arguments must match the number of processes. Process will exit.")
             log.critical(list_)
             sys.exit(1)
+
+    # Attempt to parse the timezones
+    for i in range(len(args.timezone)):
+        if str(args.timezone[i]).lower() == "none":
+            args.timezone[i] = None
+            continue
+        try:
+            log.info(args.timezone[i])
+            args.timezone[i] = pytz.timezone(args.timezone[i])
+        except pytz.exceptions.UnknownTimeZoneError:
+            log.error("Invalid timezone. For a list of valid timezones, " +
+                      "see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
+            sys.exit(1)
+
 
     # Construct the managers
     for m_ct in range(args.mgr_count):

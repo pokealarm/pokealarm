@@ -71,7 +71,7 @@ class PokemonGoMap:
         stop = {
             'type': "pokestop",
             'id': data['pokestop_id'],
-            'expire_time':  datetime.utcfromtimestamp(data['lure_expiration'] or 0.0),
+            'expire_time':  datetime.utcfromtimestamp(data['lure_expiration']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude'])
         }

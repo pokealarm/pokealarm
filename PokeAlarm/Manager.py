@@ -64,7 +64,7 @@ class Manager(object):
         self.__time_limit = time_limit
 
         # Set the timezone to use
-        self.__timezone = timezone if str(timezone).lower() != 'none' else None
+        self.__timezone = timezone
 
         # Initialize the queue and start the process
         self.__config = config
