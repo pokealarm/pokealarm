@@ -64,10 +64,14 @@ class PokemonGoMap:
 
     @staticmethod
     def pokestop(data):
+        log.debug("Converting to pokestop: \n {}".format(data))
+        if data.get('lure_expiration') is None:
+            log.debug("Un-lured pokestop... ignoring.")
+            return None
         stop = {
             'type': "pokestop",
             'id': data['pokestop_id'],
-            'expire_time':  datetime.utcfromtimestamp(data['lure_expiration']),
+            'expire_time':  datetime.utcfromtimestamp(data['lure_expiration'] or 0.0),
             'lat': float(data['latitude']),
             'lng': float(data['longitude'])
         }
@@ -76,6 +80,7 @@ class PokemonGoMap:
 
     @staticmethod
     def gym(data):
+        log.debug("Converting to gym: \n {}".format(data))
         gym = {
             'type': "gym",
             'id': data.get('gym_id',  data.get('id')),
