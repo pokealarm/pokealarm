@@ -59,6 +59,7 @@ class DiscordAlarm(Alarm):
         # Connect and send startup messages
         if parse_boolean(self.__startup_message):
             args = {
+                'api_key': self.__api_key,
                 'username': 'PokeAlarm',
                 'content': 'PokeAlarm activated! We will alert this channel about pokemon.'
             }
@@ -72,6 +73,7 @@ class DiscordAlarm(Alarm):
     # Set the appropriate settings for each alert
     def set_alert(self, settings, default):
         alert = {
+            'api_key': settings.get('api_key', self.__api_key),
             'username': settings.get('username', default['username']),
             'icon_url': settings.get('icon_url', default['icon_url']),
             'title': settings.get('title', default['title']), 'url': settings.get('url', default['url']),
@@ -83,6 +85,7 @@ class DiscordAlarm(Alarm):
     # Send Alert to Discord
     def send_alert(self, alert, info):
         args = {
+            'api_key': alert['api_key'],
             'username': replace(alert['username'], info),
             'title': replace(alert['title'], info),
             'url': replace(alert['url'], info),
@@ -93,6 +96,8 @@ class DiscordAlarm(Alarm):
         try_sending(log, self.connect, "Discord", self.send_webhook, args)
 
     def send_webhook(self, **args):
+        log.debug(args)
+        webhook_url = args.pop('api_key')
         if 'content' in args:
             data = {
                 'username': args['username'],
@@ -110,7 +115,7 @@ class DiscordAlarm(Alarm):
                 }]
             }
         try:
-            requests.post(self.__api_key, json=data, timeout=(None, 1))
+            requests.post(webhook_url, json=data, timeout=(None, 1))
         except requests.exceptions.ReadTimeout:
             log.debug('Response timeout on webhook endpoint %s', self.__api_key)
         except requests.exceptions.RequestException as e:
