@@ -19,7 +19,7 @@
         "max_dist":"inf",
         "min_iv":"0",
         "max_iv":"100",
-        "Bulbasaur":"False",
+        "Bulbasaur":{ "min_iv":"50", "max_iv":"100", "move_1":"Vine Whip", "move_2":"Power Whip, Seed Bomb" },
         "Ivysaur":"False",
         "Venusaur":"False",
         "Charmander":"False",
