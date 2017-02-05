@@ -197,11 +197,11 @@ class Manager(object):
                     log.info("{} ignored: IVs ({:.2f}) not in range {:.2f} to {:.2f}.".format(
                         name, iv, filt['min_iv'], filt['max_iv']))
                 return
-            pkmn['iv_0'] = "{:.0f}".format(iv)
-            pkmn['iv'] = "{:.1f}".format(iv)
-            pkmn['iv_2'] = "{:.2f}".format(iv)
         else:
             log.debug("Pokemon IV's were not checked because they are unknown.")
+            if filt['ignore_missing'] is True:
+                log.info("{} ignored: IV information was missing".format(name))
+                return
 
         # Check the moves of the Pokemon
         move_1_id = pkmn['move_1_id']
@@ -209,24 +209,27 @@ class Manager(object):
         # TODO: Move damage
         if move_1_id != 'unknown' and move_2_id != 'unknown':
             move_1_f, move_2_f, moveset_f = filt['move_1'], filt['move_2'], filt['moveset']
-            if move_1_f is not None and move_1_id not in move_1_f: # Check Move 1
+            if move_1_f is not None and move_1_id not in move_1_f:  # Check Move 1
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
-            if move_2_f is not None and move_2_id not in move_2_f: # Check Move 2
+            if move_2_f is not None and move_2_id not in move_2_f:  # Check Move 2
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 2 was incorrect.".format(name))
                 return
-            if moveset_f is not None: # Check for movesets
+            if moveset_f is not None:  # Check for movesets
                 correct_moves = False
                 for filt in moveset_f:
-                    correct_moves |= (move_1_id in filt and move_2_id  in filt)
+                    correct_moves |= (move_1_id in filt and move_2_id in filt)
                 if correct_moves is False:  # Wrong moveset
                     if config['QUIET'] is False:
                         log.info("{} ignored: Moveset was incorrect.".format(name))
                     return
         else:
             log.debug("Pokemon moves were not checked because they are unknown.")
+            if filt['ignore_missing'] is True:
+                log.info("{} ignored: Moves information was missing".format(name))
+                return
 
         # Check if in geofences
         if len(self.__geofences) > 0:
@@ -248,6 +251,9 @@ class Manager(object):
             '12h_time': time_str[1],
             '24h_time': time_str[2],
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'iv_0': "{:.0f}".format(iv) if iv != 'unkn' else 'unkn',
+            'iv': "{:.1f}".format(iv) if iv != 'unkn' else 'unkn',
+            'iv_2': "{:.2f}".format(iv) if iv != 'unkn' else 'unkn',
             'move_1': self.__move_name.get(move_1_id, 'unknown'),
             'move_1_damage': get_move_damage(move_1_id),
             'move_1_dps': get_move_dps(move_1_id),
@@ -357,7 +363,7 @@ class Manager(object):
         old_team = self.__gym_hist.get(id_)
 
         # Ignore gyms when there is no change
-        if (old_team == team_id):
+        if old_team == team_id:
             log.debug("Gym update ignored: team didn't change")
             return
 
@@ -466,6 +472,7 @@ class Manager(object):
         max_dist = float(settings.pop('max_dist', None) or 'inf')
         min_iv = float(settings.pop('min_iv', None) or 0)
         max_iv = float(settings.pop('max_iv', None) or 100)
+        ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', False)))
         if pokemon['enabled']:
             log.info("Pokemon defaults: distance {:.2f} to {:.2f} / IV's {:.2f} to {:.2f}".format(
                 min_dist, max_dist, min_iv, max_iv))
@@ -489,13 +496,14 @@ class Manager(object):
                         "max_iv": float(info.get('max_iv', None) or max_iv),
                         "move_1": self.required_moves(info.get("move_1", None)),
                         "move_2": self.required_moves(info.get("move_2", None)),
-                        "moveset": self.required_moveset(info.get("moveset", None))
+                        "moveset": self.required_moveset(info.get("moveset", None)),
+                        "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
                     }
                 except Exception as e:
                     log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
                     log.debug("Stack trace: \n {}".format(traceback.format_exc()))
                     sys.exit(1)
-        for key in sorted(pokemon.iterkeys()): # Output the pokemon in order
+        for key in sorted(pokemon.iterkeys()):  # Output the pokemon in order
             log.debug("#{} was set to the following: \n{}".format(
                 key, json.dumps(pokemon[key], sort_keys=True, indent=4)))
         self.__pokemon_filter = pokemon
@@ -542,7 +550,7 @@ class Manager(object):
                 except Exception as e:
                     log.error("Trying to set gym {} gave error: \n {}".format(team_id, e))
                     log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        for key in sorted(gyms.iterkeys()): # Output the pokemon in order
+        for key in sorted(gyms.iterkeys()):  # Output the pokemon in order
             log.debug("Team #{} was set to the following: \n{}".format(
                 key, json.dumps(gyms[key], sort_keys=True, indent=4)))
         self.__gym_filter = gyms
