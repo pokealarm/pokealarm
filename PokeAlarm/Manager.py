@@ -197,7 +197,9 @@ class Manager(object):
                     log.info("{} ignored: IVs ({:.2f}) not in range {:.2f} to {:.2f}.".format(
                         name, iv, filt['min_iv'], filt['max_iv']))
                 return
+            pkmn['iv_0'] = "{:.0f}".format(iv)
             pkmn['iv'] = "{:.1f}".format(iv)
+            pkmn['iv_2'] = "{:.2f}".format(iv)
         else:
             log.debug("Pokemon IV's were not checked because they are unknown.")
 

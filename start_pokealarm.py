@@ -103,9 +103,9 @@ def parse_settings(root_path):
     parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
-    parser.add_argument('-m', '--mgr_count', type=int, default=1,
+    parser.add_argument('-m', '--manager_count', type=int, default=1,
                         help='Number of Manager processes to start.')
-    parser.add_argument('-M', '--managers', type=parse_unicode, action='append', default=[],
+    parser.add_argument('-M', '--manager_name', type=parse_unicode, action='append', default=[],
                         help='Names of Manager processes to start.')
     parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[None],
                         help='Specify a Google API Key to use.')
@@ -148,7 +148,7 @@ def parse_settings(root_path):
         if len(list_) > 1:  # Remove defaults from the list
             list_.pop(0)
         size = len(list_)
-        if size != 1 and size != args.mgr_count:
+        if size != 1 and size != args.manager_count:
             log.critical("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
                          "Incorrect number of arguments applied: must be either 1 for all processes or else the " +
                          "number of arguments must match the number of processes. Process will exit.")
@@ -170,9 +170,9 @@ def parse_settings(root_path):
 
 
     # Construct the managers
-    for m_ct in range(args.mgr_count):
+    for m_ct in range(args.manager_count):
         m = Manager(
-            name=args.managers[m_ct] if m_ct < len(args.managers) else "Manager_{}".format(m_ct),
+            name=args.manager_name[m_ct] if m_ct < len(args.manager_name) else "Manager_{}".format(m_ct),
             google_key=args.key[m_ct] if len(args.key) > 1 else args.key[0],
             filters=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
             geofences=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],

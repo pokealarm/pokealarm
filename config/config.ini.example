@@ -6,7 +6,8 @@
 #debug:                     # Enables debugging mode
 #host: 						# Address to listen on (default 127.0.0.1)
 #port: 						# Port to listen on (default: 4000)
-#mgr_count:                 # Number of Manager Processes to run. default: 1
+#manager_count:             # Number of Manager Processes to run. default: 1
+#manager_name:              # Name used to reference the managers
 #key: 						# Google Maps API Key to use
 #filter: 					# Specify a file describing filter rules. default: filters.json
 #alarms: 					# Specify a file describing Alarm services. default: alarms.json
