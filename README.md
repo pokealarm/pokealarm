@@ -43,10 +43,15 @@ If you are experiencing issues with the alarm or would like to see new features,
 * If you are a Windows user, stop using notepad and start using Notepad++. Make a fresh copy of the alarms.json and remake your changes. If you aren't a Windows user (or you are already using Notepad++) check your JSON format with a JSON formatter for issues ([jsoneditoronline.org](http://www.jsoneditoronline.org) is an excellent site to start.)
 
 #### Will you be adding support for ______ service?
-* Please make a request in the [NEW/UPCOMING SERVICE MEGA-THREAD](https://github.com/kvangent/PokeAlarm/issues/147).  New standalone issue tickets will be closed without notice.
+* Please make a request in the [New Service MEGATHREAD](https://github.com/kvangent/PokeAlarm/issues/147).  New standalone issue tickets will be closed without notice.
 
 #### I am receiving _______ error from PokemonGo-Map! What do I do?
 * Checkout the [PokemonGo-Map Wiki](https://github.com/kvangent/PokeAlarm/wiki) or try asking for help in our [Discord channel](https://discordapp.com/invite/am66rag).
 
 #### How do I conigure V3?
 * We are working on updating the wiki to reflect the changes. Use the `filters.json` file to specify which notifications you would like to receive. The 'alarms.json' file is now for specifying which services you would like to receive alerts from. 
+
+#### This dynmic text command was working, but then I updated and it stopped. Why did you have to ruin everything?
+* The following changes were made with dynamic text commands in v3
+  * `<id>` is now `<pkmn_id>` (`<id>` is now the encounter id)
+  * `<move1>` and `<move2>` are now `<move_1>` and `<move_2>` 

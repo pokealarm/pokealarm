@@ -14,7 +14,7 @@ import googlemaps
 from . import config
 from Structures import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_pkmn_id, get_team_id,\
-    get_time_as_str, parse_boolean
+    get_time_as_str, parse_boolean, get_move_damage, get_move_dps, get_move_duration, get_move_energy
 
 log = logging.getLogger('Manager')
 
@@ -201,16 +201,18 @@ class Manager(object):
             log.debug("Pokemon IV's were not checked because they are unknown.")
 
         # Check the moves of the Pokemon
-        move1 = self.__move_name.get(pkmn['move_1_id'], 'unknown')
-        move2 = self.__move_name.get(pkmn['move_2_id'], 'unknown')
+        move_1_id = pkmn['move_1_id']
+        move_2_id = pkmn['move_2_id']
+        move_1 = self.__move_name.get(move_1_id, 'unknown')
+        move_2 = self.__move_name.get(move_2_id, 'unknown')
         # TODO: Move damage
-        if move1 != 'unknown' and move2 != 'unknown':
+        if move_1 != 'unknown' and move_2 != 'unknown':
             move_1_f, move_2_f = filt['move_1'], filt['move_2']
-            if move_1_f is not None and move_1_f.find(move1) == -1:
+            if move_1_f is not None and move_1_f.find(move_1) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
-            if move_2_f is not None and move_2_f.find(move2) == -1:
+            if move_2_f is not None and move_2_f.find(move_2) == -1:
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 2 was incorrect.".format(name))
                 return
@@ -233,12 +235,20 @@ class Manager(object):
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'move1': move1,
-            'move2': move2,
+            'move_1': move_1,
+            'move_2': move_2,
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'move_1_damage': get_move_damage(move_1_id),
+            'move_1_dps': get_move_dps(move_1_id),
+            'move_1_duration': get_move_duration(move_1_id),
+            'move_1_energy': get_move_energy(move_1_id),
+            'move_2_damage': get_move_damage(move_2_id),
+            'move_2_dps': get_move_dps(move_2_id),
+            'move_2_duration': get_move_duration(move_2_id),
+            'move_2_energy': get_move_energy(move_2_id)
         })
         # Optional Stuff
         self.optional_arguments(pkmn)

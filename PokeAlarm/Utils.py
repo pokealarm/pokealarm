@@ -57,12 +57,6 @@ def pip_install(module, version):
 
 ################################################## POKEMON UTILITIES ###################################################
 
-# Returns a String link to Google Maps Pin at the location
-def get_gmaps_link(lat, lng):
-    latlng = '{},{}'.format(repr(lat), repr(lng))
-    return 'http://maps.google.com/maps?q={}'.format(latlng)
-
-
 # Returns the id corresponding with the pokemon name (use all locales for flexibility)
 def get_pkmn_id(pokemon_name):
     name = pokemon_name.lower()
@@ -76,6 +70,21 @@ def get_pkmn_id(pokemon_name):
                     nm = j[id_].lower()
                     get_pkmn_id.ids[nm] = int(id_)
     return get_pkmn_id.ids.get(name)
+
+
+# Returns the id corresponding with the move (use all locales for flexibility)
+def get_move_id(move_name):
+    name = move_name.lower()
+    if not hasattr(get_move_id, 'ids'):
+        get_move_id.ids = {}
+        files = glob(get_path('locales/*/moves.json'))
+        for file_ in files:
+            with open(file_, 'r') as f:
+                j = json.loads(f.read())
+                for id_ in j:
+                    nm = j[id_].lower()
+                    get_move_id.ids[nm] = int(id_)
+    return get_move_id.ids.get(name)
 
 
 # Returns the id corresponding with the pokemon name (use all locales for flexibility)
@@ -93,10 +102,62 @@ def get_team_id(pokemon_name):
     return get_team_id.ids.get(name)
 
 
+# Returns the damage of a move when requesting
+def get_move_damage(move_id):
+    if not hasattr(get_move_damage, 'info'):
+        get_move_damage.info = {}
+        file_ = get_path('locales/move_info.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_move_damage.info[int(id_)] = j[id_]['damage']
+    return get_move_damage.info.get(move_id, 'unkn')
+
+
+# Returns the dps of a move when requesting
+def get_move_dps(move_id):
+    if not hasattr(get_move_dps, 'info'):
+        get_move_dps.info = {}
+        file_ = get_path('locales/move_info.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_move_dps.info[int(id_)] = j[id_]['dps']
+    return get_move_dps.info.get(move_id, 'unkn')
+
+
+# Returns the duration of a move when requesting
+def get_move_duration(move_id):
+    if not hasattr(get_move_duration, 'info'):
+        get_move_duration.info = {}
+        file_ = get_path('locales/move_info.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_move_duration.info[int(id_)] = j[id_]['duration']
+    return get_move_duration.info.get(move_id, 'unkn')
+
+# Returns the duation of a move when requesting
+def get_move_energy(move_id):
+    if not hasattr(get_move_energy, 'info'):
+        get_move_energy.info = {}
+        file_ = get_path('locales/move_info.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_move_energy.info[int(id_)] = j[id_]['energy']
+    return get_move_energy.info.get(move_id, 'unkn')
+
+
+
 ########################################################################################################################
 
 ################################################# GMAPS API UTILITIES ##################################################
 
+# Returns a String link to Google Maps Pin at the location
+def get_gmaps_link(lat, lng):
+    latlng = '{},{}'.format(repr(lat), repr(lng))
+    return 'http://maps.google.com/maps?q={}'.format(latlng)
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
 def get_static_map_url(settings):  # TODO: optimize formatting

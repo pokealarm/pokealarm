@@ -48,8 +48,8 @@ class PokemonGoMap:
             'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
-            'move_1_id': int(move_1_id) if move_1_id is not None else 'unknown',
-            'move_2_id': int(move_2_id) if move_2_id is not None else 'unknown',
+            'move_1_id': int(move_1_id) if move_1_id is not None else 'unkn',
+            'move_2_id': int(move_2_id) if move_2_id is not None else 'unkn',
             'atk':  int(atk) if atk is not None else 'unkn',
             'def': int(def_) if def_ is not None else 'unkn',
             'sta': int(sta) if sta is not None else 'unkn'
