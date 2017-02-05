@@ -73,7 +73,7 @@ class SlackAlarm(Alarm):
                 text='PokeAlarm activated! We will alert this channel about pokemon.'
             )
         log.info("Slack Alarm intialized.")
-        log.debug("Attempting to push to the following channels: Pokemon:%s, Pokestops:%s, Gyms:%s".format(
+        log.debug("Attempting to push to the following channels: Pokemon:{}, Pokestops:{}, Gyms:{}".format(
             self.__pokemon['channel'], self.__pokestop['channel'], self.__gym['channel']))
 
     # Establish connection with Slack

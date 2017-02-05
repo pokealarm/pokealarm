@@ -24,7 +24,7 @@ from flask import Flask, request, abort
 # Local Imports
 from PokeAlarm import config
 from PokeAlarm.Manager import Manager
-from PokeAlarm.Structures import PokemonGoMap
+from PokeAlarm.WebhookStructs import PokemonGoMap
 from PokeAlarm.Utils import get_path, parse_unicode
 
 # Reinforce UTF-8 as default

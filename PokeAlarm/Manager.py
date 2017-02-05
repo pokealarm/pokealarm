@@ -7,14 +7,15 @@ import multiprocessing
 import traceback
 import os
 import re
+import sys
 # 3rd Party Imports
 import gipc
 import googlemaps
 # Local Imports
 from . import config
-from Structures import Geofence
-from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_pkmn_id, get_team_id,\
-    get_time_as_str, parse_boolean, get_move_damage, get_move_dps, get_move_duration, get_move_energy
+from WebhookStructs import Geofence
+from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
+    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean
 
 log = logging.getLogger('Manager')
 
@@ -203,19 +204,25 @@ class Manager(object):
         # Check the moves of the Pokemon
         move_1_id = pkmn['move_1_id']
         move_2_id = pkmn['move_2_id']
-        move_1 = self.__move_name.get(move_1_id, 'unknown')
-        move_2 = self.__move_name.get(move_2_id, 'unknown')
         # TODO: Move damage
-        if move_1 != 'unknown' and move_2 != 'unknown':
-            move_1_f, move_2_f = filt['move_1'], filt['move_2']
-            if move_1_f is not None and move_1_f.find(move_1) == -1:
+        if move_1_id != 'unknown' and move_2_id != 'unknown':
+            move_1_f, move_2_f, moveset_f = filt['move_1'], filt['move_2'], filt['moveset']
+            if move_1_f is not None and move_1_id not in move_1_f: # Check Move 1
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 1 was incorrect.".format(name))
                 return
-            if move_2_f is not None and move_2_f.find(move_2) == -1:
+            if move_2_f is not None and move_2_id not in move_2_f: # Check Move 2
                 if config['QUIET'] is False:
                     log.info("{} ignored: Move 2 was incorrect.".format(name))
                 return
+            if moveset_f is not None: # Check for movesets
+                correct_moves = False
+                for filt in moveset_f:
+                    correct_moves |= (move_1_id in filt and move_2_id  in filt)
+                if correct_moves is False:  # Wrong moveset
+                    if config['QUIET'] is False:
+                        log.info("{} ignored: Moveset was incorrect.".format(name))
+                    return
         else:
             log.debug("Pokemon moves were not checked because they are unknown.")
 
@@ -235,16 +242,16 @@ class Manager(object):
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'move_1': move_1,
-            'move_2': move_2,
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'move_1': self.__move_name.get(move_1_id, 'unknown'),
             'move_1_damage': get_move_damage(move_1_id),
             'move_1_dps': get_move_dps(move_1_id),
             'move_1_duration': get_move_duration(move_1_id),
             'move_1_energy': get_move_energy(move_1_id),
+            'move_2': self.__move_name.get(move_2_id, 'unknown'),
             'move_2_damage': get_move_damage(move_2_id),
             'move_2_dps': get_move_dps(move_2_id),
             'move_2_duration': get_move_duration(move_2_id),
@@ -478,15 +485,17 @@ class Manager(object):
                         "max_dist": float(info.get('max_dist', None) or max_dist),
                         "min_iv": float(info.get('min_iv', None) or min_iv),
                         "max_iv": float(info.get('max_iv', None) or max_iv),
-                        "move_1": info.get("move_1", None),
-                        "move_2": info.get("move_2", None),
-                        "move_set": info.get("move_set", None)
+                        "move_1": self.required_moves(info.get("move_1", None)),
+                        "move_2": self.required_moves(info.get("move_2", None)),
+                        "moveset": self.required_moveset(info.get("moveset", None))
                     }
-                    log.debug("#{} was set to the following: \n{}".format(
-                        pkmn_id, json.dumps(pokemon[pkmn_id], sort_keys=True, indent=4)))
                 except Exception as e:
                     log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
                     log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                    sys.exit(1)
+        for key in sorted(pokemon.iterkeys()): # Output the pokemon in order
+            log.debug("#{} was set to the following: \n{}".format(
+                key, json.dumps(pokemon[key], sort_keys=True, indent=4)))
         self.__pokemon_filter = pokemon
 
     def set_pokestops(self, settings):
@@ -528,12 +537,12 @@ class Manager(object):
                         "min_dist": float(info.get('min_dist', None) or defaults['min_dist']),
                         "max_dist": float(info.get('max_dist', None) or defaults['max_dist']),
                     }
-                    log.debug("Team #{} was set to the following: {}".format(
-                        team_id, json.dumps(gyms[team_id], sort_keys=True, indent=4)))
                 except Exception as e:
                     log.error("Trying to set gym {} gave error: \n {}".format(team_id, e))
                     log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-
+        for key in sorted(gyms.iterkeys()): # Output the pokemon in order
+            log.debug("Team #{} was set to the following: \n{}".format(
+                key, json.dumps(gyms[key], sort_keys=True, indent=4)))
         self.__gym_filter = gyms
 
     def create_geofences(self, file_path):
@@ -570,6 +579,29 @@ class Manager(object):
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
                 self.__team_name[int(team_id)] = value
+
+    # Generate a set of required moves
+    def required_moves(self, moves):
+        if moves is None:  # no moves
+            return None
+        list_ = []
+        for move_name in moves:
+            move_id = get_move_id(move_name)
+            if move_id is not None:
+                list_.append(move_id)
+            else:
+                log.error("Unable to find a move id for '{}'. Please check your spelling.".format(move_name))
+                sys.exit(1)
+        return list_
+
+    # Generate a list of accepted movesets
+    def required_moveset(self, moves):
+        if moves is None:  # no moves
+            return None
+        list_ = []
+        for moveset in moves:
+            list_.append(self.required_moves(moveset.split('/')))
+        return list_
 
     ####################################################################################################################
 
