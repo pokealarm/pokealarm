@@ -5,7 +5,7 @@ import logging
 import facebook
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_timestamps
+from ..Utils import parse_boolean, get_time_as_str
 
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
@@ -51,9 +51,9 @@ class FacebookPageAlarm(Alarm):
         # Connect and send startup messages
         self.__client = None
         self.connect()
-        timestamps = get_timestamps(datetime.utcnow())
+        timestamps = get_time_as_str(datetime.utcnow())
         if parse_boolean(self.__startup_message):
-            self.client.put_wall_post(message="{} - PokeAlarm has intialized!".format(timestamps[2]))
+            self.__client.put_wall_post(message="{} - PokeAlarm has intialized!".format(timestamps[2]))
         log.info("FacebookPage Alarm intialized.")
 
     # Establish connection with FacebookPage
@@ -75,7 +75,7 @@ class FacebookPageAlarm(Alarm):
             "attachment": {"link": replace(alert['link'], info)}
         }
 
-        try_sending(log, self.connect, "FacebookPage", self.client.put_wall_post, args)
+        try_sending(log, self.connect, "FacebookPage", self.__client.put_wall_post, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
