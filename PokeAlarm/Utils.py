@@ -190,8 +190,8 @@ def get_static_map_url(settings):  # TODO: optimize formatting
 ################################################## GENERAL UTILITIES ###################################################
 
 # Returns a cardinal direction (N/S/E/W) of the pokemon from the origin point, if set
-def get_cardinal_dir(pt_a, pt_b):
-    if len(pt_b) < 2:
+def get_cardinal_dir(pt_a, pt_b=None):
+    if pt_b is None:
         return '?'
     origin_point = LatLng.from_degrees(*pt_b)
     lat_lng = LatLng.from_degrees(*pt_a)
@@ -218,8 +218,8 @@ def get_dist_as_str(dist):
 
 
 # Returns an integer representing the distance between A and B
-def get_earth_dist(pt_a, pt_b=[]):
-    if len(pt_b) < 2:
+def get_earth_dist(pt_a, pt_b=None):
+    if pt_b == None:
         return 'unkn'  # No location set
     lat_a = radians(pt_a[0])
     lng_a = radians(pt_a[1])

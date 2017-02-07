@@ -51,7 +51,7 @@ class Manager(object):
         self.__alarms_file = get_path(alarms)
 
         # Set the location
-        self.__latlng = self.get_lat_lng_by_name(location) if location is not None else []
+        self.__latlng = self.get_lat_lng_by_name(location) if location is not None else None
 
         # Set the locale to use for names and moves
         self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
@@ -560,6 +560,7 @@ class Manager(object):
             return
         geofences = {}
         with open(file_path, 'r') as file_:
+            cur = "Geofence_0"
             for line in file_:
                 name = re.match("\[([^]]+)\]", line)
                 if name:
@@ -729,19 +730,17 @@ class Manager(object):
 
     # Returns a set with walking dist and walking duration via Google Distance Matrix API
     def get_walking_data(self, lat, lng):
+        data = {'walk_dist': "unknown", 'walk_time': "unknown"}
         if self.__latlng is None:
             log.error("No location has been set. Unable to get walking data.")
-            return {}
+            return data
         origin = "{},{}".format(self.__latlng[0], self.__latlng[1])
         dest = "{},{}".format(lat, lng)
-        data = {'walk_dist': "!error!", 'walk_time': "!error!"}
         try:
             result = self.__gmaps_client.distance_matrix(origin, dest, mode='walking', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
-            data = {
-                'walk_dist': result.get('distance').get('text').encode('utf-8'),
-                'walk_time': result.get('duration').get('text').encode('utf-8'),
-            }
+            data['walk_dist'] = result.get('distance').get('text').encode('utf-8')
+            data['walk_time'] = result.get('duration').get('text').encode('utf-8')
         except Exception as e:
             log.error("Encountered error while getting walking data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
@@ -749,19 +748,17 @@ class Manager(object):
 
     # Returns a set with biking dist and biking duration via Google Distance Matrix API
     def get_biking_data(self, lat, lng):
+        data = {'bike_dist': "unknown", 'bike_time': "unknown"}
         if self.__latlng is None:
             log.error("No location has been set. Unable to get biking data.")
-            return {}
+            return data
         origin = "{},{}".format(self.__latlng[0], self.__latlng[1])
         dest = "{},{}".format(lat, lng)
-        data = {'bike_dist': "!error!", 'bike_time': "!error!"}
         try:
             result = self.__gmaps_client.distance_matrix(origin, dest, mode='bicycling', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
-            data = {
-                'bike_dist': result.get('distance').get('text').encode('utf-8'),
-                'bike_time': result.get('duration').get('text').encode('utf-8'),
-            }
+            data['bike_dist'] = result.get('distance').get('text').encode('utf-8')
+            data['bike_time'] = result.get('duration').get('text').encode('utf-8')
         except Exception as e:
             log.error("Encountered error while getting biking data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
@@ -769,19 +766,17 @@ class Manager(object):
 
     # Returns a set with driving dist and biking duration via Google Distance Matrix API
     def get_driving_data(self, lat, lng):
+        data = {'drive_dist': "unknown", 'drive_time': "unknown"}
         if self.__latlng is None:
             log.error("No location has been set. Unable to get biking data.")
-            return {}
+            return data
         origin = "{},{}".format(self.__latlng[0], self.__latlng[1])
         dest = "{},{}".format(lat, lng)
-        data = {'drive_dist': "!error!", 'drive_time': "!error!"}
         try:
             result = self.__gmaps_client.distance_matrix(origin, dest, mode='driving', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
-            data = {
-                'drive_dist': result.get('distance').get('text').encode('utf-8'),
-                'drive_time': result.get('duration').get('text').encode('utf-8'),
-            }
+            data['drive_dist'] = result.get('distance').get('text').encode('utf-8')
+            data['drive_time'] =  result.get('duration').get('text').encode('utf-8')
         except Exception as e:
             log.error("Encountered error while getting driving data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
