@@ -46,7 +46,7 @@ class FacebookPageAlarm(Alarm):
         # Set Alerts
         self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
+        self.__gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
 
         # Connect and send startup messages
         self.__client = None
