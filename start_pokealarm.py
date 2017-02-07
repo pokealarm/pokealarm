@@ -24,7 +24,7 @@ from flask import Flask, request, abort
 # Local Imports
 from PokeAlarm import config
 from PokeAlarm.Manager import Manager
-from PokeAlarm.WebhookStructs import PokemonGoMap
+from PokeAlarm.WebhookStructs import RocketMap
 from PokeAlarm.Utils import get_path, parse_unicode
 
 # Reinforce UTF-8 as default
@@ -64,7 +64,7 @@ def manage_webhook_data(queue):
         if queue.qsize() > 300:
             log.warning("Queue length is at {}... this may be causing a delay in notifications.".format(queue.qsize()))
         data = queue.get(block=True)
-        obj = PokemonGoMap.make_object(data)
+        obj = RocketMap.make_object(data)
         if obj is not None:
             for name, mgr in managers.iteritems():
                 mgr.update(obj)

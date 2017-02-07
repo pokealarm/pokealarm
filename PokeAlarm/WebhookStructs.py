@@ -12,8 +12,8 @@ log = logging.getLogger('Structures')
 ################################################## Webhook Standards  ##################################################
 
 
-# PokemonGo-Map Standards
-class PokemonGoMap:
+# RocketMap Standards
+class RocketMap:
     def __init__(self):
         raise NotImplementedError("This is a static class not meant to be initiated")
 
@@ -22,12 +22,15 @@ class PokemonGoMap:
         try:
             kind = data.get('type')
             if kind == 'pokemon':
-                return PokemonGoMap.pokemon(data.get('message'))
+                return RocketMap.pokemon(data.get('message'))
             elif data['type'] == 'pokestop':
-                return PokemonGoMap.pokestop(data.get('message'))
+                return RocketMap.pokestop(data.get('message'))
             elif data['type'] == 'gym' or data['type'] == 'gym_details':
-                return PokemonGoMap.gym(data.get('message'))
-            log.error("Invalid type specified ({}). Are you using the correct map type?".format(kind))
+                return RocketMap.gym(data.get('message'))
+            elif data['type'] in ['captcha', 'scheduler']:  # Unsupported Webhooks
+                log.debug("{} webhook received. This captcha is not yet supported at this time. ")
+            else:
+                log.error("Invalid type specified ({}). Are you using the correct map type?".format(kind))
         except Exception as e:
             log.error("Encountered error while processing webhook ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
@@ -115,7 +118,7 @@ class Geofence(object):
 
     def contains(self, x, y):
         # Quick check the boundary box of the entire polygon
-        if (self.__max_x < x < self.__min_x) or (self.__max_y < y < self.__min_y):
+        if self.__max_x < x or x < self.__min_x or self.__max_y < y or y < self.__min_y:
             return False
 
         inside = False
