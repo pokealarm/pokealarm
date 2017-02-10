@@ -113,7 +113,7 @@ class Geofence(object):
         for p in points:
             self.__min_x = min(p[0], self.__min_x)
             self.__max_x = max(p[0], self.__max_x)
-            self.__min_y = min(p[1], self.__min_x)
+            self.__min_y = min(p[1], self.__min_y)
             self.__max_y = max(p[1], self.__max_y)
 
     def contains(self, x, y):
