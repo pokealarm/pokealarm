@@ -99,7 +99,10 @@ def start_server():
 
 def parse_settings(root_path):
     config['ROOT_PATH'] = root_path
-    parser = configargparse.ArgParser(default_config_files=[get_path('config/config.ini')])
+    # Set the default config files up
+    config_files = [ get_path('config/config.ini') ] if '-cf' not in sys.argv and '--config' not in sys.argv else []
+    parser = configargparse.ArgParser(default_config_files=config_files)
+    parser.add_argument('-cf', '--config', is_config_file=True, help='Configuration file')
     parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
