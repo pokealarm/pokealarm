@@ -9,7 +9,7 @@
 #manager_count:             # Number of Manager Processes to run. default: 1
 #manager_name:              # Name used to reference the managers
 #key: 						# Google Maps API Key to use
-#filter: 					# Specify a file describing filter rules. default: filters.json
+#filters: 					# Specify a file describing filter rules. default: filters.json
 #alarms: 					# Specify a file describing Alarm services. default: alarms.json
 #geofence: 					# Specify a file describing geofences. default: geofences.json
 #location: 					# Location, can be an address or coordinates

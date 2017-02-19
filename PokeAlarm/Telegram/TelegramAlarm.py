@@ -90,7 +90,7 @@ class TelegramAlarm(Alarm):
         if sticker_id:
             stickerargs = {
                 'chat_id': alert['chat_id'],
-                'sticker': sticker_id,
+                'sticker': unicode(sticker_id),
                 'disable_notification': 'True'
             }
             try_sending(log, self.connect, 'Telegram (sticker)', self.__client.sendSticker, stickerargs)

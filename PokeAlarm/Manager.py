@@ -776,7 +776,7 @@ class Manager(object):
             result = self.__gmaps_client.distance_matrix(origin, dest, mode='driving', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
             data['drive_dist'] = result.get('distance').get('text').encode('utf-8')
-            data['drive_time'] =  result.get('duration').get('text').encode('utf-8')
+            data['drive_time'] = result.get('duration').get('text').encode('utf-8')
         except Exception as e:
             log.error("Encountered error while getting driving data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
