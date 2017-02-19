@@ -24,7 +24,7 @@ class BoxcarAlarm(Alarm):
         'pokemon': {
             'title': "A wild <pkmn> has appeared!",
             'long_message': "Available <a href='<gmaps>'>here</a> until <24h_time> (<time_left>).",
-            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<id>.png",
+            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'sound': "beep-crisp"
         },
         'pokestop': {
@@ -36,7 +36,7 @@ class BoxcarAlarm(Alarm):
         'gym': {
             'title': "A Team <old_team> gym has fallen!",
             'long_message': "<a href='<gmaps>'>Gym</a> is now controlled by <new_team>.",
-            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<new_team>.png",
+            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'sound': "beep-crisp"
         }
     }
