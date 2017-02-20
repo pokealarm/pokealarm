@@ -30,7 +30,7 @@ class Manager(object):
 
         # Set up the Google API
         self.__google_key = google_key
-        self.__gmaps_client = googlemaps.Client(key=self.__google_key) if self.__google_key is not None else None
+        self.__gmaps_client = googlemaps.Client(key=self.__google_key, timeout=3) if self.__google_key is not None else None
 
         # Set up the rules on filtering notifications from given file
         self.__pokemon_filter = None
