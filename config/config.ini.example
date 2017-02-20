@@ -11,7 +11,7 @@
 #key: 						# Google Maps API Key to use
 #filters: 					# Specify a file describing filter rules. default: filters.json
 #alarms: 					# Specify a file describing Alarm services. default: alarms.json
-#geofence: 					# Specify a file describing geofences. default: geofences.json
+#geofence: 					# Specify a file describing geofences. default: None
 #location: 					# Location, can be an address or coordinates
 #locale: 					# Locale for Pokemon names
 #unit: 					    # Specify either metric or imperial
