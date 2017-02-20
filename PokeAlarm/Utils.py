@@ -207,12 +207,12 @@ def get_cardinal_dir(pt_a, pt_b=None):
 def get_dist_as_str(dist):
     if config['UNITS'] == 'imperial':
         if dist > 1000:
-            return "{:.1f}km".format(dist / 1000)
+            return "{:.1f}mi".format(dist / 1760)
         else:
-            return "{:.1f}m".format(dist)
+            return "{:.1f}yd".format(dist)
     else:  # Metric
         if dist > 1760:
-            return "{:.1f}km".format(dist / 1760)
+            return "{:.1f}km".format(dist / 1000)
         else:
             return "{:.1f}m".format(dist)
 
