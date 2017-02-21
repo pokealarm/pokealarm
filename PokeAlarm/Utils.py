@@ -206,13 +206,13 @@ def get_cardinal_dir(pt_a, pt_b=None):
 # Return the distance formatted correctly
 def get_dist_as_str(dist):
     if config['UNITS'] == 'imperial':
-        if dist > 1000:
-            return "{:.1f}mi".format(dist / 1760)
+        if dist > 1760: # yards per mile
+            return "{:.1f}mi".format(dist / 1760.0)
         else:
             return "{:.1f}yd".format(dist)
     else:  # Metric
-        if dist > 1760:
-            return "{:.1f}km".format(dist / 1000)
+        if dist > 1000: # meters per km
+            return "{:.1f}km".format(dist / 1000.0)
         else:
             return "{:.1f}m".format(dist)
 
