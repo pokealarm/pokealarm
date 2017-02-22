@@ -7,6 +7,8 @@ from twitter import Twitter, OAuth
 from ..Alarm import Alarm
 from ..Utils import parse_boolean, get_time_as_str
 
+MAX_TWEET_LEN = 140
+
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
@@ -70,7 +72,7 @@ class  TwitterAlarm(Alarm):
 
     # Post Pokemon Status
     def send_alert(self, alert, info):
-        args = {"status": replace(alert['status'], info)}
+        args = {"status": replace(alert['status'], info)[:MAX_TWEET_LEN]}
         try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args)
 
     # Trigger an alert based on Pokemon info
