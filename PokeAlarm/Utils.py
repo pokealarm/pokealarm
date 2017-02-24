@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from glob import glob
 import json
 import logging
-from math import radians, sin, cos, atan2, sqrt
+from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
 # 3rd Party Imports
@@ -189,19 +189,15 @@ def get_static_map_url(settings):  # TODO: optimize formatting
 
 ################################################## GENERAL UTILITIES ###################################################
 
-# Returns a cardinal direction (N/S/E/W) of the pokemon from the origin point, if set
+#Returns a cardinal direction (N/NW/W/SW, etc) of the pokemon from the origin point, if set
 def get_cardinal_dir(pt_a, pt_b=None):
     if pt_b is None:
         return '?'
-    origin_point = LatLng.from_degrees(*pt_b)
-    lat_lng = LatLng.from_degrees(*pt_a)
-    diff = lat_lng - origin_point
-    diff_lat = diff.lat().degrees
-    diff_lng = diff.lng().degrees
-    direction = (('N' if diff_lat >= 0 else 'S') if abs(diff_lat) > 1e-4 else '') + \
-                (('E' if diff_lng >= 0 else 'W') if abs(diff_lng) > 1e-4 else '')
-    return direction
 
+    lat1, lng1, lat2, lng2 = map(radians, [pt_b[0], pt_b[1], pt_a[0], pt_a[1]])
+    directions = ["S", "SE", "E", "NE", "N", "NW", "W", "SW", "S"]
+    bearing = (degrees(atan2(cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lng2 - lng1), sin(lng2 - lng1) * cos(lat2))) + 450) % 360
+    return directions[int(round(bearing / 45))]
 
 # Return the distance formatted correctly
 def get_dist_as_str(dist):
