@@ -8,6 +8,7 @@ from ..Alarm import Alarm
 from ..Utils import parse_boolean, get_time_as_str
 
 MAX_TWEET_LEN = 140
+TWEET_URL_LEN = 23 + 1 # Twitter limit is 23 but there needs to be a preceding space before the <gmaps> tag for it to work
 
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
@@ -72,8 +73,37 @@ class  TwitterAlarm(Alarm):
 
     # Post Pokemon Status
     def send_alert(self, alert, info):
-        args = {"status": replace(alert['status'], info)[:MAX_TWEET_LEN]}
-        try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args)
+        # Optimize remaining tweet length when removing <gmaps>
+        # There must be spaces around <gmaps> for Twitter to recognize link properly
+        maps_link_included = True
+        max_length = MAX_TWEET_LEN - TWEET_URL_LEN
+        if ' <gmaps> ' in alert['status']:
+            alert_str = replace(alert['status'].replace(' <gmaps> ', ' '), info)
+        elif '<gmaps> ' in alert['status']:
+            alert_str = replace(alert['status'].replace('<gmaps> ', ''), info)
+        elif ' <gmaps>' in alert['status']:
+            alert_str = replace(alert['status'].replace(' <gmaps>', ''), info)
+        elif '<gmaps>' in alert['status']:                          # Even if string does not have spaces around it, go ahead and process it
+            alert_str = replace(alert['status'].replace('<gmaps>', ''), info)
+        else:                                                       # No gmaps link found
+            maps_link_included = False
+            max_length = MAX_TWEET_LEN
+            
+        if len(alert_str) > max_length:
+            alert_str2 = "[1/2] " + alert_str[0:(max_length-6)]     # subtract 6 due to the '[1/2] ' string length
+            alert_str = "[2/2] " + alert_str[(max_length-6):]       # subtract 6 due to the '[2/2] ' string length
+
+            if maps_link_included:
+                alert_str2 += replace(' <gmaps>', info)             # go ahead and put the map on the 2nd tweet also
+            
+            args = {"status": alert_str2}
+            try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args,mgr_name)
+
+        if maps_link_included:
+            alert_str += replace(' <gmaps>', info)                  # always put map on the 1st tweet
+			
+        args = {"status": alert_str}
+        try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args,mgr_name)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
