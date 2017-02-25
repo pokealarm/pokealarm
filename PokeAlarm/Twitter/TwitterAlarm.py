@@ -88,6 +88,7 @@ class  TwitterAlarm(Alarm):
         else:                                                       # No gmaps link found
             maps_link_included = False
             max_length = MAX_TWEET_LEN
+            alert_str = alert['status']
             
         if len(alert_str) > max_length:
             alert_str2 = "[1/2] " + alert_str[0:(max_length-6)]     # subtract 6 due to the '[1/2] ' string length
