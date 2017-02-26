@@ -30,7 +30,7 @@ class Manager(object):
 
         # Set up the Google API
         self.__google_key = google_key
-        self.__gmaps_client = googlemaps.Client(key=self.__google_key, timeout=3) if self.__google_key is not None else None
+        self.__gmaps_client = googlemaps.Client(key=self.__google_key, timeout=1) if self.__google_key is not None else None
 
         # Set up the rules on filtering notifications from given file
         self.__pokemon_filter = None
@@ -701,28 +701,30 @@ class Manager(object):
 
     # Returns the name of the location based on lat and lng
     def reverse_location(self, lat, lng):
+        # Set defaults in case something goes wrong
+        details = { 'street_num':'unkn', 'street':'unknown', 'address':'unknown', 'postal':'unknown',
+                    'neighborhood':'unknown', 'sublocality':'unknown', 'city':'unknown',
+                    'county':'unknown', 'state':'unknown', 'country':'country'
+        }
         if self.__gmaps_client is None:  # Check if key was provided
             log.error("No Google Maps API key provided - unable to reverse geocode.")
-            return {}
-        details = {}
+            return details
         try:
             result = self.__gmaps_client.reverse_geocode((lat, lng))[0]
             loc = {}
             for item in result['address_components']:
                 for category in item['types']:
                     loc[category] = item['short_name']
-            details = {
-                'street_num': loc.get('street_number', 'unkn'),
-                'street': loc.get('route', 'unkn'),
-                'address': "{} {}".format(loc.get('street_number'), loc.get('route')),
-                'postal': loc.get('postal_code', 'unkn'),
-                'neighborhood': loc.get('neighborhood'),
-                'sublocality': loc.get('sublocality'),
-                'city': loc.get('locality', loc.get('postal_town')),  # try postal town if no city
-                'county': loc.get('administrative_area_level_2'),
-                'state': loc.get('administrative_area_level_1'),
-                'country': loc.get('country')
-            }
+            details['street_num'] = loc.get('street_number', 'unkn')
+            details['street'] = loc.get('route', 'unkn')
+            details['address'] = "{} {}".format(loc.get('street_number'), loc.get('route')),
+            details['postal'] =  loc.get('postal_code', 'unkn')
+            details['neighborhood'] = loc.get('neighborhood', "unknown")
+            details['sublocality'] = loc.get('sublocality', "unknown")
+            details['city'] = loc.get('locality', loc.get('postal_town', 'unknown'))
+            details['county'] = loc.get('administrative_area_level_2', 'unknown')
+            details['state'] = loc.get('administrative_area_level_1', 'unknown'),
+            details['country'] =  loc.get('country', 'unknown')
         except Exception as e:
             log.error("Encountered error while getting reverse location data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
