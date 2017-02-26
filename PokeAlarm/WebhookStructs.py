@@ -57,8 +57,8 @@ class RocketMap:
             'atk': int(atk) if atk is not None else 'unkn',
             'def': int(def_) if def_ is not None else 'unkn',
             'sta': int(sta) if sta is not None else 'unkn',
-            'height': int(height) if height is not None else 'unkn',
-            'weight': int(weight) if weight is not None else 'unkn',
+            'height': float(height) if height is not None else 'unkn',
+            'weight': float(weight) if weight is not None else 'unkn',
             'gender': int(gender) if gender is not None else 'unkn'
         }
         pkmn['gmaps'] = get_gmaps_link(pkmn['lat'], pkmn['lng'])
