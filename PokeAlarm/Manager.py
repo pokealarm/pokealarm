@@ -206,7 +206,6 @@ class Manager(object):
         # Check the moves of the Pokemon
         move_1_id = pkmn['move_1_id']
         move_2_id = pkmn['move_2_id']
-        # TODO: Move damage
         if move_1_id != 'unknown' and move_2_id != 'unknown':
             move_1_f, move_2_f, moveset_f = filt['move_1'], filt['move_2'], filt['moveset']
             if move_1_f is not None and move_1_id not in move_1_f:  # Check Move 1
@@ -659,7 +658,8 @@ class Manager(object):
     # Returns true if string contains an argument that requires
     def set_optional_args(self, line):
         # Reverse Location
-        args = {'street', 'street_num', 'address', 'postal', 'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
+        args = {'street', 'street_num', 'address', 'postal',
+                'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
         self.__api_req['REVERSE_LOCATION'] = self.__api_req['REVERSE_LOCATION'] or contains_arg(line, args)
         log.debug("REVERSE_LOCATION set to %s" % self.__api_req['REVERSE_LOCATION'])
 
@@ -702,9 +702,9 @@ class Manager(object):
     # Returns the name of the location based on lat and lng
     def reverse_location(self, lat, lng):
         # Set defaults in case something goes wrong
-        details = { 'street_num':'unkn', 'street':'unknown', 'address':'unknown', 'postal':'unknown',
-                    'neighborhood':'unknown', 'sublocality':'unknown', 'city':'unknown',
-                    'county':'unknown', 'state':'unknown', 'country':'country'
+        details = {
+            'street_num':'unkn', 'street':'unknown', 'address':'unknown', 'postal':'unknown','neighborhood':'unknown',
+            'sublocality':'unknown', 'city':'unknown', 'county':'unknown', 'state':'unknown', 'country':'country'
         }
         if self.__gmaps_client is None:  # Check if key was provided
             log.error("No Google Maps API key provided - unable to reverse geocode.")
@@ -717,14 +717,14 @@ class Manager(object):
                     loc[category] = item['short_name']
             details['street_num'] = loc.get('street_number', 'unkn')
             details['street'] = loc.get('route', 'unkn')
-            details['address'] = "{} {}".format(loc.get('street_number'), loc.get('route')),
-            details['postal'] =  loc.get('postal_code', 'unkn')
+            details['address'] = "{} {}".format(details['street_num'], details['street'])
+            details['postal'] = loc.get('postal_code', 'unkn')
             details['neighborhood'] = loc.get('neighborhood', "unknown")
             details['sublocality'] = loc.get('sublocality', "unknown")
             details['city'] = loc.get('locality', loc.get('postal_town', 'unknown'))
             details['county'] = loc.get('administrative_area_level_2', 'unknown')
-            details['state'] = loc.get('administrative_area_level_1', 'unknown'),
-            details['country'] =  loc.get('country', 'unknown')
+            details['state'] = loc.get('administrative_area_level_1', 'unknown')
+            details['country'] = loc.get('country', 'unknown')
         except Exception as e:
             log.error("Encountered error while getting reverse location data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
