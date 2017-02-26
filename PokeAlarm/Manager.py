@@ -248,11 +248,11 @@ class Manager(object):
         gender = pkmn['gender']
         if gender != 'unkn':
             if gender == 0:
-                gender = 'Genderless'
+                gender = u'\u26b2'
             elif gender == 1:
-                gender = 'Male'
+                gender = u'\u2642'
             elif gender == 2:
-                gender = 'Female'
+                gender = u'\u2640'
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
