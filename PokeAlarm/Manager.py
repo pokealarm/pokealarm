@@ -247,12 +247,12 @@ class Manager(object):
         weight = pkmn['weight']
         gender = pkmn['gender']
         if gender != 'unkn':
-            if gender == 0:
-                gender = u'\u26b2'
-            elif gender == 1:
+            if gender == 1:
                 gender = u'\u2642'
             elif gender == 2:
                 gender = u'\u2640'
+            elif gender == 3:
+                gender = u'\u26b2'
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
