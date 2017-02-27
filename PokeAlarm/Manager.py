@@ -243,16 +243,9 @@ class Manager(object):
         else:
             log.debug("Pokemon inside geofences was not checked because no geofences were set.")
         
-        height = pkmn['height']
-        weight = pkmn['weight']
-        gender = pkmn['gender']
-        if gender != 'unkn':
-            if gender == 1:
-                gender = u'\u2642'
-            elif gender == 2:
-                gender = u'\u2640'
-            elif gender == 3:
-                gender = u'\u26b2'
+        height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
+        if gender != '?':
+            gender = u'\u26b2' if gender is 1 else u'\u2642' if gender is 2 else u'\u2640' #neutral, male, female
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
@@ -275,8 +268,8 @@ class Manager(object):
             'move_2_dps': get_move_dps(move_2_id),
             'move_2_duration': get_move_duration(move_2_id),
             'move_2_energy': get_move_energy(move_2_id),
-            'height': "{:.2f}".format(height) if height != 'unkn' else 'unkn',
-            'weight': "{:.2f}".format(weight) if weight != 'unkn' else 'unkn',
+            'height': "{:.1f}".format(height) if height != '?' else '?',
+            'weight': "{:.1f}".format(weight) if weight != '?' else '?',
             'gender': gender
         })
         # Optional Stuff
