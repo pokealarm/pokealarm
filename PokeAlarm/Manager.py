@@ -245,7 +245,7 @@ class Manager(object):
         
         height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
         if gender != '?':
-            gender = u'\u26b2' if gender is 1 else u'\u2642' if gender is 2 else u'\u2640' #neutral, male, female
+            gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
