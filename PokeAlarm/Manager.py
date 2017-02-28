@@ -231,19 +231,19 @@ class Manager(object):
                 return
 
         # Check for Youngster medal
-    if pkmn_id == 19 and filt['youngster_medal'] is True :
+        if pkmn_id == 19 and filt['youngster_medal'] is True :
             height, weight = pkmn['height'], pkmn['weight']
-        if height/0.30 + weight/3.50 > 1.5 :
-            if config['QUIET'] is False:
-                        log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
+            if height/0.30 + weight/3.50 > 1.5 :
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
             return
 
         # Check for Fisherman medal
-    if pkmn_id == 129 and filt['fisherman_medal'] is True :
+        if pkmn_id == 129 and filt['fisherman_medal'] is True :
             height, weight = pkmn['height'], pkmn['weight']
-        if height/0.90 + weight/10.00 < 2.5 :
-            if config['QUIET'] is False:
-                        log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
+            if height/0.90 + weight/10.00 < 2.5 :
+                if config['QUIET'] is False:
+                   log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
             return
     
         # Check if in geofences
