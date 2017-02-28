@@ -229,22 +229,6 @@ class Manager(object):
             if filt['ignore_missing'] is True:
                 log.info("{} ignored: Moves information was missing".format(name))
                 return
-
-        # Check for Youngster medal
-        if pkmn_id == 19 and filt['youngster_medal'] is True :
-            height, weight = pkmn['height'], pkmn['weight']
-            if height/0.30 + weight/3.50 > 1.5 :
-                if config['QUIET'] is False:
-                    log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
-            return
-
-        # Check for Fisherman medal
-        if pkmn_id == 129 and filt['fisherman_medal'] is True :
-            height, weight = pkmn['height'], pkmn['weight']
-            if height/0.90 + weight/10.00 < 2.5 :
-                if config['QUIET'] is False:
-                   log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
-            return
     
         # Check if in geofences
         if len(self.__geofences) > 0:
@@ -261,6 +245,20 @@ class Manager(object):
         height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
         if gender != '?':
             gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
+
+        # Check for Youngster medal
+        if pkmn_id == 19 and filt['youngster_medal'] is True :
+            if height/0.30 + weight/3.50 > 1.5 :
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
+            return
+
+        # Check for Fisherman medal
+        if pkmn_id == 129 and filt['fisherman_medal'] is True :
+            if height/0.90 + weight/10.00 < 2.5 :
+                if config['QUIET'] is False:
+                   log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
+            return
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
