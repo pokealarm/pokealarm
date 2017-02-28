@@ -521,8 +521,18 @@ class Manager(object):
                         "moveset": self.required_moveset(info.get("moveset", None)),
                         "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
                     }
-                    if pkmn_id == 19 : pokemon[pkmn_id]["youngster_medal"] = bool(parse_boolean(info.get('youngster_medal', youngster_medal)))
-                    if pkmn_id == 129 : pokemon[pkmn_id]["fisherman_medal"] = bool(parse_boolean(info.get('fisherman_medal', fisherman_medal)))
+                    #Information update for the Youngster medal 
+                    if pkmn_id == 19 : 
+                        pokemon[pkmn_id]["youngster_medal"] = bool(parse_boolean(info.get('youngster_medal', youngster_medal)))
+              			if pokemon[pkmn_id]["youngster_medal"] is True :
+                            pokemon[pkmn_id]["min_iv"] = 0      #Remove the min_iv condition for Rattata
+                            pokemon[pkmn_id]["max_iv"] = 100    #Remove the max_iv condition for Rattata
+                    #Information update for the Fisherman medal 
+                    if pkmn_id == 129 : 
+                        pokemon[pkmn_id]["fisherman_medal"] = bool(parse_boolean(info.get('fisherman_medal', fisherman_medal)))
+              			if pokemon[pkmn_id]["fisherman_medal"] is True :
+                            pokemon[pkmn_id]["min_iv"] = 0      #Remove the min_iv condition for Magikarp
+                            pokemon[pkmn_id]["max_iv"] = 100    #Remove the max_iv condition for Magikarp
 
                 except Exception as e:
                     log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
