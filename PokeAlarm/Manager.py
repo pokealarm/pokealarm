@@ -230,6 +230,22 @@ class Manager(object):
                 log.info("{} ignored: Moves information was missing".format(name))
                 return
 
+        # Check for Youngster medal
+    if pkmn_id == 19 and filt['youngster_medal'] is True :
+            height, weight = pkmn['height'], pkmn['weight']
+        if height/0.30 + weight/3.50 > 1.5 :
+            if config['QUIET'] is False:
+                        log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
+            return
+
+        # Check for Fisherman medal
+    if pkmn_id == 129 and filt['fisherman_medal'] is True :
+            height, weight = pkmn['height'], pkmn['weight']
+        if height/0.90 + weight/10.00 < 2.5 :
+            if config['QUIET'] is False:
+                        log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
+            return
+    
         # Check if in geofences
         if len(self.__geofences) > 0:
             inside = False
@@ -479,6 +495,8 @@ class Manager(object):
         min_iv = float(settings.pop('min_iv', None) or 0)
         max_iv = float(settings.pop('max_iv', None) or 100)
         ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', False)))
+        youngster_medal = bool(parse_boolean(settings.pop('youngster_medal', False)))
+        fisherman_medal = bool(parse_boolean(settings.pop('fisherman_medal', False)))
         if pokemon['enabled']:
             log.info("Pokemon defaults: distance {:.2f} to {:.2f} / IV's {:.2f} to {:.2f}".format(
                 min_dist, max_dist, min_iv, max_iv))
@@ -505,6 +523,9 @@ class Manager(object):
                         "moveset": self.required_moveset(info.get("moveset", None)),
                         "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
                     }
+                    if pkmn_id == 19 : pokemon[pkmn_id]["youngster_medal"] = bool(parse_boolean(info.get('youngster_medal', youngster_medal)))
+                    if pkmn_id == 129 : pokemon[pkmn_id]["fisherman_medal"] = bool(parse_boolean(info.get('fisherman_medal', fisherman_medal)))
+
                 except Exception as e:
                     log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
                     log.debug("Stack trace: \n {}".format(traceback.format_exc()))
