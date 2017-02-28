@@ -251,14 +251,14 @@ class Manager(object):
             if height/0.30 + weight/3.50 > 1.5 :
                 if config['QUIET'] is False:
                     log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
-            return
+                return
 
         # Check for Fisherman medal
         if pkmn_id == 129 and filt['fisherman_medal'] is True :
             if height/0.90 + weight/10.00 < 2.5 :
                 if config['QUIET'] is False:
                    log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
-            return
+                return
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
