@@ -221,7 +221,7 @@ class Manager(object):
                 filt["min_iv"]	= 0					        #Shortcut IV check
                 filt["max_iv"]	= 100					    #Shortcut IV check
 
-                # Check the IV's of the Pokemon
+        # Check the IV's of the Pokemon
         iv = pkmn['iv']
         if iv != 'unkn':
             if iv < filt['min_iv'] or filt['max_iv'] < iv:
