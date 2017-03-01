@@ -189,7 +189,39 @@ class Manager(object):
         else:
             log.debug("Pokemon dist was not checked because no location was set.")
 
-        # Check the IV's of the Pokemon
+        height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
+        if gender != '?':
+            gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
+
+        # Check for Youngster medal
+        if pkmn_id == 19 and filt['youngster_medal'] is True :
+            if '?' in [height,weight] :				    #Missing info
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Missing height/weight information".format(name))
+	        return
+            elif height/0.30 + weight/3.50 > 1.5 :		#Condition not fullfilled
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
+	        return
+            else :						                #Condition fullfilled
+                filt["min_iv"]	= 0					        #Shortcut IV check
+                filt["max_iv"]	= 100					    #Shortcut IV check
+
+        # Check for Fisherman medal
+        if pkmn_id == 129 and filt['fisherman_medal'] is True :
+            if '?' in [height,weight] :				    #Missing info
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Missing height/weight information".format(name))
+	        return
+            elif height/0.90 + weight/10.00 < 2.5 :		#Condition not fullfilled
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
+	        return
+            else :						                #Condition fullfilled
+                filt["min_iv"]	= 0					        #Shortcut IV check
+                filt["max_iv"]	= 100					    #Shortcut IV check
+
+                # Check the IV's of the Pokemon
         iv = pkmn['iv']
         if iv != 'unkn':
             if iv < filt['min_iv'] or filt['max_iv'] < iv:
@@ -241,24 +273,6 @@ class Manager(object):
                 return
         else:
             log.debug("Pokemon inside geofences was not checked because no geofences were set.")
-        
-        height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
-        if gender != '?':
-            gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
-
-        # Check for Youngster medal
-        if pkmn_id == 19 and filt['youngster_medal'] is True :
-            if height/0.30 + weight/3.50 > 1.5 :
-                if config['QUIET'] is False:
-                    log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
-                return
-
-        # Check for Fisherman medal
-        if pkmn_id == 129 and filt['fisherman_medal'] is True :
-            if height/0.90 + weight/10.00 < 2.5 :
-                if config['QUIET'] is False:
-                   log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
-                return
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
@@ -524,15 +538,9 @@ class Manager(object):
                     #Information update for the Youngster medal 
                     if pkmn_id == 19 : 
                         pokemon[pkmn_id]["youngster_medal"] = bool(parse_boolean(info.get('youngster_medal', youngster_medal)))
-              			if pokemon[pkmn_id]["youngster_medal"] is True :
-                            pokemon[pkmn_id]["min_iv"] = 0      #Remove the min_iv condition for Rattata
-                            pokemon[pkmn_id]["max_iv"] = 100    #Remove the max_iv condition for Rattata
                     #Information update for the Fisherman medal 
                     if pkmn_id == 129 : 
                         pokemon[pkmn_id]["fisherman_medal"] = bool(parse_boolean(info.get('fisherman_medal', fisherman_medal)))
-              			if pokemon[pkmn_id]["fisherman_medal"] is True :
-                            pokemon[pkmn_id]["min_iv"] = 0      #Remove the min_iv condition for Magikarp
-                            pokemon[pkmn_id]["max_iv"] = 100    #Remove the max_iv condition for Magikarp
 
                 except Exception as e:
                     log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
