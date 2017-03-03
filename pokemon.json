@@ -1,1879 +1,571 @@
 {
-    "Fletchinder": {
-        "base_weight": 16.0, 
+    "Bulbasaur": {
+        "base_weight": 6.9, 
         "base_height": 0.71
     }, 
-    "Seedot": {
-        "base_weight": 4.0, 
-        "base_height": 0.51
-    }, 
-    "Buneary": {
-        "base_weight": 5.5, 
-        "base_height": 0.41
-    }, 
-    "Archeops": {
-        "base_weight": 32.0, 
-        "base_height": 1.4
-    }, 
-    "Mandibuzz": {
-        "base_weight": 39.5, 
-        "base_height": 1.19
-    }, 
-    "Swellow": {
-        "base_weight": 19.8, 
-        "base_height": 0.71
-    }, 
-    "Eevee": {
-        "base_weight": 6.5, 
-        "base_height": 0.3
-    }, 
-    "Torracat": {
-        "base_weight": 25.0, 
-        "base_height": 0.71
-    }, 
-    "Poliwrath": {
-        "base_weight": 54.0, 
-        "base_height": 1.3
-    }, 
-    "Emolga": {
-        "base_weight": 5.0, 
-        "base_height": 0.41
-    }, 
-    "Butterfree": {
-        "base_weight": 32.0, 
-        "base_height": 1.09
-    }, 
-    "Gliscor": {
-        "base_weight": 42.5, 
-        "base_height": 2.01
-    }, 
-    "Wobbuffet": {
-        "base_weight": 28.5, 
-        "base_height": 1.3
-    }, 
-    "Cresselia": {
-        "base_weight": 85.6, 
-        "base_height": 1.5
-    }, 
-    "Druddigon": {
-        "base_weight": 139.0, 
-        "base_height": 1.6
-    }, 
-    "Tangela": {
-        "base_weight": 35.0, 
-        "base_height": 0.99
-    }, 
-    "Roggenrola": {
-        "base_weight": 18.0, 
-        "base_height": 0.41
-    }, 
-    "Oricorio": {
-        "base_weight": 3.4, 
-        "base_height": 0.61
-    }, 
-    "Frogadier": {
-        "base_weight": 10.9, 
-        "base_height": 0.61
-    }, 
-    "Absol": {
-        "base_weight": 47.0, 
-        "base_height": 1.19
-    }, 
-    "Rowlet": {
-        "base_weight": 1.5, 
-        "base_height": 0.3
-    }, 
-    "Azurill": {
-        "base_weight": 2.0, 
-        "base_height": 0.2
-    }, 
-    "Arceus": {
-        "base_weight": 320.0, 
-        "base_height": 3.2
-    }, 
-    "Magnemite": {
-        "base_weight": 6.0, 
-        "base_height": 0.3
-    }, 
-    "Sceptile": {
-        "base_weight": 52.2, 
-        "base_height": 1.7
-    }, 
-    "Linoone": {
-        "base_weight": 32.5, 
-        "base_height": 0.51
-    }, 
-    "Lillipup": {
-        "base_weight": 4.1, 
-        "base_height": 0.41
-    }, 
-    "Cleffa": {
-        "base_weight": 3.0, 
-        "base_height": 0.3
-    }, 
-    "Lapras": {
-        "base_weight": 220.0, 
-        "base_height": 2.49
-    }, 
-    "Bronzor": {
-        "base_weight": 60.5, 
-        "base_height": 0.51
-    }, 
-    "Krookodile": {
-        "base_weight": 96.3, 
-        "base_height": 1.5
-    }, 
-    "Mankey": {
-        "base_weight": 28.0, 
-        "base_height": 0.51
-    }, 
-    "Mawile": {
-        "base_weight": 11.5, 
-        "base_height": 0.61
-    }, 
-    "Gothorita": {
-        "base_weight": 18.0, 
-        "base_height": 0.71
-    }, 
-    "Palkia": {
-        "base_weight": 336.0, 
-        "base_height": 4.19
-    }, 
-    "Raticate": {
-        "base_weight": 18.5, 
-        "base_height": 0.71
-    }, 
-    "Snubbull": {
-        "base_weight": 7.8, 
-        "base_height": 0.61
-    }, 
-    "Sharpedo": {
-        "base_weight": 88.8, 
-        "base_height": 1.8
-    }, 
-    "Houndour": {
-        "base_weight": 10.8, 
-        "base_height": 0.61
-    }, 
-    "Stoutland": {
-        "base_weight": 61.0, 
-        "base_height": 1.19
-    }, 
-    "Vikavolt": {
-        "base_weight": 45.0, 
-        "base_height": 1.5
-    }, 
-    "Lurantis": {
-        "base_weight": 18.5, 
-        "base_height": 0.89
-    }, 
-    "Aggron": {
-        "base_weight": 360.0, 
-        "base_height": 2.11
-    }, 
-    "Slowbro": {
-        "base_weight": 78.5, 
-        "base_height": 1.6
-    }, 
-    "Slakoth": {
-        "base_weight": 24.0, 
-        "base_height": 0.79
-    }, 
-    "Celebi": {
-        "base_weight": 5.0, 
-        "base_height": 0.61
-    }, 
-    "Ampharos": {
-        "base_weight": 61.5, 
-        "base_height": 1.4
-    }, 
-    "Omastar": {
-        "base_weight": 35.0, 
-        "base_height": 0.99
-    }, 
-    "Skrelp": {
-        "base_weight": 7.3, 
-        "base_height": 0.51
-    }, 
-    "Binacle": {
-        "base_weight": 31.0, 
-        "base_height": 0.51
-    }, 
-    "Zorua": {
-        "base_weight": 12.5, 
-        "base_height": 0.71
-    }, 
-    "Ledian": {
-        "base_weight": 35.6, 
-        "base_height": 1.4
-    }, 
-    "Walrein": {
-        "base_weight": 150.6, 
-        "base_height": 1.4
-    }, 
-    "Basculin": {
-        "base_weight": 18.0, 
-        "base_height": 0.99
-    }, 
-    "Eelektrik": {
-        "base_weight": 22.0, 
-        "base_height": 1.19
-    }, 
-    "Durant": {
-        "base_weight": 33.0, 
-        "base_height": 0.3
-    }, 
-    "Tapu Bulu": {
-        "base_weight": 45.5, 
-        "base_height": 1.91
-    }, 
-    "Swirlix": {
-        "base_weight": 3.5, 
-        "base_height": 0.41
-    }, 
-    "Araquanid": {
-        "base_weight": 82.0, 
-        "base_height": 1.8
-    }, 
-    "Huntail": {
-        "base_weight": 27.0, 
-        "base_height": 1.7
-    }, 
-    "Cosmog": {
-        "base_weight": 0.1, 
-        "base_height": 0.2
-    }, 
-    "Ambipom": {
-        "base_weight": 20.3, 
-        "base_height": 1.19
-    }, 
-    "Piloswine": {
-        "base_weight": 55.8, 
-        "base_height": 1.09
-    }, 
-    "Rufflet": {
-        "base_weight": 10.5, 
-        "base_height": 0.51
-    }, 
-    "Gabite": {
-        "base_weight": 56.0, 
-        "base_height": 1.4
-    }, 
-    "Pansear": {
-        "base_weight": 11.0, 
-        "base_height": 0.61
-    }, 
-    "Doduo": {
-        "base_weight": 39.2, 
-        "base_height": 1.4
-    }, 
-    "Rotom": {
-        "base_weight": 0.3, 
-        "base_height": 0.3
-    }, 
-    "Pansage": {
-        "base_weight": 10.5, 
-        "base_height": 0.61
-    }, 
-    "Crawdaunt": {
-        "base_weight": 32.8, 
-        "base_height": 1.09
-    }, 
-    "Crobat": {
-        "base_weight": 75.0, 
-        "base_height": 1.8
-    }, 
-    "Hakamo-o": {
-        "base_weight": 47.0, 
-        "base_height": 1.14
-    }, 
-    "Swanna": {
-        "base_weight": 24.2, 
-        "base_height": 1.3
-    }, 
-    "Ducklett": {
-        "base_weight": 5.5, 
-        "base_height": 0.51
-    }, 
-    "Celesteela": {
-        "base_weight": 999.9, 
-        "base_height": 9.19
-    }, 
-    "Kommo-o": {
-        "base_weight": 78.2, 
-        "base_height": 1.6
-    }, 
-    "Skuntank": {
-        "base_weight": 38.0, 
-        "base_height": 0.99
-    }, 
-    "Bibarel": {
-        "base_weight": 31.5, 
-        "base_height": 0.99
-    }, 
-    "Meowstic": {
-        "base_weight": 8.5, 
-        "base_height": 0.61
-    }, 
-    "Gothitelle": {
-        "base_weight": 44.0, 
-        "base_height": 1.5
-    }, 
-    "Squirtle": {
-        "base_weight": 9.0, 
-        "base_height": 0.51
-    }, 
-    "Exploud": {
-        "base_weight": 84.0, 
-        "base_height": 1.5
-    }, 
-    "Wimpod": {
-        "base_weight": 12.0, 
-        "base_height": 0.51
-    }, 
-    "Skiploom": {
-        "base_weight": 1.0, 
-        "base_height": 0.61
-    }, 
-    "Unfezant": {
-        "base_weight": 29.0, 
-        "base_height": 1.19
-    }, 
-    "Deino": {
-        "base_weight": 17.3, 
-        "base_height": 0.79
-    }, 
-    "Archen": {
-        "base_weight": 9.5, 
-        "base_height": 0.51
-    }, 
-    "Mime Jr.": {
+    "Ivysaur": {
         "base_weight": 13.0, 
-        "base_height": 0.61
-    }, 
-    "Klang": {
-        "base_weight": 51.0, 
-        "base_height": 0.61
-    }, 
-    "Remoraid": {
-        "base_weight": 12.0, 
-        "base_height": 0.61
-    }, 
-    "Seismitoad": {
-        "base_weight": 62.0, 
-        "base_height": 1.5
-    }, 
-    "Swinub": {
-        "base_weight": 6.5, 
-        "base_height": 0.41
-    }, 
-    "Misdreavus": {
-        "base_weight": 1.0, 
-        "base_height": 0.71
-    }, 
-    "Totodile": {
-        "base_weight": 9.5, 
-        "base_height": 0.61
-    }, 
-    "Maractus": {
-        "base_weight": 28.0, 
         "base_height": 0.99
-    }, 
-    "Stufful": {
-        "base_weight": 6.8, 
-        "base_height": 0.51
-    }, 
-    "Zebstrika": {
-        "base_weight": 79.5, 
-        "base_height": 1.6
-    }, 
-    "Empoleon": {
-        "base_weight": 84.5, 
-        "base_height": 1.7
-    }, 
-    "Wooper": {
-        "base_weight": 8.5, 
-        "base_height": 0.41
-    }, 
-    "Makuhita": {
-        "base_weight": 86.4, 
-        "base_height": 0.99
-    }, 
-    "Alakazam": {
-        "base_weight": 48.0, 
-        "base_height": 1.5
-    }, 
-    "Dragalge": {
-        "base_weight": 81.5, 
-        "base_height": 1.8
-    }, 
-    "Cherrim": {
-        "base_weight": 9.3, 
-        "base_height": 0.51
-    }, 
-    "Seel": {
-        "base_weight": 90.0, 
-        "base_height": 1.09
-    }, 
-    "Salandit": {
-        "base_weight": 4.8, 
-        "base_height": 0.61
-    }, 
-    "Klink": {
-        "base_weight": 21.0, 
-        "base_height": 0.3
-    }, 
-    "Carbink": {
-        "base_weight": 5.7, 
-        "base_height": 0.3
-    }, 
-    "Darmanitan": {
-        "base_weight": 92.9, 
-        "base_height": 1.3
-    }, 
-    "Turtonator": {
-        "base_weight": 212.0, 
-        "base_height": 2.01
-    }, 
-    "Popplio": {
-        "base_weight": 7.5, 
-        "base_height": 0.41
-    }, 
-    "Vanillish": {
-        "base_weight": 41.0, 
-        "base_height": 1.09
-    }, 
-    "Reuniclus": {
-        "base_weight": 20.1, 
-        "base_height": 0.99
-    }, 
-    "Lickitung": {
-        "base_weight": 65.5, 
-        "base_height": 1.19
-    }, 
-    "Tapu Koko": {
-        "base_weight": 20.5, 
-        "base_height": 1.8
-    }, 
-    "Magearna": {
-        "base_weight": 80.5, 
-        "base_height": 0.99
-    }, 
-    "Snorunt": {
-        "base_weight": 16.8, 
-        "base_height": 0.71
-    }, 
-    "Aipom": {
-        "base_weight": 11.5, 
-        "base_height": 0.79
-    }, 
-    "Breloom": {
-        "base_weight": 39.2, 
-        "base_height": 1.19
-    }, 
-    "Drowzee": {
-        "base_weight": 32.4, 
-        "base_height": 0.99
-    }, 
-    "Goldeen": {
-        "base_weight": 15.0, 
-        "base_height": 0.61
-    }, 
-    "Pidgey": {
-        "base_weight": 1.8, 
-        "base_height": 0.3
-    }, 
-    "Yanma": {
-        "base_weight": 38.0, 
-        "base_height": 1.19
-    }, 
-    "Meowth": {
-        "base_weight": 4.2, 
-        "base_height": 0.41
-    }, 
-    "Fennekin": {
-        "base_weight": 9.4, 
-        "base_height": 0.41
-    }, 
-    "Kirlia": {
-        "base_weight": 20.2, 
-        "base_height": 0.79
-    }, 
-    "Torkoal": {
-        "base_weight": 80.4, 
-        "base_height": 0.51
-    }, 
-    "Espurr": {
-        "base_weight": 3.5, 
-        "base_height": 0.3
-    }, 
-    "Whismur": {
-        "base_weight": 16.3, 
-        "base_height": 0.61
-    }, 
-    "Victreebel": {
-        "base_weight": 15.5, 
-        "base_height": 1.7
-    }, 
-    "Skiddo": {
-        "base_weight": 31.0, 
-        "base_height": 0.89
-    }, 
-    "Genesect": {
-        "base_weight": 82.5, 
-        "base_height": 1.5
-    }, 
-    "Nidorino": {
-        "base_weight": 19.5, 
-        "base_height": 0.89
-    }, 
-    "Nidorina": {
-        "base_weight": 20.0, 
-        "base_height": 0.79
-    }, 
-    "Regigigas": {
-        "base_weight": 420.0, 
-        "base_height": 3.71
-    }, 
-    "Tentacruel": {
-        "base_weight": 55.0, 
-        "base_height": 1.6
-    }, 
-    "Lickilicky": {
-        "base_weight": 140.0, 
-        "base_height": 1.7
-    }, 
-    "Weepinbell": {
-        "base_weight": 6.4, 
-        "base_height": 0.99
-    }, 
-    "Slurpuff": {
-        "base_weight": 5.0, 
-        "base_height": 0.79
-    }, 
-    "Tapu Fini": {
-        "base_weight": 21.2, 
-        "base_height": 1.3
-    }, 
-    "Nihilego": {
-        "base_weight": 55.5, 
-        "base_height": 1.19
-    }, 
-    "Necrozma": {
-        "base_weight": 230.0, 
-        "base_height": 2.39
-    }, 
-    "Dodrio": {
-        "base_weight": 85.2, 
-        "base_height": 1.8
-    }, 
-    "Dartrix": {
-        "base_weight": 16.0, 
-        "base_height": 0.71
-    }, 
-    "Goodra": {
-        "base_weight": 150.5, 
-        "base_height": 2.01
-    }, 
-    "Alomomola": {
-        "base_weight": 31.6, 
-        "base_height": 1.19
-    }, 
-    "Vespiquen": {
-        "base_weight": 38.5, 
-        "base_height": 1.19
-    }, 
-    "Trapinch": {
-        "base_weight": 15.0, 
-        "base_height": 0.71
-    }, 
-    "Cobalion": {
-        "base_weight": 250.0, 
-        "base_height": 2.11
-    }, 
-    "Floatzel": {
-        "base_weight": 33.5, 
-        "base_height": 1.09
-    }, 
-    "Electrode": {
-        "base_weight": 66.6, 
-        "base_height": 1.19
-    }, 
-    "Gourgeist": {
-        "base_weight": 39.0, 
-        "base_height": 1.7
-    }, 
-    "Togepi": {
-        "base_weight": 1.5, 
-        "base_height": 0.3
-    }, 
-    "Larvesta": {
-        "base_weight": 28.8, 
-        "base_height": 1.09
-    }, 
-    "Solrock": {
-        "base_weight": 154.0, 
-        "base_height": 1.19
-    }, 
-    "Aegislash": {
-        "base_weight": 53.0, 
-        "base_height": 1.7
-    }, 
-    "Woobat": {
-        "base_weight": 2.1, 
-        "base_height": 0.41
-    }, 
-    "Leavanny": {
-        "base_weight": 20.5, 
-        "base_height": 1.19
-    }, 
-    "Trevenant": {
-        "base_weight": 71.0, 
-        "base_height": 1.5
-    }, 
-    "Sealeo": {
-        "base_weight": 87.6, 
-        "base_height": 1.09
-    }, 
-    "Bergmite": {
-        "base_weight": 99.5, 
-        "base_height": 0.99
-    }, 
-    "Clamperl": {
-        "base_weight": 52.5, 
-        "base_height": 0.41
-    }, 
-    "Octillery": {
-        "base_weight": 28.5, 
-        "base_height": 0.89
-    }, 
-    "Electabuzz": {
-        "base_weight": 30.0, 
-        "base_height": 1.09
-    }, 
-    "Venonat": {
-        "base_weight": 30.0, 
-        "base_height": 0.99
-    }, 
-    "Treecko": {
-        "base_weight": 5.0, 
-        "base_height": 0.51
-    }, 
-    "Pumpkaboo": {
-        "base_weight": 5.0, 
-        "base_height": 0.41
-    }, 
-    "Pikachu": {
-        "base_weight": 6.0, 
-        "base_height": 0.41
-    }, 
-    "Zoroark": {
-        "base_weight": 81.1, 
-        "base_height": 1.6
-    }, 
-    "Jynx": {
-        "base_weight": 40.6, 
-        "base_height": 1.4
-    }, 
-    "Galvantula": {
-        "base_weight": 14.3, 
-        "base_height": 0.79
-    }, 
-    "Manaphy": {
-        "base_weight": 1.4, 
-        "base_height": 0.3
-    }, 
-    "Hitmonchan": {
-        "base_weight": 50.2, 
-        "base_height": 1.4
-    }, 
-    "Numel": {
-        "base_weight": 24.0, 
-        "base_height": 0.71
-    }, 
-    "Bunnelby": {
-        "base_weight": 5.0, 
-        "base_height": 0.41
-    }, 
-    "Clefable": {
-        "base_weight": 40.0, 
-        "base_height": 1.3
-    }, 
-    "Cherubi": {
-        "base_weight": 3.3, 
-        "base_height": 0.41
-    }, 
-    "Fletchling": {
-        "base_weight": 1.7, 
-        "base_height": 0.3
-    }, 
-    "Qwilfish": {
-        "base_weight": 3.9, 
-        "base_height": 0.51
-    }, 
-    "Jangmo-o": {
-        "base_weight": 29.7, 
-        "base_height": 0.61
-    }, 
-    "Latias": {
-        "base_weight": 40.0, 
-        "base_height": 1.4
-    }, 
-    "Claydol": {
-        "base_weight": 108.0, 
-        "base_height": 1.5
-    }, 
-    "Sudowoodo": {
-        "base_weight": 38.0, 
-        "base_height": 1.19
-    }, 
-    "Starmie": {
-        "base_weight": 80.0, 
-        "base_height": 1.09
-    }, 
-    "Chinchou": {
-        "base_weight": 12.0, 
-        "base_height": 0.51
-    }, 
-    "Steelix": {
-        "base_weight": 400.0, 
-        "base_height": 9.19
-    }, 
-    "Lunala": {
-        "base_weight": 120.0, 
-        "base_height": 3.99
-    }, 
-    "Phanpy": {
-        "base_weight": 33.5, 
-        "base_height": 0.51
-    }, 
-    "Ninetales": {
-        "base_weight": 19.9, 
-        "base_height": 1.09
-    }, 
-    "Gulpin": {
-        "base_weight": 10.3, 
-        "base_height": 0.41
-    }, 
-    "Azumarill": {
-        "base_weight": 28.5, 
-        "base_height": 0.79
-    }, 
-    "Glalie": {
-        "base_weight": 256.5, 
-        "base_height": 1.5
-    }, 
-    "Camerupt": {
-        "base_weight": 220.0, 
-        "base_height": 1.91
-    }, 
-    "Jirachi": {
-        "base_weight": 1.1, 
-        "base_height": 0.3
-    }, 
-    "Mareanie": {
-        "base_weight": 8.0, 
-        "base_height": 0.41
-    }, 
-    "Joltik": {
-        "base_weight": 0.6, 
-        "base_height": 0.1
-    }, 
-    "Hydreigon": {
-        "base_weight": 160.0, 
-        "base_height": 1.8
-    }, 
-    "Wingull": {
-        "base_weight": 9.5, 
-        "base_height": 0.61
-    }, 
-    "Golisopod": {
-        "base_weight": 108.0, 
-        "base_height": 2.01
-    }, 
-    "Carracosta": {
-        "base_weight": 81.0, 
-        "base_height": 1.19
-    }, 
-    "Gallade": {
-        "base_weight": 52.0, 
-        "base_height": 1.6
-    }, 
-    "Staryu": {
-        "base_weight": 34.5, 
-        "base_height": 0.79
-    }, 
-    "Heliolisk": {
-        "base_weight": 21.0, 
-        "base_height": 0.99
-    }, 
-    "Weezing": {
-        "base_weight": 9.5, 
-        "base_height": 1.19
-    }, 
-    "Swoobat": {
-        "base_weight": 10.5, 
-        "base_height": 0.89
-    }, 
-    "Mareep": {
-        "base_weight": 7.8, 
-        "base_height": 0.61
-    }, 
-    "Salazzle": {
-        "base_weight": 22.2, 
-        "base_height": 1.19
-    }, 
-    "Spiritomb": {
-        "base_weight": 108.0, 
-        "base_height": 0.99
-    }, 
-    "Reshiram": {
-        "base_weight": 330.0, 
-        "base_height": 3.2
-    }, 
-    "Paras": {
-        "base_weight": 5.4, 
-        "base_height": 0.3
-    }, 
-    "Liepard": {
-        "base_weight": 37.5, 
-        "base_height": 1.09
-    }, 
-    "Pidove": {
-        "base_weight": 2.1, 
-        "base_height": 0.3
-    }, 
-    "Sandslash": {
-        "base_weight": 29.5, 
-        "base_height": 0.99
-    }, 
-    "Kangaskhan": {
-        "base_weight": 80.0, 
-        "base_height": 2.21
-    }, 
-    "Magmortar": {
-        "base_weight": 68.0, 
-        "base_height": 1.6
-    }, 
-    "Aron": {
-        "base_weight": 60.0, 
-        "base_height": 0.41
-    }, 
-    "Machamp": {
-        "base_weight": 130.0, 
-        "base_height": 1.6
-    }, 
-    "Tympole": {
-        "base_weight": 4.5, 
-        "base_height": 0.51
-    }, 
-    "Grotle": {
-        "base_weight": 97.0, 
-        "base_height": 1.09
-    }, 
-    "Omanyte": {
-        "base_weight": 7.5, 
-        "base_height": 0.41
-    }, 
-    "Slowpoke": {
-        "base_weight": 36.0, 
-        "base_height": 1.19
-    }, 
-    "Abomasnow": {
-        "base_weight": 135.5, 
-        "base_height": 2.21
-    }, 
-    "Gligar": {
-        "base_weight": 64.8, 
-        "base_height": 1.09
-    }, 
-    "Exeggutor": {
-        "base_weight": 120.0, 
-        "base_height": 2.01
-    }, 
-    "Barboach": {
-        "base_weight": 1.9, 
-        "base_height": 0.41
-    }, 
-    "Parasect": {
-        "base_weight": 29.5, 
-        "base_height": 0.99
-    }, 
-    "Grovyle": {
-        "base_weight": 21.6, 
-        "base_height": 0.89
-    }, 
-    "Minun": {
-        "base_weight": 4.2, 
-        "base_height": 0.41
-    }, 
-    "Budew": {
-        "base_weight": 1.2, 
-        "base_height": 0.2
-    }, 
-    "Ditto": {
-        "base_weight": 4.0, 
-        "base_height": 0.3
-    }, 
-    "Grubbin": {
-        "base_weight": 4.4, 
-        "base_height": 0.41
-    }, 
-    "Eelektross": {
-        "base_weight": 80.5, 
-        "base_height": 2.11
-    }, 
-    "Sandygast": {
-        "base_weight": 70.0, 
-        "base_height": 0.51
-    }, 
-    "Mudkip": {
-        "base_weight": 7.6, 
-        "base_height": 0.41
-    }, 
-    "Mantyke": {
-        "base_weight": 65.0, 
-        "base_height": 0.99
-    }, 
-    "Diancie": {
-        "base_weight": 8.8, 
-        "base_height": 0.71
-    }, 
-    "Mesprit": {
-        "base_weight": 0.3, 
-        "base_height": 0.3
-    }, 
-    "Bisharp": {
-        "base_weight": 70.0, 
-        "base_height": 1.6
-    }, 
-    "Zangoose": {
-        "base_weight": 40.3, 
-        "base_height": 1.3
-    }, 
-    "Kyurem": {
-        "base_weight": 325.0, 
-        "base_height": 3.0
-    }, 
-    "Sigilyph": {
-        "base_weight": 14.0, 
-        "base_height": 1.4
-    }, 
-    "Psyduck": {
-        "base_weight": 19.6, 
-        "base_height": 0.79
-    }, 
-    "Florges": {
-        "base_weight": 10.0, 
-        "base_height": 1.09
-    }, 
-    "Nidoqueen": {
-        "base_weight": 60.0, 
-        "base_height": 1.3
-    }, 
-    "Altaria": {
-        "base_weight": 20.6, 
-        "base_height": 1.09
-    }, 
-    "Jellicent": {
-        "base_weight": 135.0, 
-        "base_height": 2.21
-    }, 
-    "Chandelure": {
-        "base_weight": 34.3, 
-        "base_height": 0.99
-    }, 
-    "Deoxys": {
-        "base_weight": 60.8, 
-        "base_height": 1.7
-    }, 
-    "Meloetta": {
-        "base_weight": 6.5, 
-        "base_height": 0.61
-    }, 
-    "Togekiss": {
-        "base_weight": 38.0, 
-        "base_height": 1.5
-    }, 
-    "Luxio": {
-        "base_weight": 30.5, 
-        "base_height": 0.89
-    }, 
-    "Oranguru": {
-        "base_weight": 76.0, 
-        "base_height": 1.5
     }, 
     "Venusaur": {
         "base_weight": 100.0, 
         "base_height": 2.01
     }, 
-    "Tepig": {
-        "base_weight": 9.9, 
-        "base_height": 0.51
-    }, 
-    "Blastoise": {
-        "base_weight": 85.5, 
-        "base_height": 1.6
-    }, 
-    "Latios": {
-        "base_weight": 60.0, 
-        "base_height": 2.01
-    }, 
-    "Cubchoo": {
+    "Charmander": {
         "base_weight": 8.5, 
+        "base_height": 0.61
+    }, 
+    "Charmeleon": {
+        "base_weight": 19.0, 
+        "base_height": 1.09
+    }, 
+    "Charizard": {
+        "base_weight": 90.5, 
+        "base_height": 1.7
+    }, 
+    "Squirtle": {
+        "base_weight": 9.0, 
         "base_height": 0.51
-    }, 
-    "Pachirisu": {
-        "base_weight": 3.9, 
-        "base_height": 0.41
-    }, 
-    "Fearow": {
-        "base_weight": 38.0, 
-        "base_height": 1.19
-    }, 
-    "Marill": {
-        "base_weight": 8.5, 
-        "base_height": 0.41
-    }, 
-    "Piplup": {
-        "base_weight": 5.2, 
-        "base_height": 0.41
-    }, 
-    "Bulbasaur": {
-        "base_weight": 6.9, 
-        "base_height": 0.71
-    }, 
-    "Jigglypuff": {
-        "base_weight": 5.5, 
-        "base_height": 0.51
-    }, 
-    "Cascoon": {
-        "base_weight": 11.5, 
-        "base_height": 0.71
-    }, 
-    "Abra": {
-        "base_weight": 19.5, 
-        "base_height": 0.89
-    }, 
-    "Ralts": {
-        "base_weight": 6.6, 
-        "base_height": 0.41
-    }, 
-    "Muk": {
-        "base_weight": 30.0, 
-        "base_height": 1.19
-    }, 
-    "Boldore": {
-        "base_weight": 102.0, 
-        "base_height": 0.89
-    }, 
-    "Marshtomp": {
-        "base_weight": 28.0, 
-        "base_height": 0.71
-    }, 
-    "Throh": {
-        "base_weight": 55.5, 
-        "base_height": 1.3
     }, 
     "Wartortle": {
         "base_weight": 22.5, 
         "base_height": 0.99
     }, 
-    "Wigglytuff": {
-        "base_weight": 12.0, 
-        "base_height": 0.99
+    "Blastoise": {
+        "base_weight": 85.5, 
+        "base_height": 1.6
     }, 
-    "Pignite": {
-        "base_weight": 55.5, 
-        "base_height": 0.99
+    "Caterpie": {
+        "base_weight": 2.9, 
+        "base_height": 0.3
     }, 
-    "Deerling": {
-        "base_weight": 19.5, 
+    "Metapod": {
+        "base_weight": 9.9, 
+        "base_height": 0.71
+    }, 
+    "Butterfree": {
+        "base_weight": 32.0, 
+        "base_height": 1.09
+    }, 
+    "Weedle": {
+        "base_weight": 3.2, 
+        "base_height": 0.3
+    }, 
+    "Kakuna": {
+        "base_weight": 10.0, 
         "base_height": 0.61
     }, 
-    "Magikarp": {
-        "base_weight": 10.0, 
-        "base_height": 0.89
+    "Beedrill": {
+        "base_weight": 29.5, 
+        "base_height": 0.99
     }, 
-    "Pawniard": {
-        "base_weight": 10.2, 
-        "base_height": 0.51
-    }, 
-    "Dusknoir": {
-        "base_weight": 106.6, 
-        "base_height": 2.21
-    }, 
-    "Baltoy": {
-        "base_weight": 21.5, 
-        "base_height": 0.51
+    "Pidgey": {
+        "base_weight": 1.8, 
+        "base_height": 0.3
     }, 
     "Pidgeotto": {
         "base_weight": 30.0, 
         "base_height": 1.09
     }, 
+    "Pidgeot": {
+        "base_weight": 39.5, 
+        "base_height": 1.5
+    }, 
     "Rattata": {
         "base_weight": 3.5, 
         "base_height": 0.3
     }, 
-    "Girafarig": {
-        "base_weight": 41.5, 
-        "base_height": 1.5
+    "Raticate": {
+        "base_weight": 18.5, 
+        "base_height": 0.71
     }, 
-    "Granbull": {
-        "base_weight": 48.7, 
-        "base_height": 1.4
+    "Spearow": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
     }, 
-    "Kabutops": {
-        "base_weight": 40.5, 
+    "Fearow": {
+        "base_weight": 38.0, 
+        "base_height": 1.19
+    }, 
+    "Ekans": {
+        "base_weight": 6.9, 
+        "base_height": 2.01
+    }, 
+    "Arbok": {
+        "base_weight": 65.0, 
+        "base_height": 3.51
+    }, 
+    "Pikachu": {
+        "base_weight": 6.0, 
+        "base_height": 0.41
+    }, 
+    "Raichu": {
+        "base_weight": 30.0, 
+        "base_height": 0.79
+    }, 
+    "Sandshrew": {
+        "base_weight": 12.0, 
+        "base_height": 0.61
+    }, 
+    "Sandslash": {
+        "base_weight": 29.5, 
+        "base_height": 0.99
+    }, 
+    "Nidoran\u2640": {
+        "base_weight": 7.0, 
+        "base_height": 0.41
+    }, 
+    "Nidorina": {
+        "base_weight": 20.0, 
+        "base_height": 0.79
+    }, 
+    "Nidoqueen": {
+        "base_weight": 60.0, 
         "base_height": 1.3
     }, 
-    "Venipede": {
-        "base_weight": 5.3, 
-        "base_height": 0.41
+    "Nidoran\u2642": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "Nidorino": {
+        "base_weight": 19.5, 
+        "base_height": 0.89
+    }, 
+    "Nidoking": {
+        "base_weight": 62.0, 
+        "base_height": 1.4
+    }, 
+    "Clefairy": {
+        "base_weight": 7.5, 
+        "base_height": 0.61
+    }, 
+    "Clefable": {
+        "base_weight": 40.0, 
+        "base_height": 1.3
     }, 
     "Vulpix": {
         "base_weight": 9.9, 
         "base_height": 0.61
     }, 
-    "Sylveon": {
-        "base_weight": 23.5, 
+    "Ninetales": {
+        "base_weight": 19.9, 
+        "base_height": 1.09
+    }, 
+    "Jigglypuff": {
+        "base_weight": 5.5, 
+        "base_height": 0.51
+    }, 
+    "Wigglytuff": {
+        "base_weight": 12.0, 
         "base_height": 0.99
     }, 
-    "Haunter": {
-        "base_weight": 0.1, 
+    "Zubat": {
+        "base_weight": 7.5, 
+        "base_height": 0.79
+    }, 
+    "Golbat": {
+        "base_weight": 55.0, 
+        "base_height": 1.6
+    }, 
+    "Oddish": {
+        "base_weight": 5.4, 
+        "base_height": 0.51
+    }, 
+    "Gloom": {
+        "base_weight": 8.6, 
+        "base_height": 0.79
+    }, 
+    "Vileplume": {
+        "base_weight": 18.6, 
+        "base_height": 1.19
+    }, 
+    "Paras": {
+        "base_weight": 5.4, 
+        "base_height": 0.3
+    }, 
+    "Parasect": {
+        "base_weight": 29.5, 
+        "base_height": 0.99
+    }, 
+    "Venonat": {
+        "base_weight": 30.0, 
+        "base_height": 0.99
+    }, 
+    "Venomoth": {
+        "base_weight": 12.5, 
+        "base_height": 1.5
+    }, 
+    "Diglett": {
+        "base_weight": 0.8, 
+        "base_height": 0.2
+    }, 
+    "Dugtrio": {
+        "base_weight": 33.3, 
+        "base_height": 0.71
+    }, 
+    "Meowth": {
+        "base_weight": 4.2, 
+        "base_height": 0.41
+    }, 
+    "Persian": {
+        "base_weight": 32.0, 
+        "base_height": 0.99
+    }, 
+    "Psyduck": {
+        "base_weight": 19.6, 
+        "base_height": 0.79
+    }, 
+    "Golduck": {
+        "base_weight": 76.6, 
+        "base_height": 1.7
+    }, 
+    "Mankey": {
+        "base_weight": 28.0, 
+        "base_height": 0.51
+    }, 
+    "Primeape": {
+        "base_weight": 32.0, 
+        "base_height": 0.99
+    }, 
+    "Growlithe": {
+        "base_weight": 19.0, 
+        "base_height": 0.71
+    }, 
+    "Arcanine": {
+        "base_weight": 155.0, 
+        "base_height": 1.91
+    }, 
+    "Poliwag": {
+        "base_weight": 12.4, 
+        "base_height": 0.61
+    }, 
+    "Poliwhirl": {
+        "base_weight": 20.0, 
+        "base_height": 0.99
+    }, 
+    "Poliwrath": {
+        "base_weight": 54.0, 
+        "base_height": 1.3
+    }, 
+    "Abra": {
+        "base_weight": 19.5, 
+        "base_height": 0.89
+    }, 
+    "Kadabra": {
+        "base_weight": 56.5, 
+        "base_height": 1.3
+    }, 
+    "Alakazam": {
+        "base_weight": 48.0, 
+        "base_height": 1.5
+    }, 
+    "Machop": {
+        "base_weight": 19.5, 
+        "base_height": 0.79
+    }, 
+    "Machoke": {
+        "base_weight": 70.5, 
+        "base_height": 1.5
+    }, 
+    "Machamp": {
+        "base_weight": 130.0, 
         "base_height": 1.6
     }, 
     "Bellsprout": {
         "base_weight": 4.0, 
         "base_height": 0.71
     }, 
-    "Tangrowth": {
-        "base_weight": 128.6, 
-        "base_height": 2.01
-    }, 
-    "Nidoran\u2642": {
-        "base_weight": 9.0, 
-        "base_height": 0.51
-    }, 
-    "Nidoran\u2640": {
-        "base_weight": 7.0, 
-        "base_height": 0.41
-    }, 
-    "Togedemaru": {
-        "base_weight": 3.3, 
-        "base_height": 0.3
-    }, 
-    "Dedenne": {
-        "base_weight": 2.2, 
-        "base_height": 0.2
-    }, 
-    "Pheromosa": {
-        "base_weight": 25.0, 
-        "base_height": 1.8
-    }, 
-    "Nosepass": {
-        "base_weight": 97.0, 
+    "Weepinbell": {
+        "base_weight": 6.4, 
         "base_height": 0.99
     }, 
-    "Type: Null": {
-        "base_weight": 120.5, 
-        "base_height": 1.91
-    }, 
-    "Slaking": {
-        "base_weight": 130.5, 
-        "base_height": 2.01
-    }, 
-    "Spearow": {
-        "base_weight": 2.0, 
-        "base_height": 0.3
-    }, 
-    "Chikorita": {
-        "base_weight": 6.4, 
-        "base_height": 0.89
-    }, 
-    "Scyther": {
-        "base_weight": 56.0, 
-        "base_height": 1.5
-    }, 
-    "Honchkrow": {
-        "base_weight": 27.3, 
-        "base_height": 0.89
-    }, 
-    "Lycanroc": {
-        "base_weight": 25.0, 
-        "base_height": 0.79
-    }, 
-    "Litten": {
-        "base_weight": 4.3, 
-        "base_height": 0.41
-    }, 
-    "Magnezone": {
-        "base_weight": 180.0, 
-        "base_height": 1.19
-    }, 
-    "Togetic": {
-        "base_weight": 3.2, 
-        "base_height": 0.61
-    }, 
-    "Sewaddle": {
-        "base_weight": 2.5, 
-        "base_height": 0.3
-    }, 
-    "Vigoroth": {
-        "base_weight": 46.5, 
-        "base_height": 1.4
-    }, 
-    "Palossand": {
-        "base_weight": 250.0, 
-        "base_height": 1.3
-    }, 
-    "Quagsire": {
-        "base_weight": 75.0, 
-        "base_height": 1.4
-    }, 
-    "Duskull": {
-        "base_weight": 15.0, 
-        "base_height": 0.79
-    }, 
-    "Masquerain": {
-        "base_weight": 3.6, 
-        "base_height": 0.79
-    }, 
-    "Luvdisc": {
-        "base_weight": 8.7, 
-        "base_height": 0.61
-    }, 
-    "Aromatisse": {
+    "Victreebel": {
         "base_weight": 15.5, 
-        "base_height": 0.79
+        "base_height": 1.7
     }, 
-    "Phantump": {
-        "base_weight": 7.0, 
+    "Tentacool": {
+        "base_weight": 45.5, 
+        "base_height": 0.89
+    }, 
+    "Tentacruel": {
+        "base_weight": 55.0, 
+        "base_height": 1.6
+    }, 
+    "Geodude": {
+        "base_weight": 20.0, 
         "base_height": 0.41
     }, 
-    "Gyarados": {
-        "base_weight": 235.0, 
-        "base_height": 6.5
+    "Graveler": {
+        "base_weight": 105.0, 
+        "base_height": 0.99
     }, 
-    "Axew": {
-        "base_weight": 18.0, 
-        "base_height": 0.61
-    }, 
-    "Metapod": {
-        "base_weight": 9.9, 
-        "base_height": 0.71
-    }, 
-    "Spheal": {
-        "base_weight": 39.5, 
-        "base_height": 0.79
-    }, 
-    "Bayleef": {
-        "base_weight": 15.8, 
-        "base_height": 1.19
-    }, 
-    "Heatran": {
-        "base_weight": 430.0, 
-        "base_height": 1.7
+    "Golem": {
+        "base_weight": 300.0, 
+        "base_height": 1.4
     }, 
     "Ponyta": {
         "base_weight": 30.0, 
         "base_height": 0.99
     }, 
-    "Watchog": {
-        "base_weight": 27.0, 
-        "base_height": 1.09
-    }, 
-    "Quilava": {
-        "base_weight": 19.0, 
-        "base_height": 0.89
-    }, 
-    "Taillow": {
-        "base_weight": 2.3, 
-        "base_height": 0.3
-    }, 
-    "Hariyama": {
-        "base_weight": 253.8, 
-        "base_height": 2.31
-    }, 
-    "Ivysaur": {
-        "base_weight": 13.0, 
-        "base_height": 0.99
-    }, 
-    "Chingling": {
-        "base_weight": 0.6, 
-        "base_height": 0.2
-    }, 
-    "Magcargo": {
-        "base_weight": 55.0, 
-        "base_height": 0.79
-    }, 
-    "Whiscash": {
-        "base_weight": 23.6, 
-        "base_height": 0.89
-    }, 
-    "Vileplume": {
-        "base_weight": 18.6, 
-        "base_height": 1.19
-    }, 
-    "Slowking": {
-        "base_weight": 79.5, 
-        "base_height": 2.01
-    }, 
-    "Dustox": {
-        "base_weight": 31.6, 
-        "base_height": 1.19
-    }, 
-    "Lopunny": {
-        "base_weight": 33.3, 
-        "base_height": 1.19
-    }, 
-    "Charjabug": {
-        "base_weight": 10.5, 
-        "base_height": 0.51
-    }, 
-    "Vanilluxe": {
-        "base_weight": 57.5, 
-        "base_height": 1.3
-    }, 
-    "Beldum": {
-        "base_weight": 95.2, 
-        "base_height": 0.61
-    }, 
-    "Bastiodon": {
-        "base_weight": 149.5, 
-        "base_height": 1.3
-    }, 
-    "Sandshrew": {
-        "base_weight": 12.0, 
-        "base_height": 0.61
-    }, 
-    "Mudbray": {
-        "base_weight": 110.0, 
-        "base_height": 0.99
-    }, 
-    "Carvanha": {
-        "base_weight": 20.8, 
-        "base_height": 0.79
-    }, 
-    "Shroomish": {
-        "base_weight": 4.5, 
-        "base_height": 0.41
-    }, 
-    "Venomoth": {
-        "base_weight": 12.5, 
-        "base_height": 1.5
-    }, 
-    "Hawlucha": {
-        "base_weight": 21.5, 
-        "base_height": 0.79
-    }, 
-    "Delibird": {
-        "base_weight": 16.0, 
-        "base_height": 0.89
-    }, 
-    "Furret": {
-        "base_weight": 32.5, 
-        "base_height": 1.8
-    }, 
-    "Whimsicott": {
-        "base_weight": 6.6, 
-        "base_height": 0.71
-    }, 
-    "Larvitar": {
-        "base_weight": 72.0, 
-        "base_height": 0.61
-    }, 
-    "Medicham": {
-        "base_weight": 31.5, 
-        "base_height": 1.3
-    }, 
-    "Furfrou": {
-        "base_weight": 28.0, 
-        "base_height": 1.19
-    }, 
-    "Guzzlord": {
-        "base_weight": 888.0, 
-        "base_height": 5.51
-    }, 
-    "Golbat": {
-        "base_weight": 55.0, 
-        "base_height": 1.6
-    }, 
-    "Gengar": {
-        "base_weight": 40.5, 
-        "base_height": 1.5
-    }, 
-    "Bouffalant": {
-        "base_weight": 94.6, 
-        "base_height": 1.6
-    }, 
-    "Chimecho": {
-        "base_weight": 1.0, 
-        "base_height": 0.61
-    }, 
-    "Pyroar": {
-        "base_weight": 81.5, 
-        "base_height": 1.5
-    }, 
-    "Dewpider": {
-        "base_weight": 4.0, 
-        "base_height": 0.3
-    }, 
-    "Blitzle": {
-        "base_weight": 29.8, 
-        "base_height": 0.79
-    }, 
-    "Primarina": {
-        "base_weight": 44.0, 
-        "base_height": 1.8
-    }, 
-    "Braviary": {
-        "base_weight": 41.0, 
-        "base_height": 1.5
-    }, 
-    "Lumineon": {
-        "base_weight": 24.0, 
-        "base_height": 1.19
-    }, 
-    "Spoink": {
-        "base_weight": 30.6, 
-        "base_height": 0.71
-    }, 
-    "Finneon": {
-        "base_weight": 7.0, 
-        "base_height": 0.41
-    }, 
-    "Elgyem": {
-        "base_weight": 9.0, 
-        "base_height": 0.51
-    }, 
-    "Pichu": {
-        "base_weight": 2.0, 
-        "base_height": 0.3
-    }, 
-    "Tapu Lele": {
-        "base_weight": 18.6, 
-        "base_height": 1.19
-    }, 
-    "Amaura": {
-        "base_weight": 25.2, 
-        "base_height": 1.3
-    }, 
-    "Crustle": {
-        "base_weight": 200.0, 
-        "base_height": 1.4
-    }, 
-    "Weavile": {
-        "base_weight": 34.0, 
-        "base_height": 1.09
-    }, 
-    "Gothita": {
-        "base_weight": 5.8, 
-        "base_height": 0.41
-    }, 
-    "Magby": {
-        "base_weight": 21.4, 
-        "base_height": 0.71
-    }, 
-    "Smeargle": {
-        "base_weight": 58.0, 
-        "base_height": 1.19
-    }, 
-    "Gigalith": {
-        "base_weight": 260.0, 
+    "Rapidash": {
+        "base_weight": 95.0, 
         "base_height": 1.7
     }, 
-    "Keldeo": {
-        "base_weight": 48.5, 
-        "base_height": 1.4
-    }, 
-    "Manectric": {
-        "base_weight": 40.2, 
-        "base_height": 1.5
-    }, 
-    "Bruxish": {
-        "base_weight": 19.0, 
-        "base_height": 0.89
-    }, 
-    "Illumise": {
-        "base_weight": 17.7, 
-        "base_height": 0.61
-    }, 
-    "Registeel": {
-        "base_weight": 205.0, 
-        "base_height": 1.91
-    }, 
-    "Xatu": {
-        "base_weight": 15.0, 
-        "base_height": 1.5
-    }, 
-    "Scraggy": {
-        "base_weight": 11.8, 
-        "base_height": 0.61
-    }, 
-    "Brionne": {
-        "base_weight": 17.5, 
-        "base_height": 0.61
-    }, 
-    "Poochyena": {
-        "base_weight": 13.6, 
-        "base_height": 0.51
-    }, 
-    "Silvally": {
-        "base_weight": 100.5, 
-        "base_height": 2.31
-    }, 
-    "Azelf": {
-        "base_weight": 0.3, 
-        "base_height": 0.3
-    }, 
-    "Virizion": {
-        "base_weight": 200.0, 
-        "base_height": 2.01
-    }, 
-    "Floette": {
-        "base_weight": 0.9, 
-        "base_height": 0.2
-    }, 
-    "Shuckle": {
-        "base_weight": 20.5, 
-        "base_height": 0.61
-    }, 
-    "Kakuna": {
-        "base_weight": 10.0, 
-        "base_height": 0.61
-    }, 
-    "Seaking": {
-        "base_weight": 39.0, 
-        "base_height": 1.3
-    }, 
-    "Electrike": {
-        "base_weight": 15.2, 
-        "base_height": 0.61
-    }, 
-    "Minior": {
-        "base_weight": 40.0, 
-        "base_height": 0.3
-    }, 
-    "Torterra": {
-        "base_weight": 310.0, 
-        "base_height": 2.21
-    }, 
-    "Morelull": {
-        "base_weight": 1.5, 
-        "base_height": 0.2
-    }, 
-    "Bounsweet": {
-        "base_weight": 3.2, 
-        "base_height": 0.3
-    }, 
-    "Crabominable": {
-        "base_weight": 180.0, 
-        "base_height": 1.7
-    }, 
-    "Clawitzer": {
-        "base_weight": 35.3, 
-        "base_height": 1.3
-    }, 
-    "Cyndaquil": {
-        "base_weight": 7.9, 
-        "base_height": 0.51
-    }, 
-    "Malamar": {
-        "base_weight": 47.0, 
-        "base_height": 1.5
-    }, 
-    "Staravia": {
-        "base_weight": 15.5, 
-        "base_height": 0.61
-    }, 
-    "Entei": {
-        "base_weight": 198.0, 
-        "base_height": 2.11
-    }, 
-    "Prinplup": {
-        "base_weight": 23.0, 
-        "base_height": 0.79
-    }, 
-    "Beheeyem": {
-        "base_weight": 34.5, 
-        "base_height": 0.99
-    }, 
-    "Dunsparce": {
-        "base_weight": 14.0, 
-        "base_height": 1.5
-    }, 
-    "Murkrow": {
-        "base_weight": 2.1, 
-        "base_height": 0.51
-    }, 
-    "Braixen": {
-        "base_weight": 14.5, 
-        "base_height": 0.99
-    }, 
-    "Spewpa": {
-        "base_weight": 8.4, 
-        "base_height": 0.3
-    }, 
-    "Dusclops": {
-        "base_weight": 30.6, 
-        "base_height": 1.6
-    }, 
-    "Ariados": {
-        "base_weight": 33.5, 
-        "base_height": 1.09
-    }, 
-    "Foongus": {
-        "base_weight": 1.0, 
-        "base_height": 0.2
-    }, 
-    "Vullaby": {
-        "base_weight": 9.0, 
-        "base_height": 0.51
-    }, 
-    "Tsareena": {
-        "base_weight": 21.4, 
-        "base_height": 1.14
-    }, 
-    "Yanmega": {
-        "base_weight": 51.5, 
-        "base_height": 1.91
-    }, 
-    "Simisage": {
-        "base_weight": 30.5, 
-        "base_height": 1.09
-    }, 
-    "Sunflora": {
-        "base_weight": 8.5, 
-        "base_height": 0.79
-    }, 
-    "Silcoon": {
-        "base_weight": 10.0, 
-        "base_height": 0.61
-    }, 
-    "Porygon-Z": {
-        "base_weight": 34.0, 
-        "base_height": 0.89
-    }, 
-    "Lombre": {
-        "base_weight": 32.5, 
+    "Slowpoke": {
+        "base_weight": 36.0, 
         "base_height": 1.19
     }, 
-    "Volcarona": {
-        "base_weight": 46.0, 
+    "Slowbro": {
+        "base_weight": 78.5, 
         "base_height": 1.6
     }, 
-    "Roserade": {
-        "base_weight": 14.5, 
-        "base_height": 0.89
-    }, 
-    "Corsola": {
-        "base_weight": 5.0, 
-        "base_height": 0.61
-    }, 
-    "Loudred": {
-        "base_weight": 40.5, 
-        "base_height": 0.99
-    }, 
-    "Frillish": {
-        "base_weight": 33.0, 
-        "base_height": 1.19
-    }, 
-    "Kadabra": {
-        "base_weight": 56.5, 
-        "base_height": 1.3
-    }, 
-    "Purugly": {
-        "base_weight": 43.8, 
-        "base_height": 0.99
-    }, 
-    "Uxie": {
-        "base_weight": 0.3, 
+    "Magnemite": {
+        "base_weight": 6.0, 
         "base_height": 0.3
     }, 
-    "Beedrill": {
-        "base_weight": 29.5, 
-        "base_height": 0.99
-    }, 
-    "Regirock": {
-        "base_weight": 230.0, 
-        "base_height": 1.7
-    }, 
-    "Drifblim": {
-        "base_weight": 15.0, 
-        "base_height": 1.19
-    }, 
-    "Hitmonlee": {
-        "base_weight": 49.8, 
-        "base_height": 1.5
-    }, 
-    "Gorebyss": {
-        "base_weight": 22.6, 
-        "base_height": 1.8
-    }, 
-    "Mimikyu": {
-        "base_weight": 0.7, 
-        "base_height": 0.2
-    }, 
-    "Lampent": {
-        "base_weight": 13.0, 
-        "base_height": 0.61
-    }, 
-    "Cacturne": {
-        "base_weight": 77.4, 
-        "base_height": 1.3
-    }, 
-    "Raichu": {
-        "base_weight": 30.0, 
-        "base_height": 0.79
-    }, 
-    "Musharna": {
-        "base_weight": 60.5, 
-        "base_height": 1.09
-    }, 
-    "Emboar": {
-        "base_weight": 150.0, 
-        "base_height": 1.6
-    }, 
-    "Noivern": {
-        "base_weight": 85.0, 
-        "base_height": 1.5
-    }, 
-    "Blaziken": {
-        "base_weight": 52.0, 
-        "base_height": 1.91
-    }, 
-    "Mismagius": {
-        "base_weight": 4.4, 
-        "base_height": 0.89
-    }, 
-    "Rhydon": {
-        "base_weight": 120.0, 
-        "base_height": 1.91
-    }, 
-    "Poliwhirl": {
-        "base_weight": 20.0, 
+    "Magneton": {
+        "base_weight": 60.0, 
         "base_height": 0.99
     }, 
     "Farfetch'd": {
         "base_weight": 15.0, 
         "base_height": 0.79
     }, 
-    "Komala": {
-        "base_weight": 19.9, 
-        "base_height": 0.41
+    "Doduo": {
+        "base_weight": 39.2, 
+        "base_height": 1.4
     }, 
-    "Vivillon": {
-        "base_weight": 17.0, 
-        "base_height": 1.19
-    }, 
-    "Comfey": {
-        "base_weight": 0.3, 
-        "base_height": 0.1
-    }, 
-    "Ferrothorn": {
-        "base_weight": 110.0, 
-        "base_height": 0.99
-    }, 
-    "Sunkern": {
-        "base_weight": 1.8, 
-        "base_height": 0.3
-    }, 
-    "Milotic": {
-        "base_weight": 162.0, 
-        "base_height": 6.2
-    }, 
-    "Aerodactyl": {
-        "base_weight": 59.0, 
+    "Dodrio": {
+        "base_weight": 85.2, 
         "base_height": 1.8
     }, 
-    "Koffing": {
-        "base_weight": 1.0, 
-        "base_height": 0.61
+    "Seel": {
+        "base_weight": 90.0, 
+        "base_height": 1.09
     }, 
-    "Toxapex": {
-        "base_weight": 14.5, 
-        "base_height": 0.71
+    "Dewgong": {
+        "base_weight": 120.0, 
+        "base_height": 1.7
     }, 
-    "Infernape": {
-        "base_weight": 55.0, 
+    "Grimer": {
+        "base_weight": 30.0, 
+        "base_height": 0.89
+    }, 
+    "Muk": {
+        "base_weight": 30.0, 
         "base_height": 1.19
-    }, 
-    "Dhelmise": {
-        "base_weight": 210.0, 
-        "base_height": 3.91
     }, 
     "Shellder": {
         "base_weight": 4.0, 
         "base_height": 0.3
     }, 
-    "Skorupi": {
-        "base_weight": 12.0, 
-        "base_height": 0.79
+    "Cloyster": {
+        "base_weight": 132.5, 
+        "base_height": 1.5
     }, 
-    "Dratini": {
-        "base_weight": 3.3, 
-        "base_height": 1.8
+    "Gastly": {
+        "base_weight": 0.1, 
+        "base_height": 1.3
     }, 
-    "Starly": {
-        "base_weight": 2.0, 
-        "base_height": 0.3
-    }, 
-    "Aurorus": {
-        "base_weight": 225.0, 
-        "base_height": 2.69
-    }, 
-    "Mantine": {
-        "base_weight": 220.0, 
-        "base_height": 2.11
-    }, 
-    "Pineco": {
-        "base_weight": 7.2, 
-        "base_height": 0.61
-    }, 
-    "Golett": {
-        "base_weight": 92.0, 
-        "base_height": 0.99
-    }, 
-    "Doublade": {
-        "base_weight": 4.5, 
-        "base_height": 0.84
-    }, 
-    "Shellos": {
-        "base_weight": 6.3, 
-        "base_height": 0.3
-    }, 
-    "Bonsly": {
-        "base_weight": 15.0, 
-        "base_height": 0.51
-    }, 
-    "Leafeon": {
-        "base_weight": 25.5, 
-        "base_height": 0.99
-    }, 
-    "Corphish": {
-        "base_weight": 11.5, 
-        "base_height": 0.61
-    }, 
-    "Arcanine": {
-        "base_weight": 155.0, 
-        "base_height": 1.91
-    }, 
-    "Hippopotas": {
-        "base_weight": 49.5, 
-        "base_height": 0.79
-    }, 
-    "Igglybuff": {
-        "base_weight": 1.0, 
-        "base_height": 0.3
-    }, 
-    "Noctowl": {
-        "base_weight": 40.8, 
+    "Haunter": {
+        "base_weight": 0.1, 
         "base_height": 1.6
     }, 
-    "Cofagrigus": {
-        "base_weight": 76.5, 
-        "base_height": 1.7
+    "Gengar": {
+        "base_weight": 40.5, 
+        "base_height": 1.5
+    }, 
+    "Onix": {
+        "base_weight": 210.0, 
+        "base_height": 8.79
+    }, 
+    "Drowzee": {
+        "base_weight": 32.4, 
+        "base_height": 0.99
+    }, 
+    "Hypno": {
+        "base_weight": 75.6, 
+        "base_height": 1.6
+    }, 
+    "Krabby": {
+        "base_weight": 6.5, 
+        "base_height": 0.41
+    }, 
+    "Kingler": {
+        "base_weight": 60.0, 
+        "base_height": 1.3
+    }, 
+    "Voltorb": {
+        "base_weight": 10.4, 
+        "base_height": 0.51
+    }, 
+    "Electrode": {
+        "base_weight": 66.6, 
+        "base_height": 1.19
+    }, 
+    "Exeggcute": {
+        "base_weight": 2.5, 
+        "base_height": 0.41
+    }, 
+    "Exeggutor": {
+        "base_weight": 120.0, 
+        "base_height": 2.01
+    }, 
+    "Cubone": {
+        "base_weight": 6.5, 
+        "base_height": 0.41
+    }, 
+    "Marowak": {
+        "base_weight": 45.0, 
+        "base_height": 0.99
+    }, 
+    "Hitmonlee": {
+        "base_weight": 49.8, 
+        "base_height": 1.5
+    }, 
+    "Hitmonchan": {
+        "base_weight": 50.2, 
+        "base_height": 1.4
+    }, 
+    "Lickitung": {
+        "base_weight": 65.5, 
+        "base_height": 1.19
+    }, 
+    "Koffing": {
+        "base_weight": 1.0, 
+        "base_height": 0.61
+    }, 
+    "Weezing": {
+        "base_weight": 9.5, 
+        "base_height": 1.19
+    }, 
+    "Rhyhorn": {
+        "base_weight": 115.0, 
+        "base_height": 0.99
+    }, 
+    "Rhydon": {
+        "base_weight": 120.0, 
+        "base_height": 1.91
+    }, 
+    "Chansey": {
+        "base_weight": 34.6, 
+        "base_height": 1.09
+    }, 
+    "Tangela": {
+        "base_weight": 35.0, 
+        "base_height": 0.99
+    }, 
+    "Kangaskhan": {
+        "base_weight": 80.0, 
+        "base_height": 2.21
+    }, 
+    "Horsea": {
+        "base_weight": 8.0, 
+        "base_height": 0.41
+    }, 
+    "Seadra": {
+        "base_weight": 25.0, 
+        "base_height": 1.19
+    }, 
+    "Goldeen": {
+        "base_weight": 15.0, 
+        "base_height": 0.61
+    }, 
+    "Seaking": {
+        "base_weight": 39.0, 
+        "base_height": 1.3
+    }, 
+    "Staryu": {
+        "base_weight": 34.5, 
+        "base_height": 0.79
+    }, 
+    "Starmie": {
+        "base_weight": 80.0, 
+        "base_height": 1.09
+    }, 
+    "Mr. Mime": {
+        "base_weight": 54.5, 
+        "base_height": 1.3
+    }, 
+    "Scyther": {
+        "base_weight": 56.0, 
+        "base_height": 1.5
+    }, 
+    "Jynx": {
+        "base_weight": 40.6, 
+        "base_height": 1.4
+    }, 
+    "Electabuzz": {
+        "base_weight": 30.0, 
+        "base_height": 1.09
+    }, 
+    "Magmar": {
+        "base_weight": 44.5, 
+        "base_height": 1.3
+    }, 
+    "Pinsir": {
+        "base_weight": 55.0, 
+        "base_height": 1.5
+    }, 
+    "Tauros": {
+        "base_weight": 88.4, 
+        "base_height": 1.4
+    }, 
+    "Magikarp": {
+        "base_weight": 10.0, 
+        "base_height": 0.89
+    }, 
+    "Gyarados": {
+        "base_weight": 235.0, 
+        "base_height": 6.5
+    }, 
+    "Lapras": {
+        "base_weight": 220.0, 
+        "base_height": 2.49
+    }, 
+    "Ditto": {
+        "base_weight": 4.0, 
+        "base_height": 0.3
+    }, 
+    "Eevee": {
+        "base_weight": 6.5, 
+        "base_height": 0.3
+    }, 
+    "Vaporeon": {
+        "base_weight": 29.0, 
+        "base_height": 0.99
+    }, 
+    "Jolteon": {
+        "base_weight": 24.5, 
+        "base_height": 0.79
+    }, 
+    "Flareon": {
+        "base_weight": 25.0, 
+        "base_height": 0.89
+    }, 
+    "Porygon": {
+        "base_weight": 36.5, 
+        "base_height": 0.79
+    }, 
+    "Omanyte": {
+        "base_weight": 7.5, 
+        "base_height": 0.41
+    }, 
+    "Omastar": {
+        "base_weight": 35.0, 
+        "base_height": 0.99
+    }, 
+    "Kabuto": {
+        "base_weight": 11.5, 
+        "base_height": 0.51
+    }, 
+    "Kabutops": {
+        "base_weight": 40.5, 
+        "base_height": 1.3
+    }, 
+    "Aerodactyl": {
+        "base_weight": 59.0, 
+        "base_height": 1.8
     }, 
     "Snorlax": {
         "base_weight": 460.0, 
@@ -1883,337 +575,1437 @@
         "base_weight": 55.4, 
         "base_height": 1.7
     }, 
-    "Roselia": {
-        "base_weight": 2.0, 
-        "base_height": 0.3
-    }, 
-    "Rhyperior": {
-        "base_weight": 282.8, 
-        "base_height": 2.39
-    }, 
-    "Golem": {
-        "base_weight": 300.0, 
-        "base_height": 1.4
-    }, 
-    "Pinsir": {
-        "base_weight": 55.0, 
-        "base_height": 1.5
-    }, 
-    "Incineroar": {
-        "base_weight": 83.0, 
-        "base_height": 1.8
-    }, 
-    "Pangoro": {
-        "base_weight": 136.0, 
-        "base_height": 2.11
-    }, 
-    "Banette": {
-        "base_weight": 12.5, 
-        "base_height": 1.09
-    }, 
-    "Whirlipede": {
-        "base_weight": 58.5, 
-        "base_height": 1.19
-    }, 
-    "Mudsdale": {
-        "base_weight": 920.0, 
-        "base_height": 2.49
-    }, 
-    "Servine": {
-        "base_weight": 16.0, 
-        "base_height": 0.79
-    }, 
-    "Purrloin": {
-        "base_weight": 10.1, 
-        "base_height": 0.41
-    }, 
-    "Tauros": {
-        "base_weight": 88.4, 
-        "base_height": 1.4
-    }, 
-    "Shelgon": {
-        "base_weight": 110.5, 
-        "base_height": 1.09
-    }, 
-    "Raikou": {
-        "base_weight": 178.0, 
-        "base_height": 1.91
-    }, 
-    "Greninja": {
-        "base_weight": 40.0, 
-        "base_height": 1.5
-    }, 
-    "Arbok": {
-        "base_weight": 65.0, 
-        "base_height": 3.51
-    }, 
-    "Porygon2": {
-        "base_weight": 32.5, 
-        "base_height": 0.61
-    }, 
-    "Mamoswine": {
-        "base_weight": 291.0, 
-        "base_height": 2.49
-    }, 
-    "Trubbish": {
-        "base_weight": 31.0, 
-        "base_height": 0.61
-    }, 
-    "Chansey": {
-        "base_weight": 34.6, 
-        "base_height": 1.09
-    }, 
-    "Cosmoem": {
-        "base_weight": 999.9, 
-        "base_height": 0.1
-    }, 
-    "Clauncher": {
-        "base_weight": 8.3, 
-        "base_height": 0.51
-    }, 
-    "Plusle": {
-        "base_weight": 4.2, 
-        "base_height": 0.41
-    }, 
-    "Geodude": {
-        "base_weight": 20.0, 
-        "base_height": 0.41
-    }, 
-    "Politoed": {
-        "base_weight": 33.9, 
-        "base_height": 1.09
-    }, 
-    "Donphan": {
-        "base_weight": 120.0, 
-        "base_height": 1.09
-    }, 
-    "Noibat": {
-        "base_weight": 8.0, 
-        "base_height": 0.51
-    }, 
-    "Croagunk": {
-        "base_weight": 23.0, 
-        "base_height": 0.71
-    }, 
-    "Primeape": {
-        "base_weight": 32.0, 
-        "base_height": 0.99
-    }, 
-    "Hoothoot": {
-        "base_weight": 21.2, 
-        "base_height": 0.71
-    }, 
-    "Relicanth": {
-        "base_weight": 23.4, 
-        "base_height": 0.99
-    }, 
-    "Tyrogue": {
-        "base_weight": 21.0, 
-        "base_height": 0.71
-    }, 
-    "Decidueye": {
-        "base_weight": 36.6, 
+    "Zapdos": {
+        "base_weight": 52.6, 
         "base_height": 1.6
     }, 
-    "Sawsbuck": {
-        "base_weight": 92.5, 
-        "base_height": 1.91
-    }, 
-    "Dialga": {
-        "base_weight": 683.0, 
-        "base_height": 5.41
-    }, 
-    "Amoonguss": {
-        "base_weight": 10.5, 
-        "base_height": 0.61
-    }, 
-    "Jolteon": {
-        "base_weight": 24.5, 
-        "base_height": 0.79
-    }, 
-    "Swablu": {
-        "base_weight": 1.2, 
-        "base_height": 0.41
-    }, 
-    "Kricketot": {
-        "base_weight": 2.2, 
-        "base_height": 0.3
-    }, 
-    "Heatmor": {
-        "base_weight": 58.0, 
-        "base_height": 1.4
-    }, 
-    "Golduck": {
-        "base_weight": 76.6, 
-        "base_height": 1.7
-    }, 
-    "Chimchar": {
-        "base_weight": 6.2, 
-        "base_height": 0.51
-    }, 
-    "Chesnaught": {
-        "base_weight": 90.0, 
-        "base_height": 1.6
-    }, 
-    "Sandile": {
-        "base_weight": 15.2, 
-        "base_height": 0.71
-    }, 
-    "Gible": {
-        "base_weight": 20.5, 
-        "base_height": 0.71
-    }, 
-    "Ekans": {
-        "base_weight": 6.9, 
+    "Moltres": {
+        "base_weight": 60.0, 
         "base_height": 2.01
     }, 
-    "Umbreon": {
-        "base_weight": 27.0, 
-        "base_height": 0.99
-    }, 
-    "Xurkitree": {
-        "base_weight": 100.0, 
-        "base_height": 3.81
-    }, 
-    "Flaaffy": {
-        "base_weight": 13.3, 
-        "base_height": 0.79
-    }, 
-    "Heracross": {
-        "base_weight": 54.0, 
-        "base_height": 1.5
-    }, 
-    "Feraligatr": {
-        "base_weight": 88.8, 
-        "base_height": 2.31
-    }, 
-    "Toxicroak": {
-        "base_weight": 44.4, 
-        "base_height": 1.3
-    }, 
-    "Voltorb": {
-        "base_weight": 10.4, 
-        "base_height": 0.51
-    }, 
-    "Panpour": {
-        "base_weight": 13.5, 
-        "base_height": 0.61
-    }, 
-    "Cottonee": {
-        "base_weight": 0.6, 
-        "base_height": 0.3
-    }, 
-    "Dragonite": {
-        "base_weight": 210.0, 
-        "base_height": 2.21
-    }, 
-    "Lileep": {
-        "base_weight": 23.8, 
-        "base_height": 0.99
-    }, 
-    "Vaporeon": {
-        "base_weight": 29.0, 
-        "base_height": 0.99
-    }, 
-    "Swadloon": {
-        "base_weight": 7.3, 
-        "base_height": 0.51
+    "Dratini": {
+        "base_weight": 3.3, 
+        "base_height": 1.8
     }, 
     "Dragonair": {
         "base_weight": 16.5, 
         "base_height": 3.99
     }, 
-    "Smoochum": {
-        "base_weight": 6.0, 
+    "Dragonite": {
+        "base_weight": 210.0, 
+        "base_height": 2.21
+    }, 
+    "Mewtwo": {
+        "base_weight": 122.0, 
+        "base_height": 2.01
+    }, 
+    "Mew": {
+        "base_weight": 4.0, 
         "base_height": 0.41
     }, 
-    "Klinklang": {
-        "base_weight": 81.0, 
-        "base_height": 0.61
-    }, 
-    "Terrakion": {
-        "base_weight": 260.0, 
-        "base_height": 1.91
-    }, 
-    "Conkeldurr": {
-        "base_weight": 87.0, 
-        "base_height": 1.4
-    }, 
-    "Gastly": {
-        "base_weight": 0.1, 
-        "base_height": 1.3
-    }, 
-    "Mothim": {
-        "base_weight": 23.3, 
+    "Chikorita": {
+        "base_weight": 6.4, 
         "base_height": 0.89
     }, 
-    "Toucannon": {
-        "base_weight": 26.0, 
-        "base_height": 1.09
+    "Bayleef": {
+        "base_weight": 15.8, 
+        "base_height": 1.19
     }, 
-    "Teddiursa": {
-        "base_weight": 8.8, 
+    "Meganium": {
+        "base_weight": 100.5, 
+        "base_height": 1.8
+    }, 
+    "Cyndaquil": {
+        "base_weight": 7.9, 
+        "base_height": 0.51
+    }, 
+    "Quilava": {
+        "base_weight": 19.0, 
+        "base_height": 0.89
+    }, 
+    "Typhlosion": {
+        "base_weight": 79.5, 
+        "base_height": 1.7
+    }, 
+    "Totodile": {
+        "base_weight": 9.5, 
         "base_height": 0.61
     }, 
-    "Hypno": {
-        "base_weight": 75.6, 
-        "base_height": 1.6
+    "Croconaw": {
+        "base_weight": 25.0, 
+        "base_height": 1.09
     }, 
-    "Machoke": {
-        "base_weight": 70.5, 
-        "base_height": 1.5
+    "Feraligatr": {
+        "base_weight": 88.8, 
+        "base_height": 2.31
     }, 
-    "Porygon": {
-        "base_weight": 36.5, 
+    "Sentret": {
+        "base_weight": 6.0, 
         "base_height": 0.79
     }, 
-    "Audino": {
-        "base_weight": 31.0, 
+    "Furret": {
+        "base_weight": 32.5, 
+        "base_height": 1.8
+    }, 
+    "Hoothoot": {
+        "base_weight": 21.2, 
+        "base_height": 0.71
+    }, 
+    "Noctowl": {
+        "base_weight": 40.8, 
+        "base_height": 1.6
+    }, 
+    "Ledyba": {
+        "base_weight": 10.8, 
+        "base_height": 0.99
+    }, 
+    "Ledian": {
+        "base_weight": 35.6, 
+        "base_height": 1.4
+    }, 
+    "Spinarak": {
+        "base_weight": 8.5, 
+        "base_height": 0.51
+    }, 
+    "Ariados": {
+        "base_weight": 33.5, 
         "base_height": 1.09
+    }, 
+    "Crobat": {
+        "base_weight": 75.0, 
+        "base_height": 1.8
+    }, 
+    "Chinchou": {
+        "base_weight": 12.0, 
+        "base_height": 0.51
+    }, 
+    "Lanturn": {
+        "base_weight": 22.5, 
+        "base_height": 1.19
+    }, 
+    "Pichu": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "Cleffa": {
+        "base_weight": 3.0, 
+        "base_height": 0.3
+    }, 
+    "Igglybuff": {
+        "base_weight": 1.0, 
+        "base_height": 0.3
+    }, 
+    "Togepi": {
+        "base_weight": 1.5, 
+        "base_height": 0.3
+    }, 
+    "Togetic": {
+        "base_weight": 3.2, 
+        "base_height": 0.61
+    }, 
+    "Natu": {
+        "base_weight": 2.0, 
+        "base_height": 0.2
+    }, 
+    "Xatu": {
+        "base_weight": 15.0, 
+        "base_height": 1.5
+    }, 
+    "Mareep": {
+        "base_weight": 7.8, 
+        "base_height": 0.61
+    }, 
+    "Flaaffy": {
+        "base_weight": 13.3, 
+        "base_height": 0.79
+    }, 
+    "Ampharos": {
+        "base_weight": 61.5, 
+        "base_height": 1.4
+    }, 
+    "Bellossom": {
+        "base_weight": 5.8, 
+        "base_height": 0.41
+    }, 
+    "Marill": {
+        "base_weight": 8.5, 
+        "base_height": 0.41
+    }, 
+    "Azumarill": {
+        "base_weight": 28.5, 
+        "base_height": 0.79
+    }, 
+    "Sudowoodo": {
+        "base_weight": 38.0, 
+        "base_height": 1.19
+    }, 
+    "Politoed": {
+        "base_weight": 33.9, 
+        "base_height": 1.09
+    }, 
+    "Hoppip": {
+        "base_weight": 0.5, 
+        "base_height": 0.41
+    }, 
+    "Skiploom": {
+        "base_weight": 1.0, 
+        "base_height": 0.61
     }, 
     "Jumpluff": {
         "base_weight": 3.0, 
         "base_height": 0.79
     }, 
+    "Aipom": {
+        "base_weight": 11.5, 
+        "base_height": 0.79
+    }, 
+    "Sunkern": {
+        "base_weight": 1.8, 
+        "base_height": 0.3
+    }, 
+    "Sunflora": {
+        "base_weight": 8.5, 
+        "base_height": 0.79
+    }, 
+    "Yanma": {
+        "base_weight": 38.0, 
+        "base_height": 1.19
+    }, 
+    "Wooper": {
+        "base_weight": 8.5, 
+        "base_height": 0.41
+    }, 
+    "Quagsire": {
+        "base_weight": 75.0, 
+        "base_height": 1.4
+    }, 
+    "Espeon": {
+        "base_weight": 26.5, 
+        "base_height": 0.89
+    }, 
+    "Umbreon": {
+        "base_weight": 27.0, 
+        "base_height": 0.99
+    }, 
+    "Murkrow": {
+        "base_weight": 2.1, 
+        "base_height": 0.51
+    }, 
+    "Slowking": {
+        "base_weight": 79.5, 
+        "base_height": 2.01
+    }, 
+    "Misdreavus": {
+        "base_weight": 1.0, 
+        "base_height": 0.71
+    }, 
+    "Unown": {
+        "base_weight": 5.0, 
+        "base_height": 0.51
+    }, 
+    "Wobbuffet": {
+        "base_weight": 28.5, 
+        "base_height": 1.3
+    }, 
+    "Girafarig": {
+        "base_weight": 41.5, 
+        "base_height": 1.5
+    }, 
+    "Pineco": {
+        "base_weight": 7.2, 
+        "base_height": 0.61
+    }, 
+    "Forretress": {
+        "base_weight": 125.8, 
+        "base_height": 1.19
+    }, 
+    "Dunsparce": {
+        "base_weight": 14.0, 
+        "base_height": 1.5
+    }, 
+    "Gligar": {
+        "base_weight": 64.8, 
+        "base_height": 1.09
+    }, 
+    "Steelix": {
+        "base_weight": 400.0, 
+        "base_height": 9.19
+    }, 
+    "Snubbull": {
+        "base_weight": 7.8, 
+        "base_height": 0.61
+    }, 
+    "Granbull": {
+        "base_weight": 48.7, 
+        "base_height": 1.4
+    }, 
+    "Qwilfish": {
+        "base_weight": 3.9, 
+        "base_height": 0.51
+    }, 
+    "Scizor": {
+        "base_weight": 118.0, 
+        "base_height": 1.8
+    }, 
+    "Shuckle": {
+        "base_weight": 20.5, 
+        "base_height": 0.61
+    }, 
+    "Heracross": {
+        "base_weight": 54.0, 
+        "base_height": 1.5
+    }, 
+    "Sneasel": {
+        "base_weight": 28.0, 
+        "base_height": 0.89
+    }, 
+    "Teddiursa": {
+        "base_weight": 8.8, 
+        "base_height": 0.61
+    }, 
+    "Ursaring": {
+        "base_weight": 125.8, 
+        "base_height": 1.8
+    }, 
+    "Slugma": {
+        "base_weight": 35.0, 
+        "base_height": 0.71
+    }, 
+    "Magcargo": {
+        "base_weight": 55.0, 
+        "base_height": 0.79
+    }, 
+    "Swinub": {
+        "base_weight": 6.5, 
+        "base_height": 0.41
+    }, 
+    "Piloswine": {
+        "base_weight": 55.8, 
+        "base_height": 1.09
+    }, 
+    "Corsola": {
+        "base_weight": 5.0, 
+        "base_height": 0.61
+    }, 
+    "Remoraid": {
+        "base_weight": 12.0, 
+        "base_height": 0.61
+    }, 
+    "Octillery": {
+        "base_weight": 28.5, 
+        "base_height": 0.89
+    }, 
+    "Delibird": {
+        "base_weight": 16.0, 
+        "base_height": 0.89
+    }, 
+    "Mantine": {
+        "base_weight": 220.0, 
+        "base_height": 2.11
+    }, 
+    "Skarmory": {
+        "base_weight": 50.5, 
+        "base_height": 1.7
+    }, 
+    "Houndour": {
+        "base_weight": 10.8, 
+        "base_height": 0.61
+    }, 
+    "Houndoom": {
+        "base_weight": 35.0, 
+        "base_height": 1.4
+    }, 
+    "Kingdra": {
+        "base_weight": 152.0, 
+        "base_height": 1.8
+    }, 
+    "Phanpy": {
+        "base_weight": 33.5, 
+        "base_height": 0.51
+    }, 
+    "Donphan": {
+        "base_weight": 120.0, 
+        "base_height": 1.09
+    }, 
+    "Porygon2": {
+        "base_weight": 32.5, 
+        "base_height": 0.61
+    }, 
+    "Stantler": {
+        "base_weight": 71.2, 
+        "base_height": 1.4
+    }, 
+    "Smeargle": {
+        "base_weight": 58.0, 
+        "base_height": 1.19
+    }, 
+    "Tyrogue": {
+        "base_weight": 21.0, 
+        "base_height": 0.71
+    }, 
+    "Hitmontop": {
+        "base_weight": 48.0, 
+        "base_height": 1.4
+    }, 
+    "Smoochum": {
+        "base_weight": 6.0, 
+        "base_height": 0.41
+    }, 
+    "Elekid": {
+        "base_weight": 23.5, 
+        "base_height": 0.61
+    }, 
+    "Magby": {
+        "base_weight": 21.4, 
+        "base_height": 0.71
+    }, 
+    "Miltank": {
+        "base_weight": 75.5, 
+        "base_height": 1.19
+    }, 
+    "Blissey": {
+        "base_weight": 46.8, 
+        "base_height": 1.5
+    }, 
+    "Raikou": {
+        "base_weight": 178.0, 
+        "base_height": 1.91
+    }, 
+    "Entei": {
+        "base_weight": 198.0, 
+        "base_height": 2.11
+    }, 
+    "Suicune": {
+        "base_weight": 187.0, 
+        "base_height": 2.01
+    }, 
+    "Larvitar": {
+        "base_weight": 72.0, 
+        "base_height": 0.61
+    }, 
+    "Pupitar": {
+        "base_weight": 152.0, 
+        "base_height": 1.19
+    }, 
+    "Tyranitar": {
+        "base_weight": 202.0, 
+        "base_height": 2.01
+    }, 
+    "Lugia": {
+        "base_weight": 216.0, 
+        "base_height": 5.21
+    }, 
+    "Ho-oh": {
+        "base_weight": 199.0, 
+        "base_height": 3.81
+    }, 
+    "Celebi": {
+        "base_weight": 5.0, 
+        "base_height": 0.61
+    }, 
+    "Treecko": {
+        "base_weight": 5.0, 
+        "base_height": 0.51
+    }, 
+    "Grovyle": {
+        "base_weight": 21.6, 
+        "base_height": 0.89
+    }, 
+    "Sceptile": {
+        "base_weight": 52.2, 
+        "base_height": 1.7
+    }, 
+    "Torchic": {
+        "base_weight": 2.5, 
+        "base_height": 0.41
+    }, 
+    "Combusken": {
+        "base_weight": 19.5, 
+        "base_height": 0.89
+    }, 
+    "Blaziken": {
+        "base_weight": 52.0, 
+        "base_height": 1.91
+    }, 
+    "Mudkip": {
+        "base_weight": 7.6, 
+        "base_height": 0.41
+    }, 
+    "Marshtomp": {
+        "base_weight": 28.0, 
+        "base_height": 0.71
+    }, 
+    "Swampert": {
+        "base_weight": 81.9, 
+        "base_height": 1.5
+    }, 
+    "Poochyena": {
+        "base_weight": 13.6, 
+        "base_height": 0.51
+    }, 
+    "Mightyena": {
+        "base_weight": 37.0, 
+        "base_height": 0.99
+    }, 
+    "Zigzagoon": {
+        "base_weight": 17.5, 
+        "base_height": 0.41
+    }, 
+    "Linoone": {
+        "base_weight": 32.5, 
+        "base_height": 0.51
+    }, 
+    "Wurmple": {
+        "base_weight": 3.6, 
+        "base_height": 0.3
+    }, 
+    "Silcoon": {
+        "base_weight": 10.0, 
+        "base_height": 0.61
+    }, 
+    "Beautifly": {
+        "base_weight": 28.4, 
+        "base_height": 0.99
+    }, 
+    "Cascoon": {
+        "base_weight": 11.5, 
+        "base_height": 0.71
+    }, 
+    "Dustox": {
+        "base_weight": 31.6, 
+        "base_height": 1.19
+    }, 
+    "Lotad": {
+        "base_weight": 2.6, 
+        "base_height": 0.51
+    }, 
+    "Lombre": {
+        "base_weight": 32.5, 
+        "base_height": 1.19
+    }, 
+    "Ludicolo": {
+        "base_weight": 55.0, 
+        "base_height": 1.5
+    }, 
+    "Seedot": {
+        "base_weight": 4.0, 
+        "base_height": 0.51
+    }, 
+    "Nuzleaf": {
+        "base_weight": 28.0, 
+        "base_height": 0.99
+    }, 
+    "Shiftry": {
+        "base_weight": 59.6, 
+        "base_height": 1.3
+    }, 
+    "Taillow": {
+        "base_weight": 2.3, 
+        "base_height": 0.3
+    }, 
+    "Swellow": {
+        "base_weight": 19.8, 
+        "base_height": 0.71
+    }, 
+    "Wingull": {
+        "base_weight": 9.5, 
+        "base_height": 0.61
+    }, 
+    "Pelipper": {
+        "base_weight": 28.0, 
+        "base_height": 1.19
+    }, 
+    "Ralts": {
+        "base_weight": 6.6, 
+        "base_height": 0.41
+    }, 
+    "Kirlia": {
+        "base_weight": 20.2, 
+        "base_height": 0.79
+    }, 
+    "Gardevoir": {
+        "base_weight": 48.4, 
+        "base_height": 1.6
+    }, 
+    "Surskit": {
+        "base_weight": 1.7, 
+        "base_height": 0.51
+    }, 
+    "Masquerain": {
+        "base_weight": 3.6, 
+        "base_height": 0.79
+    }, 
+    "Shroomish": {
+        "base_weight": 4.5, 
+        "base_height": 0.41
+    }, 
+    "Breloom": {
+        "base_weight": 39.2, 
+        "base_height": 1.19
+    }, 
+    "Slakoth": {
+        "base_weight": 24.0, 
+        "base_height": 0.79
+    }, 
+    "Vigoroth": {
+        "base_weight": 46.5, 
+        "base_height": 1.4
+    }, 
+    "Slaking": {
+        "base_weight": 130.5, 
+        "base_height": 2.01
+    }, 
+    "Nincada": {
+        "base_weight": 5.5, 
+        "base_height": 0.51
+    }, 
+    "Ninjask": {
+        "base_weight": 12.0, 
+        "base_height": 0.79
+    }, 
+    "Shedinja": {
+        "base_weight": 1.2, 
+        "base_height": 0.79
+    }, 
+    "Whismur": {
+        "base_weight": 16.3, 
+        "base_height": 0.61
+    }, 
+    "Loudred": {
+        "base_weight": 40.5, 
+        "base_height": 0.99
+    }, 
+    "Exploud": {
+        "base_weight": 84.0, 
+        "base_height": 1.5
+    }, 
+    "Makuhita": {
+        "base_weight": 86.4, 
+        "base_height": 0.99
+    }, 
+    "Hariyama": {
+        "base_weight": 253.8, 
+        "base_height": 2.31
+    }, 
+    "Azurill": {
+        "base_weight": 2.0, 
+        "base_height": 0.2
+    }, 
+    "Nosepass": {
+        "base_weight": 97.0, 
+        "base_height": 0.99
+    }, 
+    "Skitty": {
+        "base_weight": 11.0, 
+        "base_height": 0.61
+    }, 
+    "Delcatty": {
+        "base_weight": 32.6, 
+        "base_height": 1.09
+    }, 
+    "Sableye": {
+        "base_weight": 11.0, 
+        "base_height": 0.51
+    }, 
+    "Mawile": {
+        "base_weight": 11.5, 
+        "base_height": 0.61
+    }, 
+    "Aron": {
+        "base_weight": 60.0, 
+        "base_height": 0.41
+    }, 
+    "Lairon": {
+        "base_weight": 120.0, 
+        "base_height": 0.89
+    }, 
+    "Aggron": {
+        "base_weight": 360.0, 
+        "base_height": 2.11
+    }, 
+    "Meditite": {
+        "base_weight": 11.2, 
+        "base_height": 0.61
+    }, 
+    "Medicham": {
+        "base_weight": 31.5, 
+        "base_height": 1.3
+    }, 
+    "Electrike": {
+        "base_weight": 15.2, 
+        "base_height": 0.61
+    }, 
+    "Manectric": {
+        "base_weight": 40.2, 
+        "base_height": 1.5
+    }, 
+    "Plusle": {
+        "base_weight": 4.2, 
+        "base_height": 0.41
+    }, 
+    "Minun": {
+        "base_weight": 4.2, 
+        "base_height": 0.41
+    }, 
+    "Volbeat": {
+        "base_weight": 17.7, 
+        "base_height": 0.71
+    }, 
+    "Illumise": {
+        "base_weight": 17.7, 
+        "base_height": 0.61
+    }, 
+    "Roselia": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "Gulpin": {
+        "base_weight": 10.3, 
+        "base_height": 0.41
+    }, 
+    "Swalot": {
+        "base_weight": 80.0, 
+        "base_height": 1.7
+    }, 
+    "Carvanha": {
+        "base_weight": 20.8, 
+        "base_height": 0.79
+    }, 
+    "Sharpedo": {
+        "base_weight": 88.8, 
+        "base_height": 1.8
+    }, 
+    "Wailmer": {
+        "base_weight": 130.0, 
+        "base_height": 2.01
+    }, 
+    "Wailord": {
+        "base_weight": 398.0, 
+        "base_height": 14.5
+    }, 
+    "Numel": {
+        "base_weight": 24.0, 
+        "base_height": 0.71
+    }, 
+    "Camerupt": {
+        "base_weight": 220.0, 
+        "base_height": 1.91
+    }, 
+    "Torkoal": {
+        "base_weight": 80.4, 
+        "base_height": 0.51
+    }, 
+    "Spoink": {
+        "base_weight": 30.6, 
+        "base_height": 0.71
+    }, 
+    "Grumpig": {
+        "base_weight": 71.5, 
+        "base_height": 0.89
+    }, 
+    "Spinda": {
+        "base_weight": 5.0, 
+        "base_height": 1.09
+    }, 
+    "Trapinch": {
+        "base_weight": 15.0, 
+        "base_height": 0.71
+    }, 
+    "Vibrava": {
+        "base_weight": 15.3, 
+        "base_height": 1.09
+    }, 
+    "Flygon": {
+        "base_weight": 82.0, 
+        "base_height": 2.01
+    }, 
+    "Cacnea": {
+        "base_weight": 51.3, 
+        "base_height": 0.41
+    }, 
+    "Cacturne": {
+        "base_weight": 77.4, 
+        "base_height": 1.3
+    }, 
+    "Swablu": {
+        "base_weight": 1.2, 
+        "base_height": 0.41
+    }, 
+    "Altaria": {
+        "base_weight": 20.6, 
+        "base_height": 1.09
+    }, 
+    "Zangoose": {
+        "base_weight": 40.3, 
+        "base_height": 1.3
+    }, 
+    "Seviper": {
+        "base_weight": 52.5, 
+        "base_height": 2.69
+    }, 
+    "Lunatone": {
+        "base_weight": 168.0, 
+        "base_height": 0.99
+    }, 
+    "Solrock": {
+        "base_weight": 154.0, 
+        "base_height": 1.19
+    }, 
+    "Barboach": {
+        "base_weight": 1.9, 
+        "base_height": 0.41
+    }, 
+    "Whiscash": {
+        "base_weight": 23.6, 
+        "base_height": 0.89
+    }, 
+    "Corphish": {
+        "base_weight": 11.5, 
+        "base_height": 0.61
+    }, 
+    "Crawdaunt": {
+        "base_weight": 32.8, 
+        "base_height": 1.09
+    }, 
+    "Baltoy": {
+        "base_weight": 21.5, 
+        "base_height": 0.51
+    }, 
+    "Claydol": {
+        "base_weight": 108.0, 
+        "base_height": 1.5
+    }, 
+    "Lileep": {
+        "base_weight": 23.8, 
+        "base_height": 0.99
+    }, 
+    "Cradily": {
+        "base_weight": 60.4, 
+        "base_height": 1.5
+    }, 
+    "Anorith": {
+        "base_weight": 12.5, 
+        "base_height": 0.71
+    }, 
+    "Armaldo": {
+        "base_weight": 68.2, 
+        "base_height": 1.5
+    }, 
+    "Feebas": {
+        "base_weight": 7.4, 
+        "base_height": 0.61
+    }, 
+    "Milotic": {
+        "base_weight": 162.0, 
+        "base_height": 6.2
+    }, 
+    "Castform": {
+        "base_weight": 0.8, 
+        "base_height": 0.3
+    }, 
+    "Kecleon": {
+        "base_weight": 22.0, 
+        "base_height": 0.99
+    }, 
+    "Shuppet": {
+        "base_weight": 2.3, 
+        "base_height": 0.61
+    }, 
+    "Banette": {
+        "base_weight": 12.5, 
+        "base_height": 1.09
+    }, 
+    "Duskull": {
+        "base_weight": 15.0, 
+        "base_height": 0.79
+    }, 
+    "Dusclops": {
+        "base_weight": 30.6, 
+        "base_height": 1.6
+    }, 
+    "Tropius": {
+        "base_weight": 100.0, 
+        "base_height": 2.01
+    }, 
+    "Chimecho": {
+        "base_weight": 1.0, 
+        "base_height": 0.61
+    }, 
+    "Absol": {
+        "base_weight": 47.0, 
+        "base_height": 1.19
+    }, 
+    "Wynaut": {
+        "base_weight": 14.0, 
+        "base_height": 0.61
+    }, 
+    "Snorunt": {
+        "base_weight": 16.8, 
+        "base_height": 0.71
+    }, 
+    "Glalie": {
+        "base_weight": 256.5, 
+        "base_height": 1.5
+    }, 
+    "Spheal": {
+        "base_weight": 39.5, 
+        "base_height": 0.79
+    }, 
+    "Sealeo": {
+        "base_weight": 87.6, 
+        "base_height": 1.09
+    }, 
+    "Walrein": {
+        "base_weight": 150.6, 
+        "base_height": 1.4
+    }, 
+    "Clamperl": {
+        "base_weight": 52.5, 
+        "base_height": 0.41
+    }, 
+    "Huntail": {
+        "base_weight": 27.0, 
+        "base_height": 1.7
+    }, 
+    "Gorebyss": {
+        "base_weight": 22.6, 
+        "base_height": 1.8
+    }, 
+    "Relicanth": {
+        "base_weight": 23.4, 
+        "base_height": 0.99
+    }, 
+    "Luvdisc": {
+        "base_weight": 8.7, 
+        "base_height": 0.61
+    }, 
+    "Bagon": {
+        "base_weight": 42.1, 
+        "base_height": 0.61
+    }, 
+    "Shelgon": {
+        "base_weight": 110.5, 
+        "base_height": 1.09
+    }, 
+    "Salamence": {
+        "base_weight": 102.6, 
+        "base_height": 1.5
+    }, 
+    "Beldum": {
+        "base_weight": 95.2, 
+        "base_height": 0.61
+    }, 
+    "Metang": {
+        "base_weight": 202.5, 
+        "base_height": 1.19
+    }, 
+    "Metagross": {
+        "base_weight": 550.0, 
+        "base_height": 1.6
+    }, 
+    "Regirock": {
+        "base_weight": 230.0, 
+        "base_height": 1.7
+    }, 
+    "Regice": {
+        "base_weight": 175.0, 
+        "base_height": 1.8
+    }, 
+    "Registeel": {
+        "base_weight": 205.0, 
+        "base_height": 1.91
+    }, 
+    "Latias": {
+        "base_weight": 40.0, 
+        "base_height": 1.4
+    }, 
+    "Latios": {
+        "base_weight": 60.0, 
+        "base_height": 2.01
+    }, 
+    "Kyogre": {
+        "base_weight": 352.0, 
+        "base_height": 4.5
+    }, 
+    "Groudon": {
+        "base_weight": 950.0, 
+        "base_height": 3.51
+    }, 
+    "Rayquaza": {
+        "base_weight": 206.5, 
+        "base_height": 7.01
+    }, 
+    "Jirachi": {
+        "base_weight": 1.1, 
+        "base_height": 0.3
+    }, 
+    "Deoxys": {
+        "base_weight": 60.8, 
+        "base_height": 1.7
+    }, 
+    "Turtwig": {
+        "base_weight": 10.2, 
+        "base_height": 0.41
+    }, 
+    "Grotle": {
+        "base_weight": 97.0, 
+        "base_height": 1.09
+    }, 
+    "Torterra": {
+        "base_weight": 310.0, 
+        "base_height": 2.21
+    }, 
+    "Chimchar": {
+        "base_weight": 6.2, 
+        "base_height": 0.51
+    }, 
+    "Monferno": {
+        "base_weight": 22.0, 
+        "base_height": 0.89
+    }, 
+    "Infernape": {
+        "base_weight": 55.0, 
+        "base_height": 1.19
+    }, 
+    "Piplup": {
+        "base_weight": 5.2, 
+        "base_height": 0.41
+    }, 
+    "Prinplup": {
+        "base_weight": 23.0, 
+        "base_height": 0.79
+    }, 
+    "Empoleon": {
+        "base_weight": 84.5, 
+        "base_height": 1.7
+    }, 
+    "Starly": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "Staravia": {
+        "base_weight": 15.5, 
+        "base_height": 0.61
+    }, 
+    "Staraptor": {
+        "base_weight": 24.9, 
+        "base_height": 1.19
+    }, 
+    "Bidoof": {
+        "base_weight": 20.0, 
+        "base_height": 0.51
+    }, 
+    "Bibarel": {
+        "base_weight": 31.5, 
+        "base_height": 0.99
+    }, 
+    "Kricketot": {
+        "base_weight": 2.2, 
+        "base_height": 0.3
+    }, 
+    "Kricketune": {
+        "base_weight": 25.5, 
+        "base_height": 0.99
+    }, 
+    "Shinx": {
+        "base_weight": 9.5, 
+        "base_height": 0.51
+    }, 
+    "Luxio": {
+        "base_weight": 30.5, 
+        "base_height": 0.89
+    }, 
+    "Luxray": {
+        "base_weight": 42.0, 
+        "base_height": 1.4
+    }, 
+    "Budew": {
+        "base_weight": 1.2, 
+        "base_height": 0.2
+    }, 
+    "Roserade": {
+        "base_weight": 14.5, 
+        "base_height": 0.89
+    }, 
+    "Cranidos": {
+        "base_weight": 31.5, 
+        "base_height": 0.89
+    }, 
+    "Rampardos": {
+        "base_weight": 102.5, 
+        "base_height": 1.6
+    }, 
+    "Shieldon": {
+        "base_weight": 57.0, 
+        "base_height": 0.51
+    }, 
+    "Bastiodon": {
+        "base_weight": 149.5, 
+        "base_height": 1.3
+    }, 
+    "Burmy": {
+        "base_weight": 3.4, 
+        "base_height": 0.2
+    }, 
+    "Wormadam": {
+        "base_weight": 6.5, 
+        "base_height": 0.51
+    }, 
+    "Mothim": {
+        "base_weight": 23.3, 
+        "base_height": 0.89
+    }, 
+    "Combee": {
+        "base_weight": 5.5, 
+        "base_height": 0.3
+    }, 
+    "Vespiquen": {
+        "base_weight": 38.5, 
+        "base_height": 1.19
+    }, 
+    "Pachirisu": {
+        "base_weight": 3.9, 
+        "base_height": 0.41
+    }, 
+    "Buizel": {
+        "base_weight": 29.5, 
+        "base_height": 0.71
+    }, 
+    "Floatzel": {
+        "base_weight": 33.5, 
+        "base_height": 1.09
+    }, 
+    "Cherubi": {
+        "base_weight": 3.3, 
+        "base_height": 0.41
+    }, 
+    "Cherrim": {
+        "base_weight": 9.3, 
+        "base_height": 0.51
+    }, 
+    "Shellos": {
+        "base_weight": 6.3, 
+        "base_height": 0.3
+    }, 
+    "Gastrodon": {
+        "base_weight": 29.9, 
+        "base_height": 0.89
+    }, 
+    "Ambipom": {
+        "base_weight": 20.3, 
+        "base_height": 1.19
+    }, 
     "Drifloon": {
         "base_weight": 1.2, 
         "base_height": 0.41
+    }, 
+    "Drifblim": {
+        "base_weight": 15.0, 
+        "base_height": 1.19
+    }, 
+    "Buneary": {
+        "base_weight": 5.5, 
+        "base_height": 0.41
+    }, 
+    "Lopunny": {
+        "base_weight": 33.3, 
+        "base_height": 1.19
+    }, 
+    "Mismagius": {
+        "base_weight": 4.4, 
+        "base_height": 0.89
+    }, 
+    "Honchkrow": {
+        "base_weight": 27.3, 
+        "base_height": 0.89
+    }, 
+    "Glameow": {
+        "base_weight": 3.9, 
+        "base_height": 0.51
+    }, 
+    "Purugly": {
+        "base_weight": 43.8, 
+        "base_height": 0.99
+    }, 
+    "Chingling": {
+        "base_weight": 0.6, 
+        "base_height": 0.2
+    }, 
+    "Stunky": {
+        "base_weight": 19.2, 
+        "base_height": 0.41
+    }, 
+    "Skuntank": {
+        "base_weight": 38.0, 
+        "base_height": 0.99
+    }, 
+    "Bronzor": {
+        "base_weight": 60.5, 
+        "base_height": 0.51
+    }, 
+    "Bronzong": {
+        "base_weight": 187.0, 
+        "base_height": 1.3
+    }, 
+    "Bonsly": {
+        "base_weight": 15.0, 
+        "base_height": 0.51
+    }, 
+    "Mime Jr.": {
+        "base_weight": 13.0, 
+        "base_height": 0.61
+    }, 
+    "Happiny": {
+        "base_weight": 24.4, 
+        "base_height": 0.61
+    }, 
+    "Chatot": {
+        "base_weight": 1.9, 
+        "base_height": 0.51
+    }, 
+    "Spiritomb": {
+        "base_weight": 108.0, 
+        "base_height": 0.99
+    }, 
+    "Gible": {
+        "base_weight": 20.5, 
+        "base_height": 0.71
+    }, 
+    "Gabite": {
+        "base_weight": 56.0, 
+        "base_height": 1.4
+    }, 
+    "Garchomp": {
+        "base_weight": 95.0, 
+        "base_height": 1.91
+    }, 
+    "Munchlax": {
+        "base_weight": 105.0, 
+        "base_height": 0.61
+    }, 
+    "Riolu": {
+        "base_weight": 20.2, 
+        "base_height": 0.71
+    }, 
+    "Lucario": {
+        "base_weight": 54.0, 
+        "base_height": 1.19
+    }, 
+    "Hippopotas": {
+        "base_weight": 49.5, 
+        "base_height": 0.79
+    }, 
+    "Hippowdon": {
+        "base_weight": 300.0, 
+        "base_height": 2.01
+    }, 
+    "Skorupi": {
+        "base_weight": 12.0, 
+        "base_height": 0.79
     }, 
     "Drapion": {
         "base_weight": 61.5, 
         "base_height": 1.3
     }, 
+    "Croagunk": {
+        "base_weight": 23.0, 
+        "base_height": 0.71
+    }, 
+    "Toxicroak": {
+        "base_weight": 44.4, 
+        "base_height": 1.3
+    }, 
+    "Carnivine": {
+        "base_weight": 27.0, 
+        "base_height": 1.4
+    }, 
+    "Finneon": {
+        "base_weight": 7.0, 
+        "base_height": 0.41
+    }, 
+    "Lumineon": {
+        "base_weight": 24.0, 
+        "base_height": 1.19
+    }, 
+    "Mantyke": {
+        "base_weight": 65.0, 
+        "base_height": 0.99
+    }, 
+    "Snover": {
+        "base_weight": 50.5, 
+        "base_height": 0.99
+    }, 
+    "Abomasnow": {
+        "base_weight": 135.5, 
+        "base_height": 2.21
+    }, 
+    "Weavile": {
+        "base_weight": 34.0, 
+        "base_height": 1.09
+    }, 
+    "Magnezone": {
+        "base_weight": 180.0, 
+        "base_height": 1.19
+    }, 
+    "Lickilicky": {
+        "base_weight": 140.0, 
+        "base_height": 1.7
+    }, 
+    "Rhyperior": {
+        "base_weight": 282.8, 
+        "base_height": 2.39
+    }, 
+    "Tangrowth": {
+        "base_weight": 128.6, 
+        "base_height": 2.01
+    }, 
+    "Electivire": {
+        "base_weight": 138.6, 
+        "base_height": 1.8
+    }, 
+    "Magmortar": {
+        "base_weight": 68.0, 
+        "base_height": 1.6
+    }, 
+    "Togekiss": {
+        "base_weight": 38.0, 
+        "base_height": 1.5
+    }, 
+    "Yanmega": {
+        "base_weight": 51.5, 
+        "base_height": 1.91
+    }, 
+    "Leafeon": {
+        "base_weight": 25.5, 
+        "base_height": 0.99
+    }, 
+    "Glaceon": {
+        "base_weight": 25.9, 
+        "base_height": 0.79
+    }, 
+    "Gliscor": {
+        "base_weight": 42.5, 
+        "base_height": 2.01
+    }, 
+    "Mamoswine": {
+        "base_weight": 291.0, 
+        "base_height": 2.49
+    }, 
+    "Porygon-Z": {
+        "base_weight": 34.0, 
+        "base_height": 0.89
+    }, 
+    "Gallade": {
+        "base_weight": 52.0, 
+        "base_height": 1.6
+    }, 
     "Probopass": {
         "base_weight": 340.0, 
         "base_height": 1.4
     }, 
-    "Excadrill": {
-        "base_weight": 40.4, 
-        "base_height": 0.71
+    "Dusknoir": {
+        "base_weight": 106.6, 
+        "base_height": 2.21
     }, 
-    "Bewear": {
-        "base_weight": 135.0, 
-        "base_height": 2.11
+    "Froslass": {
+        "base_weight": 26.6, 
+        "base_height": 1.3
     }, 
-    "Solosis": {
-        "base_weight": 1.0, 
+    "Rotom": {
+        "base_weight": 0.3, 
         "base_height": 0.3
     }, 
-    "Gurdurr": {
-        "base_weight": 40.0, 
-        "base_height": 1.19
+    "Uxie": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
     }, 
-    "Timburr": {
-        "base_weight": 12.5, 
+    "Mesprit": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
+    }, 
+    "Azelf": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
+    }, 
+    "Dialga": {
+        "base_weight": 683.0, 
+        "base_height": 5.41
+    }, 
+    "Palkia": {
+        "base_weight": 336.0, 
+        "base_height": 4.19
+    }, 
+    "Heatran": {
+        "base_weight": 430.0, 
+        "base_height": 1.7
+    }, 
+    "Regigigas": {
+        "base_weight": 420.0, 
+        "base_height": 3.71
+    }, 
+    "Giratina": {
+        "base_weight": 750.0, 
+        "base_height": 4.5
+    }, 
+    "Cresselia": {
+        "base_weight": 85.6, 
+        "base_height": 1.5
+    }, 
+    "Phione": {
+        "base_weight": 3.1, 
+        "base_height": 0.41
+    }, 
+    "Manaphy": {
+        "base_weight": 1.4, 
+        "base_height": 0.3
+    }, 
+    "Darkrai": {
+        "base_weight": 50.5, 
+        "base_height": 1.5
+    }, 
+    "Shaymin": {
+        "base_weight": 5.2, 
+        "base_height": 0.41
+    }, 
+    "Arceus": {
+        "base_weight": 320.0, 
+        "base_height": 3.2
+    }, 
+    "Victini": {
+        "base_weight": 4.0, 
+        "base_height": 0.41
+    }, 
+    "Snivy": {
+        "base_weight": 8.1, 
         "base_height": 0.61
     }, 
-    "Steenee": {
-        "base_weight": 8.2, 
-        "base_height": 0.71
+    "Servine": {
+        "base_weight": 16.0, 
+        "base_height": 0.79
     }, 
-    "Sawk": {
-        "base_weight": 51.0, 
-        "base_height": 1.4
+    "Serperior": {
+        "base_weight": 63.0, 
+        "base_height": 3.3
+    }, 
+    "Tepig": {
+        "base_weight": 9.9, 
+        "base_height": 0.51
+    }, 
+    "Pignite": {
+        "base_weight": 55.5, 
+        "base_height": 0.99
+    }, 
+    "Emboar": {
+        "base_weight": 150.0, 
+        "base_height": 1.6
+    }, 
+    "Oshawott": {
+        "base_weight": 5.9, 
+        "base_height": 0.51
+    }, 
+    "Dewott": {
+        "base_weight": 24.5, 
+        "base_height": 0.79
     }, 
     "Samurott": {
         "base_weight": 94.6, 
@@ -2223,988 +2015,1196 @@
         "base_weight": 11.6, 
         "base_height": 0.51
     }, 
-    "Stunky": {
-        "base_weight": 19.2, 
-        "base_height": 0.41
-    }, 
-    "Thundurus": {
-        "base_weight": 61.0, 
-        "base_height": 3.0
-    }, 
-    "Chespin": {
-        "base_weight": 9.0, 
-        "base_height": 0.41
-    }, 
-    "Pancham": {
-        "base_weight": 8.0, 
-        "base_height": 0.61
-    }, 
-    "Spritzee": {
-        "base_weight": 0.5, 
-        "base_height": 0.2
-    }, 
-    "Sableye": {
-        "base_weight": 11.0, 
-        "base_height": 0.51
-    }, 
-    "Seviper": {
-        "base_weight": 52.5, 
-        "base_height": 2.69
-    }, 
-    "Dugtrio": {
-        "base_weight": 33.3, 
-        "base_height": 0.71
-    }, 
-    "Typhlosion": {
-        "base_weight": 79.5, 
-        "base_height": 1.7
-    }, 
-    "Golurk": {
-        "base_weight": 330.0, 
-        "base_height": 2.79
-    }, 
-    "Volcanion": {
-        "base_weight": 195.0, 
-        "base_height": 1.7
-    }, 
-    "Dwebble": {
-        "base_weight": 14.5, 
-        "base_height": 0.3
-    }, 
-    "Scizor": {
-        "base_weight": 118.0, 
-        "base_height": 1.8
-    }, 
-    "Persian": {
-        "base_weight": 32.0, 
-        "base_height": 0.99
-    }, 
-    "Nidoking": {
-        "base_weight": 62.0, 
-        "base_height": 1.4
-    }, 
-    "Zapdos": {
-        "base_weight": 52.6, 
-        "base_height": 1.6
-    }, 
-    "Ninjask": {
-        "base_weight": 12.0, 
-        "base_height": 0.79
-    }, 
-    "Charmander": {
-        "base_weight": 8.5, 
-        "base_height": 0.61
-    }, 
-    "Shiinotic": {
-        "base_weight": 11.5, 
-        "base_height": 0.99
-    }, 
-    "Karrablast": {
-        "base_weight": 5.9, 
-        "base_height": 0.51
-    }, 
-    "Nincada": {
-        "base_weight": 5.5, 
-        "base_height": 0.51
-    }, 
-    "Grumpig": {
-        "base_weight": 71.5, 
-        "base_height": 0.89
-    }, 
-    "Moltres": {
-        "base_weight": 60.0, 
-        "base_height": 2.01
-    }, 
-    "Flareon": {
-        "base_weight": 25.0, 
-        "base_height": 0.89
-    }, 
-    "Crabrawler": {
-        "base_weight": 7.0, 
-        "base_height": 0.61
-    }, 
-    "Kabuto": {
-        "base_weight": 11.5, 
-        "base_height": 0.51
-    }, 
-    "Turtwig": {
-        "base_weight": 10.2, 
-        "base_height": 0.41
-    }, 
-    "Chatot": {
-        "base_weight": 1.9, 
-        "base_height": 0.51
-    }, 
-    "Fraxure": {
-        "base_weight": 36.0, 
-        "base_height": 0.99
-    }, 
-    "Stantler": {
-        "base_weight": 71.2, 
-        "base_height": 1.4
-    }, 
-    "Shinx": {
-        "base_weight": 9.5, 
-        "base_height": 0.51
-    }, 
-    "Zubat": {
-        "base_weight": 7.5, 
-        "base_height": 0.79
-    }, 
-    "Rockruff": {
-        "base_weight": 9.2, 
-        "base_height": 0.51
-    }, 
-    "Glameow": {
-        "base_weight": 3.9, 
-        "base_height": 0.51
-    }, 
-    "Helioptile": {
-        "base_weight": 6.0, 
-        "base_height": 0.51
-    }, 
-    "Charizard": {
-        "base_weight": 90.5, 
-        "base_height": 1.7
-    }, 
-    "Cutiefly": {
-        "base_weight": 0.2, 
-        "base_height": 0.1
-    }, 
-    "Minccino": {
-        "base_weight": 5.8, 
-        "base_height": 0.41
-    }, 
-    "Tropius": {
-        "base_weight": 100.0, 
-        "base_height": 2.01
-    }, 
-    "Horsea": {
-        "base_weight": 8.0, 
-        "base_height": 0.41
-    }, 
-    "Petilil": {
-        "base_weight": 6.6, 
-        "base_height": 0.51
-    }, 
-    "Luxray": {
-        "base_weight": 42.0, 
-        "base_height": 1.4
-    }, 
-    "Lotad": {
-        "base_weight": 2.6, 
-        "base_height": 0.51
-    }, 
-    "Mienshao": {
-        "base_weight": 35.5, 
-        "base_height": 1.4
-    }, 
-    "Honedge": {
-        "base_weight": 2.0, 
-        "base_height": 0.79
-    }, 
-    "Sentret": {
-        "base_weight": 6.0, 
-        "base_height": 0.79
-    }, 
-    "Snover": {
-        "base_weight": 50.5, 
-        "base_height": 0.99
-    }, 
-    "Gogoat": {
-        "base_weight": 91.0, 
-        "base_height": 1.7
-    }, 
-    "Flygon": {
-        "base_weight": 82.0, 
-        "base_height": 2.01
-    }, 
-    "Escavalier": {
-        "base_weight": 33.0, 
-        "base_height": 0.99
-    }, 
-    "Sliggoo": {
-        "base_weight": 17.5, 
-        "base_height": 0.79
-    }, 
-    "Marshadow": {
-        "base_weight": 22.2, 
-        "base_height": 0.71
-    }, 
-    "Houndoom": {
-        "base_weight": 35.0, 
-        "base_height": 1.4
-    }, 
-    "Kartana": {
-        "base_weight": 0.1, 
-        "base_height": 0.3
-    }, 
-    "Landorus": {
-        "base_weight": 68.0, 
-        "base_height": 1.5
-    }, 
-    "Zigzagoon": {
-        "base_weight": 17.5, 
-        "base_height": 0.41
-    }, 
-    "Lugia": {
-        "base_weight": 216.0, 
-        "base_height": 5.21
-    }, 
-    "Onix": {
-        "base_weight": 210.0, 
-        "base_height": 8.79
-    }, 
-    "Clefairy": {
-        "base_weight": 7.5, 
-        "base_height": 0.61
-    }, 
-    "Grimer": {
-        "base_weight": 30.0, 
-        "base_height": 0.89
-    }, 
-    "Bagon": {
-        "base_weight": 42.1, 
-        "base_height": 0.61
-    }, 
-    "Magneton": {
-        "base_weight": 60.0, 
-        "base_height": 0.99
-    }, 
-    "Duosion": {
-        "base_weight": 8.0, 
-        "base_height": 0.61
-    }, 
-    "Forretress": {
-        "base_weight": 125.8, 
-        "base_height": 1.19
-    }, 
-    "Flab\u00e9b\u00e9": {
-        "base_weight": 0.1, 
-        "base_height": 0.1
-    }, 
-    "Skarmory": {
-        "base_weight": 50.5, 
-        "base_height": 1.7
-    }, 
-    "Burmy": {
-        "base_weight": 3.4, 
-        "base_height": 0.2
-    }, 
-    "Goomy": {
-        "base_weight": 2.8, 
-        "base_height": 0.3
-    }, 
-    "Volbeat": {
-        "base_weight": 17.7, 
-        "base_height": 0.71
-    }, 
-    "Unown": {
-        "base_weight": 5.0, 
-        "base_height": 0.51
-    }, 
-    "Oddish": {
-        "base_weight": 5.4, 
-        "base_height": 0.51
-    }, 
-    "Bronzong": {
-        "base_weight": 187.0, 
-        "base_height": 1.3
-    }, 
-    "Delcatty": {
-        "base_weight": 32.6, 
+    "Watchog": {
+        "base_weight": 27.0, 
         "base_height": 1.09
     }, 
-    "Accelgor": {
-        "base_weight": 25.3, 
-        "base_height": 0.79
-    }, 
-    "Mightyena": {
-        "base_weight": 37.0, 
-        "base_height": 0.99
-    }, 
-    "Caterpie": {
-        "base_weight": 2.9, 
-        "base_height": 0.3
-    }, 
-    "Growlithe": {
-        "base_weight": 19.0, 
-        "base_height": 0.71
-    }, 
-    "Hoopa": {
-        "base_weight": 9.0, 
-        "base_height": 0.51
-    }, 
-    "Munna": {
-        "base_weight": 23.3, 
-        "base_height": 0.61
-    }, 
-    "Groudon": {
-        "base_weight": 950.0, 
-        "base_height": 3.51
-    }, 
-    "Wynaut": {
-        "base_weight": 14.0, 
-        "base_height": 0.61
-    }, 
-    "Kyogre": {
-        "base_weight": 352.0, 
-        "base_height": 4.5
-    }, 
-    "Rayquaza": {
-        "base_weight": 206.5, 
-        "base_height": 7.01
-    }, 
-    "Diglett": {
-        "base_weight": 0.8, 
-        "base_height": 0.2
-    }, 
-    "Diggersby": {
-        "base_weight": 42.4, 
-        "base_height": 0.99
-    }, 
-    "Garchomp": {
-        "base_weight": 95.0, 
-        "base_height": 1.91
-    }, 
-    "Skitty": {
-        "base_weight": 11.0, 
-        "base_height": 0.61
-    }, 
-    "Zekrom": {
-        "base_weight": 345.0, 
-        "base_height": 2.9
-    }, 
-    "Wurmple": {
-        "base_weight": 3.6, 
-        "base_height": 0.3
-    }, 
-    "Pikipek": {
-        "base_weight": 1.2, 
-        "base_height": 0.3
-    }, 
-    "Cinccino": {
-        "base_weight": 7.5, 
-        "base_height": 0.51
-    }, 
-    "Tentacool": {
-        "base_weight": 45.5, 
-        "base_height": 0.89
-    }, 
-    "Scrafty": {
-        "base_weight": 30.0, 
-        "base_height": 1.09
-    }, 
-    "Lilligant": {
-        "base_weight": 16.3, 
-        "base_height": 1.09
-    }, 
-    "Wailmer": {
-        "base_weight": 130.0, 
-        "base_height": 2.01
-    }, 
-    "Dewott": {
-        "base_weight": 24.5, 
-        "base_height": 0.79
-    }, 
-    "Magmar": {
-        "base_weight": 44.5, 
-        "base_height": 1.3
-    }, 
-    "Lucario": {
-        "base_weight": 54.0, 
-        "base_height": 1.19
-    }, 
-    "Rampardos": {
-        "base_weight": 102.5, 
-        "base_height": 1.6
-    }, 
-    "Feebas": {
-        "base_weight": 7.4, 
-        "base_height": 0.61
-    }, 
-    "Charmeleon": {
-        "base_weight": 19.0, 
-        "base_height": 1.09
-    }, 
-    "Buizel": {
-        "base_weight": 29.5, 
-        "base_height": 0.71
-    }, 
-    "Scolipede": {
-        "base_weight": 200.5, 
-        "base_height": 2.49
-    }, 
-    "Serperior": {
-        "base_weight": 63.0, 
-        "base_height": 3.3
-    }, 
-    "Shieldon": {
-        "base_weight": 57.0, 
-        "base_height": 0.51
-    }, 
-    "Pyukumuku": {
-        "base_weight": 1.2, 
-        "base_height": 0.3
-    }, 
-    "Victini": {
-        "base_weight": 4.0, 
+    "Lillipup": {
+        "base_weight": 4.1, 
         "base_height": 0.41
-    }, 
-    "Phione": {
-        "base_weight": 3.1, 
-        "base_height": 0.41
-    }, 
-    "Froslass": {
-        "base_weight": 26.6, 
-        "base_height": 1.3
-    }, 
-    "Oshawott": {
-        "base_weight": 5.9, 
-        "base_height": 0.51
-    }, 
-    "Staraptor": {
-        "base_weight": 24.9, 
-        "base_height": 1.19
-    }, 
-    "Giratina": {
-        "base_weight": 750.0, 
-        "base_height": 4.5
-    }, 
-    "Beartic": {
-        "base_weight": 260.0, 
-        "base_height": 2.59
-    }, 
-    "Cloyster": {
-        "base_weight": 132.5, 
-        "base_height": 1.5
-    }, 
-    "Yungoos": {
-        "base_weight": 6.0, 
-        "base_height": 0.41
-    }, 
-    "Vibrava": {
-        "base_weight": 15.3, 
-        "base_height": 1.09
-    }, 
-    "Salamence": {
-        "base_weight": 102.6, 
-        "base_height": 1.5
-    }, 
-    "Drampa": {
-        "base_weight": 185.0, 
-        "base_height": 3.0
-    }, 
-    "Meditite": {
-        "base_weight": 11.2, 
-        "base_height": 0.61
-    }, 
-    "Yamask": {
-        "base_weight": 1.5, 
-        "base_height": 0.51
-    }, 
-    "Garbodor": {
-        "base_weight": 107.3, 
-        "base_height": 1.91
-    }, 
-    "Marowak": {
-        "base_weight": 45.0, 
-        "base_height": 0.99
-    }, 
-    "Glaceon": {
-        "base_weight": 25.9, 
-        "base_height": 0.79
-    }, 
-    "Litleo": {
-        "base_weight": 13.5, 
-        "base_height": 0.61
-    }, 
-    "Surskit": {
-        "base_weight": 1.7, 
-        "base_height": 0.51
-    }, 
-    "Croconaw": {
-        "base_weight": 25.0, 
-        "base_height": 1.09
-    }, 
-    "Graveler": {
-        "base_weight": 105.0, 
-        "base_height": 0.99
-    }, 
-    "Happiny": {
-        "base_weight": 24.4, 
-        "base_height": 0.61
-    }, 
-    "Darkrai": {
-        "base_weight": 50.5, 
-        "base_height": 1.5
-    }, 
-    "Mew": {
-        "base_weight": 4.0, 
-        "base_height": 0.41
-    }, 
-    "Hippowdon": {
-        "base_weight": 300.0, 
-        "base_height": 2.01
-    }, 
-    "Bellossom": {
-        "base_weight": 5.8, 
-        "base_height": 0.41
-    }, 
-    "Blissey": {
-        "base_weight": 46.8, 
-        "base_height": 1.5
-    }, 
-    "Xerneas": {
-        "base_weight": 215.0, 
-        "base_height": 3.0
-    }, 
-    "Darumaka": {
-        "base_weight": 37.5, 
-        "base_height": 0.61
-    }, 
-    "Metagross": {
-        "base_weight": 550.0, 
-        "base_height": 1.6
-    }, 
-    "Tyrunt": {
-        "base_weight": 26.0, 
-        "base_height": 0.79
-    }, 
-    "Palpitoad": {
-        "base_weight": 17.0, 
-        "base_height": 0.79
-    }, 
-    "Lanturn": {
-        "base_weight": 22.5, 
-        "base_height": 1.19
-    }, 
-    "Litwick": {
-        "base_weight": 3.1, 
-        "base_height": 0.3
-    }, 
-    "Quilladin": {
-        "base_weight": 29.0, 
-        "base_height": 0.71
-    }, 
-    "Zweilous": {
-        "base_weight": 50.0, 
-        "base_height": 1.4
-    }, 
-    "Beautifly": {
-        "base_weight": 28.4, 
-        "base_height": 0.99
-    }, 
-    "Poliwag": {
-        "base_weight": 12.4, 
-        "base_height": 0.61
-    }, 
-    "Delphox": {
-        "base_weight": 39.0, 
-        "base_height": 1.5
     }, 
     "Herdier": {
         "base_weight": 14.7, 
         "base_height": 0.89
     }, 
-    "Buzzwole": {
-        "base_weight": 333.6, 
-        "base_height": 2.39
-    }, 
-    "Pelipper": {
-        "base_weight": 28.0, 
+    "Stoutland": {
+        "base_weight": 61.0, 
         "base_height": 1.19
     }, 
-    "Avalugg": {
-        "base_weight": 505.0, 
-        "base_height": 2.01
-    }, 
-    "Talonflame": {
-        "base_weight": 24.5, 
-        "base_height": 1.19
-    }, 
-    "Swalot": {
-        "base_weight": 80.0, 
-        "base_height": 1.7
-    }, 
-    "Zygarde": {
-        "base_weight": 33.5, 
-        "base_height": 1.19
-    }, 
-    "Inkay": {
-        "base_weight": 3.5, 
+    "Purrloin": {
+        "base_weight": 10.1, 
         "base_height": 0.41
     }, 
-    "Meganium": {
-        "base_weight": 100.5, 
-        "base_height": 1.8
+    "Liepard": {
+        "base_weight": 37.5, 
+        "base_height": 1.09
     }, 
-    "Monferno": {
-        "base_weight": 22.0, 
-        "base_height": 0.89
+    "Pansage": {
+        "base_weight": 10.5, 
+        "base_height": 0.61
     }, 
-    "Mr. Mime": {
-        "base_weight": 54.5, 
-        "base_height": 1.3
+    "Simisage": {
+        "base_weight": 30.5, 
+        "base_height": 1.09
     }, 
-    "Barbaracle": {
-        "base_weight": 96.0, 
-        "base_height": 1.3
-    }, 
-    "Wailord": {
-        "base_weight": 398.0, 
-        "base_height": 14.5
-    }, 
-    "Yveltal": {
-        "base_weight": 203.0, 
-        "base_height": 5.79
-    }, 
-    "Ho-oh": {
-        "base_weight": 199.0, 
-        "base_height": 3.81
+    "Pansear": {
+        "base_weight": 11.0, 
+        "base_height": 0.61
     }, 
     "Simisear": {
         "base_weight": 28.0, 
         "base_height": 0.99
     }, 
-    "Mienfoo": {
-        "base_weight": 20.0, 
-        "base_height": 0.89
-    }, 
-    "Wormadam": {
-        "base_weight": 6.5, 
-        "base_height": 0.51
-    }, 
-    "Shelmet": {
-        "base_weight": 7.7, 
-        "base_height": 0.41
-    }, 
-    "Elekid": {
-        "base_weight": 23.5, 
+    "Panpour": {
+        "base_weight": 13.5, 
         "base_height": 0.61
     }, 
-    "Ribombee": {
-        "base_weight": 0.5, 
-        "base_height": 0.2
-    }, 
-    "Ursaring": {
-        "base_weight": 125.8, 
-        "base_height": 1.8
-    }, 
-    "Anorith": {
-        "base_weight": 12.5, 
-        "base_height": 0.71
-    }, 
-    "Tyrantrum": {
-        "base_weight": 270.0, 
-        "base_height": 2.49
-    }, 
-    "Gardevoir": {
-        "base_weight": 48.4, 
-        "base_height": 1.6
-    }, 
-    "Tynamo": {
-        "base_weight": 0.3, 
-        "base_height": 0.2
-    }, 
-    "Combee": {
-        "base_weight": 5.5, 
-        "base_height": 0.3
-    }, 
-    "Krokorok": {
-        "base_weight": 33.4, 
+    "Simipour": {
+        "base_weight": 29.0, 
         "base_height": 0.99
     }, 
-    "Stunfisk": {
-        "base_weight": 11.0, 
-        "base_height": 0.71
+    "Munna": {
+        "base_weight": 23.3, 
+        "base_height": 0.61
     }, 
-    "Mewtwo": {
-        "base_weight": 122.0, 
-        "base_height": 2.01
+    "Musharna": {
+        "base_weight": 60.5, 
+        "base_height": 1.09
+    }, 
+    "Pidove": {
+        "base_weight": 2.1, 
+        "base_height": 0.3
     }, 
     "Tranquill": {
         "base_weight": 15.0, 
         "base_height": 0.61
     }, 
-    "Riolu": {
-        "base_weight": 20.2, 
-        "base_height": 0.71
+    "Unfezant": {
+        "base_weight": 29.0, 
+        "base_height": 1.19
     }, 
-    "Combusken": {
-        "base_weight": 19.5, 
+    "Blitzle": {
+        "base_weight": 29.8, 
+        "base_height": 0.79
+    }, 
+    "Zebstrika": {
+        "base_weight": 79.5, 
+        "base_height": 1.6
+    }, 
+    "Roggenrola": {
+        "base_weight": 18.0, 
+        "base_height": 0.41
+    }, 
+    "Boldore": {
+        "base_weight": 102.0, 
+        "base_height": 0.89
+    }, 
+    "Gigalith": {
+        "base_weight": 260.0, 
+        "base_height": 1.7
+    }, 
+    "Woobat": {
+        "base_weight": 2.1, 
+        "base_height": 0.41
+    }, 
+    "Swoobat": {
+        "base_weight": 10.5, 
         "base_height": 0.89
     }, 
     "Drilbur": {
         "base_weight": 8.5, 
         "base_height": 0.3
     }, 
-    "Scatterbug": {
-        "base_weight": 2.5, 
-        "base_height": 0.3
+    "Excadrill": {
+        "base_weight": 40.4, 
+        "base_height": 0.71
     }, 
-    "Castform": {
-        "base_weight": 0.8, 
-        "base_height": 0.3
-    }, 
-    "Fomantis": {
-        "base_weight": 1.5, 
-        "base_height": 0.3
-    }, 
-    "Spinda": {
-        "base_weight": 5.0, 
+    "Audino": {
+        "base_weight": 31.0, 
         "base_height": 1.09
     }, 
-    "Cradily": {
-        "base_weight": 60.4, 
-        "base_height": 1.5
-    }, 
-    "Pidgeot": {
-        "base_weight": 39.5, 
-        "base_height": 1.5
-    }, 
-    "Trumbeak": {
-        "base_weight": 14.8, 
+    "Timburr": {
+        "base_weight": 12.5, 
         "base_height": 0.61
     }, 
-    "Kingler": {
-        "base_weight": 60.0, 
-        "base_height": 1.3
+    "Gurdurr": {
+        "base_weight": 40.0, 
+        "base_height": 1.19
     }, 
-    "Exeggcute": {
-        "base_weight": 2.5, 
-        "base_height": 0.41
+    "Conkeldurr": {
+        "base_weight": 87.0, 
+        "base_height": 1.4
     }, 
-    "Klefki": {
-        "base_weight": 3.0, 
-        "base_height": 0.2
+    "Tympole": {
+        "base_weight": 4.5, 
+        "base_height": 0.51
     }, 
-    "Lunatone": {
-        "base_weight": 168.0, 
-        "base_height": 0.99
+    "Palpitoad": {
+        "base_weight": 17.0, 
+        "base_height": 0.79
     }, 
-    "Swampert": {
-        "base_weight": 81.9, 
+    "Seismitoad": {
+        "base_weight": 62.0, 
         "base_height": 1.5
     }, 
-    "Vanillite": {
-        "base_weight": 5.7, 
-        "base_height": 0.41
+    "Throh": {
+        "base_weight": 55.5, 
+        "base_height": 1.3
     }, 
-    "Rapidash": {
-        "base_weight": 95.0, 
-        "base_height": 1.7
+    "Sawk": {
+        "base_weight": 51.0, 
+        "base_height": 1.4
     }, 
-    "Lairon": {
-        "base_weight": 120.0, 
-        "base_height": 0.89
+    "Sewaddle": {
+        "base_weight": 2.5, 
+        "base_height": 0.3
     }, 
-    "Krabby": {
-        "base_weight": 6.5, 
-        "base_height": 0.41
+    "Swadloon": {
+        "base_weight": 7.3, 
+        "base_height": 0.51
     }, 
-    "Electivire": {
-        "base_weight": 138.6, 
-        "base_height": 1.8
-    }, 
-    "Suicune": {
-        "base_weight": 187.0, 
-        "base_height": 2.01
-    }, 
-    "Seadra": {
-        "base_weight": 25.0, 
+    "Leavanny": {
+        "base_weight": 20.5, 
         "base_height": 1.19
+    }, 
+    "Venipede": {
+        "base_weight": 5.3, 
+        "base_height": 0.41
+    }, 
+    "Whirlipede": {
+        "base_weight": 58.5, 
+        "base_height": 1.19
+    }, 
+    "Scolipede": {
+        "base_weight": 200.5, 
+        "base_height": 2.49
+    }, 
+    "Cottonee": {
+        "base_weight": 0.6, 
+        "base_height": 0.3
+    }, 
+    "Whimsicott": {
+        "base_weight": 6.6, 
+        "base_height": 0.71
+    }, 
+    "Petilil": {
+        "base_weight": 6.6, 
+        "base_height": 0.51
+    }, 
+    "Lilligant": {
+        "base_weight": 16.3, 
+        "base_height": 1.09
+    }, 
+    "Basculin": {
+        "base_weight": 18.0, 
+        "base_height": 0.99
+    }, 
+    "Sandile": {
+        "base_weight": 15.2, 
+        "base_height": 0.71
+    }, 
+    "Krokorok": {
+        "base_weight": 33.4, 
+        "base_height": 0.99
+    }, 
+    "Krookodile": {
+        "base_weight": 96.3, 
+        "base_height": 1.5
+    }, 
+    "Darumaka": {
+        "base_weight": 37.5, 
+        "base_height": 0.61
+    }, 
+    "Darmanitan": {
+        "base_weight": 92.9, 
+        "base_height": 1.3
+    }, 
+    "Maractus": {
+        "base_weight": 28.0, 
+        "base_height": 0.99
+    }, 
+    "Dwebble": {
+        "base_weight": 14.5, 
+        "base_height": 0.3
+    }, 
+    "Crustle": {
+        "base_weight": 200.0, 
+        "base_height": 1.4
+    }, 
+    "Scraggy": {
+        "base_weight": 11.8, 
+        "base_height": 0.61
+    }, 
+    "Scrafty": {
+        "base_weight": 30.0, 
+        "base_height": 1.09
+    }, 
+    "Sigilyph": {
+        "base_weight": 14.0, 
+        "base_height": 1.4
+    }, 
+    "Yamask": {
+        "base_weight": 1.5, 
+        "base_height": 0.51
+    }, 
+    "Cofagrigus": {
+        "base_weight": 76.5, 
+        "base_height": 1.7
     }, 
     "Tirtouga": {
         "base_weight": 16.5, 
         "base_height": 0.71
     }, 
-    "Slugma": {
-        "base_weight": 35.0, 
-        "base_height": 0.71
-    }, 
-    "Hoppip": {
-        "base_weight": 0.5, 
-        "base_height": 0.41
-    }, 
-    "Tornadus": {
-        "base_weight": 63.0, 
-        "base_height": 1.4
-    }, 
-    "Metang": {
-        "base_weight": 202.5, 
+    "Carracosta": {
+        "base_weight": 81.0, 
         "base_height": 1.19
     }, 
-    "Gastrodon": {
-        "base_weight": 29.9, 
-        "base_height": 0.89
-    }, 
-    "Gloom": {
-        "base_weight": 8.6, 
-        "base_height": 0.79
-    }, 
-    "Natu": {
-        "base_weight": 2.0, 
-        "base_height": 0.2
-    }, 
-    "Carnivine": {
-        "base_weight": 27.0, 
-        "base_height": 1.4
-    }, 
-    "Shaymin": {
-        "base_weight": 5.2, 
-        "base_height": 0.41
-    }, 
-    "Tyranitar": {
-        "base_weight": 202.0, 
-        "base_height": 2.01
-    }, 
-    "Passimian": {
-        "base_weight": 82.8, 
-        "base_height": 2.01
-    }, 
-    "Bidoof": {
-        "base_weight": 20.0, 
+    "Archen": {
+        "base_weight": 9.5, 
         "base_height": 0.51
     }, 
-    "Solgaleo": {
-        "base_weight": 230.0, 
-        "base_height": 3.4
+    "Archeops": {
+        "base_weight": 32.0, 
+        "base_height": 1.4
     }, 
-    "Munchlax": {
-        "base_weight": 105.0, 
+    "Trubbish": {
+        "base_weight": 31.0, 
         "base_height": 0.61
     }, 
-    "Pupitar": {
-        "base_weight": 152.0, 
+    "Garbodor": {
+        "base_weight": 107.3, 
+        "base_height": 1.91
+    }, 
+    "Zorua": {
+        "base_weight": 12.5, 
+        "base_height": 0.71
+    }, 
+    "Zoroark": {
+        "base_weight": 81.1, 
+        "base_height": 1.6
+    }, 
+    "Minccino": {
+        "base_weight": 5.8, 
+        "base_height": 0.41
+    }, 
+    "Cinccino": {
+        "base_weight": 7.5, 
+        "base_height": 0.51
+    }, 
+    "Gothita": {
+        "base_weight": 5.8, 
+        "base_height": 0.41
+    }, 
+    "Gothorita": {
+        "base_weight": 18.0, 
+        "base_height": 0.71
+    }, 
+    "Gothitelle": {
+        "base_weight": 44.0, 
+        "base_height": 1.5
+    }, 
+    "Solosis": {
+        "base_weight": 1.0, 
+        "base_height": 0.3
+    }, 
+    "Duosion": {
+        "base_weight": 8.0, 
+        "base_height": 0.61
+    }, 
+    "Reuniclus": {
+        "base_weight": 20.1, 
+        "base_height": 0.99
+    }, 
+    "Ducklett": {
+        "base_weight": 5.5, 
+        "base_height": 0.51
+    }, 
+    "Swanna": {
+        "base_weight": 24.2, 
+        "base_height": 1.3
+    }, 
+    "Vanillite": {
+        "base_weight": 5.7, 
+        "base_height": 0.41
+    }, 
+    "Vanillish": {
+        "base_weight": 41.0, 
+        "base_height": 1.09
+    }, 
+    "Vanilluxe": {
+        "base_weight": 57.5, 
+        "base_height": 1.3
+    }, 
+    "Deerling": {
+        "base_weight": 19.5, 
+        "base_height": 0.61
+    }, 
+    "Sawsbuck": {
+        "base_weight": 92.5, 
+        "base_height": 1.91
+    }, 
+    "Emolga": {
+        "base_weight": 5.0, 
+        "base_height": 0.41
+    }, 
+    "Karrablast": {
+        "base_weight": 5.9, 
+        "base_height": 0.51
+    }, 
+    "Escavalier": {
+        "base_weight": 33.0, 
+        "base_height": 0.99
+    }, 
+    "Foongus": {
+        "base_weight": 1.0, 
+        "base_height": 0.2
+    }, 
+    "Amoonguss": {
+        "base_weight": 10.5, 
+        "base_height": 0.61
+    }, 
+    "Frillish": {
+        "base_weight": 33.0, 
         "base_height": 1.19
     }, 
-    "Nuzleaf": {
-        "base_weight": 28.0, 
+    "Jellicent": {
+        "base_weight": 135.0, 
+        "base_height": 2.21
+    }, 
+    "Alomomola": {
+        "base_weight": 31.6, 
+        "base_height": 1.19
+    }, 
+    "Joltik": {
+        "base_weight": 0.6, 
+        "base_height": 0.1
+    }, 
+    "Galvantula": {
+        "base_weight": 14.3, 
+        "base_height": 0.79
+    }, 
+    "Ferroseed": {
+        "base_weight": 18.8, 
+        "base_height": 0.61
+    }, 
+    "Ferrothorn": {
+        "base_weight": 110.0, 
+        "base_height": 0.99
+    }, 
+    "Klink": {
+        "base_weight": 21.0, 
+        "base_height": 0.3
+    }, 
+    "Klang": {
+        "base_weight": 51.0, 
+        "base_height": 0.61
+    }, 
+    "Klinklang": {
+        "base_weight": 81.0, 
+        "base_height": 0.61
+    }, 
+    "Tynamo": {
+        "base_weight": 0.3, 
+        "base_height": 0.2
+    }, 
+    "Eelektrik": {
+        "base_weight": 22.0, 
+        "base_height": 1.19
+    }, 
+    "Eelektross": {
+        "base_weight": 80.5, 
+        "base_height": 2.11
+    }, 
+    "Elgyem": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "Beheeyem": {
+        "base_weight": 34.5, 
+        "base_height": 0.99
+    }, 
+    "Litwick": {
+        "base_weight": 3.1, 
+        "base_height": 0.3
+    }, 
+    "Lampent": {
+        "base_weight": 13.0, 
+        "base_height": 0.61
+    }, 
+    "Chandelure": {
+        "base_weight": 34.3, 
+        "base_height": 0.99
+    }, 
+    "Axew": {
+        "base_weight": 18.0, 
+        "base_height": 0.61
+    }, 
+    "Fraxure": {
+        "base_weight": 36.0, 
         "base_height": 0.99
     }, 
     "Haxorus": {
         "base_weight": 105.5, 
         "base_height": 1.8
     }, 
-    "Weedle": {
-        "base_weight": 3.2, 
-        "base_height": 0.3
-    }, 
-    "Shuppet": {
-        "base_weight": 2.3, 
-        "base_height": 0.61
-    }, 
-    "Kricketune": {
-        "base_weight": 25.5, 
-        "base_height": 0.99
-    }, 
-    "Miltank": {
-        "base_weight": 75.5, 
-        "base_height": 1.19
-    }, 
-    "Snivy": {
-        "base_weight": 8.1, 
-        "base_height": 0.61
-    }, 
-    "Machop": {
-        "base_weight": 19.5, 
-        "base_height": 0.79
-    }, 
-    "Spinarak": {
+    "Cubchoo": {
         "base_weight": 8.5, 
         "base_height": 0.51
     }, 
-    "Froakie": {
-        "base_weight": 7.0, 
-        "base_height": 0.3
-    }, 
-    "Cacnea": {
-        "base_weight": 51.3, 
-        "base_height": 0.41
-    }, 
-    "Simipour": {
-        "base_weight": 29.0, 
-        "base_height": 0.99
-    }, 
-    "Cranidos": {
-        "base_weight": 31.5, 
-        "base_height": 0.89
-    }, 
-    "Dewgong": {
-        "base_weight": 120.0, 
-        "base_height": 1.7
-    }, 
-    "Kecleon": {
-        "base_weight": 22.0, 
-        "base_height": 0.99
-    }, 
-    "Shiftry": {
-        "base_weight": 59.6, 
-        "base_height": 1.3
+    "Beartic": {
+        "base_weight": 260.0, 
+        "base_height": 2.59
     }, 
     "Cryogonal": {
         "base_weight": 148.0, 
         "base_height": 1.09
     }, 
-    "Ludicolo": {
-        "base_weight": 55.0, 
-        "base_height": 1.5
-    }, 
-    "Rhyhorn": {
-        "base_weight": 115.0, 
-        "base_height": 0.99
-    }, 
-    "Torchic": {
-        "base_weight": 2.5, 
+    "Shelmet": {
+        "base_weight": 7.7, 
         "base_height": 0.41
     }, 
-    "Regice": {
-        "base_weight": 175.0, 
-        "base_height": 1.8
+    "Accelgor": {
+        "base_weight": 25.3, 
+        "base_height": 0.79
     }, 
-    "Armaldo": {
-        "base_weight": 68.2, 
+    "Stunfisk": {
+        "base_weight": 11.0, 
+        "base_height": 0.71
+    }, 
+    "Mienfoo": {
+        "base_weight": 20.0, 
+        "base_height": 0.89
+    }, 
+    "Mienshao": {
+        "base_weight": 35.5, 
+        "base_height": 1.4
+    }, 
+    "Druddigon": {
+        "base_weight": 139.0, 
+        "base_height": 1.6
+    }, 
+    "Golett": {
+        "base_weight": 92.0, 
+        "base_height": 0.99
+    }, 
+    "Golurk": {
+        "base_weight": 330.0, 
+        "base_height": 2.79
+    }, 
+    "Pawniard": {
+        "base_weight": 10.2, 
+        "base_height": 0.51
+    }, 
+    "Bisharp": {
+        "base_weight": 70.0, 
+        "base_height": 1.6
+    }, 
+    "Bouffalant": {
+        "base_weight": 94.6, 
+        "base_height": 1.6
+    }, 
+    "Rufflet": {
+        "base_weight": 10.5, 
+        "base_height": 0.51
+    }, 
+    "Braviary": {
+        "base_weight": 41.0, 
         "base_height": 1.5
     }, 
-    "Espeon": {
-        "base_weight": 26.5, 
+    "Vullaby": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "Mandibuzz": {
+        "base_weight": 39.5, 
+        "base_height": 1.19
+    }, 
+    "Heatmor": {
+        "base_weight": 58.0, 
+        "base_height": 1.4
+    }, 
+    "Durant": {
+        "base_weight": 33.0, 
+        "base_height": 0.3
+    }, 
+    "Deino": {
+        "base_weight": 17.3, 
+        "base_height": 0.79
+    }, 
+    "Zweilous": {
+        "base_weight": 50.0, 
+        "base_height": 1.4
+    }, 
+    "Hydreigon": {
+        "base_weight": 160.0, 
+        "base_height": 1.8
+    }, 
+    "Larvesta": {
+        "base_weight": 28.8, 
+        "base_height": 1.09
+    }, 
+    "Volcarona": {
+        "base_weight": 46.0, 
+        "base_height": 1.6
+    }, 
+    "Cobalion": {
+        "base_weight": 250.0, 
+        "base_height": 2.11
+    }, 
+    "Terrakion": {
+        "base_weight": 260.0, 
+        "base_height": 1.91
+    }, 
+    "Virizion": {
+        "base_weight": 200.0, 
+        "base_height": 2.01
+    }, 
+    "Tornadus": {
+        "base_weight": 63.0, 
+        "base_height": 1.4
+    }, 
+    "Thundurus": {
+        "base_weight": 61.0, 
+        "base_height": 3.0
+    }, 
+    "Reshiram": {
+        "base_weight": 330.0, 
+        "base_height": 3.2
+    }, 
+    "Zekrom": {
+        "base_weight": 345.0, 
+        "base_height": 2.9
+    }, 
+    "Landorus": {
+        "base_weight": 68.0, 
+        "base_height": 1.5
+    }, 
+    "Kyurem": {
+        "base_weight": 325.0, 
+        "base_height": 3.0
+    }, 
+    "Keldeo": {
+        "base_weight": 48.5, 
+        "base_height": 1.4
+    }, 
+    "Meloetta": {
+        "base_weight": 6.5, 
+        "base_height": 0.61
+    }, 
+    "Genesect": {
+        "base_weight": 82.5, 
+        "base_height": 1.5
+    }, 
+    "Chespin": {
+        "base_weight": 9.0, 
+        "base_height": 0.41
+    }, 
+    "Quilladin": {
+        "base_weight": 29.0, 
+        "base_height": 0.71
+    }, 
+    "Chesnaught": {
+        "base_weight": 90.0, 
+        "base_height": 1.6
+    }, 
+    "Fennekin": {
+        "base_weight": 9.4, 
+        "base_height": 0.41
+    }, 
+    "Braixen": {
+        "base_weight": 14.5, 
+        "base_height": 0.99
+    }, 
+    "Delphox": {
+        "base_weight": 39.0, 
+        "base_height": 1.5
+    }, 
+    "Froakie": {
+        "base_weight": 7.0, 
+        "base_height": 0.3
+    }, 
+    "Frogadier": {
+        "base_weight": 10.9, 
+        "base_height": 0.61
+    }, 
+    "Greninja": {
+        "base_weight": 40.0, 
+        "base_height": 1.5
+    }, 
+    "Bunnelby": {
+        "base_weight": 5.0, 
+        "base_height": 0.41
+    }, 
+    "Diggersby": {
+        "base_weight": 42.4, 
+        "base_height": 0.99
+    }, 
+    "Fletchling": {
+        "base_weight": 1.7, 
+        "base_height": 0.3
+    }, 
+    "Fletchinder": {
+        "base_weight": 16.0, 
+        "base_height": 0.71
+    }, 
+    "Talonflame": {
+        "base_weight": 24.5, 
+        "base_height": 1.19
+    }, 
+    "Scatterbug": {
+        "base_weight": 2.5, 
+        "base_height": 0.3
+    }, 
+    "Spewpa": {
+        "base_weight": 8.4, 
+        "base_height": 0.3
+    }, 
+    "Vivillon": {
+        "base_weight": 17.0, 
+        "base_height": 1.19
+    }, 
+    "Litleo": {
+        "base_weight": 13.5, 
+        "base_height": 0.61
+    }, 
+    "Pyroar": {
+        "base_weight": 81.5, 
+        "base_height": 1.5
+    }, 
+    "Flab\u00e9b\u00e9": {
+        "base_weight": 0.1, 
+        "base_height": 0.1
+    }, 
+    "Floette": {
+        "base_weight": 0.9, 
+        "base_height": 0.2
+    }, 
+    "Florges": {
+        "base_weight": 10.0, 
+        "base_height": 1.09
+    }, 
+    "Skiddo": {
+        "base_weight": 31.0, 
         "base_height": 0.89
+    }, 
+    "Gogoat": {
+        "base_weight": 91.0, 
+        "base_height": 1.7
+    }, 
+    "Pancham": {
+        "base_weight": 8.0, 
+        "base_height": 0.61
+    }, 
+    "Pangoro": {
+        "base_weight": 136.0, 
+        "base_height": 2.11
+    }, 
+    "Furfrou": {
+        "base_weight": 28.0, 
+        "base_height": 1.19
+    }, 
+    "Espurr": {
+        "base_weight": 3.5, 
+        "base_height": 0.3
+    }, 
+    "Meowstic": {
+        "base_weight": 8.5, 
+        "base_height": 0.61
+    }, 
+    "Honedge": {
+        "base_weight": 2.0, 
+        "base_height": 0.79
+    }, 
+    "Doublade": {
+        "base_weight": 4.5, 
+        "base_height": 0.84
+    }, 
+    "Aegislash": {
+        "base_weight": 53.0, 
+        "base_height": 1.7
+    }, 
+    "Spritzee": {
+        "base_weight": 0.5, 
+        "base_height": 0.2
+    }, 
+    "Aromatisse": {
+        "base_weight": 15.5, 
+        "base_height": 0.79
+    }, 
+    "Swirlix": {
+        "base_weight": 3.5, 
+        "base_height": 0.41
+    }, 
+    "Slurpuff": {
+        "base_weight": 5.0, 
+        "base_height": 0.79
+    }, 
+    "Inkay": {
+        "base_weight": 3.5, 
+        "base_height": 0.41
+    }, 
+    "Malamar": {
+        "base_weight": 47.0, 
+        "base_height": 1.5
+    }, 
+    "Binacle": {
+        "base_weight": 31.0, 
+        "base_height": 0.51
+    }, 
+    "Barbaracle": {
+        "base_weight": 96.0, 
+        "base_height": 1.3
+    }, 
+    "Skrelp": {
+        "base_weight": 7.3, 
+        "base_height": 0.51
+    }, 
+    "Dragalge": {
+        "base_weight": 81.5, 
+        "base_height": 1.8
+    }, 
+    "Clauncher": {
+        "base_weight": 8.3, 
+        "base_height": 0.51
+    }, 
+    "Clawitzer": {
+        "base_weight": 35.3, 
+        "base_height": 1.3
+    }, 
+    "Helioptile": {
+        "base_weight": 6.0, 
+        "base_height": 0.51
+    }, 
+    "Heliolisk": {
+        "base_weight": 21.0, 
+        "base_height": 0.99
+    }, 
+    "Tyrunt": {
+        "base_weight": 26.0, 
+        "base_height": 0.79
+    }, 
+    "Tyrantrum": {
+        "base_weight": 270.0, 
+        "base_height": 2.49
+    }, 
+    "Amaura": {
+        "base_weight": 25.2, 
+        "base_height": 1.3
+    }, 
+    "Aurorus": {
+        "base_weight": 225.0, 
+        "base_height": 2.69
+    }, 
+    "Sylveon": {
+        "base_weight": 23.5, 
+        "base_height": 0.99
+    }, 
+    "Hawlucha": {
+        "base_weight": 21.5, 
+        "base_height": 0.79
+    }, 
+    "Dedenne": {
+        "base_weight": 2.2, 
+        "base_height": 0.2
+    }, 
+    "Carbink": {
+        "base_weight": 5.7, 
+        "base_height": 0.3
+    }, 
+    "Goomy": {
+        "base_weight": 2.8, 
+        "base_height": 0.3
+    }, 
+    "Sliggoo": {
+        "base_weight": 17.5, 
+        "base_height": 0.79
+    }, 
+    "Goodra": {
+        "base_weight": 150.5, 
+        "base_height": 2.01
+    }, 
+    "Klefki": {
+        "base_weight": 3.0, 
+        "base_height": 0.2
+    }, 
+    "Phantump": {
+        "base_weight": 7.0, 
+        "base_height": 0.41
+    }, 
+    "Trevenant": {
+        "base_weight": 71.0, 
+        "base_height": 1.5
+    }, 
+    "Pumpkaboo": {
+        "base_weight": 5.0, 
+        "base_height": 0.41
+    }, 
+    "Gourgeist": {
+        "base_weight": 39.0, 
+        "base_height": 1.7
+    }, 
+    "Bergmite": {
+        "base_weight": 99.5, 
+        "base_height": 0.99
+    }, 
+    "Avalugg": {
+        "base_weight": 505.0, 
+        "base_height": 2.01
+    }, 
+    "Noibat": {
+        "base_weight": 8.0, 
+        "base_height": 0.51
+    }, 
+    "Noivern": {
+        "base_weight": 85.0, 
+        "base_height": 1.5
+    }, 
+    "Xerneas": {
+        "base_weight": 215.0, 
+        "base_height": 3.0
+    }, 
+    "Yveltal": {
+        "base_weight": 203.0, 
+        "base_height": 5.79
+    }, 
+    "Zygarde": {
+        "base_weight": 33.5, 
+        "base_height": 1.19
+    }, 
+    "Diancie": {
+        "base_weight": 8.8, 
+        "base_height": 0.71
+    }, 
+    "Hoopa": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "Volcanion": {
+        "base_weight": 195.0, 
+        "base_height": 1.7
+    }, 
+    "Rowlet": {
+        "base_weight": 1.5, 
+        "base_height": 0.3
+    }, 
+    "Dartrix": {
+        "base_weight": 16.0, 
+        "base_height": 0.71
+    }, 
+    "Decidueye": {
+        "base_weight": 36.6, 
+        "base_height": 1.6
+    }, 
+    "Litten": {
+        "base_weight": 4.3, 
+        "base_height": 0.41
+    }, 
+    "Torracat": {
+        "base_weight": 25.0, 
+        "base_height": 0.71
+    }, 
+    "Incineroar": {
+        "base_weight": 83.0, 
+        "base_height": 1.8
+    }, 
+    "Popplio": {
+        "base_weight": 7.5, 
+        "base_height": 0.41
+    }, 
+    "Brionne": {
+        "base_weight": 17.5, 
+        "base_height": 0.61
+    }, 
+    "Primarina": {
+        "base_weight": 44.0, 
+        "base_height": 1.8
+    }, 
+    "Pikipek": {
+        "base_weight": 1.2, 
+        "base_height": 0.3
+    }, 
+    "Trumbeak": {
+        "base_weight": 14.8, 
+        "base_height": 0.61
+    }, 
+    "Toucannon": {
+        "base_weight": 26.0, 
+        "base_height": 1.09
+    }, 
+    "Yungoos": {
+        "base_weight": 6.0, 
+        "base_height": 0.41
     }, 
     "Gumshoos": {
         "base_weight": 14.2, 
         "base_height": 0.71
     }, 
-    "Cubone": {
-        "base_weight": 6.5, 
+    "Grubbin": {
+        "base_weight": 4.4, 
         "base_height": 0.41
     }, 
-    "Ferroseed": {
-        "base_weight": 18.8, 
+    "Charjabug": {
+        "base_weight": 10.5, 
+        "base_height": 0.51
+    }, 
+    "Vikavolt": {
+        "base_weight": 45.0, 
+        "base_height": 1.5
+    }, 
+    "Crabrawler": {
+        "base_weight": 7.0, 
         "base_height": 0.61
     }, 
-    "Shedinja": {
-        "base_weight": 1.2, 
+    "Crabominable": {
+        "base_weight": 180.0, 
+        "base_height": 1.7
+    }, 
+    "Oricorio": {
+        "base_weight": 3.4, 
+        "base_height": 0.61
+    }, 
+    "Cutiefly": {
+        "base_weight": 0.2, 
+        "base_height": 0.1
+    }, 
+    "Ribombee": {
+        "base_weight": 0.5, 
+        "base_height": 0.2
+    }, 
+    "Rockruff": {
+        "base_weight": 9.2, 
+        "base_height": 0.51
+    }, 
+    "Lycanroc": {
+        "base_weight": 25.0, 
         "base_height": 0.79
     }, 
     "Wishiwashi": {
         "base_weight": 0.3, 
         "base_height": 0.2
     }, 
-    "Sneasel": {
-        "base_weight": 28.0, 
-        "base_height": 0.89
+    "Mareanie": {
+        "base_weight": 8.0, 
+        "base_height": 0.41
     }, 
-    "Ledyba": {
-        "base_weight": 10.8, 
+    "Toxapex": {
+        "base_weight": 14.5, 
+        "base_height": 0.71
+    }, 
+    "Mudbray": {
+        "base_weight": 110.0, 
         "base_height": 0.99
     }, 
-    "Hitmontop": {
-        "base_weight": 48.0, 
-        "base_height": 1.4
+    "Mudsdale": {
+        "base_weight": 920.0, 
+        "base_height": 2.49
     }, 
-    "Kingdra": {
-        "base_weight": 152.0, 
+    "Dewpider": {
+        "base_weight": 4.0, 
+        "base_height": 0.3
+    }, 
+    "Araquanid": {
+        "base_weight": 82.0, 
         "base_height": 1.8
+    }, 
+    "Fomantis": {
+        "base_weight": 1.5, 
+        "base_height": 0.3
+    }, 
+    "Lurantis": {
+        "base_weight": 18.5, 
+        "base_height": 0.89
+    }, 
+    "Morelull": {
+        "base_weight": 1.5, 
+        "base_height": 0.2
+    }, 
+    "Shiinotic": {
+        "base_weight": 11.5, 
+        "base_height": 0.99
+    }, 
+    "Salandit": {
+        "base_weight": 4.8, 
+        "base_height": 0.61
+    }, 
+    "Salazzle": {
+        "base_weight": 22.2, 
+        "base_height": 1.19
+    }, 
+    "Stufful": {
+        "base_weight": 6.8, 
+        "base_height": 0.51
+    }, 
+    "Bewear": {
+        "base_weight": 135.0, 
+        "base_height": 2.11
+    }, 
+    "Bounsweet": {
+        "base_weight": 3.2, 
+        "base_height": 0.3
+    }, 
+    "Steenee": {
+        "base_weight": 8.2, 
+        "base_height": 0.71
+    }, 
+    "Tsareena": {
+        "base_weight": 21.4, 
+        "base_height": 1.14
+    }, 
+    "Comfey": {
+        "base_weight": 0.3, 
+        "base_height": 0.1
+    }, 
+    "Oranguru": {
+        "base_weight": 76.0, 
+        "base_height": 1.5
+    }, 
+    "Passimian": {
+        "base_weight": 82.8, 
+        "base_height": 2.01
+    }, 
+    "Wimpod": {
+        "base_weight": 12.0, 
+        "base_height": 0.51
+    }, 
+    "Golisopod": {
+        "base_weight": 108.0, 
+        "base_height": 2.01
+    }, 
+    "Sandygast": {
+        "base_weight": 70.0, 
+        "base_height": 0.51
+    }, 
+    "Palossand": {
+        "base_weight": 250.0, 
+        "base_height": 1.3
+    }, 
+    "Pyukumuku": {
+        "base_weight": 1.2, 
+        "base_height": 0.3
+    }, 
+    "Type: Null": {
+        "base_weight": 120.5, 
+        "base_height": 1.91
+    }, 
+    "Silvally": {
+        "base_weight": 100.5, 
+        "base_height": 2.31
+    }, 
+    "Minior": {
+        "base_weight": 40.0, 
+        "base_height": 0.3
+    }, 
+    "Komala": {
+        "base_weight": 19.9, 
+        "base_height": 0.41
+    }, 
+    "Turtonator": {
+        "base_weight": 212.0, 
+        "base_height": 2.01
+    }, 
+    "Togedemaru": {
+        "base_weight": 3.3, 
+        "base_height": 0.3
+    }, 
+    "Mimikyu": {
+        "base_weight": 0.7, 
+        "base_height": 0.2
+    }, 
+    "Bruxish": {
+        "base_weight": 19.0, 
+        "base_height": 0.89
+    }, 
+    "Drampa": {
+        "base_weight": 185.0, 
+        "base_height": 3.0
+    }, 
+    "Dhelmise": {
+        "base_weight": 210.0, 
+        "base_height": 3.91
+    }, 
+    "Jangmo-o": {
+        "base_weight": 29.7, 
+        "base_height": 0.61
+    }, 
+    "Hakamo-o": {
+        "base_weight": 47.0, 
+        "base_height": 1.14
+    }, 
+    "Kommo-o": {
+        "base_weight": 78.2, 
+        "base_height": 1.6
+    }, 
+    "Tapu Koko": {
+        "base_weight": 20.5, 
+        "base_height": 1.8
+    }, 
+    "Tapu Lele": {
+        "base_weight": 18.6, 
+        "base_height": 1.19
+    }, 
+    "Tapu Bulu": {
+        "base_weight": 45.5, 
+        "base_height": 1.91
+    }, 
+    "Tapu Fini": {
+        "base_weight": 21.2, 
+        "base_height": 1.3
+    }, 
+    "Cosmog": {
+        "base_weight": 0.1, 
+        "base_height": 0.2
+    }, 
+    "Cosmoem": {
+        "base_weight": 999.9, 
+        "base_height": 0.1
+    }, 
+    "Solgaleo": {
+        "base_weight": 230.0, 
+        "base_height": 3.4
+    }, 
+    "Lunala": {
+        "base_weight": 120.0, 
+        "base_height": 3.99
+    }, 
+    "Nihilego": {
+        "base_weight": 55.5, 
+        "base_height": 1.19
+    }, 
+    "Buzzwole": {
+        "base_weight": 333.6, 
+        "base_height": 2.39
+    }, 
+    "Pheromosa": {
+        "base_weight": 25.0, 
+        "base_height": 1.8
+    }, 
+    "Xurkitree": {
+        "base_weight": 100.0, 
+        "base_height": 3.81
+    }, 
+    "Celesteela": {
+        "base_weight": 999.9, 
+        "base_height": 9.19
+    }, 
+    "Kartana": {
+        "base_weight": 0.1, 
+        "base_height": 0.3
+    }, 
+    "Guzzlord": {
+        "base_weight": 888.0, 
+        "base_height": 5.51
+    }, 
+    "Necrozma": {
+        "base_weight": 230.0, 
+        "base_height": 2.39
+    }, 
+    "Magearna": {
+        "base_weight": 80.5, 
+        "base_height": 0.99
+    }, 
+    "Marshadow": {
+        "base_weight": 22.2, 
+        "base_height": 0.71
     }
 }
