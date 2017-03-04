@@ -15,7 +15,7 @@ import googlemaps
 from . import config
 from WebhookStructs import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
-    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean
+    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean, get_base_height, get_base_weight
 
 log = logging.getLogger('Manager')
 
@@ -62,7 +62,7 @@ class Manager(object):
         self.__units = units
 
         # Set the minimum time_limit to send a notification (for pkmn/lures)
-        self.__time_limit = time_limit
+mod        self.__time_limit = time_limit
 
         # Set the timezone to use
         self.__timezone = timezone
@@ -189,6 +189,38 @@ class Manager(object):
         else:
             log.debug("Pokemon dist was not checked because no location was set.")
 
+        height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
+        if gender != '?':
+            gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
+
+        # Check for Youngster medal
+        if pkmn_id == 19 and filt['youngster_medal'] is True :
+            if '?' in [height,weight] :				    #Missing info
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Missing height/weight information".format(name))
+	        return
+            elif height/0.30 + weight/3.50 > 1.5 :		#Condition not fullfilled
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Youngster medal condition is not fullfilled".format(name))
+	        return
+            else :						                #Condition fullfilled
+                filt["min_iv"]	= 0					        #Shortcut IV check
+                filt["max_iv"]	= 100					    #Shortcut IV check
+
+        # Check for Fisherman medal
+        if pkmn_id == 129 and filt['fisherman_medal'] is True :
+            if '?' in [height,weight] :				    #Missing info
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Missing height/weight information".format(name))
+	        return
+            elif height/0.90 + weight/10.00 < 2.5 :		#Condition not fullfilled
+                if config['QUIET'] is False:
+                    log.info("{} ignored: Fisherman medal condition is not fullfilled".format(name))
+	        return
+            else :						                #Condition fullfilled
+                filt["min_iv"]	= 0					        #Shortcut IV check
+                filt["max_iv"]	= 100					    #Shortcut IV check
+
         # Check the IV's of the Pokemon
         iv = pkmn['iv']
         if iv != 'unkn':
@@ -229,7 +261,7 @@ class Manager(object):
             if filt['ignore_missing'] is True:
                 log.info("{} ignored: Moves information was missing".format(name))
                 return
-
+    
         # Check if in geofences
         if len(self.__geofences) > 0:
             inside = False
@@ -241,10 +273,6 @@ class Manager(object):
                 return
         else:
             log.debug("Pokemon inside geofences was not checked because no geofences were set.")
-        
-        height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
-        if gender != '?':
-            gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
         
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
@@ -269,6 +297,8 @@ class Manager(object):
             'move_2_energy': get_move_energy(move_2_id),
             'height': "{:.1f}".format(height) if height != '?' else '?',
             'weight': "{:.1f}".format(weight) if weight != '?' else '?',
+            'base_height': get_base_height(name),
+            'base_weight': get_base_weight(name),
             'gender': gender
         })
         # Optional Stuff
@@ -479,6 +509,8 @@ class Manager(object):
         min_iv = float(settings.pop('min_iv', None) or 0)
         max_iv = float(settings.pop('max_iv', None) or 100)
         ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', False)))
+        youngster_medal = bool(parse_boolean(settings.pop('youngster_medal', False)))
+        fisherman_medal = bool(parse_boolean(settings.pop('fisherman_medal', False)))
         if pokemon['enabled']:
             log.info("Pokemon defaults: distance {:.2f} to {:.2f} / IV's {:.2f} to {:.2f}".format(
                 min_dist, max_dist, min_iv, max_iv))
@@ -505,6 +537,13 @@ class Manager(object):
                         "moveset": self.required_moveset(info.get("moveset", None)),
                         "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
                     }
+                    #Information update for the Youngster medal 
+                    if pkmn_id == 19 : 
+                        pokemon[pkmn_id]["youngster_medal"] = bool(parse_boolean(info.get('youngster_medal', youngster_medal)))
+                    #Information update for the Fisherman medal 
+                    if pkmn_id == 129 : 
+                        pokemon[pkmn_id]["fisherman_medal"] = bool(parse_boolean(info.get('fisherman_medal', fisherman_medal)))
+
                 except Exception as e:
                     log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
                     log.debug("Stack trace: \n {}".format(traceback.format_exc()))

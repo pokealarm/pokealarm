@@ -20,6 +20,8 @@
         "min_iv":"0",
         "max_iv":"100",
         "ignore_missing": "False",
+        "fisherman_medal": "True", 
+        "youngster_medal": "True", 
         "Bulbasaur":{ "min_dist":"0", "max_dist":"inf" },
         "Ivysaur":{ "min_iv":"0", "max_iv":"100" },
         "Venusaur":{ "move_1":[ "Razor Leaf", "Vine Whip" ], "move_2":[ "Petal Blizzard", "Sludge Bomb", "Solar Beam" ]},

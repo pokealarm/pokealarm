@@ -1,0 +1,4012 @@
+{
+    "1": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.71, 
+        "base_weight": 6.9
+    }, 
+    "2": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.99, 
+        "base_weight": 13.0
+    }, 
+    "3": {
+        "type": "GRASS/POISON", 
+        "base_height": 2.01, 
+        "base_weight": 100.0
+    }, 
+    "4": {
+        "type": "FIRE", 
+        "base_height": 0.61, 
+        "base_weight": 8.5
+    }, 
+    "5": {
+        "type": "FIRE", 
+        "base_height": 1.09, 
+        "base_weight": 19.0
+    }, 
+    "6": {
+        "type": "FIRE/FLYING", 
+        "base_height": 1.7, 
+        "base_weight": 90.5
+    }, 
+    "7": {
+        "type": "WATER", 
+        "base_height": 0.51, 
+        "base_weight": 9.0
+    }, 
+    "8": {
+        "type": "WATER", 
+        "base_height": 0.99, 
+        "base_weight": 22.5
+    }, 
+    "9": {
+        "type": "WATER", 
+        "base_height": 1.6, 
+        "base_weight": 85.5
+    }, 
+    "10": {
+        "type": "BUG", 
+        "base_height": 0.3, 
+        "base_weight": 2.9
+    }, 
+    "11": {
+        "type": "BUG", 
+        "base_height": 0.71, 
+        "base_weight": 9.9
+    }, 
+    "12": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.09, 
+        "base_weight": 32.0
+    }, 
+    "13": {
+        "type": "BUG/POISON", 
+        "base_height": 0.3, 
+        "base_weight": 3.2
+    }, 
+    "14": {
+        "type": "BUG/POISON", 
+        "base_height": 0.61, 
+        "base_weight": 10.0
+    }, 
+    "15": {
+        "type": "BUG/POISON", 
+        "base_height": 1.4, 
+        "base_weight": 40.5
+    }, 
+    "16": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 1.8
+    }, 
+    "17": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.09, 
+        "base_weight": 30.0
+    }, 
+    "18": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 39.5
+    }, 
+    "19": {
+        "type": "NORMAL", 
+        "base_height": 0.3, 
+        "base_weight": 3.5
+    }, 
+    "20": {
+        "type": "NORMAL", 
+        "base_height": 0.71, 
+        "base_weight": 18.5
+    }, 
+    "21": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 2.0
+    }, 
+    "22": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 38.0
+    }, 
+    "23": {
+        "type": "POISON", 
+        "base_height": 2.01, 
+        "base_weight": 6.9
+    }, 
+    "24": {
+        "type": "POISON", 
+        "base_height": 3.51, 
+        "base_weight": 65.0
+    }, 
+    "25": {
+        "type": "ELECTRIC", 
+        "base_height": 0.41, 
+        "base_weight": 6.0
+    }, 
+    "26": {
+        "type": "ELECTRIC/PSYCHIC", 
+        "base_height": 0.71, 
+        "base_weight": 21.0
+    }, 
+    "27": {
+        "type": "GROUND", 
+        "base_height": 0.61, 
+        "base_weight": 12.0
+    }, 
+    "28": {
+        "type": "ICE/STEEL", 
+        "base_height": 1.19, 
+        "base_weight": 55.0
+    }, 
+    "29": {
+        "type": "POISON", 
+        "base_height": 0.41, 
+        "base_weight": 7.0
+    }, 
+    "30": {
+        "type": "POISON", 
+        "base_height": 0.79, 
+        "base_weight": 20.0
+    }, 
+    "31": {
+        "type": "POISON/GROUND", 
+        "base_height": 1.3, 
+        "base_weight": 60.0
+    }, 
+    "32": {
+        "type": "POISON", 
+        "base_height": 0.51, 
+        "base_weight": 9.0
+    }, 
+    "33": {
+        "type": "POISON", 
+        "base_height": 0.89, 
+        "base_weight": 19.5
+    }, 
+    "34": {
+        "type": "POISON/GROUND", 
+        "base_height": 1.4, 
+        "base_weight": 62.0
+    }, 
+    "35": {
+        "type": "FAIRY", 
+        "base_height": 0.61, 
+        "base_weight": 7.5
+    }, 
+    "36": {
+        "type": "FAIRY", 
+        "base_height": 1.3, 
+        "base_weight": 40.0
+    }, 
+    "37": {
+        "type": "ICE", 
+        "base_height": 0.61, 
+        "base_weight": 9.9
+    }, 
+    "38": {
+        "type": "FIRE", 
+        "base_height": 1.09, 
+        "base_weight": 19.9
+    }, 
+    "39": {
+        "type": "NORMAL/FAIRY", 
+        "base_height": 0.51, 
+        "base_weight": 5.5
+    }, 
+    "40": {
+        "type": "NORMAL/FAIRY", 
+        "base_height": 0.99, 
+        "base_weight": 12.0
+    }, 
+    "41": {
+        "type": "POISON/FLYING", 
+        "base_height": 0.79, 
+        "base_weight": 7.5
+    }, 
+    "42": {
+        "type": "POISON/FLYING", 
+        "base_height": 1.6, 
+        "base_weight": 55.0
+    }, 
+    "43": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.51, 
+        "base_weight": 5.4
+    }, 
+    "44": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.79, 
+        "base_weight": 8.6
+    }, 
+    "45": {
+        "type": "GRASS/POISON", 
+        "base_height": 1.19, 
+        "base_weight": 18.6
+    }, 
+    "46": {
+        "type": "BUG/GRASS", 
+        "base_height": 0.3, 
+        "base_weight": 5.4
+    }, 
+    "47": {
+        "type": "BUG/GRASS", 
+        "base_height": 0.99, 
+        "base_weight": 29.5
+    }, 
+    "48": {
+        "type": "BUG/POISON", 
+        "base_height": 0.99, 
+        "base_weight": 30.0
+    }, 
+    "49": {
+        "type": "BUG/POISON", 
+        "base_height": 1.5, 
+        "base_weight": 12.5
+    }, 
+    "50": {
+        "type": "GROUND/STEEL", 
+        "base_height": 0.2, 
+        "base_weight": 1.0
+    }, 
+    "51": {
+        "type": "GROUND", 
+        "base_height": 0.71, 
+        "base_weight": 33.3
+    }, 
+    "52": {
+        "type": "DARK", 
+        "base_height": 0.41, 
+        "base_weight": 4.2
+    }, 
+    "53": {
+        "type": "NORMAL", 
+        "base_height": 0.99, 
+        "base_weight": 32.0
+    }, 
+    "54": {
+        "type": "WATER", 
+        "base_height": 0.79, 
+        "base_weight": 19.6
+    }, 
+    "55": {
+        "type": "WATER", 
+        "base_height": 1.7, 
+        "base_weight": 76.6
+    }, 
+    "56": {
+        "type": "FIGHTING", 
+        "base_height": 0.51, 
+        "base_weight": 28.0
+    }, 
+    "57": {
+        "type": "FIGHTING", 
+        "base_height": 0.99, 
+        "base_weight": 32.0
+    }, 
+    "58": {
+        "type": "FIRE", 
+        "base_height": 0.71, 
+        "base_weight": 19.0
+    }, 
+    "59": {
+        "type": "FIRE", 
+        "base_height": 1.91, 
+        "base_weight": 155.0
+    }, 
+    "60": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 12.4
+    }, 
+    "61": {
+        "type": "WATER", 
+        "base_height": 0.99, 
+        "base_weight": 20.0
+    }, 
+    "62": {
+        "type": "WATER/FIGHTING", 
+        "base_height": 1.3, 
+        "base_weight": 54.0
+    }, 
+    "63": {
+        "type": "PSYCHIC", 
+        "base_height": 0.89, 
+        "base_weight": 19.5
+    }, 
+    "64": {
+        "type": "PSYCHIC", 
+        "base_height": 1.3, 
+        "base_weight": 56.5
+    }, 
+    "65": {
+        "type": "PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 48.0
+    }, 
+    "66": {
+        "type": "FIGHTING", 
+        "base_height": 0.79, 
+        "base_weight": 19.5
+    }, 
+    "67": {
+        "type": "FIGHTING", 
+        "base_height": 1.5, 
+        "base_weight": 70.5
+    }, 
+    "68": {
+        "type": "FIGHTING", 
+        "base_height": 1.6, 
+        "base_weight": 130.0
+    }, 
+    "69": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.71, 
+        "base_weight": 4.0
+    }, 
+    "70": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.99, 
+        "base_weight": 6.4
+    }, 
+    "71": {
+        "type": "GRASS/POISON", 
+        "base_height": 1.7, 
+        "base_weight": 15.5
+    }, 
+    "72": {
+        "type": "WATER/POISON", 
+        "base_height": 0.89, 
+        "base_weight": 45.5
+    }, 
+    "73": {
+        "type": "WATER/POISON", 
+        "base_height": 1.6, 
+        "base_weight": 55.0
+    }, 
+    "74": {
+        "type": "ROCK/ELECTRIC", 
+        "base_height": 0.41, 
+        "base_weight": 20.3
+    }, 
+    "75": {
+        "type": "ROCK/GROUND", 
+        "base_height": 0.99, 
+        "base_weight": 105.0
+    }, 
+    "76": {
+        "type": "ROCK/GROUND", 
+        "base_height": 1.4, 
+        "base_weight": 300.0
+    }, 
+    "77": {
+        "type": "FIRE", 
+        "base_height": 0.99, 
+        "base_weight": 30.0
+    }, 
+    "78": {
+        "type": "FIRE", 
+        "base_height": 1.7, 
+        "base_weight": 95.0
+    }, 
+    "79": {
+        "type": "WATER/PSYCHIC", 
+        "base_height": 1.19, 
+        "base_weight": 36.0
+    }, 
+    "80": {
+        "type": "WATER/PSYCHIC", 
+        "base_height": 2.01, 
+        "base_weight": 120.0
+    }, 
+    "81": {
+        "type": "ELECTRIC/STEEL", 
+        "base_height": 0.3, 
+        "base_weight": 6.0
+    }, 
+    "82": {
+        "type": "ELECTRIC/STEEL", 
+        "base_height": 0.99, 
+        "base_weight": 60.0
+    }, 
+    "83": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.79, 
+        "base_weight": 15.0
+    }, 
+    "84": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.4, 
+        "base_weight": 39.2
+    }, 
+    "85": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.8, 
+        "base_weight": 85.2
+    }, 
+    "86": {
+        "type": "WATER", 
+        "base_height": 1.09, 
+        "base_weight": 90.0
+    }, 
+    "87": {
+        "type": "WATER/ICE", 
+        "base_height": 1.7, 
+        "base_weight": 120.0
+    }, 
+    "88": {
+        "type": "POISON", 
+        "base_height": 0.89, 
+        "base_weight": 30.0
+    }, 
+    "89": {
+        "type": "POISON", 
+        "base_height": 1.19, 
+        "base_weight": 30.0
+    }, 
+    "90": {
+        "type": "WATER", 
+        "base_height": 0.3, 
+        "base_weight": 4.0
+    }, 
+    "91": {
+        "type": "WATER/ICE", 
+        "base_height": 1.5, 
+        "base_weight": 132.5
+    }, 
+    "92": {
+        "type": "GHOST/POISON", 
+        "base_height": 1.3, 
+        "base_weight": 0.1
+    }, 
+    "93": {
+        "type": "GHOST/POISON", 
+        "base_height": 1.6, 
+        "base_weight": 0.1
+    }, 
+    "94": {
+        "type": "GHOST/POISON", 
+        "base_height": 1.4, 
+        "base_weight": 40.5
+    }, 
+    "95": {
+        "type": "ROCK/GROUND", 
+        "base_height": 8.79, 
+        "base_weight": 210.0
+    }, 
+    "96": {
+        "type": "PSYCHIC", 
+        "base_height": 0.99, 
+        "base_weight": 32.4
+    }, 
+    "97": {
+        "type": "PSYCHIC", 
+        "base_height": 1.6, 
+        "base_weight": 75.6
+    }, 
+    "98": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 6.5
+    }, 
+    "99": {
+        "type": "WATER", 
+        "base_height": 1.3, 
+        "base_weight": 60.0
+    }, 
+    "100": {
+        "type": "ELECTRIC", 
+        "base_height": 0.51, 
+        "base_weight": 10.4
+    }, 
+    "101": {
+        "type": "ELECTRIC", 
+        "base_height": 1.19, 
+        "base_weight": 66.6
+    }, 
+    "102": {
+        "type": "GRASS/PSYCHIC", 
+        "base_height": 0.41, 
+        "base_weight": 2.5
+    }, 
+    "103": {
+        "type": "GRASS/PSYCHIC", 
+        "base_height": 2.01, 
+        "base_weight": 120.0
+    }, 
+    "104": {
+        "type": "GROUND", 
+        "base_height": 0.41, 
+        "base_weight": 6.5
+    }, 
+    "105": {
+        "type": "GROUND", 
+        "base_height": 0.99, 
+        "base_weight": 45.0
+    }, 
+    "106": {
+        "type": "FIGHTING", 
+        "base_height": 1.5, 
+        "base_weight": 49.8
+    }, 
+    "107": {
+        "type": "FIGHTING", 
+        "base_height": 1.4, 
+        "base_weight": 50.2
+    }, 
+    "108": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 65.5
+    }, 
+    "109": {
+        "type": "POISON", 
+        "base_height": 0.61, 
+        "base_weight": 1.0
+    }, 
+    "110": {
+        "type": "POISON", 
+        "base_height": 1.19, 
+        "base_weight": 9.5
+    }, 
+    "111": {
+        "type": "GROUND/ROCK", 
+        "base_height": 0.99, 
+        "base_weight": 115.0
+    }, 
+    "112": {
+        "type": "GROUND/ROCK", 
+        "base_height": 1.91, 
+        "base_weight": 120.0
+    }, 
+    "113": {
+        "type": "NORMAL", 
+        "base_height": 1.09, 
+        "base_weight": 34.6
+    }, 
+    "114": {
+        "type": "GRASS", 
+        "base_height": 0.99, 
+        "base_weight": 35.0
+    }, 
+    "115": {
+        "type": "NORMAL", 
+        "base_height": 2.21, 
+        "base_weight": 100.0
+    }, 
+    "116": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 8.0
+    }, 
+    "117": {
+        "type": "WATER", 
+        "base_height": 1.19, 
+        "base_weight": 25.0
+    }, 
+    "118": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 15.0
+    }, 
+    "119": {
+        "type": "WATER", 
+        "base_height": 1.3, 
+        "base_weight": 39.0
+    }, 
+    "120": {
+        "type": "WATER", 
+        "base_height": 0.79, 
+        "base_weight": 34.5
+    }, 
+    "121": {
+        "type": "WATER/PSYCHIC", 
+        "base_height": 1.09, 
+        "base_weight": 80.0
+    }, 
+    "122": {
+        "type": "PSYCHIC/FAIRY", 
+        "base_height": 1.3, 
+        "base_weight": 54.5
+    }, 
+    "123": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 56.0
+    }, 
+    "124": {
+        "type": "ICE/PSYCHIC", 
+        "base_height": 1.4, 
+        "base_weight": 40.6
+    }, 
+    "125": {
+        "type": "ELECTRIC", 
+        "base_height": 1.09, 
+        "base_weight": 30.0
+    }, 
+    "126": {
+        "type": "FIRE", 
+        "base_height": 1.3, 
+        "base_weight": 44.5
+    }, 
+    "127": {
+        "type": "BUG", 
+        "base_height": 1.5, 
+        "base_weight": 55.0
+    }, 
+    "128": {
+        "type": "NORMAL", 
+        "base_height": 1.4, 
+        "base_weight": 88.4
+    }, 
+    "129": {
+        "type": "WATER", 
+        "base_height": 0.89, 
+        "base_weight": 10.0
+    }, 
+    "130": {
+        "type": "WATER/FLYING", 
+        "base_height": 6.5, 
+        "base_weight": 235.0
+    }, 
+    "131": {
+        "type": "WATER/ICE", 
+        "base_height": 2.49, 
+        "base_weight": 220.0
+    }, 
+    "132": {
+        "type": "NORMAL", 
+        "base_height": 0.3, 
+        "base_weight": 4.0
+    }, 
+    "133": {
+        "type": "NORMAL", 
+        "base_height": 0.3, 
+        "base_weight": 6.5
+    }, 
+    "134": {
+        "type": "WATER", 
+        "base_height": 0.99, 
+        "base_weight": 29.0
+    }, 
+    "135": {
+        "type": "ELECTRIC", 
+        "base_height": 0.79, 
+        "base_weight": 24.5
+    }, 
+    "136": {
+        "type": "FIRE", 
+        "base_height": 0.89, 
+        "base_weight": 25.0
+    }, 
+    "137": {
+        "type": "NORMAL", 
+        "base_height": 0.79, 
+        "base_weight": 36.5
+    }, 
+    "138": {
+        "type": "ROCK/WATER", 
+        "base_height": 0.41, 
+        "base_weight": 7.5
+    }, 
+    "139": {
+        "type": "ROCK/WATER", 
+        "base_height": 0.99, 
+        "base_weight": 35.0
+    }, 
+    "140": {
+        "type": "ROCK/WATER", 
+        "base_height": 0.51, 
+        "base_weight": 11.5
+    }, 
+    "141": {
+        "type": "ROCK/WATER", 
+        "base_height": 1.3, 
+        "base_weight": 40.5
+    }, 
+    "142": {
+        "type": "ROCK/FLYING", 
+        "base_height": 2.11, 
+        "base_weight": 79.0
+    }, 
+    "143": {
+        "type": "NORMAL", 
+        "base_height": 2.11, 
+        "base_weight": 460.0
+    }, 
+    "144": {
+        "type": "ICE/FLYING", 
+        "base_height": 1.7, 
+        "base_weight": 55.4
+    }, 
+    "145": {
+        "type": "ELECTRIC/FLYING", 
+        "base_height": 1.6, 
+        "base_weight": 52.6
+    }, 
+    "146": {
+        "type": "FIRE/FLYING", 
+        "base_height": 2.01, 
+        "base_weight": 60.0
+    }, 
+    "147": {
+        "type": "DRAGON", 
+        "base_height": 1.8, 
+        "base_weight": 3.3
+    }, 
+    "148": {
+        "type": "DRAGON", 
+        "base_height": 3.99, 
+        "base_weight": 16.5
+    }, 
+    "149": {
+        "type": "DRAGON/FLYING", 
+        "base_height": 2.21, 
+        "base_weight": 210.0
+    }, 
+    "150": {
+        "type": "PSYCHIC", 
+        "base_height": 2.01, 
+        "base_weight": 122.0
+    }, 
+    "151": {
+        "type": "PSYCHIC", 
+        "base_height": 0.41, 
+        "base_weight": 4.0
+    }, 
+    "152": {
+        "type": "GRASS", 
+        "base_height": 0.89, 
+        "base_weight": 6.4
+    }, 
+    "153": {
+        "type": "GRASS", 
+        "base_height": 1.19, 
+        "base_weight": 15.8
+    }, 
+    "154": {
+        "type": "GRASS", 
+        "base_height": 1.8, 
+        "base_weight": 100.5
+    }, 
+    "155": {
+        "type": "FIRE", 
+        "base_height": 0.51, 
+        "base_weight": 7.9
+    }, 
+    "156": {
+        "type": "FIRE", 
+        "base_height": 0.89, 
+        "base_weight": 19.0
+    }, 
+    "157": {
+        "type": "FIRE", 
+        "base_height": 1.7, 
+        "base_weight": 79.5
+    }, 
+    "158": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 9.5
+    }, 
+    "159": {
+        "type": "WATER", 
+        "base_height": 1.09, 
+        "base_weight": 25.0
+    }, 
+    "160": {
+        "type": "WATER", 
+        "base_height": 2.31, 
+        "base_weight": 88.8
+    }, 
+    "161": {
+        "type": "NORMAL", 
+        "base_height": 0.79, 
+        "base_weight": 6.0
+    }, 
+    "162": {
+        "type": "NORMAL", 
+        "base_height": 1.8, 
+        "base_weight": 32.5
+    }, 
+    "163": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.71, 
+        "base_weight": 21.2
+    }, 
+    "164": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.6, 
+        "base_weight": 40.8
+    }, 
+    "165": {
+        "type": "BUG/FLYING", 
+        "base_height": 0.99, 
+        "base_weight": 10.8
+    }, 
+    "166": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.4, 
+        "base_weight": 35.6
+    }, 
+    "167": {
+        "type": "BUG/POISON", 
+        "base_height": 0.51, 
+        "base_weight": 8.5
+    }, 
+    "168": {
+        "type": "BUG/POISON", 
+        "base_height": 1.09, 
+        "base_weight": 33.5
+    }, 
+    "169": {
+        "type": "POISON/FLYING", 
+        "base_height": 1.8, 
+        "base_weight": 75.0
+    }, 
+    "170": {
+        "type": "WATER/ELECTRIC", 
+        "base_height": 0.51, 
+        "base_weight": 12.0
+    }, 
+    "171": {
+        "type": "WATER/ELECTRIC", 
+        "base_height": 1.19, 
+        "base_weight": 22.5
+    }, 
+    "172": {
+        "type": "ELECTRIC", 
+        "base_height": 0.3, 
+        "base_weight": 2.0
+    }, 
+    "173": {
+        "type": "FAIRY", 
+        "base_height": 0.3, 
+        "base_weight": 3.0
+    }, 
+    "174": {
+        "type": "NORMAL/FAIRY", 
+        "base_height": 0.3, 
+        "base_weight": 1.0
+    }, 
+    "175": {
+        "type": "FAIRY", 
+        "base_height": 0.3, 
+        "base_weight": 1.5
+    }, 
+    "176": {
+        "type": "FAIRY/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 3.2
+    }, 
+    "177": {
+        "type": "PSYCHIC/FLYING", 
+        "base_height": 0.2, 
+        "base_weight": 2.0
+    }, 
+    "178": {
+        "type": "PSYCHIC/FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 15.0
+    }, 
+    "179": {
+        "type": "ELECTRIC", 
+        "base_height": 0.61, 
+        "base_weight": 7.8
+    }, 
+    "180": {
+        "type": "ELECTRIC", 
+        "base_height": 0.79, 
+        "base_weight": 13.3
+    }, 
+    "181": {
+        "type": "ELECTRIC/DRAGON", 
+        "base_height": 1.4, 
+        "base_weight": 61.5
+    }, 
+    "182": {
+        "type": "GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 5.8
+    }, 
+    "183": {
+        "type": "WATER/FAIRY", 
+        "base_height": 0.41, 
+        "base_weight": 8.5
+    }, 
+    "184": {
+        "type": "WATER/FAIRY", 
+        "base_height": 0.79, 
+        "base_weight": 28.5
+    }, 
+    "185": {
+        "type": "ROCK", 
+        "base_height": 1.19, 
+        "base_weight": 38.0
+    }, 
+    "186": {
+        "type": "WATER", 
+        "base_height": 1.09, 
+        "base_weight": 33.9
+    }, 
+    "187": {
+        "type": "GRASS/FLYING", 
+        "base_height": 0.41, 
+        "base_weight": 0.5
+    }, 
+    "188": {
+        "type": "GRASS/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 1.0
+    }, 
+    "189": {
+        "type": "GRASS/FLYING", 
+        "base_height": 0.79, 
+        "base_weight": 3.0
+    }, 
+    "190": {
+        "type": "NORMAL", 
+        "base_height": 0.79, 
+        "base_weight": 11.5
+    }, 
+    "191": {
+        "type": "GRASS", 
+        "base_height": 0.3, 
+        "base_weight": 1.8
+    }, 
+    "192": {
+        "type": "GRASS", 
+        "base_height": 0.79, 
+        "base_weight": 8.5
+    }, 
+    "193": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 38.0
+    }, 
+    "194": {
+        "type": "WATER/GROUND", 
+        "base_height": 0.41, 
+        "base_weight": 8.5
+    }, 
+    "195": {
+        "type": "WATER/GROUND", 
+        "base_height": 1.4, 
+        "base_weight": 75.0
+    }, 
+    "196": {
+        "type": "PSYCHIC", 
+        "base_height": 0.89, 
+        "base_weight": 26.5
+    }, 
+    "197": {
+        "type": "DARK", 
+        "base_height": 0.99, 
+        "base_weight": 27.0
+    }, 
+    "198": {
+        "type": "DARK/FLYING", 
+        "base_height": 0.51, 
+        "base_weight": 2.1
+    }, 
+    "199": {
+        "type": "WATER/PSYCHIC", 
+        "base_height": 2.01, 
+        "base_weight": 79.5
+    }, 
+    "200": {
+        "type": "GHOST", 
+        "base_height": 0.71, 
+        "base_weight": 1.0
+    }, 
+    "201": {
+        "type": "PSYCHIC", 
+        "base_height": 0.51, 
+        "base_weight": 5.0
+    }, 
+    "202": {
+        "type": "PSYCHIC", 
+        "base_height": 1.3, 
+        "base_weight": 28.5
+    }, 
+    "203": {
+        "type": "NORMAL/PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 41.5
+    }, 
+    "204": {
+        "type": "BUG", 
+        "base_height": 0.61, 
+        "base_weight": 7.2
+    }, 
+    "205": {
+        "type": "BUG/STEEL", 
+        "base_height": 1.19, 
+        "base_weight": 125.8
+    }, 
+    "206": {
+        "type": "NORMAL", 
+        "base_height": 1.5, 
+        "base_weight": 14.0
+    }, 
+    "207": {
+        "type": "GROUND/FLYING", 
+        "base_height": 1.09, 
+        "base_weight": 64.8
+    }, 
+    "208": {
+        "type": "STEEL/GROUND", 
+        "base_height": 10.49, 
+        "base_weight": 740.0
+    }, 
+    "209": {
+        "type": "FAIRY", 
+        "base_height": 0.61, 
+        "base_weight": 7.8
+    }, 
+    "210": {
+        "type": "FAIRY", 
+        "base_height": 1.4, 
+        "base_weight": 48.7
+    }, 
+    "211": {
+        "type": "WATER/POISON", 
+        "base_height": 0.51, 
+        "base_weight": 3.9
+    }, 
+    "212": {
+        "type": "BUG/STEEL", 
+        "base_height": 1.8, 
+        "base_weight": 118.0
+    }, 
+    "213": {
+        "type": "BUG/ROCK", 
+        "base_height": 0.61, 
+        "base_weight": 20.5
+    }, 
+    "214": {
+        "type": "BUG/FIGHTING", 
+        "base_height": 1.7, 
+        "base_weight": 62.5
+    }, 
+    "215": {
+        "type": "DARK/ICE", 
+        "base_height": 0.89, 
+        "base_weight": 28.0
+    }, 
+    "216": {
+        "type": "NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 8.8
+    }, 
+    "217": {
+        "type": "NORMAL", 
+        "base_height": 1.8, 
+        "base_weight": 125.8
+    }, 
+    "218": {
+        "type": "FIRE", 
+        "base_height": 0.71, 
+        "base_weight": 35.0
+    }, 
+    "219": {
+        "type": "FIRE/ROCK", 
+        "base_height": 0.79, 
+        "base_weight": 55.0
+    }, 
+    "220": {
+        "type": "ICE/GROUND", 
+        "base_height": 0.41, 
+        "base_weight": 6.5
+    }, 
+    "221": {
+        "type": "ICE/GROUND", 
+        "base_height": 1.09, 
+        "base_weight": 55.8
+    }, 
+    "222": {
+        "type": "WATER/ROCK", 
+        "base_height": 0.61, 
+        "base_weight": 5.0
+    }, 
+    "223": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 12.0
+    }, 
+    "224": {
+        "type": "WATER", 
+        "base_height": 0.89, 
+        "base_weight": 28.5
+    }, 
+    "225": {
+        "type": "ICE/FLYING", 
+        "base_height": 0.89, 
+        "base_weight": 16.0
+    }, 
+    "226": {
+        "type": "WATER/FLYING", 
+        "base_height": 2.11, 
+        "base_weight": 220.0
+    }, 
+    "227": {
+        "type": "STEEL/FLYING", 
+        "base_height": 1.7, 
+        "base_weight": 50.5
+    }, 
+    "228": {
+        "type": "DARK/FIRE", 
+        "base_height": 0.61, 
+        "base_weight": 10.8
+    }, 
+    "229": {
+        "type": "DARK/FIRE", 
+        "base_height": 1.4, 
+        "base_weight": 35.0
+    }, 
+    "230": {
+        "type": "WATER/DRAGON", 
+        "base_height": 1.8, 
+        "base_weight": 152.0
+    }, 
+    "231": {
+        "type": "GROUND", 
+        "base_height": 0.51, 
+        "base_weight": 33.5
+    }, 
+    "232": {
+        "type": "GROUND", 
+        "base_height": 1.09, 
+        "base_weight": 120.0
+    }, 
+    "233": {
+        "type": "NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 32.5
+    }, 
+    "234": {
+        "type": "NORMAL", 
+        "base_height": 1.4, 
+        "base_weight": 71.2
+    }, 
+    "235": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 58.0
+    }, 
+    "236": {
+        "type": "FIGHTING", 
+        "base_height": 0.71, 
+        "base_weight": 21.0
+    }, 
+    "237": {
+        "type": "FIGHTING", 
+        "base_height": 1.4, 
+        "base_weight": 48.0
+    }, 
+    "238": {
+        "type": "ICE/PSYCHIC", 
+        "base_height": 0.41, 
+        "base_weight": 6.0
+    }, 
+    "239": {
+        "type": "ELECTRIC", 
+        "base_height": 0.61, 
+        "base_weight": 23.5
+    }, 
+    "240": {
+        "type": "FIRE", 
+        "base_height": 0.71, 
+        "base_weight": 21.4
+    }, 
+    "241": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 75.5
+    }, 
+    "242": {
+        "type": "NORMAL", 
+        "base_height": 1.5, 
+        "base_weight": 46.8
+    }, 
+    "243": {
+        "type": "ELECTRIC", 
+        "base_height": 1.91, 
+        "base_weight": 178.0
+    }, 
+    "244": {
+        "type": "FIRE", 
+        "base_height": 2.11, 
+        "base_weight": 198.0
+    }, 
+    "245": {
+        "type": "WATER", 
+        "base_height": 2.01, 
+        "base_weight": 187.0
+    }, 
+    "246": {
+        "type": "ROCK/GROUND", 
+        "base_height": 0.61, 
+        "base_weight": 72.0
+    }, 
+    "247": {
+        "type": "ROCK/GROUND", 
+        "base_height": 1.19, 
+        "base_weight": 152.0
+    }, 
+    "248": {
+        "type": "ROCK/DARK", 
+        "base_height": 2.49, 
+        "base_weight": 255.0
+    }, 
+    "249": {
+        "type": "PSYCHIC/FLYING", 
+        "base_height": 5.21, 
+        "base_weight": 216.0
+    }, 
+    "250": {
+        "type": "FIRE/FLYING", 
+        "base_height": 3.81, 
+        "base_weight": 199.0
+    }, 
+    "251": {
+        "type": "PSYCHIC/GRASS", 
+        "base_height": 0.61, 
+        "base_weight": 5.0
+    }, 
+    "252": {
+        "type": "GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 5.0
+    }, 
+    "253": {
+        "type": "GRASS", 
+        "base_height": 0.89, 
+        "base_weight": 21.6
+    }, 
+    "254": {
+        "type": "GRASS", 
+        "base_height": 1.7, 
+        "base_weight": 52.2
+    }, 
+    "255": {
+        "type": "FIRE", 
+        "base_height": 0.41, 
+        "base_weight": 2.5
+    }, 
+    "256": {
+        "type": "FIRE/FIGHTING", 
+        "base_height": 0.89, 
+        "base_weight": 19.5
+    }, 
+    "257": {
+        "type": "FIRE/FIGHTING", 
+        "base_height": 1.91, 
+        "base_weight": 52.0
+    }, 
+    "258": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 7.6
+    }, 
+    "259": {
+        "type": "WATER/GROUND", 
+        "base_height": 0.71, 
+        "base_weight": 28.0
+    }, 
+    "260": {
+        "type": "WATER/GROUND", 
+        "base_height": 1.5, 
+        "base_weight": 81.9
+    }, 
+    "261": {
+        "type": "DARK", 
+        "base_height": 0.51, 
+        "base_weight": 13.6
+    }, 
+    "262": {
+        "type": "DARK", 
+        "base_height": 0.99, 
+        "base_weight": 37.0
+    }, 
+    "263": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 17.5
+    }, 
+    "264": {
+        "type": "NORMAL", 
+        "base_height": 0.51, 
+        "base_weight": 32.5
+    }, 
+    "265": {
+        "type": "BUG", 
+        "base_height": 0.3, 
+        "base_weight": 3.6
+    }, 
+    "266": {
+        "type": "BUG", 
+        "base_height": 0.61, 
+        "base_weight": 10.0
+    }, 
+    "267": {
+        "type": "BUG/FLYING", 
+        "base_height": 0.99, 
+        "base_weight": 28.4
+    }, 
+    "268": {
+        "type": "BUG", 
+        "base_height": 0.71, 
+        "base_weight": 11.5
+    }, 
+    "269": {
+        "type": "BUG/POISON", 
+        "base_height": 1.19, 
+        "base_weight": 31.6
+    }, 
+    "270": {
+        "type": "WATER/GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 2.6
+    }, 
+    "271": {
+        "type": "WATER/GRASS", 
+        "base_height": 1.19, 
+        "base_weight": 32.5
+    }, 
+    "272": {
+        "type": "WATER/GRASS", 
+        "base_height": 1.5, 
+        "base_weight": 55.0
+    }, 
+    "273": {
+        "type": "GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 4.0
+    }, 
+    "274": {
+        "type": "GRASS/DARK", 
+        "base_height": 0.99, 
+        "base_weight": 28.0
+    }, 
+    "275": {
+        "type": "GRASS/DARK", 
+        "base_height": 1.3, 
+        "base_weight": 59.6
+    }, 
+    "276": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 2.3
+    }, 
+    "277": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.71, 
+        "base_weight": 19.8
+    }, 
+    "278": {
+        "type": "WATER/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 9.5
+    }, 
+    "279": {
+        "type": "WATER/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 28.0
+    }, 
+    "280": {
+        "type": "PSYCHIC/FAIRY", 
+        "base_height": 0.41, 
+        "base_weight": 6.6
+    }, 
+    "281": {
+        "type": "PSYCHIC/FAIRY", 
+        "base_height": 0.79, 
+        "base_weight": 20.2
+    }, 
+    "282": {
+        "type": "PSYCHIC/FAIRY", 
+        "base_height": 1.6, 
+        "base_weight": 48.4
+    }, 
+    "283": {
+        "type": "BUG/WATER", 
+        "base_height": 0.51, 
+        "base_weight": 1.7
+    }, 
+    "284": {
+        "type": "BUG/FLYING", 
+        "base_height": 0.79, 
+        "base_weight": 3.6
+    }, 
+    "285": {
+        "type": "GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 4.5
+    }, 
+    "286": {
+        "type": "GRASS/FIGHTING", 
+        "base_height": 1.19, 
+        "base_weight": 39.2
+    }, 
+    "287": {
+        "type": "NORMAL", 
+        "base_height": 0.79, 
+        "base_weight": 24.0
+    }, 
+    "288": {
+        "type": "NORMAL", 
+        "base_height": 1.4, 
+        "base_weight": 46.5
+    }, 
+    "289": {
+        "type": "NORMAL", 
+        "base_height": 2.01, 
+        "base_weight": 130.5
+    }, 
+    "290": {
+        "type": "BUG/GROUND", 
+        "base_height": 0.51, 
+        "base_weight": 5.5
+    }, 
+    "291": {
+        "type": "BUG/FLYING", 
+        "base_height": 0.79, 
+        "base_weight": 12.0
+    }, 
+    "292": {
+        "type": "BUG/GHOST", 
+        "base_height": 0.79, 
+        "base_weight": 1.2
+    }, 
+    "293": {
+        "type": "NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 16.3
+    }, 
+    "294": {
+        "type": "NORMAL", 
+        "base_height": 0.99, 
+        "base_weight": 40.5
+    }, 
+    "295": {
+        "type": "NORMAL", 
+        "base_height": 1.5, 
+        "base_weight": 84.0
+    }, 
+    "296": {
+        "type": "FIGHTING", 
+        "base_height": 0.99, 
+        "base_weight": 86.4
+    }, 
+    "297": {
+        "type": "FIGHTING", 
+        "base_height": 2.31, 
+        "base_weight": 253.8
+    }, 
+    "298": {
+        "type": "NORMAL/FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 2.0
+    }, 
+    "299": {
+        "type": "ROCK", 
+        "base_height": 0.99, 
+        "base_weight": 97.0
+    }, 
+    "300": {
+        "type": "NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 11.0
+    }, 
+    "301": {
+        "type": "NORMAL", 
+        "base_height": 1.09, 
+        "base_weight": 32.6
+    }, 
+    "302": {
+        "type": "DARK/GHOST", 
+        "base_height": 0.51, 
+        "base_weight": 161.0
+    }, 
+    "303": {
+        "type": "STEEL/FAIRY", 
+        "base_height": 0.61, 
+        "base_weight": 11.5
+    }, 
+    "304": {
+        "type": "STEEL/ROCK", 
+        "base_height": 0.41, 
+        "base_weight": 60.0
+    }, 
+    "305": {
+        "type": "STEEL/ROCK", 
+        "base_height": 0.89, 
+        "base_weight": 120.0
+    }, 
+    "306": {
+        "type": "STEEL/ROCK", 
+        "base_height": 2.11, 
+        "base_weight": 360.0
+    }, 
+    "307": {
+        "type": "FIGHTING/PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 11.2
+    }, 
+    "308": {
+        "type": "FIGHTING/PSYCHIC", 
+        "base_height": 1.3, 
+        "base_weight": 31.5
+    }, 
+    "309": {
+        "type": "ELECTRIC", 
+        "base_height": 0.61, 
+        "base_weight": 15.2
+    }, 
+    "310": {
+        "type": "ELECTRIC", 
+        "base_height": 1.8, 
+        "base_weight": 44.0
+    }, 
+    "311": {
+        "type": "ELECTRIC", 
+        "base_height": 0.41, 
+        "base_weight": 4.2
+    }, 
+    "312": {
+        "type": "ELECTRIC", 
+        "base_height": 0.41, 
+        "base_weight": 4.2
+    }, 
+    "313": {
+        "type": "BUG", 
+        "base_height": 0.71, 
+        "base_weight": 17.7
+    }, 
+    "314": {
+        "type": "BUG", 
+        "base_height": 0.61, 
+        "base_weight": 17.7
+    }, 
+    "315": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.3, 
+        "base_weight": 2.0
+    }, 
+    "316": {
+        "type": "POISON", 
+        "base_height": 0.41, 
+        "base_weight": 10.3
+    }, 
+    "317": {
+        "type": "POISON", 
+        "base_height": 1.7, 
+        "base_weight": 80.0
+    }, 
+    "318": {
+        "type": "WATER/DARK", 
+        "base_height": 0.79, 
+        "base_weight": 20.8
+    }, 
+    "319": {
+        "type": "WATER/DARK", 
+        "base_height": 1.8, 
+        "base_weight": 88.8
+    }, 
+    "320": {
+        "type": "WATER", 
+        "base_height": 2.01, 
+        "base_weight": 130.0
+    }, 
+    "321": {
+        "type": "WATER", 
+        "base_height": 14.5, 
+        "base_weight": 398.0
+    }, 
+    "322": {
+        "type": "FIRE/GROUND", 
+        "base_height": 0.71, 
+        "base_weight": 24.0
+    }, 
+    "323": {
+        "type": "FIRE/GROUND", 
+        "base_height": 2.49, 
+        "base_weight": 320.5
+    }, 
+    "324": {
+        "type": "FIRE", 
+        "base_height": 0.51, 
+        "base_weight": 80.4
+    }, 
+    "325": {
+        "type": "PSYCHIC", 
+        "base_height": 0.71, 
+        "base_weight": 30.6
+    }, 
+    "326": {
+        "type": "PSYCHIC", 
+        "base_height": 0.89, 
+        "base_weight": 71.5
+    }, 
+    "327": {
+        "type": "NORMAL", 
+        "base_height": 1.09, 
+        "base_weight": 5.0
+    }, 
+    "328": {
+        "type": "GROUND", 
+        "base_height": 0.71, 
+        "base_weight": 15.0
+    }, 
+    "329": {
+        "type": "GROUND/DRAGON", 
+        "base_height": 1.09, 
+        "base_weight": 15.3
+    }, 
+    "330": {
+        "type": "GROUND/DRAGON", 
+        "base_height": 2.01, 
+        "base_weight": 82.0
+    }, 
+    "331": {
+        "type": "GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 51.3
+    }, 
+    "332": {
+        "type": "GRASS/DARK", 
+        "base_height": 1.3, 
+        "base_weight": 77.4
+    }, 
+    "333": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.41, 
+        "base_weight": 1.2
+    }, 
+    "334": {
+        "type": "DRAGON/FLYING", 
+        "base_height": 1.09, 
+        "base_weight": 20.6
+    }, 
+    "335": {
+        "type": "NORMAL", 
+        "base_height": 1.3, 
+        "base_weight": 40.3
+    }, 
+    "336": {
+        "type": "POISON", 
+        "base_height": 2.69, 
+        "base_weight": 52.5
+    }, 
+    "337": {
+        "type": "ROCK/PSYCHIC", 
+        "base_height": 0.99, 
+        "base_weight": 168.0
+    }, 
+    "338": {
+        "type": "ROCK/PSYCHIC", 
+        "base_height": 1.19, 
+        "base_weight": 154.0
+    }, 
+    "339": {
+        "type": "WATER/GROUND", 
+        "base_height": 0.41, 
+        "base_weight": 1.9
+    }, 
+    "340": {
+        "type": "WATER/GROUND", 
+        "base_height": 0.89, 
+        "base_weight": 23.6
+    }, 
+    "341": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 11.5
+    }, 
+    "342": {
+        "type": "WATER/DARK", 
+        "base_height": 1.09, 
+        "base_weight": 32.8
+    }, 
+    "343": {
+        "type": "GROUND/PSYCHIC", 
+        "base_height": 0.51, 
+        "base_weight": 21.5
+    }, 
+    "344": {
+        "type": "GROUND/PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 108.0
+    }, 
+    "345": {
+        "type": "ROCK/GRASS", 
+        "base_height": 0.99, 
+        "base_weight": 23.8
+    }, 
+    "346": {
+        "type": "ROCK/GRASS", 
+        "base_height": 1.5, 
+        "base_weight": 60.4
+    }, 
+    "347": {
+        "type": "ROCK/BUG", 
+        "base_height": 0.71, 
+        "base_weight": 12.5
+    }, 
+    "348": {
+        "type": "ROCK/BUG", 
+        "base_height": 1.5, 
+        "base_weight": 68.2
+    }, 
+    "349": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 7.4
+    }, 
+    "350": {
+        "type": "WATER", 
+        "base_height": 6.2, 
+        "base_weight": 162.0
+    }, 
+    "351": {
+        "type": "NORMAL", 
+        "base_height": 0.3, 
+        "base_weight": 0.8
+    }, 
+    "352": {
+        "type": "NORMAL", 
+        "base_height": 0.99, 
+        "base_weight": 22.0
+    }, 
+    "353": {
+        "type": "GHOST", 
+        "base_height": 0.61, 
+        "base_weight": 2.3
+    }, 
+    "354": {
+        "type": "GHOST", 
+        "base_height": 1.19, 
+        "base_weight": 13.0
+    }, 
+    "355": {
+        "type": "GHOST", 
+        "base_height": 0.79, 
+        "base_weight": 15.0
+    }, 
+    "356": {
+        "type": "GHOST", 
+        "base_height": 1.6, 
+        "base_weight": 30.6
+    }, 
+    "357": {
+        "type": "GRASS/FLYING", 
+        "base_height": 2.01, 
+        "base_weight": 100.0
+    }, 
+    "358": {
+        "type": "PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 1.0
+    }, 
+    "359": {
+        "type": "DARK", 
+        "base_height": 1.19, 
+        "base_weight": 49.0
+    }, 
+    "360": {
+        "type": "PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 14.0
+    }, 
+    "361": {
+        "type": "ICE", 
+        "base_height": 0.71, 
+        "base_weight": 16.8
+    }, 
+    "362": {
+        "type": "ICE", 
+        "base_height": 1.5, 
+        "base_weight": 256.5
+    }, 
+    "363": {
+        "type": "ICE/WATER", 
+        "base_height": 0.79, 
+        "base_weight": 39.5
+    }, 
+    "364": {
+        "type": "ICE/WATER", 
+        "base_height": 1.09, 
+        "base_weight": 87.6
+    }, 
+    "365": {
+        "type": "ICE/WATER", 
+        "base_height": 1.4, 
+        "base_weight": 150.6
+    }, 
+    "366": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 52.5
+    }, 
+    "367": {
+        "type": "WATER", 
+        "base_height": 1.7, 
+        "base_weight": 27.0
+    }, 
+    "368": {
+        "type": "WATER", 
+        "base_height": 1.8, 
+        "base_weight": 22.6
+    }, 
+    "369": {
+        "type": "WATER/ROCK", 
+        "base_height": 0.99, 
+        "base_weight": 23.4
+    }, 
+    "370": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 8.7
+    }, 
+    "371": {
+        "type": "DRAGON", 
+        "base_height": 0.61, 
+        "base_weight": 42.1
+    }, 
+    "372": {
+        "type": "DRAGON", 
+        "base_height": 1.09, 
+        "base_weight": 110.5
+    }, 
+    "373": {
+        "type": "DRAGON/FLYING", 
+        "base_height": 1.8, 
+        "base_weight": 112.6
+    }, 
+    "374": {
+        "type": "STEEL/PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 95.2
+    }, 
+    "375": {
+        "type": "STEEL/PSYCHIC", 
+        "base_height": 1.19, 
+        "base_weight": 202.5
+    }, 
+    "376": {
+        "type": "STEEL/PSYCHIC", 
+        "base_height": 2.49, 
+        "base_weight": 942.9
+    }, 
+    "377": {
+        "type": "ROCK", 
+        "base_height": 1.7, 
+        "base_weight": 230.0
+    }, 
+    "378": {
+        "type": "ICE", 
+        "base_height": 1.8, 
+        "base_weight": 175.0
+    }, 
+    "379": {
+        "type": "STEEL", 
+        "base_height": 1.91, 
+        "base_weight": 205.0
+    }, 
+    "380": {
+        "type": "DRAGON/PSYCHIC", 
+        "base_height": 1.8, 
+        "base_weight": 52.0
+    }, 
+    "381": {
+        "type": "DRAGON/PSYCHIC", 
+        "base_height": 2.31, 
+        "base_weight": 70.0
+    }, 
+    "382": {
+        "type": "WATER", 
+        "base_height": 9.78, 
+        "base_weight": 430.0
+    }, 
+    "383": {
+        "type": "GROUND", 
+        "base_height": 3.51, 
+        "base_weight": 950.0
+    }, 
+    "384": {
+        "type": "DRAGON/FLYING", 
+        "base_height": 10.79, 
+        "base_weight": 392.0
+    }, 
+    "385": {
+        "type": "STEEL/PSYCHIC", 
+        "base_height": 0.3, 
+        "base_weight": 1.1
+    }, 
+    "386": {
+        "type": "PSYCHIC", 
+        "base_height": 1.7, 
+        "base_weight": 60.8
+    }, 
+    "387": {
+        "type": "GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 10.2
+    }, 
+    "388": {
+        "type": "GRASS", 
+        "base_height": 1.09, 
+        "base_weight": 97.0
+    }, 
+    "389": {
+        "type": "GRASS/GROUND", 
+        "base_height": 2.21, 
+        "base_weight": 310.0
+    }, 
+    "390": {
+        "type": "FIRE", 
+        "base_height": 0.51, 
+        "base_weight": 6.2
+    }, 
+    "391": {
+        "type": "FIRE/FIGHTING", 
+        "base_height": 0.89, 
+        "base_weight": 22.0
+    }, 
+    "392": {
+        "type": "FIRE/FIGHTING", 
+        "base_height": 1.19, 
+        "base_weight": 55.0
+    }, 
+    "393": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 5.2
+    }, 
+    "394": {
+        "type": "WATER", 
+        "base_height": 0.79, 
+        "base_weight": 23.0
+    }, 
+    "395": {
+        "type": "WATER/STEEL", 
+        "base_height": 1.7, 
+        "base_weight": 84.5
+    }, 
+    "396": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 2.0
+    }, 
+    "397": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 15.5
+    }, 
+    "398": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 24.9
+    }, 
+    "399": {
+        "type": "NORMAL", 
+        "base_height": 0.51, 
+        "base_weight": 20.0
+    }, 
+    "400": {
+        "type": "NORMAL/WATER", 
+        "base_height": 0.99, 
+        "base_weight": 31.5
+    }, 
+    "401": {
+        "type": "BUG", 
+        "base_height": 0.3, 
+        "base_weight": 2.2
+    }, 
+    "402": {
+        "type": "BUG", 
+        "base_height": 0.99, 
+        "base_weight": 25.5
+    }, 
+    "403": {
+        "type": "ELECTRIC", 
+        "base_height": 0.51, 
+        "base_weight": 9.5
+    }, 
+    "404": {
+        "type": "ELECTRIC", 
+        "base_height": 0.89, 
+        "base_weight": 30.5
+    }, 
+    "405": {
+        "type": "ELECTRIC", 
+        "base_height": 1.4, 
+        "base_weight": 42.0
+    }, 
+    "406": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.2, 
+        "base_weight": 1.2
+    }, 
+    "407": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.89, 
+        "base_weight": 14.5
+    }, 
+    "408": {
+        "type": "ROCK", 
+        "base_height": 0.89, 
+        "base_weight": 31.5
+    }, 
+    "409": {
+        "type": "ROCK", 
+        "base_height": 1.6, 
+        "base_weight": 102.5
+    }, 
+    "410": {
+        "type": "ROCK/STEEL", 
+        "base_height": 0.51, 
+        "base_weight": 57.0
+    }, 
+    "411": {
+        "type": "ROCK/STEEL", 
+        "base_height": 1.3, 
+        "base_weight": 149.5
+    }, 
+    "412": {
+        "type": "BUG", 
+        "base_height": 0.2, 
+        "base_weight": 3.4
+    }, 
+    "413": {
+        "type": "BUG/GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 6.5
+    }, 
+    "414": {
+        "type": "BUG/FLYING", 
+        "base_height": 0.89, 
+        "base_weight": 23.3
+    }, 
+    "415": {
+        "type": "BUG/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 5.5
+    }, 
+    "416": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 38.5
+    }, 
+    "417": {
+        "type": "ELECTRIC", 
+        "base_height": 0.41, 
+        "base_weight": 3.9
+    }, 
+    "418": {
+        "type": "WATER", 
+        "base_height": 0.71, 
+        "base_weight": 29.5
+    }, 
+    "419": {
+        "type": "WATER", 
+        "base_height": 1.09, 
+        "base_weight": 33.5
+    }, 
+    "420": {
+        "type": "GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 3.3
+    }, 
+    "421": {
+        "type": "GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 9.3
+    }, 
+    "422": {
+        "type": "WATER", 
+        "base_height": 0.3, 
+        "base_weight": 6.3
+    }, 
+    "423": {
+        "type": "WATER/GROUND", 
+        "base_height": 0.89, 
+        "base_weight": 29.9
+    }, 
+    "424": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 20.3
+    }, 
+    "425": {
+        "type": "GHOST/FLYING", 
+        "base_height": 0.41, 
+        "base_weight": 1.2
+    }, 
+    "426": {
+        "type": "GHOST/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 15.0
+    }, 
+    "427": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 5.5
+    }, 
+    "428": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 33.3
+    }, 
+    "429": {
+        "type": "GHOST", 
+        "base_height": 0.89, 
+        "base_weight": 4.4
+    }, 
+    "430": {
+        "type": "DARK/FLYING", 
+        "base_height": 0.89, 
+        "base_weight": 27.3
+    }, 
+    "431": {
+        "type": "NORMAL", 
+        "base_height": 0.51, 
+        "base_weight": 3.9
+    }, 
+    "432": {
+        "type": "NORMAL", 
+        "base_height": 0.99, 
+        "base_weight": 43.8
+    }, 
+    "433": {
+        "type": "PSYCHIC", 
+        "base_height": 0.2, 
+        "base_weight": 0.6
+    }, 
+    "434": {
+        "type": "POISON/DARK", 
+        "base_height": 0.41, 
+        "base_weight": 19.2
+    }, 
+    "435": {
+        "type": "POISON/DARK", 
+        "base_height": 0.99, 
+        "base_weight": 38.0
+    }, 
+    "436": {
+        "type": "STEEL/PSYCHIC", 
+        "base_height": 0.51, 
+        "base_weight": 60.5
+    }, 
+    "437": {
+        "type": "STEEL/PSYCHIC", 
+        "base_height": 1.3, 
+        "base_weight": 187.0
+    }, 
+    "438": {
+        "type": "ROCK", 
+        "base_height": 0.51, 
+        "base_weight": 15.0
+    }, 
+    "439": {
+        "type": "PSYCHIC/FAIRY", 
+        "base_height": 0.61, 
+        "base_weight": 13.0
+    }, 
+    "440": {
+        "type": "NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 24.4
+    }, 
+    "441": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.51, 
+        "base_weight": 1.9
+    }, 
+    "442": {
+        "type": "GHOST/DARK", 
+        "base_height": 0.99, 
+        "base_weight": 108.0
+    }, 
+    "443": {
+        "type": "DRAGON/GROUND", 
+        "base_height": 0.71, 
+        "base_weight": 20.5
+    }, 
+    "444": {
+        "type": "DRAGON/GROUND", 
+        "base_height": 1.4, 
+        "base_weight": 56.0
+    }, 
+    "445": {
+        "type": "DRAGON/GROUND", 
+        "base_height": 1.91, 
+        "base_weight": 95.0
+    }, 
+    "446": {
+        "type": "NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 105.0
+    }, 
+    "447": {
+        "type": "FIGHTING", 
+        "base_height": 0.71, 
+        "base_weight": 20.2
+    }, 
+    "448": {
+        "type": "FIGHTING/STEEL", 
+        "base_height": 1.19, 
+        "base_weight": 54.0
+    }, 
+    "449": {
+        "type": "GROUND", 
+        "base_height": 0.79, 
+        "base_weight": 49.5
+    }, 
+    "450": {
+        "type": "GROUND", 
+        "base_height": 2.01, 
+        "base_weight": 300.0
+    }, 
+    "451": {
+        "type": "POISON/BUG", 
+        "base_height": 0.79, 
+        "base_weight": 12.0
+    }, 
+    "452": {
+        "type": "POISON/DARK", 
+        "base_height": 1.3, 
+        "base_weight": 61.5
+    }, 
+    "453": {
+        "type": "POISON/FIGHTING", 
+        "base_height": 0.71, 
+        "base_weight": 23.0
+    }, 
+    "454": {
+        "type": "POISON/FIGHTING", 
+        "base_height": 1.3, 
+        "base_weight": 44.4
+    }, 
+    "455": {
+        "type": "GRASS", 
+        "base_height": 1.4, 
+        "base_weight": 27.0
+    }, 
+    "456": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 7.0
+    }, 
+    "457": {
+        "type": "WATER", 
+        "base_height": 1.19, 
+        "base_weight": 24.0
+    }, 
+    "458": {
+        "type": "WATER/FLYING", 
+        "base_height": 0.99, 
+        "base_weight": 65.0
+    }, 
+    "459": {
+        "type": "GRASS/ICE", 
+        "base_height": 0.99, 
+        "base_weight": 50.5
+    }, 
+    "460": {
+        "type": "GRASS/ICE", 
+        "base_height": 2.21, 
+        "base_weight": 135.5
+    }, 
+    "461": {
+        "type": "DARK/ICE", 
+        "base_height": 1.09, 
+        "base_weight": 34.0
+    }, 
+    "462": {
+        "type": "ELECTRIC/STEEL", 
+        "base_height": 1.19, 
+        "base_weight": 180.0
+    }, 
+    "463": {
+        "type": "NORMAL", 
+        "base_height": 1.7, 
+        "base_weight": 140.0
+    }, 
+    "464": {
+        "type": "GROUND/ROCK", 
+        "base_height": 2.39, 
+        "base_weight": 282.8
+    }, 
+    "465": {
+        "type": "GRASS", 
+        "base_height": 2.01, 
+        "base_weight": 128.6
+    }, 
+    "466": {
+        "type": "ELECTRIC", 
+        "base_height": 1.8, 
+        "base_weight": 138.6
+    }, 
+    "467": {
+        "type": "FIRE", 
+        "base_height": 1.6, 
+        "base_weight": 68.0
+    }, 
+    "468": {
+        "type": "FAIRY/FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 38.0
+    }, 
+    "469": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.91, 
+        "base_weight": 51.5
+    }, 
+    "470": {
+        "type": "GRASS", 
+        "base_height": 0.99, 
+        "base_weight": 25.5
+    }, 
+    "471": {
+        "type": "ICE", 
+        "base_height": 0.79, 
+        "base_weight": 25.9
+    }, 
+    "472": {
+        "type": "GROUND/FLYING", 
+        "base_height": 2.01, 
+        "base_weight": 42.5
+    }, 
+    "473": {
+        "type": "ICE/GROUND", 
+        "base_height": 2.49, 
+        "base_weight": 291.0
+    }, 
+    "474": {
+        "type": "NORMAL", 
+        "base_height": 0.89, 
+        "base_weight": 34.0
+    }, 
+    "475": {
+        "type": "PSYCHIC/FIGHTING", 
+        "base_height": 1.6, 
+        "base_weight": 52.0
+    }, 
+    "476": {
+        "type": "ROCK/STEEL", 
+        "base_height": 1.4, 
+        "base_weight": 340.0
+    }, 
+    "477": {
+        "type": "GHOST", 
+        "base_height": 2.21, 
+        "base_weight": 106.6
+    }, 
+    "478": {
+        "type": "ICE/GHOST", 
+        "base_height": 1.3, 
+        "base_weight": 26.6
+    }, 
+    "479": {
+        "type": "ELECTRIC/GHOST", 
+        "base_height": 0.3, 
+        "base_weight": 0.3
+    }, 
+    "480": {
+        "type": "PSYCHIC", 
+        "base_height": 0.3, 
+        "base_weight": 0.3
+    }, 
+    "481": {
+        "type": "PSYCHIC", 
+        "base_height": 0.3, 
+        "base_weight": 0.3
+    }, 
+    "482": {
+        "type": "PSYCHIC", 
+        "base_height": 0.3, 
+        "base_weight": 0.3
+    }, 
+    "483": {
+        "type": "STEEL/DRAGON", 
+        "base_height": 5.41, 
+        "base_weight": 683.0
+    }, 
+    "484": {
+        "type": "WATER/DRAGON", 
+        "base_height": 4.19, 
+        "base_weight": 336.0
+    }, 
+    "485": {
+        "type": "FIRE/STEEL", 
+        "base_height": 1.7, 
+        "base_weight": 430.0
+    }, 
+    "486": {
+        "type": "NORMAL", 
+        "base_height": 3.71, 
+        "base_weight": 420.0
+    }, 
+    "487": {
+        "type": "GHOST/DRAGON", 
+        "base_height": 6.91, 
+        "base_weight": 650.0
+    }, 
+    "488": {
+        "type": "PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 85.6
+    }, 
+    "489": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 3.1
+    }, 
+    "490": {
+        "type": "WATER", 
+        "base_height": 0.3, 
+        "base_weight": 1.4
+    }, 
+    "491": {
+        "type": "DARK", 
+        "base_height": 1.5, 
+        "base_weight": 50.5
+    }, 
+    "492": {
+        "type": "GRASS", 
+        "base_height": 0.2, 
+        "base_weight": 2.1
+    }, 
+    "493": {
+        "type": "NORMAL", 
+        "base_height": 3.2, 
+        "base_weight": 320.0
+    }, 
+    "494": {
+        "type": "PSYCHIC/FIRE", 
+        "base_height": 0.41, 
+        "base_weight": 4.0
+    }, 
+    "495": {
+        "type": "GRASS", 
+        "base_height": 0.61, 
+        "base_weight": 8.1
+    }, 
+    "496": {
+        "type": "GRASS", 
+        "base_height": 0.79, 
+        "base_weight": 16.0
+    }, 
+    "497": {
+        "type": "GRASS", 
+        "base_height": 3.3, 
+        "base_weight": 63.0
+    }, 
+    "498": {
+        "type": "FIRE", 
+        "base_height": 0.51, 
+        "base_weight": 9.9
+    }, 
+    "499": {
+        "type": "FIRE/FIGHTING", 
+        "base_height": 0.99, 
+        "base_weight": 55.5
+    }, 
+    "500": {
+        "type": "FIRE/FIGHTING", 
+        "base_height": 1.6, 
+        "base_weight": 150.0
+    }, 
+    "501": {
+        "type": "WATER", 
+        "base_height": 0.51, 
+        "base_weight": 5.9
+    }, 
+    "502": {
+        "type": "WATER", 
+        "base_height": 0.79, 
+        "base_weight": 24.5
+    }, 
+    "503": {
+        "type": "WATER", 
+        "base_height": 1.5, 
+        "base_weight": 94.6
+    }, 
+    "504": {
+        "type": "NORMAL", 
+        "base_height": 0.51, 
+        "base_weight": 11.6
+    }, 
+    "505": {
+        "type": "NORMAL", 
+        "base_height": 1.09, 
+        "base_weight": 27.0
+    }, 
+    "506": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 4.1
+    }, 
+    "507": {
+        "type": "NORMAL", 
+        "base_height": 0.89, 
+        "base_weight": 14.7
+    }, 
+    "508": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 61.0
+    }, 
+    "509": {
+        "type": "DARK", 
+        "base_height": 0.41, 
+        "base_weight": 10.1
+    }, 
+    "510": {
+        "type": "DARK", 
+        "base_height": 1.09, 
+        "base_weight": 37.5
+    }, 
+    "511": {
+        "type": "GRASS", 
+        "base_height": 0.61, 
+        "base_weight": 10.5
+    }, 
+    "512": {
+        "type": "GRASS", 
+        "base_height": 1.09, 
+        "base_weight": 30.5
+    }, 
+    "513": {
+        "type": "FIRE", 
+        "base_height": 0.61, 
+        "base_weight": 11.0
+    }, 
+    "514": {
+        "type": "FIRE", 
+        "base_height": 0.99, 
+        "base_weight": 28.0
+    }, 
+    "515": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 13.5
+    }, 
+    "516": {
+        "type": "WATER", 
+        "base_height": 0.99, 
+        "base_weight": 29.0
+    }, 
+    "517": {
+        "type": "PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 23.3
+    }, 
+    "518": {
+        "type": "PSYCHIC", 
+        "base_height": 1.09, 
+        "base_weight": 60.5
+    }, 
+    "519": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 2.1
+    }, 
+    "520": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 15.0
+    }, 
+    "521": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 29.0
+    }, 
+    "522": {
+        "type": "ELECTRIC", 
+        "base_height": 0.79, 
+        "base_weight": 29.8
+    }, 
+    "523": {
+        "type": "ELECTRIC", 
+        "base_height": 1.6, 
+        "base_weight": 79.5
+    }, 
+    "524": {
+        "type": "ROCK", 
+        "base_height": 0.41, 
+        "base_weight": 18.0
+    }, 
+    "525": {
+        "type": "ROCK", 
+        "base_height": 0.89, 
+        "base_weight": 102.0
+    }, 
+    "526": {
+        "type": "ROCK", 
+        "base_height": 1.7, 
+        "base_weight": 260.0
+    }, 
+    "527": {
+        "type": "PSYCHIC/FLYING", 
+        "base_height": 0.41, 
+        "base_weight": 2.1
+    }, 
+    "528": {
+        "type": "PSYCHIC/FLYING", 
+        "base_height": 0.89, 
+        "base_weight": 10.5
+    }, 
+    "529": {
+        "type": "GROUND", 
+        "base_height": 0.3, 
+        "base_weight": 8.5
+    }, 
+    "530": {
+        "type": "GROUND/STEEL", 
+        "base_height": 0.71, 
+        "base_weight": 40.4
+    }, 
+    "531": {
+        "type": "NORMAL", 
+        "base_height": 1.09, 
+        "base_weight": 31.0
+    }, 
+    "532": {
+        "type": "FIGHTING", 
+        "base_height": 0.61, 
+        "base_weight": 12.5
+    }, 
+    "533": {
+        "type": "FIGHTING", 
+        "base_height": 1.19, 
+        "base_weight": 40.0
+    }, 
+    "534": {
+        "type": "FIGHTING", 
+        "base_height": 1.4, 
+        "base_weight": 87.0
+    }, 
+    "535": {
+        "type": "WATER", 
+        "base_height": 0.51, 
+        "base_weight": 4.5
+    }, 
+    "536": {
+        "type": "WATER/GROUND", 
+        "base_height": 0.79, 
+        "base_weight": 17.0
+    }, 
+    "537": {
+        "type": "WATER/GROUND", 
+        "base_height": 1.5, 
+        "base_weight": 62.0
+    }, 
+    "538": {
+        "type": "FIGHTING", 
+        "base_height": 1.3, 
+        "base_weight": 55.5
+    }, 
+    "539": {
+        "type": "FIGHTING", 
+        "base_height": 1.4, 
+        "base_weight": 51.0
+    }, 
+    "540": {
+        "type": "BUG/GRASS", 
+        "base_height": 0.3, 
+        "base_weight": 2.5
+    }, 
+    "541": {
+        "type": "BUG/GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 7.3
+    }, 
+    "542": {
+        "type": "BUG/GRASS", 
+        "base_height": 1.19, 
+        "base_weight": 20.5
+    }, 
+    "543": {
+        "type": "BUG/POISON", 
+        "base_height": 0.41, 
+        "base_weight": 5.3
+    }, 
+    "544": {
+        "type": "BUG/POISON", 
+        "base_height": 1.19, 
+        "base_weight": 58.5
+    }, 
+    "545": {
+        "type": "BUG/POISON", 
+        "base_height": 2.49, 
+        "base_weight": 200.5
+    }, 
+    "546": {
+        "type": "GRASS/FAIRY", 
+        "base_height": 0.3, 
+        "base_weight": 0.6
+    }, 
+    "547": {
+        "type": "GRASS/FAIRY", 
+        "base_height": 0.71, 
+        "base_weight": 6.6
+    }, 
+    "548": {
+        "type": "GRASS", 
+        "base_height": 0.51, 
+        "base_weight": 6.6
+    }, 
+    "549": {
+        "type": "GRASS", 
+        "base_height": 1.09, 
+        "base_weight": 16.3
+    }, 
+    "550": {
+        "type": "WATER", 
+        "base_height": 0.99, 
+        "base_weight": 18.0
+    }, 
+    "551": {
+        "type": "GROUND/DARK", 
+        "base_height": 0.71, 
+        "base_weight": 15.2
+    }, 
+    "552": {
+        "type": "GROUND/DARK", 
+        "base_height": 0.99, 
+        "base_weight": 33.4
+    }, 
+    "553": {
+        "type": "GROUND/DARK", 
+        "base_height": 1.5, 
+        "base_weight": 96.3
+    }, 
+    "554": {
+        "type": "FIRE", 
+        "base_height": 0.61, 
+        "base_weight": 37.5
+    }, 
+    "555": {
+        "type": "FIRE", 
+        "base_height": 1.3, 
+        "base_weight": 92.9
+    }, 
+    "556": {
+        "type": "GRASS", 
+        "base_height": 0.99, 
+        "base_weight": 28.0
+    }, 
+    "557": {
+        "type": "BUG/ROCK", 
+        "base_height": 0.3, 
+        "base_weight": 14.5
+    }, 
+    "558": {
+        "type": "BUG/ROCK", 
+        "base_height": 1.4, 
+        "base_weight": 200.0
+    }, 
+    "559": {
+        "type": "DARK/FIGHTING", 
+        "base_height": 0.61, 
+        "base_weight": 11.8
+    }, 
+    "560": {
+        "type": "DARK/FIGHTING", 
+        "base_height": 1.09, 
+        "base_weight": 30.0
+    }, 
+    "561": {
+        "type": "PSYCHIC/FLYING", 
+        "base_height": 1.4, 
+        "base_weight": 14.0
+    }, 
+    "562": {
+        "type": "GHOST", 
+        "base_height": 0.51, 
+        "base_weight": 1.5
+    }, 
+    "563": {
+        "type": "GHOST", 
+        "base_height": 1.7, 
+        "base_weight": 76.5
+    }, 
+    "564": {
+        "type": "WATER/ROCK", 
+        "base_height": 0.71, 
+        "base_weight": 16.5
+    }, 
+    "565": {
+        "type": "WATER/ROCK", 
+        "base_height": 1.19, 
+        "base_weight": 81.0
+    }, 
+    "566": {
+        "type": "ROCK/FLYING", 
+        "base_height": 0.51, 
+        "base_weight": 9.5
+    }, 
+    "567": {
+        "type": "ROCK/FLYING", 
+        "base_height": 1.4, 
+        "base_weight": 32.0
+    }, 
+    "568": {
+        "type": "POISON", 
+        "base_height": 0.61, 
+        "base_weight": 31.0
+    }, 
+    "569": {
+        "type": "POISON", 
+        "base_height": 1.91, 
+        "base_weight": 107.3
+    }, 
+    "570": {
+        "type": "DARK", 
+        "base_height": 0.71, 
+        "base_weight": 12.5
+    }, 
+    "571": {
+        "type": "DARK", 
+        "base_height": 1.6, 
+        "base_weight": 81.1
+    }, 
+    "572": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 5.8
+    }, 
+    "573": {
+        "type": "NORMAL", 
+        "base_height": 0.51, 
+        "base_weight": 7.5
+    }, 
+    "574": {
+        "type": "PSYCHIC", 
+        "base_height": 0.41, 
+        "base_weight": 5.8
+    }, 
+    "575": {
+        "type": "PSYCHIC", 
+        "base_height": 0.71, 
+        "base_weight": 18.0
+    }, 
+    "576": {
+        "type": "PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 44.0
+    }, 
+    "577": {
+        "type": "PSYCHIC", 
+        "base_height": 0.3, 
+        "base_weight": 1.0
+    }, 
+    "578": {
+        "type": "PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 8.0
+    }, 
+    "579": {
+        "type": "PSYCHIC", 
+        "base_height": 0.99, 
+        "base_weight": 20.1
+    }, 
+    "580": {
+        "type": "WATER/FLYING", 
+        "base_height": 0.51, 
+        "base_weight": 5.5
+    }, 
+    "581": {
+        "type": "WATER/FLYING", 
+        "base_height": 1.3, 
+        "base_weight": 24.2
+    }, 
+    "582": {
+        "type": "ICE", 
+        "base_height": 0.41, 
+        "base_weight": 5.7
+    }, 
+    "583": {
+        "type": "ICE", 
+        "base_height": 1.09, 
+        "base_weight": 41.0
+    }, 
+    "584": {
+        "type": "ICE", 
+        "base_height": 1.3, 
+        "base_weight": 57.5
+    }, 
+    "585": {
+        "type": "NORMAL/GRASS", 
+        "base_height": 0.61, 
+        "base_weight": 19.5
+    }, 
+    "586": {
+        "type": "NORMAL/GRASS", 
+        "base_height": 1.91, 
+        "base_weight": 92.5
+    }, 
+    "587": {
+        "type": "ELECTRIC/FLYING", 
+        "base_height": 0.41, 
+        "base_weight": 5.0
+    }, 
+    "588": {
+        "type": "BUG", 
+        "base_height": 0.51, 
+        "base_weight": 5.9
+    }, 
+    "589": {
+        "type": "BUG/STEEL", 
+        "base_height": 0.99, 
+        "base_weight": 33.0
+    }, 
+    "590": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.2, 
+        "base_weight": 1.0
+    }, 
+    "591": {
+        "type": "GRASS/POISON", 
+        "base_height": 0.61, 
+        "base_weight": 10.5
+    }, 
+    "592": {
+        "type": "WATER/GHOST", 
+        "base_height": 1.19, 
+        "base_weight": 33.0
+    }, 
+    "593": {
+        "type": "WATER/GHOST", 
+        "base_height": 2.21, 
+        "base_weight": 135.0
+    }, 
+    "594": {
+        "type": "WATER", 
+        "base_height": 1.19, 
+        "base_weight": 31.6
+    }, 
+    "595": {
+        "type": "BUG/ELECTRIC", 
+        "base_height": 0.1, 
+        "base_weight": 0.6
+    }, 
+    "596": {
+        "type": "BUG/ELECTRIC", 
+        "base_height": 0.79, 
+        "base_weight": 14.3
+    }, 
+    "597": {
+        "type": "GRASS/STEEL", 
+        "base_height": 0.61, 
+        "base_weight": 18.8
+    }, 
+    "598": {
+        "type": "GRASS/STEEL", 
+        "base_height": 0.99, 
+        "base_weight": 110.0
+    }, 
+    "599": {
+        "type": "STEEL", 
+        "base_height": 0.3, 
+        "base_weight": 21.0
+    }, 
+    "600": {
+        "type": "STEEL", 
+        "base_height": 0.61, 
+        "base_weight": 51.0
+    }, 
+    "601": {
+        "type": "STEEL", 
+        "base_height": 0.61, 
+        "base_weight": 81.0
+    }, 
+    "602": {
+        "type": "ELECTRIC", 
+        "base_height": 0.2, 
+        "base_weight": 0.3
+    }, 
+    "603": {
+        "type": "ELECTRIC", 
+        "base_height": 1.19, 
+        "base_weight": 22.0
+    }, 
+    "604": {
+        "type": "ELECTRIC", 
+        "base_height": 2.11, 
+        "base_weight": 80.5
+    }, 
+    "605": {
+        "type": "PSYCHIC", 
+        "base_height": 0.51, 
+        "base_weight": 9.0
+    }, 
+    "606": {
+        "type": "PSYCHIC", 
+        "base_height": 0.99, 
+        "base_weight": 34.5
+    }, 
+    "607": {
+        "type": "GHOST/FIRE", 
+        "base_height": 0.3, 
+        "base_weight": 3.1
+    }, 
+    "608": {
+        "type": "GHOST/FIRE", 
+        "base_height": 0.61, 
+        "base_weight": 13.0
+    }, 
+    "609": {
+        "type": "GHOST/FIRE", 
+        "base_height": 0.99, 
+        "base_weight": 34.3
+    }, 
+    "610": {
+        "type": "DRAGON", 
+        "base_height": 0.61, 
+        "base_weight": 18.0
+    }, 
+    "611": {
+        "type": "DRAGON", 
+        "base_height": 0.99, 
+        "base_weight": 36.0
+    }, 
+    "612": {
+        "type": "DRAGON", 
+        "base_height": 1.8, 
+        "base_weight": 105.5
+    }, 
+    "613": {
+        "type": "ICE", 
+        "base_height": 0.51, 
+        "base_weight": 8.5
+    }, 
+    "614": {
+        "type": "ICE", 
+        "base_height": 2.59, 
+        "base_weight": 260.0
+    }, 
+    "615": {
+        "type": "ICE", 
+        "base_height": 1.09, 
+        "base_weight": 148.0
+    }, 
+    "616": {
+        "type": "BUG", 
+        "base_height": 0.41, 
+        "base_weight": 7.7
+    }, 
+    "617": {
+        "type": "BUG", 
+        "base_height": 0.79, 
+        "base_weight": 25.3
+    }, 
+    "618": {
+        "type": "GROUND/ELECTRIC", 
+        "base_height": 0.71, 
+        "base_weight": 11.0
+    }, 
+    "619": {
+        "type": "FIGHTING", 
+        "base_height": 0.89, 
+        "base_weight": 20.0
+    }, 
+    "620": {
+        "type": "FIGHTING", 
+        "base_height": 1.4, 
+        "base_weight": 35.5
+    }, 
+    "621": {
+        "type": "DRAGON", 
+        "base_height": 1.6, 
+        "base_weight": 139.0
+    }, 
+    "622": {
+        "type": "GROUND/GHOST", 
+        "base_height": 0.99, 
+        "base_weight": 92.0
+    }, 
+    "623": {
+        "type": "GROUND/GHOST", 
+        "base_height": 2.79, 
+        "base_weight": 330.0
+    }, 
+    "624": {
+        "type": "DARK/STEEL", 
+        "base_height": 0.51, 
+        "base_weight": 10.2
+    }, 
+    "625": {
+        "type": "DARK/STEEL", 
+        "base_height": 1.6, 
+        "base_weight": 70.0
+    }, 
+    "626": {
+        "type": "NORMAL", 
+        "base_height": 1.6, 
+        "base_weight": 94.6
+    }, 
+    "627": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.51, 
+        "base_weight": 10.5
+    }, 
+    "628": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 41.0
+    }, 
+    "629": {
+        "type": "DARK/FLYING", 
+        "base_height": 0.51, 
+        "base_weight": 9.0
+    }, 
+    "630": {
+        "type": "DARK/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 39.5
+    }, 
+    "631": {
+        "type": "FIRE", 
+        "base_height": 1.4, 
+        "base_weight": 58.0
+    }, 
+    "632": {
+        "type": "BUG/STEEL", 
+        "base_height": 0.3, 
+        "base_weight": 33.0
+    }, 
+    "633": {
+        "type": "DARK/DRAGON", 
+        "base_height": 0.79, 
+        "base_weight": 17.3
+    }, 
+    "634": {
+        "type": "DARK/DRAGON", 
+        "base_height": 1.4, 
+        "base_weight": 50.0
+    }, 
+    "635": {
+        "type": "DARK/DRAGON", 
+        "base_height": 1.8, 
+        "base_weight": 160.0
+    }, 
+    "636": {
+        "type": "BUG/FIRE", 
+        "base_height": 1.09, 
+        "base_weight": 28.8
+    }, 
+    "637": {
+        "type": "BUG/FIRE", 
+        "base_height": 1.6, 
+        "base_weight": 46.0
+    }, 
+    "638": {
+        "type": "STEEL/FIGHTING", 
+        "base_height": 2.11, 
+        "base_weight": 250.0
+    }, 
+    "639": {
+        "type": "ROCK/FIGHTING", 
+        "base_height": 1.91, 
+        "base_weight": 260.0
+    }, 
+    "640": {
+        "type": "GRASS/FIGHTING", 
+        "base_height": 2.01, 
+        "base_weight": 200.0
+    }, 
+    "641": {
+        "type": "FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 63.0
+    }, 
+    "642": {
+        "type": "ELECTRIC/FLYING", 
+        "base_height": 1.5, 
+        "base_weight": 61.0
+    }, 
+    "643": {
+        "type": "DRAGON/FIRE", 
+        "base_height": 3.2, 
+        "base_weight": 330.0
+    }, 
+    "644": {
+        "type": "DRAGON/ELECTRIC", 
+        "base_height": 2.9, 
+        "base_weight": 345.0
+    }, 
+    "645": {
+        "type": "GROUND/FLYING", 
+        "base_height": 1.3, 
+        "base_weight": 68.0
+    }, 
+    "646": {
+        "type": "DRAGON/ICE", 
+        "base_height": 3.61, 
+        "base_weight": 325.0
+    }, 
+    "647": {
+        "type": "WATER/FIGHTING", 
+        "base_height": 1.4, 
+        "base_weight": 48.5
+    }, 
+    "648": {
+        "type": "NORMAL/FIGHTING", 
+        "base_height": 0.61, 
+        "base_weight": 6.5
+    }, 
+    "649": {
+        "type": "BUG/STEEL", 
+        "base_height": 1.5, 
+        "base_weight": 82.5
+    }, 
+    "650": {
+        "type": "GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 9.0
+    }, 
+    "651": {
+        "type": "GRASS", 
+        "base_height": 0.71, 
+        "base_weight": 29.0
+    }, 
+    "652": {
+        "type": "GRASS/FIGHTING", 
+        "base_height": 1.6, 
+        "base_weight": 90.0
+    }, 
+    "653": {
+        "type": "FIRE", 
+        "base_height": 0.41, 
+        "base_weight": 9.4
+    }, 
+    "654": {
+        "type": "FIRE", 
+        "base_height": 0.99, 
+        "base_weight": 14.5
+    }, 
+    "655": {
+        "type": "FIRE/PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 39.0
+    }, 
+    "656": {
+        "type": "WATER", 
+        "base_height": 0.3, 
+        "base_weight": 7.0
+    }, 
+    "657": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 10.9
+    }, 
+    "658": {
+        "type": "WATER/DARK", 
+        "base_height": 1.5, 
+        "base_weight": 40.0
+    }, 
+    "659": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 5.0
+    }, 
+    "660": {
+        "type": "NORMAL/GROUND", 
+        "base_height": 0.99, 
+        "base_weight": 42.4
+    }, 
+    "661": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 1.7
+    }, 
+    "662": {
+        "type": "FIRE/FLYING", 
+        "base_height": 0.71, 
+        "base_weight": 16.0
+    }, 
+    "663": {
+        "type": "FIRE/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 24.5
+    }, 
+    "664": {
+        "type": "BUG", 
+        "base_height": 0.3, 
+        "base_weight": 2.5
+    }, 
+    "665": {
+        "type": "BUG", 
+        "base_height": 0.3, 
+        "base_weight": 8.4
+    }, 
+    "666": {
+        "type": "BUG/FLYING", 
+        "base_height": 1.19, 
+        "base_weight": 17.0
+    }, 
+    "667": {
+        "type": "FIRE/NORMAL", 
+        "base_height": 0.61, 
+        "base_weight": 13.5
+    }, 
+    "668": {
+        "type": "FIRE/NORMAL", 
+        "base_height": 1.5, 
+        "base_weight": 81.5
+    }, 
+    "669": {
+        "type": "FAIRY", 
+        "base_height": 0.1, 
+        "base_weight": 0.1
+    }, 
+    "670": {
+        "type": "FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 0.9
+    }, 
+    "671": {
+        "type": "FAIRY", 
+        "base_height": 1.09, 
+        "base_weight": 10.0
+    }, 
+    "672": {
+        "type": "GRASS", 
+        "base_height": 0.89, 
+        "base_weight": 31.0
+    }, 
+    "673": {
+        "type": "GRASS", 
+        "base_height": 1.7, 
+        "base_weight": 91.0
+    }, 
+    "674": {
+        "type": "FIGHTING", 
+        "base_height": 0.61, 
+        "base_weight": 8.0
+    }, 
+    "675": {
+        "type": "FIGHTING/DARK", 
+        "base_height": 2.11, 
+        "base_weight": 136.0
+    }, 
+    "676": {
+        "type": "NORMAL", 
+        "base_height": 1.19, 
+        "base_weight": 28.0
+    }, 
+    "677": {
+        "type": "PSYCHIC", 
+        "base_height": 0.3, 
+        "base_weight": 3.5
+    }, 
+    "678": {
+        "type": "PSYCHIC", 
+        "base_height": 0.61, 
+        "base_weight": 8.5
+    }, 
+    "679": {
+        "type": "STEEL/GHOST", 
+        "base_height": 0.79, 
+        "base_weight": 2.0
+    }, 
+    "680": {
+        "type": "STEEL/GHOST", 
+        "base_height": 0.84, 
+        "base_weight": 4.5
+    }, 
+    "681": {
+        "type": "STEEL/GHOST", 
+        "base_height": 1.7, 
+        "base_weight": 53.0
+    }, 
+    "682": {
+        "type": "FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 0.5
+    }, 
+    "683": {
+        "type": "FAIRY", 
+        "base_height": 0.79, 
+        "base_weight": 15.5
+    }, 
+    "684": {
+        "type": "FAIRY", 
+        "base_height": 0.41, 
+        "base_weight": 3.5
+    }, 
+    "685": {
+        "type": "FAIRY", 
+        "base_height": 0.79, 
+        "base_weight": 5.0
+    }, 
+    "686": {
+        "type": "DARK/PSYCHIC", 
+        "base_height": 0.41, 
+        "base_weight": 3.5
+    }, 
+    "687": {
+        "type": "DARK/PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 47.0
+    }, 
+    "688": {
+        "type": "ROCK/WATER", 
+        "base_height": 0.51, 
+        "base_weight": 31.0
+    }, 
+    "689": {
+        "type": "ROCK/WATER", 
+        "base_height": 1.3, 
+        "base_weight": 96.0
+    }, 
+    "690": {
+        "type": "POISON/WATER", 
+        "base_height": 0.51, 
+        "base_weight": 7.3
+    }, 
+    "691": {
+        "type": "POISON/DRAGON", 
+        "base_height": 1.8, 
+        "base_weight": 81.5
+    }, 
+    "692": {
+        "type": "WATER", 
+        "base_height": 0.51, 
+        "base_weight": 8.3
+    }, 
+    "693": {
+        "type": "WATER", 
+        "base_height": 1.3, 
+        "base_weight": 35.3
+    }, 
+    "694": {
+        "type": "ELECTRIC/NORMAL", 
+        "base_height": 0.51, 
+        "base_weight": 6.0
+    }, 
+    "695": {
+        "type": "ELECTRIC/NORMAL", 
+        "base_height": 0.99, 
+        "base_weight": 21.0
+    }, 
+    "696": {
+        "type": "ROCK/DRAGON", 
+        "base_height": 0.79, 
+        "base_weight": 26.0
+    }, 
+    "697": {
+        "type": "ROCK/DRAGON", 
+        "base_height": 2.49, 
+        "base_weight": 270.0
+    }, 
+    "698": {
+        "type": "ROCK/ICE", 
+        "base_height": 1.3, 
+        "base_weight": 25.2
+    }, 
+    "699": {
+        "type": "ROCK/ICE", 
+        "base_height": 2.69, 
+        "base_weight": 225.0
+    }, 
+    "700": {
+        "type": "FAIRY", 
+        "base_height": 0.99, 
+        "base_weight": 23.5
+    }, 
+    "701": {
+        "type": "FIGHTING/FLYING", 
+        "base_height": 0.79, 
+        "base_weight": 21.5
+    }, 
+    "702": {
+        "type": "ELECTRIC/FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 2.2
+    }, 
+    "703": {
+        "type": "ROCK/FAIRY", 
+        "base_height": 0.3, 
+        "base_weight": 5.7
+    }, 
+    "704": {
+        "type": "DRAGON", 
+        "base_height": 0.3, 
+        "base_weight": 2.8
+    }, 
+    "705": {
+        "type": "DRAGON", 
+        "base_height": 0.79, 
+        "base_weight": 17.5
+    }, 
+    "706": {
+        "type": "DRAGON", 
+        "base_height": 2.01, 
+        "base_weight": 150.5
+    }, 
+    "707": {
+        "type": "STEEL/FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 3.0
+    }, 
+    "708": {
+        "type": "GHOST/GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 7.0
+    }, 
+    "709": {
+        "type": "GHOST/GRASS", 
+        "base_height": 1.5, 
+        "base_weight": 71.0
+    }, 
+    "710": {
+        "type": "GHOST/GRASS", 
+        "base_height": 0.41, 
+        "base_weight": 5.0
+    }, 
+    "711": {
+        "type": "GHOST/GRASS", 
+        "base_height": 1.7, 
+        "base_weight": 39.0
+    }, 
+    "712": {
+        "type": "ICE", 
+        "base_height": 0.99, 
+        "base_weight": 99.5
+    }, 
+    "713": {
+        "type": "ICE", 
+        "base_height": 2.01, 
+        "base_weight": 505.0
+    }, 
+    "714": {
+        "type": "FLYING/DRAGON", 
+        "base_height": 0.51, 
+        "base_weight": 8.0
+    }, 
+    "715": {
+        "type": "FLYING/DRAGON", 
+        "base_height": 1.5, 
+        "base_weight": 85.0
+    }, 
+    "716": {
+        "type": "FAIRY", 
+        "base_height": 3.0, 
+        "base_weight": 215.0
+    }, 
+    "717": {
+        "type": "DARK/FLYING", 
+        "base_height": 5.79, 
+        "base_weight": 203.0
+    }, 
+    "718": {
+        "type": "DRAGON/GROUND", 
+        "base_height": 1.19, 
+        "base_weight": 33.5
+    }, 
+    "719": {
+        "type": "ROCK/FAIRY", 
+        "base_height": 0.71, 
+        "base_weight": 8.8
+    }, 
+    "720": {
+        "type": "PSYCHIC/DARK", 
+        "base_height": 6.5, 
+        "base_weight": 490.0
+    }, 
+    "721": {
+        "type": "FIRE/WATER", 
+        "base_height": 1.7, 
+        "base_weight": 195.0
+    }, 
+    "722": {
+        "type": "GRASS/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 1.5
+    }, 
+    "723": {
+        "type": "GRASS/FLYING", 
+        "base_height": 0.71, 
+        "base_weight": 16.0
+    }, 
+    "724": {
+        "type": "GRASS/GHOST", 
+        "base_height": 1.6, 
+        "base_weight": 36.6
+    }, 
+    "725": {
+        "type": "FIRE", 
+        "base_height": 0.41, 
+        "base_weight": 4.3
+    }, 
+    "726": {
+        "type": "FIRE", 
+        "base_height": 0.71, 
+        "base_weight": 25.0
+    }, 
+    "727": {
+        "type": "FIRE/DARK", 
+        "base_height": 1.8, 
+        "base_weight": 83.0
+    }, 
+    "728": {
+        "type": "WATER", 
+        "base_height": 0.41, 
+        "base_weight": 7.5
+    }, 
+    "729": {
+        "type": "WATER", 
+        "base_height": 0.61, 
+        "base_weight": 17.5
+    }, 
+    "730": {
+        "type": "WATER/FAIRY", 
+        "base_height": 1.8, 
+        "base_weight": 44.0
+    }, 
+    "731": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 1.2
+    }, 
+    "732": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 14.8
+    }, 
+    "733": {
+        "type": "NORMAL/FLYING", 
+        "base_height": 1.09, 
+        "base_weight": 26.0
+    }, 
+    "734": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 6.0
+    }, 
+    "735": {
+        "type": "NORMAL", 
+        "base_height": 0.71, 
+        "base_weight": 14.2
+    }, 
+    "736": {
+        "type": "BUG", 
+        "base_height": 0.41, 
+        "base_weight": 4.4
+    }, 
+    "737": {
+        "type": "BUG/ELECTRIC", 
+        "base_height": 0.51, 
+        "base_weight": 10.5
+    }, 
+    "738": {
+        "type": "BUG/ELECTRIC", 
+        "base_height": 1.5, 
+        "base_weight": 45.0
+    }, 
+    "739": {
+        "type": "FIGHTING", 
+        "base_height": 0.61, 
+        "base_weight": 7.0
+    }, 
+    "740": {
+        "type": "FIGHTING/ICE", 
+        "base_height": 1.7, 
+        "base_weight": 180.0
+    }, 
+    "741": {
+        "type": "ELECTRIC/FLYING", 
+        "base_height": 0.61, 
+        "base_weight": 3.4
+    }, 
+    "742": {
+        "type": "BUG/FAIRY", 
+        "base_height": 0.1, 
+        "base_weight": 0.2
+    }, 
+    "743": {
+        "type": "BUG/FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 0.5
+    }, 
+    "744": {
+        "type": "ROCK", 
+        "base_height": 0.51, 
+        "base_weight": 9.2
+    }, 
+    "745": {
+        "type": "ROCK", 
+        "base_height": 1.09, 
+        "base_weight": 25.0
+    }, 
+    "746": {
+        "type": "WATER", 
+        "base_height": 8.2, 
+        "base_weight": 78.6
+    }, 
+    "747": {
+        "type": "POISON/WATER", 
+        "base_height": 0.41, 
+        "base_weight": 8.0
+    }, 
+    "748": {
+        "type": "POISON/WATER", 
+        "base_height": 0.71, 
+        "base_weight": 14.5
+    }, 
+    "749": {
+        "type": "GROUND", 
+        "base_height": 0.99, 
+        "base_weight": 110.0
+    }, 
+    "750": {
+        "type": "GROUND", 
+        "base_height": 2.49, 
+        "base_weight": 920.0
+    }, 
+    "751": {
+        "type": "WATER/BUG", 
+        "base_height": 0.3, 
+        "base_weight": 4.0
+    }, 
+    "752": {
+        "type": "WATER/BUG", 
+        "base_height": 1.8, 
+        "base_weight": 82.0
+    }, 
+    "753": {
+        "type": "GRASS", 
+        "base_height": 0.3, 
+        "base_weight": 1.5
+    }, 
+    "754": {
+        "type": "GRASS", 
+        "base_height": 0.89, 
+        "base_weight": 18.5
+    }, 
+    "755": {
+        "type": "GRASS/FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 1.5
+    }, 
+    "756": {
+        "type": "GRASS/FAIRY", 
+        "base_height": 0.99, 
+        "base_weight": 11.5
+    }, 
+    "757": {
+        "type": "POISON/FIRE", 
+        "base_height": 0.61, 
+        "base_weight": 4.8
+    }, 
+    "758": {
+        "type": "POISON/FIRE", 
+        "base_height": 1.19, 
+        "base_weight": 22.2
+    }, 
+    "759": {
+        "type": "NORMAL/FIGHTING", 
+        "base_height": 0.51, 
+        "base_weight": 6.8
+    }, 
+    "760": {
+        "type": "NORMAL/FIGHTING", 
+        "base_height": 2.11, 
+        "base_weight": 135.0
+    }, 
+    "761": {
+        "type": "GRASS", 
+        "base_height": 0.3, 
+        "base_weight": 3.2
+    }, 
+    "762": {
+        "type": "GRASS", 
+        "base_height": 0.71, 
+        "base_weight": 8.2
+    }, 
+    "763": {
+        "type": "GRASS", 
+        "base_height": 1.14, 
+        "base_weight": 21.4
+    }, 
+    "764": {
+        "type": "FAIRY", 
+        "base_height": 0.1, 
+        "base_weight": 0.3
+    }, 
+    "765": {
+        "type": "NORMAL/PSYCHIC", 
+        "base_height": 1.5, 
+        "base_weight": 76.0
+    }, 
+    "766": {
+        "type": "FIGHTING", 
+        "base_height": 2.01, 
+        "base_weight": 82.8
+    }, 
+    "767": {
+        "type": "BUG/WATER", 
+        "base_height": 0.51, 
+        "base_weight": 12.0
+    }, 
+    "768": {
+        "type": "BUG/WATER", 
+        "base_height": 2.01, 
+        "base_weight": 108.0
+    }, 
+    "769": {
+        "type": "GHOST/GROUND", 
+        "base_height": 0.51, 
+        "base_weight": 70.0
+    }, 
+    "770": {
+        "type": "GHOST/GROUND", 
+        "base_height": 1.3, 
+        "base_weight": 250.0
+    }, 
+    "771": {
+        "type": "WATER", 
+        "base_height": 0.3, 
+        "base_weight": 1.2
+    }, 
+    "772": {
+        "type": "NORMAL", 
+        "base_height": 1.91, 
+        "base_weight": 120.5
+    }, 
+    "773": {
+        "type": "NORMAL", 
+        "base_height": 2.31, 
+        "base_weight": 100.5
+    }, 
+    "774": {
+        "type": "ROCK/FLYING", 
+        "base_height": 0.3, 
+        "base_weight": 0.3
+    }, 
+    "775": {
+        "type": "NORMAL", 
+        "base_height": 0.41, 
+        "base_weight": 19.9
+    }, 
+    "776": {
+        "type": "FIRE/DRAGON", 
+        "base_height": 2.01, 
+        "base_weight": 212.0
+    }, 
+    "777": {
+        "type": "ELECTRIC/STEEL", 
+        "base_height": 0.3, 
+        "base_weight": 3.3
+    }, 
+    "778": {
+        "type": "GHOST/FAIRY", 
+        "base_height": 0.2, 
+        "base_weight": 0.7
+    }, 
+    "779": {
+        "type": "WATER/PSYCHIC", 
+        "base_height": 0.89, 
+        "base_weight": 19.0
+    }, 
+    "780": {
+        "type": "NORMAL/DRAGON", 
+        "base_height": 3.0, 
+        "base_weight": 185.0
+    }, 
+    "781": {
+        "type": "GHOST/GRASS", 
+        "base_height": 3.91, 
+        "base_weight": 210.0
+    }, 
+    "782": {
+        "type": "DRAGON", 
+        "base_height": 0.61, 
+        "base_weight": 29.7
+    }, 
+    "783": {
+        "type": "DRAGON/FIGHTING", 
+        "base_height": 1.14, 
+        "base_weight": 47.0
+    }, 
+    "784": {
+        "type": "DRAGON/FIGHTING", 
+        "base_height": 1.6, 
+        "base_weight": 78.2
+    }, 
+    "785": {
+        "type": "ELECTRIC/FAIRY", 
+        "base_height": 1.8, 
+        "base_weight": 20.5
+    }, 
+    "786": {
+        "type": "PSYCHIC/FAIRY", 
+        "base_height": 1.19, 
+        "base_weight": 18.6
+    }, 
+    "787": {
+        "type": "GRASS/FAIRY", 
+        "base_height": 1.91, 
+        "base_weight": 45.5
+    }, 
+    "788": {
+        "type": "WATER/FAIRY", 
+        "base_height": 1.3, 
+        "base_weight": 21.2
+    }, 
+    "789": {
+        "type": "PSYCHIC", 
+        "base_height": 0.2, 
+        "base_weight": 0.1
+    }, 
+    "790": {
+        "type": "PSYCHIC", 
+        "base_height": 0.1, 
+        "base_weight": 999.9
+    }, 
+    "791": {
+        "type": "PSYCHIC/STEEL", 
+        "base_height": 3.4, 
+        "base_weight": 230.0
+    }, 
+    "792": {
+        "type": "PSYCHIC/GHOST", 
+        "base_height": 3.99, 
+        "base_weight": 120.0
+    }, 
+    "793": {
+        "type": "ROCK/POISON", 
+        "base_height": 1.19, 
+        "base_weight": 55.5
+    }, 
+    "794": {
+        "type": "BUG/FIGHTING", 
+        "base_height": 2.39, 
+        "base_weight": 333.6
+    }, 
+    "795": {
+        "type": "BUG/FIGHTING", 
+        "base_height": 1.8, 
+        "base_weight": 25.0
+    }, 
+    "796": {
+        "type": "ELECTRIC", 
+        "base_height": 3.81, 
+        "base_weight": 100.0
+    }, 
+    "797": {
+        "type": "STEEL/FLYING", 
+        "base_height": 9.19, 
+        "base_weight": 999.9
+    }, 
+    "798": {
+        "type": "GRASS/STEEL", 
+        "base_height": 0.3, 
+        "base_weight": 0.1
+    }, 
+    "799": {
+        "type": "DARK/DRAGON", 
+        "base_height": 5.51, 
+        "base_weight": 888.0
+    }, 
+    "800": {
+        "type": "PSYCHIC", 
+        "base_height": 2.39, 
+        "base_weight": 230.0
+    }, 
+    "801": {
+        "type": "STEEL/FAIRY", 
+        "base_height": 0.99, 
+        "base_weight": 80.5
+    }, 
+    "802": {
+        "type": "FIGHTING/GHOST", 
+        "base_height": 0.71, 
+        "base_weight": 22.2
+    }
+}
