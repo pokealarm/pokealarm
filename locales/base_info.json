@@ -1,0 +1,3210 @@
+{
+    "1": {
+        "base_weight": 6.9, 
+        "base_height": 0.71
+    }, 
+    "2": {
+        "base_weight": 13.0, 
+        "base_height": 0.99
+    }, 
+    "3": {
+        "base_weight": 100.0, 
+        "base_height": 2.01
+    }, 
+    "4": {
+        "base_weight": 8.5, 
+        "base_height": 0.61
+    }, 
+    "5": {
+        "base_weight": 19.0, 
+        "base_height": 1.09
+    }, 
+    "6": {
+        "base_weight": 90.5, 
+        "base_height": 1.7
+    }, 
+    "7": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "8": {
+        "base_weight": 22.5, 
+        "base_height": 0.99
+    }, 
+    "9": {
+        "base_weight": 85.5, 
+        "base_height": 1.6
+    }, 
+    "10": {
+        "base_weight": 2.9, 
+        "base_height": 0.3
+    }, 
+    "11": {
+        "base_weight": 9.9, 
+        "base_height": 0.71
+    }, 
+    "12": {
+        "base_weight": 32.0, 
+        "base_height": 1.09
+    }, 
+    "13": {
+        "base_weight": 3.2, 
+        "base_height": 0.3
+    }, 
+    "14": {
+        "base_weight": 10.0, 
+        "base_height": 0.61
+    }, 
+    "15": {
+        "base_weight": 29.5, 
+        "base_height": 0.99
+    }, 
+    "16": {
+        "base_weight": 1.8, 
+        "base_height": 0.3
+    }, 
+    "17": {
+        "base_weight": 30.0, 
+        "base_height": 1.09
+    }, 
+    "18": {
+        "base_weight": 39.5, 
+        "base_height": 1.5
+    }, 
+    "19": {
+        "base_weight": 3.5, 
+        "base_height": 0.3
+    }, 
+    "20": {
+        "base_weight": 18.5, 
+        "base_height": 0.71
+    }, 
+    "21": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "22": {
+        "base_weight": 38.0, 
+        "base_height": 1.19
+    }, 
+    "23": {
+        "base_weight": 6.9, 
+        "base_height": 2.01
+    }, 
+    "24": {
+        "base_weight": 65.0, 
+        "base_height": 3.51
+    }, 
+    "25": {
+        "base_weight": 6.0, 
+        "base_height": 0.41
+    }, 
+    "26": {
+        "base_weight": 30.0, 
+        "base_height": 0.79
+    }, 
+    "27": {
+        "base_weight": 12.0, 
+        "base_height": 0.61
+    }, 
+    "28": {
+        "base_weight": 29.5, 
+        "base_height": 0.99
+    }, 
+    "29": {
+        "base_weight": 7.0, 
+        "base_height": 0.41
+    }, 
+    "30": {
+        "base_weight": 20.0, 
+        "base_height": 0.79
+    }, 
+    "31": {
+        "base_weight": 60.0, 
+        "base_height": 1.3
+    }, 
+    "32": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "33": {
+        "base_weight": 19.5, 
+        "base_height": 0.89
+    }, 
+    "34": {
+        "base_weight": 62.0, 
+        "base_height": 1.4
+    }, 
+    "35": {
+        "base_weight": 7.5, 
+        "base_height": 0.61
+    }, 
+    "36": {
+        "base_weight": 40.0, 
+        "base_height": 1.3
+    }, 
+    "37": {
+        "base_weight": 9.9, 
+        "base_height": 0.61
+    }, 
+    "38": {
+        "base_weight": 19.9, 
+        "base_height": 1.09
+    }, 
+    "39": {
+        "base_weight": 5.5, 
+        "base_height": 0.51
+    }, 
+    "40": {
+        "base_weight": 12.0, 
+        "base_height": 0.99
+    }, 
+    "41": {
+        "base_weight": 7.5, 
+        "base_height": 0.79
+    }, 
+    "42": {
+        "base_weight": 55.0, 
+        "base_height": 1.6
+    }, 
+    "43": {
+        "base_weight": 5.4, 
+        "base_height": 0.51
+    }, 
+    "44": {
+        "base_weight": 8.6, 
+        "base_height": 0.79
+    }, 
+    "45": {
+        "base_weight": 18.6, 
+        "base_height": 1.19
+    }, 
+    "46": {
+        "base_weight": 5.4, 
+        "base_height": 0.3
+    }, 
+    "47": {
+        "base_weight": 29.5, 
+        "base_height": 0.99
+    }, 
+    "48": {
+        "base_weight": 30.0, 
+        "base_height": 0.99
+    }, 
+    "49": {
+        "base_weight": 12.5, 
+        "base_height": 1.5
+    }, 
+    "50": {
+        "base_weight": 0.8, 
+        "base_height": 0.2
+    }, 
+    "51": {
+        "base_weight": 33.3, 
+        "base_height": 0.71
+    }, 
+    "52": {
+        "base_weight": 4.2, 
+        "base_height": 0.41
+    }, 
+    "53": {
+        "base_weight": 32.0, 
+        "base_height": 0.99
+    }, 
+    "54": {
+        "base_weight": 19.6, 
+        "base_height": 0.79
+    }, 
+    "55": {
+        "base_weight": 76.6, 
+        "base_height": 1.7
+    }, 
+    "56": {
+        "base_weight": 28.0, 
+        "base_height": 0.51
+    }, 
+    "57": {
+        "base_weight": 32.0, 
+        "base_height": 0.99
+    }, 
+    "58": {
+        "base_weight": 19.0, 
+        "base_height": 0.71
+    }, 
+    "59": {
+        "base_weight": 155.0, 
+        "base_height": 1.91
+    }, 
+    "60": {
+        "base_weight": 12.4, 
+        "base_height": 0.61
+    }, 
+    "61": {
+        "base_weight": 20.0, 
+        "base_height": 0.99
+    }, 
+    "62": {
+        "base_weight": 54.0, 
+        "base_height": 1.3
+    }, 
+    "63": {
+        "base_weight": 19.5, 
+        "base_height": 0.89
+    }, 
+    "64": {
+        "base_weight": 56.5, 
+        "base_height": 1.3
+    }, 
+    "65": {
+        "base_weight": 48.0, 
+        "base_height": 1.5
+    }, 
+    "66": {
+        "base_weight": 19.5, 
+        "base_height": 0.79
+    }, 
+    "67": {
+        "base_weight": 70.5, 
+        "base_height": 1.5
+    }, 
+    "68": {
+        "base_weight": 130.0, 
+        "base_height": 1.6
+    }, 
+    "69": {
+        "base_weight": 4.0, 
+        "base_height": 0.71
+    }, 
+    "70": {
+        "base_weight": 6.4, 
+        "base_height": 0.99
+    }, 
+    "71": {
+        "base_weight": 15.5, 
+        "base_height": 1.7
+    }, 
+    "72": {
+        "base_weight": 45.5, 
+        "base_height": 0.89
+    }, 
+    "73": {
+        "base_weight": 55.0, 
+        "base_height": 1.6
+    }, 
+    "74": {
+        "base_weight": 20.0, 
+        "base_height": 0.41
+    }, 
+    "75": {
+        "base_weight": 105.0, 
+        "base_height": 0.99
+    }, 
+    "76": {
+        "base_weight": 300.0, 
+        "base_height": 1.4
+    }, 
+    "77": {
+        "base_weight": 30.0, 
+        "base_height": 0.99
+    }, 
+    "78": {
+        "base_weight": 95.0, 
+        "base_height": 1.7
+    }, 
+    "79": {
+        "base_weight": 36.0, 
+        "base_height": 1.19
+    }, 
+    "80": {
+        "base_weight": 78.5, 
+        "base_height": 1.6
+    }, 
+    "81": {
+        "base_weight": 6.0, 
+        "base_height": 0.3
+    }, 
+    "82": {
+        "base_weight": 60.0, 
+        "base_height": 0.99
+    }, 
+    "83": {
+        "base_weight": 15.0, 
+        "base_height": 0.79
+    }, 
+    "84": {
+        "base_weight": 39.2, 
+        "base_height": 1.4
+    }, 
+    "85": {
+        "base_weight": 85.2, 
+        "base_height": 1.8
+    }, 
+    "86": {
+        "base_weight": 90.0, 
+        "base_height": 1.09
+    }, 
+    "87": {
+        "base_weight": 120.0, 
+        "base_height": 1.7
+    }, 
+    "88": {
+        "base_weight": 30.0, 
+        "base_height": 0.89
+    }, 
+    "89": {
+        "base_weight": 30.0, 
+        "base_height": 1.19
+    }, 
+    "90": {
+        "base_weight": 4.0, 
+        "base_height": 0.3
+    }, 
+    "91": {
+        "base_weight": 132.5, 
+        "base_height": 1.5
+    }, 
+    "92": {
+        "base_weight": 0.1, 
+        "base_height": 1.3
+    }, 
+    "93": {
+        "base_weight": 0.1, 
+        "base_height": 1.6
+    }, 
+    "94": {
+        "base_weight": 40.5, 
+        "base_height": 1.5
+    }, 
+    "95": {
+        "base_weight": 210.0, 
+        "base_height": 8.79
+    }, 
+    "96": {
+        "base_weight": 32.4, 
+        "base_height": 0.99
+    }, 
+    "97": {
+        "base_weight": 75.6, 
+        "base_height": 1.6
+    }, 
+    "98": {
+        "base_weight": 6.5, 
+        "base_height": 0.41
+    }, 
+    "99": {
+        "base_weight": 60.0, 
+        "base_height": 1.3
+    }, 
+    "100": {
+        "base_weight": 10.4, 
+        "base_height": 0.51
+    }, 
+    "101": {
+        "base_weight": 66.6, 
+        "base_height": 1.19
+    }, 
+    "102": {
+        "base_weight": 2.5, 
+        "base_height": 0.41
+    }, 
+    "103": {
+        "base_weight": 120.0, 
+        "base_height": 2.01
+    }, 
+    "104": {
+        "base_weight": 6.5, 
+        "base_height": 0.41
+    }, 
+    "105": {
+        "base_weight": 45.0, 
+        "base_height": 0.99
+    }, 
+    "106": {
+        "base_weight": 49.8, 
+        "base_height": 1.5
+    }, 
+    "107": {
+        "base_weight": 50.2, 
+        "base_height": 1.4
+    }, 
+    "108": {
+        "base_weight": 65.5, 
+        "base_height": 1.19
+    }, 
+    "109": {
+        "base_weight": 1.0, 
+        "base_height": 0.61
+    }, 
+    "110": {
+        "base_weight": 9.5, 
+        "base_height": 1.19
+    }, 
+    "111": {
+        "base_weight": 115.0, 
+        "base_height": 0.99
+    }, 
+    "112": {
+        "base_weight": 120.0, 
+        "base_height": 1.91
+    }, 
+    "113": {
+        "base_weight": 34.6, 
+        "base_height": 1.09
+    }, 
+    "114": {
+        "base_weight": 35.0, 
+        "base_height": 0.99
+    }, 
+    "115": {
+        "base_weight": 80.0, 
+        "base_height": 2.21
+    }, 
+    "116": {
+        "base_weight": 8.0, 
+        "base_height": 0.41
+    }, 
+    "117": {
+        "base_weight": 25.0, 
+        "base_height": 1.19
+    }, 
+    "118": {
+        "base_weight": 15.0, 
+        "base_height": 0.61
+    }, 
+    "119": {
+        "base_weight": 39.0, 
+        "base_height": 1.3
+    }, 
+    "120": {
+        "base_weight": 34.5, 
+        "base_height": 0.79
+    }, 
+    "121": {
+        "base_weight": 80.0, 
+        "base_height": 1.09
+    }, 
+    "122": {
+        "base_weight": 54.5, 
+        "base_height": 1.3
+    }, 
+    "123": {
+        "base_weight": 56.0, 
+        "base_height": 1.5
+    }, 
+    "124": {
+        "base_weight": 40.6, 
+        "base_height": 1.4
+    }, 
+    "125": {
+        "base_weight": 30.0, 
+        "base_height": 1.09
+    }, 
+    "126": {
+        "base_weight": 44.5, 
+        "base_height": 1.3
+    }, 
+    "127": {
+        "base_weight": 55.0, 
+        "base_height": 1.5
+    }, 
+    "128": {
+        "base_weight": 88.4, 
+        "base_height": 1.4
+    }, 
+    "129": {
+        "base_weight": 10.0, 
+        "base_height": 0.89
+    }, 
+    "130": {
+        "base_weight": 235.0, 
+        "base_height": 6.5
+    }, 
+    "131": {
+        "base_weight": 220.0, 
+        "base_height": 2.49
+    }, 
+    "132": {
+        "base_weight": 4.0, 
+        "base_height": 0.3
+    }, 
+    "133": {
+        "base_weight": 6.5, 
+        "base_height": 0.3
+    }, 
+    "134": {
+        "base_weight": 29.0, 
+        "base_height": 0.99
+    }, 
+    "135": {
+        "base_weight": 24.5, 
+        "base_height": 0.79
+    }, 
+    "136": {
+        "base_weight": 25.0, 
+        "base_height": 0.89
+    }, 
+    "137": {
+        "base_weight": 36.5, 
+        "base_height": 0.79
+    }, 
+    "138": {
+        "base_weight": 7.5, 
+        "base_height": 0.41
+    }, 
+    "139": {
+        "base_weight": 35.0, 
+        "base_height": 0.99
+    }, 
+    "140": {
+        "base_weight": 11.5, 
+        "base_height": 0.51
+    }, 
+    "141": {
+        "base_weight": 40.5, 
+        "base_height": 1.3
+    }, 
+    "142": {
+        "base_weight": 59.0, 
+        "base_height": 1.8
+    }, 
+    "143": {
+        "base_weight": 460.0, 
+        "base_height": 2.11
+    }, 
+    "144": {
+        "base_weight": 55.4, 
+        "base_height": 1.7
+    }, 
+    "145": {
+        "base_weight": 52.6, 
+        "base_height": 1.6
+    }, 
+    "146": {
+        "base_weight": 60.0, 
+        "base_height": 2.01
+    }, 
+    "147": {
+        "base_weight": 3.3, 
+        "base_height": 1.8
+    }, 
+    "148": {
+        "base_weight": 16.5, 
+        "base_height": 3.99
+    }, 
+    "149": {
+        "base_weight": 210.0, 
+        "base_height": 2.21
+    }, 
+    "150": {
+        "base_weight": 122.0, 
+        "base_height": 2.01
+    }, 
+    "151": {
+        "base_weight": 4.0, 
+        "base_height": 0.41
+    }, 
+    "152": {
+        "base_weight": 6.4, 
+        "base_height": 0.89
+    }, 
+    "153": {
+        "base_weight": 15.8, 
+        "base_height": 1.19
+    }, 
+    "154": {
+        "base_weight": 100.5, 
+        "base_height": 1.8
+    }, 
+    "155": {
+        "base_weight": 7.9, 
+        "base_height": 0.51
+    }, 
+    "156": {
+        "base_weight": 19.0, 
+        "base_height": 0.89
+    }, 
+    "157": {
+        "base_weight": 79.5, 
+        "base_height": 1.7
+    }, 
+    "158": {
+        "base_weight": 9.5, 
+        "base_height": 0.61
+    }, 
+    "159": {
+        "base_weight": 25.0, 
+        "base_height": 1.09
+    }, 
+    "160": {
+        "base_weight": 88.8, 
+        "base_height": 2.31
+    }, 
+    "161": {
+        "base_weight": 6.0, 
+        "base_height": 0.79
+    }, 
+    "162": {
+        "base_weight": 32.5, 
+        "base_height": 1.8
+    }, 
+    "163": {
+        "base_weight": 21.2, 
+        "base_height": 0.71
+    }, 
+    "164": {
+        "base_weight": 40.8, 
+        "base_height": 1.6
+    }, 
+    "165": {
+        "base_weight": 10.8, 
+        "base_height": 0.99
+    }, 
+    "166": {
+        "base_weight": 35.6, 
+        "base_height": 1.4
+    }, 
+    "167": {
+        "base_weight": 8.5, 
+        "base_height": 0.51
+    }, 
+    "168": {
+        "base_weight": 33.5, 
+        "base_height": 1.09
+    }, 
+    "169": {
+        "base_weight": 75.0, 
+        "base_height": 1.8
+    }, 
+    "170": {
+        "base_weight": 12.0, 
+        "base_height": 0.51
+    }, 
+    "171": {
+        "base_weight": 22.5, 
+        "base_height": 1.19
+    }, 
+    "172": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "173": {
+        "base_weight": 3.0, 
+        "base_height": 0.3
+    }, 
+    "174": {
+        "base_weight": 1.0, 
+        "base_height": 0.3
+    }, 
+    "175": {
+        "base_weight": 1.5, 
+        "base_height": 0.3
+    }, 
+    "176": {
+        "base_weight": 3.2, 
+        "base_height": 0.61
+    }, 
+    "177": {
+        "base_weight": 2.0, 
+        "base_height": 0.2
+    }, 
+    "178": {
+        "base_weight": 15.0, 
+        "base_height": 1.5
+    }, 
+    "179": {
+        "base_weight": 7.8, 
+        "base_height": 0.61
+    }, 
+    "180": {
+        "base_weight": 13.3, 
+        "base_height": 0.79
+    }, 
+    "181": {
+        "base_weight": 61.5, 
+        "base_height": 1.4
+    }, 
+    "182": {
+        "base_weight": 5.8, 
+        "base_height": 0.41
+    }, 
+    "183": {
+        "base_weight": 8.5, 
+        "base_height": 0.41
+    }, 
+    "184": {
+        "base_weight": 28.5, 
+        "base_height": 0.79
+    }, 
+    "185": {
+        "base_weight": 38.0, 
+        "base_height": 1.19
+    }, 
+    "186": {
+        "base_weight": 33.9, 
+        "base_height": 1.09
+    }, 
+    "187": {
+        "base_weight": 0.5, 
+        "base_height": 0.41
+    }, 
+    "188": {
+        "base_weight": 1.0, 
+        "base_height": 0.61
+    }, 
+    "189": {
+        "base_weight": 3.0, 
+        "base_height": 0.79
+    }, 
+    "190": {
+        "base_weight": 11.5, 
+        "base_height": 0.79
+    }, 
+    "191": {
+        "base_weight": 1.8, 
+        "base_height": 0.3
+    }, 
+    "192": {
+        "base_weight": 8.5, 
+        "base_height": 0.79
+    }, 
+    "193": {
+        "base_weight": 38.0, 
+        "base_height": 1.19
+    }, 
+    "194": {
+        "base_weight": 8.5, 
+        "base_height": 0.41
+    }, 
+    "195": {
+        "base_weight": 75.0, 
+        "base_height": 1.4
+    }, 
+    "196": {
+        "base_weight": 26.5, 
+        "base_height": 0.89
+    }, 
+    "197": {
+        "base_weight": 27.0, 
+        "base_height": 0.99
+    }, 
+    "198": {
+        "base_weight": 2.1, 
+        "base_height": 0.51
+    }, 
+    "199": {
+        "base_weight": 79.5, 
+        "base_height": 2.01
+    }, 
+    "200": {
+        "base_weight": 1.0, 
+        "base_height": 0.71
+    }, 
+    "201": {
+        "base_weight": 5.0, 
+        "base_height": 0.51
+    }, 
+    "202": {
+        "base_weight": 28.5, 
+        "base_height": 1.3
+    }, 
+    "203": {
+        "base_weight": 41.5, 
+        "base_height": 1.5
+    }, 
+    "204": {
+        "base_weight": 7.2, 
+        "base_height": 0.61
+    }, 
+    "205": {
+        "base_weight": 125.8, 
+        "base_height": 1.19
+    }, 
+    "206": {
+        "base_weight": 14.0, 
+        "base_height": 1.5
+    }, 
+    "207": {
+        "base_weight": 64.8, 
+        "base_height": 1.09
+    }, 
+    "208": {
+        "base_weight": 400.0, 
+        "base_height": 9.19
+    }, 
+    "209": {
+        "base_weight": 7.8, 
+        "base_height": 0.61
+    }, 
+    "210": {
+        "base_weight": 48.7, 
+        "base_height": 1.4
+    }, 
+    "211": {
+        "base_weight": 3.9, 
+        "base_height": 0.51
+    }, 
+    "212": {
+        "base_weight": 118.0, 
+        "base_height": 1.8
+    }, 
+    "213": {
+        "base_weight": 20.5, 
+        "base_height": 0.61
+    }, 
+    "214": {
+        "base_weight": 54.0, 
+        "base_height": 1.5
+    }, 
+    "215": {
+        "base_weight": 28.0, 
+        "base_height": 0.89
+    }, 
+    "216": {
+        "base_weight": 8.8, 
+        "base_height": 0.61
+    }, 
+    "217": {
+        "base_weight": 125.8, 
+        "base_height": 1.8
+    }, 
+    "218": {
+        "base_weight": 35.0, 
+        "base_height": 0.71
+    }, 
+    "219": {
+        "base_weight": 55.0, 
+        "base_height": 0.79
+    }, 
+    "220": {
+        "base_weight": 6.5, 
+        "base_height": 0.41
+    }, 
+    "221": {
+        "base_weight": 55.8, 
+        "base_height": 1.09
+    }, 
+    "222": {
+        "base_weight": 5.0, 
+        "base_height": 0.61
+    }, 
+    "223": {
+        "base_weight": 12.0, 
+        "base_height": 0.61
+    }, 
+    "224": {
+        "base_weight": 28.5, 
+        "base_height": 0.89
+    }, 
+    "225": {
+        "base_weight": 16.0, 
+        "base_height": 0.89
+    }, 
+    "226": {
+        "base_weight": 220.0, 
+        "base_height": 2.11
+    }, 
+    "227": {
+        "base_weight": 50.5, 
+        "base_height": 1.7
+    }, 
+    "228": {
+        "base_weight": 10.8, 
+        "base_height": 0.61
+    }, 
+    "229": {
+        "base_weight": 35.0, 
+        "base_height": 1.4
+    }, 
+    "230": {
+        "base_weight": 152.0, 
+        "base_height": 1.8
+    }, 
+    "231": {
+        "base_weight": 33.5, 
+        "base_height": 0.51
+    }, 
+    "232": {
+        "base_weight": 120.0, 
+        "base_height": 1.09
+    }, 
+    "233": {
+        "base_weight": 32.5, 
+        "base_height": 0.61
+    }, 
+    "234": {
+        "base_weight": 71.2, 
+        "base_height": 1.4
+    }, 
+    "235": {
+        "base_weight": 58.0, 
+        "base_height": 1.19
+    }, 
+    "236": {
+        "base_weight": 21.0, 
+        "base_height": 0.71
+    }, 
+    "237": {
+        "base_weight": 48.0, 
+        "base_height": 1.4
+    }, 
+    "238": {
+        "base_weight": 6.0, 
+        "base_height": 0.41
+    }, 
+    "239": {
+        "base_weight": 23.5, 
+        "base_height": 0.61
+    }, 
+    "240": {
+        "base_weight": 21.4, 
+        "base_height": 0.71
+    }, 
+    "241": {
+        "base_weight": 75.5, 
+        "base_height": 1.19
+    }, 
+    "242": {
+        "base_weight": 46.8, 
+        "base_height": 1.5
+    }, 
+    "243": {
+        "base_weight": 178.0, 
+        "base_height": 1.91
+    }, 
+    "244": {
+        "base_weight": 198.0, 
+        "base_height": 2.11
+    }, 
+    "245": {
+        "base_weight": 187.0, 
+        "base_height": 2.01
+    }, 
+    "246": {
+        "base_weight": 72.0, 
+        "base_height": 0.61
+    }, 
+    "247": {
+        "base_weight": 152.0, 
+        "base_height": 1.19
+    }, 
+    "248": {
+        "base_weight": 202.0, 
+        "base_height": 2.01
+    }, 
+    "249": {
+        "base_weight": 216.0, 
+        "base_height": 5.21
+    }, 
+    "250": {
+        "base_weight": 199.0, 
+        "base_height": 3.81
+    }, 
+    "251": {
+        "base_weight": 5.0, 
+        "base_height": 0.61
+    }, 
+    "252": {
+        "base_weight": 5.0, 
+        "base_height": 0.51
+    }, 
+    "253": {
+        "base_weight": 21.6, 
+        "base_height": 0.89
+    }, 
+    "254": {
+        "base_weight": 52.2, 
+        "base_height": 1.7
+    }, 
+    "255": {
+        "base_weight": 2.5, 
+        "base_height": 0.41
+    }, 
+    "256": {
+        "base_weight": 19.5, 
+        "base_height": 0.89
+    }, 
+    "257": {
+        "base_weight": 52.0, 
+        "base_height": 1.91
+    }, 
+    "258": {
+        "base_weight": 7.6, 
+        "base_height": 0.41
+    }, 
+    "259": {
+        "base_weight": 28.0, 
+        "base_height": 0.71
+    }, 
+    "260": {
+        "base_weight": 81.9, 
+        "base_height": 1.5
+    }, 
+    "261": {
+        "base_weight": 13.6, 
+        "base_height": 0.51
+    }, 
+    "262": {
+        "base_weight": 37.0, 
+        "base_height": 0.99
+    }, 
+    "263": {
+        "base_weight": 17.5, 
+        "base_height": 0.41
+    }, 
+    "264": {
+        "base_weight": 32.5, 
+        "base_height": 0.51
+    }, 
+    "265": {
+        "base_weight": 3.6, 
+        "base_height": 0.3
+    }, 
+    "266": {
+        "base_weight": 10.0, 
+        "base_height": 0.61
+    }, 
+    "267": {
+        "base_weight": 28.4, 
+        "base_height": 0.99
+    }, 
+    "268": {
+        "base_weight": 11.5, 
+        "base_height": 0.71
+    }, 
+    "269": {
+        "base_weight": 31.6, 
+        "base_height": 1.19
+    }, 
+    "270": {
+        "base_weight": 2.6, 
+        "base_height": 0.51
+    }, 
+    "271": {
+        "base_weight": 32.5, 
+        "base_height": 1.19
+    }, 
+    "272": {
+        "base_weight": 55.0, 
+        "base_height": 1.5
+    }, 
+    "273": {
+        "base_weight": 4.0, 
+        "base_height": 0.51
+    }, 
+    "274": {
+        "base_weight": 28.0, 
+        "base_height": 0.99
+    }, 
+    "275": {
+        "base_weight": 59.6, 
+        "base_height": 1.3
+    }, 
+    "276": {
+        "base_weight": 2.3, 
+        "base_height": 0.3
+    }, 
+    "277": {
+        "base_weight": 19.8, 
+        "base_height": 0.71
+    }, 
+    "278": {
+        "base_weight": 9.5, 
+        "base_height": 0.61
+    }, 
+    "279": {
+        "base_weight": 28.0, 
+        "base_height": 1.19
+    }, 
+    "280": {
+        "base_weight": 6.6, 
+        "base_height": 0.41
+    }, 
+    "281": {
+        "base_weight": 20.2, 
+        "base_height": 0.79
+    }, 
+    "282": {
+        "base_weight": 48.4, 
+        "base_height": 1.6
+    }, 
+    "283": {
+        "base_weight": 1.7, 
+        "base_height": 0.51
+    }, 
+    "284": {
+        "base_weight": 3.6, 
+        "base_height": 0.79
+    }, 
+    "285": {
+        "base_weight": 4.5, 
+        "base_height": 0.41
+    }, 
+    "286": {
+        "base_weight": 39.2, 
+        "base_height": 1.19
+    }, 
+    "287": {
+        "base_weight": 24.0, 
+        "base_height": 0.79
+    }, 
+    "288": {
+        "base_weight": 46.5, 
+        "base_height": 1.4
+    }, 
+    "289": {
+        "base_weight": 130.5, 
+        "base_height": 2.01
+    }, 
+    "290": {
+        "base_weight": 5.5, 
+        "base_height": 0.51
+    }, 
+    "291": {
+        "base_weight": 12.0, 
+        "base_height": 0.79
+    }, 
+    "292": {
+        "base_weight": 1.2, 
+        "base_height": 0.79
+    }, 
+    "293": {
+        "base_weight": 16.3, 
+        "base_height": 0.61
+    }, 
+    "294": {
+        "base_weight": 40.5, 
+        "base_height": 0.99
+    }, 
+    "295": {
+        "base_weight": 84.0, 
+        "base_height": 1.5
+    }, 
+    "296": {
+        "base_weight": 86.4, 
+        "base_height": 0.99
+    }, 
+    "297": {
+        "base_weight": 253.8, 
+        "base_height": 2.31
+    }, 
+    "298": {
+        "base_weight": 2.0, 
+        "base_height": 0.2
+    }, 
+    "299": {
+        "base_weight": 97.0, 
+        "base_height": 0.99
+    }, 
+    "300": {
+        "base_weight": 11.0, 
+        "base_height": 0.61
+    }, 
+    "301": {
+        "base_weight": 32.6, 
+        "base_height": 1.09
+    }, 
+    "302": {
+        "base_weight": 11.0, 
+        "base_height": 0.51
+    }, 
+    "303": {
+        "base_weight": 11.5, 
+        "base_height": 0.61
+    }, 
+    "304": {
+        "base_weight": 60.0, 
+        "base_height": 0.41
+    }, 
+    "305": {
+        "base_weight": 120.0, 
+        "base_height": 0.89
+    }, 
+    "306": {
+        "base_weight": 360.0, 
+        "base_height": 2.11
+    }, 
+    "307": {
+        "base_weight": 11.2, 
+        "base_height": 0.61
+    }, 
+    "308": {
+        "base_weight": 31.5, 
+        "base_height": 1.3
+    }, 
+    "309": {
+        "base_weight": 15.2, 
+        "base_height": 0.61
+    }, 
+    "310": {
+        "base_weight": 40.2, 
+        "base_height": 1.5
+    }, 
+    "311": {
+        "base_weight": 4.2, 
+        "base_height": 0.41
+    }, 
+    "312": {
+        "base_weight": 4.2, 
+        "base_height": 0.41
+    }, 
+    "313": {
+        "base_weight": 17.7, 
+        "base_height": 0.71
+    }, 
+    "314": {
+        "base_weight": 17.7, 
+        "base_height": 0.61
+    }, 
+    "315": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "316": {
+        "base_weight": 10.3, 
+        "base_height": 0.41
+    }, 
+    "317": {
+        "base_weight": 80.0, 
+        "base_height": 1.7
+    }, 
+    "318": {
+        "base_weight": 20.8, 
+        "base_height": 0.79
+    }, 
+    "319": {
+        "base_weight": 88.8, 
+        "base_height": 1.8
+    }, 
+    "320": {
+        "base_weight": 130.0, 
+        "base_height": 2.01
+    }, 
+    "321": {
+        "base_weight": 398.0, 
+        "base_height": 14.5
+    }, 
+    "322": {
+        "base_weight": 24.0, 
+        "base_height": 0.71
+    }, 
+    "323": {
+        "base_weight": 220.0, 
+        "base_height": 1.91
+    }, 
+    "324": {
+        "base_weight": 80.4, 
+        "base_height": 0.51
+    }, 
+    "325": {
+        "base_weight": 30.6, 
+        "base_height": 0.71
+    }, 
+    "326": {
+        "base_weight": 71.5, 
+        "base_height": 0.89
+    }, 
+    "327": {
+        "base_weight": 5.0, 
+        "base_height": 1.09
+    }, 
+    "328": {
+        "base_weight": 15.0, 
+        "base_height": 0.71
+    }, 
+    "329": {
+        "base_weight": 15.3, 
+        "base_height": 1.09
+    }, 
+    "330": {
+        "base_weight": 82.0, 
+        "base_height": 2.01
+    }, 
+    "331": {
+        "base_weight": 51.3, 
+        "base_height": 0.41
+    }, 
+    "332": {
+        "base_weight": 77.4, 
+        "base_height": 1.3
+    }, 
+    "333": {
+        "base_weight": 1.2, 
+        "base_height": 0.41
+    }, 
+    "334": {
+        "base_weight": 20.6, 
+        "base_height": 1.09
+    }, 
+    "335": {
+        "base_weight": 40.3, 
+        "base_height": 1.3
+    }, 
+    "336": {
+        "base_weight": 52.5, 
+        "base_height": 2.69
+    }, 
+    "337": {
+        "base_weight": 168.0, 
+        "base_height": 0.99
+    }, 
+    "338": {
+        "base_weight": 154.0, 
+        "base_height": 1.19
+    }, 
+    "339": {
+        "base_weight": 1.9, 
+        "base_height": 0.41
+    }, 
+    "340": {
+        "base_weight": 23.6, 
+        "base_height": 0.89
+    }, 
+    "341": {
+        "base_weight": 11.5, 
+        "base_height": 0.61
+    }, 
+    "342": {
+        "base_weight": 32.8, 
+        "base_height": 1.09
+    }, 
+    "343": {
+        "base_weight": 21.5, 
+        "base_height": 0.51
+    }, 
+    "344": {
+        "base_weight": 108.0, 
+        "base_height": 1.5
+    }, 
+    "345": {
+        "base_weight": 23.8, 
+        "base_height": 0.99
+    }, 
+    "346": {
+        "base_weight": 60.4, 
+        "base_height": 1.5
+    }, 
+    "347": {
+        "base_weight": 12.5, 
+        "base_height": 0.71
+    }, 
+    "348": {
+        "base_weight": 68.2, 
+        "base_height": 1.5
+    }, 
+    "349": {
+        "base_weight": 7.4, 
+        "base_height": 0.61
+    }, 
+    "350": {
+        "base_weight": 162.0, 
+        "base_height": 6.2
+    }, 
+    "351": {
+        "base_weight": 0.8, 
+        "base_height": 0.3
+    }, 
+    "352": {
+        "base_weight": 22.0, 
+        "base_height": 0.99
+    }, 
+    "353": {
+        "base_weight": 2.3, 
+        "base_height": 0.61
+    }, 
+    "354": {
+        "base_weight": 12.5, 
+        "base_height": 1.09
+    }, 
+    "355": {
+        "base_weight": 15.0, 
+        "base_height": 0.79
+    }, 
+    "356": {
+        "base_weight": 30.6, 
+        "base_height": 1.6
+    }, 
+    "357": {
+        "base_weight": 100.0, 
+        "base_height": 2.01
+    }, 
+    "358": {
+        "base_weight": 1.0, 
+        "base_height": 0.61
+    }, 
+    "359": {
+        "base_weight": 47.0, 
+        "base_height": 1.19
+    }, 
+    "360": {
+        "base_weight": 14.0, 
+        "base_height": 0.61
+    }, 
+    "361": {
+        "base_weight": 16.8, 
+        "base_height": 0.71
+    }, 
+    "362": {
+        "base_weight": 256.5, 
+        "base_height": 1.5
+    }, 
+    "363": {
+        "base_weight": 39.5, 
+        "base_height": 0.79
+    }, 
+    "364": {
+        "base_weight": 87.6, 
+        "base_height": 1.09
+    }, 
+    "365": {
+        "base_weight": 150.6, 
+        "base_height": 1.4
+    }, 
+    "366": {
+        "base_weight": 52.5, 
+        "base_height": 0.41
+    }, 
+    "367": {
+        "base_weight": 27.0, 
+        "base_height": 1.7
+    }, 
+    "368": {
+        "base_weight": 22.6, 
+        "base_height": 1.8
+    }, 
+    "369": {
+        "base_weight": 23.4, 
+        "base_height": 0.99
+    }, 
+    "370": {
+        "base_weight": 8.7, 
+        "base_height": 0.61
+    }, 
+    "371": {
+        "base_weight": 42.1, 
+        "base_height": 0.61
+    }, 
+    "372": {
+        "base_weight": 110.5, 
+        "base_height": 1.09
+    }, 
+    "373": {
+        "base_weight": 102.6, 
+        "base_height": 1.5
+    }, 
+    "374": {
+        "base_weight": 95.2, 
+        "base_height": 0.61
+    }, 
+    "375": {
+        "base_weight": 202.5, 
+        "base_height": 1.19
+    }, 
+    "376": {
+        "base_weight": 550.0, 
+        "base_height": 1.6
+    }, 
+    "377": {
+        "base_weight": 230.0, 
+        "base_height": 1.7
+    }, 
+    "378": {
+        "base_weight": 175.0, 
+        "base_height": 1.8
+    }, 
+    "379": {
+        "base_weight": 205.0, 
+        "base_height": 1.91
+    }, 
+    "380": {
+        "base_weight": 40.0, 
+        "base_height": 1.4
+    }, 
+    "381": {
+        "base_weight": 60.0, 
+        "base_height": 2.01
+    }, 
+    "382": {
+        "base_weight": 352.0, 
+        "base_height": 4.5
+    }, 
+    "383": {
+        "base_weight": 950.0, 
+        "base_height": 3.51
+    }, 
+    "384": {
+        "base_weight": 206.5, 
+        "base_height": 7.01
+    }, 
+    "385": {
+        "base_weight": 1.1, 
+        "base_height": 0.3
+    }, 
+    "386": {
+        "base_weight": 60.8, 
+        "base_height": 1.7
+    }, 
+    "387": {
+        "base_weight": 10.2, 
+        "base_height": 0.41
+    }, 
+    "388": {
+        "base_weight": 97.0, 
+        "base_height": 1.09
+    }, 
+    "389": {
+        "base_weight": 310.0, 
+        "base_height": 2.21
+    }, 
+    "390": {
+        "base_weight": 6.2, 
+        "base_height": 0.51
+    }, 
+    "391": {
+        "base_weight": 22.0, 
+        "base_height": 0.89
+    }, 
+    "392": {
+        "base_weight": 55.0, 
+        "base_height": 1.19
+    }, 
+    "393": {
+        "base_weight": 5.2, 
+        "base_height": 0.41
+    }, 
+    "394": {
+        "base_weight": 23.0, 
+        "base_height": 0.79
+    }, 
+    "395": {
+        "base_weight": 84.5, 
+        "base_height": 1.7
+    }, 
+    "396": {
+        "base_weight": 2.0, 
+        "base_height": 0.3
+    }, 
+    "397": {
+        "base_weight": 15.5, 
+        "base_height": 0.61
+    }, 
+    "398": {
+        "base_weight": 24.9, 
+        "base_height": 1.19
+    }, 
+    "399": {
+        "base_weight": 20.0, 
+        "base_height": 0.51
+    }, 
+    "400": {
+        "base_weight": 31.5, 
+        "base_height": 0.99
+    }, 
+    "401": {
+        "base_weight": 2.2, 
+        "base_height": 0.3
+    }, 
+    "402": {
+        "base_weight": 25.5, 
+        "base_height": 0.99
+    }, 
+    "403": {
+        "base_weight": 9.5, 
+        "base_height": 0.51
+    }, 
+    "404": {
+        "base_weight": 30.5, 
+        "base_height": 0.89
+    }, 
+    "405": {
+        "base_weight": 42.0, 
+        "base_height": 1.4
+    }, 
+    "406": {
+        "base_weight": 1.2, 
+        "base_height": 0.2
+    }, 
+    "407": {
+        "base_weight": 14.5, 
+        "base_height": 0.89
+    }, 
+    "408": {
+        "base_weight": 31.5, 
+        "base_height": 0.89
+    }, 
+    "409": {
+        "base_weight": 102.5, 
+        "base_height": 1.6
+    }, 
+    "410": {
+        "base_weight": 57.0, 
+        "base_height": 0.51
+    }, 
+    "411": {
+        "base_weight": 149.5, 
+        "base_height": 1.3
+    }, 
+    "412": {
+        "base_weight": 3.4, 
+        "base_height": 0.2
+    }, 
+    "413": {
+        "base_weight": 6.5, 
+        "base_height": 0.51
+    }, 
+    "414": {
+        "base_weight": 23.3, 
+        "base_height": 0.89
+    }, 
+    "415": {
+        "base_weight": 5.5, 
+        "base_height": 0.3
+    }, 
+    "416": {
+        "base_weight": 38.5, 
+        "base_height": 1.19
+    }, 
+    "417": {
+        "base_weight": 3.9, 
+        "base_height": 0.41
+    }, 
+    "418": {
+        "base_weight": 29.5, 
+        "base_height": 0.71
+    }, 
+    "419": {
+        "base_weight": 33.5, 
+        "base_height": 1.09
+    }, 
+    "420": {
+        "base_weight": 3.3, 
+        "base_height": 0.41
+    }, 
+    "421": {
+        "base_weight": 9.3, 
+        "base_height": 0.51
+    }, 
+    "422": {
+        "base_weight": 6.3, 
+        "base_height": 0.3
+    }, 
+    "423": {
+        "base_weight": 29.9, 
+        "base_height": 0.89
+    }, 
+    "424": {
+        "base_weight": 20.3, 
+        "base_height": 1.19
+    }, 
+    "425": {
+        "base_weight": 1.2, 
+        "base_height": 0.41
+    }, 
+    "426": {
+        "base_weight": 15.0, 
+        "base_height": 1.19
+    }, 
+    "427": {
+        "base_weight": 5.5, 
+        "base_height": 0.41
+    }, 
+    "428": {
+        "base_weight": 33.3, 
+        "base_height": 1.19
+    }, 
+    "429": {
+        "base_weight": 4.4, 
+        "base_height": 0.89
+    }, 
+    "430": {
+        "base_weight": 27.3, 
+        "base_height": 0.89
+    }, 
+    "431": {
+        "base_weight": 3.9, 
+        "base_height": 0.51
+    }, 
+    "432": {
+        "base_weight": 43.8, 
+        "base_height": 0.99
+    }, 
+    "433": {
+        "base_weight": 0.6, 
+        "base_height": 0.2
+    }, 
+    "434": {
+        "base_weight": 19.2, 
+        "base_height": 0.41
+    }, 
+    "435": {
+        "base_weight": 38.0, 
+        "base_height": 0.99
+    }, 
+    "436": {
+        "base_weight": 60.5, 
+        "base_height": 0.51
+    }, 
+    "437": {
+        "base_weight": 187.0, 
+        "base_height": 1.3
+    }, 
+    "438": {
+        "base_weight": 15.0, 
+        "base_height": 0.51
+    }, 
+    "439": {
+        "base_weight": 13.0, 
+        "base_height": 0.61
+    }, 
+    "440": {
+        "base_weight": 24.4, 
+        "base_height": 0.61
+    }, 
+    "441": {
+        "base_weight": 1.9, 
+        "base_height": 0.51
+    }, 
+    "442": {
+        "base_weight": 108.0, 
+        "base_height": 0.99
+    }, 
+    "443": {
+        "base_weight": 20.5, 
+        "base_height": 0.71
+    }, 
+    "444": {
+        "base_weight": 56.0, 
+        "base_height": 1.4
+    }, 
+    "445": {
+        "base_weight": 95.0, 
+        "base_height": 1.91
+    }, 
+    "446": {
+        "base_weight": 105.0, 
+        "base_height": 0.61
+    }, 
+    "447": {
+        "base_weight": 20.2, 
+        "base_height": 0.71
+    }, 
+    "448": {
+        "base_weight": 54.0, 
+        "base_height": 1.19
+    }, 
+    "449": {
+        "base_weight": 49.5, 
+        "base_height": 0.79
+    }, 
+    "450": {
+        "base_weight": 300.0, 
+        "base_height": 2.01
+    }, 
+    "451": {
+        "base_weight": 12.0, 
+        "base_height": 0.79
+    }, 
+    "452": {
+        "base_weight": 61.5, 
+        "base_height": 1.3
+    }, 
+    "453": {
+        "base_weight": 23.0, 
+        "base_height": 0.71
+    }, 
+    "454": {
+        "base_weight": 44.4, 
+        "base_height": 1.3
+    }, 
+    "455": {
+        "base_weight": 27.0, 
+        "base_height": 1.4
+    }, 
+    "456": {
+        "base_weight": 7.0, 
+        "base_height": 0.41
+    }, 
+    "457": {
+        "base_weight": 24.0, 
+        "base_height": 1.19
+    }, 
+    "458": {
+        "base_weight": 65.0, 
+        "base_height": 0.99
+    }, 
+    "459": {
+        "base_weight": 50.5, 
+        "base_height": 0.99
+    }, 
+    "460": {
+        "base_weight": 135.5, 
+        "base_height": 2.21
+    }, 
+    "461": {
+        "base_weight": 34.0, 
+        "base_height": 1.09
+    }, 
+    "462": {
+        "base_weight": 180.0, 
+        "base_height": 1.19
+    }, 
+    "463": {
+        "base_weight": 140.0, 
+        "base_height": 1.7
+    }, 
+    "464": {
+        "base_weight": 282.8, 
+        "base_height": 2.39
+    }, 
+    "465": {
+        "base_weight": 128.6, 
+        "base_height": 2.01
+    }, 
+    "466": {
+        "base_weight": 138.6, 
+        "base_height": 1.8
+    }, 
+    "467": {
+        "base_weight": 68.0, 
+        "base_height": 1.6
+    }, 
+    "468": {
+        "base_weight": 38.0, 
+        "base_height": 1.5
+    }, 
+    "469": {
+        "base_weight": 51.5, 
+        "base_height": 1.91
+    }, 
+    "470": {
+        "base_weight": 25.5, 
+        "base_height": 0.99
+    }, 
+    "471": {
+        "base_weight": 25.9, 
+        "base_height": 0.79
+    }, 
+    "472": {
+        "base_weight": 42.5, 
+        "base_height": 2.01
+    }, 
+    "473": {
+        "base_weight": 291.0, 
+        "base_height": 2.49
+    }, 
+    "474": {
+        "base_weight": 34.0, 
+        "base_height": 0.89
+    }, 
+    "475": {
+        "base_weight": 52.0, 
+        "base_height": 1.6
+    }, 
+    "476": {
+        "base_weight": 340.0, 
+        "base_height": 1.4
+    }, 
+    "477": {
+        "base_weight": 106.6, 
+        "base_height": 2.21
+    }, 
+    "478": {
+        "base_weight": 26.6, 
+        "base_height": 1.3
+    }, 
+    "479": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
+    }, 
+    "480": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
+    }, 
+    "481": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
+    }, 
+    "482": {
+        "base_weight": 0.3, 
+        "base_height": 0.3
+    }, 
+    "483": {
+        "base_weight": 683.0, 
+        "base_height": 5.41
+    }, 
+    "484": {
+        "base_weight": 336.0, 
+        "base_height": 4.19
+    }, 
+    "485": {
+        "base_weight": 430.0, 
+        "base_height": 1.7
+    }, 
+    "486": {
+        "base_weight": 420.0, 
+        "base_height": 3.71
+    }, 
+    "487": {
+        "base_weight": 750.0, 
+        "base_height": 4.5
+    }, 
+    "488": {
+        "base_weight": 85.6, 
+        "base_height": 1.5
+    }, 
+    "489": {
+        "base_weight": 3.1, 
+        "base_height": 0.41
+    }, 
+    "490": {
+        "base_weight": 1.4, 
+        "base_height": 0.3
+    }, 
+    "491": {
+        "base_weight": 50.5, 
+        "base_height": 1.5
+    }, 
+    "492": {
+        "base_weight": 5.2, 
+        "base_height": 0.41
+    }, 
+    "493": {
+        "base_weight": 320.0, 
+        "base_height": 3.2
+    }, 
+    "494": {
+        "base_weight": 4.0, 
+        "base_height": 0.41
+    }, 
+    "495": {
+        "base_weight": 8.1, 
+        "base_height": 0.61
+    }, 
+    "496": {
+        "base_weight": 16.0, 
+        "base_height": 0.79
+    }, 
+    "497": {
+        "base_weight": 63.0, 
+        "base_height": 3.3
+    }, 
+    "498": {
+        "base_weight": 9.9, 
+        "base_height": 0.51
+    }, 
+    "499": {
+        "base_weight": 55.5, 
+        "base_height": 0.99
+    }, 
+    "500": {
+        "base_weight": 150.0, 
+        "base_height": 1.6
+    }, 
+    "501": {
+        "base_weight": 5.9, 
+        "base_height": 0.51
+    }, 
+    "502": {
+        "base_weight": 24.5, 
+        "base_height": 0.79
+    }, 
+    "503": {
+        "base_weight": 94.6, 
+        "base_height": 1.5
+    }, 
+    "504": {
+        "base_weight": 11.6, 
+        "base_height": 0.51
+    }, 
+    "505": {
+        "base_weight": 27.0, 
+        "base_height": 1.09
+    }, 
+    "506": {
+        "base_weight": 4.1, 
+        "base_height": 0.41
+    }, 
+    "507": {
+        "base_weight": 14.7, 
+        "base_height": 0.89
+    }, 
+    "508": {
+        "base_weight": 61.0, 
+        "base_height": 1.19
+    }, 
+    "509": {
+        "base_weight": 10.1, 
+        "base_height": 0.41
+    }, 
+    "510": {
+        "base_weight": 37.5, 
+        "base_height": 1.09
+    }, 
+    "511": {
+        "base_weight": 10.5, 
+        "base_height": 0.61
+    }, 
+    "512": {
+        "base_weight": 30.5, 
+        "base_height": 1.09
+    }, 
+    "513": {
+        "base_weight": 11.0, 
+        "base_height": 0.61
+    }, 
+    "514": {
+        "base_weight": 28.0, 
+        "base_height": 0.99
+    }, 
+    "515": {
+        "base_weight": 13.5, 
+        "base_height": 0.61
+    }, 
+    "516": {
+        "base_weight": 29.0, 
+        "base_height": 0.99
+    }, 
+    "517": {
+        "base_weight": 23.3, 
+        "base_height": 0.61
+    }, 
+    "518": {
+        "base_weight": 60.5, 
+        "base_height": 1.09
+    }, 
+    "519": {
+        "base_weight": 2.1, 
+        "base_height": 0.3
+    }, 
+    "520": {
+        "base_weight": 15.0, 
+        "base_height": 0.61
+    }, 
+    "521": {
+        "base_weight": 29.0, 
+        "base_height": 1.19
+    }, 
+    "522": {
+        "base_weight": 29.8, 
+        "base_height": 0.79
+    }, 
+    "523": {
+        "base_weight": 79.5, 
+        "base_height": 1.6
+    }, 
+    "524": {
+        "base_weight": 18.0, 
+        "base_height": 0.41
+    }, 
+    "525": {
+        "base_weight": 102.0, 
+        "base_height": 0.89
+    }, 
+    "526": {
+        "base_weight": 260.0, 
+        "base_height": 1.7
+    }, 
+    "527": {
+        "base_weight": 2.1, 
+        "base_height": 0.41
+    }, 
+    "528": {
+        "base_weight": 10.5, 
+        "base_height": 0.89
+    }, 
+    "529": {
+        "base_weight": 8.5, 
+        "base_height": 0.3
+    }, 
+    "530": {
+        "base_weight": 40.4, 
+        "base_height": 0.71
+    }, 
+    "531": {
+        "base_weight": 31.0, 
+        "base_height": 1.09
+    }, 
+    "532": {
+        "base_weight": 12.5, 
+        "base_height": 0.61
+    }, 
+    "533": {
+        "base_weight": 40.0, 
+        "base_height": 1.19
+    }, 
+    "534": {
+        "base_weight": 87.0, 
+        "base_height": 1.4
+    }, 
+    "535": {
+        "base_weight": 4.5, 
+        "base_height": 0.51
+    }, 
+    "536": {
+        "base_weight": 17.0, 
+        "base_height": 0.79
+    }, 
+    "537": {
+        "base_weight": 62.0, 
+        "base_height": 1.5
+    }, 
+    "538": {
+        "base_weight": 55.5, 
+        "base_height": 1.3
+    }, 
+    "539": {
+        "base_weight": 51.0, 
+        "base_height": 1.4
+    }, 
+    "540": {
+        "base_weight": 2.5, 
+        "base_height": 0.3
+    }, 
+    "541": {
+        "base_weight": 7.3, 
+        "base_height": 0.51
+    }, 
+    "542": {
+        "base_weight": 20.5, 
+        "base_height": 1.19
+    }, 
+    "543": {
+        "base_weight": 5.3, 
+        "base_height": 0.41
+    }, 
+    "544": {
+        "base_weight": 58.5, 
+        "base_height": 1.19
+    }, 
+    "545": {
+        "base_weight": 200.5, 
+        "base_height": 2.49
+    }, 
+    "546": {
+        "base_weight": 0.6, 
+        "base_height": 0.3
+    }, 
+    "547": {
+        "base_weight": 6.6, 
+        "base_height": 0.71
+    }, 
+    "548": {
+        "base_weight": 6.6, 
+        "base_height": 0.51
+    }, 
+    "549": {
+        "base_weight": 16.3, 
+        "base_height": 1.09
+    }, 
+    "550": {
+        "base_weight": 18.0, 
+        "base_height": 0.99
+    }, 
+    "551": {
+        "base_weight": 15.2, 
+        "base_height": 0.71
+    }, 
+    "552": {
+        "base_weight": 33.4, 
+        "base_height": 0.99
+    }, 
+    "553": {
+        "base_weight": 96.3, 
+        "base_height": 1.5
+    }, 
+    "554": {
+        "base_weight": 37.5, 
+        "base_height": 0.61
+    }, 
+    "555": {
+        "base_weight": 92.9, 
+        "base_height": 1.3
+    }, 
+    "556": {
+        "base_weight": 28.0, 
+        "base_height": 0.99
+    }, 
+    "557": {
+        "base_weight": 14.5, 
+        "base_height": 0.3
+    }, 
+    "558": {
+        "base_weight": 200.0, 
+        "base_height": 1.4
+    }, 
+    "559": {
+        "base_weight": 11.8, 
+        "base_height": 0.61
+    }, 
+    "560": {
+        "base_weight": 30.0, 
+        "base_height": 1.09
+    }, 
+    "561": {
+        "base_weight": 14.0, 
+        "base_height": 1.4
+    }, 
+    "562": {
+        "base_weight": 1.5, 
+        "base_height": 0.51
+    }, 
+    "563": {
+        "base_weight": 76.5, 
+        "base_height": 1.7
+    }, 
+    "564": {
+        "base_weight": 16.5, 
+        "base_height": 0.71
+    }, 
+    "565": {
+        "base_weight": 81.0, 
+        "base_height": 1.19
+    }, 
+    "566": {
+        "base_weight": 9.5, 
+        "base_height": 0.51
+    }, 
+    "567": {
+        "base_weight": 32.0, 
+        "base_height": 1.4
+    }, 
+    "568": {
+        "base_weight": 31.0, 
+        "base_height": 0.61
+    }, 
+    "569": {
+        "base_weight": 107.3, 
+        "base_height": 1.91
+    }, 
+    "570": {
+        "base_weight": 12.5, 
+        "base_height": 0.71
+    }, 
+    "571": {
+        "base_weight": 81.1, 
+        "base_height": 1.6
+    }, 
+    "572": {
+        "base_weight": 5.8, 
+        "base_height": 0.41
+    }, 
+    "573": {
+        "base_weight": 7.5, 
+        "base_height": 0.51
+    }, 
+    "574": {
+        "base_weight": 5.8, 
+        "base_height": 0.41
+    }, 
+    "575": {
+        "base_weight": 18.0, 
+        "base_height": 0.71
+    }, 
+    "576": {
+        "base_weight": 44.0, 
+        "base_height": 1.5
+    }, 
+    "577": {
+        "base_weight": 1.0, 
+        "base_height": 0.3
+    }, 
+    "578": {
+        "base_weight": 8.0, 
+        "base_height": 0.61
+    }, 
+    "579": {
+        "base_weight": 20.1, 
+        "base_height": 0.99
+    }, 
+    "580": {
+        "base_weight": 5.5, 
+        "base_height": 0.51
+    }, 
+    "581": {
+        "base_weight": 24.2, 
+        "base_height": 1.3
+    }, 
+    "582": {
+        "base_weight": 5.7, 
+        "base_height": 0.41
+    }, 
+    "583": {
+        "base_weight": 41.0, 
+        "base_height": 1.09
+    }, 
+    "584": {
+        "base_weight": 57.5, 
+        "base_height": 1.3
+    }, 
+    "585": {
+        "base_weight": 19.5, 
+        "base_height": 0.61
+    }, 
+    "586": {
+        "base_weight": 92.5, 
+        "base_height": 1.91
+    }, 
+    "587": {
+        "base_weight": 5.0, 
+        "base_height": 0.41
+    }, 
+    "588": {
+        "base_weight": 5.9, 
+        "base_height": 0.51
+    }, 
+    "589": {
+        "base_weight": 33.0, 
+        "base_height": 0.99
+    }, 
+    "590": {
+        "base_weight": 1.0, 
+        "base_height": 0.2
+    }, 
+    "591": {
+        "base_weight": 10.5, 
+        "base_height": 0.61
+    }, 
+    "592": {
+        "base_weight": 33.0, 
+        "base_height": 1.19
+    }, 
+    "593": {
+        "base_weight": 135.0, 
+        "base_height": 2.21
+    }, 
+    "594": {
+        "base_weight": 31.6, 
+        "base_height": 1.19
+    }, 
+    "595": {
+        "base_weight": 0.6, 
+        "base_height": 0.1
+    }, 
+    "596": {
+        "base_weight": 14.3, 
+        "base_height": 0.79
+    }, 
+    "597": {
+        "base_weight": 18.8, 
+        "base_height": 0.61
+    }, 
+    "598": {
+        "base_weight": 110.0, 
+        "base_height": 0.99
+    }, 
+    "599": {
+        "base_weight": 21.0, 
+        "base_height": 0.3
+    }, 
+    "600": {
+        "base_weight": 51.0, 
+        "base_height": 0.61
+    }, 
+    "601": {
+        "base_weight": 81.0, 
+        "base_height": 0.61
+    }, 
+    "602": {
+        "base_weight": 0.3, 
+        "base_height": 0.2
+    }, 
+    "603": {
+        "base_weight": 22.0, 
+        "base_height": 1.19
+    }, 
+    "604": {
+        "base_weight": 80.5, 
+        "base_height": 2.11
+    }, 
+    "605": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "606": {
+        "base_weight": 34.5, 
+        "base_height": 0.99
+    }, 
+    "607": {
+        "base_weight": 3.1, 
+        "base_height": 0.3
+    }, 
+    "608": {
+        "base_weight": 13.0, 
+        "base_height": 0.61
+    }, 
+    "609": {
+        "base_weight": 34.3, 
+        "base_height": 0.99
+    }, 
+    "610": {
+        "base_weight": 18.0, 
+        "base_height": 0.61
+    }, 
+    "611": {
+        "base_weight": 36.0, 
+        "base_height": 0.99
+    }, 
+    "612": {
+        "base_weight": 105.5, 
+        "base_height": 1.8
+    }, 
+    "613": {
+        "base_weight": 8.5, 
+        "base_height": 0.51
+    }, 
+    "614": {
+        "base_weight": 260.0, 
+        "base_height": 2.59
+    }, 
+    "615": {
+        "base_weight": 148.0, 
+        "base_height": 1.09
+    }, 
+    "616": {
+        "base_weight": 7.7, 
+        "base_height": 0.41
+    }, 
+    "617": {
+        "base_weight": 25.3, 
+        "base_height": 0.79
+    }, 
+    "618": {
+        "base_weight": 11.0, 
+        "base_height": 0.71
+    }, 
+    "619": {
+        "base_weight": 20.0, 
+        "base_height": 0.89
+    }, 
+    "620": {
+        "base_weight": 35.5, 
+        "base_height": 1.4
+    }, 
+    "621": {
+        "base_weight": 139.0, 
+        "base_height": 1.6
+    }, 
+    "622": {
+        "base_weight": 92.0, 
+        "base_height": 0.99
+    }, 
+    "623": {
+        "base_weight": 330.0, 
+        "base_height": 2.79
+    }, 
+    "624": {
+        "base_weight": 10.2, 
+        "base_height": 0.51
+    }, 
+    "625": {
+        "base_weight": 70.0, 
+        "base_height": 1.6
+    }, 
+    "626": {
+        "base_weight": 94.6, 
+        "base_height": 1.6
+    }, 
+    "627": {
+        "base_weight": 10.5, 
+        "base_height": 0.51
+    }, 
+    "628": {
+        "base_weight": 41.0, 
+        "base_height": 1.5
+    }, 
+    "629": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "630": {
+        "base_weight": 39.5, 
+        "base_height": 1.19
+    }, 
+    "631": {
+        "base_weight": 58.0, 
+        "base_height": 1.4
+    }, 
+    "632": {
+        "base_weight": 33.0, 
+        "base_height": 0.3
+    }, 
+    "633": {
+        "base_weight": 17.3, 
+        "base_height": 0.79
+    }, 
+    "634": {
+        "base_weight": 50.0, 
+        "base_height": 1.4
+    }, 
+    "635": {
+        "base_weight": 160.0, 
+        "base_height": 1.8
+    }, 
+    "636": {
+        "base_weight": 28.8, 
+        "base_height": 1.09
+    }, 
+    "637": {
+        "base_weight": 46.0, 
+        "base_height": 1.6
+    }, 
+    "638": {
+        "base_weight": 250.0, 
+        "base_height": 2.11
+    }, 
+    "639": {
+        "base_weight": 260.0, 
+        "base_height": 1.91
+    }, 
+    "640": {
+        "base_weight": 200.0, 
+        "base_height": 2.01
+    }, 
+    "641": {
+        "base_weight": 63.0, 
+        "base_height": 1.4
+    }, 
+    "642": {
+        "base_weight": 61.0, 
+        "base_height": 3.0
+    }, 
+    "643": {
+        "base_weight": 330.0, 
+        "base_height": 3.2
+    }, 
+    "644": {
+        "base_weight": 345.0, 
+        "base_height": 2.9
+    }, 
+    "645": {
+        "base_weight": 68.0, 
+        "base_height": 1.5
+    }, 
+    "646": {
+        "base_weight": 325.0, 
+        "base_height": 3.0
+    }, 
+    "647": {
+        "base_weight": 48.5, 
+        "base_height": 1.4
+    }, 
+    "648": {
+        "base_weight": 6.5, 
+        "base_height": 0.61
+    }, 
+    "649": {
+        "base_weight": 82.5, 
+        "base_height": 1.5
+    }, 
+    "650": {
+        "base_weight": 9.0, 
+        "base_height": 0.41
+    }, 
+    "651": {
+        "base_weight": 29.0, 
+        "base_height": 0.71
+    }, 
+    "652": {
+        "base_weight": 90.0, 
+        "base_height": 1.6
+    }, 
+    "653": {
+        "base_weight": 9.4, 
+        "base_height": 0.41
+    }, 
+    "654": {
+        "base_weight": 14.5, 
+        "base_height": 0.99
+    }, 
+    "655": {
+        "base_weight": 39.0, 
+        "base_height": 1.5
+    }, 
+    "656": {
+        "base_weight": 7.0, 
+        "base_height": 0.3
+    }, 
+    "657": {
+        "base_weight": 10.9, 
+        "base_height": 0.61
+    }, 
+    "658": {
+        "base_weight": 40.0, 
+        "base_height": 1.5
+    }, 
+    "659": {
+        "base_weight": 5.0, 
+        "base_height": 0.41
+    }, 
+    "660": {
+        "base_weight": 42.4, 
+        "base_height": 0.99
+    }, 
+    "661": {
+        "base_weight": 1.7, 
+        "base_height": 0.3
+    }, 
+    "662": {
+        "base_weight": 16.0, 
+        "base_height": 0.71
+    }, 
+    "663": {
+        "base_weight": 24.5, 
+        "base_height": 1.19
+    }, 
+    "664": {
+        "base_weight": 2.5, 
+        "base_height": 0.3
+    }, 
+    "665": {
+        "base_weight": 8.4, 
+        "base_height": 0.3
+    }, 
+    "666": {
+        "base_weight": 17.0, 
+        "base_height": 1.19
+    }, 
+    "667": {
+        "base_weight": 13.5, 
+        "base_height": 0.61
+    }, 
+    "668": {
+        "base_weight": 81.5, 
+        "base_height": 1.5
+    }, 
+    "669": {
+        "base_weight": 0.1, 
+        "base_height": 0.1
+    }, 
+    "670": {
+        "base_weight": 0.9, 
+        "base_height": 0.2
+    }, 
+    "671": {
+        "base_weight": 10.0, 
+        "base_height": 1.09
+    }, 
+    "672": {
+        "base_weight": 31.0, 
+        "base_height": 0.89
+    }, 
+    "673": {
+        "base_weight": 91.0, 
+        "base_height": 1.7
+    }, 
+    "674": {
+        "base_weight": 8.0, 
+        "base_height": 0.61
+    }, 
+    "675": {
+        "base_weight": 136.0, 
+        "base_height": 2.11
+    }, 
+    "676": {
+        "base_weight": 28.0, 
+        "base_height": 1.19
+    }, 
+    "677": {
+        "base_weight": 3.5, 
+        "base_height": 0.3
+    }, 
+    "678": {
+        "base_weight": 8.5, 
+        "base_height": 0.61
+    }, 
+    "679": {
+        "base_weight": 2.0, 
+        "base_height": 0.79
+    }, 
+    "680": {
+        "base_weight": 4.5, 
+        "base_height": 0.84
+    }, 
+    "681": {
+        "base_weight": 53.0, 
+        "base_height": 1.7
+    }, 
+    "682": {
+        "base_weight": 0.5, 
+        "base_height": 0.2
+    }, 
+    "683": {
+        "base_weight": 15.5, 
+        "base_height": 0.79
+    }, 
+    "684": {
+        "base_weight": 3.5, 
+        "base_height": 0.41
+    }, 
+    "685": {
+        "base_weight": 5.0, 
+        "base_height": 0.79
+    }, 
+    "686": {
+        "base_weight": 3.5, 
+        "base_height": 0.41
+    }, 
+    "687": {
+        "base_weight": 47.0, 
+        "base_height": 1.5
+    }, 
+    "688": {
+        "base_weight": 31.0, 
+        "base_height": 0.51
+    }, 
+    "689": {
+        "base_weight": 96.0, 
+        "base_height": 1.3
+    }, 
+    "690": {
+        "base_weight": 7.3, 
+        "base_height": 0.51
+    }, 
+    "691": {
+        "base_weight": 81.5, 
+        "base_height": 1.8
+    }, 
+    "692": {
+        "base_weight": 8.3, 
+        "base_height": 0.51
+    }, 
+    "693": {
+        "base_weight": 35.3, 
+        "base_height": 1.3
+    }, 
+    "694": {
+        "base_weight": 6.0, 
+        "base_height": 0.51
+    }, 
+    "695": {
+        "base_weight": 21.0, 
+        "base_height": 0.99
+    }, 
+    "696": {
+        "base_weight": 26.0, 
+        "base_height": 0.79
+    }, 
+    "697": {
+        "base_weight": 270.0, 
+        "base_height": 2.49
+    }, 
+    "698": {
+        "base_weight": 25.2, 
+        "base_height": 1.3
+    }, 
+    "699": {
+        "base_weight": 225.0, 
+        "base_height": 2.69
+    }, 
+    "700": {
+        "base_weight": 23.5, 
+        "base_height": 0.99
+    }, 
+    "701": {
+        "base_weight": 21.5, 
+        "base_height": 0.79
+    }, 
+    "702": {
+        "base_weight": 2.2, 
+        "base_height": 0.2
+    }, 
+    "703": {
+        "base_weight": 5.7, 
+        "base_height": 0.3
+    }, 
+    "704": {
+        "base_weight": 2.8, 
+        "base_height": 0.3
+    }, 
+    "705": {
+        "base_weight": 17.5, 
+        "base_height": 0.79
+    }, 
+    "706": {
+        "base_weight": 150.5, 
+        "base_height": 2.01
+    }, 
+    "707": {
+        "base_weight": 3.0, 
+        "base_height": 0.2
+    }, 
+    "708": {
+        "base_weight": 7.0, 
+        "base_height": 0.41
+    }, 
+    "709": {
+        "base_weight": 71.0, 
+        "base_height": 1.5
+    }, 
+    "710": {
+        "base_weight": 5.0, 
+        "base_height": 0.41
+    }, 
+    "711": {
+        "base_weight": 39.0, 
+        "base_height": 1.7
+    }, 
+    "712": {
+        "base_weight": 99.5, 
+        "base_height": 0.99
+    }, 
+    "713": {
+        "base_weight": 505.0, 
+        "base_height": 2.01
+    }, 
+    "714": {
+        "base_weight": 8.0, 
+        "base_height": 0.51
+    }, 
+    "715": {
+        "base_weight": 85.0, 
+        "base_height": 1.5
+    }, 
+    "716": {
+        "base_weight": 215.0, 
+        "base_height": 3.0
+    }, 
+    "717": {
+        "base_weight": 203.0, 
+        "base_height": 5.79
+    }, 
+    "718": {
+        "base_weight": 33.5, 
+        "base_height": 1.19
+    }, 
+    "719": {
+        "base_weight": 8.8, 
+        "base_height": 0.71
+    }, 
+    "720": {
+        "base_weight": 9.0, 
+        "base_height": 0.51
+    }, 
+    "721": {
+        "base_weight": 195.0, 
+        "base_height": 1.7
+    }, 
+    "722": {
+        "base_weight": 1.5, 
+        "base_height": 0.3
+    }, 
+    "723": {
+        "base_weight": 16.0, 
+        "base_height": 0.71
+    }, 
+    "724": {
+        "base_weight": 36.6, 
+        "base_height": 1.6
+    }, 
+    "725": {
+        "base_weight": 4.3, 
+        "base_height": 0.41
+    }, 
+    "726": {
+        "base_weight": 25.0, 
+        "base_height": 0.71
+    }, 
+    "727": {
+        "base_weight": 83.0, 
+        "base_height": 1.8
+    }, 
+    "728": {
+        "base_weight": 7.5, 
+        "base_height": 0.41
+    }, 
+    "729": {
+        "base_weight": 17.5, 
+        "base_height": 0.61
+    }, 
+    "730": {
+        "base_weight": 44.0, 
+        "base_height": 1.8
+    }, 
+    "731": {
+        "base_weight": 1.2, 
+        "base_height": 0.3
+    }, 
+    "732": {
+        "base_weight": 14.8, 
+        "base_height": 0.61
+    }, 
+    "733": {
+        "base_weight": 26.0, 
+        "base_height": 1.09
+    }, 
+    "734": {
+        "base_weight": 6.0, 
+        "base_height": 0.41
+    }, 
+    "735": {
+        "base_weight": 14.2, 
+        "base_height": 0.71
+    }, 
+    "736": {
+        "base_weight": 4.4, 
+        "base_height": 0.41
+    }, 
+    "737": {
+        "base_weight": 10.5, 
+        "base_height": 0.51
+    }, 
+    "738": {
+        "base_weight": 45.0, 
+        "base_height": 1.5
+    }, 
+    "739": {
+        "base_weight": 7.0, 
+        "base_height": 0.61
+    }, 
+    "740": {
+        "base_weight": 180.0, 
+        "base_height": 1.7
+    }, 
+    "741": {
+        "base_weight": 3.4, 
+        "base_height": 0.61
+    }, 
+    "742": {
+        "base_weight": 0.2, 
+        "base_height": 0.1
+    }, 
+    "743": {
+        "base_weight": 0.5, 
+        "base_height": 0.2
+    }, 
+    "744": {
+        "base_weight": 9.2, 
+        "base_height": 0.51
+    }, 
+    "745": {
+        "base_weight": 25.0, 
+        "base_height": 0.79
+    }, 
+    "746": {
+        "base_weight": 0.3, 
+        "base_height": 0.2
+    }, 
+    "747": {
+        "base_weight": 8.0, 
+        "base_height": 0.41
+    }, 
+    "748": {
+        "base_weight": 14.5, 
+        "base_height": 0.71
+    }, 
+    "749": {
+        "base_weight": 110.0, 
+        "base_height": 0.99
+    }, 
+    "750": {
+        "base_weight": 920.0, 
+        "base_height": 2.49
+    }, 
+    "751": {
+        "base_weight": 4.0, 
+        "base_height": 0.3
+    }, 
+    "752": {
+        "base_weight": 82.0, 
+        "base_height": 1.8
+    }, 
+    "753": {
+        "base_weight": 1.5, 
+        "base_height": 0.3
+    }, 
+    "754": {
+        "base_weight": 18.5, 
+        "base_height": 0.89
+    }, 
+    "755": {
+        "base_weight": 1.5, 
+        "base_height": 0.2
+    }, 
+    "756": {
+        "base_weight": 11.5, 
+        "base_height": 0.99
+    }, 
+    "757": {
+        "base_weight": 4.8, 
+        "base_height": 0.61
+    }, 
+    "758": {
+        "base_weight": 22.2, 
+        "base_height": 1.19
+    }, 
+    "759": {
+        "base_weight": 6.8, 
+        "base_height": 0.51
+    }, 
+    "760": {
+        "base_weight": 135.0, 
+        "base_height": 2.11
+    }, 
+    "761": {
+        "base_weight": 3.2, 
+        "base_height": 0.3
+    }, 
+    "762": {
+        "base_weight": 8.2, 
+        "base_height": 0.71
+    }, 
+    "763": {
+        "base_weight": 21.4, 
+        "base_height": 1.14
+    }, 
+    "764": {
+        "base_weight": 0.3, 
+        "base_height": 0.1
+    }, 
+    "765": {
+        "base_weight": 76.0, 
+        "base_height": 1.5
+    }, 
+    "766": {
+        "base_weight": 82.8, 
+        "base_height": 2.01
+    }, 
+    "767": {
+        "base_weight": 12.0, 
+        "base_height": 0.51
+    }, 
+    "768": {
+        "base_weight": 108.0, 
+        "base_height": 2.01
+    }, 
+    "769": {
+        "base_weight": 70.0, 
+        "base_height": 0.51
+    }, 
+    "770": {
+        "base_weight": 250.0, 
+        "base_height": 1.3
+    }, 
+    "771": {
+        "base_weight": 1.2, 
+        "base_height": 0.3
+    }, 
+    "772": {
+        "base_weight": 120.5, 
+        "base_height": 1.91
+    }, 
+    "773": {
+        "base_weight": 100.5, 
+        "base_height": 2.31
+    }, 
+    "774": {
+        "base_weight": 40.0, 
+        "base_height": 0.3
+    }, 
+    "775": {
+        "base_weight": 19.9, 
+        "base_height": 0.41
+    }, 
+    "776": {
+        "base_weight": 212.0, 
+        "base_height": 2.01
+    }, 
+    "777": {
+        "base_weight": 3.3, 
+        "base_height": 0.3
+    }, 
+    "778": {
+        "base_weight": 0.7, 
+        "base_height": 0.2
+    }, 
+    "779": {
+        "base_weight": 19.0, 
+        "base_height": 0.89
+    }, 
+    "780": {
+        "base_weight": 185.0, 
+        "base_height": 3.0
+    }, 
+    "781": {
+        "base_weight": 210.0, 
+        "base_height": 3.91
+    }, 
+    "782": {
+        "base_weight": 29.7, 
+        "base_height": 0.61
+    }, 
+    "783": {
+        "base_weight": 47.0, 
+        "base_height": 1.14
+    }, 
+    "784": {
+        "base_weight": 78.2, 
+        "base_height": 1.6
+    }, 
+    "785": {
+        "base_weight": 20.5, 
+        "base_height": 1.8
+    }, 
+    "786": {
+        "base_weight": 18.6, 
+        "base_height": 1.19
+    }, 
+    "787": {
+        "base_weight": 45.5, 
+        "base_height": 1.91
+    }, 
+    "788": {
+        "base_weight": 21.2, 
+        "base_height": 1.3
+    }, 
+    "789": {
+        "base_weight": 0.1, 
+        "base_height": 0.2
+    }, 
+    "790": {
+        "base_weight": 999.9, 
+        "base_height": 0.1
+    }, 
+    "791": {
+        "base_weight": 230.0, 
+        "base_height": 3.4
+    }, 
+    "792": {
+        "base_weight": 120.0, 
+        "base_height": 3.99
+    }, 
+    "793": {
+        "base_weight": 55.5, 
+        "base_height": 1.19
+    }, 
+    "794": {
+        "base_weight": 333.6, 
+        "base_height": 2.39
+    }, 
+    "795": {
+        "base_weight": 25.0, 
+        "base_height": 1.8
+    }, 
+    "796": {
+        "base_weight": 100.0, 
+        "base_height": 3.81
+    }, 
+    "797": {
+        "base_weight": 999.9, 
+        "base_height": 9.19
+    }, 
+    "798": {
+        "base_weight": 0.1, 
+        "base_height": 0.3
+    }, 
+    "799": {
+        "base_weight": 888.0, 
+        "base_height": 5.51
+    }, 
+    "800": {
+        "base_weight": 230.0, 
+        "base_height": 2.39
+    }, 
+    "801": {
+        "base_weight": 80.5, 
+        "base_height": 0.99
+    }, 
+    "802": {
+        "base_weight": 22.2, 
+        "base_height": 0.71
+    }
+}
