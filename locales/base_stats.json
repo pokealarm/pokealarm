@@ -1,0 +1,3210 @@
+{
+    "1"  : {
+        "weight": 6.9,
+        "height": 0.71
+    },
+    "2": {
+        "weight": 13.0,
+        "height": 0.99
+    },
+    "3": {
+        "weight": 100.0,
+        "height": 2.01
+    },
+    "4": {
+        "weight": 8.5,
+        "height": 0.61
+    },
+    "5": {
+        "weight": 19.0,
+        "height": 1.09
+    },
+    "6": {
+        "weight": 90.5,
+        "height": 1.7
+    },
+    "7": {
+        "weight": 9.0,
+        "height": 0.51
+    },
+    "8": {
+        "weight": 22.5,
+        "height": 0.99
+    },
+    "9": {
+        "weight": 85.5,
+        "height": 1.6
+    },
+    "10": {
+        "weight": 2.9,
+        "height": 0.3
+    },
+    "11": {
+        "weight": 9.9,
+        "height": 0.71
+    },
+    "12": {
+        "weight": 32.0,
+        "height": 1.09
+    },
+    "13": {
+        "weight": 3.2,
+        "height": 0.3
+    },
+    "14": {
+        "weight": 10.0,
+        "height": 0.61
+    },
+    "15": {
+        "weight": 29.5,
+        "height": 0.99
+    },
+    "16": {
+        "weight": 1.8,
+        "height": 0.3
+    },
+    "17": {
+        "weight": 30.0,
+        "height": 1.09
+    },
+    "18": {
+        "weight": 39.5,
+        "height": 1.5
+    },
+    "19": {
+        "weight": 3.5,
+        "height": 0.3
+    },
+    "20": {
+        "weight": 18.5,
+        "height": 0.71
+    },
+    "21": {
+        "weight": 2.0,
+        "height": 0.3
+    },
+    "22": {
+        "weight": 38.0,
+        "height": 1.19
+    },
+    "23": {
+        "weight": 6.9,
+        "height": 2.01
+    },
+    "24": {
+        "weight": 65.0,
+        "height": 3.51
+    },
+    "25": {
+        "weight": 6.0,
+        "height": 0.41
+    },
+    "26": {
+        "weight": 30.0,
+        "height": 0.79
+    },
+    "27": {
+        "weight": 12.0,
+        "height": 0.61
+    },
+    "28": {
+        "weight": 29.5,
+        "height": 0.99
+    },
+    "29": {
+        "weight": 7.0,
+        "height": 0.41
+    },
+    "30": {
+        "weight": 20.0,
+        "height": 0.79
+    },
+    "31": {
+        "weight": 60.0,
+        "height": 1.3
+    },
+    "32": {
+        "weight": 9.0,
+        "height": 0.51
+    },
+    "33": {
+        "weight": 19.5,
+        "height": 0.89
+    },
+    "34": {
+        "weight": 62.0,
+        "height": 1.4
+    },
+    "35": {
+        "weight": 7.5,
+        "height": 0.61
+    },
+    "36": {
+        "weight": 40.0,
+        "height": 1.3
+    },
+    "37": {
+        "weight": 9.9,
+        "height": 0.61
+    },
+    "38": {
+        "weight": 19.9,
+        "height": 1.09
+    },
+    "39": {
+        "weight": 5.5,
+        "height": 0.51
+    },
+    "40": {
+        "weight": 12.0,
+        "height": 0.99
+    },
+    "41": {
+        "weight": 7.5,
+        "height": 0.79
+    },
+    "42": {
+        "weight": 55.0,
+        "height": 1.6
+    },
+    "43": {
+        "weight": 5.4,
+        "height": 0.51
+    },
+    "44": {
+        "weight": 8.6,
+        "height": 0.79
+    },
+    "45": {
+        "weight": 18.6,
+        "height": 1.19
+    },
+    "46": {
+        "weight": 5.4,
+        "height": 0.3
+    },
+    "47": {
+        "weight": 29.5,
+        "height": 0.99
+    },
+    "48": {
+        "weight": 30.0,
+        "height": 0.99
+    },
+    "49": {
+        "weight": 12.5,
+        "height": 1.5
+    },
+    "50": {
+        "weight": 0.8,
+        "height": 0.2
+    },
+    "51": {
+        "weight": 33.3,
+        "height": 0.71
+    },
+    "52": {
+        "weight": 4.2,
+        "height": 0.41
+    },
+    "53": {
+        "weight": 32.0,
+        "height": 0.99
+    },
+    "54": {
+        "weight": 19.6,
+        "height": 0.79
+    },
+    "55": {
+        "weight": 76.6,
+        "height": 1.7
+    },
+    "56": {
+        "weight": 28.0,
+        "height": 0.51
+    },
+    "57": {
+        "weight": 32.0,
+        "height": 0.99
+    },
+    "58": {
+        "weight": 19.0,
+        "height": 0.71
+    },
+    "59": {
+        "weight": 155.0,
+        "height": 1.91
+    },
+    "60": {
+        "weight": 12.4,
+        "height": 0.61
+    },
+    "61": {
+        "weight": 20.0,
+        "height": 0.99
+    },
+    "62": {
+        "weight": 54.0,
+        "height": 1.3
+    },
+    "63": {
+        "weight": 19.5,
+        "height": 0.89
+    },
+    "64": {
+        "weight": 56.5,
+        "height": 1.3
+    },
+    "65": {
+        "weight": 48.0,
+        "height": 1.5
+    },
+    "66": {
+        "weight": 19.5,
+        "height": 0.79
+    },
+    "67": {
+        "weight": 70.5,
+        "height": 1.5
+    },
+    "68": {
+        "weight": 130.0,
+        "height": 1.6
+    },
+    "69": {
+        "weight": 4.0,
+        "height": 0.71
+    },
+    "70": {
+        "weight": 6.4,
+        "height": 0.99
+    },
+    "71": {
+        "weight": 15.5,
+        "height": 1.7
+    },
+    "72": {
+        "weight": 45.5,
+        "height": 0.89
+    },
+    "73": {
+        "weight": 55.0,
+        "height": 1.6
+    },
+    "74": {
+        "weight": 20.0,
+        "height": 0.41
+    },
+    "75": {
+        "weight": 105.0,
+        "height": 0.99
+    },
+    "76": {
+        "weight": 300.0,
+        "height": 1.4
+    },
+    "77": {
+        "weight": 30.0,
+        "height": 0.99
+    },
+    "78": {
+        "weight": 95.0,
+        "height": 1.7
+    },
+    "79": {
+        "weight": 36.0,
+        "height": 1.19
+    },
+    "80": {
+        "weight": 78.5,
+        "height": 1.6
+    },
+    "81": {
+        "weight": 6.0,
+        "height": 0.3
+    },
+    "82": {
+        "weight": 60.0,
+        "height": 0.99
+    },
+    "83": {
+        "weight": 15.0,
+        "height": 0.79
+    },
+    "84": {
+        "weight": 39.2,
+        "height": 1.4
+    },
+    "85": {
+        "weight": 85.2,
+        "height": 1.8
+    },
+    "86": {
+        "weight": 90.0,
+        "height": 1.09
+    },
+    "87": {
+        "weight": 120.0,
+        "height": 1.7
+    },
+    "88": {
+        "weight": 30.0,
+        "height": 0.89
+    },
+    "89": {
+        "weight": 30.0,
+        "height": 1.19
+    },
+    "90": {
+        "weight": 4.0,
+        "height": 0.3
+    },
+    "91": {
+        "weight": 132.5,
+        "height": 1.5
+    },
+    "92": {
+        "weight": 0.1,
+        "height": 1.3
+    },
+    "93": {
+        "weight": 0.1,
+        "height": 1.6
+    },
+    "94": {
+        "weight": 40.5,
+        "height": 1.5
+    },
+    "95": {
+        "weight": 210.0,
+        "height": 8.79
+    },
+    "96": {
+        "weight": 32.4,
+        "height": 0.99
+    },
+    "97": {
+        "weight": 75.6,
+        "height": 1.6
+    },
+    "98": {
+        "weight": 6.5,
+        "height": 0.41
+    },
+    "99": {
+        "weight": 60.0,
+        "height": 1.3
+    },
+    "100": {
+        "weight": 10.4,
+        "height": 0.51
+    },
+    "101": {
+        "weight": 66.6,
+        "height": 1.19
+    },
+    "102": {
+        "weight": 2.5,
+        "height": 0.41
+    },
+    "103": {
+        "weight": 120.0,
+        "height": 2.01
+    },
+    "104": {
+        "weight": 6.5,
+        "height": 0.41
+    },
+    "105": {
+        "weight": 45.0,
+        "height": 0.99
+    },
+    "106": {
+        "weight": 49.8,
+        "height": 1.5
+    },
+    "107": {
+        "weight": 50.2,
+        "height": 1.4
+    },
+    "108": {
+        "weight": 65.5,
+        "height": 1.19
+    },
+    "109": {
+        "weight": 1.0,
+        "height": 0.61
+    },
+    "110": {
+        "weight": 9.5,
+        "height": 1.19
+    },
+    "111": {
+        "weight": 115.0,
+        "height": 0.99
+    },
+    "112": {
+        "weight": 120.0,
+        "height": 1.91
+    },
+    "113": {
+        "weight": 34.6,
+        "height": 1.09
+    },
+    "114": {
+        "weight": 35.0,
+        "height": 0.99
+    },
+    "115": {
+        "weight": 80.0,
+        "height": 2.21
+    },
+    "116": {
+        "weight": 8.0,
+        "height": 0.41
+    },
+    "117": {
+        "weight": 25.0,
+        "height": 1.19
+    },
+    "118": {
+        "weight": 15.0,
+        "height": 0.61
+    },
+    "119": {
+        "weight": 39.0,
+        "height": 1.3
+    },
+    "120": {
+        "weight": 34.5,
+        "height": 0.79
+    },
+    "121": {
+        "weight": 80.0,
+        "height": 1.09
+    },
+    "122": {
+        "weight": 54.5,
+        "height": 1.3
+    },
+    "123": {
+        "weight": 56.0,
+        "height": 1.5
+    },
+    "124": {
+        "weight": 40.6,
+        "height": 1.4
+    },
+    "125": {
+        "weight": 30.0,
+        "height": 1.09
+    },
+    "126": {
+        "weight": 44.5,
+        "height": 1.3
+    },
+    "127": {
+        "weight": 55.0,
+        "height": 1.5
+    },
+    "128": {
+        "weight": 88.4,
+        "height": 1.4
+    },
+    "129": {
+        "weight": 10.0,
+        "height": 0.89
+    },
+    "130": {
+        "weight": 235.0,
+        "height": 6.5
+    },
+    "131": {
+        "weight": 220.0,
+        "height": 2.49
+    },
+    "132": {
+        "weight": 4.0,
+        "height": 0.3
+    },
+    "133": {
+        "weight": 6.5,
+        "height": 0.3
+    },
+    "134": {
+        "weight": 29.0,
+        "height": 0.99
+    },
+    "135": {
+        "weight": 24.5,
+        "height": 0.79
+    },
+    "136": {
+        "weight": 25.0,
+        "height": 0.89
+    },
+    "137": {
+        "weight": 36.5,
+        "height": 0.79
+    },
+    "138": {
+        "weight": 7.5,
+        "height": 0.41
+    },
+    "139": {
+        "weight": 35.0,
+        "height": 0.99
+    },
+    "140": {
+        "weight": 11.5,
+        "height": 0.51
+    },
+    "141": {
+        "weight": 40.5,
+        "height": 1.3
+    },
+    "142": {
+        "weight": 59.0,
+        "height": 1.8
+    },
+    "143": {
+        "weight": 460.0,
+        "height": 2.11
+    },
+    "144": {
+        "weight": 55.4,
+        "height": 1.7
+    },
+    "145": {
+        "weight": 52.6,
+        "height": 1.6
+    },
+    "146": {
+        "weight": 60.0,
+        "height": 2.01
+    },
+    "147": {
+        "weight": 3.3,
+        "height": 1.8
+    },
+    "148": {
+        "weight": 16.5,
+        "height": 3.99
+    },
+    "149": {
+        "weight": 210.0,
+        "height": 2.21
+    },
+    "150": {
+        "weight": 122.0,
+        "height": 2.01
+    },
+    "151": {
+        "weight": 4.0,
+        "height": 0.41
+    },
+    "152": {
+        "weight": 6.4,
+        "height": 0.89
+    },
+    "153": {
+        "weight": 15.8,
+        "height": 1.19
+    },
+    "154": {
+        "weight": 100.5,
+        "height": 1.8
+    },
+    "155": {
+        "weight": 7.9,
+        "height": 0.51
+    },
+    "156": {
+        "weight": 19.0,
+        "height": 0.89
+    },
+    "157": {
+        "weight": 79.5,
+        "height": 1.7
+    },
+    "158": {
+        "weight": 9.5,
+        "height": 0.61
+    },
+    "159": {
+        "weight": 25.0,
+        "height": 1.09
+    },
+    "160": {
+        "weight": 88.8,
+        "height": 2.31
+    },
+    "161": {
+        "weight": 6.0,
+        "height": 0.79
+    },
+    "162": {
+        "weight": 32.5,
+        "height": 1.8
+    },
+    "163": {
+        "weight": 21.2,
+        "height": 0.71
+    },
+    "164": {
+        "weight": 40.8,
+        "height": 1.6
+    },
+    "165": {
+        "weight": 10.8,
+        "height": 0.99
+    },
+    "166": {
+        "weight": 35.6,
+        "height": 1.4
+    },
+    "167": {
+        "weight": 8.5,
+        "height": 0.51
+    },
+    "168": {
+        "weight": 33.5,
+        "height": 1.09
+    },
+    "169": {
+        "weight": 75.0,
+        "height": 1.8
+    },
+    "170": {
+        "weight": 12.0,
+        "height": 0.51
+    },
+    "171": {
+        "weight": 22.5,
+        "height": 1.19
+    },
+    "172": {
+        "weight": 2.0,
+        "height": 0.3
+    },
+    "173": {
+        "weight": 3.0,
+        "height": 0.3
+    },
+    "174": {
+        "weight": 1.0,
+        "height": 0.3
+    },
+    "175": {
+        "weight": 1.5,
+        "height": 0.3
+    },
+    "176": {
+        "weight": 3.2,
+        "height": 0.61
+    },
+    "177": {
+        "weight": 2.0,
+        "height": 0.2
+    },
+    "178": {
+        "weight": 15.0,
+        "height": 1.5
+    },
+    "179": {
+        "weight": 7.8,
+        "height": 0.61
+    },
+    "180": {
+        "weight": 13.3,
+        "height": 0.79
+    },
+    "181": {
+        "weight": 61.5,
+        "height": 1.4
+    },
+    "182": {
+        "weight": 5.8,
+        "height": 0.41
+    },
+    "183": {
+        "weight": 8.5,
+        "height": 0.41
+    },
+    "184": {
+        "weight": 28.5,
+        "height": 0.79
+    },
+    "185": {
+        "weight": 38.0,
+        "height": 1.19
+    },
+    "186": {
+        "weight": 33.9,
+        "height": 1.09
+    },
+    "187": {
+        "weight": 0.5,
+        "height": 0.41
+    },
+    "188": {
+        "weight": 1.0,
+        "height": 0.61
+    },
+    "189": {
+        "weight": 3.0,
+        "height": 0.79
+    },
+    "190": {
+        "weight": 11.5,
+        "height": 0.79
+    },
+    "191": {
+        "weight": 1.8,
+        "height": 0.3
+    },
+    "192": {
+        "weight": 8.5,
+        "height": 0.79
+    },
+    "193": {
+        "weight": 38.0,
+        "height": 1.19
+    },
+    "194": {
+        "weight": 8.5,
+        "height": 0.41
+    },
+    "195": {
+        "weight": 75.0,
+        "height": 1.4
+    },
+    "196": {
+        "weight": 26.5,
+        "height": 0.89
+    },
+    "197": {
+        "weight": 27.0,
+        "height": 0.99
+    },
+    "198": {
+        "weight": 2.1,
+        "height": 0.51
+    },
+    "199": {
+        "weight": 79.5,
+        "height": 2.01
+    },
+    "200": {
+        "weight": 1.0,
+        "height": 0.71
+    },
+    "201": {
+        "weight": 5.0,
+        "height": 0.51
+    },
+    "202": {
+        "weight": 28.5,
+        "height": 1.3
+    },
+    "203": {
+        "weight": 41.5,
+        "height": 1.5
+    },
+    "204": {
+        "weight": 7.2,
+        "height": 0.61
+    },
+    "205": {
+        "weight": 125.8,
+        "height": 1.19
+    },
+    "206": {
+        "weight": 14.0,
+        "height": 1.5
+    },
+    "207": {
+        "weight": 64.8,
+        "height": 1.09
+    },
+    "208": {
+        "weight": 400.0,
+        "height": 9.19
+    },
+    "209": {
+        "weight": 7.8,
+        "height": 0.61
+    },
+    "210": {
+        "weight": 48.7,
+        "height": 1.4
+    },
+    "211": {
+        "weight": 3.9,
+        "height": 0.51
+    },
+    "212": {
+        "weight": 118.0,
+        "height": 1.8
+    },
+    "213": {
+        "weight": 20.5,
+        "height": 0.61
+    },
+    "214": {
+        "weight": 54.0,
+        "height": 1.5
+    },
+    "215": {
+        "weight": 28.0,
+        "height": 0.89
+    },
+    "216": {
+        "weight": 8.8,
+        "height": 0.61
+    },
+    "217": {
+        "weight": 125.8,
+        "height": 1.8
+    },
+    "218": {
+        "weight": 35.0,
+        "height": 0.71
+    },
+    "219": {
+        "weight": 55.0,
+        "height": 0.79
+    },
+    "220": {
+        "weight": 6.5,
+        "height": 0.41
+    },
+    "221": {
+        "weight": 55.8,
+        "height": 1.09
+    },
+    "222": {
+        "weight": 5.0,
+        "height": 0.61
+    },
+    "223": {
+        "weight": 12.0,
+        "height": 0.61
+    },
+    "224": {
+        "weight": 28.5,
+        "height": 0.89
+    },
+    "225": {
+        "weight": 16.0,
+        "height": 0.89
+    },
+    "226": {
+        "weight": 220.0,
+        "height": 2.11
+    },
+    "227": {
+        "weight": 50.5,
+        "height": 1.7
+    },
+    "228": {
+        "weight": 10.8,
+        "height": 0.61
+    },
+    "229": {
+        "weight": 35.0,
+        "height": 1.4
+    },
+    "230": {
+        "weight": 152.0,
+        "height": 1.8
+    },
+    "231": {
+        "weight": 33.5,
+        "height": 0.51
+    },
+    "232": {
+        "weight": 120.0,
+        "height": 1.09
+    },
+    "233": {
+        "weight": 32.5,
+        "height": 0.61
+    },
+    "234": {
+        "weight": 71.2,
+        "height": 1.4
+    },
+    "235": {
+        "weight": 58.0,
+        "height": 1.19
+    },
+    "236": {
+        "weight": 21.0,
+        "height": 0.71
+    },
+    "237": {
+        "weight": 48.0,
+        "height": 1.4
+    },
+    "238": {
+        "weight": 6.0,
+        "height": 0.41
+    },
+    "239": {
+        "weight": 23.5,
+        "height": 0.61
+    },
+    "240": {
+        "weight": 21.4,
+        "height": 0.71
+    },
+    "241": {
+        "weight": 75.5,
+        "height": 1.19
+    },
+    "242": {
+        "weight": 46.8,
+        "height": 1.5
+    },
+    "243": {
+        "weight": 178.0,
+        "height": 1.91
+    },
+    "244": {
+        "weight": 198.0,
+        "height": 2.11
+    },
+    "245": {
+        "weight": 187.0,
+        "height": 2.01
+    },
+    "246": {
+        "weight": 72.0,
+        "height": 0.61
+    },
+    "247": {
+        "weight": 152.0,
+        "height": 1.19
+    },
+    "248": {
+        "weight": 202.0,
+        "height": 2.01
+    },
+    "249": {
+        "weight": 216.0,
+        "height": 5.21
+    },
+    "250": {
+        "weight": 199.0,
+        "height": 3.81
+    },
+    "251": {
+        "weight": 5.0,
+        "height": 0.61
+    },
+    "252": {
+        "weight": 5.0,
+        "height": 0.51
+    },
+    "253": {
+        "weight": 21.6,
+        "height": 0.89
+    },
+    "254": {
+        "weight": 52.2,
+        "height": 1.7
+    },
+    "255": {
+        "weight": 2.5,
+        "height": 0.41
+    },
+    "256": {
+        "weight": 19.5,
+        "height": 0.89
+    },
+    "257": {
+        "weight": 52.0,
+        "height": 1.91
+    },
+    "258": {
+        "weight": 7.6,
+        "height": 0.41
+    },
+    "259": {
+        "weight": 28.0,
+        "height": 0.71
+    },
+    "260": {
+        "weight": 81.9,
+        "height": 1.5
+    },
+    "261": {
+        "weight": 13.6,
+        "height": 0.51
+    },
+    "262": {
+        "weight": 37.0,
+        "height": 0.99
+    },
+    "263": {
+        "weight": 17.5,
+        "height": 0.41
+    },
+    "264": {
+        "weight": 32.5,
+        "height": 0.51
+    },
+    "265": {
+        "weight": 3.6,
+        "height": 0.3
+    },
+    "266": {
+        "weight": 10.0,
+        "height": 0.61
+    },
+    "267": {
+        "weight": 28.4,
+        "height": 0.99
+    },
+    "268": {
+        "weight": 11.5,
+        "height": 0.71
+    },
+    "269": {
+        "weight": 31.6,
+        "height": 1.19
+    },
+    "270": {
+        "weight": 2.6,
+        "height": 0.51
+    },
+    "271": {
+        "weight": 32.5,
+        "height": 1.19
+    },
+    "272": {
+        "weight": 55.0,
+        "height": 1.5
+    },
+    "273": {
+        "weight": 4.0,
+        "height": 0.51
+    },
+    "274": {
+        "weight": 28.0,
+        "height": 0.99
+    },
+    "275": {
+        "weight": 59.6,
+        "height": 1.3
+    },
+    "276": {
+        "weight": 2.3,
+        "height": 0.3
+    },
+    "277": {
+        "weight": 19.8,
+        "height": 0.71
+    },
+    "278": {
+        "weight": 9.5,
+        "height": 0.61
+    },
+    "279": {
+        "weight": 28.0,
+        "height": 1.19
+    },
+    "280": {
+        "weight": 6.6,
+        "height": 0.41
+    },
+    "281": {
+        "weight": 20.2,
+        "height": 0.79
+    },
+    "282": {
+        "weight": 48.4,
+        "height": 1.6
+    },
+    "283": {
+        "weight": 1.7,
+        "height": 0.51
+    },
+    "284": {
+        "weight": 3.6,
+        "height": 0.79
+    },
+    "285": {
+        "weight": 4.5,
+        "height": 0.41
+    },
+    "286": {
+        "weight": 39.2,
+        "height": 1.19
+    },
+    "287": {
+        "weight": 24.0,
+        "height": 0.79
+    },
+    "288": {
+        "weight": 46.5,
+        "height": 1.4
+    },
+    "289": {
+        "weight": 130.5,
+        "height": 2.01
+    },
+    "290": {
+        "weight": 5.5,
+        "height": 0.51
+    },
+    "291": {
+        "weight": 12.0,
+        "height": 0.79
+    },
+    "292": {
+        "weight": 1.2,
+        "height": 0.79
+    },
+    "293": {
+        "weight": 16.3,
+        "height": 0.61
+    },
+    "294": {
+        "weight": 40.5,
+        "height": 0.99
+    },
+    "295": {
+        "weight": 84.0,
+        "height": 1.5
+    },
+    "296": {
+        "weight": 86.4,
+        "height": 0.99
+    },
+    "297": {
+        "weight": 253.8,
+        "height": 2.31
+    },
+    "298": {
+        "weight": 2.0,
+        "height": 0.2
+    },
+    "299": {
+        "weight": 97.0,
+        "height": 0.99
+    },
+    "300": {
+        "weight": 11.0,
+        "height": 0.61
+    },
+    "301": {
+        "weight": 32.6,
+        "height": 1.09
+    },
+    "302": {
+        "weight": 11.0,
+        "height": 0.51
+    },
+    "303": {
+        "weight": 11.5,
+        "height": 0.61
+    },
+    "304": {
+        "weight": 60.0,
+        "height": 0.41
+    },
+    "305": {
+        "weight": 120.0,
+        "height": 0.89
+    },
+    "306": {
+        "weight": 360.0,
+        "height": 2.11
+    },
+    "307": {
+        "weight": 11.2,
+        "height": 0.61
+    },
+    "308": {
+        "weight": 31.5,
+        "height": 1.3
+    },
+    "309": {
+        "weight": 15.2,
+        "height": 0.61
+    },
+    "310": {
+        "weight": 40.2,
+        "height": 1.5
+    },
+    "311": {
+        "weight": 4.2,
+        "height": 0.41
+    },
+    "312": {
+        "weight": 4.2,
+        "height": 0.41
+    },
+    "313": {
+        "weight": 17.7,
+        "height": 0.71
+    },
+    "314": {
+        "weight": 17.7,
+        "height": 0.61
+    },
+    "315": {
+        "weight": 2.0,
+        "height": 0.3
+    },
+    "316": {
+        "weight": 10.3,
+        "height": 0.41
+    },
+    "317": {
+        "weight": 80.0,
+        "height": 1.7
+    },
+    "318": {
+        "weight": 20.8,
+        "height": 0.79
+    },
+    "319": {
+        "weight": 88.8,
+        "height": 1.8
+    },
+    "320": {
+        "weight": 130.0,
+        "height": 2.01
+    },
+    "321": {
+        "weight": 398.0,
+        "height": 14.5
+    },
+    "322": {
+        "weight": 24.0,
+        "height": 0.71
+    },
+    "323": {
+        "weight": 220.0,
+        "height": 1.91
+    },
+    "324": {
+        "weight": 80.4,
+        "height": 0.51
+    },
+    "325": {
+        "weight": 30.6,
+        "height": 0.71
+    },
+    "326": {
+        "weight": 71.5,
+        "height": 0.89
+    },
+    "327": {
+        "weight": 5.0,
+        "height": 1.09
+    },
+    "328": {
+        "weight": 15.0,
+        "height": 0.71
+    },
+    "329": {
+        "weight": 15.3,
+        "height": 1.09
+    },
+    "330": {
+        "weight": 82.0,
+        "height": 2.01
+    },
+    "331": {
+        "weight": 51.3,
+        "height": 0.41
+    },
+    "332": {
+        "weight": 77.4,
+        "height": 1.3
+    },
+    "333": {
+        "weight": 1.2,
+        "height": 0.41
+    },
+    "334": {
+        "weight": 20.6,
+        "height": 1.09
+    },
+    "335": {
+        "weight": 40.3,
+        "height": 1.3
+    },
+    "336": {
+        "weight": 52.5,
+        "height": 2.69
+    },
+    "337": {
+        "weight": 168.0,
+        "height": 0.99
+    },
+    "338": {
+        "weight": 154.0,
+        "height": 1.19
+    },
+    "339": {
+        "weight": 1.9,
+        "height": 0.41
+    },
+    "340": {
+        "weight": 23.6,
+        "height": 0.89
+    },
+    "341": {
+        "weight": 11.5,
+        "height": 0.61
+    },
+    "342": {
+        "weight": 32.8,
+        "height": 1.09
+    },
+    "343": {
+        "weight": 21.5,
+        "height": 0.51
+    },
+    "344": {
+        "weight": 108.0,
+        "height": 1.5
+    },
+    "345": {
+        "weight": 23.8,
+        "height": 0.99
+    },
+    "346": {
+        "weight": 60.4,
+        "height": 1.5
+    },
+    "347": {
+        "weight": 12.5,
+        "height": 0.71
+    },
+    "348": {
+        "weight": 68.2,
+        "height": 1.5
+    },
+    "349": {
+        "weight": 7.4,
+        "height": 0.61
+    },
+    "350": {
+        "weight": 162.0,
+        "height": 6.2
+    },
+    "351": {
+        "weight": 0.8,
+        "height": 0.3
+    },
+    "352": {
+        "weight": 22.0,
+        "height": 0.99
+    },
+    "353": {
+        "weight": 2.3,
+        "height": 0.61
+    },
+    "354": {
+        "weight": 12.5,
+        "height": 1.09
+    },
+    "355": {
+        "weight": 15.0,
+        "height": 0.79
+    },
+    "356": {
+        "weight": 30.6,
+        "height": 1.6
+    },
+    "357": {
+        "weight": 100.0,
+        "height": 2.01
+    },
+    "358": {
+        "weight": 1.0,
+        "height": 0.61
+    },
+    "359": {
+        "weight": 47.0,
+        "height": 1.19
+    },
+    "360": {
+        "weight": 14.0,
+        "height": 0.61
+    },
+    "361": {
+        "weight": 16.8,
+        "height": 0.71
+    },
+    "362": {
+        "weight": 256.5,
+        "height": 1.5
+    },
+    "363": {
+        "weight": 39.5,
+        "height": 0.79
+    },
+    "364": {
+        "weight": 87.6,
+        "height": 1.09
+    },
+    "365": {
+        "weight": 150.6,
+        "height": 1.4
+    },
+    "366": {
+        "weight": 52.5,
+        "height": 0.41
+    },
+    "367": {
+        "weight": 27.0,
+        "height": 1.7
+    },
+    "368": {
+        "weight": 22.6,
+        "height": 1.8
+    },
+    "369": {
+        "weight": 23.4,
+        "height": 0.99
+    },
+    "370": {
+        "weight": 8.7,
+        "height": 0.61
+    },
+    "371": {
+        "weight": 42.1,
+        "height": 0.61
+    },
+    "372": {
+        "weight": 110.5,
+        "height": 1.09
+    },
+    "373": {
+        "weight": 102.6,
+        "height": 1.5
+    },
+    "374": {
+        "weight": 95.2,
+        "height": 0.61
+    },
+    "375": {
+        "weight": 202.5,
+        "height": 1.19
+    },
+    "376": {
+        "weight": 550.0,
+        "height": 1.6
+    },
+    "377": {
+        "weight": 230.0,
+        "height": 1.7
+    },
+    "378": {
+        "weight": 175.0,
+        "height": 1.8
+    },
+    "379": {
+        "weight": 205.0,
+        "height": 1.91
+    },
+    "380": {
+        "weight": 40.0,
+        "height": 1.4
+    },
+    "381": {
+        "weight": 60.0,
+        "height": 2.01
+    },
+    "382": {
+        "weight": 352.0,
+        "height": 4.5
+    },
+    "383": {
+        "weight": 950.0,
+        "height": 3.51
+    },
+    "384": {
+        "weight": 206.5,
+        "height": 7.01
+    },
+    "385": {
+        "weight": 1.1,
+        "height": 0.3
+    },
+    "386": {
+        "weight": 60.8,
+        "height": 1.7
+    },
+    "387": {
+        "weight": 10.2,
+        "height": 0.41
+    },
+    "388": {
+        "weight": 97.0,
+        "height": 1.09
+    },
+    "389": {
+        "weight": 310.0,
+        "height": 2.21
+    },
+    "390": {
+        "weight": 6.2,
+        "height": 0.51
+    },
+    "391": {
+        "weight": 22.0,
+        "height": 0.89
+    },
+    "392": {
+        "weight": 55.0,
+        "height": 1.19
+    },
+    "393": {
+        "weight": 5.2,
+        "height": 0.41
+    },
+    "394": {
+        "weight": 23.0,
+        "height": 0.79
+    },
+    "395": {
+        "weight": 84.5,
+        "height": 1.7
+    },
+    "396": {
+        "weight": 2.0,
+        "height": 0.3
+    },
+    "397": {
+        "weight": 15.5,
+        "height": 0.61
+    },
+    "398": {
+        "weight": 24.9,
+        "height": 1.19
+    },
+    "399": {
+        "weight": 20.0,
+        "height": 0.51
+    },
+    "400": {
+        "weight": 31.5,
+        "height": 0.99
+    },
+    "401": {
+        "weight": 2.2,
+        "height": 0.3
+    },
+    "402": {
+        "weight": 25.5,
+        "height": 0.99
+    },
+    "403": {
+        "weight": 9.5,
+        "height": 0.51
+    },
+    "404": {
+        "weight": 30.5,
+        "height": 0.89
+    },
+    "405": {
+        "weight": 42.0,
+        "height": 1.4
+    },
+    "406": {
+        "weight": 1.2,
+        "height": 0.2
+    },
+    "407": {
+        "weight": 14.5,
+        "height": 0.89
+    },
+    "408": {
+        "weight": 31.5,
+        "height": 0.89
+    },
+    "409": {
+        "weight": 102.5,
+        "height": 1.6
+    },
+    "410": {
+        "weight": 57.0,
+        "height": 0.51
+    },
+    "411": {
+        "weight": 149.5,
+        "height": 1.3
+    },
+    "412": {
+        "weight": 3.4,
+        "height": 0.2
+    },
+    "413": {
+        "weight": 6.5,
+        "height": 0.51
+    },
+    "414": {
+        "weight": 23.3,
+        "height": 0.89
+    },
+    "415": {
+        "weight": 5.5,
+        "height": 0.3
+    },
+    "416": {
+        "weight": 38.5,
+        "height": 1.19
+    },
+    "417": {
+        "weight": 3.9,
+        "height": 0.41
+    },
+    "418": {
+        "weight": 29.5,
+        "height": 0.71
+    },
+    "419": {
+        "weight": 33.5,
+        "height": 1.09
+    },
+    "420": {
+        "weight": 3.3,
+        "height": 0.41
+    },
+    "421": {
+        "weight": 9.3,
+        "height": 0.51
+    },
+    "422": {
+        "weight": 6.3,
+        "height": 0.3
+    },
+    "423": {
+        "weight": 29.9,
+        "height": 0.89
+    },
+    "424": {
+        "weight": 20.3,
+        "height": 1.19
+    },
+    "425": {
+        "weight": 1.2,
+        "height": 0.41
+    },
+    "426": {
+        "weight": 15.0,
+        "height": 1.19
+    },
+    "427": {
+        "weight": 5.5,
+        "height": 0.41
+    },
+    "428": {
+        "weight": 33.3,
+        "height": 1.19
+    },
+    "429": {
+        "weight": 4.4,
+        "height": 0.89
+    },
+    "430": {
+        "weight": 27.3,
+        "height": 0.89
+    },
+    "431": {
+        "weight": 3.9,
+        "height": 0.51
+    },
+    "432": {
+        "weight": 43.8,
+        "height": 0.99
+    },
+    "433": {
+        "weight": 0.6,
+        "height": 0.2
+    },
+    "434": {
+        "weight": 19.2,
+        "height": 0.41
+    },
+    "435": {
+        "weight": 38.0,
+        "height": 0.99
+    },
+    "436": {
+        "weight": 60.5,
+        "height": 0.51
+    },
+    "437": {
+        "weight": 187.0,
+        "height": 1.3
+    },
+    "438": {
+        "weight": 15.0,
+        "height": 0.51
+    },
+    "439": {
+        "weight": 13.0,
+        "height": 0.61
+    },
+    "440": {
+        "weight": 24.4,
+        "height": 0.61
+    },
+    "441": {
+        "weight": 1.9,
+        "height": 0.51
+    },
+    "442": {
+        "weight": 108.0,
+        "height": 0.99
+    },
+    "443": {
+        "weight": 20.5,
+        "height": 0.71
+    },
+    "444": {
+        "weight": 56.0,
+        "height": 1.4
+    },
+    "445": {
+        "weight": 95.0,
+        "height": 1.91
+    },
+    "446": {
+        "weight": 105.0,
+        "height": 0.61
+    },
+    "447": {
+        "weight": 20.2,
+        "height": 0.71
+    },
+    "448": {
+        "weight": 54.0,
+        "height": 1.19
+    },
+    "449": {
+        "weight": 49.5,
+        "height": 0.79
+    },
+    "450": {
+        "weight": 300.0,
+        "height": 2.01
+    },
+    "451": {
+        "weight": 12.0,
+        "height": 0.79
+    },
+    "452": {
+        "weight": 61.5,
+        "height": 1.3
+    },
+    "453": {
+        "weight": 23.0,
+        "height": 0.71
+    },
+    "454": {
+        "weight": 44.4,
+        "height": 1.3
+    },
+    "455": {
+        "weight": 27.0,
+        "height": 1.4
+    },
+    "456": {
+        "weight": 7.0,
+        "height": 0.41
+    },
+    "457": {
+        "weight": 24.0,
+        "height": 1.19
+    },
+    "458": {
+        "weight": 65.0,
+        "height": 0.99
+    },
+    "459": {
+        "weight": 50.5,
+        "height": 0.99
+    },
+    "460": {
+        "weight": 135.5,
+        "height": 2.21
+    },
+    "461": {
+        "weight": 34.0,
+        "height": 1.09
+    },
+    "462": {
+        "weight": 180.0,
+        "height": 1.19
+    },
+    "463": {
+        "weight": 140.0,
+        "height": 1.7
+    },
+    "464": {
+        "weight": 282.8,
+        "height": 2.39
+    },
+    "465": {
+        "weight": 128.6,
+        "height": 2.01
+    },
+    "466": {
+        "weight": 138.6,
+        "height": 1.8
+    },
+    "467": {
+        "weight": 68.0,
+        "height": 1.6
+    },
+    "468": {
+        "weight": 38.0,
+        "height": 1.5
+    },
+    "469": {
+        "weight": 51.5,
+        "height": 1.91
+    },
+    "470": {
+        "weight": 25.5,
+        "height": 0.99
+    },
+    "471": {
+        "weight": 25.9,
+        "height": 0.79
+    },
+    "472": {
+        "weight": 42.5,
+        "height": 2.01
+    },
+    "473": {
+        "weight": 291.0,
+        "height": 2.49
+    },
+    "474": {
+        "weight": 34.0,
+        "height": 0.89
+    },
+    "475": {
+        "weight": 52.0,
+        "height": 1.6
+    },
+    "476": {
+        "weight": 340.0,
+        "height": 1.4
+    },
+    "477": {
+        "weight": 106.6,
+        "height": 2.21
+    },
+    "478": {
+        "weight": 26.6,
+        "height": 1.3
+    },
+    "479": {
+        "weight": 0.3,
+        "height": 0.3
+    },
+    "480": {
+        "weight": 0.3,
+        "height": 0.3
+    },
+    "481": {
+        "weight": 0.3,
+        "height": 0.3
+    },
+    "482": {
+        "weight": 0.3,
+        "height": 0.3
+    },
+    "483": {
+        "weight": 683.0,
+        "height": 5.41
+    },
+    "484": {
+        "weight": 336.0,
+        "height": 4.19
+    },
+    "485": {
+        "weight": 430.0,
+        "height": 1.7
+    },
+    "486": {
+        "weight": 420.0,
+        "height": 3.71
+    },
+    "487": {
+        "weight": 750.0,
+        "height": 4.5
+    },
+    "488": {
+        "weight": 85.6,
+        "height": 1.5
+    },
+    "489": {
+        "weight": 3.1,
+        "height": 0.41
+    },
+    "490": {
+        "weight": 1.4,
+        "height": 0.3
+    },
+    "491": {
+        "weight": 50.5,
+        "height": 1.5
+    },
+    "492": {
+        "weight": 5.2,
+        "height": 0.41
+    },
+    "493": {
+        "weight": 320.0,
+        "height": 3.2
+    },
+    "494": {
+        "weight": 4.0,
+        "height": 0.41
+    },
+    "495": {
+        "weight": 8.1,
+        "height": 0.61
+    },
+    "496": {
+        "weight": 16.0,
+        "height": 0.79
+    },
+    "497": {
+        "weight": 63.0,
+        "height": 3.3
+    },
+    "498": {
+        "weight": 9.9,
+        "height": 0.51
+    },
+    "499": {
+        "weight": 55.5,
+        "height": 0.99
+    },
+    "500": {
+        "weight": 150.0,
+        "height": 1.6
+    },
+    "501": {
+        "weight": 5.9,
+        "height": 0.51
+    },
+    "502": {
+        "weight": 24.5,
+        "height": 0.79
+    },
+    "503": {
+        "weight": 94.6,
+        "height": 1.5
+    },
+    "504": {
+        "weight": 11.6,
+        "height": 0.51
+    },
+    "505": {
+        "weight": 27.0,
+        "height": 1.09
+    },
+    "506": {
+        "weight": 4.1,
+        "height": 0.41
+    },
+    "507": {
+        "weight": 14.7,
+        "height": 0.89
+    },
+    "508": {
+        "weight": 61.0,
+        "height": 1.19
+    },
+    "509": {
+        "weight": 10.1,
+        "height": 0.41
+    },
+    "510": {
+        "weight": 37.5,
+        "height": 1.09
+    },
+    "511": {
+        "weight": 10.5,
+        "height": 0.61
+    },
+    "512": {
+        "weight": 30.5,
+        "height": 1.09
+    },
+    "513": {
+        "weight": 11.0,
+        "height": 0.61
+    },
+    "514": {
+        "weight": 28.0,
+        "height": 0.99
+    },
+    "515": {
+        "weight": 13.5,
+        "height": 0.61
+    },
+    "516": {
+        "weight": 29.0,
+        "height": 0.99
+    },
+    "517": {
+        "weight": 23.3,
+        "height": 0.61
+    },
+    "518": {
+        "weight": 60.5,
+        "height": 1.09
+    },
+    "519": {
+        "weight": 2.1,
+        "height": 0.3
+    },
+    "520": {
+        "weight": 15.0,
+        "height": 0.61
+    },
+    "521": {
+        "weight": 29.0,
+        "height": 1.19
+    },
+    "522": {
+        "weight": 29.8,
+        "height": 0.79
+    },
+    "523": {
+        "weight": 79.5,
+        "height": 1.6
+    },
+    "524": {
+        "weight": 18.0,
+        "height": 0.41
+    },
+    "525": {
+        "weight": 102.0,
+        "height": 0.89
+    },
+    "526": {
+        "weight": 260.0,
+        "height": 1.7
+    },
+    "527": {
+        "weight": 2.1,
+        "height": 0.41
+    },
+    "528": {
+        "weight": 10.5,
+        "height": 0.89
+    },
+    "529": {
+        "weight": 8.5,
+        "height": 0.3
+    },
+    "530": {
+        "weight": 40.4,
+        "height": 0.71
+    },
+    "531": {
+        "weight": 31.0,
+        "height": 1.09
+    },
+    "532": {
+        "weight": 12.5,
+        "height": 0.61
+    },
+    "533": {
+        "weight": 40.0,
+        "height": 1.19
+    },
+    "534": {
+        "weight": 87.0,
+        "height": 1.4
+    },
+    "535": {
+        "weight": 4.5,
+        "height": 0.51
+    },
+    "536": {
+        "weight": 17.0,
+        "height": 0.79
+    },
+    "537": {
+        "weight": 62.0,
+        "height": 1.5
+    },
+    "538": {
+        "weight": 55.5,
+        "height": 1.3
+    },
+    "539": {
+        "weight": 51.0,
+        "height": 1.4
+    },
+    "540": {
+        "weight": 2.5,
+        "height": 0.3
+    },
+    "541": {
+        "weight": 7.3,
+        "height": 0.51
+    },
+    "542": {
+        "weight": 20.5,
+        "height": 1.19
+    },
+    "543": {
+        "weight": 5.3,
+        "height": 0.41
+    },
+    "544": {
+        "weight": 58.5,
+        "height": 1.19
+    },
+    "545": {
+        "weight": 200.5,
+        "height": 2.49
+    },
+    "546": {
+        "weight": 0.6,
+        "height": 0.3
+    },
+    "547": {
+        "weight": 6.6,
+        "height": 0.71
+    },
+    "548": {
+        "weight": 6.6,
+        "height": 0.51
+    },
+    "549": {
+        "weight": 16.3,
+        "height": 1.09
+    },
+    "550": {
+        "weight": 18.0,
+        "height": 0.99
+    },
+    "551": {
+        "weight": 15.2,
+        "height": 0.71
+    },
+    "552": {
+        "weight": 33.4,
+        "height": 0.99
+    },
+    "553": {
+        "weight": 96.3,
+        "height": 1.5
+    },
+    "554": {
+        "weight": 37.5,
+        "height": 0.61
+    },
+    "555": {
+        "weight": 92.9,
+        "height": 1.3
+    },
+    "556": {
+        "weight": 28.0,
+        "height": 0.99
+    },
+    "557": {
+        "weight": 14.5,
+        "height": 0.3
+    },
+    "558": {
+        "weight": 200.0,
+        "height": 1.4
+    },
+    "559": {
+        "weight": 11.8,
+        "height": 0.61
+    },
+    "560": {
+        "weight": 30.0,
+        "height": 1.09
+    },
+    "561": {
+        "weight": 14.0,
+        "height": 1.4
+    },
+    "562": {
+        "weight": 1.5,
+        "height": 0.51
+    },
+    "563": {
+        "weight": 76.5,
+        "height": 1.7
+    },
+    "564": {
+        "weight": 16.5,
+        "height": 0.71
+    },
+    "565": {
+        "weight": 81.0,
+        "height": 1.19
+    },
+    "566": {
+        "weight": 9.5,
+        "height": 0.51
+    },
+    "567": {
+        "weight": 32.0,
+        "height": 1.4
+    },
+    "568": {
+        "weight": 31.0,
+        "height": 0.61
+    },
+    "569": {
+        "weight": 107.3,
+        "height": 1.91
+    },
+    "570": {
+        "weight": 12.5,
+        "height": 0.71
+    },
+    "571": {
+        "weight": 81.1,
+        "height": 1.6
+    },
+    "572": {
+        "weight": 5.8,
+        "height": 0.41
+    },
+    "573": {
+        "weight": 7.5,
+        "height": 0.51
+    },
+    "574": {
+        "weight": 5.8,
+        "height": 0.41
+    },
+    "575": {
+        "weight": 18.0,
+        "height": 0.71
+    },
+    "576": {
+        "weight": 44.0,
+        "height": 1.5
+    },
+    "577": {
+        "weight": 1.0,
+        "height": 0.3
+    },
+    "578": {
+        "weight": 8.0,
+        "height": 0.61
+    },
+    "579": {
+        "weight": 20.1,
+        "height": 0.99
+    },
+    "580": {
+        "weight": 5.5,
+        "height": 0.51
+    },
+    "581": {
+        "weight": 24.2,
+        "height": 1.3
+    },
+    "582": {
+        "weight": 5.7,
+        "height": 0.41
+    },
+    "583": {
+        "weight": 41.0,
+        "height": 1.09
+    },
+    "584": {
+        "weight": 57.5,
+        "height": 1.3
+    },
+    "585": {
+        "weight": 19.5,
+        "height": 0.61
+    },
+    "586": {
+        "weight": 92.5,
+        "height": 1.91
+    },
+    "587": {
+        "weight": 5.0,
+        "height": 0.41
+    },
+    "588": {
+        "weight": 5.9,
+        "height": 0.51
+    },
+    "589": {
+        "weight": 33.0,
+        "height": 0.99
+    },
+    "590": {
+        "weight": 1.0,
+        "height": 0.2
+    },
+    "591": {
+        "weight": 10.5,
+        "height": 0.61
+    },
+    "592": {
+        "weight": 33.0,
+        "height": 1.19
+    },
+    "593": {
+        "weight": 135.0,
+        "height": 2.21
+    },
+    "594": {
+        "weight": 31.6,
+        "height": 1.19
+    },
+    "595": {
+        "weight": 0.6,
+        "height": 0.1
+    },
+    "596": {
+        "weight": 14.3,
+        "height": 0.79
+    },
+    "597": {
+        "weight": 18.8,
+        "height": 0.61
+    },
+    "598": {
+        "weight": 110.0,
+        "height": 0.99
+    },
+    "599": {
+        "weight": 21.0,
+        "height": 0.3
+    },
+    "600": {
+        "weight": 51.0,
+        "height": 0.61
+    },
+    "601": {
+        "weight": 81.0,
+        "height": 0.61
+    },
+    "602": {
+        "weight": 0.3,
+        "height": 0.2
+    },
+    "603": {
+        "weight": 22.0,
+        "height": 1.19
+    },
+    "604": {
+        "weight": 80.5,
+        "height": 2.11
+    },
+    "605": {
+        "weight": 9.0,
+        "height": 0.51
+    },
+    "606": {
+        "weight": 34.5,
+        "height": 0.99
+    },
+    "607": {
+        "weight": 3.1,
+        "height": 0.3
+    },
+    "608": {
+        "weight": 13.0,
+        "height": 0.61
+    },
+    "609": {
+        "weight": 34.3,
+        "height": 0.99
+    },
+    "610": {
+        "weight": 18.0,
+        "height": 0.61
+    },
+    "611": {
+        "weight": 36.0,
+        "height": 0.99
+    },
+    "612": {
+        "weight": 105.5,
+        "height": 1.8
+    },
+    "613": {
+        "weight": 8.5,
+        "height": 0.51
+    },
+    "614": {
+        "weight": 260.0,
+        "height": 2.59
+    },
+    "615": {
+        "weight": 148.0,
+        "height": 1.09
+    },
+    "616": {
+        "weight": 7.7,
+        "height": 0.41
+    },
+    "617": {
+        "weight": 25.3,
+        "height": 0.79
+    },
+    "618": {
+        "weight": 11.0,
+        "height": 0.71
+    },
+    "619": {
+        "weight": 20.0,
+        "height": 0.89
+    },
+    "620": {
+        "weight": 35.5,
+        "height": 1.4
+    },
+    "621": {
+        "weight": 139.0,
+        "height": 1.6
+    },
+    "622": {
+        "weight": 92.0,
+        "height": 0.99
+    },
+    "623": {
+        "weight": 330.0,
+        "height": 2.79
+    },
+    "624": {
+        "weight": 10.2,
+        "height": 0.51
+    },
+    "625": {
+        "weight": 70.0,
+        "height": 1.6
+    },
+    "626": {
+        "weight": 94.6,
+        "height": 1.6
+    },
+    "627": {
+        "weight": 10.5,
+        "height": 0.51
+    },
+    "628": {
+        "weight": 41.0,
+        "height": 1.5
+    },
+    "629": {
+        "weight": 9.0,
+        "height": 0.51
+    },
+    "630": {
+        "weight": 39.5,
+        "height": 1.19
+    },
+    "631": {
+        "weight": 58.0,
+        "height": 1.4
+    },
+    "632": {
+        "weight": 33.0,
+        "height": 0.3
+    },
+    "633": {
+        "weight": 17.3,
+        "height": 0.79
+    },
+    "634": {
+        "weight": 50.0,
+        "height": 1.4
+    },
+    "635": {
+        "weight": 160.0,
+        "height": 1.8
+    },
+    "636": {
+        "weight": 28.8,
+        "height": 1.09
+    },
+    "637": {
+        "weight": 46.0,
+        "height": 1.6
+    },
+    "638": {
+        "weight": 250.0,
+        "height": 2.11
+    },
+    "639": {
+        "weight": 260.0,
+        "height": 1.91
+    },
+    "640": {
+        "weight": 200.0,
+        "height": 2.01
+    },
+    "641": {
+        "weight": 63.0,
+        "height": 1.4
+    },
+    "642": {
+        "weight": 61.0,
+        "height": 3.0
+    },
+    "643": {
+        "weight": 330.0,
+        "height": 3.2
+    },
+    "644": {
+        "weight": 345.0,
+        "height": 2.9
+    },
+    "645": {
+        "weight": 68.0,
+        "height": 1.5
+    },
+    "646": {
+        "weight": 325.0,
+        "height": 3.0
+    },
+    "647": {
+        "weight": 48.5,
+        "height": 1.4
+    },
+    "648": {
+        "weight": 6.5,
+        "height": 0.61
+    },
+    "649": {
+        "weight": 82.5,
+        "height": 1.5
+    },
+    "650": {
+        "weight": 9.0,
+        "height": 0.41
+    },
+    "651": {
+        "weight": 29.0,
+        "height": 0.71
+    },
+    "652": {
+        "weight": 90.0,
+        "height": 1.6
+    },
+    "653": {
+        "weight": 9.4,
+        "height": 0.41
+    },
+    "654": {
+        "weight": 14.5,
+        "height": 0.99
+    },
+    "655": {
+        "weight": 39.0,
+        "height": 1.5
+    },
+    "656": {
+        "weight": 7.0,
+        "height": 0.3
+    },
+    "657": {
+        "weight": 10.9,
+        "height": 0.61
+    },
+    "658": {
+        "weight": 40.0,
+        "height": 1.5
+    },
+    "659": {
+        "weight": 5.0,
+        "height": 0.41
+    },
+    "660": {
+        "weight": 42.4,
+        "height": 0.99
+    },
+    "661": {
+        "weight": 1.7,
+        "height": 0.3
+    },
+    "662": {
+        "weight": 16.0,
+        "height": 0.71
+    },
+    "663": {
+        "weight": 24.5,
+        "height": 1.19
+    },
+    "664": {
+        "weight": 2.5,
+        "height": 0.3
+    },
+    "665": {
+        "weight": 8.4,
+        "height": 0.3
+    },
+    "666": {
+        "weight": 17.0,
+        "height": 1.19
+    },
+    "667": {
+        "weight": 13.5,
+        "height": 0.61
+    },
+    "668": {
+        "weight": 81.5,
+        "height": 1.5
+    },
+    "669": {
+        "weight": 0.1,
+        "height": 0.1
+    },
+    "670": {
+        "weight": 0.9,
+        "height": 0.2
+    },
+    "671": {
+        "weight": 10.0,
+        "height": 1.09
+    },
+    "672": {
+        "weight": 31.0,
+        "height": 0.89
+    },
+    "673": {
+        "weight": 91.0,
+        "height": 1.7
+    },
+    "674": {
+        "weight": 8.0,
+        "height": 0.61
+    },
+    "675": {
+        "weight": 136.0,
+        "height": 2.11
+    },
+    "676": {
+        "weight": 28.0,
+        "height": 1.19
+    },
+    "677": {
+        "weight": 3.5,
+        "height": 0.3
+    },
+    "678": {
+        "weight": 8.5,
+        "height": 0.61
+    },
+    "679": {
+        "weight": 2.0,
+        "height": 0.79
+    },
+    "680": {
+        "weight": 4.5,
+        "height": 0.84
+    },
+    "681": {
+        "weight": 53.0,
+        "height": 1.7
+    },
+    "682": {
+        "weight": 0.5,
+        "height": 0.2
+    },
+    "683": {
+        "weight": 15.5,
+        "height": 0.79
+    },
+    "684": {
+        "weight": 3.5,
+        "height": 0.41
+    },
+    "685": {
+        "weight": 5.0,
+        "height": 0.79
+    },
+    "686": {
+        "weight": 3.5,
+        "height": 0.41
+    },
+    "687": {
+        "weight": 47.0,
+        "height": 1.5
+    },
+    "688": {
+        "weight": 31.0,
+        "height": 0.51
+    },
+    "689": {
+        "weight": 96.0,
+        "height": 1.3
+    },
+    "690": {
+        "weight": 7.3,
+        "height": 0.51
+    },
+    "691": {
+        "weight": 81.5,
+        "height": 1.8
+    },
+    "692": {
+        "weight": 8.3,
+        "height": 0.51
+    },
+    "693": {
+        "weight": 35.3,
+        "height": 1.3
+    },
+    "694": {
+        "weight": 6.0,
+        "height": 0.51
+    },
+    "695": {
+        "weight": 21.0,
+        "height": 0.99
+    },
+    "696": {
+        "weight": 26.0,
+        "height": 0.79
+    },
+    "697": {
+        "weight": 270.0,
+        "height": 2.49
+    },
+    "698": {
+        "weight": 25.2,
+        "height": 1.3
+    },
+    "699": {
+        "weight": 225.0,
+        "height": 2.69
+    },
+    "700": {
+        "weight": 23.5,
+        "height": 0.99
+    },
+    "701": {
+        "weight": 21.5,
+        "height": 0.79
+    },
+    "702": {
+        "weight": 2.2,
+        "height": 0.2
+    },
+    "703": {
+        "weight": 5.7,
+        "height": 0.3
+    },
+    "704": {
+        "weight": 2.8,
+        "height": 0.3
+    },
+    "705": {
+        "weight": 17.5,
+        "height": 0.79
+    },
+    "706": {
+        "weight": 150.5,
+        "height": 2.01
+    },
+    "707": {
+        "weight": 3.0,
+        "height": 0.2
+    },
+    "708": {
+        "weight": 7.0,
+        "height": 0.41
+    },
+    "709": {
+        "weight": 71.0,
+        "height": 1.5
+    },
+    "710": {
+        "weight": 5.0,
+        "height": 0.41
+    },
+    "711": {
+        "weight": 39.0,
+        "height": 1.7
+    },
+    "712": {
+        "weight": 99.5,
+        "height": 0.99
+    },
+    "713": {
+        "weight": 505.0,
+        "height": 2.01
+    },
+    "714": {
+        "weight": 8.0,
+        "height": 0.51
+    },
+    "715": {
+        "weight": 85.0,
+        "height": 1.5
+    },
+    "716": {
+        "weight": 215.0,
+        "height": 3.0
+    },
+    "717": {
+        "weight": 203.0,
+        "height": 5.79
+    },
+    "718": {
+        "weight": 33.5,
+        "height": 1.19
+    },
+    "719": {
+        "weight": 8.8,
+        "height": 0.71
+    },
+    "720": {
+        "weight": 9.0,
+        "height": 0.51
+    },
+    "721": {
+        "weight": 195.0,
+        "height": 1.7
+    },
+    "722": {
+        "weight": 1.5,
+        "height": 0.3
+    },
+    "723": {
+        "weight": 16.0,
+        "height": 0.71
+    },
+    "724": {
+        "weight": 36.6,
+        "height": 1.6
+    },
+    "725": {
+        "weight": 4.3,
+        "height": 0.41
+    },
+    "726": {
+        "weight": 25.0,
+        "height": 0.71
+    },
+    "727": {
+        "weight": 83.0,
+        "height": 1.8
+    },
+    "728": {
+        "weight": 7.5,
+        "height": 0.41
+    },
+    "729": {
+        "weight": 17.5,
+        "height": 0.61
+    },
+    "730": {
+        "weight": 44.0,
+        "height": 1.8
+    },
+    "731": {
+        "weight": 1.2,
+        "height": 0.3
+    },
+    "732": {
+        "weight": 14.8,
+        "height": 0.61
+    },
+    "733": {
+        "weight": 26.0,
+        "height": 1.09
+    },
+    "734": {
+        "weight": 6.0,
+        "height": 0.41
+    },
+    "735": {
+        "weight": 14.2,
+        "height": 0.71
+    },
+    "736": {
+        "weight": 4.4,
+        "height": 0.41
+    },
+    "737": {
+        "weight": 10.5,
+        "height": 0.51
+    },
+    "738": {
+        "weight": 45.0,
+        "height": 1.5
+    },
+    "739": {
+        "weight": 7.0,
+        "height": 0.61
+    },
+    "740": {
+        "weight": 180.0,
+        "height": 1.7
+    },
+    "741": {
+        "weight": 3.4,
+        "height": 0.61
+    },
+    "742": {
+        "weight": 0.2,
+        "height": 0.1
+    },
+    "743": {
+        "weight": 0.5,
+        "height": 0.2
+    },
+    "744": {
+        "weight": 9.2,
+        "height": 0.51
+    },
+    "745": {
+        "weight": 25.0,
+        "height": 0.79
+    },
+    "746": {
+        "weight": 0.3,
+        "height": 0.2
+    },
+    "747": {
+        "weight": 8.0,
+        "height": 0.41
+    },
+    "748": {
+        "weight": 14.5,
+        "height": 0.71
+    },
+    "749": {
+        "weight": 110.0,
+        "height": 0.99
+    },
+    "750": {
+        "weight": 920.0,
+        "height": 2.49
+    },
+    "751": {
+        "weight": 4.0,
+        "height": 0.3
+    },
+    "752": {
+        "weight": 82.0,
+        "height": 1.8
+    },
+    "753": {
+        "weight": 1.5,
+        "height": 0.3
+    },
+    "754": {
+        "weight": 18.5,
+        "height": 0.89
+    },
+    "755": {
+        "weight": 1.5,
+        "height": 0.2
+    },
+    "756": {
+        "weight": 11.5,
+        "height": 0.99
+    },
+    "757": {
+        "weight": 4.8,
+        "height": 0.61
+    },
+    "758": {
+        "weight": 22.2,
+        "height": 1.19
+    },
+    "759": {
+        "weight": 6.8,
+        "height": 0.51
+    },
+    "760": {
+        "weight": 135.0,
+        "height": 2.11
+    },
+    "761": {
+        "weight": 3.2,
+        "height": 0.3
+    },
+    "762": {
+        "weight": 8.2,
+        "height": 0.71
+    },
+    "763": {
+        "weight": 21.4,
+        "height": 1.14
+    },
+    "764": {
+        "weight": 0.3,
+        "height": 0.1
+    },
+    "765": {
+        "weight": 76.0,
+        "height": 1.5
+    },
+    "766": {
+        "weight": 82.8,
+        "height": 2.01
+    },
+    "767": {
+        "weight": 12.0,
+        "height": 0.51
+    },
+    "768": {
+        "weight": 108.0,
+        "height": 2.01
+    },
+    "769": {
+        "weight": 70.0,
+        "height": 0.51
+    },
+    "770": {
+        "weight": 250.0,
+        "height": 1.3
+    },
+    "771": {
+        "weight": 1.2,
+        "height": 0.3
+    },
+    "772": {
+        "weight": 120.5,
+        "height": 1.91
+    },
+    "773": {
+        "weight": 100.5,
+        "height": 2.31
+    },
+    "774": {
+        "weight": 40.0,
+        "height": 0.3
+    },
+    "775": {
+        "weight": 19.9,
+        "height": 0.41
+    },
+    "776": {
+        "weight": 212.0,
+        "height": 2.01
+    },
+    "777": {
+        "weight": 3.3,
+        "height": 0.3
+    },
+    "778": {
+        "weight": 0.7,
+        "height": 0.2
+    },
+    "779": {
+        "weight": 19.0,
+        "height": 0.89
+    },
+    "780": {
+        "weight": 185.0,
+        "height": 3.0
+    },
+    "781": {
+        "weight": 210.0,
+        "height": 3.91
+    },
+    "782": {
+        "weight": 29.7,
+        "height": 0.61
+    },
+    "783": {
+        "weight": 47.0,
+        "height": 1.14
+    },
+    "784": {
+        "weight": 78.2,
+        "height": 1.6
+    },
+    "785": {
+        "weight": 20.5,
+        "height": 1.8
+    },
+    "786": {
+        "weight": 18.6,
+        "height": 1.19
+    },
+    "787": {
+        "weight": 45.5,
+        "height": 1.91
+    },
+    "788": {
+        "weight": 21.2,
+        "height": 1.3
+    },
+    "789": {
+        "weight": 0.1,
+        "height": 0.2
+    },
+    "790": {
+        "weight": 999.9,
+        "height": 0.1
+    },
+    "791": {
+        "weight": 230.0,
+        "height": 3.4
+    },
+    "792": {
+        "weight": 120.0,
+        "height": 3.99
+    },
+    "793": {
+        "weight": 55.5,
+        "height": 1.19
+    },
+    "794": {
+        "weight": 333.6,
+        "height": 2.39
+    },
+    "795": {
+        "weight": 25.0,
+        "height": 1.8
+    },
+    "796": {
+        "weight": 100.0,
+        "height": 3.81
+    },
+    "797": {
+        "weight": 999.9,
+        "height": 9.19
+    },
+    "798": {
+        "weight": 0.1,
+        "height": 0.3
+    },
+    "799": {
+        "weight": 888.0,
+        "height": 5.51
+    },
+    "800": {
+        "weight": 230.0,
+        "height": 2.39
+    },
+    "801": {
+        "weight": 80.5,
+        "height": 0.99
+    },
+    "802": {
+        "weight": 22.2,
+        "height": 0.71
+    }
+}
