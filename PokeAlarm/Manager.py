@@ -15,7 +15,7 @@ import googlemaps
 from . import config
 from WebhookStructs import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
-    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean
+    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean, get_base_height, get_base_weight
 
 log = logging.getLogger('Manager')
 
@@ -62,7 +62,7 @@ class Manager(object):
         self.__units = units
 
         # Set the minimum time_limit to send a notification (for pkmn/lures)
-        self.__time_limit = time_limit
+mod        self.__time_limit = time_limit
 
         # Set the timezone to use
         self.__timezone = timezone
@@ -297,6 +297,8 @@ class Manager(object):
             'move_2_energy': get_move_energy(move_2_id),
             'height': "{:.1f}".format(height) if height != '?' else '?',
             'weight': "{:.1f}".format(weight) if weight != '?' else '?',
+            'base_height': get_base_height(name),
+            'base_weight': get_base_weight(name),
             'gender': gender
         })
         # Optional Stuff
