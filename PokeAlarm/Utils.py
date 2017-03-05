@@ -173,34 +173,44 @@ def size_ratio(pokemon_id, height, weight):
     weight_ratio = weight / get_base_weight(pokemon_id)
     return height_ratio + weight_ratio
 
+# All available pokemon sizes
+class Size:
+    XS = 'XS'
+    SMALL = 'Small'
+    NORMAL = 'normal'
+    LARGE = 'Large'
+    XL = 'XL'
+    available_sizes = [XS, SMALL, NORMAL, LARGE, XL]
+
+
 # Returns normalized version of the sizes
 def get_normalized_size(raw_size):
     lower_size = raw_size.lower()
     if lower_size == 'xs':
-        return 'XS'
+        return Size.XS
     elif lower_size == 'small':
-        return 'Small'
+        return Size.SMALL
     elif lower_size == 'normal':
-        return 'normal'
+        return Size.NORMAL
     elif lower_size == 'large':
-        return 'Large'
+        return Size.LARGE
     else:
-        return 'XL'
+        return Size.XL
 
 # Returns the (appraisal) size of a pokemon:
 # XS, Small, Large, XL
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'XS'
+        return Size.XS
     elif size <= 1.75:
-        return 'Small'
+        return Size.SMALL
     elif size < 2.25:
-        return 'Normal'
+        return Size.NORMAL
     elif size <= 2.5:
-        return 'Large'
+        return Size.LARGE
     else:
-        return 'XL'
+        return Size.XL
 
 
 ########################################################################################################################

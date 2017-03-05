@@ -16,7 +16,7 @@ from . import config
 from WebhookStructs import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
     get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str,\
-    parse_boolean, get_pokemon_size, get_normalized_size
+    parse_boolean, get_pokemon_size, get_normalized_size, Size
 
 log = logging.getLogger('Manager')
 
@@ -646,7 +646,7 @@ class Manager(object):
         list_ = []
         for raw_size in raw_sizes:
             size = get_normalized_size(raw_size)
-            if size in ['XS', 'Small', 'Normal', 'Large', 'XL']:
+            if size in Size.available_sizes:
                 list_.append(size)
             else:
                 log.error("Unable to identify provided size '{}'. Please check your spelling.".format(raw_size))
