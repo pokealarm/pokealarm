@@ -242,14 +242,14 @@ class Manager(object):
                 return
         else:
             log.debug("Pokemon inside geofences was not checked because no geofences were set.")
-        
+
         height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
         if gender != '?':
             gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
 
         # Check the sizes of the Pokemon
         size = None
-        if height != '?' or weight != '?':
+        if height != '?' and weight != '?':
             size = get_pokemon_size(pkmn_id, height, weight)
         if size is not None:
             size_f = filt['size']
