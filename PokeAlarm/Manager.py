@@ -661,32 +661,33 @@ class Manager(object):
         with open(file_path, 'r') as f:
             alarm_settings = json.load(f)
         for alarm in alarm_settings:
-            if parse_boolean(alarm['active']) is True:
-                if alarm['type'] == 'boxcar':
+            if parse_boolean(alarm.pop('active')) is True:
+                _type = alarm.pop('type')
+                if _type == 'boxcar':
                     from Boxcar import BoxcarAlarm
                     self.__alarms.append(BoxcarAlarm(alarm))
-                elif alarm['type'] == 'discord':
+                elif _type == 'discord':
                     from Discord import DiscordAlarm
                     self.__alarms.append(DiscordAlarm(alarm))
-                elif alarm['type'] == 'facebook_page':
+                elif _type == 'facebook_page':
                     from FacebookPage import FacebookPageAlarm
                     self.__alarms.append(FacebookPageAlarm(alarm))
-                elif alarm['type'] == 'pushbullet':
+                elif _type == 'pushbullet':
                     from Pushbullet import PushbulletAlarm
                     self.__alarms.append(PushbulletAlarm(alarm))
-                elif alarm['type'] == 'pushover':
+                elif _type == 'pushover':
                     from Pushover import PushoverAlarm
                     self.__alarms.append(PushoverAlarm(alarm))
-                elif alarm['type'] == 'slack':
+                elif _type == 'slack':
                     from Slack import SlackAlarm
                     self.__alarms.append(SlackAlarm(alarm))
-                elif alarm['type'] == 'telegram':
+                elif _type == 'telegram':
                     from Telegram import TelegramAlarm
                     self.__alarms.append(TelegramAlarm(alarm))
-                elif alarm['type'] == 'twilio':
+                elif _type == 'twilio':
                     from Twilio import TwilioAlarm
                     self.__alarms.append(TwilioAlarm(alarm))
-                elif alarm['type'] == 'twitter':
+                elif _type == 'twitter':
                     from Twitter import TwitterAlarm
                     self.__alarms.append(TwitterAlarm(alarm))
                 else:

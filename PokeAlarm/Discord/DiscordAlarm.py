@@ -1,6 +1,8 @@
 # Standard Library Imports
 import logging
 import requests
+import sys
+import json
 # 3rd Party Imports
 # Local Imports
 from ..Alarm import Alarm
@@ -45,81 +47,80 @@ class DiscordAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, settings):
-        # Service Info
-        self.__api_key = settings['api_key']
-        self.__startup_message = settings.get('startup_message', "True")
-        self.__map = settings.get('map', {})
-        self.__statup_list = settings.get('startup_list', "true")
+        # Required Parameters
+        if 'webhook_url' in settings:
+            self.__webhook_url = settings.pop('webhook_url')
+        else:
+            log.error("The parameter 'webhook_url' is REQUIRED for 'Discord' alarm type. Please correct this and relaunch.")
+            sys.exit(1)
 
-        # Set Alerts
-        self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
+        # Optional Alarm Parameters
+        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__map = settings.pop('map', {})  # default for the rest of the alerts
 
-        # Connect and send startup messages
-        if parse_boolean(self.__startup_message):
-            args = {
-                'api_key': self.__api_key,
-                'username': 'PokeAlarm',
-                'content': 'PokeAlarm activated! We will alert this channel about pokemon.'
-            }
-            self.send_webhook(**args)
-        log.info("Discord Alarm initialized.")
+        # Set Alert Parameters
+        self.__pokemon = self.set_alert(settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.set_alert(settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.set_alert(settings.pop('gym', {}), self._defaults['gym'])
 
-    # Establish connection with Discord
+        # Catch WRONG Parameters
+        if(len(settings) > 0):
+            log.error("Unknown parameters found at Alarm level in 'Discord' alarm: ")
+            log.error(settings.keys())
+            log.error("Please consult the Discord documentation for proper values")
+            sys.exit(1)
+
+        self.startup_message()
+
+
+    # (Re)connect with Discord
     def connect(self):
         pass
+
+    # Send a message letting the channel know that discord has started
+    def startup_message(self):
+        if self.__startup_message:
+            args = {
+                'url': self.__webhook_url,
+                'payload':{
+                    'username': 'PokeAlarm',
+                    'content': 'PokeAlarm activated! We will send alerts to this channel.'
+                }
+            }
+            try_sending(log, self.connect, "Discord", self.send_webhook, args)
 
     # Set the appropriate settings for each alert
     def set_alert(self, settings, default):
         alert = {
-            'api_key': settings.get('api_key', self.__api_key),
-            'username': settings.get('username', default['username']),
-            'icon_url': settings.get('icon_url', default['icon_url']),
-            'title': settings.get('title', default['title']), 'url': settings.get('url', default['url']),
-            'body': settings.get('body', default['body']),
-            'map': get_static_map_url(settings.get('map', self.__map))
+            'webhook_url': settings.pop('webhook_url', self.__webhook_url),
+            'username': settings.pop('username', default['username']),
+            'icon_url': settings.pop('icon_url', default['icon_url']),
+            'title': settings.pop('title', default['title']),
+            'url': settings.pop('url', default['url']),
+            'body': settings.pop('body', default['body']),
+            'map' : get_static_map_url(settings.get('map', self.__map))
         }
         return alert
 
     # Send Alert to Discord
     def send_alert(self, alert, info):
-        args = {
-            'api_key': alert['api_key'],
+        log.debug("Attempting to send notification to discord.")
+        payload = {
             'username': replace(alert['username'], info),
-            'title': replace(alert['title'], info),
-            'url': replace(alert['url'], info),
-            'description': replace(alert['body'], info),
-            'thumbnail': replace(alert['icon_url'], info),
-            'attachments': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})
+            'embeds': [{
+                'title': replace(alert['title'], info),
+                'url': replace(alert['url'], info),
+                'description': replace(alert['body'], info),
+                'thumbnail': {'url':replace(alert['icon_url'], info)},
+                'image': {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})},
+            }]
+        }
+        # log.debug(json.dumps(payload, indent=4, sort_keys=True))
+        args = {
+            'url': alert['webhook_url'],
+            'payload': payload
         }
         try_sending(log, self.connect, "Discord", self.send_webhook, args)
-
-    def send_webhook(self, **args):
-        log.debug(args)
-        webhook_url = args.pop('api_key')
-        if 'content' in args:
-            data = {
-                'username': args['username'],
-                'content': args['content']
-            }
-        else:
-            data = {
-                'username': args['username'],
-                'embeds': [{
-                    'title': args['title'],
-                    'url': args['url'],
-                    'description': args['description'],
-                    'thumbnail': {'url': args['thumbnail']},
-                    'image': {'url': args['attachments']}
-                }]
-            }
-        try:
-            requests.post(webhook_url, json=data, timeout=(None, 1))
-        except requests.exceptions.ReadTimeout:
-            log.debug('Response timeout on webhook endpoint %s', self.__api_key)
-        except requests.exceptions.RequestException as e:
-            log.debug("Discord error was found: \n{}".format(e))
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -132,3 +133,9 @@ class DiscordAlarm(Alarm):
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    def send_webhook(self, url, payload):
+        resp = requests.post(url, json=payload, timeout=(None, 3))
+        log.debug("Request completed with return code {}".format(resp.status_code))
+        if resp.ok is not True:
+            raise requests.exceptions.RequestException("Response received {}, expected 200.".format(resp.status_code))
