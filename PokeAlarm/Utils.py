@@ -148,6 +148,48 @@ def get_move_energy(move_id):
             get_move_energy.info[int(id_)] = j[id_]['energy']
     return get_move_energy.info.get(move_id, 'unkn')
 
+# Returns the base stats for a pokemon
+def get_base_stats(pokemon_id):
+    if not hasattr(get_base_stats, 'info'):
+        get_base_stats.info = {}
+        file_ = get_path('locales/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_base_stats.info[int(id_)] = j[id_]
+    return get_base_stats.info.get(pokemon_id, {})
+
+# Returns the base height for a pokemon
+def get_base_height(pokemon_id):
+    return get_base_stats(pokemon_id).get('height')
+
+# Returns the base weight for a pokemon
+def get_base_weight(pokemon_id):
+    return get_base_stats(pokemon_id).get('weight')
+
+# Returns the size ratio of a pokemon
+def size_ratio(pokemon_id, height, weight):
+    height_ratio = height / get_base_height(pokemon_id)
+    weight_ratio = weight / get_base_weight(pokemon_id)
+    return height_ratio + weight_ratio
+
+# All available pokemon sizes
+available_sizes = ['XS', 'Small', 'Normal', 'Large', 'XL']
+
+# Returns the (appraisal) size of a pokemon:
+# XS, Small, Large, XL
+def get_pokemon_size(pokemon_id, height, weight):
+    size = size_ratio(pokemon_id, height, weight)
+    if size < 1.5:
+        return 'XS'
+    elif size <= 1.75:
+        return 'Small'
+    elif size < 2.25:
+        return 'Normal'
+    elif size <= 2.5:
+        return 'Large'
+    else:
+        return 'XL'
 
 
 ########################################################################################################################

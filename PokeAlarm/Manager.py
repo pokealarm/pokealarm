@@ -15,7 +15,8 @@ import googlemaps
 from . import config
 from WebhookStructs import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
-    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean
+    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str,\
+    parse_boolean, get_pokemon_size, available_sizes
 
 log = logging.getLogger('Manager')
 
@@ -241,11 +242,27 @@ class Manager(object):
                 return
         else:
             log.debug("Pokemon inside geofences was not checked because no geofences were set.")
-        
+
         height, weight, gender = pkmn['height'], pkmn['weight'], pkmn['gender']
         if gender != '?':
             gender = u'\u2642' if gender is 1 else u'\u2640' if gender is 2 else u'\u26b2' # male, female, neutral
-        
+
+        # Check the sizes of the Pokemon
+        size = None
+        if height != '?' and weight != '?':
+            size = get_pokemon_size(pkmn_id, height, weight)
+        if size is not None:
+            size_f = filt['size']
+            if size_f is not None and size not in size_f:
+                if config['QUIET'] is False:
+                    log.info("{} ignored: size was incorrect.".format(name))
+                return
+        else:
+            log.debug("Pokemon size were not checked because they are unknown.")
+            if filt['ignore_missing'] is True:
+                log.info("{} ignored: size information was missing".format(name))
+                return
+
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
             'pkmn': name,
@@ -269,6 +286,7 @@ class Manager(object):
             'move_2_energy': get_move_energy(move_2_id),
             'height': "{:.1f}".format(height) if height != '?' else '?',
             'weight': "{:.1f}".format(weight) if weight != '?' else '?',
+            'size': size if size is not None else 'unkn',
             'gender': gender
         })
         # Optional Stuff
@@ -503,6 +521,7 @@ class Manager(object):
                         "move_1": self.required_moves(info.get("move_1", None)),
                         "move_2": self.required_moves(info.get("move_2", None)),
                         "moveset": self.required_moveset(info.get("moveset", None)),
+                        "size": self.check_sizes(info.get("size", None)),
                         "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
                     }
                 except Exception as e:
@@ -618,6 +637,20 @@ class Manager(object):
         list_ = []
         for moveset in moves:
             list_.append(self.required_moves(moveset.split('/')))
+        return list_
+
+    # Check the list of valid sizes
+    def check_sizes(self, raw_sizes):
+        if raw_sizes is None:  # no sizes
+            return None
+        list_ = []
+        for raw_size in raw_sizes:
+            size = raw_size
+            if size in available_sizes:
+                list_.append(size)
+            else:
+                log.error("Unable to identify provided size '{}'. Please check your spelling.".format(raw_size))
+                sys.exit(1)
         return list_
 
     ####################################################################################################################
