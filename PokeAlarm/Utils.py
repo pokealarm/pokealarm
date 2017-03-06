@@ -177,7 +177,7 @@ def size_ratio(pokemon_id, height, weight):
 class Size:
     XS = 'XS'
     SMALL = 'Small'
-    NORMAL = 'normal'
+    NORMAL = 'Normal'
     LARGE = 'Large'
     XL = 'XL'
     available_sizes = [XS, SMALL, NORMAL, LARGE, XL]
