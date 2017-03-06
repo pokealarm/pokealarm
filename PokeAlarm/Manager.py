@@ -16,7 +16,7 @@ from . import config
 from WebhookStructs import Geofence
 from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
     get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str,\
-    parse_boolean, get_pokemon_size, get_normalized_size, Size
+    parse_boolean, get_pokemon_size, Size
 
 log = logging.getLogger('Manager')
 
@@ -521,7 +521,7 @@ class Manager(object):
                         "move_1": self.required_moves(info.get("move_1", None)),
                         "move_2": self.required_moves(info.get("move_2", None)),
                         "moveset": self.required_moveset(info.get("moveset", None)),
-                        "size": self.normalized_sizes(info.get("size", None)),
+                        "size": self.check_sizes(info.get("size", None)),
                         "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
                     }
                 except Exception as e:
@@ -639,13 +639,13 @@ class Manager(object):
             list_.append(self.required_moves(moveset.split('/')))
         return list_
 
-    # Generate a list of normalized and valid sizes
-    def normalized_sizes(self, raw_sizes):
+    # Check the list of valid sizes
+    def check_sizes(self, raw_sizes):
         if raw_sizes is None:  # no sizes
             return None
         list_ = []
         for raw_size in raw_sizes:
-            size = get_normalized_size(raw_size)
+            size = raw_size
             if size in Size.available_sizes:
                 list_.append(size)
             else:

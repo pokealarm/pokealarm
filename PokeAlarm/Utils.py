@@ -182,21 +182,6 @@ class Size:
     XL = 'XL'
     available_sizes = [XS, SMALL, NORMAL, LARGE, XL]
 
-
-# Returns normalized version of the sizes
-def get_normalized_size(raw_size):
-    lower_size = raw_size.lower()
-    if lower_size == 'xs':
-        return Size.XS
-    elif lower_size == 'small':
-        return Size.SMALL
-    elif lower_size == 'normal':
-        return Size.NORMAL
-    elif lower_size == 'large':
-        return Size.LARGE
-    else:
-        return Size.XL
-
 # Returns the (appraisal) size of a pokemon:
 # XS, Small, Large, XL
 def get_pokemon_size(pokemon_id, height, weight):
