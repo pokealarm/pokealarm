@@ -106,9 +106,15 @@ class TelegramAlarm(Alarm):
             }
             try_sending(log, self.connect, "Telegram (venue)", self.__client.sendVenue, args)
         else:
+            customText = '<b>' + replace(alert['title'], info) + '</b> \n' + replace(alert['body'], info)
+
+            if (info['iv'] and info['atk'] and info['def'] and info['sta']):
+                customText = (customText + '\nIV: ' + str(info['iv']) + '%')
+                customText = (customText + ' (' + str(info['atk']) + '/' + str(info['def']) + '/' + str(info['sta']) + ') \n')
+                customText = (customText + 'Moves: ' + info['move1'] + ', ' + info['move2'] + '\n')
             args = {
                 'chat_id': alert['chat_id'],
-                'text': '<b>' + replace(alert['title'], info) + '</b> \n' + replace(alert['body'], info),
+                'text': customText,
                 'disable_web_page_preview': 'False',
                 'disable_notification': 'False',
                 'parse_mode':'HTML'
