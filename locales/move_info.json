@@ -1,800 +1,1058 @@
 {
   "13": {
-    "damage": 25, 
-    "dps": 6.25, 
-    "duration": 4000, 
-    "energy": 20
+    "damage": 60, 
+    "dps": 20.69, 
+    "duration": 2900, 
+    "energy": 33
   }, 
   "14": {
-    "damage": 120, 
-    "dps": 24.0, 
-    "duration": 5000, 
+    "damage": 150, 
+    "dps": 39.47, 
+    "duration": 3800, 
     "energy": 100
   }, 
   "16": {
-    "damage": 45, 
-    "dps": 12.85, 
-    "duration": 3500, 
-    "energy": 33
+    "damage": 80, 
+    "dps": 26.67, 
+    "duration": 3000, 
+    "energy": 50
   }, 
   "18": {
-    "damage": 30, 
-    "dps": 11.53, 
-    "duration": 2600, 
-    "energy": 25
+    "damage": 50, 
+    "dps": 23.81, 
+    "duration": 2100, 
+    "energy": 33
   }, 
   "20": {
-    "damage": 25, 
-    "dps": 11.9, 
-    "duration": 2100, 
-    "energy": 20
+    "damage": 35, 
+    "dps": 18.42, 
+    "duration": 1900, 
+    "energy": 33
   }, 
   "21": {
-    "damage": 40, 
-    "dps": 8.69, 
-    "duration": 4600, 
-    "energy": 25
+    "damage": 60, 
+    "dps": 22.22, 
+    "duration": 2700, 
+    "energy": 50
   }, 
   "22": {
-    "damage": 80, 
-    "dps": 25.0, 
-    "duration": 3200, 
+    "damage": 90, 
+    "dps": 40.91, 
+    "duration": 2200, 
     "energy": 100
   }, 
   "24": {
-    "damage": 55, 
-    "dps": 18.96, 
-    "duration": 2900, 
+    "damage": 70, 
+    "dps": 31.82, 
+    "duration": 2200, 
     "energy": 50
   }, 
   "26": {
-    "damage": 70, 
-    "dps": 12.06, 
-    "duration": 5800, 
-    "energy": 33
+    "damage": 100, 
+    "dps": 21.28, 
+    "duration": 4700, 
+    "energy": 50
   }, 
   "28": {
-    "damage": 60, 
-    "dps": 30.0, 
-    "duration": 2000, 
-    "energy": 100
+    "damage": 50, 
+    "dps": 33.33, 
+    "duration": 1500, 
+    "energy": 50
   }, 
   "30": {
-    "damage": 40, 
-    "dps": 10.52, 
-    "duration": 3800, 
-    "energy": 25
+    "damage": 70, 
+    "dps": 21.88, 
+    "duration": 3200, 
+    "energy": 50
   }, 
   "31": {
-    "damage": 100, 
-    "dps": 23.8, 
-    "duration": 4200, 
+    "damage": 120, 
+    "dps": 33.33, 
+    "duration": 3600, 
     "energy": 100
   }, 
   "32": {
-    "damage": 80, 
-    "dps": 25.8, 
-    "duration": 3100, 
+    "damage": 100, 
+    "dps": 43.48, 
+    "duration": 2300, 
     "energy": 100
   }, 
   "33": {
-    "damage": 45, 
-    "dps": 12.85, 
-    "duration": 3500, 
+    "damage": 50, 
+    "dps": 26.32, 
+    "duration": 1900, 
     "energy": 33
   }, 
   "34": {
-    "damage": 20, 
-    "dps": 7.84, 
-    "duration": 2550, 
-    "energy": 25
+    "damage": 40, 
+    "dps": 21.05, 
+    "duration": 1900, 
+    "energy": 33
   }, 
   "35": {
-    "damage": 35, 
-    "dps": 14.0, 
+    "damage": 65, 
+    "dps": 26.0, 
     "duration": 2500, 
     "energy": 33
   }, 
   "36": {
-    "damage": 60, 
-    "dps": 15.38, 
-    "duration": 3900, 
-    "energy": 33
+    "damage": 100, 
+    "dps": 37.04, 
+    "duration": 2700, 
+    "energy": 100
   }, 
   "38": {
-    "damage": 40, 
-    "dps": 14.81, 
-    "duration": 2700, 
+    "damage": 60, 
+    "dps": 26.09, 
+    "duration": 2300, 
     "energy": 33
   }, 
   "39": {
-    "damage": 65, 
-    "dps": 17.8, 
-    "duration": 3650, 
+    "damage": 90, 
+    "dps": 27.27, 
+    "duration": 3300, 
     "energy": 50
   }, 
   "40": {
-    "damage": 100, 
-    "dps": 25.64, 
-    "duration": 3900, 
+    "damage": 130, 
+    "dps": 41.94, 
+    "duration": 3100, 
     "energy": 100
   }, 
   "42": {
-    "damage": 80, 
-    "dps": 21.05, 
-    "duration": 3800, 
+    "damage": 95, 
+    "dps": 31.67, 
+    "duration": 3000, 
     "energy": 100
   }, 
   "45": {
-    "damage": 30, 
-    "dps": 10.34, 
-    "duration": 2900, 
-    "energy": 25
-  }, 
-  "46": {
-    "damage": 50, 
-    "dps": 14.7, 
-    "duration": 3400, 
+    "damage": 55, 
+    "dps": 22.92, 
+    "duration": 2400, 
     "energy": 33
   }, 
-  "47": {
-    "damage": 65, 
-    "dps": 20.31, 
-    "duration": 3200, 
+  "46": {
+    "damage": 80, 
+    "dps": 28.57, 
+    "duration": 2800, 
     "energy": 50
   }, 
+  "47": {
+    "damage": 110, 
+    "dps": 42.31, 
+    "duration": 2600, 
+    "energy": 100
+  }, 
   "48": {
-    "damage": 15, 
-    "dps": 4.68, 
-    "duration": 3200, 
-    "energy": 20
+    "damage": 25, 
+    "dps": 9.62, 
+    "duration": 2600, 
+    "energy": 50
   }, 
   "49": {
-    "damage": 75, 
-    "dps": 17.64, 
-    "duration": 4250, 
+    "damage": 90, 
+    "dps": 24.32, 
+    "duration": 3700, 
     "energy": 50
   }, 
   "50": {
-    "damage": 25, 
-    "dps": 10.41, 
-    "duration": 2400, 
-    "energy": 20
+    "damage": 35, 
+    "dps": 20.59, 
+    "duration": 1700, 
+    "energy": 33
   }, 
   "51": {
-    "damage": 30, 
-    "dps": 11.11, 
-    "duration": 2700, 
-    "energy": 25
+    "damage": 50, 
+    "dps": 22.73, 
+    "duration": 2200, 
+    "energy": 33
   }, 
   "53": {
-    "damage": 30, 
-    "dps": 10.34, 
-    "duration": 2900, 
-    "energy": 25
+    "damage": 45, 
+    "dps": 23.68, 
+    "duration": 1900, 
+    "energy": 33
   }, 
   "54": {
-    "damage": 30, 
-    "dps": 14.28, 
+    "damage": 60, 
+    "dps": 27.27, 
+    "duration": 2200, 
+    "energy": 50
+  }, 
+  "56": {
+    "damage": 40, 
+    "dps": 21.05, 
+    "duration": 1900, 
+    "energy": 33
+  }, 
+  "57": {
+    "damage": 45, 
+    "dps": 17.31, 
+    "duration": 2600, 
+    "energy": 33
+  }, 
+  "58": {
+    "damage": 50, 
+    "dps": 26.32, 
+    "duration": 1900, 
+    "energy": 33
+  }, 
+  "59": {
+    "damage": 55, 
+    "dps": 26.19, 
     "duration": 2100, 
     "energy": 33
   }, 
-  "56": {
-    "damage": 30, 
-    "dps": 13.33, 
-    "duration": 2250, 
-    "energy": 25
-  }, 
-  "57": {
-    "damage": 25, 
-    "dps": 10.63, 
-    "duration": 2350, 
-    "energy": 20
-  }, 
-  "58": {
-    "damage": 45, 
-    "dps": 19.14, 
-    "duration": 2350, 
-    "energy": 50
-  }, 
-  "59": {
-    "damage": 40, 
-    "dps": 16.66, 
-    "duration": 2400, 
-    "energy": 33
-  }, 
   "60": {
-    "damage": 40, 
-    "dps": 14.81, 
+    "damage": 65, 
+    "dps": 24.07, 
     "duration": 2700, 
     "energy": 33
   }, 
   "62": {
-    "damage": 35, 
-    "dps": 9.72, 
-    "duration": 3600, 
-    "energy": 25
-  }, 
-  "63": {
-    "damage": 30, 
-    "dps": 8.82, 
-    "duration": 3400, 
-    "energy": 25
-  }, 
-  "64": {
-    "damage": 50, 
-    "dps": 15.62, 
-    "duration": 3200, 
+    "damage": 70, 
+    "dps": 20.0, 
+    "duration": 3500, 
     "energy": 33
   }, 
+  "63": {
+    "damage": 70, 
+    "dps": 21.88, 
+    "duration": 3200, 
+    "energy": 50
+  }, 
+  "64": {
+    "damage": 80, 
+    "dps": 29.63, 
+    "duration": 2700, 
+    "energy": 50
+  }, 
   "65": {
-    "damage": 40, 
-    "dps": 13.79, 
+    "damage": 80, 
+    "dps": 27.59, 
+    "duration": 2900, 
+    "energy": 50
+  }, 
+  "66": {
+    "damage": 50, 
+    "dps": 17.24, 
     "duration": 2900, 
     "energy": 33
   }, 
-  "66": {
-    "damage": 15, 
-    "dps": 4.83, 
-    "duration": 3100, 
-    "energy": 20
-  }, 
   "67": {
-    "damage": 20, 
-    "dps": 9.52, 
-    "duration": 2100, 
-    "energy": 25
+    "damage": 40, 
+    "dps": 23.53, 
+    "duration": 1700, 
+    "energy": 33
   }, 
   "69": {
-    "damage": 30, 
-    "dps": 9.67, 
-    "duration": 3100, 
-    "energy": 25
+    "damage": 50, 
+    "dps": 21.74, 
+    "duration": 2300, 
+    "energy": 33
   }, 
   "70": {
-    "damage": 45, 
-    "dps": 14.61, 
-    "duration": 3080, 
-    "energy": 33
+    "damage": 100, 
+    "dps": 33.33, 
+    "duration": 3000, 
+    "energy": 50
   }, 
   "72": {
-    "damage": 30, 
-    "dps": 10.71, 
+    "damage": 70, 
+    "dps": 25.0, 
     "duration": 2800, 
-    "energy": 25
-  }, 
-  "74": {
-    "damage": 30, 
-    "dps": 15.0, 
-    "duration": 2000, 
     "energy": 33
   }, 
+  "74": {
+    "damage": 60, 
+    "dps": 31.58, 
+    "duration": 1900, 
+    "energy": 50
+  }, 
   "75": {
-    "damage": 15, 
-    "dps": 7.14, 
-    "duration": 2100, 
-    "energy": 20
+    "damage": 25, 
+    "dps": 8.93, 
+    "duration": 2800, 
+    "energy": 50
   }, 
   "77": {
-    "damage": 40, 
-    "dps": 16.66, 
-    "duration": 2400, 
+    "damage": 45, 
+    "dps": 25.0, 
+    "duration": 1800, 
     "energy": 33
   }, 
   "78": {
     "damage": 100, 
-    "dps": 23.25, 
-    "duration": 4300, 
+    "dps": 41.67, 
+    "duration": 2400, 
     "energy": 100
   }, 
   "79": {
-    "damage": 55, 
-    "dps": 20.37, 
-    "duration": 2700, 
+    "damage": 80, 
+    "dps": 32.0, 
+    "duration": 2500, 
     "energy": 50
   }, 
   "80": {
-    "damage": 25, 
-    "dps": 9.25, 
-    "duration": 2700, 
-    "energy": 20
+    "damage": 45, 
+    "dps": 16.07, 
+    "duration": 2800, 
+    "energy": 33
   }, 
   "82": {
-    "damage": 65, 
-    "dps": 18.05, 
+    "damage": 90, 
+    "dps": 25.0, 
     "duration": 3600, 
     "energy": 50
   }, 
   "83": {
-    "damage": 35, 
-    "dps": 23.33, 
-    "duration": 1500, 
-    "energy": 50
-  }, 
-  "84": {
-    "damage": 25, 
-    "dps": 6.41, 
-    "duration": 3900, 
-    "energy": 20
-  }, 
-  "85": {
-    "damage": 25, 
-    "dps": 8.92, 
-    "duration": 2800, 
-    "energy": 20
-  }, 
-  "86": {
-    "damage": 55, 
-    "dps": 13.09, 
-    "duration": 4200, 
+    "damage": 50, 
+    "dps": 29.41, 
+    "duration": 1700, 
     "energy": 33
   }, 
+  "84": {
+    "damage": 70, 
+    "dps": 17.95, 
+    "duration": 3900, 
+    "energy": 33
+  }, 
+  "85": {
+    "damage": 60, 
+    "dps": 23.08, 
+    "duration": 2600, 
+    "energy": 50
+  }, 
+  "86": {
+    "damage": 100, 
+    "dps": 28.57, 
+    "duration": 3500, 
+    "energy": 50
+  }, 
   "87": {
-    "damage": 85, 
-    "dps": 20.73, 
-    "duration": 4100, 
+    "damage": 130, 
+    "dps": 33.33, 
+    "duration": 3900, 
     "energy": 100
   }, 
   "88": {
-    "damage": 55, 
-    "dps": 18.96, 
+    "damage": 90, 
+    "dps": 31.03, 
     "duration": 2900, 
     "energy": 50
   }, 
   "89": {
-    "damage": 25, 
-    "dps": 16.66, 
+    "damage": 40, 
+    "dps": 26.67, 
     "duration": 1500, 
-    "energy": 25
+    "energy": 33
   }, 
   "90": {
-    "damage": 55, 
-    "dps": 21.15, 
-    "duration": 2600, 
+    "damage": 80, 
+    "dps": 34.78, 
+    "duration": 2300, 
     "energy": 50
   }, 
   "91": {
-    "damage": 70, 
-    "dps": 20.58, 
-    "duration": 3400, 
+    "damage": 110, 
+    "dps": 34.38, 
+    "duration": 3200, 
     "energy": 100
   }, 
   "92": {
-    "damage": 65, 
-    "dps": 21.66, 
-    "duration": 3000, 
+    "damage": 130, 
+    "dps": 41.94, 
+    "duration": 3100, 
     "energy": 100
   }, 
   "94": {
-    "damage": 25, 
-    "dps": 15.62, 
+    "damage": 40, 
+    "dps": 25.0, 
     "duration": 1600, 
-    "energy": 25
-  }, 
-  "95": {
-    "damage": 35, 
-    "dps": 10.29, 
-    "duration": 3400, 
-    "energy": 25
-  }, 
-  "96": {
-    "damage": 30, 
-    "dps": 11.53, 
-    "duration": 2600, 
-    "energy": 25
-  }, 
-  "99": {
-    "damage": 45, 
-    "dps": 14.51, 
-    "duration": 3100, 
     "energy": 33
   }, 
+  "95": {
+    "damage": 80, 
+    "dps": 22.86, 
+    "duration": 3500, 
+    "energy": 50
+  }, 
+  "96": {
+    "damage": 55, 
+    "dps": 23.91, 
+    "duration": 2300, 
+    "energy": 33
+  }, 
+  "99": {
+    "damage": 75, 
+    "dps": 25.86, 
+    "duration": 2900, 
+    "energy": 50
+  }, 
   "100": {
-    "damage": 35, 
-    "dps": 16.66, 
-    "duration": 2100, 
+    "damage": 45, 
+    "dps": 28.13, 
+    "duration": 1600, 
     "energy": 33
   }, 
   "101": {
-    "damage": 25, 
-    "dps": 8.06, 
-    "duration": 3100, 
-    "energy": 20
+    "damage": 70, 
+    "dps": 18.42, 
+    "duration": 3800, 
+    "energy": 33
   }, 
   "102": {
-    "damage": 30, 
-    "dps": 14.28, 
-    "duration": 2100, 
-    "energy": 25
+    "damage": 70, 
+    "dps": 26.92, 
+    "duration": 2600, 
+    "energy": 50
   }, 
   "103": {
-    "damage": 100, 
-    "dps": 24.39, 
-    "duration": 4100, 
+    "damage": 140, 
+    "dps": 33.33, 
+    "duration": 4200, 
     "energy": 100
   }, 
   "104": {
-    "damage": 25, 
-    "dps": 10.41, 
-    "duration": 2400, 
-    "energy": 25
+    "damage": 60, 
+    "dps": 26.09, 
+    "duration": 2300, 
+    "energy": 50
   }, 
   "105": {
-    "damage": 35, 
-    "dps": 10.6, 
-    "duration": 3300, 
-    "energy": 25
+    "damage": 70, 
+    "dps": 21.88, 
+    "duration": 3200, 
+    "energy": 50
   }, 
   "106": {
-    "damage": 55, 
-    "dps": 13.75, 
-    "duration": 4000, 
-    "energy": 33
+    "damage": 80, 
+    "dps": 21.62, 
+    "duration": 3700, 
+    "energy": 50
   }, 
   "107": {
-    "damage": 90, 
-    "dps": 23.68, 
-    "duration": 3800, 
+    "damage": 130, 
+    "dps": 39.39, 
+    "duration": 3300, 
     "energy": 100
   }, 
   "108": {
-    "damage": 55, 
-    "dps": 19.64, 
+    "damage": 100, 
+    "dps": 35.71, 
     "duration": 2800, 
-    "energy": 50
-  }, 
-  "109": {
-    "damage": 70, 
-    "dps": 13.72, 
-    "duration": 5100, 
     "energy": 100
   }, 
-  "111": {
-    "damage": 25, 
-    "dps": 6.57, 
-    "duration": 3800, 
-    "energy": 20
+  "109": {
+    "damage": 100, 
+    "dps": 22.73, 
+    "duration": 4400, 
+    "energy": 50
   }, 
-  "114": {
-    "damage": 35, 
-    "dps": 9.72, 
-    "duration": 3600, 
+  "111": {
+    "damage": 60, 
+    "dps": 18.18, 
+    "duration": 3300, 
     "energy": 33
   }, 
+  "114": {
+    "damage": 50, 
+    "dps": 12.82, 
+    "duration": 3900, 
+    "energy": 100
+  }, 
   "115": {
-    "damage": 40, 
-    "dps": 14.28, 
-    "duration": 2800, 
+    "damage": 55, 
+    "dps": 25.0, 
+    "duration": 2200, 
     "energy": 33
   }, 
   "116": {
-    "damage": 120, 
-    "dps": 24.48, 
+    "damage": 180, 
+    "dps": 36.73, 
     "duration": 4900, 
     "energy": 100
   }, 
   "117": {
-    "damage": 55, 
-    "dps": 19.64, 
-    "duration": 2800, 
-    "energy": 50
+    "damage": 70, 
+    "dps": 29.17, 
+    "duration": 2400, 
+    "energy": 33
   }, 
   "118": {
-    "damage": 70, 
-    "dps": 25.0, 
-    "duration": 2800, 
-    "energy": 100
+    "damage": 90, 
+    "dps": 34.62, 
+    "duration": 2600, 
+    "energy": 50
   }, 
   "121": {
-    "damage": 30, 
-    "dps": 9.09, 
-    "duration": 3300, 
-    "energy": 25
+    "damage": 60, 
+    "dps": 22.22, 
+    "duration": 2700, 
+    "energy": 50
   }, 
   "122": {
-    "damage": 80, 
-    "dps": 25.0, 
-    "duration": 3200, 
+    "damage": 110, 
+    "dps": 40.74, 
+    "duration": 2700, 
     "energy": 100
   }, 
   "123": {
-    "damage": 30, 
-    "dps": 18.75, 
+    "damage": 40, 
+    "dps": 25.0, 
     "duration": 1600, 
     "energy": 33
   }, 
   "125": {
-    "damage": 30, 
-    "dps": 10.0, 
-    "duration": 3000, 
-    "energy": 25
-  }, 
-  "126": {
-    "damage": 25, 
-    "dps": 11.36, 
-    "duration": 2200, 
-    "energy": 25
-  }, 
-  "127": {
-    "damage": 30, 
-    "dps": 14.28, 
-    "duration": 2100, 
-    "energy": 25
-  }, 
-  "129": {
-    "damage": 35, 
-    "dps": 16.66, 
-    "duration": 2100, 
-    "energy": 33
-  }, 
-  "131": {
-    "damage": 40, 
-    "dps": 25.64, 
-    "duration": 1560, 
+    "damage": 60, 
+    "dps": 21.43, 
+    "duration": 2800, 
     "energy": 50
   }, 
+  "126": {
+    "damage": 40, 
+    "dps": 21.62, 
+    "duration": 1850, 
+    "energy": 33
+  }, 
+  "127": {
+    "damage": 55, 
+    "dps": 32.35, 
+    "duration": 1700, 
+    "energy": 50
+  }, 
+  "129": {
+    "damage": 80, 
+    "dps": 32.0, 
+    "duration": 2500, 
+    "energy": 50
+  }, 
+  "131": {
+    "damage": 50, 
+    "dps": 26.32, 
+    "duration": 1900, 
+    "energy": 33
+  }, 
   "132": {
-    "damage": 35, 
-    "dps": 11.29, 
-    "duration": 3100, 
+    "damage": 50, 
+    "dps": 26.32, 
+    "duration": 1900, 
     "energy": 33
   }, 
   "133": {
-    "damage": 15, 
-    "dps": 8.84, 
-    "duration": 1695, 
-    "energy": 20
+    "damage": 35, 
+    "dps": 15.91, 
+    "duration": 2200, 
+    "energy": 33
   }, 
+   "134": {
+    "damage": 50, 
+    "dps": 10.64, 
+    "duration": 4700, 
+    "energy": 100
+  },
+   "135": {
+    "damage": 90, 
+    "dps": 20.0, 
+    "duration": 4500, 
+    "energy": 100
+  },
+   "136": {
+    "damage": 25, 
+    "dps": 8.62, 
+    "duration": 2900, 
+    "energy": 33
+  },
+   "137": {
+    "damage": 25, 
+    "dps": 8.62, 
+    "duration": 2900, 
+    "energy": 33
+  },
   "200": {
     "damage": 3, 
     "dps": 7.5, 
     "duration": 400, 
-    "energy": 12
+    "energy": 6
   }, 
   "201": {
     "damage": 5, 
-    "dps": 11.11, 
-    "duration": 450, 
-    "energy": 7
+    "dps": 10.0, 
+    "duration": 500, 
+    "energy": 6
   }, 
   "202": {
     "damage": 6, 
     "dps": 12.0, 
     "duration": 500, 
-    "energy": 7
+    "energy": 4
   }, 
   "203": {
     "damage": 7, 
     "dps": 10.0, 
     "duration": 700, 
-    "energy": 4
+    "energy": 8
   }, 
   "204": {
     "damage": 6, 
     "dps": 12.0, 
     "duration": 500, 
-    "energy": 7
+    "energy": 4
   }, 
   "205": {
     "damage": 5, 
     "dps": 8.33, 
     "duration": 600, 
-    "energy": 7
+    "energy": 8
   }, 
   "206": {
-    "damage": 7, 
-    "dps": 10.0, 
+    "damage": 6, 
+    "dps": 8.57, 
     "duration": 700, 
-    "energy": 4
+    "energy": 9
   }, 
   "207": {
-    "damage": 5, 
-    "dps": 8.33, 
+    "damage": 6, 
+    "dps": 10.0, 
     "duration": 600, 
-    "energy": 7
+    "energy": 6
   }, 
   "208": {
-    "damage": 6, 
-    "dps": 7.5, 
+    "damage": 8, 
+    "dps": 10.0, 
     "duration": 800, 
-    "energy": 7
+    "energy": 10
   }, 
   "209": {
     "damage": 10, 
-    "dps": 9.52, 
-    "duration": 1050, 
-    "energy": 7
+    "dps": 10.0, 
+    "duration": 1000, 
+    "energy": 10
   }, 
   "210": {
-    "damage": 9, 
-    "dps": 12.0, 
-    "duration": 750, 
-    "energy": 7
+    "damage": 8, 
+    "dps": 10.0, 
+    "duration": 800, 
+    "energy": 9
   }, 
   "211": {
     "damage": 10, 
-    "dps": 8.69, 
-    "duration": 1150, 
+    "dps": 10.0, 
+    "duration": 1000, 
     "energy": 10
   }, 
   "212": {
     "damage": 5, 
     "dps": 10.0, 
     "duration": 500, 
-    "energy": 7
+    "energy": 6
   }, 
   "213": {
-    "damage": 11, 
-    "dps": 11.57, 
-    "duration": 950, 
-    "energy": 7
+    "damage": 9, 
+    "dps": 12.86, 
+    "duration": 700, 
+    "energy": 6
   }, 
   "214": {
     "damage": 7, 
-    "dps": 10.76, 
-    "duration": 650, 
-    "energy": 7
+    "dps": 11.67, 
+    "duration": 600, 
+    "energy": 6
   }, 
   "215": {
-    "damage": 15, 
-    "dps": 10.34, 
-    "duration": 1450, 
+    "damage": 13, 
+    "dps": 13.0, 
+    "duration": 1000, 
     "energy": 7
   }, 
   "216": {
-    "damage": 6, 
-    "dps": 10.9, 
-    "duration": 550, 
+    "damage": 5, 
+    "dps": 8.33, 
+    "duration": 600, 
     "energy": 7
   }, 
   "217": {
-    "damage": 15, 
-    "dps": 10.71, 
-    "duration": 1400, 
-    "energy": 7
+    "damage": 12, 
+    "dps": 10.0, 
+    "duration": 1200, 
+    "energy": 12
   }, 
   "218": {
-    "damage": 9, 
+    "damage": 10, 
     "dps": 11.11, 
-    "duration": 810, 
-    "energy": 7
+    "duration": 900, 
+    "energy": 8
   }, 
   "219": {
-    "damage": 10, 
-    "dps": 7.51, 
-    "duration": 1330, 
-    "energy": 7
+    "damage": 8, 
+    "dps": 10.0, 
+    "duration": 800, 
+    "energy": 10
   }, 
   "220": {
     "damage": 6, 
     "dps": 12.0, 
     "duration": 500, 
-    "energy": 7
+    "energy": 4
   }, 
   "221": {
-    "damage": 12, 
-    "dps": 10.9, 
-    "duration": 1100, 
-    "energy": 7
+    "damage": 5, 
+    "dps": 10.0, 
+    "duration": 500, 
+    "energy": 5
   }, 
   "222": {
     "damage": 7, 
-    "dps": 12.96, 
-    "duration": 540, 
-    "energy": 7
+    "dps": 11.67, 
+    "duration": 600, 
+    "energy": 6
   }, 
   "223": {
-    "damage": 12, 
-    "dps": 10.61, 
-    "duration": 1130, 
-    "energy": 7
+    "damage": 5, 
+    "dps": 10.0, 
+    "duration": 500, 
+    "energy": 5
   }, 
   "224": {
-    "damage": 12, 
-    "dps": 11.42, 
-    "duration": 1050, 
+    "damage": 10, 
+    "dps": 12.5, 
+    "duration": 800, 
     "energy": 7
   }, 
   "225": {
-    "damage": 10, 
-    "dps": 9.52, 
-    "duration": 1050, 
-    "energy": 7
+    "damage": 9, 
+    "dps": 11.25, 
+    "duration": 800, 
+    "energy": 8
   }, 
   "226": {
-    "damage": 7, 
-    "dps": 12.28, 
-    "duration": 570, 
-    "energy": 7
+    "damage": 5, 
+    "dps": 8.33, 
+    "duration": 600, 
+    "energy": 8
   }, 
   "227": {
     "damage": 12, 
-    "dps": 8.82, 
-    "duration": 1360, 
+    "dps": 13.33, 
+    "duration": 900, 
     "energy": 7
   }, 
   "228": {
     "damage": 8, 
-    "dps": 12.69, 
-    "duration": 630, 
+    "dps": 11.43, 
+    "duration": 700, 
     "energy": 7
   }, 
   "229": {
-    "damage": 10, 
-    "dps": 8.33, 
-    "duration": 1200, 
-    "energy": 7
+    "damage": 9, 
+    "dps": 10.0, 
+    "duration": 900, 
+    "energy": 10
   }, 
   "230": {
-    "damage": 6, 
-    "dps": 12.0, 
+    "damage": 5, 
+    "dps": 10.0, 
     "duration": 500, 
-    "energy": 7
+    "energy": 5
   }, 
   "231": {
     "damage": 0, 
     "dps": 0.0, 
-    "duration": 1230, 
-    "energy": 7
+    "duration": 1730, 
+    "energy": 0
   }, 
   "233": {
     "damage": 15, 
-    "dps": 11.11, 
-    "duration": 1350, 
-    "energy": 9
+    "dps": 10.71, 
+    "duration": 1400, 
+    "energy": 12
   }, 
   "234": {
     "damage": 12, 
-    "dps": 11.42, 
-    "duration": 1050, 
-    "energy": 4
+    "dps": 10.91, 
+    "duration": 1100, 
+    "energy": 10
   }, 
   "235": {
-    "damage": 15, 
-    "dps": 9.93, 
-    "duration": 1510, 
-    "energy": 7
-  }, 
-  "236": {
-    "damage": 6, 
-    "dps": 10.43, 
-    "duration": 575, 
-    "energy": 4
-  }, 
-  "237": {
-    "damage": 25, 
-    "dps": 10.86, 
-    "duration": 2300, 
+    "damage": 20, 
+    "dps": 12.5, 
+    "duration": 1600, 
     "energy": 15
   }, 
-  "238": {
-    "damage": 12, 
-    "dps": 11.53, 
-    "duration": 1040, 
+  "236": {
+    "damage": 5, 
+    "dps": 8.33, 
+    "duration": 600, 
     "energy": 7
   }, 
+  "237": {
+    "damage": 12, 
+    "dps": 10.0, 
+    "duration": 1200, 
+    "energy": 14
+  }, 
+  "238": {
+    "damage": 10, 
+    "dps": 11.11, 
+    "duration": 900, 
+    "energy": 9
+  }, 
   "239": {
-    "damage": 15, 
-    "dps": 11.27, 
-    "duration": 1330, 
-    "energy": 4
+    "damage": 11, 
+    "dps": 13.75, 
+    "duration": 800, 
+    "energy": 6
   }, 
   "240": {
-    "damage": 10, 
-    "dps": 11.9, 
-    "duration": 840, 
-    "energy": 4
+    "damage": 11, 
+    "dps": 12.22, 
+    "duration": 900, 
+    "energy": 8
   }, 
   "241": {
     "damage": 15, 
-    "dps": 10.63, 
-    "duration": 1410, 
-    "energy": 7
+    "dps": 11.54, 
+    "duration": 1300, 
+    "energy": 10
   }, 
   "242": {
     "damage": 0, 
     "dps": 0, 
-    "duration": 1730, 
+    "duration": 2230, 
     "energy": 0
+  },
+  "243": {
+    "damage": 12, 
+    "dps": 13.33, 
+    "duration": 900, 
+    "energy": 8
+  },
+   "244": {
+    "damage": 6, 
+    "dps": 6.0, 
+    "duration": 1000, 
+    "energy": 15
+  },
+   "245": {
+    "damage": 100, 
+    "dps": 43.48, 
+    "duration": 2300, 
+    "energy": 100
+  },
+   "246": {
+    "damage": 90, 
+    "dps": 33.33, 
+    "duration": 2700, 
+    "energy": 50
+  },
+   "247": {
+    "damage": 140, 
+    "dps": 40.0, 
+    "duration": 3500, 
+    "energy": 100
+  },
+   "248": {
+    "damage": 80, 
+    "dps": 22.54, 
+    "duration": 3550, 
+    "energy": 50
+  },
+   "249": {
+    "damage": 8, 
+    "dps": 7.27, 
+    "duration": 1100, 
+    "energy": 15
+  },
+   "250": {
+    "damage": 20, 
+    "dps": 8.7, 
+    "duration": 2300, 
+    "energy": 25
+  },
+   "251": {
+    "damage": 90, 
+    "dps": 34.62, 
+    "duration": 2600, 
+    "energy": 50
+  },
+   "252": {
+    "damage": 140, 
+    "dps": 37.84, 
+    "duration": 3700, 
+    "energy": 100
+  },
+   "253": {
+    "damage": 15, 
+    "dps": 13.64, 
+    "duration": 1100, 
+    "energy": 9
+  },
+   "254": {
+    "damage": 90, 
+    "dps": 33.33, 
+    "duration": 2700, 
+    "energy": 50
+  },
+   "255": {
+    "damage": 14, 
+    "dps": 11.67, 
+    "duration": 1200, 
+    "energy": 10
+  },
+   "256": {
+    "damage": 90, 
+    "dps": 45.0, 
+    "duration": 2000, 
+    "energy": 100
+  },
+   "257": {
+    "damage": 70, 
+    "dps": 35.0, 
+    "duration": 2000, 
+    "energy": 50
+  },
+   "258": {
+    "damage": 80, 
+    "dps": 20.0, 
+    "duration": 4000, 
+    "energy": 50
+  },
+   "259": {
+    "damage": 50, 
+    "dps": 23.81, 
+    "duration": 2100, 
+    "energy": 33
+  },
+   "260": {
+    "damage": 10, 
+    "dps": 9.09, 
+    "duration": 1100, 
+    "energy": 14
+  },
+   "261": {
+    "damage": 15, 
+    "dps": 10.0, 
+    "duration": 1500, 
+    "energy": 15
+  },
+   "262": {
+    "damage": 70, 
+    "dps": 18.92, 
+    "duration": 3700, 
+    "energy": 33
+  },
+   "263": {
+    "damage": 8, 
+    "dps": 7.27, 
+    "duration": 1100, 
+    "energy": 14
+  },
+   "264": {
+    "damage": 10, 
+    "dps": 8.33, 
+    "duration": 1200, 
+    "energy": 15
+  },
+   "265": {
+    "damage": 60, 
+    "dps": 23.08, 
+    "duration": 2600, 
+    "energy": 50
+  },
+   "266": {
+    "damage": 15, 
+    "dps": 13.64, 
+    "duration": 1100, 
+    "energy": 7
+  },
+   "267": {
+    "damage": 80, 
+    "dps": 24.24, 
+    "duration": 3300, 
+    "energy": 50
+  },
+   "268": {
+    "damage": 70, 
+    "dps": 33.33, 
+    "duration": 2100, 
+    "energy": 50
+  },
+   "269": {
+    "damage": 14, 
+    "dps": 12.73, 
+    "duration": 1100, 
+    "energy": 10
+  },
+   "270": {
+    "damage": 160, 
+    "dps": 40.0, 
+    "duration": 4000, 
+    "energy": 100
+  },
+   "271": {
+    "damage": 8, 
+    "dps": 7.27, 
+    "duration": 1100, 
+    "energy": 14
+  },
+   "272": {
+    "damage": 90, 
+    "dps": 34.62, 
+    "duration": 2600, 
+    "energy": 50
+  },
+   "273": {
+    "damage": 90, 
+    "dps": 23.08, 
+    "duration": 3900, 
+    "energy": 50
+  },
+   "274": {
+    "damage": 12, 
+    "dps": 10.91, 
+    "duration": 1100, 
+    "energy": 12
+  },
+   "275": {
+    "damage": 120, 
+    "dps": 44.44, 
+    "duration": 2700, 
+    "energy": 100
+  },
+   "276": {
+    "damage": 60, 
+    "dps": 23.08, 
+    "duration": 2600, 
+    "energy": 50
+  },
+   "277": {
+    "damage": 110, 
+    "dps": 28.21, 
+    "duration": 3900, 
+    "energy": 50
+  },
+   "278": {
+    "damage": 12, 
+    "dps": 10.91, 
+    "duration": 1100, 
+    "energy": 12
+  },
+   "279": {
+    "damage": 70, 
+    "dps": 21.88, 
+    "duration": 3200, 
+    "energy": 33
+  },
+   "280": {
+    "damage": 70, 
+    "dps": 35.0, 
+    "duration": 2000, 
+    "energy": 50
+  },
+   "281": {
+    "damage": 15, 
+    "dps": 10.0, 
+    "duration": 1500, 
+    "energy": 15
   }
 }
