@@ -66,8 +66,8 @@ def require_and_remove_key(key, _dict, location):
     if key in _dict:
         return _dict.pop(key)
     else:
-        log.error("Missing parameter '{}' in {}".format(key, location)
-                  + " Please check the PokeAlarm documentation for format.")
+        log.error("The parameter '{}' is required for {}".format(key, location)
+                  + " Please check the PokeAlarm documentation for correct formatting.")
         sys.exit(1)
 
 ########################################################################################################################

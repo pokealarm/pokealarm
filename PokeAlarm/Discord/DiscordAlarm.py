@@ -1,11 +1,10 @@
 # Standard Library Imports
 import logging
 import requests
-import sys
 # 3rd Party Imports
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_static_map_url, reject_leftover_parameters
+from ..Utils import parse_boolean, get_static_map_url, reject_leftover_parameters, require_and_remove_key
 
 log = logging.getLogger('Discord')
 try_sending = Alarm.try_sending
@@ -47,18 +46,11 @@ class DiscordAlarm(Alarm):
     # Gather settings and create alarm
     def __init__(self, settings, static_map_key):
         # Required Parameters
-        if 'webhook_url' in settings:
-            self.__webhook_url = settings.pop('webhook_url')
-        else:
-            log.error(
-                "The parameter 'webhook_url' is REQUIRED for 'Discord' alarm type. Please correct this and relaunch.")
-            sys.exit(1)
-
+        self.__webhook_url = require_and_remove_key('webhook_url', settings, "'Discord' type alarms.")
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
         self.__map = settings.pop('map', {})  # default for the rest of the alerts
         self.__static_map_key = static_map_key
-
         # Set Alert Parameters
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
@@ -80,11 +72,11 @@ class DiscordAlarm(Alarm):
                 'url': self.__webhook_url,
                 'payload': {
                     'username': 'PokeAlarm',
-                    'content': 'PokeAlarm activated! We will send alerts to this channel.'
+                    'content': 'PokeAlarm activated!'
                 }
             }
             try_sending(log, self.connect, "Discord", self.send_webhook, args)
-            log.debug("Start up message sent!")
+            log.info("Start up message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -139,5 +131,5 @@ class DiscordAlarm(Alarm):
         if resp.ok is True:
             log.debug("Notification successful (returned {})".format(resp.status_code))
         else:
-            raise requests.exceptions.RequestException("Response received {}, webhook not accepted.".format(resp.status_code))
-
+            raise requests.exceptions.RequestException(
+                "Response received {}, webhook not accepted.".format(resp.status_code))
