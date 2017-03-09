@@ -195,13 +195,13 @@ class Manager(object):
         if iv != 'unkn':
             if iv < filt['min_iv'] or filt['max_iv'] < iv:
                 if config['QUIET'] is False:
-                    log.info("{} ignored: IVs ({:.2f}) not in range {:.2f} to {:.2f}.".format(
+                    log.info("{} ignored: IV ({:.2f}) not in range {:.2f} to {:.2f}.".format(
                         name, iv, filt['min_iv'], filt['max_iv']))
                 return
         else:
             log.debug("Pokemon IV's were not checked because they are unknown.")
             if filt['ignore_missing'] is True:
-                log.info("{} ignored: IV information was missing".format(name))
+                log.info("{} ignored: IV information was missing.".format(name))
                 return
 
         # Check the moves of the Pokemon
@@ -287,7 +287,9 @@ class Manager(object):
             'height': "{:.1f}".format(height) if height != '?' else '?',
             'weight': "{:.1f}".format(weight) if weight != '?' else '?',
             'size': size if size is not None else 'unkn',
-            'gender': gender
+            'gender': gender,
+            'lat_5': "{:.5f}".format(pkmn['lat']),
+            'lng_5': "{:.5f}".format(pkmn['lng'])
         })
         # Optional Stuff
         self.optional_arguments(pkmn)
