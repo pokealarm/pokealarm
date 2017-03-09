@@ -35,7 +35,7 @@ class Alarm(object):
         raise NotImplementedError("This is an abstract method.")
 
     # Set the appropriate settings for each alert
-    def create_alert(self, settings, default):
+    def create_alert_settings(self, settings, default):
         raise NotImplementedError("This is an abstract method.")
 
     # Send Alert to the Service

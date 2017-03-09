@@ -1,30 +1,43 @@
 {
     "gyms":{
         "enabled":"False",
-        "ignore_neutral":"True",
-        "min_dist":"0",
-        "max_dist":"inf",
-        "Valor":"True",
-        "Mystic":"True",
-        "Instinct":"True"
+        "ignore_neutral":"False",
+        "filters":[
+            {
+                "from_team":["Valor", "Instinct", "Mystic"], "to_team":["Valor", "Instinct", "Mystic"],
+                "min_dist":"0", "max_dist":"inf"
+            }
+        ]
     },
     "pokestops":{
         "enabled":"False",
-        "min_dist":"0",
-        "max_dist":"inf"
+        "filters":{ "min_dist":"0", "max_dist":"10" }
     },
     "pokemon":{
         "enabled":"False",
-        "min_dist":"0",
-        "max_dist":"inf",
-        "min_iv":"0",
-        "max_iv":"100",
-        "ignore_missing": "False",
-        "Bulbasaur":{ "min_dist":"0", "max_dist":"inf" },
+        "default": {
+            "min_dist":"0", "max_dist":"inf",
+            "min_iv":"0", "max_iv":"100", "min_atk": "0", "max_atk":"15",
+            "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
+            "quick_move": null, "charge_move": null, "moveset": null,
+            "size": null, "ignore_missing": "False"
+        },
+        "Bulbasaur":[
+            {
+                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
+                "min_atk": "0", "max_atk":"0", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
+                "quick_move": null, "charge_move": null, "moveset": null
+            },
+           {
+                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
+                "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
+                "quick_move": ["Vine Whip"], "charge_move": ["Sludge Bomb"], "moveset": ["Vine Whip/Sludge Bomb"]
+           }
+        ],
         "Ivysaur":{ "min_iv":"0", "max_iv":"100" },
-        "Venusaur":{ "move_1":[ "Razor Leaf", "Vine Whip" ], "move_2":[ "Petal Blizzard", "Sludge Bomb", "Solar Beam" ]},
+        "Venusaur": "False",
         "Charmander":{ "moveset":[ "Ember/Flame Burst", "Scratch/Flame Charge" ] },
-        "Charmeleon":{ "min_iv":"100" , "ignore_missing":"True" },
+        "Charmeleon":{ "min_iv":"100" , "ignore_missing":"False" },
         "Charizard":"False",
         "Squirtle":"False",
         "Wartortle":"False",

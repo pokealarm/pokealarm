@@ -3,5 +3,3 @@ flask
 gevent
 gipc
 googlemaps
-s2sphere
-pytz

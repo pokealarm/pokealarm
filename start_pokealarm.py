@@ -89,7 +89,7 @@ def start_server():
     spawn(manage_webhook_data, data_queue)
 
     # Start up Server
-    log.info("Webhook server running on http://%s:%s" % (config['HOST'], config['PORT']))
+    log.info("Listening for webhooks on http://%s:%s" % (config['HOST'], config['PORT']))
     server = wsgi.WSGIServer((config['HOST'], config['PORT']), app, log=logging.getLogger('pyswgi'))
     server.serve_forever()
 
@@ -172,19 +172,23 @@ def parse_settings(root_path):
             sys.exit(1)
 
 
-    # Construct the managers
+    # Build the managers
     for m_ct in range(args.manager_count):
+        # This needs to be changed a few times... because
+        config['UNITS'] = args.units[m_ct] if len(args.units) > 1 else args.units[0]
         m = Manager(
             name=args.manager_name[m_ct] if m_ct < len(args.manager_name) else "Manager_{}".format(m_ct),
             google_key=args.key[m_ct] if len(args.key) > 1 else args.key[0],
-            filters=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
-            geofences=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
-            alarms=args.alarms[m_ct] if len(args.alarms) > 1 else args.alarms[0],
-            location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
             locale=args.locale[m_ct] if len(args.locale) > 1 else args.locale[0],
             units=args.units[m_ct] if len(args.units) > 1 else args.units[0],
+            timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0],
             time_limit=args.timelimit[m_ct] if len(args.timelimit) > 1 else args.timelimit[0],
-            timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0]
+            quiet=False, # TODO: I'll totally document this some day. Promise.
+            location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
+            filter_file=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
+            geofence_file=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
+            alarm_file=args.alarms[m_ct] if len(args.alarms) > 1 else args.alarms[0],
+            debug=config['DEBUG']
         )
         if m.get_name() not in managers:
             # Add the manager to the map
@@ -193,6 +197,10 @@ def parse_settings(root_path):
             log.critical("\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
                          "Names of Manager processes must be unique (regardless of capitalization)! Process will exit.")
             sys.exit(1)
+    log.info("Starting up Managers")
+    for m_name in managers:
+        managers[m_name].start()
+
 
 ########################################################################################################################
 

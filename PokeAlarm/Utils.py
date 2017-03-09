@@ -7,7 +7,6 @@ from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
 # 3rd Party Imports
-from s2sphere import LatLng
 # Local Imports
 from . import config
 
@@ -53,9 +52,28 @@ def pip_install(module, version):
     log.info("%s install complete." % target)
 
 
+# Used to exit when leftover parameters are founds
+def reject_leftover_parameters(dict_, location):
+    if len(dict_) > 0:
+        log.error("Unknown parameters at {}: ".format(location))
+        log.error(dict_.keys())
+        log.error("Please consult the PokeAlarm documentation for accepted parameters.")
+        sys.exit(1)
+
+
+# Load a key from the given dict, or throw an error if it isn't there
+def require_and_remove_key(key, _dict, location):
+    if key in _dict:
+        return _dict.pop(key)
+    else:
+        log.error("Missing parameter '{}' in {}".format(key, location)
+                  + " Please check the PokeAlarm documentation for format.")
+        sys.exit(1)
+
 ########################################################################################################################
 
 ################################################## POKEMON UTILITIES ###################################################
+
 
 # Returns the id corresponding with the pokemon name (use all locales for flexibility)
 def get_pkmn_id(pokemon_name):
@@ -88,8 +106,8 @@ def get_move_id(move_name):
 
 
 # Returns the id corresponding with the pokemon name (use all locales for flexibility)
-def get_team_id(pokemon_name):
-    name = pokemon_name.lower()
+def get_team_id(team_name):
+    name = team_name.lower()
     if not hasattr(get_team_id, 'ids'):
         get_team_id.ids = {}
         files = glob(get_path('locales/*/teams.json'))
@@ -137,6 +155,7 @@ def get_move_duration(move_id):
             get_move_duration.info[int(id_)] = j[id_]['duration']
     return get_move_duration.info.get(move_id, 'unkn')
 
+
 # Returns the duation of a move when requesting
 def get_move_energy(move_id):
     if not hasattr(get_move_energy, 'info'):
@@ -148,24 +167,30 @@ def get_move_energy(move_id):
             get_move_energy.info[int(id_)] = j[id_]['energy']
     return get_move_energy.info.get(move_id, 'unkn')
 
-# Returns the base stats for a pokemon
-def get_base_stats(pokemon_id):
-    if not hasattr(get_base_stats, 'info'):
-        get_base_stats.info = {}
+
+# Returns the base height for a pokemon
+def get_base_height(pokemon_id):
+    if not hasattr(get_base_height, 'info'):
+        get_base_height.info = {}
         file_ = get_path('locales/base_stats.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
-            get_base_stats.info[int(id_)] = j[id_]
-    return get_base_stats.info.get(pokemon_id, {})
+            get_base_height.info[int(id_)] = j[id_].get('height')
+    return get_base_height.info.get(pokemon_id)
 
-# Returns the base height for a pokemon
-def get_base_height(pokemon_id):
-    return get_base_stats(pokemon_id).get('height')
 
 # Returns the base weight for a pokemon
 def get_base_weight(pokemon_id):
-    return get_base_stats(pokemon_id).get('weight')
+    if not hasattr(get_base_weight, 'info'):
+        get_base_weight.info = {}
+        file_ = get_path('locales/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_base_weight.info[int(id_)] = j[id_].get('weight')
+    return get_base_weight.info.get(pokemon_id)
+
 
 # Returns the size ratio of a pokemon
 def size_ratio(pokemon_id, height, weight):
@@ -173,36 +198,46 @@ def size_ratio(pokemon_id, height, weight):
     weight_ratio = weight / get_base_weight(pokemon_id)
     return height_ratio + weight_ratio
 
-# All available pokemon sizes
-available_sizes = ['XS', 'Small', 'Normal', 'Large', 'XL']
 
 # Returns the (appraisal) size of a pokemon:
-# XS, Small, Large, XL
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'XS'
+        return 'tiny'
     elif size <= 1.75:
-        return 'Small'
+        return 'small'
     elif size < 2.25:
-        return 'Normal'
+        return 'normal'
     elif size <= 2.5:
-        return 'Large'
+        return 'large'
     else:
-        return 'XL'
+        return 'big'
+
+
+# Returns the (appraisal) size of a pokemon:
+def get_pokemon_gender(gender):
+    if gender == 1:
+        return u'\u2642'  # male symbol
+    elif gender == 2:
+        return u'\u2640'  # female symbol
+    elif gender == 3:
+        return u'\u26b2'  #neutral
+    return '?' # catch all
 
 
 ########################################################################################################################
 
 ################################################# GMAPS API UTILITIES ##################################################
 
+
 # Returns a String link to Google Maps Pin at the location
 def get_gmaps_link(lat, lng):
     latlng = '{},{}'.format(repr(lat), repr(lng))
     return 'http://maps.google.com/maps?q={}'.format(latlng)
 
+
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
-def get_static_map_url(settings):  # TODO: optimize formatting
+def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
     if not parse_boolean(settings.get('enabled', 'True')):
         return None
     width = settings.get('width', '250')
@@ -221,8 +256,8 @@ def get_static_map_url(settings):  # TODO: optimize formatting
             query_center + '&' + query_markers + '&' +
             query_maptype + '&' + query_size + '&' + query_zoom)
 
-    if config['API_KEY'] is not None:
-        map_ += ('&key=%s' % config['API_KEY'])
+    if api_key is not None:
+        map_ += ('&key=%s' % api_key)
         log.debug("API_KEY added to static map url.")
     return map_
 
@@ -231,25 +266,30 @@ def get_static_map_url(settings):  # TODO: optimize formatting
 
 ################################################## GENERAL UTILITIES ###################################################
 
-#Returns a cardinal direction (N/NW/W/SW, etc) of the pokemon from the origin point, if set
+
+# Returns a cardinal direction (N/NW/W/SW, etc) of the pokemon from the origin point, if set
 def get_cardinal_dir(pt_a, pt_b=None):
     if pt_b is None:
         return '?'
 
     lat1, lng1, lat2, lng2 = map(radians, [pt_b[0], pt_b[1], pt_a[0], pt_a[1]])
     directions = ["S", "SE", "E", "NE", "N", "NW", "W", "SW", "S"]
-    bearing = (degrees(atan2(cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lng2 - lng1), sin(lng2 - lng1) * cos(lat2))) + 450) % 360
+    bearing = (degrees(atan2(cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lng2 - lng1),
+                             sin(lng2 - lng1) * cos(lat2))) + 450) % 360
     return directions[int(round(bearing / 45))]
+
 
 # Return the distance formatted correctly
 def get_dist_as_str(dist):
+    if dist == 'unkn':
+        return 'unkn'
     if config['UNITS'] == 'imperial':
-        if dist > 1760: # yards per mile
+        if dist > 1760:  # yards per mile
             return "{:.1f}mi".format(dist / 1760.0)
         else:
             return "{:.1f}yd".format(dist)
     else:  # Metric
-        if dist > 1000: # meters per km
+        if dist > 1000:  # meters per km
             return "{:.1f}km".format(dist / 1000.0)
         else:
             return "{:.1f}m".format(dist)
@@ -257,8 +297,9 @@ def get_dist_as_str(dist):
 
 # Returns an integer representing the distance between A and B
 def get_earth_dist(pt_a, pt_b=None):
-    if pt_b == None:
+    if type(pt_a) is str or pt_b is None:
         return 'unkn'  # No location set
+    log.debug("Calculating distance from {} to {}".format(pt_a, pt_b))
     lat_a = radians(pt_a[0])
     lng_a = radians(pt_a[1])
     lat_b = radians(pt_b[0])
