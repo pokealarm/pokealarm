@@ -40,7 +40,7 @@ class Manager(object):
 
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
-        self.__time_limit = time_limit # Minimum time remaining for stops and pokemon
+        self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
         self.__latlng = self.get_lat_lng_from_name(location)  # Array with Lat, Lng for the Manager
         # Quiet mode
         self.__quiet = quiet
@@ -63,7 +63,6 @@ class Manager(object):
         self.__process = None
 
         log.info("Finished with manager '{}'".format(self.__name))
-
 
     ############################################## CALLED BY MAIN PROCESS ##############################################
 
@@ -115,28 +114,28 @@ class Manager(object):
     # Load in a geofence file
     def load_geofence_file(self, file_path):
         geofences = []
-        name_pattern = re.compile("\[([^]]+)\]")
-        # coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
+        name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
+        coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
         with open(file_path, 'r') as f:
-            lines = f.readline()
+            lines = f.read().splitlines()
         name = "geofence"
         points = []
         for line in lines:
-            if name_pattern.match(line):
+            line = line.strip()
+            match_name = name_pattern.search(line)
+            if match_name:
                 if len(points) > 0:
                     geofences.append(Geofence(name, points))
                     log.info("Geofence {} added.".format(name))
                     points = []
-                name = line
+                name = match_name.group(0)
+            elif coor_patter.match(line):
+                lat, lng = map(float, line.split(","))
+                points.append([lat, lng])
             else:
-                try:
-                    lat, lng = map(float, line.split(","))
-                    points.append([lat, lng])
-                except Exception as e:
-                    log.error("Encountered error while making geofence: {}: {}".format(type(e).__name__, e))
-                    log.error("Unable to make sense of the following line: {}".format(line))
-                    log.error("All lines should be either '[name]' or 'lat,lng'.")
-                    sys.exit(1)
+                log.error("Geofence was unable to parse this line: {}".format(line))
+                log.error("All lines should be either '[name]' or 'lat,lng'.")
+                sys.exit(1)
         geofences.append(Geofence(name, points))
         log.info("Geofence {} added.".format(name))
 
@@ -538,7 +537,7 @@ class Manager(object):
 
         # Check the geofences
         stop['geofence'] = self.check_geofences('Pokestop', lat, lng)
-        if len(self.__geofences) > 0 and stop['geofence']:
+        if len(self.__geofences) > 0 and stop['geofence'] == 'unknown':
             log.info("Pokestop rejected: not within any specified geofence")
             return
 
@@ -630,7 +629,7 @@ class Manager(object):
 
         # Check the geofences
         gym['geofence'] = self.check_geofences('Gym', lat, lng)
-        if len(self.__geofences) > 0 and gym['geofence']:
+        if len(self.__geofences) > 0 and gym['geofence'] == 'unknown':
             log.info("Gym rejected: not inside geofence(s)")
             return
 
@@ -673,7 +672,7 @@ class Manager(object):
                 log.debug("{} is in geofence {}!".format(name, gf.name))
                 return gf.name
             else:
-                log.debug("{} is not in geofence {}.".format(name, gf.name))
+                log.debug("{} is not in geofence {}".format(name, gf.name))
         return 'unknown'
 
     # Retrieve optional requirements

@@ -340,7 +340,7 @@ class Geofence(object):
 
     # Expects points to be
     def __init__(self, name, points):
-        self.__name = name
+        self.name = name
         self.__points = points
 
         self.__min_x = points[0][0]
