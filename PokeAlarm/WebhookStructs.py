@@ -78,7 +78,7 @@ class RocketMap:
             pkmn['atk'], pkmn['def'], pkmn['sta'] = '?', '?', '?'
 
         if pkmn['height'] != 'unkn' and pkmn['weight'] != 'unkn':
-            pkmn['size'] = get_pokemon_size(pkmn['id'], pkmn['height'], pkmn['weight'])
+            pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
 
         return pkmn
 
