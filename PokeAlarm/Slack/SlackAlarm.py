@@ -59,7 +59,7 @@ class SlackAlarm(Alarm):
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
 
-        # Set Alerts
+        # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
