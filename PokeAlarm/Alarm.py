@@ -65,14 +65,14 @@ class Alarm(object):
     # Attempts to send the alert with the specified args, reconnecting if neccesary
     @staticmethod
     def try_sending(log, reconnect, name, send_alert, args):
-        for i in range(5):
+        for i in range(3):
             try:
                 send_alert(**args)
                 return  # message sent successfully
             except Exception as e:
                 log.error("Encountered error while sending notification ({}: {})".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-                log.info("{} is having connection issues. {} attempt of 5.".format(name, i+1))
+                log.info("{} is having connection issues. {} attempt of 3.".format(name, i+1))
                 time.sleep(3)
                 reconnect()
         log.error("Could not send notification... Giving up.")

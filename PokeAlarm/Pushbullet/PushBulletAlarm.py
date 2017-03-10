@@ -42,6 +42,7 @@ class PushbulletAlarm(Alarm):
     def __init__(self, settings):
         # Required Parameters
         self.__api_key = require_and_remove_key('api_key', settings, "'Pushbullet' type alarms.")
+        self.__client = None
 
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
@@ -53,9 +54,7 @@ class PushbulletAlarm(Alarm):
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gyms', {}), self._defaults['gym'])
 
-        # Connect and send startup messages
-        self.__client = None
-
+        #  Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Pushbullet alarm.")
 
         log.info("Pushbullet Alarm has been created!")
@@ -76,15 +75,17 @@ class PushbulletAlarm(Alarm):
                 "message": "PokeAlarm has successully started!"
             }
             try_sending(log, self.connect, "PushBullet", self.push_note, args)
+            log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
         alert = {
-            'title': settings.get('title', default['title']),
-            'url': settings.get('url', default['url']),
-            'body': settings.get('body', default['body']),
-            'channel': settings.get('channel')
+            'title': settings.pop('title', default['title']),
+            'url': settings.pop('url', default['url']),
+            'body': settings.pop('body', default['body']),
+            'channel': settings.pop('channel', None)
         }
+        reject_leftover_parameters(settings, "'Alert level in Pushbullet alarm.")
         return alert
 
     # Send Alert to Pushbullet

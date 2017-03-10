@@ -47,10 +47,12 @@ class DiscordAlarm(Alarm):
     def __init__(self, settings, static_map_key):
         # Required Parameters
         self.__webhook_url = require_and_remove_key('webhook_url', settings, "'Discord' type alarms.")
+
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
         self.__map = settings.pop('map', {})  # default for the rest of the alerts
         self.__static_map_key = static_map_key
+
         # Set Alert Parameters
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
@@ -76,7 +78,7 @@ class DiscordAlarm(Alarm):
                 }
             }
             try_sending(log, self.connect, "Discord", self.send_webhook, args)
-            log.info("Start up message sent!")
+            log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -87,8 +89,10 @@ class DiscordAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': get_static_map_url(settings.get('map', self.__map), self.__static_map_key)
+            'map': get_static_map_url(settings.pop('map', self.__map), self.__static_map_key)
         }
+
+        reject_leftover_parameters(settings, "'Alert level in Discord alarm.")
         return alert
 
     # Send Alert to Discord

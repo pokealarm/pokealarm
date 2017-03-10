@@ -171,7 +171,6 @@ def parse_settings(root_path):
                       "see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
             sys.exit(1)
 
-
     # Build the managers
     for m_ct in range(args.manager_count):
         # This needs to be changed a few times... because
@@ -183,7 +182,7 @@ def parse_settings(root_path):
             units=args.units[m_ct] if len(args.units) > 1 else args.units[0],
             timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0],
             time_limit=args.timelimit[m_ct] if len(args.timelimit) > 1 else args.timelimit[0],
-            quiet=False, # TODO: I'll totally document this some day. Promise.
+            quiet=False,  # TODO: I'll totally document this some day. Promise.
             location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
             filter_file=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
             geofence_file=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
@@ -206,4 +205,5 @@ def parse_settings(root_path):
 
 
 if __name__ == '__main__':
+    log.info("PokeAlarm is getting ready!")
     start_server()

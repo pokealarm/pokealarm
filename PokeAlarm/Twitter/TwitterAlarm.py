@@ -40,6 +40,7 @@ class TwitterAlarm(Alarm):
         self.__token_key = require_and_remove_key('access_secret', settings, "'Twitter' type alarms.")
         self.__con_secret = require_and_remove_key('consumer_key', settings, "'Twitter' type alarms.")
         self.__con_secret_key = require_and_remove_key('consumer_secret', settings, "'Twitter' type alarms.")
+        self.__client = None
 
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
@@ -49,12 +50,10 @@ class TwitterAlarm(Alarm):
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gyms', {}), self._defaults['gym'])
 
-        # Connect and send startup messages
-        self.__client = None
-
+        # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
 
-        log.info("TWitter Alarm has been created!")
+        log.info("Twitter Alarm has been created!")
 
     # Establish connection with Twitter
     def connect(self):
@@ -67,13 +66,14 @@ class TwitterAlarm(Alarm):
             timestamps = get_time_as_str(datetime.utcnow())
             args = {"status": "{}- PokeAlarm activated!" .format(timestamps[2])}
             try_sending(log, self.connect, "Twitter", self.send_tweet, args)
-            log.info("Start up tweet sent!")
+            log.info("Startup tweet sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
         alert = {
-            'status': settings.get('status', default['status'])
+            'status': settings.pop('status', default['status'])
         }
+        reject_leftover_parameters(settings, "'Alert level in Twitter alarm.")
         return alert
 
     def send_alert(self, alert, info):
