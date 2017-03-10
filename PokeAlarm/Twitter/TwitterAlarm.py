@@ -5,7 +5,7 @@ import logging
 from twitter import Twitter, OAuth
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_time_as_str, require_and_remove_key
+from ..Utils import parse_boolean, get_time_as_str, require_and_remove_key, reject_leftover_parameters
 
 log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
@@ -51,6 +51,10 @@ class TwitterAlarm(Alarm):
 
         # Connect and send startup messages
         self.__client = None
+
+        reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
+
+        log.info("TWitter Alarm has been created!")
 
     # Establish connection with Twitter
     def connect(self):
