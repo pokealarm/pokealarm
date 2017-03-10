@@ -151,10 +151,7 @@ class Manager(object):
             for alarm in alarm_settings:
                 if parse_boolean(alarm.pop('active')) is True:
                     _type = alarm.pop('type')
-                    if _type == 'boxcar':
-                        from Boxcar import BoxcarAlarm
-                        self.__alarms.append(BoxcarAlarm(alarm))
-                    elif _type == 'discord':
+                    if _type == 'discord':
                         from Discord import DiscordAlarm
                         self.__alarms.append(DiscordAlarm(alarm, self.__google_key))
                     elif _type == 'facebook_page':
@@ -163,9 +160,6 @@ class Manager(object):
                     elif _type == 'pushbullet':
                         from Pushbullet import PushbulletAlarm
                         self.__alarms.append(PushbulletAlarm(alarm))
-                    elif _type == 'pushover':
-                        from Pushover import PushoverAlarm
-                        self.__alarms.append(PushoverAlarm(alarm))
                     elif _type == 'slack':
                         from Slack import SlackAlarm
                         self.__alarms.append(SlackAlarm(alarm, self.__google_key))
