@@ -151,6 +151,7 @@ class Manager(object):
             for alarm in alarm_settings:
                 if parse_boolean(alarm.pop('active')) is True:
                     _type = alarm.pop('type')
+                    self.set_optional_args(str(alarm))
                     if _type == 'discord':
                         from Discord import DiscordAlarm
                         self.__alarms.append(DiscordAlarm(alarm, self.__google_key))
@@ -176,7 +177,6 @@ class Manager(object):
                         log.error("Alarm type not found: " + alarm['type'])
                         log.error("Please consult the PokeAlarm documentation accepted Alarm Types")
                         sys.exit(1)
-                    self.set_optional_args(str(alarm))
                 else:
                     log.debug("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
             return  # all done
