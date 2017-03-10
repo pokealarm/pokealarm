@@ -35,7 +35,7 @@ def create_multi_filter(location, FilterType, settings, default):
 
 
 def load_pokemon_section(settings):
-    log.info("Setting Pokemon Filters...")
+    log.info("Setting Pokemon filters...")
     pokemon = { "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False) }
     # Set the defaults for "True"
     default_filt = PokemonFilter(settings.pop('default', {}), {
@@ -91,7 +91,7 @@ def load_pokestop_section(settings):
 
 
 def load_gym_section(settings):
-    log.info("Setting Gym Filters...")
+    log.info("Setting Gym filters...")
     # Set the defaults for "True"
     # Override defaults using a new Filter to verify inputs
     default_filt = GymFilter(settings.pop('default', {}), {

@@ -67,7 +67,7 @@ class DiscordAlarm(Alarm):
     def connect(self):
         pass
 
-    # Send a message letting the channel know that discord has started
+    # Send a message letting the channel know that this alarm has started
     def startup_message(self):
         if self.__startup_message:
             args = {

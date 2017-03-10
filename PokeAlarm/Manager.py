@@ -168,7 +168,7 @@ class Manager(object):
                         self.__alarms.append(PushoverAlarm(alarm))
                     elif _type == 'slack':
                         from Slack import SlackAlarm
-                        self.__alarms.append(SlackAlarm(alarm))
+                        self.__alarms.append(SlackAlarm(alarm, self.__google_key))
                     elif _type == 'telegram':
                         from Telegram import TelegramAlarm
                         self.__alarms.append(TelegramAlarm(alarm))
