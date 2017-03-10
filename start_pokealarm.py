@@ -10,7 +10,6 @@ import logging
 logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(levelname)8.8s] %(message)s',
                     level=logging.INFO)
 
-
 # Standard Library Imports
 import configargparse
 from gevent import wsgi, spawn
@@ -89,7 +88,7 @@ def start_server():
     spawn(manage_webhook_data, data_queue)
 
     # Start up Server
-    log.info("Listening for webhooks on http://%s:%s" % (config['HOST'], config['PORT']))
+    log.info("PokeAlarm is listening for webhooks on: http://{}:{}".format(config['HOST'], config['PORT']))
     server = wsgi.WSGIServer((config['HOST'], config['PORT']), app, log=logging.getLogger('pyswgi'))
     server.serve_forever()
 
@@ -100,7 +99,7 @@ def start_server():
 def parse_settings(root_path):
     config['ROOT_PATH'] = root_path
     # Set the default config files up
-    config_files = [ get_path('config/config.ini') ] if '-cf' not in sys.argv and '--config' not in sys.argv else []
+    config_files = [get_path('config/config.ini')] if '-cf' not in sys.argv and '--config' not in sys.argv else []
     parser = configargparse.ArgParser(default_config_files=config_files)
     parser.add_argument('-cf', '--config', is_config_file=True, help='Configuration file')
     parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true', default=False)
@@ -142,7 +141,6 @@ def parse_settings(root_path):
 
     config['HOST'] = args.host
     config['PORT'] = args.port
-    config['QUIET'] = False
     config['DEBUG'] = args.debug
 
     # Check to make sure that the same number of arguements are included
@@ -196,14 +194,15 @@ def parse_settings(root_path):
             log.critical("\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
                          "Names of Manager processes must be unique (regardless of capitalization)! Process will exit.")
             sys.exit(1)
-    log.info("Starting up Managers")
+    log.info("Starting up the Managers")
     for m_name in managers:
         managers[m_name].start()
+
 
 
 ########################################################################################################################
 
 
 if __name__ == '__main__':
-    log.info("PokeAlarm is getting ready!")
+    log.info("PokeAlarm is getting ready...")
     start_server()

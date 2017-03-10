@@ -25,7 +25,7 @@ class Manager(object):
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
-        log.info("Setting up manager '{}'".format(self.__name))
+        log.info("----------- Manager '{}' is being created.".format(self.__name))
         self.__debug = debug
 
         # Get the Google Maps API
@@ -62,7 +62,7 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__process = None
 
-        log.info("Finished with manager '{}'".format(self.__name))
+        log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
     ############################################## CALLED BY MAIN PROCESS ##############################################
 
@@ -80,6 +80,7 @@ class Manager(object):
     # Load in a new filters file
     def load_filter_file(self, file_path):
         try:
+            log.info("Loading Filters from file at {}".format(file_path))
             with open(file_path, 'r') as f:
                 filters = json.load(f)
 
@@ -142,12 +143,11 @@ class Manager(object):
         self.__geofences = geofences
 
     def load_alarms_file(self, file_path):
-        log.info("Setting up the following Alarms:")
+        log.info("Loading Alarms from the file at {}".format(file_path))
         try:
             with open(file_path, 'r') as f:
                 alarm_settings = json.load(f)
             self.__alarms = []
-            log.debug(alarm_settings)
             for alarm in alarm_settings:
                 if parse_boolean(alarm.pop('active')) is True:
                     _type = alarm.pop('type')
@@ -717,20 +717,26 @@ class Manager(object):
     def get_lat_lng_from_name(self, location_name):
         if location_name is None:
             return None
-        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
-        res = prog.match(location_name)
-        latitude, longitude = None, None
-        if res:
-            latitude, longitude = float(res.group(1)), float(res.group(2))
-        elif location_name:
-            if self.__gmaps_client is None:  # Check if key was provided
-                log.error("No Google Maps API key provided - unable to find location by name.")
-                return None
-            result = self.__gmaps_client.geocode(location_name)
-            loc = result[0]['geometry']['location']  # Get the first (most likely) result
-            latitude, longitude = loc.get("lat"), loc.get("lng")
-        log.info("Location found: {:f}{:f}".format(latitude, longitude))
-        return [latitude, longitude]
+        try:
+            prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
+            res = prog.match(location_name)
+            latitude, longitude = None, None
+            if res:
+                latitude, longitude = float(res.group(1)), float(res.group(2))
+            elif location_name:
+                if self.__gmaps_client is None:  # Check if key was provided
+                    log.error("No Google Maps API key provided - unable to find location by name.")
+                    return None
+                result = self.__gmaps_client.geocode(location_name)
+                loc = result[0]['geometry']['location']  # Get the first (most likely) result
+                latitude, longitude = loc.get("lat"), loc.get("lng")
+            log.info("Location found: {:f},{:f}".format(latitude, longitude))
+            return [latitude, longitude]
+        except Exception as e:
+            log.error("Encountered error while getting error by name ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            log.error("Please make sure that your location is either the correct name of a place, or a pair of " +
+                      "coordinates seperated by either a space or a comma.")
 
     # Returns the name of the location based on lat and lng
     def reverse_location(self, lat, lng):

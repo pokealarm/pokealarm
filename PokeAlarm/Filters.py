@@ -260,13 +260,14 @@ class PokemonFilter(Filter):
         if sizes is None:  # no sizes
             return None
         list_ = set()
+        valid_sizes = ['tiny', 'small', 'normal', 'large', 'big']
         for raw_size in sizes:
             size = raw_size
-            if size in {'tiny', 'small', 'normal', 'large', 'big'}:
+            if size in valid_sizes:
                 list_.update(size)
             else:
                 log.error("{} is not a valid size name.".format(size))
-                log.error("Please use one of the following: {}".format({'tiny', 'small', 'normal', 'large', 'big'}))
+                log.error("Please use one of the following: {}".format(valid_sizes))
                 sys.exit(1)
         return list_
 

@@ -21,15 +21,15 @@ class RocketMap:
     @staticmethod
     def make_object(data):
         try:
-            kind = data.get('type')
+            kind = data.pop('type')
             if kind == 'pokemon':
                 return RocketMap.pokemon(data.get('message'))
-            elif data['type'] == 'pokestop':
+            elif kind == 'pokestop':
                 return RocketMap.pokestop(data.get('message'))
-            elif data['type'] == 'gym' or data['type'] == 'gym_details':
+            elif kind == 'gym' or data['type'] == 'gym_details':
                 return RocketMap.gym(data.get('message'))
-            elif data['type'] in ['captcha', 'scheduler']:  # Unsupported Webhooks
-                log.debug("{} webhook received. This captcha is not yet supported at this time. ")
+            elif kind in ['captcha', 'scheduler']:  # Unsupported Webhooks
+                log.debug("{} webhook received. This webhooks is not yet supported at this time.".format({kind}))
             else:
                 log.error("Invalid type specified ({}). Are you using the correct map type?".format(kind))
         except Exception as e:
