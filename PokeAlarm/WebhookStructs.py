@@ -42,7 +42,7 @@ class RocketMap:
         log.debug("Converting to pokemon: \n {}".format(data))
         # Get some stuff ahead of time (cause we are lazy)
         quick_id = check_for_none(int, data.get('move_1'), '?')
-        charge_id =  check_for_none(int, data.get('move_2'), '?')
+        charge_id = check_for_none(int, data.get('move_2'), '?')
         lat, lng = data['latitude'], data['longitude']
         # Generate all the non-manager specifi
         pkmn = {
@@ -68,11 +68,11 @@ class RocketMap:
             'charge_energy': get_move_energy(charge_id),
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
-            'gender': check_for_none(int, data.get('gender'), '?'),
+            'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
             'size': 'unknown',
             'gmaps': get_gmaps_link(lat, lng)
         }
-        if pkmn['atk'] != '?' or pkmn['def'] != '?'  or pkmn['sta'] != '?':
+        if pkmn['atk'] != '?' or pkmn['def'] != '?' or pkmn['sta'] != '?':
             pkmn['iv'] = float(((pkmn['atk'] + pkmn['def'] + pkmn['sta']) * 100) / float(45))
         else:
             pkmn['atk'], pkmn['def'], pkmn['sta'] = '?', '?', '?'
@@ -114,6 +114,7 @@ class RocketMap:
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         return gym
+
 
 # Ensure that the value isn't None but replacing with a default
 def check_for_none(type_, val, default):
