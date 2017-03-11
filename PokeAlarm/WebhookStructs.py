@@ -66,8 +66,8 @@ class RocketMap:
             'charge_dps': get_move_dps(charge_id),
             'charge_duration': get_move_duration(charge_id),
             'charge_energy': get_move_energy(charge_id),
-            'height': int(data.get('height')) if 'height' in data else 'unkn',
-            'weight':  int(data.get('weight')) if 'weight' in data else 'unkn',
+            'height': float(data.get('height')) if 'height' in data else 'unkn',
+            'weight':  float(data.get('weight')) if 'weight' in data else 'unkn',
             'gender': get_pokemon_gender(int(data.get('gender')) if 'gender' in data else '?'),
             'size': 'unknown',
             'gmaps': get_gmaps_link(lat, lng)
@@ -79,6 +79,8 @@ class RocketMap:
 
         if pkmn['height'] != 'unkn' and pkmn['weight'] != 'unkn':
             pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
+            pkmn['height'] = "{:.2f}".format(pkmn['height'])
+            pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
 
         return pkmn
 
