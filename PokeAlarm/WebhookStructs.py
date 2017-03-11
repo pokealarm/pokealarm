@@ -41,8 +41,8 @@ class RocketMap:
     def pokemon(data):
         log.debug("Converting to pokemon: \n {}".format(data))
         # Get some stuff ahead of time (cause we are lazy)
-        move_1_id = int(data.get('move_1')) if 'move_1' in data else '?'
-        move_2_id = int(data.get('move_2')) if 'move_2' in data else '?'
+        quick_id = int(data.get('move_1')) if 'move_1' in data else '?'
+        charge_id = int(data.get('move_2')) if 'move_2' in data else '?'
         lat, lng = data['latitude'], data['longitude']
         # Generate all the non-manager specifi
         pkmn = {
@@ -56,16 +56,16 @@ class RocketMap:
             'atk': int(data.get('individual_attack')) if 'individual_attack' in data else '?',
             'def': int(data.get('individual_defense')) if 'individual_defense' in data else '?',
             'sta': int(data.get('individual_stamina')) if 'individual_stamina' in data else '?',
-            'move_1_id': move_1_id,
-            'move_1_damage': get_move_damage(move_1_id),
-            'move_1_dps': get_move_dps(move_1_id),
-            'move_1_duration': get_move_duration(move_1_id),
-            'move_1_energy': get_move_energy(move_1_id),
-            'move_2_id': move_2_id,
-            'move_2_damage': get_move_damage(move_2_id),
-            'move_2_dps': get_move_dps(move_2_id),
-            'move_2_duration': get_move_duration(move_2_id),
-            'move_2_energy': get_move_energy(move_2_id),
+            'quick_id': quick_id,
+            'quick_damage': get_move_damage(quick_id),
+            'quick_dps': get_move_dps(quick_id),
+            'quick_duration': get_move_duration(quick_id),
+            'quick_energy': get_move_energy(quick_id),
+            'charge_id': charge_id,
+            'charge_damage': get_move_damage(charge_id),
+            'charge_dps': get_move_dps(charge_id),
+            'charge_duration': get_move_duration(charge_id),
+            'charge_energy': get_move_energy(charge_id),
             'height': int(data.get('height')) if 'height' in data else 'unkn',
             'weight':  int(data.get('weight')) if 'weight' in data else 'unkn',
             'gender': get_pokemon_gender(int(data.get('gender')) if 'gender' in data else '?'),

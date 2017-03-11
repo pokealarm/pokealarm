@@ -321,8 +321,8 @@ class Manager(object):
         def_ = pkmn['def']
         atk = pkmn['atk']
         sta = pkmn['sta']
-        move_1_id = pkmn['move_1_id']
-        move_2_id = pkmn['move_2_id']
+        quick_id = pkmn['quick_id']
+        charge_id = pkmn['charge_id']
         size = pkmn['size']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
@@ -392,8 +392,8 @@ class Manager(object):
                 log.debug("Pokemon 'sta' was not checked because it was missing.")
 
             # Check the Quick Move of the Pokemon
-            if move_1_id != '?':
-                if not filt.check_quick_move(move_1_id):
+            if quick_id != '?':
+                if not filt.check_quick_move(quick_id):
                     if self.__quiet is False:
                         log.info("{} rejected: Quick move was not correct - (F #{})".format(name, filt_ct))
                     continue
@@ -401,11 +401,11 @@ class Manager(object):
                 if filt.ignore_missing is True:
                     log.info("{} rejected: Quick move information was missing - (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'move_1_id' was not checked because it was missing.")
+                log.debug("Pokemon 'quick_id' was not checked because it was missing.")
 
             # Check the Quick Move of the Pokemon
-            if move_2_id != '?':
-                if not filt.check_charge_move(move_2_id):
+            if charge_id != '?':
+                if not filt.check_charge_move(charge_id):
                     if self.__quiet is False:
                         log.info("{} rejected: Charge move was not correct - (F #{})".format(name, filt_ct))
                     continue
@@ -413,11 +413,11 @@ class Manager(object):
                 if filt.ignore_missing is True:
                     log.info("{} rejected: Charge move information was missing - (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'move_2_id' was not checked because it was missing.")
+                log.debug("Pokemon 'charge_id' was not checked because it was missing.")
 
             # Check for a correct move combo
-            if move_1_id != '?' and move_2_id != '?':
-                if not filt.check_moveset(move_1_id, move_2_id):
+            if quick_id != '?' and charge_id != '?':
+                if not filt.check_moveset(quick_id, charge_id):
                     if self.__quiet is False:
                         log.info("{} rejected: Moveset was not correct - (F #{})".format(name, filt_ct))
                     continue
@@ -466,8 +466,8 @@ class Manager(object):
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
-            'move_1': self.__move_name.get(move_1_id, 'unknown'),
-            'move_2': self.__move_name.get(move_2_id, 'unknown')
+            'quick_move': self.__move_name.get(quick_id, 'unknown'),
+            'charge_move': self.__move_name.get(charge_id, 'unknown')
         })
         self.add_optional_travel_arguments(pkmn)
 
