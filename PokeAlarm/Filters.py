@@ -210,7 +210,7 @@ class PokemonFilter(Filter):
             "min_sta": self.min_sta, "max_sta": self.max_sta,
             "quick_move": self.req_quick_move, "charge_move": self.req_charge_move,
             "moveset": self.req_moveset,
-            "size": None,
+            "size": self.sizes,
             "ignore_missing": self.ignore_missing
         }
 
@@ -264,7 +264,7 @@ class PokemonFilter(Filter):
         for raw_size in sizes:
             size = raw_size
             if size in valid_sizes:
-                list_.update(size)
+                list_.add(size)
             else:
                 log.error("{} is not a valid size name.".format(size))
                 log.error("Please use one of the following: {}".format(valid_sizes))
