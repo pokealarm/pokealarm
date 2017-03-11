@@ -16,6 +16,7 @@
   },
   {
     "active": "False",
+    "channel":"general",
     "type": "slack",
     "api_key": "YOUR_API_KEY"
   },
