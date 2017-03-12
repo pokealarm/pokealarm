@@ -48,7 +48,7 @@ class TwitterAlarm(Alarm):
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(settings.pop('gyms', {}), self._defaults['gym'])
+        self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
