@@ -21,12 +21,12 @@ class RocketMap:
     @staticmethod
     def make_object(data):
         try:
-            kind = data.pop('type')
+            kind = data.get('type')
             if kind == 'pokemon':
                 return RocketMap.pokemon(data.get('message'))
             elif kind == 'pokestop':
                 return RocketMap.pokestop(data.get('message'))
-            elif kind == 'gym' or data['type'] == 'gym_details':
+            elif kind == 'gym' or kind == 'gym_details':
                 return RocketMap.gym(data.get('message'))
             elif kind in ['captcha', 'scheduler']:  # Unsupported Webhooks
                 log.debug("{} webhook received. This webhooks is not yet supported at this time.".format({kind}))
