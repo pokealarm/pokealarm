@@ -5,7 +5,7 @@ import re
 from slacker import Slacker
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_static_map_url
+from ..Utils import parse_boolean, get_static_map_url, require_and_remove_key, reject_leftover_parameters
 
 log = logging.getLogger('Slack')
 try_sending = Alarm.try_sending
@@ -23,7 +23,6 @@ class SlackAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            # 'channel':"general",
             'username': "<pkmn>",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'title': "A wild <pkmn> has appeared!",
@@ -31,7 +30,6 @@ class SlackAlarm(Alarm):
             'body': "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
-            # 'channel':"general",
             'username': "Pokestop",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'title': "Someone has placed a lure on a Pokestop!",
@@ -39,7 +37,6 @@ class SlackAlarm(Alarm):
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
-            # 'channel':"general",
             'username': "<new_team> Gym Alerts",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'title': "A Team <old_team> gym has fallen!",
@@ -49,63 +46,69 @@ class SlackAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
-        # Service Info
-        self.__api_key = settings['api_key']
-        self.__startup_message = settings.get('startup_message', "True")
-        self.__channel = settings.get('channel', "general")
-        self.__map = settings.get('map', {})
-        self.__startup_list = settings.get('startup_list', "True")
-
-        # Set Alerts
-        self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.get('gym', {}), self._defaults['gym'])
-
-        # Connect and send startup messages
+    def __init__(self, settings, static_map_key):
+        # Required Parameters
+        self.__api_key = require_and_remove_key('api_key', settings, "'Slack' type alarms.")
+        self.__default_channel = self.channel_format(
+            require_and_remove_key('channel', settings, "'Slack' type alarms."))
         self.__client = None
         self.__channels = {}
-        self.connect()
-        if parse_boolean(self.__startup_message):
-            self.__client.chat.post_message(
-                channel=self.get_channel(self.__pokemon['channel']),
-                username='PokeAlarm',
-                text='PokeAlarm activated! We will alert this channel about pokemon.'
-            )
-        log.info("Slack Alarm intialized.")
-        log.debug("Attempting to push to the following channels: Pokemon:{}, Pokestops:{}, Gyms:{}".format(
-            self.__pokemon['channel'], self.__pokestop['channel'], self.__gym['channel']))
+
+        # Optional Alarm Parameters
+        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__map = settings.pop('map', {})
+        self.__static_map_key = static_map_key
+
+        # Optional Alert Parameters
+        self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
+
+        # Warn user about leftover parameters
+        reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
+
+        log.info("Slack Alarm has been created!")
 
     # Establish connection with Slack
     def connect(self):
         self.__client = Slacker(self.__api_key)
         self.update_channels()
 
+    # Send a message letting the channel know that this alarm started
+    def startup_message(self):
+        if self.__startup_message:
+            self.send_message(self.__default_channel, username="PokeAlarm", text="PokeAlarm activated!")
+            log.info("Startup message sent!")
+
     # Set the appropriate settings for each alert
-    def set_alert(self, settings, default):
+    def create_alert_settings(self, settings, default):
         alert = {
-            'channel': settings.get('channel', self.__channel),
-            'username': settings.get('username', default['username']),
-            'icon_url': settings.get('icon_url', default['icon_url']),
-            'title': settings.get('title', default['title']),
-            'url': settings.get('url', default['url']),
-            'body': settings.get('body', default['body']),
-            'map': get_static_map_url(settings.get('map', self.__map))
+            'channel': settings.pop('channel', self.__default_channel),
+            'username': settings.pop('username', default['username']),
+            'icon_url': settings.pop('icon_url', default['icon_url']),
+            'title': settings.pop('title', default['title']),
+            'url': settings.pop('url', default['url']),
+            'body': settings.pop('body', default['body']),
+            'map': get_static_map_url(settings.pop('map', self.__map), self.__static_map_key)
         }
+        reject_leftover_parameters(settings, "'Alert level in Slack alarm.")
         return alert
 
     # Send Alert to Slack
     def send_alert(self, alert, info):
-        args = {
-            'channel': self.get_channel(replace(alert['channel'], info)),
-            'username': replace(alert['username'], info),
-            'text': '<{}|{}> - {}'.format(replace(alert['url'], info), replace(alert['title'], info),
+        if alert['map'] is not None:
+            attachments = [{
+                'fallback': 'Map_Preview',
+                'image_url': replace( alert['map'], {'lat': info['lat'], 'lng':info['lng']})
+            }]
+        self.send_message(
+            channel=replace(alert['channel'], info),
+            username=replace(alert['username'], info),
+            text='<{}|{}> - {}'.format(replace(alert['url'], info), replace(alert['title'], info),
                                           replace(alert['body'], info)),
-            'icon_url': replace(alert['icon_url'], info),
-            'attachments': self.make_map(alert['map'], info['lat'], info['lng'])
-        }
-
-        try_sending(log, self.connect, "Slack", self.__client.chat.post_message, args)
+            icon_url=replace(alert['icon_url'], info),
+            attachments=attachments if attachments else None
+        )
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -119,7 +122,7 @@ class SlackAlarm(Alarm):
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
 
-    # Update channels list
+    # Get a list of channels from Slack to help
     def update_channels(self):
         self.__channels = {}
         response = self.__client.channels.list(True).body
@@ -128,20 +131,29 @@ class SlackAlarm(Alarm):
         response = self.__client.groups.list().body
         for channel in response['groups']:
             self.__channels[channel['name']] = channel['id']
-        log.debug(self.__channels)
+        log.debug("Detected the following Slack channnels: {}" .format(self.__channels))
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
         channel = SlackAlarm.channel_format(name)
         if channel not in self.__channels:
-            if name == self.__channel:
-                log.error("Default channel %s not found... Posting to general instead." % channel)
-                return "#general"
-            else:
-                log.debug("No channel created named %s... Reverting to default." % channel)
-                default = self.get_channel(self.__channel)
-                return default
+            log.error("Detected no channel with the name '{}'.".format(channel) +
+                      " We will try the default channel '{}' instead.".format(self.__default_channel))
+            return self.__default_channel
         return channel
+
+    # Send a message to Slack
+    def send_message(self, channel, username, text, icon_url=None, attachments=None):
+        args = {
+            "channel": self.get_channel(channel),
+            "username": username,
+            "text": text
+        }
+        if icon_url is not None:
+            args['icon_url'] = icon_url
+        if attachments is not None:
+            args['attachments'] = attachments
+        try_sending(log, self.connect, "Slack", self.__client.chat.post_message, args)
 
     # Returns a string s that is in proper channel format
     @staticmethod
@@ -149,17 +161,4 @@ class SlackAlarm(Alarm):
         if name[0] == '#':  # Remove # if added
             name = name[1:]
         name = name.replace(u"\u2642", "m").replace(u"\u2640", "f").lower()
-        pattern = re.compile("[^_a-z0-9-]+")
-        return pattern.sub("", name)
-
-    # Build a query for a static map of the pokemon location
-    @staticmethod
-    def make_map( map_url, lat, lng):
-        if map_url is None:  # If no map is set
-            return None
-        map = [{
-            'fallback': 'Map_Preview',
-            'image_url': replace(map_url, {'lat': lat, 'lng': lng})
-        }]
-        log.debug(map[0].get('image_url'))
-        return map
+        return re.sub("[^_a-z0-9-]+", "", name)

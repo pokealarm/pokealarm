@@ -5,9 +5,9 @@ import logging
 from twitter import Twitter, OAuth
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_time_as_str
+from ..Utils import parse_boolean, get_time_as_str, require_and_remove_key, reject_leftover_parameters
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -19,7 +19,7 @@ replace = Alarm.replace
 #####################################################  ATTENTION!  #####################################################
 
 
-class  TwitterAlarm(Alarm):
+class TwitterAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
@@ -35,43 +35,50 @@ class  TwitterAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, settings):
-        # Service Info
-        self.__token = settings['access_token']
-        self.__token_key = settings['access_secret']
-        self.__con_secret = settings['consumer_key']
-        self.__con_secret_key = settings['consumer_secret']
-        self.__startup_message = settings.get('startup_message', "True")
-        self.__startup_list = settings.get('startup_list', "True")
-
-        # Set Alerts
-        self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
-
-        # Connect and send startup messages
+        # Required Parameters
+        self.__token = require_and_remove_key('access_token', settings, "'Twitter' type alarms.")
+        self.__token_key = require_and_remove_key('access_secret', settings, "'Twitter' type alarms.")
+        self.__con_secret = require_and_remove_key('consumer_key', settings, "'Twitter' type alarms.")
+        self.__con_secret_key = require_and_remove_key('consumer_secret', settings, "'Twitter' type alarms.")
         self.__client = None
-        self.connect()
-        timestamps = get_time_as_str(datetime.utcnow())
-        if parse_boolean(self.__startup_message):
-            self.__client.statuses.update(status="%s - PokeAlarm has intialized!" % timestamps[2])
-        log.info("Twitter Alarm intialized.")
+
+        # Optional Alarm Parameters
+        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+
+        # Optional Alert Parameters
+        self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
+
+        # Warn user about leftover parameters
+        reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
+
+        log.info("Twitter Alarm has been created!")
 
     # Establish connection with Twitter
     def connect(self):
         self.__client = Twitter(
             auth=OAuth(self.__token, self.__token_key, self.__con_secret, self.__con_secret_key))
 
+    # Send a start up tweet
+    def startup_message(self):
+        if self.__startup_message:
+            timestamps = get_time_as_str(datetime.utcnow())
+            args = {"status": "{}- PokeAlarm activated!" .format(timestamps[2])}
+            try_sending(log, self.connect, "Twitter", self.send_tweet, args)
+            log.info("Startup tweet sent!")
+
     # Set the appropriate settings for each alert
-    def set_alert(self, settings, default):
+    def create_alert_settings(self, settings, default):
         alert = {
-            'status': settings.get('status', default['status'])
+            'status': settings.pop('status', default['status'])
         }
+        reject_leftover_parameters(settings, "'Alert level in Twitter alarm.")
         return alert
 
-    # Post Pokemon Status
     def send_alert(self, alert, info):
-        args = {"status": replace(alert['status'], info)}
-        try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args)
+            args = {"status": replace(alert['status'], info)}
+            try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -84,3 +91,7 @@ class  TwitterAlarm(Alarm):
     # Trigger an alert based on Gym info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    # Send out a tweet with the given status
+    def send_tweet(self, status):
+        self.__client.statuses.update(status=status)

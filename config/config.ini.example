@@ -1,19 +1,22 @@
 # Copy this file to config.ini and modify to suit your needs
-# Uncomment a line (remove the #) when you want to change its default value. Alternatively, all of these options can be set at the command line
-# To run multiple Manager Processes, supply multiple values inside brackets: eg key:[KEY1, KEY2]
+# Uncomment a line (remove the #) when you want to change its default value.
+# Multiple arguments can be listed as [arg1, arg2, ... ]
+# Number of arguments must match manager_count or be a single arguement (single arguements will apply to all Managers)
+# To exclude an argument for a specific manager, use 'None'
 
 # Server Settings
-#debug:                     # Enables debugging mode
-#host: 						# Address to listen on (default 127.0.0.1)
-#port: 						# Port to listen on (default: 4000)
-#manager_count:             # Number of Manager Processes to run. default: 1
-#manager_name:              # Name used to reference the managers
-#key: 						# Google Maps API Key to use
-#filters: 					# Specify a file describing filter rules. default: filters.json
-#alarms: 					# Specify a file describing Alarm services. default: alarms.json
-#geofence: 					# Specify a file describing geofences. default: None
-#location: 					# Location, can be an address or coordinates
-#locale: 					# Locale for Pokemon names
-#unit: 					    # Specify either metric or imperial
-#timelimit: 				# Minimum number of seconds remaining on a pokemon to notify
-#timezone:                  # Timezone used for notifications.  Ex: "America/Los_Angeles"
+#debug											# Enables debugging mode
+#host:											# Address to listen on (default 127.0.0.1)
+#port:											# Port to listen on (default: 4000)
+#manager_count: 1								# Number of Managers to run. (default: 1)
+
+# Manager-Specific Settings
+#key:                                           # Google Maps API Key to use
+#filters:										# File containing filter rules (default: filters.json)
+#alarms: 										# File containing alarm rules (default: alarms.json)
+#geofence:										# File containing geofence(s) used to filter (default: None)
+#location:										# Location for the manager. 'Name' or 'lat lng' (default: None)
+#locale:										# Language to be used to translate names (default: en)
+#unit:											# Units used to measure distance. Either 'imperial' or 'metric' (default: imperial)
+#timelimit:										# Minimum number of seconds remaining to send a notification (default: 0)
+#timezone:                                      # Timezone used for notifications Ex: 'America/Los_Angeles' or '[America/Los_Angeles, America/New_York]'
