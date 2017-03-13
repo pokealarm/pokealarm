@@ -11,6 +11,7 @@
 #manager_count: 1								# Number of Managers to run. (default: 1)
 
 # Manager-Specific Settings
+#manager_name                                   # Name of the Manager in the logs. Default(manager_0).
 #key:                                           # Google Maps API Key to use
 #filters:										# File containing filter rules (default: filters.json)
 #alarms: 										# File containing alarm rules (default: alarms.json)
