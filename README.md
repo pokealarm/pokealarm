@@ -1,7 +1,7 @@
 #![PokeAlarm Logo](https://github.com/kvangent/PokeAlarm/wiki/images/logo.png) 
 
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
-[![license](https://img.shields.io/github/license/kvangent/PokeAlarm.svg)]()
+[![license](https://img.shields.io/github/license/kvangent/PokeAlarm.svg)]()  
 PokeAlarm is a third party extension of [RocketMap](https://github.com/RocketMap/RocketMap) that allows you to receive external notifications through a variety of services, such as Twitter, Facebook, Slack, or Discord.
 
 ### Support PokeAlarm [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5W9ZTLMS5NB28&lc=US&item_name=PokeAlarm&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)  [![Donate](https://img.shields.io/badge/Donate-Patron-orange.svg)](https://www.patreon.com/bePatron?u=5193416)  
