@@ -1,5 +1,5 @@
 configargparse==0.11.0
-flask=0.12
+flask==0.12
 gevent==1.2.1
 gipc==0.6.0
 googlemaps==2.4.6
