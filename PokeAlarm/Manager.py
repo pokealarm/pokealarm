@@ -52,7 +52,8 @@ class Manager(object):
 
         # Create the Geofences to filter with from given file
         self.__geofences = []
-        if geofence_file is not None:
+        log.debug(geofence_file)
+        if str(geofence_file).lower() != 'none':
             self.load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
         self.__alarms = []
@@ -114,33 +115,40 @@ class Manager(object):
 
     # Load in a geofence file
     def load_geofence_file(self, file_path):
-        geofences = []
-        name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
-        coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
-        with open(file_path, 'r') as f:
-            lines = f.read().splitlines()
-        name = "geofence"
-        points = []
-        for line in lines:
-            line = line.strip()
-            match_name = name_pattern.search(line)
-            if match_name:
-                if len(points) > 0:
-                    geofences.append(Geofence(name, points))
-                    log.info("Geofence {} added.".format(name))
-                    points = []
-                name = match_name.group(0)
-            elif coor_patter.match(line):
-                lat, lng = map(float, line.split(","))
-                points.append([lat, lng])
-            else:
-                log.error("Geofence was unable to parse this line: {}".format(line))
-                log.error("All lines should be either '[name]' or 'lat,lng'.")
-                sys.exit(1)
-        geofences.append(Geofence(name, points))
-        log.info("Geofence {} added.".format(name))
-
-        self.__geofences = geofences
+        try:
+            geofences = []
+            name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
+            coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
+            with open(file_path, 'r') as f:
+                lines = f.read().splitlines()
+            name = "geofence"
+            points = []
+            for line in lines:
+                line = line.strip()
+                match_name = name_pattern.search(line)
+                if match_name:
+                    if len(points) > 0:
+                        geofences.append(Geofence(name, points))
+                        log.info("Geofence {} added.".format(name))
+                        points = []
+                    name = match_name.group(0)
+                elif coor_patter.match(line):
+                    lat, lng = map(float, line.split(","))
+                    points.append([lat, lng])
+                else:
+                    log.error("Geofence was unable to parse this line: {}".format(line))
+                    log.error("All lines should be either '[name]' or 'lat,lng'.")
+                    sys.exit(1)
+            geofences.append(Geofence(name, points))
+            log.info("Geofence {} added.".format(name))
+            self.__geofences = geofences
+            return
+        except IOError as e:
+            log.error("IOError: Please make sure a file with read/write permissions exsist at {}".format(file_path))
+        except Exception as e:
+            log.error("Encountered error while loading Geofence: {}: {}".format(type(e).__name__, e))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
 
     def load_alarms_file(self, file_path):
         log.info("Loading Alarms from the file at {}".format(file_path))
