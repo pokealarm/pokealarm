@@ -77,11 +77,10 @@ class FacebookPageAlarm(Alarm):
 
     # Post Pokemon Message
     def send_alert(self, alert, info):
-        args = {
-            "message": replace(alert['message'], info),
-            "attachment": {"link": replace(alert['link'], info)}
-        }
-        try_sending(log, self.connect, "FacebookPage", self.post_to_wall, args)
+        self.post_to_wall(
+            message=replace(alert['message'], info),
+            attachment={"link": replace(alert['link'], info)}
+        )
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -100,5 +99,4 @@ class FacebookPageAlarm(Alarm):
         args = {"message": message}
         if attachment is not None:
             args['attachment'] = attachment
-            self.__client.put_wall_post(message=message)
         try_sending(log, self.connect, "FacebookPage", self.__client.put_wall_post, args)
