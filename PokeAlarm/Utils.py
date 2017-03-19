@@ -288,6 +288,8 @@ def get_cardinal_dir(pt_a, pt_b=None):
 def get_dist_as_str(dist):
     if dist == 'unkn':
         return 'unkn'
+    if dist == float("inf"):
+        return "infinite"
     if config['UNITS'] == 'imperial':
         if dist > 1760:  # yards per mile
             return "{:.1f}mi".format(dist / 1760.0)

@@ -1,8 +1,59 @@
 {
+    "filters": {
+        "No Crap": {
+            "min_iv": "60"
+        },
+        "Low IV": {
+            "min_iv": "0",
+            "max_iv": "60"
+        },
+        "Perfects": {
+            "min_iv": "100"
+        },
+        "Nineties": {
+            "max_dist": "2000",
+            "min_iv": "90"
+        },
+        "Nearby": {
+            "max_dist": "50"
+        },
+        "Right Here": {
+            "max_dist": "10"
+        },
+        "Far Away And Bad": {
+            "min_dist": "3000",
+            "min_iv": "0",
+            "max_iv": "40"
+        },
+        "Bubblers": {
+            "quick_move": ["Bubble"]
+        },
+        "Valorified": {
+            "to_team": ["Valor"]
+        }
+    },
+    "filter_sets": {
+        "Standard": [
+            "Perfects",
+            "Nineties",
+            "Nearby"
+        ],
+        "Candy": [
+            "Nearby",
+            "Low IV"
+        ],
+        "Bubble Boy": [
+            "Bubblers",
+            {
+                "charge_move": ["Bubble Beam"]
+            }
+        ]
+    },
     "gyms":{
         "enabled":"False",
-        "ignore_neutral":"False",
-        "filters":[
+        "ignore_neutral":"True",
+        "filters": [
+            "Valorified",
             {
                 "from_team":["Valor", "Instinct", "Mystic"], "to_team":["Valor", "Instinct", "Mystic"],
                 "min_dist":"0", "max_dist":"inf"
@@ -11,39 +62,21 @@
     },
     "pokestops":{
         "enabled":"False",
-        "filters":{ "min_dist":"0", "max_dist":"10" }
+        "filters":"Right Here"
     },
     "pokemon":{
-        "enabled":"False",
-        "default": {
-            "min_dist":"0", "max_dist":"inf",
-            "min_iv":"0", "max_iv":"100", "min_atk": "0", "max_atk":"15",
-            "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
-            "quick_move": null, "charge_move": null, "moveset": null,
-            "size": null, "ignore_missing": "False"
-        },
-        "Bulbasaur":[
-            {
-                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
-                "min_atk": "0", "max_atk":"0", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
-                "quick_move": null, "charge_move": null, "moveset": null, "size": null, "ignore_missing": "False"
-            },
-           {
-                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
-                "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
-                "quick_move": ["Vine Whip"], "charge_move": ["Sludge Bomb"], "moveset": ["Vine Whip/Sludge Bomb"],
-                "size": null, "ignore_missing": "False"
-           }
-        ],
-        "Ivysaur":{ "min_iv":"0", "max_iv":"100" },
-        "Venusaur": "False",
+        "enabled":"True",
+        "default":"No Crap",
+        "Bulbasaur":{ "min_dist":"0", "max_dist":"inf" },
+        "Ivysaur":"Far Away And Bad",
+        "Venusaur":{ "quick_move":[ "Razor Leaf", "Vine Whip" ], "charge_move":[ "Petal Blizzard", "Sludge Bomb", "Solar Beam" ]},
         "Charmander":{ "moveset":[ "Ember/Flame Burst", "Scratch/Flame Charge" ] },
-        "Charmeleon":{ "min_iv":"100" , "ignore_missing":"False" },
-        "Charizard":"False",
-        "Squirtle":"False",
-        "Wartortle":"False",
-        "Blastoise":"False",
-        "Caterpie":"False",
+        "Charmeleon":{ "min_iv":"100" , "ignore_missing":"True" },
+        "Charizard":"Nineties",
+        "Squirtle":"Bubble Boy",
+        "Wartortle":"True",
+        "Blastoise":"Standard",
+        "Caterpie":"Candy",
         "Metapod":"False",
         "Butterfree":"False",
         "Weedle":"False",
@@ -281,7 +314,7 @@
         "Suicune":"False",
         "Larvitar":"False",
         "Pupitar":"False",
-        "Tyranitar":"False",
+        "Tyranitar": "False",
         "Lugia":"False",
         "Ho-Oh":"False",
         "Celebi":"False"
