@@ -70,16 +70,29 @@ class FacebookPageAlarm(Alarm):
     def create_alert_settings(self, settings, default):
         alert = {
             'message': settings.pop('message', default['message']),
-            'link': settings.pop('link', default['link'])
+            'link': settings.pop('link', default['link']),
+            'caption': settings.pop('caption', None),
+            'description': settings.pop('description', None),
+            'picture': settings.pop('picture', None),
+            'name': settings.pop('name', None)
         }
         reject_leftover_parameters(settings, "'Alert level in FacebookPage alarm.")
         return alert
 
     # Post Pokemon Message
     def send_alert(self, alert, info):
+        attachment = {"link": replace(alert['link'], info)}
+        if alert['caption'] is not None:
+            attachment['caption'] = replace(alert['caption'], info)
+        if alert['description'] is not None:
+            attachment['description'] = replace(alert['description'], info)
+        if alert['picture'] is not None:
+            attachment['picture'] = replace(alert['picture'], info)
+        if alert['name'] is not None:
+            attachment['name'] = replace(alert['name'], info)
         self.post_to_wall(
             message=replace(alert['message'], info),
-            attachment={"link": replace(alert['link'], info)}
+            attachment = attachment
         )
 
     # Trigger an alert based on Pokemon info
