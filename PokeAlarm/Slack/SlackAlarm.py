@@ -96,18 +96,17 @@ class SlackAlarm(Alarm):
 
     # Send Alert to Slack
     def send_alert(self, alert, info):
-        if alert['map'] is not None:
-            attachments = [{
-                'fallback': 'Map_Preview',
-                'image_url': replace( alert['map'], {'lat': info['lat'], 'lng':info['lng']})
-            }]
+        attachments = [{
+            'fallback': 'Map_Preview',
+            'image_url': replace( alert['map'], {'lat': info['lat'], 'lng':info['lng']})
+        }] if alert['map'] is not None else None
         self.send_message(
             channel=replace(alert['channel'], info),
             username=replace(alert['username'], info),
             text='<{}|{}> - {}'.format(replace(alert['url'], info), replace(alert['title'], info),
                                           replace(alert['body'], info)),
             icon_url=replace(alert['icon_url'], info),
-            attachments=attachments if attachments else None
+            attachments=attachments
         )
 
     # Trigger an alert based on Pokemon info

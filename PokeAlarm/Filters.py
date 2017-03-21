@@ -36,7 +36,7 @@ def create_multi_filter(location, FilterType, settings, default):
 
 def load_pokemon_section(settings):
     log.info("Setting Pokemon filters...")
-    pokemon = { "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False) }
+    pokemon = { "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)}
     # Set the defaults for "True"
     default_filt = PokemonFilter(settings.pop('default', {}), {
         "ignore_missing": False,
