@@ -24,14 +24,17 @@ class FacebookPageAlarm(Alarm):
     _defaults = {
         'pokemon': {
             'message': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>).",
+            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",            
             'link': "<gmaps>"
         },
         'pokestop': {
             'message': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).",
+            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'link': "<gmaps>"
         },
         'gym': {
             'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>.",
+            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'link': "<gmaps>"
         }
     }
@@ -73,7 +76,7 @@ class FacebookPageAlarm(Alarm):
             'link': settings.pop('link', default['link']),
             'caption': settings.pop('caption', None),
             'description': settings.pop('description', None),
-            'picture': settings.pop('picture', None),
+            'picture': settings.pop('picture', default['picture']),
             'name': settings.pop('name', None)
         }
         reject_leftover_parameters(settings, "'Alert level in FacebookPage alarm.")
@@ -86,7 +89,7 @@ class FacebookPageAlarm(Alarm):
             attachment['caption'] = replace(alert['caption'], info)
         if alert['description'] is not None:
             attachment['description'] = replace(alert['description'], info)
-        if alert['picture'] is not None:
+        if alert['picture']:
             attachment['picture'] = replace(alert['picture'], info)
         if alert['name'] is not None:
             attachment['name'] = replace(alert['name'], info)
