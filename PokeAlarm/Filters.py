@@ -70,7 +70,8 @@ def load_pokemon_section(settings):
         log.debug("The following filters are set for #{}:".format(pkmn_id))
         for i in range(len(filters[pkmn_id])):
             log.debug("F#{}: ".format(i) + filters[pkmn_id][i].to_string())
-
+    if pokemon['enabled'] is False:
+        log.info("Pokemon notifications will NOT be sent - Enabled is False.")
     return pokemon
 
 
@@ -83,10 +84,13 @@ def load_pokestop_section(settings):
         "filters": create_multi_filter('Pokestops --> filters', PokestopFilter,
                                        settings.pop('filters', "False"), default_true)
     }
+
     reject_leftover_parameters(settings, "Pokestops section of Filters file.")
     for filt in stop['filters']:
-        log.debug("Between {} and {} away.".format(get_dist_as_str(filt.min_dist), get_dist_as_str(filt.max_dist)
-        ))
+        log.debug("Between {} and {} away.".format(
+            get_dist_as_str(filt.min_dist), get_dist_as_str(filt.max_dist)))
+    if stop['enabled'] is False:
+        log.info("Pokestop notifications will NOT be sent - Enabled is False.")
     return stop
 
 
@@ -113,6 +117,8 @@ def load_gym_section(settings):
         log.debug("Team(s) {} changes to Team(s) {} between {} and {}.".format(
             filt.from_team, filt.to_team, get_dist_as_str(filt.min_dist), get_dist_as_str(filt.max_dist)
         ))
+    if gym['enabled'] is False:
+        log.info("Gym notifications will NOT be sent. - Enabled is False  ")
     return gym
 
 

@@ -84,6 +84,8 @@ class Manager(object):
             log.info("Loading Filters from file at {}".format(file_path))
             with open(file_path, 'r') as f:
                 filters = json.load(f)
+            if type(filters) is not dict:
+                log.critical("Filters file's must be a JSON object: { \"pokemon\":{...},... }")
 
             # Load in the Pokemon Section
             self.__pokemon_settings = load_pokemon_section(
@@ -155,10 +157,13 @@ class Manager(object):
         try:
             with open(file_path, 'r') as f:
                 alarm_settings = json.load(f)
+            if type(alarm_settings) is not list:
+                log.critical("Alarms file must be a list of Alarms objects - [ {...}, {...}, ... {...} ]")
+                sys.exit(1)
             self.__alarms = []
             for alarm in alarm_settings:
-                if parse_boolean(alarm.pop('active')) is True:
-                    _type = alarm.pop('type')
+                if parse_boolean(require_and_remove_key('active', alarm, "Alarm objects in Alarms file.")) is True:
+                    _type = require_and_remove_key('type', alarm, "Alarm objects in Alarms file.")
                     self.set_optional_args(str(alarm))
                     if _type == 'discord':
                         from Discord import DiscordAlarm
@@ -187,6 +192,7 @@ class Manager(object):
                         sys.exit(1)
                 else:
                     log.debug("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
+            log.info("{} active alarms found.".format(len(self.__alarms)))
             return  # all done
         except ValueError as e:
             log.error("Encountered error while loading Alarms file: {}: {}".format(type(e).__name__, e))
@@ -198,7 +204,7 @@ class Manager(object):
             log.error("PokeAlarm was unable to find a filters file at {}." +
                       "Please check that this file exists and PA has read permissions.").format(file_path)
         except Exception as e:
-            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
+            log.error("Encountered error while loading Alarms: {}: {}".format(type(e).__name__, e))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 

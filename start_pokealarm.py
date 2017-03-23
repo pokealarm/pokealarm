@@ -150,9 +150,8 @@ def parse_settings(root_path):
             list_.pop(0)
         size = len(list_)
         if size != 1 and size != args.manager_count:
-            log.critical("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
-                         "Incorrect number of arguments applied: must be either 1 for all processes or else the " +
-                         "number of arguments must match the number of processes. Process will exit.")
+            log.critical("Number of arguments must be either 1 for all managers or ".format(args.manager_count) +
+                         "equal to Manager Count. Please provided the correct number of arguments.")
             log.critical(list_)
             sys.exit(1)
 
@@ -191,8 +190,7 @@ def parse_settings(root_path):
             # Add the manager to the map
             managers[m.get_name()] = m
         else:
-            log.critical("\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
-                         "Names of Manager processes must be unique (regardless of capitalization)! Process will exit.")
+            log.critical("Names of Manager processes must be unique (regardless of capitalization)! Process will exit.")
             sys.exit(1)
     log.info("Starting up the Managers")
     for m_name in managers:
