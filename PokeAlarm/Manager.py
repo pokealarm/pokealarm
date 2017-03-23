@@ -738,13 +738,14 @@ class Manager(object):
                 result = self.__gmaps_client.geocode(location_name)
                 loc = result[0]['geometry']['location']  # Get the first (most likely) result
                 latitude, longitude = loc.get("lat"), loc.get("lng")
-            log.info("Location found: {:f},{:f}".format(latitude, longitude))
+            log.info("Coordinates found for '{}': {:f},{:f}".format(location_name, latitude, longitude))
             return [latitude, longitude]
         except Exception as e:
             log.error("Encountered error while getting error by name ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-            log.error("Please make sure that your location is either the correct name of a place, or a pair of " +
-                      "coordinates seperated by either a space or a comma.")
+            log.error("Encounted error looking for location {}.".format(location_name)
+                      + "Please make sure your location is in the correct format")
+            sys.exit(1)
 
     # Returns the name of the location based on lat and lng
     def reverse_location(self, lat, lng):
