@@ -30,7 +30,8 @@ class Manager(object):
 
         # Get the Google Maps API
         self.__google_key = google_key
-        self.__gmaps_client = googlemaps.Client(key=self.__google_key, timeout=1) if google_key is not None else None
+        self.__gmaps_client = \
+            googlemaps.Client(key=self.__google_key, timeout=3, retry_timeout=4) if google_key is not None else None
         self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
 
         # Setup the language-specific stuff
