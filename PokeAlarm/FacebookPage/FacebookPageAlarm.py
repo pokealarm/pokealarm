@@ -26,8 +26,8 @@ class FacebookPageAlarm(Alarm):
             'message': "A wild <pkmn> has appeared!.",
             'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",            
             'link': "<gmaps>",
-			'name': "<pkmn>", 
-			'description': "Available until <24h_time> (<time_left>)"
+            'name': "<pkmn>", 
+            'description': "Available until <24h_time> (<time_left>)"
         },
         'pokestop': {
             'message': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).",
