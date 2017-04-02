@@ -119,7 +119,7 @@ class TelegramAlarm(Alarm):
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
         if self.__gym['stickers']:
-            self.send_alert(self.__gym, gym_info, sticker_list.get(gym_info['new_team'].lower()))
+            self.send_alert(self.__gym, gym_info, sticker_list.get(gym_info['new_team_id']))
         else:
             self.send_alert(self.__gym, gym_info)
 

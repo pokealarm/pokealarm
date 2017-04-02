@@ -658,6 +658,7 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
+            'new_team_id': "Team" + str(to_team_id),
             'old_team': old_team
         })
         self.add_optional_travel_arguments(gym)
