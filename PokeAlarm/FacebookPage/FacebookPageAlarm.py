@@ -24,20 +24,27 @@ class FacebookPageAlarm(Alarm):
     _defaults = {
         'pokemon': {
             'message': "A wild <pkmn> has appeared!.",
-            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",            
+            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'link': "<gmaps>",
-            'name': "<pkmn>", 
-            'description': "Available until <24h_time> (<time_left>)"
+            'name': "<pkmn>",
+            'description': "Available until <24h_time> (<time_left>)",
+            'caption': None
         },
         'pokestop': {
-            'message': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).",
+            'message': "Someone has placed a lure on a Pokestop!",
             'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
-            'link': "<gmaps>"
+            'link': "<gmaps>",
+            'name': "Lured Pokestop",
+            'description': "Lure will expire at <24h_time> (<time_left>)",
+            'caption': None
         },
         'gym': {
-            'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>.",
+            'message': "A Team <old_team> gym has fallen!",
             'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
-            'link': "<gmaps>"
+            'link': "<gmaps>",
+            'name': "<old_team> gym fallen", 
+            'description': "It is now controlled by <new_team>",
+            'caption': None
         }
     }
 
@@ -76,10 +83,10 @@ class FacebookPageAlarm(Alarm):
         alert = {
             'message': settings.pop('message', default['message']),
             'link': settings.pop('link', default['link']),
-            'caption': settings.pop('caption', None),
-            'description': settings.pop('description', None),
+            'caption': settings.pop('caption', default['caption']),
+            'description': settings.pop('description', default['description']),
             'picture': settings.pop('picture', default['picture']),
-            'name': settings.pop('name', None)
+            'name': settings.pop('name', default['name'])
         }
         reject_leftover_parameters(settings, "'Alert level in FacebookPage alarm.")
         return alert
