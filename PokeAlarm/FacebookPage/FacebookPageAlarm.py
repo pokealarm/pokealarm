@@ -23,8 +23,8 @@ class FacebookPageAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared!.",
-            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'message': "A wild <pkmn> has appeared!",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'link': "<gmaps>",
             'name': "<pkmn>",
             'description': "Available until <24h_time> (<time_left>)",
@@ -32,7 +32,7 @@ class FacebookPageAlarm(Alarm):
         },
         'pokestop': {
             'message': "Someone has placed a lure on a Pokestop!",
-            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'link': "<gmaps>",
             'name': "Lured Pokestop",
             'description': "Lure will expire at <24h_time> (<time_left>)",
@@ -40,7 +40,7 @@ class FacebookPageAlarm(Alarm):
         },
         'gym': {
             'message': "A Team <old_team> gym has fallen!",
-            'picture': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'link': "<gmaps>",
             'name': "<old_team> gym fallen", 
             'description': "It is now controlled by <new_team>",
@@ -85,7 +85,7 @@ class FacebookPageAlarm(Alarm):
             'link': settings.pop('link', default['link']),
             'caption': settings.pop('caption', default['caption']),
             'description': settings.pop('description', default['description']),
-            'picture': settings.pop('picture', default['picture']),
+            'image': settings.pop('image', default['image']),
             'name': settings.pop('name', default['name'])
         }
         reject_leftover_parameters(settings, "'Alert level in FacebookPage alarm.")
@@ -94,13 +94,13 @@ class FacebookPageAlarm(Alarm):
     # Post Pokemon Message
     def send_alert(self, alert, info):
         attachment = {"link": replace(alert['link'], info)}
-        if alert['caption'] is not None:
+        if alert['caption']:
             attachment['caption'] = replace(alert['caption'], info)
-        if alert['description'] is not None:
+        if alert['description']:
             attachment['description'] = replace(alert['description'], info)
-        if alert['picture']:
-            attachment['picture'] = replace(alert['picture'], info)
-        if alert['name'] is not None:
+        if alert['image']:
+            attachment['picture'] = replace(alert['image'], info)
+        if alert['name']:
             attachment['name'] = replace(alert['name'], info)
         self.post_to_wall(
             message=replace(alert['message'], info),
