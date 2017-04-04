@@ -112,9 +112,9 @@ def parse_settings(root_path):
     parser.add_argument('-k', '--key', type=parse_unicode, action='append', default=[None],
                         help='Specify a Google API Key to use.')
     parser.add_argument('-f', '--filters', type=parse_unicode, action='append', default=['filters.json'],
-                        help='Filters configuration file. default: filters.json', )
+                        help='Filters configuration file. default: filters.json')
     parser.add_argument('-a', '--alarms', type=parse_unicode, action='append', default=['alarms.json'],
-                        help='Alarms configuration file. default: alarms.json', )
+                        help='Alarms configuration file. default: alarms.json')
     parser.add_argument('-gf', '--geofences', type=parse_unicode, action='append', default=[None],
                         help='Alarms configuration file. default: None')
     parser.add_argument('-l', '--location', type=parse_unicode, action='append', default=[None],
@@ -127,6 +127,8 @@ def parse_settings(root_path):
                         help='Specify either metric or imperial units to use for distance measurements. ')
     parser.add_argument('-tl', '--timelimit', type=int, default=[0], action='append',
                         help='Minimum number of seconds remaining on a pokemon to send a notify')
+    parser.add_argument('-ma', '--max_attempts', type=int, default=[3], action='append',
+                        help='Maximum number of attempts an alarm makes to send a notification.')
     parser.add_argument('-tz', '--timezone', type=str, action='append', default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
 
@@ -145,7 +147,7 @@ def parse_settings(root_path):
 
     # Check to make sure that the same number of arguements are included
     for list_ in [args.key, args.filters, args.alarms, args.geofences, args.location,
-                  args.locale, args.units, args.timelimit, args.timezone]:
+                  args.locale, args.units, args.timelimit, args.max_attempts, args.timezone]:
         if len(list_) > 1:  # Remove defaults from the list
             list_.pop(0)
         size = len(list_)
@@ -179,6 +181,7 @@ def parse_settings(root_path):
             units=args.units[m_ct] if len(args.units) > 1 else args.units[0],
             timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0],
             time_limit=args.timelimit[m_ct] if len(args.timelimit) > 1 else args.timelimit[0],
+            max_attempts=args.max_attempts[m_ct] if len(args.max_attempts) > 1 else args.max_attempts[0],
             quiet=False,  # TODO: I'll totally document this some day. Promise.
             location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
             filter_file=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],

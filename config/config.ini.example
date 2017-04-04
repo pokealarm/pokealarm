@@ -20,4 +20,5 @@
 #locale:										# Language to be used to translate names (default: en)
 #unit:											# Units used to measure distance. Either 'imperial' or 'metric' (default: imperial)
 #timelimit:										# Minimum number of seconds remaining to send a notification (default: 0)
+#max_attempts:									# Maximum number of attempts an alarm makes to send a notification. (default: 3)
 #timezone:                                      # Timezone used for notifications Ex: 'America/Los_Angeles' or '[America/Los_Angeles, America/New_York]'

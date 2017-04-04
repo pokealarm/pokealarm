@@ -21,7 +21,7 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
 
-    def __init__(self, name, google_key, locale, units, timezone, time_limit, location, quiet,
+    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -58,7 +58,7 @@ class Manager(object):
             self.load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
         self.__alarms = []
-        self.load_alarms_file(get_path(alarm_file))
+        self.load_alarms_file(get_path(alarm_file), int(max_attempts))
 
         # Initialize the queue and start the process
         self.__queue = multiprocessing.Queue()
@@ -153,7 +153,7 @@ class Manager(object):
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
-    def load_alarms_file(self, file_path):
+    def load_alarms_file(self, file_path, max_attempts):
         log.info("Loading Alarms from the file at {}".format(file_path))
         try:
             with open(file_path, 'r') as f:
@@ -168,7 +168,7 @@ class Manager(object):
                     self.set_optional_args(str(alarm))
                     if _type == 'discord':
                         from Discord import DiscordAlarm
-                        self.__alarms.append(DiscordAlarm(alarm, self.__google_key))
+                        self.__alarms.append(DiscordAlarm(alarm, max_attempts, self.__google_key))
                     elif _type == 'facebook_page':
                         from FacebookPage import FacebookPageAlarm
                         self.__alarms.append(FacebookPageAlarm(alarm))

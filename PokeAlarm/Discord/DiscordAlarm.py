@@ -44,9 +44,10 @@ class DiscordAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings, static_map_key):
+    def __init__(self, settings, max_attempts, static_map_key):
         # Required Parameters
         self.__webhook_url = require_and_remove_key('webhook_url', settings, "'Discord' type alarms.")
+        self.__max_attempts = max_attempts
 
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
@@ -77,7 +78,7 @@ class DiscordAlarm(Alarm):
                     'content': 'PokeAlarm activated!'
                 }
             }
-            try_sending(log, self.connect, "Discord", self.send_webhook, args)
+            try_sending(log, self.connect, "Discord", self.send_webhook, args, self.__max_attempts)
             log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
@@ -113,7 +114,7 @@ class DiscordAlarm(Alarm):
             'url': alert['webhook_url'],
             'payload': payload
         }
-        try_sending(log, self.connect, "Discord", self.send_webhook, args)
+        try_sending(log, self.connect, "Discord", self.send_webhook, args, self.__max_attempts)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
