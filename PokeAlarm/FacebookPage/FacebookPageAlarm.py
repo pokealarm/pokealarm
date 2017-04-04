@@ -23,16 +23,28 @@ class FacebookPageAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>).",
-            'link': "<gmaps>"
+            'message': "A wild <pkmn> has appeared!",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'link': "<gmaps>",
+            'name': "<pkmn>",
+            'description': "Available until <24h_time> (<time_left>)",
+            'caption': None
         },
         'pokestop': {
-            'message': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).",
-            'link': "<gmaps>"
+            'message': "Someone has placed a lure on a Pokestop!",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
+            'link': "<gmaps>",
+            'name': "Lured Pokestop",
+            'description': "Lure will expire at <24h_time> (<time_left>)",
+            'caption': None
         },
         'gym': {
-            'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>.",
-            'link': "<gmaps>"
+            'message': "A Team <old_team> gym has fallen!",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
+            'link': "<gmaps>",
+            'name': "<old_team> gym fallen", 
+            'description': "It is now controlled by <new_team>",
+            'caption': None
         }
     }
 
@@ -70,16 +82,29 @@ class FacebookPageAlarm(Alarm):
     def create_alert_settings(self, settings, default):
         alert = {
             'message': settings.pop('message', default['message']),
-            'link': settings.pop('link', default['link'])
+            'link': settings.pop('link', default['link']),
+            'caption': settings.pop('caption', default['caption']),
+            'description': settings.pop('description', default['description']),
+            'image': settings.pop('image', default['image']),
+            'name': settings.pop('name', default['name'])
         }
         reject_leftover_parameters(settings, "'Alert level in FacebookPage alarm.")
         return alert
 
     # Post Pokemon Message
     def send_alert(self, alert, info):
+        attachment = {"link": replace(alert['link'], info)}
+        if alert['caption']:
+            attachment['caption'] = replace(alert['caption'], info)
+        if alert['description']:
+            attachment['description'] = replace(alert['description'], info)
+        if alert['image']:
+            attachment['picture'] = replace(alert['image'], info)
+        if alert['name']:
+            attachment['name'] = replace(alert['name'], info)
         self.post_to_wall(
             message=replace(alert['message'], info),
-            attachment={"link": replace(alert['link'], info)}
+            attachment = attachment
         )
 
     # Trigger an alert based on Pokemon info
