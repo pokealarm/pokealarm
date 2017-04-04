@@ -1,8 +1,8 @@
 sticker_list = {
-    'valor': u'BQADBAADGQADjGt_DbsN-MC0jtwKAg',
-    'mystic': u'BQADBAADHQADjGt_DWh6bmUsF_GeAg',
-    'instinct': u'BQADBAADGwADjGt_DcVn_7MprUVwAg',
-    'neutral': u'BQADBAADHwADjGt_DWwRwTlwYq71Ag',
+    'team2': u'BQADBAADGQADjGt_DbsN-MC0jtwKAg',
+    'team1': u'BQADBAADHQADjGt_DWh6bmUsF_GeAg',
+    'team3': u'BQADBAADGwADjGt_DcVn_7MprUVwAg',
+    'team0': u'BQADBAADHwADjGt_DWwRwTlwYq71Ag',
     'pokestop': u'BQADBAADFwADjGt_DaQ-N7VAroZ7Ag',
     '1': u'BQADBAADJwADA6ZnAU_NNRcf64d1Ag',
     '2': u'BQADBAADKQADA6ZnAd09yoh66pIfAg',
