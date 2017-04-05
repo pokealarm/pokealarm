@@ -21,7 +21,7 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
 
-    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
+    def __init__(self, name, google_key, locale, units, timezone, time_limit, location, quiet,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -58,7 +58,7 @@ class Manager(object):
             self.load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
         self.__alarms = []
-        self.load_alarms_file(get_path(alarm_file), int(max_attempts))
+        self.load_alarms_file(get_path(alarm_file))
 
         # Initialize the queue and start the process
         self.__queue = multiprocessing.Queue()
@@ -153,7 +153,7 @@ class Manager(object):
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
-    def load_alarms_file(self, file_path, max_attempts):
+    def load_alarms_file(self, file_path):
         log.info("Loading Alarms from the file at {}".format(file_path))
         try:
             with open(file_path, 'r') as f:
@@ -168,7 +168,7 @@ class Manager(object):
                     self.set_optional_args(str(alarm))
                     if _type == 'discord':
                         from Discord import DiscordAlarm
-                        self.__alarms.append(DiscordAlarm(alarm, max_attempts, self.__google_key))
+                        self.__alarms.append(DiscordAlarm(alarm, self.__google_key))
                     elif _type == 'facebook_page':
                         from FacebookPage import FacebookPageAlarm
                         self.__alarms.append(FacebookPageAlarm(alarm))
@@ -339,6 +339,7 @@ class Manager(object):
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
         size = pkmn['size']
+        content = pkmn['content'] #AVATAR
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -453,7 +454,9 @@ class Manager(object):
                     log.info("{} rejected: Size information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'size' was not checked because it was missing.")
-
+            
+            if content == None: #AVATAR
+                content = filt.check_content()
             # Nothing left to check, so it must have passed
             passed = True
             log.debug("{} passed filter #{}".format(name, filt_ct))
@@ -462,7 +465,7 @@ class Manager(object):
         # If we didn't pass any filters
         if not passed:
             return
-
+        
         # Check all the geofences
         pkmn['geofence'] = self.check_geofences(name, lat, lng)
         if len(self.__geofences) > 0 and pkmn['geofence'] == 'unknown':
@@ -482,7 +485,8 @@ class Manager(object):
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'content': content
         })
         self.add_optional_travel_arguments(pkmn)
 
@@ -658,7 +662,6 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
-            'new_team_id': "team{}".format(to_team_id),
             'old_team': old_team
         })
         self.add_optional_travel_arguments(gym)

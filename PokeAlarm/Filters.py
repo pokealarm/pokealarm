@@ -46,7 +46,8 @@ def load_pokemon_section(settings):
         "min_def": 0, "max_def": 15,
         "min_sta": 0, "max_sta": 15,
         "quick_move": None, "charge_move": None, "moveset": None,
-        "size": None
+        "size": None,
+        "content": None    #AVATAR
     }, 'default')
     default = default_filt.to_dict()
     # Add the filters to the settings
@@ -71,7 +72,7 @@ def load_pokemon_section(settings):
         for i in range(len(filters[pkmn_id])):
             log.debug("F#{}: ".format(i) + filters[pkmn_id][i].to_string())
     if pokemon['enabled'] is False:
-        log.info("Pokemon notifications will NOT be sent - Enabled is False.")
+        log.debug("Pokemon notifications will NOT be sent - Enabled is False.")
     return pokemon
 
 
@@ -156,7 +157,7 @@ class PokemonFilter(Filter):
         self.req_quick_move = PokemonFilter.create_moves_list(settings.pop("quick_move", default['quick_move']))
         self.req_charge_move = PokemonFilter.create_moves_list(settings.pop("charge_move", default['charge_move']))
         self.req_moveset = PokemonFilter.create_moveset_list(settings.pop("moveset",  default['moveset']))
-
+        self.content = str(settings.pop('content', None) or default['content']) #AVATAR
         reject_leftover_parameters(settings, "pokemon filter under '{}'".format(location))
 
     # Checks the given distance against this filter
@@ -205,7 +206,12 @@ class PokemonFilter(Filter):
         if self.sizes is None:
             return True
         return size in self.sizes
-
+    #check to see if we have a custom message #AVATAR
+    def check_content(self):
+        if self.content == "None":
+            self.content=""
+        return self.content #maybe needs to be formatted?
+    
     # Convert this filter to a dict
     def to_dict(self):
         return {
@@ -217,7 +223,8 @@ class PokemonFilter(Filter):
             "quick_move": self.req_quick_move, "charge_move": self.req_charge_move,
             "moveset": self.req_moveset,
             "size": self.sizes,
-            "ignore_missing": self.ignore_missing
+            "ignore_missing": self.ignore_missing, 
+            "content": self.content #AVATAR
         }
 
     # Print this filter
@@ -231,7 +238,8 @@ class PokemonFilter(Filter):
                "Charge Moves: {}, ".format(self.req_charge_move) + \
                "Move Sets: {}, ".format(self.req_moveset)  +\
                "Sizes: {}, ".format(self.sizes) + \
-               "Ignore Missing: {} ".format(self.ignore_missing)
+               "Ignore Missing: {} ".format(self.ignore_missing) +\
+               "Content: {} ".format(self.content) #AVATAR
 
     @staticmethod
     def create_moves_list(moves):
