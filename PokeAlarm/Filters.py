@@ -46,7 +46,8 @@ def load_pokemon_section(settings):
         "min_def": 0, "max_def": 15,
         "min_sta": 0, "max_sta": 15,
         "quick_move": None, "charge_move": None, "moveset": None,
-        "size": None
+        "size": None,
+        "gender": None
     }, 'default')
     default = default_filt.to_dict()
     # Add the filters to the settings
@@ -152,6 +153,7 @@ class PokemonFilter(Filter):
         self.max_sta = int(settings.pop('max_sta', None) or default['max_sta'])
         # Size
         self.sizes = PokemonFilter.check_sizes(settings.pop("size", default['size']))
+        self.genders = PokemonFilter.check_genders(settings.pop("gender", default['gender']))
         # Moves - These can't be set in the default filter
         self.req_quick_move = PokemonFilter.create_moves_list(settings.pop("quick_move", default['quick_move']))
         self.req_charge_move = PokemonFilter.create_moves_list(settings.pop("charge_move", default['charge_move']))
@@ -206,6 +208,12 @@ class PokemonFilter(Filter):
             return True
         return size in self.sizes
 
+    # Checks the gender against this filter
+    def check_gender(self, gender):
+        if self.genders is None:
+            return True
+        return gender in self.genders
+
     # Convert this filter to a dict
     def to_dict(self):
         return {
@@ -217,6 +225,7 @@ class PokemonFilter(Filter):
             "quick_move": self.req_quick_move, "charge_move": self.req_charge_move,
             "moveset": self.req_moveset,
             "size": self.sizes,
+            "gender": self.genders,
             "ignore_missing": self.ignore_missing
         }
 
@@ -231,6 +240,7 @@ class PokemonFilter(Filter):
                "Charge Moves: {}, ".format(self.req_charge_move) + \
                "Move Sets: {}, ".format(self.req_moveset)  +\
                "Sizes: {}, ".format(self.sizes) + \
+               "Genders: {}, ".format(self.genders) + \
                "Ignore Missing: {} ".format(self.ignore_missing)
 
     @staticmethod
@@ -274,6 +284,36 @@ class PokemonFilter(Filter):
             else:
                 log.error("{} is not a valid size name.".format(size))
                 log.error("Please use one of the following: {}".format(valid_sizes))
+                sys.exit(1)
+        return list_
+
+
+    @staticmethod
+    def check_genders(genders):
+        if genders is None:  # no genders
+            return None
+        list_ = set()
+        valid_genders = ['male', 'female', 'neutral']
+        for raw_gender in genders:
+            log.debug("raw_gender: {}".format(raw_gender))
+            gender = raw_gender
+            if raw_gender == u'\u2642':
+              gender = 'male'
+            if raw_gender == u'\u2640':
+              gender = 'female'
+            if raw_gender == u'\u26b2':
+              gender = 'neutral'
+            log.debug("gender: {}".format(gender))
+            if gender in valid_genders:
+                if gender == 'male':
+                  list_.add(u'\u2642')
+                if gender == 'female':
+                  list_.add(u'\u2640')
+                if gender == 'neutral':
+                  list_.add(u'\u26b2')
+            else:
+                log.error("{} is not a valid gender name.".format(gender))
+                log.error("Please use one of the following: {}".format(valid_genders))
                 sys.exit(1)
         return list_
 

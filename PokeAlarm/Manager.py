@@ -339,6 +339,7 @@ class Manager(object):
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
         size = pkmn['size']
+        gender = pkmn['gender']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -453,6 +454,18 @@ class Manager(object):
                     log.info("{} rejected: Size information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'size' was not checked because it was missing.")
+
+            # Check for a valid gender
+            if gender != 'unknown':
+                if not filt.check_gender(gender):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Gender ({}) was not correct - (F #{})".format(name, gender, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Gender information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'gender' was not checked because it was missing.")
 
             # Nothing left to check, so it must have passed
             passed = True

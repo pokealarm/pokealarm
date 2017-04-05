@@ -215,7 +215,7 @@ def get_pokemon_size(pokemon_id, height, weight):
         return 'big'
 
 
-# Returns the (appraisal) size of a pokemon:
+# Returns the gender symbol of a pokemon:
 def get_pokemon_gender(gender):
     if gender == 1:
         return u'\u2642'  # male symbol
