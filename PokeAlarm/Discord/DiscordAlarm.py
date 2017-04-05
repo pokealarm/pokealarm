@@ -25,7 +25,7 @@ class DiscordAlarm(Alarm):
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
-            'body': "Available until <24h_time> (<time_left>)."
+            'body': "Available until <24h_time> (<time_left>).",
         },
         'pokestop': {
             'username': "Pokestop",
@@ -44,10 +44,9 @@ class DiscordAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings, max_attempts, static_map_key):
+    def __init__(self, settings, static_map_key):
         # Required Parameters
         self.__webhook_url = require_and_remove_key('webhook_url', settings, "'Discord' type alarms.")
-        self.__max_attempts = max_attempts
 
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
@@ -78,7 +77,7 @@ class DiscordAlarm(Alarm):
                     'content': 'PokeAlarm activated!'
                 }
             }
-            try_sending(log, self.connect, "Discord", self.send_webhook, args, self.__max_attempts)
+            try_sending(log, self.connect, "Discord", self.send_webhook, args)
             log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
@@ -90,6 +89,7 @@ class DiscordAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
+            'content': None, #AVATAR
             'map': get_static_map_url(settings.pop('map', self.__map), self.__static_map_key)
         }
 
@@ -101,6 +101,7 @@ class DiscordAlarm(Alarm):
         log.debug("Attempting to send notification to Discord.")
         payload = {
             'username': replace(alert['username'], info),
+            'content': str(info['content']), #AVATAR
             'embeds': [{
                 'title': replace(alert['title'], info),
                 'url': replace(alert['url'], info),
@@ -110,11 +111,15 @@ class DiscordAlarm(Alarm):
         }
         if alert['map'] is not None:
             payload['embeds'][0]['image'] = {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})}
+
+                    
         args = {
             'url': alert['webhook_url'],
             'payload': payload
         }
-        try_sending(log, self.connect, "Discord", self.send_webhook, args, self.__max_attempts)
+
+
+        try_sending(log, self.connect, "Discord", self.send_webhook, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
