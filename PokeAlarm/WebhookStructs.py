@@ -99,6 +99,7 @@ class RocketMap:
             'lng': float(data['longitude'])
         }
         stop['gmaps'] = get_gmaps_link(stop['lat'], stop['lng'])
+        stop['applemaps'] = get_applemaps_link(stop['lat'], stop['lng'])
         return stop
 
     @staticmethod
@@ -114,6 +115,7 @@ class RocketMap:
             'lng': float(data['longitude'])
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
+        gym['applemaps'] = get_applemaps_link(gym['lat'], gym['lng'])
         return gym
 
 
