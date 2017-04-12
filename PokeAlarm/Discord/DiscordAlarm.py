@@ -99,6 +99,7 @@ class DiscordAlarm(Alarm):
     # Send Alert to Discord
     def send_alert(self, alert, info):
         log.debug("Attempting to send notification to Discord.")
+        log.debug(info)
         payload = {
             'username': replace(alert['username'], info),
             'embeds': [{
@@ -132,9 +133,11 @@ class DiscordAlarm(Alarm):
         self.send_alert(self.__gym, gym_info)
 
     def send_webhook(self, url, payload):
+        log.debug(payload)
         resp = requests.post(url, json=payload, timeout=(None, 5))
         if resp.ok is True:
             log.debug("Notification successful (returned {})".format(resp.status_code))
         else:
+            log.debug("Discord response was {}".format(resp.content))
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(resp.status_code))
