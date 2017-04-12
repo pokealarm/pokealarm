@@ -22,6 +22,7 @@ class DiscordAlarm(Alarm):
     _defaults = {
         'pokemon': {
             'username': "<pkmn>",
+            'content':"",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
@@ -29,6 +30,7 @@ class DiscordAlarm(Alarm):
         },
         'pokestop': {
             'username': "Pokestop",
+            'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
@@ -36,6 +38,7 @@ class DiscordAlarm(Alarm):
         },
         'gym': {
             'username': "<new_team> Gym Alerts",
+            'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
@@ -50,6 +53,7 @@ class DiscordAlarm(Alarm):
         self.__max_attempts = max_attempts
 
         # Optional Alarm Parameters
+        self.__disable_embed = parse_boolean(settings.pop('disable_embed', "False"))
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
         self.__map = settings.pop('map', {})  # default for the rest of the alerts
         self.__static_map_key = static_map_key
@@ -86,6 +90,8 @@ class DiscordAlarm(Alarm):
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
+            'disable_embed': parse_boolean(settings.pop('disable_embed', self.__disable_embed)),
+            'content' : settings.pop('content', default['content']),
             'icon_url': settings.pop('icon_url', default['icon_url']),
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
@@ -102,15 +108,17 @@ class DiscordAlarm(Alarm):
         log.debug(info)
         payload = {
             'username': replace(alert['username'], info),
-            'embeds': [{
+            'content': replace(alert['content'], info),
+        }
+        if not alert['disable_embed']:
+            payload['embeds'] = [{
                 'title': replace(alert['title'], info),
                 'url': replace(alert['url'], info),
                 'description': replace(alert['body'], info),
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
             }]
-        }
-        if alert['map'] is not None:
-            payload['embeds'][0]['image'] = {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})}
+            if alert['map'] is not None:
+                payload['embeds'][0]['image'] = {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})}
         args = {
             'url': alert['webhook_url'],
             'payload': payload
