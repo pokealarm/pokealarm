@@ -340,6 +340,7 @@ class Manager(object):
         charge_id = pkmn['charge_id']
         size = pkmn['size']
         gender = pkmn['gender']
+        form = pkmn['form']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -484,6 +485,9 @@ class Manager(object):
 
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
+	#If it has a form it's an unown and append form onto name
+        if form != "unset":
+            name = name + " - " + form
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
