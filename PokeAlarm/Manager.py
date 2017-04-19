@@ -617,7 +617,7 @@ class Manager(object):
             defenders = ''
             if 'gym_name' in gym:
                 gym_name = gym['gym_name']
-                for pokemon in gym['pokemon']
+                for pokemon in gym['pokemon']:
                     defenders += '{} (CP {}) trained by {} ({})\n'.format(self.__pokemon_name(pokemon['pokemon_id']), pokemon['cp'], pokemon['trainer_name'], pokemon['trainer_level'])
             else:
                 log.debug("'gym' hook ignored, waiting for 'gym_details'")
