@@ -2,6 +2,7 @@
     "gyms":{
         "enabled":"False",
         "ignore_neutral":"False",
+        "details_only":"False"
         "filters":[
             {
                 "from_team":["Valor", "Instinct", "Mystic"], "to_team":["Valor", "Instinct", "Mystic"],

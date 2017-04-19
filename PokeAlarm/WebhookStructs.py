@@ -114,6 +114,10 @@ class RocketMap:
             'lat': float(data['latitude']),
             'lng': float(data['longitude'])
         }
+        if 'name' in data:
+            gym['gym_name'] = data['name']
+        if 'pokemon' in data:
+            gym['pokemon'] = data['pokemon']
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         gym['applemaps'] = get_applemaps_link(gym['lat'], gym['lng'])
         return gym
