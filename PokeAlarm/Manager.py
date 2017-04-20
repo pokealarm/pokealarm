@@ -596,7 +596,7 @@ class Manager(object):
         from_team_id = self.__gym_hist.get(gym_id)
 
         # Doesn't look like anything to me
-        if to_team_id == from_team_id:
+        if self.__gym_settings['details_only'] is False or to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
             return
         # Ignore changes to neutral
