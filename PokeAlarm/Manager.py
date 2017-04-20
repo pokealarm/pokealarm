@@ -596,7 +596,7 @@ class Manager(object):
         from_team_id = self.__gym_hist.get(gym_id)
 
         # Doesn't look like anything to me
-        if to_team_id == from_team_id:
+        if self.__gym_settings['details_only'] is False and to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
             return
         # Ignore changes to neutral
@@ -609,7 +609,20 @@ class Manager(object):
         if from_team_id is None:
             log.debug("Gym update ignored: first time seeing this gym")
             return
-
+        
+        # Check for gym_details
+        gym_name = '?'
+        defenders = '?'
+        if self.__gym_settings['details_only'] is True:
+            defenders = ''
+            if 'gym_name' in gym:
+                gym_name = gym['gym_name']
+                for pokemon in gym['pokemon']:
+                    defenders += '{} (CP {}) trained by {} ({})\n'.format(self.__pokemon_name[pokemon['pokemon_id']], pokemon['cp'], pokemon['trainer_name'], pokemon['trainer_level'])
+            else:
+                log.debug("'gym' hook ignored, waiting for 'gym_details'")
+                return
+                
         # Get some more info out used to check filters
         lat, lng = gym['lat'], gym['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
@@ -672,7 +685,9 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
-            'old_team': old_team
+            'old_team': old_team,
+            'gym_name': gym_name,
+            'defenders': defenders
         })
         self.add_optional_travel_arguments(gym)
 
