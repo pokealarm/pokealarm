@@ -47,7 +47,7 @@ def load_pokemon_section(settings):
         "min_sta": 0, "max_sta": 15,
         "quick_move": None, "charge_move": None, "moveset": None,
         "size": None,
-        "gender": None
+        "gender": None,
         "min_cp": 0, "max_cp": 4760,
     }, 'default')
     default = default_filt.to_dict()
