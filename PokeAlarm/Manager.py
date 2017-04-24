@@ -340,6 +340,7 @@ class Manager(object):
         charge_id = pkmn['charge_id']
         size = pkmn['size']
         gender = pkmn['gender']
+        cp = pkmn['cp']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -466,6 +467,19 @@ class Manager(object):
                     log.info("{} rejected: Gender information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
+
+            # Check the Attack IV of the Pokemon
+            if cp != '?':
+                if not filt.check_cp(cp):
+                    if self.__quiet is False:
+                        log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
+                            name, cp, filt.min_cp, filt.max_cp, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'cp' was not checked because it was missing.")
 
             # Nothing left to check, so it must have passed
             passed = True

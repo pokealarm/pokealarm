@@ -48,6 +48,7 @@ def load_pokemon_section(settings):
         "quick_move": None, "charge_move": None, "moveset": None,
         "size": None,
         "gender": None
+        "min_cp": 0, "max_cp": 4760,
     }, 'default')
     default = default_filt.to_dict()
     # Add the filters to the settings
@@ -158,6 +159,8 @@ class PokemonFilter(Filter):
         self.req_quick_move = PokemonFilter.create_moves_list(settings.pop("quick_move", default['quick_move']))
         self.req_charge_move = PokemonFilter.create_moves_list(settings.pop("charge_move", default['charge_move']))
         self.req_moveset = PokemonFilter.create_moveset_list(settings.pop("moveset",  default['moveset']))
+        self.min_cp = int(settings.pop('min_cp', None) or default['min_cp'])
+        self.max_cp = int(settings.pop('max_cp', None) or default['max_cp'])
 
         reject_leftover_parameters(settings, "pokemon filter under '{}'".format(location))
 
@@ -214,6 +217,10 @@ class PokemonFilter(Filter):
             return True
         return gender in self.genders
 
+    # Checks the CP against this filter
+    def check_cp(self, cp):
+        return self.min_cp <= cp <= self.max_cp
+
     # Convert this filter to a dict
     def to_dict(self):
         return {
@@ -226,6 +233,7 @@ class PokemonFilter(Filter):
             "moveset": self.req_moveset,
             "size": self.sizes,
             "gender": self.genders,
+            "min_cp": self.min_cp, "max_cp": self.max_cp,
             "ignore_missing": self.ignore_missing
         }
 
@@ -241,6 +249,7 @@ class PokemonFilter(Filter):
                "Move Sets: {}, ".format(self.req_moveset)  +\
                "Sizes: {}, ".format(self.sizes) + \
                "Genders: {}, ".format(self.genders) + \
+               "CP: {} to {}, ".format(self.min_cp, self.max_cp) +\
                "Ignore Missing: {} ".format(self.ignore_missing)
 
     @staticmethod
