@@ -42,7 +42,7 @@ class DiscordAlarm(Alarm):
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>.",
-             'color': "<new_team>"
+            'color': "<new_team>"
         }
     }
 
