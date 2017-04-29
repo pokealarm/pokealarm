@@ -14,7 +14,7 @@
         "filters":{ "min_dist":"0", "max_dist":"10" }
     },
     "pokemon":{
-        "enabled":"False",
+        "enabled":"True",
         "default": {
             "min_dist":"0", "max_dist":"inf",
             "min_iv":"0", "max_iv":"100", "min_atk": "0", "max_atk":"15",
@@ -234,7 +234,7 @@
         "Murkrow":"False",
         "Slowking":"False",
         "Misdreavus":"False",
-        "Unown":"False",
+        "Unown":"True",
         "Wobbuffet":"False",
         "Girafarig":"False",
         "Pineco":"False",

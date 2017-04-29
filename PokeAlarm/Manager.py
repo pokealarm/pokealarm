@@ -36,7 +36,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__form_name = {}, {}, {}, {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -485,9 +485,6 @@ class Manager(object):
 
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
-	#If it has a form it's an unown and append form onto name
-        if form != "unset":
-            name = name + " - " + form
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
@@ -499,7 +496,8 @@ class Manager(object):
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'form': self.__form_name.get(form, 'unknown')
         })
         self.add_optional_travel_arguments(pkmn)
 
@@ -735,6 +733,11 @@ class Manager(object):
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
                 self.__team_name[int(team_id)] = value
+        #Update form names
+        with open(os.path.join(locale_path, 'forms.json'), 'r') as f:
+            forms = json.loads(f.read())
+            for form_id, value in forms.iteritems():
+                self.__form_name[int(form_id)] = value
 
     ####################################################################################################################
 

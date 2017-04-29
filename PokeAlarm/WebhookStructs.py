@@ -4,7 +4,7 @@ import logging
 import traceback
 # 3rd Party Imports
 # Local Imports
-from Utils import get_gmaps_link, get_form_name, get_move_damage, get_move_dps, get_move_duration,\
+from Utils import get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,\
     get_move_energy, get_pokemon_gender, get_pokemon_size, get_applemaps_link
 
 log = logging.getLogger('WebhookStructs')
@@ -44,10 +44,6 @@ class RocketMap:
         quick_id = check_for_none(int, data.get('move_1'), '?')
         charge_id = check_for_none(int, data.get('move_2'), '?')
         lat, lng = data['latitude'], data['longitude']
- 	# Get the form from data and as it may be uint or string make sure is zero when string 'None'
-        form_raw = data['form']
-        if form_raw == None:
-            form_raw = 0
         # Generate all the non-manager specifi
         pkmn = {
             'type': "pokemon",
@@ -76,7 +72,7 @@ class RocketMap:
             'size': 'unknown',
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng),
-	    'form': get_form_name(int(form_raw))
+	        'form': check_for_none(int, data.get('form'), 0)
         }
         if pkmn['atk'] != '?' or pkmn['def'] != '?' or pkmn['sta'] != '?':
             pkmn['iv'] = float(((pkmn['atk'] + pkmn['def'] + pkmn['sta']) * 100) / float(45))
