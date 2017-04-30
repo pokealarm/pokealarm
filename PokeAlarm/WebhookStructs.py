@@ -70,9 +70,9 @@ class RocketMap:
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
             'size': 'unknown',
+            'form': check_for_none(int, data.get('form'), 0),
             'gmaps': get_gmaps_link(lat, lng),
-            'applemaps': get_applemaps_link(lat, lng),
-	        'form': check_for_none(int, data.get('form'), 0)
+            'applemaps': get_applemaps_link(lat, lng)
         }
         if pkmn['atk'] != '?' or pkmn['def'] != '?' or pkmn['sta'] != '?':
             pkmn['iv'] = float(((pkmn['atk'] + pkmn['def'] + pkmn['sta']) * 100) / float(45))
