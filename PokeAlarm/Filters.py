@@ -245,10 +245,10 @@ class PokemonFilter(Filter):
 
     @staticmethod
     def create_moves_list(moves):
-        if moves is None:  # no moves
-            return None
+        if moves is None or type(moves) == set:  # no moves or already defined moves
+            return moves
         if type(moves) != list:
-            log.error("Moves list must be in a comma seperated array. Ex: [\"Move\",\"Move\"]"
+            log.error("Moves list must be in a comma seperated array. Ex: [\"Move\",\"Move\"]. "
                       + "Please see PokeAlarm documentation for more examples.")
             sys.exit(1)
         list_ = set()
