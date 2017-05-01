@@ -41,6 +41,7 @@ def load_pokemon_section(settings):
     default_filt = PokemonFilter(settings.pop('default', {}), {
         "ignore_missing": False,
         "min_dist": 0.0, "max_dist": float('inf'),
+        "min_cp": 0, "max_cp": 4760,
         "min_iv": 0.0, "max_iv": 100.0,
         "min_atk": 0, "max_atk": 15,
         "min_def": 0, "max_def": 15,
@@ -48,7 +49,6 @@ def load_pokemon_section(settings):
         "quick_move": None, "charge_move": None, "moveset": None,
         "size": None,
         "gender": None,
-        "min_cp": 0, "max_cp": 4760,
     }, 'default')
     default = default_filt.to_dict()
     # Add the filters to the settings
@@ -143,6 +143,9 @@ class PokemonFilter(Filter):
         self.max_dist = float(settings.pop('max_dist', None) or default['max_dist'])
         # Do we ignore pokemon with missing info?
         self.ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', default['ignore_missing'])))
+        # CP
+        self.min_cp = int(settings.pop('min_cp', None) or default['min_cp'])
+        self.max_cp = int(settings.pop('max_cp', None) or default['max_cp'])
         # IVs
         self.min_iv = float(settings.pop('min_iv', None) or default['min_iv'])
         self.max_iv = float(settings.pop('max_iv', None) or default['max_iv'])
@@ -159,14 +162,16 @@ class PokemonFilter(Filter):
         self.req_quick_move = PokemonFilter.create_moves_list(settings.pop("quick_move", default['quick_move']))
         self.req_charge_move = PokemonFilter.create_moves_list(settings.pop("charge_move", default['charge_move']))
         self.req_moveset = PokemonFilter.create_moveset_list(settings.pop("moveset",  default['moveset']))
-        self.min_cp = int(settings.pop('min_cp', None) or default['min_cp'])
-        self.max_cp = int(settings.pop('max_cp', None) or default['max_cp'])
 
         reject_leftover_parameters(settings, "pokemon filter under '{}'".format(location))
 
     # Checks the given distance against this filter
     def check_dist(self, dist):
         return self.min_dist <= dist <= self.max_dist
+
+    # Checks the CP against this filter
+    def check_cp(self, cp):
+        return self.min_cp <= cp <= self.max_cp
 
     # Checks the IV percent against this filter
     def check_iv(self, dist):
@@ -217,14 +222,11 @@ class PokemonFilter(Filter):
             return True
         return gender in self.genders
 
-    # Checks the CP against this filter
-    def check_cp(self, cp):
-        return self.min_cp <= cp <= self.max_cp
-
     # Convert this filter to a dict
     def to_dict(self):
         return {
             "min_dist": self.min_dist, "max_dist": self.max_dist,
+            "min_cp": self.min_cp, "max_cp": self.max_cp,
             "min_iv": self.min_iv, "max_iv": self.max_iv,
             "min_atk": self.min_atk, "max_atk": self.max_atk,
             "min_def": self.min_def, "max_def": self.max_def,
@@ -233,13 +235,13 @@ class PokemonFilter(Filter):
             "moveset": self.req_moveset,
             "size": self.sizes,
             "gender": self.genders,
-            "min_cp": self.min_cp, "max_cp": self.max_cp,
             "ignore_missing": self.ignore_missing
         }
 
     # Print this filter
     def to_string(self):
         return "Dist: {} to {}, ".format(self.min_dist, self.max_dist) + \
+               "CP: {} to {}, ".format(self.min_cp, self.max_cp) + \
                "IV%: {} to {}, ".format(self.min_iv, self.max_iv) +  \
                "Atk: {} to {}, ".format(self.min_atk, self.max_atk) + \
                "Def: {} to {}, ".format(self.min_def, self.max_def) + \
@@ -249,7 +251,6 @@ class PokemonFilter(Filter):
                "Move Sets: {}, ".format(self.req_moveset)  +\
                "Sizes: {}, ".format(self.sizes) + \
                "Genders: {}, ".format(self.genders) + \
-               "CP: {} to {}, ".format(self.min_cp, self.max_cp) +\
                "Ignore Missing: {} ".format(self.ignore_missing)
 
     @staticmethod
