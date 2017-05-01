@@ -1,12 +1,16 @@
 #![PokeAlarm Logo](https://github.com/kvangent/PokeAlarm/wiki/images/logo.png) 
 
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
-[![license](https://img.shields.io/github/license/kvangent/PokeAlarm.svg)]()
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5W9ZTLMS5NB28&lc=US&item_name=PokeAlarm&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)  
+[![license](https://img.shields.io/github/license/kvangent/PokeAlarm.svg)]()  
 PokeAlarm is a third party extension of [RocketMap](https://github.com/RocketMap/RocketMap) that allows you to receive external notifications through a variety of services, such as Twitter, Facebook, Slack, or Discord.
 
+### Support PokeAlarm [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5W9ZTLMS5NB28&lc=US&item_name=PokeAlarm&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)  [![Donate](https://img.shields.io/badge/Donate-Patron-orange.svg)](https://www.patreon.com/bePatron?u=5193416)  
+If you like PokeAlarm, and enjoying seeing updates and new features added, consider donating to us. Donating to PokeAlarm helps cover the costs of running my own maps (which I need to test PokeAlarm) and lets me spend more time working on PokeAlarm instead of on something else.
+
+
+
 #CONFIG CHANGES WARNING
-PokeAlarm has recently updated to Version 3. This is a significant overhaul, and as such, some configuration changes may be required. 
+PokeAlarm is now on v3.1. For an overview of what has changed, please check out the latest [Patch Notess](https://github.com/kvangent/PokeAlarm/wiki/patch_notes).
 
 ## Features
 * Receive notifications for Pokemon, Pokestops, and Gyms
@@ -18,40 +22,54 @@ PokeAlarm has recently updated to Version 3. This is a significant overhaul, and
 * Multiprocessing allows multiple managers to share a single listening port, reducing overhead.  
 
 ## Services
-* [Boxcar](https://github.com/kvangent/PokeAlarm/wiki/Boxcar)
-* [Discord](https://github.com/kvangent/PokeAlarm/wiki/Discord)
-* [Facebook](https://github.com/kvangent/PokeAlarm/wiki/Facebook-Pages)
-* [Pushbullet](https://github.com/kvangent/PokeAlarm/wiki/Pushbullet)
-* [Pushover](https://github.com/kvangent/PokeAlarm/wiki/Pushover)  
-* [Slack](https://github.com/kvangent/PokeAlarm/wiki/Slack)
-* [Telegram](https://github.com/kvangent/PokeAlarm/wiki/Telegram) 
-* [Twilio (SMS)](https://github.com/kvangent/PokeAlarm/wiki/Twilio-(SMS))
-* [Twitter](https://github.com/kvangent/PokeAlarm/wiki/Twitter)
+* [Discord](Discord)
+* [Pushbullet](Pushbullet) 
+* [Slack](Slack)
+* [Telegram](Telegram) 
+* [Twilio (SMS)](Twilio)
+* [Twitter](Twitter)
+* [Facebook Pages](Facebook-Pages)
+
+## What exactly is PokeAlarm?
+
+PokeAlarm is a lightweight webserver designed to receive POST requests from your local RocketMap server. It sorts through these request and send your a message via your favorite message service.  This could be either a tweet when a rare pokemon spawning down the street, a Telegram message letting you know a lured pokestop only a few minutes away, or a Pushbullet notification letting you know your team's gym has fallen.
 
 ## Support
-### Wiki
-Please read the [**Wiki**](https://github.com/kvangent/PokeAlarm/wiki) before contacting us for support. It should answer all your questions about installation and configuration.
 
-### Discord
-Visit us at our [**Discord channel**](https://discord.gg/TNcqsRr) if you still have issues with your setup. Please stick to the `#troubleshooting` and `#general` chats and avoid sending private messages to any developers. We're working hard, we promise!
+#### Wiki
+Please read the [**Wiki**](https://github.com/kvangent/PokeAlarm/wiki) and the FAQ below before contacting us for support. It should answer all your questions about installation and configuration. Make sure to check out the sidebar on the right.
 
-### Github
-If you are experiencing issues with the alarm or would like to see new features, please open a ticket on github [here](https://github.com/kvangent/PokeAlarm/issues/new). Be sure to complete the included suppport template and provide as much information as possible.  **Support tickets that do not fully complete the request template WILL be closed without notice.**
+#### Discord
+Visit us at our [**Discord channel**](https://discord.gg/TNcqsRr) if you still have issues with your setup. Please stick to the `#troubleshooting` and `#general` chats and avoid sending private messages to devs. We're working hard, we promise!
+
+#### Github
+If you are experiencing issues with the alarm or would like to see new features, please open a ticket on github [here](https://github.com/kvangent/PokeAlarm/issues/new). Be sure to complete the included suppport template and provide as much information as possible.  **Support tickets that do not fully complete the request template may be closed without notice.**
 
 ## FAQ
-#### I am receiving an error about JSON input from PokeAlarm (e.g., "expecting delimiter"). What gives?
-* If you are a Windows user, stop using notepad and start using Notepad++. Make a fresh copy of the alarms.json and remake your changes. If you aren't a Windows user (or you are already using Notepad++) check your JSON format with a JSON formatter for issues ([jsoneditoronline.org](http://www.jsoneditoronline.org) is an excellent site to start.)
 
-#### Will you be adding support for ______ service?
-* Please make a request in the [New Service MEGATHREAD](https://github.com/kvangent/PokeAlarm/issues/147).  New standalone issue tickets will be closed without notice.
+#### I am receiving an error about JSON input from PokeAlarm. What gives?
 
-#### I am receiving _______ error from PokemonGo-Map! What do I do?
-* Checkout the [PokemonGo-Map Wiki](https://github.com/kvangent/PokeAlarm/wiki) or try asking for help in our [Discord channel](https://discordapp.com/invite/am66rag).
+* If on Windows, DON'T USE NOTEPAD. Use Notepad++ or PyCharm. Create a new `alarms.json` and start over. Alternatively, use [jsoneditoronline.org](http://www.jsoneditoronline.org) to check for errors.
 
-#### How do I conigure V3?
-* We are working on updating the wiki to reflect the changes. Use the `filters.json` file to specify which notifications you would like to receive. The 'alarms.json' file is now for specifying which services you would like to receive alerts from. 
+#### Which version of RocketMap do I need?
 
-#### This dynmic text command was working, but then I updated and it stopped. Why did you have to ruin everything?
-* The following changes were made with dynamic text commands in v3
-  * `<id>` is now `<pkmn_id>` (`<id>` is now the encounter id)
-  * `<move1>` and `<move2>` are now `<move_1>` and `<move_2>` 
+* Use the develop branch of RocketMap.  PokeAlarm is a webhook - an extension of RocketMap. We can update PokeAlarm without affecting your RocketMap installation (and vice-versa).  
+
+#### How do I request for a Service to be added to PokeAlarm?
+* Please make a request in the [NEW/UPCOMING SERVICE MEGA-THREAD](https://github.com/kvangent/PokeAlarm/issues/147).
+
+#### Man I wish this could do XYZ!
+* Open an Enhancement Request on github. Do not PM us!
+
+#### I am receiving XYZ error from RocketMap! What do I do?
+* Check the [RocketMap Wiki](https://rocketmap.readthedocs.io) or the ask in the RocketMap Discord.  We will not troubleshoot your RocketMap installation.
+
+#### Can I run multiple simultaneous alarms services?
+
+* Yes. You may configure as few or as many simultaneous alarm services in `alarms.json` like Twitter, Discord and Telegram.  Visit the Alarm Configuation wiki for more details.
+
+Alternatively, you can run RocketMap with multiple webhooks and have multiple instances of PokeAlarm, each assigned to a different `http://<host>:<port>`, e.g., `http://127.0.0.1:4000`, `http://127.0.0.1:4001`.
+
+#### I'm having issues with setting a location. It is not showing distance, maps are not showing up, walking directions, etc.
+
+* Ensure you have a Google Maps API key with all the necessary APIs enabled. Visit the Google Maps API Key wiki on how to test your key and more details.

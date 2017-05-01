@@ -2,6 +2,7 @@
 
 # Standard Library Imports
 import time
+import traceback
 # 3rd Party Imports
 # Local Imports
 from Utils import parse_boolean
@@ -15,7 +16,7 @@ from Utils import parse_boolean
 
 class Alarm(object):
 
-    _defaults = {
+    _defaults = {  # These are the default values for the 'Alerts'
         "pokemon": {},
         "lures": {},
         "gyms": {}
@@ -29,8 +30,12 @@ class Alarm(object):
     def connect(self):
         raise NotImplementedError("This is an abstract method.")
 
+    # (Re)establishes Service connection
+    def startup_message(self):
+        raise NotImplementedError("This is an abstract method.")
+
     # Set the appropriate settings for each alert
-    def set_alert(self, settings):
+    def create_alert_settings(self, settings, default):
         raise NotImplementedError("This is an abstract method.")
 
     # Send Alert to the Service
@@ -59,16 +64,15 @@ class Alarm(object):
 
     # Attempts to send the alert with the specified args, reconnecting if neccesary
     @staticmethod
-    def try_sending(alarm_log, reconnect, name, send_alert, args):
-        for i in range(1, 6):
+    def try_sending(log, reconnect, name, send_alert, args, max_attempts=3):
+        for i in range(max_attempts):
             try:
                 send_alert(**args)
-                if i is not 1:
-                    alarm_log.info("%s successly reconnected." % name)
-                return  # message sent succesfull
+                return  # message sent successfully
             except Exception as e:
-                alarm_log.error(e)
-                alarm_log.error("%s is having connection issues. %d attempt of 5." % (name, i))
-                time.sleep(5)
+                log.error("Encountered error while sending notification ({}: {})".format(type(e).__name__, e))
+                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                log.info("{} is having connection issues. {} attempt of {}.".format(name, i+1, max_attempts))
+                time.sleep(3)
                 reconnect()
-        alarm_log.error("Could not connect to %s... Giving up." % name)
+        log.error("Could not send notification... Giving up.")

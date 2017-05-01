@@ -4,7 +4,7 @@ import logging
 from pushbullet import PushBullet
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean
+from ..Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
 
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
@@ -40,48 +40,63 @@ class PushbulletAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, settings):
-        # Service Info
-        self.__api_key = settings['api_key']
-        self.__startup_message = settings.get('startup_message', "True")
-        self.__startup_list = settings.get('startup_list', "True")
-
-        # Set Alerts
-        self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
-
-        # Connect and send startup messages
+        # Required Parameters
+        self.__api_key = require_and_remove_key('api_key', settings, "'Pushbullet' type alarms.")
         self.__client = None
-        self.connect()
-        if parse_boolean(self.__startup_message):
-            self.__pokemon['sender'].push_note("PokeAlarm activated!", "We will alert you about pokemon.")
-        log.info("Pushbullet Alarm intialized.")
 
-    # (Re)establishes Pushbullet connection
+        # Optional Alarm Parameters
+        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__channel = settings.pop('channel', "True")
+        self.__sender = None
+
+        # Optional Alert Parameters
+        self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.create_alert_settings(settings.pop('gyms', {}), self._defaults['gym'])
+
+        #  Warn user about leftover parameters
+        reject_leftover_parameters(settings, "'Alarm level in Pushbullet alarm.")
+
+        log.info("Pushbullet Alarm has been created!")
+
+    # Establish connection with Pushbullet
     def connect(self):
         self.__client = PushBullet(self.__api_key)
-        self.__pokemon['sender'] = self.get_sender(self.__client, self.__pokemon['channel'])
-        self.__pokestop['sender'] = self.get_sender(self.__client, self.__pokestop['channel'])
-        self.__gym['sender'] = self.get_sender(self.__client, self.__gym['channel'])
+        self.__sender = self.get_sender(self.__channel)
+        self.__pokemon['sender'] = self.get_sender(self.__pokemon['channel'])
+        self.__pokestop['sender'] = self.get_sender(self.__pokestop['channel'])
+        self.__gym['sender'] = self.get_sender(self.__gym['channel'])
+
+    def startup_message(self):
+        if self.__startup_message:
+            args = {
+                "sender": self.__sender,
+                "title": "PokeAlarm activated!",
+                "message": "PokeAlarm has successully started!"
+            }
+            try_sending(log, self.connect, "PushBullet", self.push_note, args)
+            log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
-    def set_alert(self, settings, default):
+    def create_alert_settings(self, settings, default):
         alert = {
-            'title': settings.get('title', default['title']),
-            'url': settings.get('url', default['url']),
-            'body': settings.get('body', default['body']),
-            'channel': settings.get('channel')
+            'title': settings.pop('title', default['title']),
+            'url': settings.pop('url', default['url']),
+            'body': settings.pop('body', default['body']),
+            'channel': settings.pop('channel', None)
         }
+        reject_leftover_parameters(settings, "'Alert level in Pushbullet alarm.")
         return alert
 
     # Send Alert to Pushbullet
     def send_alert(self, alert, info):
         args = {
+            'sender': alert['sender'],
             'title': replace(alert['title'], info),
             'url': replace(alert['url'], info),
             'body': replace(alert['body'], info)
         }
-        try_sending(log, self.connect, "PushBullet", alert['sender'].push_link, args)
+        try_sending(log, self.connect, "PushBullet", self.push_link, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -96,11 +111,19 @@ class PushbulletAlarm(Alarm):
         self.send_alert(self.__gym, gym_info)
 
     # Attempt to get the channel, otherwise default to all devices
-    def get_sender(self, client, channel_tag):
-        req_channel = next((channel for channel in client.channels
+    def get_sender(self, channel_tag):
+        req_channel = next((channel for channel in self.__client.channels
                             if channel.channel_tag == channel_tag), self.__client)
         if req_channel is self.__client and channel_tag is not None:
             log.error("Unable to find channel... Pushing to all devices instead...")
         else:
-            log.info("Pushing to channel %s." % channel_tag)
+            log.debug("Setting to channel %s." % channel_tag)
         return req_channel
+
+    # Push a link to the given channel
+    def push_link(self, sender, title, url, body):
+        sender.push_link(title=title, url=url, body=body)
+
+    # Push a link to the given channel
+    def push_note(self, sender, title, message):
+        sender.push_note(title, message)

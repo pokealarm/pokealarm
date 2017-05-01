@@ -13,65 +13,58 @@ import gipc
 import googlemaps
 # Local Imports
 from . import config
-from WebhookStructs import Geofence
-from Utils import contains_arg, get_cardinal_dir, get_dist_as_str, get_earth_dist, get_move_damage, get_move_dps,\
-    get_move_id, get_move_duration, get_move_energy, get_path, get_pkmn_id, get_team_id, get_time_as_str, parse_boolean
-
+from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section
+from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
+    require_and_remove_key, parse_boolean, contains_arg
 log = logging.getLogger('Manager')
 
 
 class Manager(object):
 
-    def __init__(self, name, google_key, filters, geofences, alarms, location, locale, units, time_limit, timezone):
-
+    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
+                 filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
-        log.info("Setting up {} process.".format(self.__name))
+        log.info("----------- Manager '{}' is being created.".format(self.__name))
+        self.__debug = debug
 
-        # Set up the Google API
+        # Get the Google Maps API
         self.__google_key = google_key
-        self.__gmaps_client = googlemaps.Client(key=self.__google_key) if self.__google_key is not None else None
+        self.__gmaps_client = \
+            googlemaps.Client(key=self.__google_key, timeout=3, retry_timeout=4) if google_key is not None else None
+        self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
 
-        # Set up the rules on filtering notifications from given file
-        self.__pokemon_filter = None
-        self.__pokemon_hist = {}
-        self.__pokestop_filter = None
-        self.__pokestop_hist = {}
-        self.__gym_filter = None
-        self.__gym_hist = {}
-        self.create_filters(get_path(filters))
+        # Setup the language-specific stuff
+        self.__locale = locale
+        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
+        self.update_locales()
+
+        self.__units = units  # type of unit used for distances
+        self.__timezone = timezone  # timezone for time calculations
+        self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
+        self.__latlng = self.get_lat_lng_from_name(location)  # Array with Lat, Lng for the Manager
+        # Quiet mode
+        self.__quiet = quiet
+
+        # Load and Setup the Pokemon Filters
+        self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
+        self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist = {}, {}, {}
+        self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
         self.__geofences = []
-        self.__geofences_config = geofences if str(geofences).lower() != 'none' else None
-
+        log.debug(geofence_file)
+        if str(geofence_file).lower() != 'none':
+            self.load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
-        self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
         self.__alarms = []
-        self.__alarms_file = get_path(alarms)
-
-        # Set the location
-        self.__latlng = self.get_lat_lng_by_name(location) if location is not None else None
-
-        # Set the locale to use for names and moves
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
-        self.__locale = locale
-        self.update_locales()
-
-        # Set the units to be used
-        self.__units = units
-
-        # Set the minimum time_limit to send a notification (for pkmn/lures)
-        self.__time_limit = time_limit
-
-        # Set the timezone to use
-        self.__timezone = timezone
+        self.load_alarms_file(get_path(alarm_file), int(max_attempts))
 
         # Initialize the queue and start the process
-        self.__config = config
-        self.__threads = []  # Notification threads
         self.__queue = multiprocessing.Queue()
-        self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
+        self.__process = None
+
+        log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
     ############################################## CALLED BY MAIN PROCESS ##############################################
 
@@ -79,587 +72,148 @@ class Manager(object):
     def update(self, obj):
         self.__queue.put(obj)
 
+    # Get the name of this Manager
     def get_name(self):
         return self.__name
 
     ####################################################################################################################
-    ################################################## HANDLE EVENTS  ##################################################
 
-    # Set up some variables that don't get moved into the new process correctly
-    def intialize_process(self):
-        # Update config
-        config.update(**self.__config)
-        config['TIMEZONE'] = self.__timezone
-        config['API_KEY'] = self.__google_key
-        config['UNITS'] = self.__units
+    ################################################## MANAGER LOADING  ################################################
+    # Load in a new filters file
+    def load_filter_file(self, file_path):
+        try:
+            log.info("Loading Filters from file at {}".format(file_path))
+            with open(file_path, 'r') as f:
+                filters = json.load(f)
+            if type(filters) is not dict:
+                log.critical("Filters file's must be a JSON object: { \"pokemon\":{...},... }")
 
-        # Hush some new loggers
-        logging.getLogger('requests').setLevel(logging.WARNING)
-        logging.getLogger('urllib3').setLevel(logging.WARNING)
+            # Load in the Pokemon Section
+            self.__pokemon_settings = load_pokemon_section(
+                require_and_remove_key('pokemon', filters, "Filters file."))
 
-        if config['DEBUG'] is True:
-            logging.getLogger().setLevel(logging.DEBUG)
+            # Load in the Pokestop Section
+            self.__pokestop_settings = load_pokestop_section(
+                require_and_remove_key('pokestops', filters, "Filters file."))
 
-        # Make the Alarms
-        self.create_alarms(self.__alarms_file)
+            # Load in the Gym Section
+            self.__gym_settings = load_gym_section(
+                require_and_remove_key('gyms', filters, "Filters file."))
 
-        if self.__geofences_config is not None:
-            self.create_geofences(get_path(self.__geofences_config))
+            return
 
-    def run(self):
-        self.intialize_process()
+        except ValueError as e:
+            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
+            log.error(
+                "PokeAlarm has encountered a 'ValueError' while loading the Filters file. This typically means your " +
+                "file isn't in the correct json format. Try loading your file contents into a json validator.")
+        except IOError as e:
+            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
+            log.error("PokeAlarm was unable to find a filters file at {}." +
+                      "Please check that this file exists and PA has read permissions.").format(file_path)
+        except Exception as e:
+            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
 
-        last_clean = datetime.utcnow()
-
-        while True:  # Run forever and ever
-            # Get next object to process
-            obj = self.__queue.get(block=True)
-            # Clean out visited every 3 minutes
-            if datetime.utcnow() - last_clean > timedelta(minutes=3):
-                log.debug("Cleaning history...")
-                self.clean_hist()
-                last_clean = datetime.utcnow()
-            try:
-                kind = obj['type']
-                log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
-                if kind == "pokemon":
-                    self.handle_pokemon(obj)
-                elif kind == "pokestop":
-                    self.handle_pokestop(obj)
-                elif kind == "gym":
-                    self.handle_gym(obj)
+    # Load in a geofence file
+    def load_geofence_file(self, file_path):
+        try:
+            geofences = []
+            name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
+            coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
+            with open(file_path, 'r') as f:
+                lines = f.read().splitlines()
+            name = "geofence"
+            points = []
+            for line in lines:
+                line = line.strip()
+                match_name = name_pattern.search(line)
+                if match_name:
+                    if len(points) > 0:
+                        geofences.append(Geofence(name, points))
+                        log.info("Geofence {} added.".format(name))
+                        points = []
+                    name = match_name.group(0)
+                elif coor_patter.match(line):
+                    lat, lng = map(float, line.split(","))
+                    points.append([lat, lng])
                 else:
-                    log.error("!!! Manager does not support {} objects!".format(kind))
-                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
-            except Exception as e:
-                log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
-                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-
-    # Clean out the expired objects from histories (to prevent oversized sets)
-    def clean_hist(self):
-        for dict_ in (self.__pokemon_hist, self.__pokestop_hist):
-            old = []
-            for id_ in dict_:  # Gather old events
-                if dict_[id_] < datetime.utcnow():
-                    old.append(id_)
-            for id_ in old:  # Remove gathered events
-                del dict_[id_]
-
-    def handle_pokemon(self, pkmn):
-        # Quick check for enabled
-        if self.__pokemon_filter['enabled'] is False:
-            log.debug("Pokemon ignored: notifications are disabled.")
-            return
-
-        id_ = pkmn['id']
-        pkmn_id = pkmn['pkmn_id']
-        name = self.__pokemon_name[pkmn_id]
-
-        # Check for previously processed
-        if id_ in self.__pokemon_hist:
-            if config['QUIET'] is False:
-                log.debug("{} was skipped because it was previously processed.".format(name))
-            return
-        self.__pokemon_hist[id_] = pkmn['disappear_time']
-
-        # Check that the filter is set
-        if pkmn_id not in self.__pokemon_filter:
-            if config['QUIET'] is False:
-                log.info("{} ignored: filter was not set".format(name))
-                return
-
-        # Check the time remaining
-        seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
-        if seconds_left < self.__time_limit:
-            if config['QUIET'] is False:
-                log.info("{} ignored: {} seconds remaining.".format(name, seconds_left))
-            return
-
-        filt = self.__pokemon_filter[pkmn_id]
-
-        # Check the distance from the set location
-        lat, lng = pkmn['lat'], pkmn['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
-        if dist != 'unkn':
-            if dist < filt['min_dist'] or filt['max_dist'] < dist:
-                if config['QUIET'] is False:
-                    log.info("{} ignored: distance ({:.2f}) was not in range {:.2f} to {:.2f}.".format(
-                        name, dist, filt['min_dist'], filt['max_dist']))
-                return
-        else:
-            log.debug("Pokemon dist was not checked because no location was set.")
-
-        # Check the IV's of the Pokemon
-        iv = pkmn['iv']
-        if iv != 'unkn':
-            if iv < filt['min_iv'] or filt['max_iv'] < iv:
-                if config['QUIET'] is False:
-                    log.info("{} ignored: IVs ({:.2f}) not in range {:.2f} to {:.2f}.".format(
-                        name, iv, filt['min_iv'], filt['max_iv']))
-                return
-        else:
-            log.debug("Pokemon IV's were not checked because they are unknown.")
-            if filt['ignore_missing'] is True:
-                log.info("{} ignored: IV information was missing".format(name))
-                return
-
-        # Check the moves of the Pokemon
-        move_1_id = pkmn['move_1_id']
-        move_2_id = pkmn['move_2_id']
-        # TODO: Move damage
-        if move_1_id != 'unknown' and move_2_id != 'unknown':
-            move_1_f, move_2_f, moveset_f = filt['move_1'], filt['move_2'], filt['moveset']
-            if move_1_f is not None and move_1_id not in move_1_f:  # Check Move 1
-                if config['QUIET'] is False:
-                    log.info("{} ignored: Move 1 was incorrect.".format(name))
-                return
-            if move_2_f is not None and move_2_id not in move_2_f:  # Check Move 2
-                if config['QUIET'] is False:
-                    log.info("{} ignored: Move 2 was incorrect.".format(name))
-                return
-            if moveset_f is not None:  # Check for movesets
-                correct_moves = False
-                for filt in moveset_f:
-                    correct_moves |= (move_1_id in filt and move_2_id in filt)
-                if correct_moves is False:  # Wrong moveset
-                    if config['QUIET'] is False:
-                        log.info("{} ignored: Moveset was incorrect.".format(name))
-                    return
-        else:
-            log.debug("Pokemon moves were not checked because they are unknown.")
-            if filt['ignore_missing'] is True:
-                log.info("{} ignored: Moves information was missing".format(name))
-                return
-
-        # Check if in geofences
-        if len(self.__geofences) > 0:
-            inside = False
-            for gf in self.__geofences:
-                inside |= gf.contains(lat, lng)
-            if not inside:
-                if config['QUIET'] is False:
-                    log.info("{} ignored: located outside geofences.".format(name))
-                return
-        else:
-            log.debug("Pokemon inside geofences was not checked because no geofences were set.")
-
-        time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
-        pkmn.update({
-            'pkmn': name,
-            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'time_left': time_str[0],
-            '12h_time': time_str[1],
-            '24h_time': time_str[2],
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
-            'iv_0': "{:.0f}".format(iv) if iv != 'unkn' else 'unkn',
-            'iv': "{:.1f}".format(iv) if iv != 'unkn' else 'unkn',
-            'iv_2': "{:.2f}".format(iv) if iv != 'unkn' else 'unkn',
-            'move_1': self.__move_name.get(move_1_id, 'unknown'),
-            'move_1_damage': get_move_damage(move_1_id),
-            'move_1_dps': get_move_dps(move_1_id),
-            'move_1_duration': get_move_duration(move_1_id),
-            'move_1_energy': get_move_energy(move_1_id),
-            'move_2': self.__move_name.get(move_2_id, 'unknown'),
-            'move_2_damage': get_move_damage(move_2_id),
-            'move_2_dps': get_move_dps(move_2_id),
-            'move_2_duration': get_move_duration(move_2_id),
-            'move_2_energy': get_move_energy(move_2_id)
-        })
-        # Optional Stuff
-        self.optional_arguments(pkmn)
-        if config['QUIET'] is False:
-            log.info("{} notification has been triggered!".format(name))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokemon_alert, pkmn))
-            gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
-
-    def handle_pokestop(self, stop):
-        # Quick check for enabled
-        if self.__pokestop_filter['enabled'] is False:
-            log.debug("Pokestop ignored: notifications are disabled.")
-            return
-
-        id_ = stop['id']
-
-        # Check for previously processed (and make sure previous lure hasn't expired)
-        if id_ in self.__pokestop_hist and self.__pokestop_hist[id_] >= datetime.utcnow():
-            if config['QUIET'] is False:
-                log.debug("Pokestop ({}) ignored: because it was previously notified.".format(id_))
-            return
-
-        self.__pokestop_hist[id_] = expire_time = stop['expire_time']
-
-        # Check the time remaining
-        seconds_left = (expire_time - datetime.utcnow()).total_seconds()
-        if seconds_left < self.__time_limit:
-            if config['QUIET'] is False:
-                log.info("Pokestop ({}) ignored: only {} seconds remaining.".format(id_, seconds_left))
-            return
-
-        filt = self.__pokestop_filter
-
-        # Check the distance from the set location
-        lat, lng = stop['lat'], stop['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
-        if dist != 'unkn':
-            if dist < filt['min_dist'] or filt['max_dist'] < dist:
-                if config['QUIET'] is False:
-                    log.info("Pokestop ({}) ignored: distance was not in range {:.2f} to {:.2f}.".format(
-                        id_, filt['min_dist'], filt['max_dist']))
-                return
-        else:
-            log.debug("Pokestop distance was not checked because no location was set.")
-
-        # Check if in geofences
-        if len(self.__geofences) > 0:
-            inside = False
-            for gf in self.__geofences:
-                inside |= gf.contains(lat, lng)
-            if not inside:
-                if config['QUIET'] is False:
-                    log.info("Pokestop ignored: located outside geofences.")
-                return
-        else:
-            log.debug("Pokestop inside geofences was not checked because no geofences were set.")
-
-        time_str = get_time_as_str(expire_time, self.__timezone)
-        stop.update({
-            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'time_left': time_str[0],
-            '12h_time': time_str[1],
-            '24h_time': time_str[2],
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
-        })
-
-        # Optional Stuff
-        self.optional_arguments(stop)
-        if config['QUIET'] is False:
-            log.info("Pokestop ({}) notification has been triggered!".format(id_))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokestop_alert, stop))
-            gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
-
-    def handle_gym(self, gym):
-        # Quick check for enabled
-        if self.__gym_filter['enabled'] is False:
-            log.debug("Gym ignored: notifications are disabled.")
-            return
-        log.debug("Gyms set to {}.".format(self.__gym_filter['enabled']))
-
-        id_ = gym['id']
-        team_id = gym['team_id']
-        old_team = self.__gym_hist.get(id_)
-
-        # Ignore gyms when there is no change
-        if old_team == team_id:
-            log.debug("Gym update ignored: team didn't change")
-            return
-
-        # Ignore changes to neutral
-        if self.__gym_filter['ignore_neutral'] and team_id == 0:
-            log.debug("Gym update ignored: changed to neutral")
-            return
-
-        self.__gym_hist[id_] = team_id
-
-        # Ignore first time updates
-        if old_team is None:
-            log.debug("Gym update ignored: first time seeing gym")
-            return
-
-        if old_team not in self.__gym_filter and team_id not in self.__gym_filter:
-            if config['QUIET'] is False:
-                log.info("Gym update ignored: neither team is enabled")
-            return
-
-        lat, lng = gym['lat'], gym['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
-        if dist != 'unkn':
-            old_range, new_range = False, False
-            old_f = self.__gym_filter.get(old_team)
-            if old_f is not None:
-                old_range = old_f['min_dist'] <= dist <= old_f['max_dist']
-            new_f = self.__gym_filter.get(team_id)
-            if new_f is not None:
-                new_range = new_f['min_dist'] <= dist <= new_f['max_dist']
-            if old_range is False and new_range is False:
-                if config['QUIET'] is False:
-                    log.info("Gym update ignored: both teams outside range")
-                return
-        else:
-            log.debug("Gym distance was not checked because no location was set.")
-
-        # Check if in geofences
-        if len(self.__geofences) > 0:
-            inside = False
-            for gf in self.__geofences:
-                inside |= gf.contains(lat, lng)
-            if inside is False:
-                if config['QUIET'] is False:
-                    log.info("Gym update ignored: located outside geofences.")
-                return
-        else:
-            log.debug("Gym inside geofences was not checked because no geofences were set.")
-
-        # Optional Stuff
-        self.optional_arguments(gym)
-        if config['QUIET'] is False:
-            log.info("Gym ({}) notification has been triggered!".format(id_))
-
-        gym.update({
-            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
-            'new_team': self.__team_name[team_id],
-            'old_team': self.__team_name[old_team],
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
-        })
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.gym_alert, gym))
-            gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
-
-    # Retrieve optional requirements
-    def optional_arguments(self, info):
-        lat, lng = info['lat'], info['lng']
-        if self.__api_req['REVERSE_LOCATION']:
-            info.update(**self.reverse_location(lat, lng))
-        if self.__api_req['WALK_DIST']:
-            info.update(**self.get_walking_data(lat, lng))
-        if self.__api_req['BIKE_DIST']:
-            info.update(**self.get_biking_data(lat, lng))
-        if self.__api_req['DRIVE_DIST']:
-            info.update(**self.get_driving_data(lat, lng))
-
-    ####################################################################################################################
-
-    ##################################################  INITIALIZATION  ################################################
-
-    def create_filters(self, file_path):
-        # Load the filters file in
-        with open(file_path, 'r') as f:
-            filters = json.loads(f.read())
-
-        # Set the Pokemon filter
-        self.set_pokemon(filters.get('pokemon', {}))
-
-        # Set the Pokestop filter
-        self.set_pokestops(filters.get('pokestops', {}))
-
-        # Set up Gym filter
-        self.set_gyms(filters.get('gyms', {}))
-
-    # Update the pokemon according to settings
-    def set_pokemon(self, settings):
-        # Start a new dict to track filters
-        pokemon = {'enabled': bool(parse_boolean(settings.pop('enabled', False)))}
-        min_dist = float(settings.pop('min_dist', None) or 0)
-        max_dist = float(settings.pop('max_dist', None) or 'inf')
-        min_iv = float(settings.pop('min_iv', None) or 0)
-        max_iv = float(settings.pop('max_iv', None) or 100)
-        ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', False)))
-        if pokemon['enabled']:
-            log.info("Pokemon defaults: distance {:.2f} to {:.2f} / IV's {:.2f} to {:.2f}".format(
-                min_dist, max_dist, min_iv, max_iv))
-        for name in settings:
-            pkmn_id = get_pkmn_id(name)
-            if pkmn_id is None:
-                log.error("Unable to find pokemon named {}...".format(name))
-                continue
-            if parse_boolean(settings[name]) is False:  # If set to false, set it as false
-                log.debug("{} name set to 'false'. Skipping... ".format(name))
-                continue
-            else:
-                try:
-                    info = settings[name]
-                    if parse_boolean(info):  # Allow all defaults
-                        info = {}
-                    pokemon[pkmn_id] = {
-                        "min_dist": float(info.get('min_dist', None) or min_dist),
-                        "max_dist": float(info.get('max_dist', None) or max_dist),
-                        "min_iv": float(info.get('min_iv', None) or min_iv),
-                        "max_iv": float(info.get('max_iv', None) or max_iv),
-                        "move_1": self.required_moves(info.get("move_1", None)),
-                        "move_2": self.required_moves(info.get("move_2", None)),
-                        "moveset": self.required_moveset(info.get("moveset", None)),
-                        "ignore_missing": bool(parse_boolean(info.get('ignore_missing', ignore_missing)))
-                    }
-                except Exception as e:
-                    log.error("Trying to set pokemon {} gave error: \n {}".format(pkmn_id, e))
-                    log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                    log.error("Geofence was unable to parse this line: {}".format(line))
+                    log.error("All lines should be either '[name]' or 'lat,lng'.")
                     sys.exit(1)
-        for key in sorted(pokemon.iterkeys()):  # Output the pokemon in order
-            log.debug("#{} was set to the following: \n{}".format(
-                key, json.dumps(pokemon[key], sort_keys=True, indent=4)))
-        self.__pokemon_filter = pokemon
-
-    def set_pokestops(self, settings):
-        pokestops = {
-            "enabled": bool(parse_boolean(settings.pop('enabled', False))),
-            "min_dist": float(settings.get('min_dist', None) or 0),
-            "max_dist": float(settings.get('max_dist', None) or 'inf')
-        }
-        if pokestops['enabled']:
-            log.info("Pokestop distance: {} to {}".format(pokestops['min_dist'], pokestops['max_dist']))
-        self.__pokestop_filter = pokestops
-
-    def set_gyms(self, settings):
-        gyms = {
-            "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False),
-            "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False)
-        }
-        defaults = {
-            "min_dist": float(settings.pop('min_dist', None) or 0),
-            "max_dist": float(settings.pop('max_dist', None) or 'inf')
-        }
-        log.info("Gym distance: {:.2f} to {:.2f}. Ignoring Neutral set to {}".format(
-            defaults['min_dist'], defaults['max_dist'], gyms['ignore_neutral']))
-
-        for name in settings:
-            team_id = get_team_id(name)
-            if team_id is None:
-                log.error("Unable to find team named {}...".format(name))
-                continue
-            if parse_boolean(settings[name]) is False:  # If set to false, skip altogether.
-                log.debug("{} name set to 'false'. Skipping...".format(name))
-                continue
-            else:
-                try:
-                    info = settings[name]
-                    if parse_boolean(info):  # Allow all defaults
-                        info = {}
-                    gyms[team_id] = {
-                        "min_dist": float(info.get('min_dist', None) or defaults['min_dist']),
-                        "max_dist": float(info.get('max_dist', None) or defaults['max_dist']),
-                    }
-                except Exception as e:
-                    log.error("Trying to set gym {} gave error: \n {}".format(team_id, e))
-                    log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        for key in sorted(gyms.iterkeys()):  # Output the pokemon in order
-            log.debug("Team #{} was set to the following: \n{}".format(
-                key, json.dumps(gyms[key], sort_keys=True, indent=4)))
-        self.__gym_filter = gyms
-
-    def create_geofences(self, file_path):
-        if file_path is None:
-            return
-        geofences = {}
-        with open(file_path, 'r') as file_:
-            cur = "Geofence_0"
-            for line in file_:
-                name = re.match("\[([^]]+)\]", line)
-                if name:
-                    cur = name.group(1)
-                    geofences[cur] = []
-                else:
-                    geofences[cur].append([float(x) for x in line.split(",")])
-        for name, points in geofences.iteritems():
-            self.__geofences.append(Geofence(name, points))
+            geofences.append(Geofence(name, points))
             log.info("Geofence {} added.".format(name))
-            log.debug("Geofence has the following points: \n {}".format(points))
+            self.__geofences = geofences
+            return
+        except IOError as e:
+            log.error("IOError: Please make sure a file with read/write permissions exsist at {}".format(file_path))
+        except Exception as e:
+            log.error("Encountered error while loading Geofence: {}: {}".format(type(e).__name__, e))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
 
-    def update_locales(self):
-        locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
-        # Update pokemon names
-        with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
-            names = json.loads(f.read())
-            for pkmn_id, value in names.iteritems():
-                self.__pokemon_name[int(pkmn_id)] = value
-        # Update move names
-        with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
-            moves = json.loads(f.read())
-            for move_id, value in moves.iteritems():
-                self.__move_name[int(move_id)] = value
-        # Update team names
-        with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
-            teams = json.loads(f.read())
-            for team_id, value in teams.iteritems():
-                self.__team_name[int(team_id)] = value
-
-    # Generate a set of required moves
-    def required_moves(self, moves):
-        if moves is None:  # no moves
-            return None
-        list_ = []
-        for move_name in moves:
-            move_id = get_move_id(move_name)
-            if move_id is not None:
-                list_.append(move_id)
-            else:
-                log.error("Unable to find a move id for '{}'. Please check your spelling.".format(move_name))
+    def load_alarms_file(self, file_path, max_attempts):
+        log.info("Loading Alarms from the file at {}".format(file_path))
+        try:
+            with open(file_path, 'r') as f:
+                alarm_settings = json.load(f)
+            if type(alarm_settings) is not list:
+                log.critical("Alarms file must be a list of Alarms objects - [ {...}, {...}, ... {...} ]")
                 sys.exit(1)
-        return list_
-
-    # Generate a list of accepted movesets
-    def required_moveset(self, moves):
-        if moves is None:  # no moves
-            return None
-        list_ = []
-        for moveset in moves:
-            list_.append(self.required_moves(moveset.split('/')))
-        return list_
-
-    ####################################################################################################################
-
-    ##################################################  ALARM CREATION #################################################
-
-    def create_alarms(self, file_path):
-        with open(file_path, 'r') as f:
-            alarm_settings = json.load(f)
-        for alarm in alarm_settings:
-            if parse_boolean(alarm['active']) is True:
-                if alarm['type'] == 'boxcar':
-                    from Boxcar import BoxcarAlarm
-                    self.__alarms.append(BoxcarAlarm(alarm))
-                elif alarm['type'] == 'discord':
-                    from Discord import DiscordAlarm
-                    self.__alarms.append(DiscordAlarm(alarm))
-                elif alarm['type'] == 'facebook_page':
-                    from FacebookPage import FacebookPageAlarm
-                    self.__alarms.append(FacebookPageAlarm(alarm))
-                elif alarm['type'] == 'pushbullet':
-                    from Pushbullet import PushbulletAlarm
-                    self.__alarms.append(PushbulletAlarm(alarm))
-                elif alarm['type'] == 'pushover':
-                    from Pushover import PushoverAlarm
-                    self.__alarms.append(PushoverAlarm(alarm))
-                elif alarm['type'] == 'slack':
-                    from Slack import SlackAlarm
-                    self.__alarms.append(SlackAlarm(alarm))
-                elif alarm['type'] == 'telegram':
-                    from Telegram import TelegramAlarm
-                    self.__alarms.append(TelegramAlarm(alarm))
-                elif alarm['type'] == 'twilio':
-                    from Twilio import TwilioAlarm
-                    self.__alarms.append(TwilioAlarm(alarm))
-                elif alarm['type'] == 'twitter':
-                    from Twitter import TwitterAlarm
-                    self.__alarms.append(TwitterAlarm(alarm))
+            self.__alarms = []
+            for alarm in alarm_settings:
+                if parse_boolean(require_and_remove_key('active', alarm, "Alarm objects in Alarms file.")) is True:
+                    _type = require_and_remove_key('type', alarm, "Alarm objects in Alarms file.")
+                    self.set_optional_args(str(alarm))
+                    if _type == 'discord':
+                        from Discord import DiscordAlarm
+                        self.__alarms.append(DiscordAlarm(alarm, max_attempts, self.__google_key))
+                    elif _type == 'facebook_page':
+                        from FacebookPage import FacebookPageAlarm
+                        self.__alarms.append(FacebookPageAlarm(alarm))
+                    elif _type == 'pushbullet':
+                        from Pushbullet import PushbulletAlarm
+                        self.__alarms.append(PushbulletAlarm(alarm))
+                    elif _type == 'slack':
+                        from Slack import SlackAlarm
+                        self.__alarms.append(SlackAlarm(alarm, self.__google_key))
+                    elif _type == 'telegram':
+                        from Telegram import TelegramAlarm
+                        self.__alarms.append(TelegramAlarm(alarm))
+                    elif _type == 'twilio':
+                        from Twilio import TwilioAlarm
+                        self.__alarms.append(TwilioAlarm(alarm))
+                    elif _type == 'twitter':
+                        from Twitter import TwitterAlarm
+                        self.__alarms.append(TwitterAlarm(alarm))
+                    else:
+                        log.error("Alarm type not found: " + alarm['type'])
+                        log.error("Please consult the PokeAlarm documentation accepted Alarm Types")
+                        sys.exit(1)
                 else:
-                    log.info("Alarm type not found: " + alarm['type'])
-                self.set_optional_args(str(alarm))
-            else:
-                log.info("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
+                    log.debug("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
+            log.info("{} active alarms found.".format(len(self.__alarms)))
+            return  # all done
+        except ValueError as e:
+            log.error("Encountered error while loading Alarms file: {}: {}".format(type(e).__name__, e))
+            log.error(
+                "PokeAlarm has encountered a 'ValueError' while loading the Alarms file. This typically means your " +
+                "file isn't in the correct json format. Try loading your file contents into a json validator.")
+        except IOError as e:
+            log.error("Encountered error while loading Alarms: {}: {}".format(type(e).__name__, e))
+            log.error("PokeAlarm was unable to find a filters file at {}." +
+                      "Please check that this file exists and PA has read permissions.").format(file_path)
+        except Exception as e:
+            log.error("Encountered error while loading Alarms: {}: {}".format(type(e).__name__, e))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
 
     # Returns true if string contains an argument that requires
     def set_optional_args(self, line):
         # Reverse Location
-        args = {'address', 'postal', 'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
+        args = {'street', 'street_num', 'address', 'postal',
+                'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
         self.__api_req['REVERSE_LOCATION'] = self.__api_req['REVERSE_LOCATION'] or contains_arg(line, args)
         log.debug("REVERSE_LOCATION set to %s" % self.__api_req['REVERSE_LOCATION'])
 
@@ -680,49 +234,561 @@ class Manager(object):
 
     ####################################################################################################################
 
+    ################################################## HANDLE EVENTS  ##################################################
+
+    # Start it up
+    def start(self):
+        self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
+
+    def setup_in_process(self):
+        # Update config
+        config['TIMEZONE'] = self.__timezone
+        config['API_KEY'] = self.__google_key
+        config['UNITS'] = self.__units
+        config['DEBUG'] = self.__debug
+
+        # Hush some new loggers
+        logging.getLogger('requests').setLevel(logging.WARNING)
+        logging.getLogger('urllib3').setLevel(logging.WARNING)
+
+        if config['DEBUG'] is True:
+            logging.getLogger().setLevel(logging.DEBUG)
+
+        # Conect the alarms and send the start up message
+        for alarm in self.__alarms:
+            alarm.connect()
+            alarm.startup_message()
+
+    # Main event handler loop
+    def run(self):
+        self.setup_in_process()
+        last_clean = datetime.utcnow()
+        while True:  # Run forever and ever
+            # Get next object to process
+            obj = self.__queue.get(block=True)
+            # Clean out visited every 3 minutes
+            if datetime.utcnow() - last_clean > timedelta(minutes=3):
+                log.debug("Cleaning history...")
+                self.clean_hist()
+                last_clean = datetime.utcnow()
+            try:
+                kind = obj['type']
+                log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
+                if kind == "pokemon":
+                    self.process_pokemon(obj)
+                elif kind == "pokestop":
+                    self.process_pokestop(obj)
+                elif kind == "gym":
+                    self.process_gym(obj)
+                else:
+                    log.error("!!! Manager does not support {} objects!".format(kind))
+                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
+            except Exception as e:
+                log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
+                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+
+    # Clean out the expired objects from histories (to prevent oversized sets)
+    def clean_hist(self):
+        for dict_ in (self.__pokemon_hist, self.__pokestop_hist):
+            old = []
+            for id_ in dict_:  # Gather old events
+                if dict_[id_] < datetime.utcnow():
+                    old.append(id_)
+            for id_ in old:  # Remove gathered events
+                del dict_[id_]
+
+    # Process new Pokemon data and decide if a notification needs to be sent
+    def process_pokemon(self, pkmn):
+        # Make sure that pokemon are enabled
+        if self.__pokemon_settings['enabled'] is False:
+            log.debug("Pokemon ignored: pokemon notifications are disabled.")
+            return
+
+        # Extract some base information
+        id_ = pkmn['id']
+        pkmn_id = pkmn['pkmn_id']
+        name = self.__pokemon_name[pkmn_id]
+
+        # Check for previously processed
+        if id_ in self.__pokemon_hist:
+            log.debug("{} was skipped because it was previously processed.".format(name))
+            return
+        self.__pokemon_hist[id_] = pkmn['disappear_time']
+
+        # Check the time remaining
+        seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
+            if self.__quiet is False:
+                log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
+            return
+
+        # Check that the filter is even set
+        if pkmn_id not in self.__pokemon_settings['filters']:
+            if self.__quiet is False:
+                log.info("{} ignored: no filters are set".format(name))
+            return
+
+        # Extract some useful info that will be used in the filters
+        passed = False
+        lat, lng = pkmn['lat'], pkmn['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
+        iv = pkmn['iv']
+        def_ = pkmn['def']
+        atk = pkmn['atk']
+        sta = pkmn['sta']
+        quick_id = pkmn['quick_id']
+        charge_id = pkmn['charge_id']
+        size = pkmn['size']
+        gender = pkmn['gender']
+
+        filters = self.__pokemon_settings['filters'][pkmn_id]
+        for filt_ct in range(len(filters)):
+            filt = filters[filt_ct]
+
+            # Check the distance from the set location
+            if dist != 'unkn':
+                if filt.check_dist(dist) is False:
+                    if self.__quiet is False:
+                        log.info("{} rejected: distance ({:.2f}) was not in range {:.2f} to {:.2f} (F #{})".format(
+                            name, dist, filt.min_dist, filt.max_dist, filt_ct))
+                    continue
+            else:
+                log.debug("Filter dist was not checked because the manager has no location set.")
+
+            # Check the IV percent of the Pokemon
+            if iv != '?':
+                if not filt.check_iv(iv):
+                    if self.__quiet is False:
+                        log.info("{} rejected: IV percent ({:.2f}) not in range {:.2f} to {:.2f} - (F #{})".format(
+                            name, iv, filt.min_iv, filt.max_iv, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: 'IV' information was missing (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon IV percent was not checked because it was missing.")
+
+            # Check the Attack IV of the Pokemon
+            if atk != '?':
+                if not filt.check_atk(atk):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Attack IV ({}) not in range {} to {} - (F #{})".format(
+                            name, atk, filt.min_atk, filt.max_atk, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Attack IV information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'atk' was not checked because it was missing.")
+
+            # Check the Defense IV of the Pokemon
+            if def_ != '?':
+                if not filt.check_def(def_):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Defense IV ({}) not in range {} to {} - (F #{})".format(
+                            name, def_, filt.min_atk, filt.max_atk, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Defense IV information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'def' was not checked because it was missing.")
+
+            # Check the Stamina IV of the Pokemon
+            if sta != '?':
+                if not filt.check_sta(sta):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Stamina IV ({}) not in range {} to {} - (F #{}).".format(
+                            name, def_, filt.min_sta, filt.max_sta, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Stamina IV information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'sta' was not checked because it was missing.")
+
+            # Check the Quick Move of the Pokemon
+            if quick_id != '?':
+                if not filt.check_quick_move(quick_id):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Quick move was not correct - (F #{})".format(name, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Quick move information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'quick_id' was not checked because it was missing.")
+
+            # Check the Quick Move of the Pokemon
+            if charge_id != '?':
+                if not filt.check_charge_move(charge_id):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Charge move was not correct - (F #{})".format(name, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Charge move information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'charge_id' was not checked because it was missing.")
+
+            # Check for a correct move combo
+            if quick_id != '?' and charge_id != '?':
+                if not filt.check_moveset(quick_id, charge_id):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Moveset was not correct - (F #{})".format(name, filt_ct))
+                    continue
+            else:  # This will probably never happen? but just to be safe...
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Moveset information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'moveset' was not checked because it was missing.")
+
+            # Check for a valid size
+            if size != 'unknown':
+                if not filt.check_size(size):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Size ({}) was not correct - (F #{})".format(name, size, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Size information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'size' was not checked because it was missing.")
+
+            # Check for a valid gender
+            if gender != 'unknown':
+                if not filt.check_gender(gender):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Gender ({}) was not correct - (F #{})".format(name, gender, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Gender information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'gender' was not checked because it was missing.")
+
+            # Nothing left to check, so it must have passed
+            passed = True
+            log.debug("{} passed filter #{}".format(name, filt_ct))
+            break
+
+        # If we didn't pass any filters
+        if not passed:
+            return
+
+        # Check all the geofences
+        pkmn['geofence'] = self.check_geofences(name, lat, lng)
+        if len(self.__geofences) > 0 and pkmn['geofence'] == 'unknown':
+            log.info("{} rejected: not inside geofence(s)".format(name))
+            return
+
+        # Finally, add in all the extra crap we waited to calculate until now
+        time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
+        pkmn.update({
+            'pkmn': name,
+            "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
+            'time_left': time_str[0],
+            '12h_time': time_str[1],
+            '24h_time': time_str[2],
+            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
+            'iv': "{:.1f}".format(iv) if iv != '?' else '?',
+            'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
+            'quick_move': self.__move_name.get(quick_id, 'unknown'),
+            'charge_move': self.__move_name.get(charge_id, 'unknown')
+        })
+        self.add_optional_travel_arguments(pkmn)
+
+        if self.__quiet is False:
+            log.info("{} notification has been triggered!".format(name))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for alarm in self.__alarms:
+            threads.append(gevent.spawn(alarm.pokemon_alert, pkmn))
+            gevent.sleep(0)  # explict context yield
+
+        for thread in threads:
+            thread.join()
+
+    def process_pokestop(self, stop):
+        # Make sure that pokemon are enabled
+        if self.__pokestop_settings['enabled'] is False:
+            log.debug("Pokestop ignored: pokestop notifications are disabled.")
+            return
+
+        id_ = stop['id']
+
+        # Check for previously processed
+        if id_ in self.__pokestop_hist:
+            log.debug("Pokestop was skipped because it was previously processed.")
+            return
+        self.__pokestop_hist[id_] = stop['expire_time']
+
+        # Check the time remaining
+        seconds_left = (stop['expire_time'] - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
+            if self.__quiet is False:
+                log.info("Pokestop ({}) ignored: only {} seconds remaining.".format(id_, seconds_left))
+            return
+
+        # Extract some basic information
+        lat, lng = stop['lat'], stop['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
+        passed = False
+        filters = self.__pokestop_settings['filters']
+        for filt_ct in range(len(filters)):
+            filt = filters[filt_ct]
+            # Check the distance from the set location
+            if dist != 'unkn':
+                if filt.check_dist(dist) is False:
+                    if self.__quiet is False:
+                        log.info("Pokestop rejected: distance ({:.2f}) was not in range".format(dist) +
+                                 " {:.2f} to {:.2f} (F #{})".format(filt.min_dist, filt.max_dist, filt_ct))
+                    continue
+            else:
+                log.debug("Pokestop dist was not checked because the manager has no location set.")
+
+            # Nothing left to check, so it must have passed
+            passed = True
+            log.debug("Pokstop passed filter #{}".format(filt_ct))
+            break
+
+        if not passed:
+            return
+
+        # Check the geofences
+        stop['geofence'] = self.check_geofences('Pokestop', lat, lng)
+        if len(self.__geofences) > 0 and stop['geofence'] == 'unknown':
+            log.info("Pokestop rejected: not within any specified geofence")
+            return
+
+        time_str = get_time_as_str(stop['expire_time'], self.__timezone)
+        stop.update({
+            "dist": get_dist_as_str(dist),
+            'time_left': time_str[0],
+            '12h_time': time_str[1],
+            '24h_time': time_str[2],
+            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+        })
+        self.add_optional_travel_arguments(stop)
+
+        if self.__quiet is False:
+            log.info("Pokestop ({}) notification has been triggered!".format(id_))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for alarm in self.__alarms:
+            threads.append(gevent.spawn(alarm.pokestop_alert, stop))
+            gevent.sleep(0)  # explict context yield
+
+        for thread in threads:
+            thread.join()
+
+    def process_gym(self, gym):
+        if self.__gym_settings['enabled'] is False:
+            log.debug("Gym ignored: notifications are disabled.")
+            return
+
+        # Extract some basic information
+        gym_id = gym['id']
+        to_team_id = gym['team_id']
+        from_team_id = self.__gym_hist.get(gym_id)
+
+        # Doesn't look like anything to me
+        if to_team_id == from_team_id:
+            log.debug("Gym ignored: no change detected")
+            return
+        # Ignore changes to neutral
+        if self.__gym_settings['ignore_neutral'] and to_team_id == 0:
+            log.debug("Gym update ignored: changed to neutral")
+            return
+        # Update gym's last known team
+        self.__gym_hist[gym_id] = to_team_id
+        # Ignore first time updates
+        if from_team_id is None:
+            log.debug("Gym update ignored: first time seeing this gym")
+            return
+
+        # Get some more info out used to check filters
+        lat, lng = gym['lat'], gym['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
+        cur_team = self.__team_name[to_team_id]
+        old_team = self.__team_name[from_team_id]
+
+        filters = self.__gym_settings['filters']
+        passed = False
+        for filt_ct in range(len(filters)):
+            filt = filters[filt_ct]
+            # Check the distance from the set location
+            if dist != 'unkn':
+                if filt.check_dist(dist) is False:
+                    if self.__quiet is False:
+                        log.info("Gym rejected: distance ({:.2f}) was not in range" +
+                                 " {:.2f} to {:.2f} (F #{})".format(dist, filt.min_dist, filt.max_dist, filt_ct))
+                    continue
+            else:
+                log.debug("Pokestop dist was not checked because the manager has no location set.")
+
+            # Check the old team
+            if filt.check_from_team(from_team_id) is False:
+                if self.__quiet is False:
+                    log.info("Gym rejected: {} as old team is not correct (F #{})".format(old_team, filt_ct))
+                continue
+            # Check the new team
+            if filt.check_to_team(to_team_id) is False:
+                if self.__quiet is False:
+                    log.info("Gym rejected: {} as current team is not correct (F #{})".format(cur_team, filt_ct))
+                continue
+
+            # Nothing left to check, so it must have passed
+            passed = True
+            log.debug("Gym passed filter #{}".format(filt_ct))
+            break
+
+        if not passed:
+            return
+
+        # Check the geofences
+        gym['geofence'] = self.check_geofences('Gym', lat, lng)
+        if len(self.__geofences) > 0 and gym['geofence'] == 'unknown':
+            log.info("Gym rejected: not inside geofence(s)")
+            return
+
+        # Check if in geofences
+        if len(self.__geofences) > 0:
+            inside = False
+            for gf in self.__geofences:
+                inside |= gf.contains(lat, lng)
+            if inside is False:
+                if self.__quiet is False:
+                    log.info("Gym update ignored: located outside geofences.")
+                return
+        else:
+            log.debug("Gym inside geofences was not checked because no geofences were set.")
+
+        gym.update({
+            "dist": get_dist_as_str(dist),
+            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'new_team': cur_team,
+            'new_team_id': "team{}".format(to_team_id),
+            'old_team': old_team
+        })
+        self.add_optional_travel_arguments(gym)
+
+        if self.__quiet is False:
+            log.info("Gym ({}) notification has been triggered!".format(gym_id))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for alarm in self.__alarms:
+            threads.append(gevent.spawn(alarm.gym_alert, gym))
+            gevent.sleep(0)  # explict context yield
+
+        for thread in threads:
+            thread.join()
+
+    # Check to see if a notification is within the given range
+    def check_geofences(self, name, lat, lng):
+        for gf in self.__geofences:
+            if gf.contains(lat, lng):
+                log.debug("{} is in geofence {}!".format(name, gf.name))
+                return gf.name
+            else:
+                log.debug("{} is not in geofence {}".format(name, gf.name))
+        return 'unknown'
+
+    # Retrieve optional requirements
+    def add_optional_travel_arguments(self, info):
+        lat, lng = info['lat'], info['lng']
+        if self.__api_req['REVERSE_LOCATION']:
+            info.update(**self.reverse_location(lat, lng))
+        if self.__api_req['WALK_DIST']:
+            info.update(**self.get_walking_data(lat, lng))
+        if self.__api_req['BIKE_DIST']:
+            info.update(**self.get_biking_data(lat, lng))
+        if self.__api_req['DRIVE_DIST']:
+            info.update(**self.get_driving_data(lat, lng))
+
+    ####################################################################################################################
+
+    ##################################################  INITIALIZATION  ################################################
+
+    def update_locales(self):
+        locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
+        # Update pokemon names
+        with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
+            names = json.loads(f.read())
+            for pkmn_id, value in names.iteritems():
+                self.__pokemon_name[int(pkmn_id)] = value
+        # Update move names
+        with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
+            moves = json.loads(f.read())
+            for move_id, value in moves.iteritems():
+                self.__move_name[int(move_id)] = value
+        # Update team names
+        with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
+            teams = json.loads(f.read())
+            for team_id, value in teams.iteritems():
+                self.__team_name[int(team_id)] = value
+
+    ####################################################################################################################
+
     ############################################## REQUIRES GOOGLE API KEY #############################################
 
     # Returns the LAT,LNG of a location given by either a name or coordinates
-    def get_lat_lng_by_name(self, location_name):
-        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
-        res = prog.match(location_name)
-        latitude, longitude = None, None
-        if res:
-            latitude, longitude = float(res.group(1)), float(res.group(2))
-        elif location_name:
-            if self.__gmaps_client is None:  # Check if key was provided
-                log.error("No Google Maps API key provided - unable to find location by name.")
-                return []
-            result = self.__gmaps_client.geocode(location_name)
-            loc = result[0]['geometry']['location']  # Get the first (most likely) result
-            latitude, longitude = loc.get("lat"), loc.get("lng")
-        log.info("Location found: {:f}{:f}".format(latitude, longitude))
-        return [latitude, longitude]
+    def get_lat_lng_from_name(self, location_name):
+        if location_name is None:
+            return None
+        try:
+            prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
+            res = prog.match(location_name)
+            latitude, longitude = None, None
+            if res:
+                latitude, longitude = float(res.group(1)), float(res.group(2))
+            elif location_name:
+                if self.__gmaps_client is None:  # Check if key was provided
+                    log.error("No Google Maps API key provided - unable to find location by name.")
+                    return None
+                result = self.__gmaps_client.geocode(location_name)
+                loc = result[0]['geometry']['location']  # Get the first (most likely) result
+                latitude, longitude = loc.get("lat"), loc.get("lng")
+            log.info("Coordinates found for '{}': {:f},{:f}".format(location_name, latitude, longitude))
+            return [latitude, longitude]
+        except Exception as e:
+            log.error("Encountered error while getting error by name ({}: {})".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            log.error("Encounted error looking for location {}.".format(location_name)
+                      + "Please make sure your location is in the correct format")
+            sys.exit(1)
 
     # Returns the name of the location based on lat and lng
     def reverse_location(self, lat, lng):
+        # Set defaults in case something goes wrong
+        details = {
+            'street_num': 'unkn', 'street': 'unknown', 'address': 'unknown', 'postal': 'unknown',
+            'neighborhood': 'unknown', 'sublocality': 'unknown', 'city': 'unknown',
+            'county': 'unknown', 'state': 'unknown', 'country': 'country'
+        }
         if self.__gmaps_client is None:  # Check if key was provided
             log.error("No Google Maps API key provided - unable to reverse geocode.")
-            return {}
-        details = {}
+            return details
         try:
             result = self.__gmaps_client.reverse_geocode((lat, lng))[0]
             loc = {}
             for item in result['address_components']:
                 for category in item['types']:
                     loc[category] = item['short_name']
-            details = {
-                'street_num': loc.get('street_number', 'unkn'),
-                'street': loc.get('route', 'unkn'),
-                'address': "{} {}".format(loc.get('street_number'), loc.get('route')),
-                'postal': loc.get('postal_code', 'unkn'),
-                'neighborhood': loc.get('neighborhood'),
-                'sublocality': loc.get('sublocality'),
-                'city': loc.get('locality', loc.get('postal_town')),  # try postal town if no city
-                'county': loc.get('administrative_area_level_2'),
-                'state': loc.get('administrative_area_level_1'),
-                'country': loc.get('country')
-            }
+            details['street_num'] = loc.get('street_number', 'unkn')
+            details['street'] = loc.get('route', 'unkn')
+            details['address'] = "{} {}".format(details['street_num'], details['street'])
+            details['postal'] = loc.get('postal_code', 'unkn')
+            details['neighborhood'] = loc.get('neighborhood', "unknown")
+            details['sublocality'] = loc.get('sublocality', "unknown")
+            details['city'] = loc.get('locality', loc.get('postal_town', 'unknown'))
+            details['county'] = loc.get('administrative_area_level_2', 'unknown')
+            details['state'] = loc.get('administrative_area_level_1', 'unknown')
+            details['country'] = loc.get('country', 'unknown')
         except Exception as e:
             log.error("Encountered error while getting reverse location data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
@@ -776,7 +842,7 @@ class Manager(object):
             result = self.__gmaps_client.distance_matrix(origin, dest, mode='driving', units=config['UNITS'])
             result = result.get('rows')[0].get('elements')[0]
             data['drive_dist'] = result.get('distance').get('text').encode('utf-8')
-            data['drive_time'] =  result.get('duration').get('text').encode('utf-8')
+            data['drive_time'] = result.get('duration').get('text').encode('utf-8')
         except Exception as e:
             log.error("Encountered error while getting driving data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))

@@ -4,9 +4,9 @@ import logging
 from twilio.rest import TwilioRestClient
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean
+from ..Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('Twilio')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -22,70 +22,70 @@ class TwilioAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            # 'from_number': Required
-            # 'to_number': Required
             'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).",
         },
         'pokestop': {
-            # 'from_number': Required
-            # 'to_number': Required
             'message': "Someone has placed a lure on a Pokestop! <gmaps> Lure will expire at <24h_time> (<time_left>).",
         },
         'gym': {
-            # 'from_number': Required
-            # 'to_number': Required
             'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>",
         }
     }
 
     # Gather settings and create alarm
     def __init__(self, settings):
-        # Service Info
-        self.__account_sid = settings['account_sid']
-        self.__auth_token = settings['auth_token']
-
-        self.__from_number = settings.get('from_number')
-        self.__to_number = settings.get('to_number')
-        self.__startup_message = settings.get('startup_message', "True")
-        self.__startup_list = settings.get('startup_message', "True")
-
-        # Set Alerts
-        self.__pokemon = self.set_alert(settings.get('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.set_alert(settings.get('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.get('gyms', {}), self._defaults['gym'])
-
-        # Connect and send startup messages
+        # Required Parameters
+        self.__account_sid = require_and_remove_key('account_sid', settings, "'Twilio' type alarms.")
+        self.__auth_token = require_and_remove_key('auth_token', settings, "'Twilio' type alarms.")
+        self.__from_number = require_and_remove_key('from_number', settings, "'Twilio' type alarms.")
+        self.__to_number = require_and_remove_key('to_number', settings, "'Twilio' type alarms.")
         self.__client = None
-        self.connect()
-        if parse_boolean(self.__startup_message):
-            self.send_sms(
-                to_num=self.__pokemon['to_number'],
-                from_num=self.__pokemon['from_number'],
-                msg="PokeAlarm has been activated! We will text this number about pokemon.")
-        log.info("Twilio Alarm intialized.")
+
+        # Optional Alarm Parameters
+        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+
+        # Optional Alert Parameters
+        self.__pokemon = self.set_alert(settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.set_alert(settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.set_alert(settings.pop('gyms', {}), self._defaults['gym'])
+
+        # Warn user about leftover parameters
+        reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
+
+        log.info("Twilio Alarm has been created!")
+
 
     # (Re)establishes Telegram connection
     def connect(self):
         self.__client = TwilioRestClient(self.__account_sid, self.__auth_token)
 
+    # Send a message letting the channel know that this alarm started
+    def startup_message(self):
+        if self.__startup_message:
+            self.send_sms(
+                to_num=self.__to_number,
+                from_num=self.__from_number,
+                body="PokeAlarm activated!"
+            )
+            log.info("Startup message sent!")
+
     # Set the appropriate settings for each alert
     def set_alert(self, settings, default):
         alert = {
-            'to_number': settings.get('to_number', self.__to_number),
-            'from_number': settings.get('from_number', self.__from_number),
-            'message': settings.get('message', default['message'])
+            'to_number': settings.pop('to_number', self.__to_number),
+            'from_number': settings.pop('from_number', self.__from_number),
+            'message': settings.pop('message', default['message'])
         }
-
+        reject_leftover_parameters(settings, "'Alert level in Twilio alarm.")
         return alert
 
     # Send Pokemon Info
     def send_alert(self, alert, info):
-        args = {
-            'to_num': alert['to_number'],
-            'from_num': alert['from_number'],
-            'msg': replace(alert['message'], info)
-        }
-        try_sending(log, self.connect, "Twilio", self.send_sms, args)
+        self.send_sms(
+            to_num=alert['to_number'],
+            from_num=alert['from_number'],
+            body=replace(alert['message'], info)
+        )
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -99,6 +99,11 @@ class TwilioAlarm(Alarm):
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
 
-    # Send message through Twilio
-    def send_sms(self, to_num, from_num, msg):
-        message = self.__client.messages.create(body=msg, to=to_num, from_=from_num)
+    # Send a SMS message
+    def send_sms(self, to_num, from_num, body):
+        args = {
+            'to': to_num,
+            'from_': from_num,
+            'body': body
+        }
+        try_sending(log, self.connect, "Twilio", self.__client.messages.create, args)

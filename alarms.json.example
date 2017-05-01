@@ -1,13 +1,8 @@
 [
   {
     "active": "False",
-    "type": "boxcar",
-    "user_credentials": "YOUR_API_KEY"
-  },
-  {
-    "active": "False",
     "type": "discord",
-    "api_key": "YOUR_WEBHOOK_URL"
+    "webhook_url": "YOUR_WEBHOOK_URL"
   },
   {
     "active": "False",
@@ -21,12 +16,7 @@
   },
   {
     "active": "False",
-    "type": "pushover",
-    "app_token": "YOUR_APP_TOKEN",
-    "user_key": "YOUR_USER_KEY"
-  },
-  {
-    "active": "False",
+    "channel":"general",
     "type": "slack",
     "api_key": "YOUR_API_KEY"
   },
