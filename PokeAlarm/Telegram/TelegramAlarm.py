@@ -5,6 +5,7 @@ import telepot
 # Local Imports
 from ..Alarm import Alarm
 from Stickers import sticker_list
+from Unownforms import unown_list
 from ..Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
 
 log = logging.getLogger('Telegram')
@@ -105,7 +106,10 @@ class TelegramAlarm(Alarm):
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
         if self.__pokemon['stickers']:
-            self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['pkmn_id'])))
+            if (pokemon_info['pkmn_id'] == '201')
+                self.send_alert(self.__pokemon, pokemon_info, unown_list.get(str(pokemon_info['pkmn_form'])))
+            else:
+                self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['pkmn_id'])))
         else:
             self.send_alert(self.__pokemon, pokemon_info)
 
