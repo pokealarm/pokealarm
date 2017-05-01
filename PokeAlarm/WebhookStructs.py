@@ -52,6 +52,7 @@ class RocketMap:
             'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+            'cp': check_for_none(int, data.get('cp'), '?'),
             'iv': '?',
             'atk': check_for_none(int, data.get('individual_attack'), '?'),
             'def': check_for_none(int, data.get('individual_defense'), '?'),
