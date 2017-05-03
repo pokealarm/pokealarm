@@ -332,6 +332,7 @@ class Manager(object):
         passed = False
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
+        cp = pkmn['cp']
         iv = pkmn['iv']
         def_ = pkmn['def']
         atk = pkmn['atk']
@@ -354,6 +355,19 @@ class Manager(object):
                     continue
             else:
                 log.debug("Filter dist was not checked because the manager has no location set.")
+
+            # Check the CP of the Pokemon
+            if cp != '?':
+                if not filt.check_cp(cp):
+                    if self.__quiet is False:
+                        log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
+                            name, cp, filt.min_cp, filt.max_cp, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'cp' was not checked because it was missing.")
 
             # Check the IV percent of the Pokemon
             if iv != '?':
