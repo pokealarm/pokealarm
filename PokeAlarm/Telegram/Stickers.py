@@ -1,4 +1,5 @@
 sticker_list = {
+    normal = {
     'team2': u'BQADBAADGQADjGt_DbsN-MC0jtwKAg',
     'team1': u'BQADBAADHQADjGt_DWh6bmUsF_GeAg',
     'team3': u'BQADBAADGwADjGt_DcVn_7MprUVwAg',
@@ -256,7 +257,7 @@ sticker_list = {
     '250': u'CAADBAADKgMAAhbdEgMQfs7GjVk5pwI',
     '251': u'CAADBAADLAMAAhbdEgMcJTlcK_QQOgI',
 }
-sticker_list_unown = {
+unown = {
     'a': u'CAADBAADkgQAAl8ilAI7FMcAAf74l2MC',
     'b': u'CAADBAADlAQAAl8ilAI3iJNvHPCDCwI',
     'c': u'CAADBAADlgQAAl8ilAIvXiJFL5rDBQI',
@@ -285,4 +286,5 @@ sticker_list_unown = {
     'z': u'CAADBAADxAQAAl8ilAKgIpPzo5UHXAI',
     '!': u'CAADBAADkAQAAl8ilAIkqNYxlhZvxwI',
     '?': u'CAADBAADjgQAAl8ilAJ6X9zYIFqhWgI',
+    }
 }
