@@ -105,8 +105,8 @@ class TelegramAlarm(Alarm):
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
         if self.__pokemon['stickers']:
-            if str(pokemon_info['pkmn_id']) == '201':
-                self.send_alert(self.__pokemon, pokemon_info, sticker_list_unown.get(str(pokemon_info['form'])))
+            if str(pokemon_info['form']) != 'unkn':
+                self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['form'])))
             else:
                 self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['pkmn_id'])))
         else:
