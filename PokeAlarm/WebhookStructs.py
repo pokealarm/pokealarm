@@ -71,6 +71,7 @@ class RocketMap:
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
             'size': 'unknown',
+            'form': check_for_none(str, data.get('form'), 'unkn'),
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng)
         }
