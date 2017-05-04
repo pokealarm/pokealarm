@@ -179,7 +179,6 @@ class PokemonFilter(Filter):
 
     # Checks the Level against this filter
     def check_level(self, level):
-        log.info("Check level: %s < %s < % s", self.min_level, level, self.max_level)
         return self.min_level <= level <= self.max_level
 
     # Checks the IV percent against this filter
