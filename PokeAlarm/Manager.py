@@ -36,7 +36,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__form_name = {}, {}, {}, {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -342,6 +342,7 @@ class Manager(object):
         charge_id = pkmn['charge_id']
         size = pkmn['size']
         gender = pkmn['gender']
+        form = pkmn['form']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -511,6 +512,15 @@ class Manager(object):
             log.info("{} rejected: not inside geofence(s)".format(name))
             return
 
+        # Get the form character however because not all Pokemon have a form
+        # we must catch the exception when no form for pkmn_id in 2d array
+        # form character will remain null if not exists as requested
+        form_character = ''
+        try:
+            form_character = self.__form_name[pkmn['pkmn_id'], pkmn['form']]
+        except:
+            log.debug("Exception getting pokemon form, Pokemon probably doesn't have a form")
+
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         pkmn.update({
@@ -524,7 +534,8 @@ class Manager(object):
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'form': form_character
         })
         self.add_optional_travel_arguments(pkmn)
 
@@ -761,6 +772,15 @@ class Manager(object):
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
                 self.__team_name[int(team_id)] = value
+        #Update form names
+        with open(os.path.join(locale_path, 'forms.json'), 'r') as f:
+            forms = json.loads(f.read())
+            #form_name is 2d array [pkmn_id,form_id] = form character by locale
+            for pkmn_id, forms in forms.iteritems():
+                form_count = 0
+                for form_char in forms:
+                    self.__form_name[int(pkmn_id),form_count] = form_char
+                    form_count += 1
 
     ####################################################################################################################
 

@@ -14,7 +14,6 @@ from . import config
 
 log = logging.getLogger('Utils')
 
-
 ################################################### SYSTEM UTILITIES ###################################################
 
 # Checks is a line contains any subsititions located in args
@@ -236,7 +235,7 @@ def get_gmaps_link(lat, lng):
     latlng = '{},{}'.format(repr(lat), repr(lng))
     return 'http://maps.google.com/maps?q={}'.format(latlng)
 
-#Returns a String link to Apple Maps Pin at the location	
+#Returns a String link to Apple Maps Pin at the location
 def get_applemaps_link(lat, lng):
 	latLon = '{},{}'.format(repr(lat), repr(lng))
 	return 'http://maps.apple.com/maps?daddr={}&z=10&t=s&dirflg=w'.format(latLon)
