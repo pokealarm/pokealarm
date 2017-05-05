@@ -207,6 +207,8 @@ def get_pokemon_size(pokemon_id, height, weight):
         return 'tiny'
     elif size > 2.5 and pokemon_id == 129:
         return 'big'
+    else:
+	return ''
 
 
 # Returns the gender symbol of a pokemon:
