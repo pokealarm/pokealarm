@@ -70,7 +70,7 @@ class RocketMap:
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
-            'size': 'unknown',
+            'size': '',
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng)
         }
@@ -79,7 +79,7 @@ class RocketMap:
         else:
             pkmn['atk'], pkmn['def'], pkmn['sta'] = '?', '?', '?'
 
-        if pkmn['height'] != 'unkn' or pkmn['weight'] != 'unkn':
+        if (pkmn['height'] != 'unkn' or pkmn['weight'] != 'unkn') and (pkmn['pkmn_id'] == 19 or pkmn['pkmn_id'] == 129):
             pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
             pkmn['height'] = "{:.2f}".format(pkmn['height'])
             pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
