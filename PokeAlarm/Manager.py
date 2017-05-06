@@ -333,6 +333,7 @@ class Manager(object):
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
         cp = pkmn['cp']
+        level = pkmn['level']
         iv = pkmn['iv']
         def_ = pkmn['def']
         atk = pkmn['atk']
@@ -369,6 +370,20 @@ class Manager(object):
                     log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'cp' was not checked because it was missing.")
+
+
+            # Check the Level of the Pokemon
+            if level != '?':
+                if not filt.check_level(level):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Level ({}) not in range {} to {} - (F #{})".format(
+                            name, level, filt.min_level, filt.max_level, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Level information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'level' was not checked because it was missing.")
 
             # Check the IV percent of the Pokemon
             if iv != '?':
