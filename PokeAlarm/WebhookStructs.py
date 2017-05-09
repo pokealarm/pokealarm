@@ -53,6 +53,7 @@ class RocketMap:
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
             'cp': check_for_none(int, data.get('cp'), '?'),
+            'level': check_for_none(int, data.get('pokemon_level'), '?'),
             'iv': '?',
             'atk': check_for_none(int, data.get('individual_attack'), '?'),
             'def': check_for_none(int, data.get('individual_defense'), '?'),
@@ -71,6 +72,8 @@ class RocketMap:
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
             'size': 'unknown',
+            'tiny_rat': '',
+            'big_karp': '',
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng)
         }
@@ -83,6 +86,12 @@ class RocketMap:
             pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
             pkmn['height'] = "{:.2f}".format(pkmn['height'])
             pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
+
+        if pkmn['pkmn_id'] == 19 and pkmn['size'] == 'tiny':
+            pkmn['tiny_rat'] = 'tiny'
+
+        if pkmn['pkmn_id'] == 129 and pkmn['size'] == 'big':
+            pkmn['big_karp'] = 'big'
 
         return pkmn
 
