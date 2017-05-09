@@ -30,10 +30,10 @@ class DiscordAlarm(Alarm):
             'body': "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
-            'username': "Professor Willow",
+            'username': "Pokestop",
             'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
-            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/Professor Willow.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
