@@ -815,7 +815,7 @@ class Manager(object):
             details['street'] = loc.get('route', 'unkn')
             details['address'] = "{} {}".format(details['street_num'], details['street'])
             details['postal'] = loc.get('postal_code', 'unkn')
-            details['neighborhood'] = loc.get('neighborhood', loc.get('route', 'unkn'))
+            details['neighborhood'] = loc.get('neighborhood', "uknown")
             details['sublocality'] = loc.get('sublocality', "unknown")
             details['city'] = loc.get('locality', loc.get('postal_town', 'unknown'))
             details['county'] = loc.get('administrative_area_level_2', 'unknown')
