@@ -39,10 +39,10 @@ class DiscordAlarm(Alarm):
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
-            'username': "<new_team_leader>",
+            'username': "<new_team> Gym Alerts",
             'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
-            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<new_team_leader>.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
