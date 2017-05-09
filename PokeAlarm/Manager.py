@@ -15,7 +15,7 @@ import googlemaps
 from . import config
 from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg
+    require_and_remove_key, parse_boolean, contains_arg, get_leader
 log = logging.getLogger('Manager')
 
 
@@ -702,7 +702,9 @@ class Manager(object):
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
             'old_team': old_team,
-            'old_team_id': from_team_id
+            'old_team_id': from_team_id,
+            'new_team_leader': get_leader(to_team_id),
+            'old_team_leader': get_leader(from_team_id)
         })
         self.add_optional_travel_arguments(gym)
 

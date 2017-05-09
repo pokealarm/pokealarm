@@ -31,20 +31,20 @@ class DiscordAlarm(Alarm):
             'color': "<iv_0>"
         },
         'pokestop': {
-            'username': "Pokestop",
+            'username': "Professor Willow",
             'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
-            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/Professor Willow.png",
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>).",
             'color': "<time_left>"
         },
         'gym': {
-            'username': "<new_team> Gym Alerts",
+            'username': "<new_team_leader>",
             'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
-            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<new_team_leader>.png",
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>.",
