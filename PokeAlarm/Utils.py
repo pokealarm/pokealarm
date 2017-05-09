@@ -238,6 +238,40 @@ def get_leader(team_id):
         return "Professor Willow"
 
 
+# Returns color for discord embeds
+def get_color(color_id):
+    try:
+        if int(color_id) < 25:
+            color_ = 0x9d9d9d
+        elif int(color_id) < 50:
+            color_ = 0xffffff
+        elif int(color_id) < 81:
+            color_ = 0x1eff00
+        elif int(color_id) < 90:
+            color_ = 0x0070dd
+        elif int(color_id) < 100:
+            color_ = 0xa335ee
+        elif int(color_id) == 100:
+            color_ = 0xff8000
+    except:
+        try:
+            if color_id == "?":
+                color_ = 0x4F545C
+            elif color_id == "Valor":
+                color_ = 0xFE0103
+            elif color_id == "Mystic":
+                color_ = 0x1102FD
+            elif color_id == "Instinct":
+                color_ = 0xF6F006
+            elif color_id[-1] == 's' or color_id[-1] == 'm':
+                color_ = 0xff66ff
+            else:
+                color_ = 0x4F545C
+        except:
+            color_ = 0x4F545C
+    return color_
+
+
 ########################################################################################################################
 
 ################################################# GMAPS API UTILITIES ##################################################
@@ -345,7 +379,7 @@ def get_time_as_str(t, timezone=None):
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds
-    time_left = "%dm %ds" % (m, s)
+    time_left = "%dm %ds" % (m, s) if h == 0 else "%dh %dm" % (h, m)
     # Dissapear time in 12h format, eg "2:30:16 PM"
     time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
     # Dissapear time in 24h format including seconds, eg "14:30:16"
