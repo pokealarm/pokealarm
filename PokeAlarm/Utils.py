@@ -333,10 +333,7 @@ def get_time_as_str(t, timezone=None):
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds
-    if h == 0:
-        time_left = "%dm %ds" % (m, s)
-    else:
-        time_left = "%dh %dm" % (h, m)
+    time_left = "%dm %ds" % (m, s) if h != 0 else "%dh %dm" % (h, m)
     # Dissapear time in 12h format, eg "2:30:16 PM"
     time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
     # Dissapear time in 24h format including seconds, eg "14:30:16"
