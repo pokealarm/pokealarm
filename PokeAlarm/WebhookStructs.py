@@ -123,9 +123,7 @@ class RocketMap:
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
-            'name': str(data.get('name')),
-            'new_leader': "Professor Willow",
-            'old_leader': "Professor Willow"
+            'name': str(data.get('name'))
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         gym['applemaps'] = get_applemaps_link(gym['lat'], gym['lng'])
