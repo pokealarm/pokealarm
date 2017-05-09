@@ -30,14 +30,14 @@ class SlackAlarm(Alarm):
             'body': "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
-            'username': "Professor Willow",
+            'username': "Pokestop",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
-            'username': "<new_team_leader>",
+            'username': "<new_team> Gym Alerts",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
