@@ -3,4 +3,7 @@
 *.json
 *.ini
 *.txt
+*.bat
+*.lnk
+null
 !locales/*.json
