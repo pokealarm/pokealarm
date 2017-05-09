@@ -226,6 +226,18 @@ def get_pokemon_gender(gender):
     return '?' # catch all
 
 
+# Returns the team leader of a team:
+def get_leader(team_id):
+    if team_id == 1:
+        return "Blanche"
+    elif team_id == 2:
+        return "Candela"
+    elif team_id == 3:
+        return "Spark"
+    else:
+        return "Professor Willow"
+
+
 ########################################################################################################################
 
 ################################################# GMAPS API UTILITIES ##################################################
