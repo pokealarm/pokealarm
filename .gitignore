@@ -3,5 +3,5 @@
 *.json
 *.ini
 *.txt
-!config/config.ini.example
 !locales/*.json
+!config/config.ini.example
