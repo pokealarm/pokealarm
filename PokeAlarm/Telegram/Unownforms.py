@@ -28,6 +28,7 @@ sticker_list_unown = {
     '27': u'CAADBAADkAQAAl8ilAIkqNYxlhZvxwI',
     '27': u'CAADBAADjgQAAl8ilAJ6X9zYIFqhWgI',
     'unset': u'CAADBAADvgIAAhbdEgNp9iz1a2Yx5QI',
+    'unkn': u'CAADBAADvgIAAhbdEgNp9iz1a2Yx5QI',
     'A': u'CAADBAADkgQAAl8ilAI7FMcAAf74l2MC',
     'B': u'CAADBAADlAQAAl8ilAI3iJNvHPCDCwI',
     'C': u'CAADBAADlgQAAl8ilAIvXiJFL5rDBQI',
