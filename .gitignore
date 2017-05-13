@@ -3,7 +3,5 @@
 *.json
 *.ini
 *.txt
-*.bat
-*.lnk
-null
+!config/config.ini.example
 !locales/*.json
