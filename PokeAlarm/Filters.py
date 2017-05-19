@@ -41,13 +41,15 @@ def load_pokemon_section(settings):
     default_filt = PokemonFilter(settings.pop('default', {}), {
         "ignore_missing": False,
         "min_dist": 0.0, "max_dist": float('inf'),
+        "min_cp": 0, "max_cp": 4760,
+        "min_level": 0, "max_level": 40,
         "min_iv": 0.0, "max_iv": 100.0,
         "min_atk": 0, "max_atk": 15,
         "min_def": 0, "max_def": 15,
         "min_sta": 0, "max_sta": 15,
         "quick_move": None, "charge_move": None, "moveset": None,
         "size": None,
-        "gender": None
+        "gender": None,
     }, 'default')
     default = default_filt.to_dict()
     # Add the filters to the settings
@@ -142,6 +144,12 @@ class PokemonFilter(Filter):
         self.max_dist = float(settings.pop('max_dist', None) or default['max_dist'])
         # Do we ignore pokemon with missing info?
         self.ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', default['ignore_missing'])))
+        # CP
+        self.min_cp = int(settings.pop('min_cp', None) or default['min_cp'])
+        self.max_cp = int(settings.pop('max_cp', None) or default['max_cp'])
+        # Level
+        self.min_level = int(settings.pop('min_level', None) or default['min_level'])
+        self.max_level = int(settings.pop('max_level', None) or default['max_level'])
         # IVs
         self.min_iv = float(settings.pop('min_iv', None) or default['min_iv'])
         self.max_iv = float(settings.pop('max_iv', None) or default['max_iv'])
@@ -164,6 +172,14 @@ class PokemonFilter(Filter):
     # Checks the given distance against this filter
     def check_dist(self, dist):
         return self.min_dist <= dist <= self.max_dist
+
+    # Checks the CP against this filter
+    def check_cp(self, cp):
+        return self.min_cp <= cp <= self.max_cp
+
+    # Checks the Level against this filter
+    def check_level(self, level):
+        return self.min_level <= level <= self.max_level
 
     # Checks the IV percent against this filter
     def check_iv(self, dist):
@@ -218,6 +234,8 @@ class PokemonFilter(Filter):
     def to_dict(self):
         return {
             "min_dist": self.min_dist, "max_dist": self.max_dist,
+            "min_cp": self.min_cp, "max_cp": self.max_cp,
+            "min_level": self.min_level, "max_level": self.max_level,
             "min_iv": self.min_iv, "max_iv": self.max_iv,
             "min_atk": self.min_atk, "max_atk": self.max_atk,
             "min_def": self.min_def, "max_def": self.max_def,
@@ -232,6 +250,8 @@ class PokemonFilter(Filter):
     # Print this filter
     def to_string(self):
         return "Dist: {} to {}, ".format(self.min_dist, self.max_dist) + \
+               "CP: {} to {}, ".format(self.min_cp, self.max_cp) + \
+               "Level: {} to {}, ".format(self.min_level, self.max_level) + \
                "IV%: {} to {}, ".format(self.min_iv, self.max_iv) +  \
                "Atk: {} to {}, ".format(self.min_atk, self.max_atk) + \
                "Def: {} to {}, ".format(self.min_def, self.max_def) + \
@@ -245,10 +265,10 @@ class PokemonFilter(Filter):
 
     @staticmethod
     def create_moves_list(moves):
-        if moves is None:  # no moves
-            return None
+        if moves is None or type(moves) == set:  # no moves or already defined moves
+            return moves
         if type(moves) != list:
-            log.error("Moves list must be in a comma seperated array. Ex: [\"Move\",\"Move\"]"
+            log.error("Moves list must be in a comma seperated array. Ex: [\"Move\",\"Move\"]. "
                       + "Please see PokeAlarm documentation for more examples.")
             sys.exit(1)
         list_ = set()
