@@ -53,7 +53,7 @@ class RocketMap:
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
             'cp': check_for_none(int, data.get('cp'), '?'),
-            'level': 2,
+            'level':  check_for_none(int, data.get('pokemon_level'), '?'),
             'iv': '?',
             'atk': check_for_none(int, data.get('individual_attack'), '?'),
             'def': check_for_none(int, data.get('individual_defense'), '?'),
