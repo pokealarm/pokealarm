@@ -110,6 +110,7 @@ def load_gym_section(settings):
     gym = {
         "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False),
         "ignore_neutral": bool(parse_boolean(settings.pop('ignore_neutral', None)) or False),
+        "ignore_no_name": bool(parse_boolean(settings.pop('ignore_no_name', None)) or True),
         "filters": create_multi_filter('Gym --> filters', GymFilter,
                                        settings.pop('filters', "False"), default)
     }
