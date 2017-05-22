@@ -632,6 +632,10 @@ class Manager(object):
         if self.__gym_settings['ignore_neutral'] and to_team_id == 0:
             log.debug("Gym update ignored: changed to neutral")
             return
+        # Ignore changes without names
+        if self.__gym_settings['ignore_no_name'] and gym['gym_name'] == 'unknown':
+            log.debug("Gym update ignored: Name information missing")
+            return
         # Update gym's last known team
         self.__gym_hist[gym_id] = to_team_id
         # Ignore first time updates
