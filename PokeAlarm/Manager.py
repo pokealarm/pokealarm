@@ -342,6 +342,7 @@ class Manager(object):
         charge_id = pkmn['charge_id']
         size = pkmn['size']
         gender = pkmn['gender']
+        form_id = pkmn['form_id']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -369,7 +370,6 @@ class Manager(object):
                     log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'cp' was not checked because it was missing.")
-
 
             # Check the Level of the Pokemon
             if level != '?':
@@ -495,6 +495,13 @@ class Manager(object):
                     log.info("{} rejected: Gender information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
+
+            # Check for a valid form
+            if form_id != '?':
+                if not filt.check_form(form_id):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
+                    continue
 
             # Nothing left to check, so it must have passed
             passed = True

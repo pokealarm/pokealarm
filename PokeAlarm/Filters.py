@@ -50,6 +50,7 @@ def load_pokemon_section(settings):
         "quick_move": None, "charge_move": None, "moveset": None,
         "size": None,
         "gender": None,
+        "form": None
     }, 'default')
     default = default_filt.to_dict()
     # Add the filters to the settings
@@ -162,6 +163,7 @@ class PokemonFilter(Filter):
         # Size
         self.sizes = PokemonFilter.check_sizes(settings.pop("size", default['size']))
         self.genders = PokemonFilter.check_genders(settings.pop("gender", default['gender']))
+        self.forms = PokemonFilter.check_forms(settings.pop("form", default['form']))
         # Moves - These can't be set in the default filter
         self.req_quick_move = PokemonFilter.create_moves_list(settings.pop("quick_move", default['quick_move']))
         self.req_charge_move = PokemonFilter.create_moves_list(settings.pop("charge_move", default['charge_move']))
@@ -230,6 +232,12 @@ class PokemonFilter(Filter):
             return True
         return gender in self.genders
 
+    # Checks the form_id against this filter
+    def check_form(self, form_id):
+        if self.forms is None:
+            return True
+        return form_id in self.forms
+
     # Convert this filter to a dict
     def to_dict(self):
         return {
@@ -244,6 +252,7 @@ class PokemonFilter(Filter):
             "moveset": self.req_moveset,
             "size": self.sizes,
             "gender": self.genders,
+            "form": self.forms,
             "ignore_missing": self.ignore_missing
         }
 
@@ -258,7 +267,7 @@ class PokemonFilter(Filter):
                "Sta: {} to {}, ".format(self.min_sta, self.max_sta) +\
                "Quick Moves: {}, ".format(self.req_quick_move) + \
                "Charge Moves: {}, ".format(self.req_charge_move) + \
-               "Move Sets: {}, ".format(self.req_moveset)  +\
+               "Move Sets: {}, ".format(self.req_moveset) + \
                "Sizes: {}, ".format(self.sizes) + \
                "Genders: {}, ".format(self.genders) + \
                "Ignore Missing: {} ".format(self.ignore_missing)
@@ -307,7 +316,6 @@ class PokemonFilter(Filter):
                 sys.exit(1)
         return list_
 
-
     @staticmethod
     def check_genders(genders):
         if genders is None:  # no genders
@@ -318,22 +326,36 @@ class PokemonFilter(Filter):
             log.debug("raw_gender: {}".format(raw_gender))
             gender = raw_gender
             if raw_gender == u'\u2642':
-              gender = 'male'
+                gender = 'male'
             if raw_gender == u'\u2640':
-              gender = 'female'
+                gender = 'female'
             if raw_gender == u'\u26b2':
-              gender = 'neutral'
+                gender = 'neutral'
             log.debug("gender: {}".format(gender))
             if gender in valid_genders:
                 if gender == 'male':
-                  list_.add(u'\u2642')
+                    list_.add(u'\u2642')
                 if gender == 'female':
-                  list_.add(u'\u2640')
+                    list_.add(u'\u2640')
                 if gender == 'neutral':
-                  list_.add(u'\u26b2')
+                    list_.add(u'\u26b2')
             else:
                 log.error("{} is not a valid gender name.".format(gender))
                 log.error("Please use one of the following: {}".format(valid_genders))
+                sys.exit(1)
+        return list_
+
+    @staticmethod
+    def check_forms(forms):
+        if forms is None:  # no sizes
+            return None
+        list_ = set()
+        for form_id in forms:
+            try:
+                list_.add(int(form_id))
+            except TypeError:
+                log.error("{} is not a valid form.".format(form_id))
+                log.error("Please use an integer to represent form filters.")
                 sys.exit(1)
         return list_
 
