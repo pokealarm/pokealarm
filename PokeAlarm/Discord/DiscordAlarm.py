@@ -96,7 +96,7 @@ class DiscordAlarm(Alarm):
             'username': settings.pop('username', default['username']),
             'avatar_url': settings.pop('avatar_url', default['avatar_url']),
             'disable_embed': parse_boolean(settings.pop('disable_embed', self.__disable_embed)),
-            'content' : settings.pop('content', default['content']),
+            'content': settings.pop('content', default['content']),
             'icon_url': settings.pop('icon_url', default['icon_url']),
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
@@ -117,7 +117,7 @@ class DiscordAlarm(Alarm):
         }
         if not alert['disable_embed']:
             payload['embeds'] = [{
-                'title': replace(alert['title'], info),
+                'title': replace(alert['title'], info)[:30],  # Truncate to less than 30 characters
                 'url': replace(alert['url'], info),
                 'description': replace(alert['body'], info),
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
@@ -145,6 +145,7 @@ class DiscordAlarm(Alarm):
         log.debug("Gym notification triggered.")
         self.send_alert(self.__gym, gym_info)
 
+    # Send a payload to the webhook url
     def send_webhook(self, url, payload):
         log.debug(payload)
         resp = requests.post(url, json=payload, timeout=(None, 5))
