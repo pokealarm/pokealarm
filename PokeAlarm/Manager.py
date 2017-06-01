@@ -49,6 +49,7 @@ class Manager(object):
         # Load and Setup the Pokemon Filters
         self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
         self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist = {}, {}, {}
+        self.__gym_info = {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -631,6 +632,14 @@ class Manager(object):
         to_team_id = gym['team_id']
         from_team_id = self.__gym_hist.get(gym_id)
 
+        # Update Gym details (if they exist)
+        if gym['name'] is not 'unknown' or gym_id not in self.__gym_info:
+            self.__gym_info[gym_id] = {
+                "name": gym['name'],
+                "description": gym['description'],
+                "url": gym['url']
+            }
+
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
@@ -641,6 +650,7 @@ class Manager(object):
             return
         # Update gym's last known team
         self.__gym_hist[gym_id] = to_team_id
+
         # Ignore first time updates
         if from_team_id is None:
             log.debug("Gym update ignored: first time seeing this gym")
@@ -704,6 +714,9 @@ class Manager(object):
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
         gym.update({
+            "name": self.__gym_info[gym_id]['name'],
+            "description": self.__gym_info[gym_id]['description'],
+            "url": self.__gym_info[gym_id]['url'],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
