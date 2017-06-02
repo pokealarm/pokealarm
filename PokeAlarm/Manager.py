@@ -633,7 +633,7 @@ class Manager(object):
         from_team_id = self.__gym_hist.get(gym_id)
 
         # Update Gym details (if they exist)
-        if gym['name'] is not 'unknown' or gym_id not in self.__gym_info:
+        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
             self.__gym_info[gym_id] = {
                 "name": gym['name'],
                 "description": gym['description'],
