@@ -16,26 +16,23 @@
     "pokemon":{
         "enabled":"False",
         "default": {
-            "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "4760", "min_iv":"0", "max_iv":"100",
-            "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
+            "min_dist":"0", "max_dist":"inf",
+            "min_iv":"0", "max_iv":"100", "min_atk": "0", "max_atk":"15",
+            "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
             "quick_move": null, "charge_move": null, "moveset": null,
-            "size": null, "gender": null,
-            "ignore_missing": "False"
+            "size": null, "gender": null, "ignore_missing": "False"
         },
         "Bulbasaur":[
             {
-                "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "4760", "min_iv":"0", "max_iv":"100",
+                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
                 "min_atk": "0", "max_atk":"0", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
-                "quick_move": null, "charge_move": null, "moveset": null,
-                "size": null, "gender": null,
-                "ignore_missing": "False"
+                "quick_move": null, "charge_move": null, "moveset": null, "size": null, "ignore_missing": "False"
             },
            {
-                "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "4760", "min_iv":"0", "max_iv":"100",
+                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
                 "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
                 "quick_move": ["Vine Whip"], "charge_move": ["Sludge Bomb"], "moveset": ["Vine Whip/Sludge Bomb"],
-                "size": null, "gender": null,
-                "ignore_missing": "False"
+                "size": null, "ignore_missing": "False"
            }
         ],
         "Ivysaur":{ "min_iv":"0", "max_iv":"100" },

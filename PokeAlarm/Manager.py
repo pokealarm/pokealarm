@@ -15,7 +15,7 @@ import googlemaps
 from . import config
 from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg
+    require_and_remove_key, parse_boolean, contains_arg, get_leader
 log = logging.getLogger('Manager')
 
 
@@ -332,8 +332,6 @@ class Manager(object):
         passed = False
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
-        cp = pkmn['cp']
-        level = pkmn['level']
         iv = pkmn['iv']
         def_ = pkmn['def']
         atk = pkmn['atk']
@@ -356,33 +354,6 @@ class Manager(object):
                     continue
             else:
                 log.debug("Filter dist was not checked because the manager has no location set.")
-
-            # Check the CP of the Pokemon
-            if cp != '?':
-                if not filt.check_cp(cp):
-                    if self.__quiet is False:
-                        log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
-                            name, cp, filt.min_cp, filt.max_cp, filt_ct))
-                    continue
-            else:
-                if filt.ignore_missing is True:
-                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
-                    continue
-                log.debug("Pokemon 'cp' was not checked because it was missing.")
-
-
-            # Check the Level of the Pokemon
-            if level != '?':
-                if not filt.check_level(level):
-                    if self.__quiet is False:
-                        log.info("{} rejected: Level ({}) not in range {} to {} - (F #{})".format(
-                            name, level, filt.min_level, filt.max_level, filt_ct))
-                    continue
-            else:
-                if filt.ignore_missing is True:
-                    log.info("{} rejected: Level information was missing - (F #{})".format(name, filt_ct))
-                    continue
-                log.debug("Pokemon 'level' was not checked because it was missing.")
 
             # Check the IV percent of the Pokemon
             if iv != '?':
@@ -701,8 +672,9 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
-            'old_team': old_team,
-            'old_team_id': from_team_id
+            'old_team': old_team
+            'new_team_leader': get_leader(to_team_id),
+            'old_team_leader': get_leader(from_team_id)
         })
         self.add_optional_travel_arguments(gym)
 

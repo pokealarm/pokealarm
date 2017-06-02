@@ -226,6 +226,18 @@ def get_pokemon_gender(gender):
     return '?' # catch all
 
 
+# Returns the team leader of a team:
+def get_leader(team_id):
+    if team_id == 1:
+        return "Blanche"
+    elif team_id == 2:
+        return "Candela"
+    elif team_id == 3:
+        return "Spark"
+    else:
+        return "Professor Willow"
+ 
+
 ########################################################################################################################
 
 ################################################# GMAPS API UTILITIES ##################################################
@@ -333,7 +345,7 @@ def get_time_as_str(t, timezone=None):
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds
-    time_left = "%dm %ds" % (m, s) if h == 0 else "%dh %dm" % (h, m)
+    time_left = "%dm %ds" % (m, s)
     # Dissapear time in 12h format, eg "2:30:16 PM"
     time_12 = disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
     # Dissapear time in 24h format including seconds, eg "14:30:16"
