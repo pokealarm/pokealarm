@@ -4,4 +4,3 @@
 *.ini
 *.txt
 !locales/*.json
-!config/config.ini.example
