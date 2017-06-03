@@ -333,6 +333,8 @@ class Manager(object):
         passed = False
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
+        cp = pkmn['cp']
+        level = pkmn['level']
         iv = pkmn['iv']
         def_ = pkmn['def']
         atk = pkmn['atk']
@@ -719,7 +721,8 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
-            'old_team': old_team
+            'old_team': old_team,
+            'old_team_id': from_team_id,
             'new_team_leader': get_leader(to_team_id),
             'old_team_leader': get_leader(from_team_id)
         })
