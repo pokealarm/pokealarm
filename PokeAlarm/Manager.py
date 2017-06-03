@@ -786,7 +786,7 @@ class Manager(object):
         # Update leader names
         with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
             leaders = json.loads(r.read())
-            for team_id, value in teams.iteritems():
+            for team_id, value in leaders.iteritems():
                 self.__leader[int(team_id)] = value
 
     ####################################################################################################################
