@@ -69,6 +69,7 @@ class RocketMap:
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
+            'form_id': check_for_none(int, data.get('form'), '?'),
             'size': 'unknown',
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng)
@@ -112,7 +113,10 @@ class RocketMap:
             "points": str(data.get('gym_points')),
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            'name': check_for_none(str, data.get('name'), 'unknown'),
+            'description': check_for_none(str, data.get('description'), 'unknown'),
+            'url': check_for_none(str, data.get('url'), 'unknown')
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         gym['applemaps'] = get_applemaps_link(gym['lat'], gym['lng'])
