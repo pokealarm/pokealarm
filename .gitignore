@@ -3,4 +3,3 @@
 *.json
 *.ini
 *.txt
-!locales/*.json
