@@ -52,6 +52,8 @@ class RocketMap:
             'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+            'cp': check_for_none(int, data.get('cp'), '?'),
+            'level': check_for_none(int, data.get('pokemon_level'), '?'),
             'iv': '?',
             'atk': check_for_none(int, data.get('individual_attack'), '?'),
             'def': check_for_none(int, data.get('individual_defense'), '?'),
@@ -69,7 +71,10 @@ class RocketMap:
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
+            'form_id': check_for_none(int, data.get('form'), '?'),
             'size': 'unknown',
+            'tiny_rat': '',
+            'big_karp': '',
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng)
         }
@@ -82,6 +87,12 @@ class RocketMap:
             pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
             pkmn['height'] = "{:.2f}".format(pkmn['height'])
             pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
+
+        if pkmn['pkmn_id'] == 19 and pkmn['size'] == 'tiny':
+            pkmn['tiny_rat'] = 'tiny'
+
+        if pkmn['pkmn_id'] == 129 and pkmn['size'] == 'big':
+            pkmn['big_karp'] = 'big'
 
         return pkmn
 
@@ -112,7 +123,10 @@ class RocketMap:
             "points": str(data.get('gym_points')),
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            'name': check_for_none(str, data.get('name'), 'unknown'),
+            'description': check_for_none(str, data.get('description'), 'unknown'),
+            'url': check_for_none(str, data.get('url'), 'unknown')
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         gym['applemaps'] = get_applemaps_link(gym['lat'], gym['lng'])
