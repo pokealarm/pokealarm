@@ -82,7 +82,7 @@ class TwitterAlarm(Alarm):
             if status.endswith("<gmaps>"):
                 limit = 118  # Save 23 characters for the google maps
                 status = status[:-7] # Truncate gmaps
-            status = replace(alert['status'][limit:], info) # Truncate status
+            status = replace(alert['status'][:limit], info) # Truncate status
             if limit == 118:
                 status += info['gmaps'] # Add in gmaps link
             args = {"status": status}
