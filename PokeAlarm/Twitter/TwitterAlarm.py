@@ -77,8 +77,16 @@ class TwitterAlarm(Alarm):
         return alert
 
     def send_alert(self, alert, info):
-            args = {"status": replace(alert['status'], info)}
-            try_sending(log, self.connect, "Twitter", self.__client.statuses.update, args)
+            limit = 140
+            status = alert['status']
+            if status.endswith("<gmaps>"):
+                limit = 118  # Save 23 characters for the google maps
+                status = status[:-7] # Truncate gmaps
+            status = replace(status[:limit], info) # Truncate status
+            if limit == 118:
+                status += info['gmaps'] # Add in gmaps link
+            args = {"status": status}
+            try_sending(log, self.connect, "Twitter", self.send_tweet, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
