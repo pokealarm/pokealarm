@@ -36,7 +36,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}, self.__leader = {}, {}, {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {},  {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -785,7 +785,7 @@ class Manager(object):
                 self.__team_name[int(team_id)] = value
         # Update leader names
         with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
-            leaders = json.loads(r.read())
+            leaders = json.loads(f.read())
             for team_id, value in leaders.iteritems():
                 self.__leader[int(team_id)] = value
 

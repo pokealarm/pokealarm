@@ -115,7 +115,7 @@ class DiscordAlarm(Alarm):
             'content': replace(alert['content'], info),
             'avatar_url':  replace(alert['avatar_url'], info),
         }
-        if not alert['disable_embed']:
+        if alert['disable_embed'] is False:
             payload['embeds'] = [{
                 'title': replace(alert['title'], info),
                 'url': replace(alert['url'], info),
