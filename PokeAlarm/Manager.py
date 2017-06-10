@@ -36,7 +36,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
+        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}, self.__leader = {}, {}, {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -722,7 +722,9 @@ class Manager(object):
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
             'old_team': old_team,
-            'old_team_id': from_team_id
+            'old_team_id': from_team_id,
+            'new_team_leader': self.__leader[to_team_id],
+            'old_team_leader': self.__leader[from_team_id]
         })
         self.add_optional_travel_arguments(gym)
 
@@ -781,6 +783,11 @@ class Manager(object):
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
                 self.__team_name[int(team_id)] = value
+        # Update leader names
+        with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
+            leaders = json.loads(r.read())
+            for team_id, value in leaders.iteritems():
+                self.__leader[int(team_id)] = value
 
     ####################################################################################################################
 
