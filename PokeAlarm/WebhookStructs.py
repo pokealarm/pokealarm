@@ -28,6 +28,8 @@ class RocketMap:
                 return RocketMap.pokestop(data.get('message'))
             elif kind == 'gym' or kind == 'gym_details':
                 return RocketMap.gym(data.get('message'))
+            elif kind == 'raid':
+                return RocketMap.raid(data.get('message'))
             elif kind in ['captcha', 'scheduler']:  # Unsupported Webhooks
                 log.debug("{} webhook received. This webhooks is not yet supported at this time.".format({kind}))
             else:
@@ -112,6 +114,38 @@ class RocketMap:
         stop['gmaps'] = get_gmaps_link(stop['lat'], stop['lng'])
         stop['applemaps'] = get_applemaps_link(stop['lat'], stop['lng'])
         return stop
+
+    @staticmethod
+    def raid(data):
+        log.debug("Converting to raid: \n {}".format(data))
+
+        quick_id = check_for_none(int, data.get('move_1'), '?')
+        charge_id = check_for_none(int, data.get('move_2'), '?')
+
+        raid = {
+            'type': 'raid',
+            'id': data.get('raid_seed'),
+            'pkmn_id': int(data.get('pokemon_id') ),
+            'cp': check_for_none(int, data.get('cp'), '?'),
+            'quick_id': quick_id,
+            'quick_damage': get_move_damage(quick_id),
+            'quick_dps': get_move_dps(quick_id),
+            'quick_duration': get_move_duration(quick_id),
+            'quick_energy': get_move_energy(quick_id),
+            'charge_id': charge_id,
+            'charge_damage': get_move_damage(charge_id),
+            'charge_dps': get_move_dps(charge_id),
+            'charge_duration': get_move_duration(charge_id),
+            'charge_energy': get_move_energy(charge_id),
+            'expire_time' : datetime.utcfromtimestamp(data['raid_end']),
+            'lat': float(data['latitude']),
+            'lng': float(data['longitude'])
+        }
+        
+        raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
+        raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
+
+        return raid
 
     @staticmethod
     def gym(data):
