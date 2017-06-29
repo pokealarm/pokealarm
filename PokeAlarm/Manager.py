@@ -765,7 +765,7 @@ class Manager(object):
 
 
         # TODO add support for upcoming raid  -> skip check on pokemon filter and have trigger on for show upcoming
-        if 'pkmn_id' not in raid or raid['pkmn_id'] is None or int(raid['pkmn_id']) == 0:
+        if 'pkmn_id' not in raid or raid['pkmn_id'] is None or raid['pkmn_id'] == '?' or int(raid['pkmn_id']) == 0:
             # raid is not active yet, ignore
             return
 
