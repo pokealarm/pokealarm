@@ -769,12 +769,17 @@ class Manager(object):
             # raid is not active yet, ignore
             return
 
-        if id_ in self.__raid_hist:
-            if self.__quiet  is False:
-                log.debug("Raid {} was skipped because it was previously processed.".format(id))
-            return
+        pkmn_id = raid['pkmn_id']
+        raid_end = raid['expire_time']
 
-        self.__raid_hist[id_] = raid['expire_time']
+        if id_ in self.__raid_hist:
+            old_raid_end = self.__raid_hist[id_]
+            if old_raid_end == raid_end:
+                if self.__quiet is False:
+                    log.debug("Raid {} was skipped because it was previously processed.".format(id))
+                return
+
+        self.__raid_hist[id_] = raid_end
 
         lat, lng = raid['lat'], raid['lng']
 
