@@ -126,8 +126,8 @@ class RocketMap:
 
         if 'raid_end' in data: # monocle sends raid_end
             raid_end = datetime.utcfromtimestamp(data['raid_end'])
-        elif 'end' in data: # rocketmap just sends end
-            raid_end = datetime.utcfromtimestamp(data['end'])
+        elif 'end' in data: # rocketmap just sends end but in ms
+            raid_end = datetime.utcfromtimestamp(data['end']/1000)
 
         if 'raid_seed' in data:  # monocle sends a unique raid seed
             raid_seed = data.get('raid_seed')

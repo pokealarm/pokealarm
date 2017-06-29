@@ -795,7 +795,7 @@ class Manager(object):
                     log.info("Raid update ignored: located outside geofences.")
                 return
         else:
-            log.debug("Gym inside geofences was not checked because no geofences were set.")
+            log.debug("Raid inside geofences was not checked because no geofences were set.")
 
         #check filters for pokemon
 
@@ -818,7 +818,7 @@ class Manager(object):
             return
 
         if self.__quiet is False:
-            log.info("Gym ({}) notification has been triggered!".format(id_))
+            log.info("Raid ({}) notification has been triggered!".format(id_))
 
         time_str = get_time_as_str(raid['expire_time'], self.__timezone)
 
