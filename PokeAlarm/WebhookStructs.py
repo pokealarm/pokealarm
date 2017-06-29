@@ -122,10 +122,22 @@ class RocketMap:
         quick_id = check_for_none(int, data.get('move_1'), '?')
         charge_id = check_for_none(int, data.get('move_2'), '?')
 
+        raid_end = None
+
+        if 'raid_end' in data: # monocle sends raid_end
+            raid_end = datetime.utcfromtimestamp(data['raid_end'])
+        elif 'end' in data: # rocketmap just sends end
+            raid_end = datetime.utcfromtimestamp(data['end'])
+
+        if 'raid_seed' in data:  # monocle sends a unique raid seed
+            raid_seed = data.get('raid_seed')
+        else:
+            raid_seed = data.get('gym_id')  # RM sends the gym id
+
         raid = {
             'type': 'raid',
-            'id': data.get('raid_seed'),
-            'pkmn_id': int(data.get('pokemon_id') ),
+            'id': raid_seed,
+            'pkmn_id': check_for_none(int,data.get('pokemon_id'), '?'),
             'cp': check_for_none(int, data.get('cp'), '?'),
             'quick_id': quick_id,
             'quick_damage': get_move_damage(quick_id),
@@ -137,7 +149,8 @@ class RocketMap:
             'charge_dps': get_move_dps(charge_id),
             'charge_duration': get_move_duration(charge_id),
             'charge_energy': get_move_energy(charge_id),
-            'expire_time' : datetime.utcfromtimestamp(data['raid_end']),
+            'raid_level': check_for_none(int,data.get('level'), '?'),
+            'expire_time' : raid_end,
             'lat': float(data['latitude']),
             'lng': float(data['longitude'])
         }

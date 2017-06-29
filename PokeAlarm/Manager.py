@@ -763,6 +763,12 @@ class Manager(object):
 
         id_ = raid['id']
 
+
+        # TODO add support for upcoming raid  -> skip check on pokemon filter and have trigger on for show upcoming
+        if 'pkmn_id' not in raid or raid['pkmn_id'] is None or int(raid['pkmn_id']) == 0:
+            # raid is not active yet, ignore
+            return
+
         if id_ in self.__raid_hist:
             if self.__quiet  is False:
                 log.debug("Raid {} was skipped because it was previously processed.".format(id))
@@ -771,12 +777,8 @@ class Manager(object):
         self.__raid_hist[id_] = raid['expire_time']
 
         lat, lng = raid['lat'], raid['lng']
-        pkmn_id = raid['pkmn_id']
-        self.add_optional_travel_arguments(raid)
 
-        # TODO add support for upcoming raid  -> skip check on pokemon filter and have trigger on for show upcoming
-        if pkmn_id is None:
-            return
+        self.add_optional_travel_arguments(raid)
 
         # Check if in geofences
         if len(self.__geofences) > 0:
