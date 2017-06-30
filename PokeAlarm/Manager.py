@@ -798,6 +798,12 @@ class Manager(object):
             log.debug("Raid inside geofences was not checked because no geofences were set.")
 
         #check filters for pokemon
+        name = self.__pokemon_name[pkmn_id]
+
+        if pkmn_id not in self.__raid_settings['filters']:
+            if self.__quiet is False:
+                log.info("Raid on {} ignored: no filters are set".format(name))
+            return
 
         dist = get_earth_dist([lat, lng], self.__latlng)
         cp = raid['cp']
@@ -806,7 +812,7 @@ class Manager(object):
         def_ = 15
         atk = 15
         sta = 15
-        name = self.__pokemon_name[pkmn_id]
+
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
 
