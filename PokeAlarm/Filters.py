@@ -34,22 +34,24 @@ def create_multi_filter(location, FilterType, settings, default):
         sys.exit(1)
 
 
-def load_pokemon_section(settings):
-    log.info("Setting Pokemon filters...")
-    pokemon = { "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)}
+def load_pokemon_filters(settings):
     # Set the defaults for "True"
     default_filt = PokemonFilter(settings.pop('default', {}), {
         "ignore_missing": False,
         "min_dist": 0.0, "max_dist": float('inf'),
+        "min_cp": 0, "max_cp": 999999,
+        "min_level": 0, "max_level": 40,
         "min_iv": 0.0, "max_iv": 100.0,
         "min_atk": 0, "max_atk": 15,
         "min_def": 0, "max_def": 15,
         "min_sta": 0, "max_sta": 15,
         "quick_move": None, "charge_move": None, "moveset": None,
         "size": None,
-        "gender": None
+        "gender": None,
+        "form": None
     }, 'default')
     default = default_filt.to_dict()
+
     # Add the filters to the settings
     filters = {}
     for name in settings:
@@ -58,12 +60,21 @@ def load_pokemon_section(settings):
             log.error("Unable to find pokemon named '{}'...".format(name))
             log.error("Please see PokeAlarm documentation for proper Filter file formatting.")
             sys.exit(1)
-        if pkmn_id in pokemon:
+        if pkmn_id in filters:
             log.error("Multiple entries detected for Pokemon #{}. Please remove any extra names.")
             sys.exit(1)
         f = create_multi_filter(name, PokemonFilter, settings[name], default)
         if f is not None:
             filters[pkmn_id] = f
+
+    return filters
+
+
+def load_pokemon_section(settings):
+    log.info("Setting Pokemon filters...")
+    pokemon = { "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)}
+
+    filters = load_pokemon_filters(settings)
     pokemon['filters'] = filters
     # Output filters
     log.debug(filters)
@@ -93,6 +104,19 @@ def load_pokestop_section(settings):
     if stop['enabled'] is False:
         log.info("Pokestop notifications will NOT be sent - Enabled is False.")
     return stop
+
+
+def load_raid_section(settings):
+    log.info("Setting up Raid Filters...")
+    raid = {
+        "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)
+    }
+
+    # load any pokemon filters
+    filters = load_pokemon_filters(settings)
+    raid['filters'] = filters
+
+    return raid
 
 
 def load_gym_section(settings):
@@ -142,6 +166,12 @@ class PokemonFilter(Filter):
         self.max_dist = float(settings.pop('max_dist', None) or default['max_dist'])
         # Do we ignore pokemon with missing info?
         self.ignore_missing = bool(parse_boolean(settings.pop('ignore_missing', default['ignore_missing'])))
+        # CP
+        self.min_cp = int(settings.pop('min_cp', None) or default['min_cp'])
+        self.max_cp = int(settings.pop('max_cp', None) or default['max_cp'])
+        # Level
+        self.min_level = int(settings.pop('min_level', None) or default['min_level'])
+        self.max_level = int(settings.pop('max_level', None) or default['max_level'])
         # IVs
         self.min_iv = float(settings.pop('min_iv', None) or default['min_iv'])
         self.max_iv = float(settings.pop('max_iv', None) or default['max_iv'])
@@ -154,6 +184,7 @@ class PokemonFilter(Filter):
         # Size
         self.sizes = PokemonFilter.check_sizes(settings.pop("size", default['size']))
         self.genders = PokemonFilter.check_genders(settings.pop("gender", default['gender']))
+        self.forms = PokemonFilter.check_forms(settings.pop("form", default['form']))
         # Moves - These can't be set in the default filter
         self.req_quick_move = PokemonFilter.create_moves_list(settings.pop("quick_move", default['quick_move']))
         self.req_charge_move = PokemonFilter.create_moves_list(settings.pop("charge_move", default['charge_move']))
@@ -164,6 +195,14 @@ class PokemonFilter(Filter):
     # Checks the given distance against this filter
     def check_dist(self, dist):
         return self.min_dist <= dist <= self.max_dist
+
+    # Checks the CP against this filter
+    def check_cp(self, cp):
+        return self.min_cp <= cp <= self.max_cp
+
+    # Checks the Level against this filter
+    def check_level(self, level):
+        return self.min_level <= level <= self.max_level
 
     # Checks the IV percent against this filter
     def check_iv(self, dist):
@@ -214,10 +253,18 @@ class PokemonFilter(Filter):
             return True
         return gender in self.genders
 
+    # Checks the form_id against this filter
+    def check_form(self, form_id):
+        if self.forms is None:
+            return True
+        return form_id in self.forms
+
     # Convert this filter to a dict
     def to_dict(self):
         return {
             "min_dist": self.min_dist, "max_dist": self.max_dist,
+            "min_cp": self.min_cp, "max_cp": self.max_cp,
+            "min_level": self.min_level, "max_level": self.max_level,
             "min_iv": self.min_iv, "max_iv": self.max_iv,
             "min_atk": self.min_atk, "max_atk": self.max_atk,
             "min_def": self.min_def, "max_def": self.max_def,
@@ -226,29 +273,32 @@ class PokemonFilter(Filter):
             "moveset": self.req_moveset,
             "size": self.sizes,
             "gender": self.genders,
+            "form": self.forms,
             "ignore_missing": self.ignore_missing
         }
 
     # Print this filter
     def to_string(self):
         return "Dist: {} to {}, ".format(self.min_dist, self.max_dist) + \
+               "CP: {} to {}, ".format(self.min_cp, self.max_cp) + \
+               "Level: {} to {}, ".format(self.min_level, self.max_level) + \
                "IV%: {} to {}, ".format(self.min_iv, self.max_iv) +  \
                "Atk: {} to {}, ".format(self.min_atk, self.max_atk) + \
                "Def: {} to {}, ".format(self.min_def, self.max_def) + \
                "Sta: {} to {}, ".format(self.min_sta, self.max_sta) +\
                "Quick Moves: {}, ".format(self.req_quick_move) + \
                "Charge Moves: {}, ".format(self.req_charge_move) + \
-               "Move Sets: {}, ".format(self.req_moveset)  +\
+               "Move Sets: {}, ".format(self.req_moveset) + \
                "Sizes: {}, ".format(self.sizes) + \
                "Genders: {}, ".format(self.genders) + \
                "Ignore Missing: {} ".format(self.ignore_missing)
 
     @staticmethod
     def create_moves_list(moves):
-        if moves is None:  # no moves
-            return None
+        if moves is None or type(moves) == set:  # no moves or already defined moves
+            return moves
         if type(moves) != list:
-            log.error("Moves list must be in a comma seperated array. Ex: [\"Move\",\"Move\"]"
+            log.error("Moves list must be in a comma seperated array. Ex: [\"Move\",\"Move\"]. "
                       + "Please see PokeAlarm documentation for more examples.")
             sys.exit(1)
         list_ = set()
@@ -287,7 +337,6 @@ class PokemonFilter(Filter):
                 sys.exit(1)
         return list_
 
-
     @staticmethod
     def check_genders(genders):
         if genders is None:  # no genders
@@ -298,22 +347,36 @@ class PokemonFilter(Filter):
             log.debug("raw_gender: {}".format(raw_gender))
             gender = raw_gender
             if raw_gender == u'\u2642':
-              gender = 'male'
+                gender = 'male'
             if raw_gender == u'\u2640':
-              gender = 'female'
+                gender = 'female'
             if raw_gender == u'\u26b2':
-              gender = 'neutral'
+                gender = 'neutral'
             log.debug("gender: {}".format(gender))
             if gender in valid_genders:
                 if gender == 'male':
-                  list_.add(u'\u2642')
+                    list_.add(u'\u2642')
                 if gender == 'female':
-                  list_.add(u'\u2640')
+                    list_.add(u'\u2640')
                 if gender == 'neutral':
-                  list_.add(u'\u26b2')
+                    list_.add(u'\u26b2')
             else:
                 log.error("{} is not a valid gender name.".format(gender))
                 log.error("Please use one of the following: {}".format(valid_genders))
+                sys.exit(1)
+        return list_
+
+    @staticmethod
+    def check_forms(forms):
+        if forms is None:  # no sizes
+            return None
+        list_ = set()
+        for form_id in forms:
+            try:
+                list_.add(int(form_id))
+            except TypeError:
+                log.error("{} is not a valid form.".format(form_id))
+                log.error("Please use an integer to represent form filters.")
                 sys.exit(1)
         return list_
 
