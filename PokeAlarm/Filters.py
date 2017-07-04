@@ -116,7 +116,10 @@ def load_raid_section(settings):
 
     raid['min_level'] = int(raid_filters.pop('min_level', 0) or 0)
     raid['max_level'] = int(raid_filters.pop('max_level', 10) or 10)
-    raid['ignore_eggs'] = bool(parse_boolean(raid_filters.pop('ignore_eggs', 'true')) or True) # defaults to ignore eggs
+    raid['ignore_eggs'] = bool(parse_boolean(raid_filters.pop('ignore_eggs', None)) or False)
+
+    log.debug("Report raids between level {} and {}, ignore eggs? {}"
+              .format(raid['min_level'], raid['max_level'], raid['ignore_eggs']))
 
     # load any pokemon filters
     filters = load_pokemon_filters(settings)

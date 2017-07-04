@@ -780,6 +780,7 @@ class Manager(object):
         self.__raid_hist[id_] = dict(expire_time=raid_end, pkmn_id=pkmn_id)
 
         lat, lng = raid['lat'], raid['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
 
         self.add_optional_travel_arguments(raid)
 
@@ -819,15 +820,15 @@ class Manager(object):
                                                name, None)
             # If we didn't pass any filters
             if not passed:
+                log.debug("Raid {} did not pass pokemon check".format(id_))
                 return
 
         # check if the level is in the filter range or if we are ignoring eggs
         passed = self.check_raid_filter(self.__raid_settings,raid)
 
         if not passed:
+            log.debug("Raid {} did not pass filter check".format(id_))
             return
-
-        dist = get_earth_dist([lat, lng], self.__latlng)
 
         if self.__quiet is False:
             log.info("Raid ({}) notification has been triggered!".format(id_))
@@ -1032,11 +1033,13 @@ class Manager(object):
         level = raid['raid_level']
 
         if level < settings['min_level']:
-            log.debug("Raid {} is less than min level, ignore".format(raid['id']))
+            log.debug("Raid {} is less ({}) than min ({}) level, ignore"
+                      .format(raid['id'], level, settings['min_level']))
             return False
 
         if level > settings['max_level']:
-            log.debug("Raid {} is higher than max level, ignore".format(raid['id']))
+            log.debug("Raid {} is higher ({}) than max ({}) level, ignore"
+                      .format(raid['id'], level, settings['max_level']))
             return False
 
         if settings['ignore_eggs'] is True and raid['pkmn_id'] == 0:

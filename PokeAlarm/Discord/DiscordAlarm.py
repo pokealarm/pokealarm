@@ -63,7 +63,7 @@ class DiscordAlarm(Alarm):
             'avatar_url': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
             'title': "Raid is incoming!",
             'url': "<gmaps>",
-            'body': "A level <raid_level> raid will hatch <begin_24h_time> (<begin_time_left>).",
+            'body': "A level <raid_level> raid will hatch <begin_24h_time> (<begin_time_left>)."
         }
     }
 
