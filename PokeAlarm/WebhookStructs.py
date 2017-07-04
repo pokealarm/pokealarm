@@ -125,15 +125,28 @@ class RocketMap:
         raid_end = None
         raid_begin = None
 
+        # TODO remove this fix for PR #2102
+        # temp fix for RM sending way to big timestamps (in ms instead of timestamps)
+        use__r_m__p_r_workaround = False
+
         if 'raid_begin' in data:
             raid_begin = datetime.utcfromtimestamp(data['raid_begin'])
         elif 'battle' in data:
             raid_begin = datetime.utcfromtimestamp(data['battle'])
+        elif 'start' in data:
+            if data['start'] > 9999999999:
+                use__r_m__p_r_workaround = True
+                raid_begin = datetime.utcfromtimestamp(data['start'] / 1000)
+            else:
+                raid_begin = datetime.utcfromtimestamp(data['start'])
 
         if 'raid_end' in data:  # monocle
             raid_end = datetime.utcfromtimestamp(data['raid_end'])
         elif 'end' in data:  # rocketmap
-            raid_end = datetime.utcfromtimestamp(data['end'])
+            if use__r_m__p_r_workaround is True:
+                raid_end = datetime.utcfromtimestamp(data['end'] / 1000)
+            else:
+                raid_end = datetime.utcfromtimestamp(data['end'])
 
         if 'raid_seed' in data:  # monocle sends a unique raid seed
             raid_seed = data.get('raid_seed')
