@@ -763,23 +763,21 @@ class Manager(object):
 
         id_ = raid['id']
 
-
-        # TODO add support for upcoming raid  -> skip check on pokemon filter and have trigger on for show upcoming
-        if 'pkmn_id' not in raid or raid['pkmn_id'] is None or raid['pkmn_id'] == '?' or int(raid['pkmn_id']) == 0:
-            # raid is not active yet, ignore
-            return
-
         pkmn_id = raid['pkmn_id']
         raid_end = raid['expire_time']
+        name = None
 
+        # raid history will contain the end date and also the pokemon if it has hatched
         if id_ in self.__raid_hist:
-            old_raid_end = self.__raid_hist[id_]
+            old_raid_end = self.__raid_hist[id_]['expire_time']
+            old_raid_pkmn = self.__raid_hist[id_].get('pkmn_id', 0)
             if old_raid_end == raid_end:
-                if self.__quiet is False:
-                    log.debug("Raid {} was skipped because it was previously processed.".format(id))
-                return
+                if old_raid_pkmn == pkmn_id: # raid with same end time exists and it has same pokemon id, skip it
+                    if self.__quiet is False:
+                        log.debug("Raid {} was skipped because it was previously processed.".format(id))
+                    return
 
-        self.__raid_hist[id_] = raid_end
+        self.__raid_hist[id_] = dict(expire_time=raid_end, pkmn_id=pkmn_id)
 
         lat, lng = raid['lat'], raid['lng']
 
@@ -797,42 +795,54 @@ class Manager(object):
         else:
             log.debug("Raid inside geofences was not checked because no geofences were set.")
 
-        #check filters for pokemon
-        name = self.__pokemon_name[pkmn_id]
-
-        if pkmn_id not in self.__raid_settings['filters']:
-            if self.__quiet is False:
-                log.info("Raid on {} ignored: no filters are set".format(name))
-            return
-
-        dist = get_earth_dist([lat, lng], self.__latlng)
-        cp = raid['cp']
-        level = 20
-        iv = 100
-        def_ = 15
-        atk = 15
-        sta = 15
-
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
 
-        filters = self.__raid_settings['filters'][pkmn_id]
-        passed = self.check_pokemon_filter(filters, atk, def_, sta, quick_id, charge_id, cp, dist, None, None, iv, level,
-                                           name, None)
-        # If we didn't pass any filters
+        if pkmn_id > 0:
+            # check filters for pokemon if i
+            name = self.__pokemon_name[pkmn_id]
+
+            if pkmn_id not in self.__raid_settings['filters']:
+                if self.__quiet is False:
+                    log.info("Raid on {} ignored: no filters are set".format(name))
+                return
+
+            cp = raid['cp']
+            level = 20
+            iv = 100
+            def_ = 15
+            atk = 15
+            sta = 15
+
+            filters = self.__raid_settings['filters'][pkmn_id]
+            passed = self.check_pokemon_filter(filters, atk, def_, sta, quick_id, charge_id, cp, dist, None, None, iv, level,
+                                               name, None)
+            # If we didn't pass any filters
+            if not passed:
+                return
+
+        # check if the level is in the filter range or if we are ignoring eggs
+        passed = self.check_raid_filter(self.__raid_settings,raid)
+
         if not passed:
             return
+
+        dist = get_earth_dist([lat, lng], self.__latlng)
 
         if self.__quiet is False:
             log.info("Raid ({}) notification has been triggered!".format(id_))
 
         time_str = get_time_as_str(raid['expire_time'], self.__timezone)
+        start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
         raid.update({
             'pkmn': name,
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
+            'begin_time_left': start_time_str[0],
+            'begin_12h_time': start_time_str[1],
+            'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
@@ -842,12 +852,14 @@ class Manager(object):
         threads = []
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_alert, raid))
+            if pkmn_id > 0:    # Raid event
+                threads.append(gevent.spawn(alarm.raid_alert, raid))
+            else:              # Egg event
+                threads.append(gevent.spawn(alarm.raid_egg_alert, raid))
             gevent.sleep(0)  # explict context yield
 
         for thread in threads:
             thread.join()
-
 
     # Check to see if a notification is within the given range
     def check_geofences(self, name, lat, lng):
@@ -1015,3 +1027,20 @@ class Manager(object):
         return data
 
     ####################################################################################################################
+
+    def check_raid_filter(self, settings, raid):
+        level = raid['raid_level']
+
+        if level < settings['min_level']:
+            log.debug("Raid {} is less than min level, ignore".format(raid['id']))
+            return False
+
+        if level > settings['max_level']:
+            log.debug("Raid {} is higher than max level, ignore".format(raid['id']))
+            return False
+
+        if settings['ignore_eggs'] and raid['pkmn_id'] == 0:
+            log.debug("Raid {} is an egg, ignore".format(raid['id']))
+            return False
+
+        return True

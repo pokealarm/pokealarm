@@ -32,7 +32,10 @@ class TwitterAlarm(Alarm):
             'status': "A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>"
         },
         'raid': {
-            'message': "Raid on <pmkmn>! Available until <24h_time> (<time_left>). <gmaps>",
+            'status': "Raid on <pkmn>! Available until <24h_time> (<time_left>). <gmaps>",
+        },
+        'egg': {
+            'status': "lvl <raid_level> raid! Hatches at <begin_24h_time> (<begin_time_left>). <gmaps>",
         }
     }
 
@@ -53,6 +56,7 @@ class TwitterAlarm(Alarm):
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
         self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
+        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
@@ -103,6 +107,10 @@ class TwitterAlarm(Alarm):
     # Trigger an alert based on Gym info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, raid_info):
+        self.send_alert(self.__egg, raid_info)
 
     # Trigger an alert based on Gym info
     def raid_alert(self, raid_info):

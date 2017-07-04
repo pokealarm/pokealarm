@@ -51,10 +51,19 @@ class FacebookPageAlarm(Alarm):
             'message': "A Raid is available against <pkmn>!",
             'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'link': "<gmaps>",
-            'name': 'Gym Raid',
+            'name': 'Raid',
             'description': "The raid is available until <24h_time> (<time_left>).",
             'caption': None
+        },
+        'egg': {
+            'message': "A level <raid_level> raid is upcoming!",
+            'image': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
+            'link': "<gmaps>",
+            'name': 'Egg',
+            'description': "The egg will hatch <begin_24h_time> (<begin_time_left>).",
+            'caption': None
         }
+
     }
     # Gather settings and create alarm
     def __init__(self, settings):

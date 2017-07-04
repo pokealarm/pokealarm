@@ -38,8 +38,12 @@ class TelegramAlarm(Alarm):
             'body': "It is now controlled by <new_team>."
         },
         'raid': {
-           'title': "A Raid is available against <pkmn>!",
+           'title': "A raid is available against <pkmn>!",
             'body': "The raid is available until <24h_time> (<time_left>).",
+        },
+        'egg': {
+            'title': "A level <raid_level> raid is incoming!",
+            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>).",
         }
     }
 
@@ -62,6 +66,7 @@ class TelegramAlarm(Alarm):
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
         self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
+        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Telegram alarm.")
@@ -127,6 +132,10 @@ class TelegramAlarm(Alarm):
             self.send_alert(self.__gym, gym_info, sticker_list.get(gym_info['new_team_id']))
         else:
             self.send_alert(self.__gym, gym_info)
+
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, raid_info):
+        self.send_alert(self.__egg, raid_info)
 
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):

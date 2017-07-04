@@ -49,6 +49,13 @@ class SlackAlarm(Alarm):
             'title': "A Raid is available against <pkmn>!",
             'url': "<gmaps>",
             'body': "The raid is available until <24h_time> (<time_left>).",
+        },
+        'egg': {
+            'username': "Egg",
+            'icon_url': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
+            'title': "A level <raid_level> raid is incoming!",
+            'url': "<gmaps>",
+            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>).",
         }
     }
 
@@ -71,6 +78,7 @@ class SlackAlarm(Alarm):
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
         self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
+        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
@@ -128,6 +136,10 @@ class SlackAlarm(Alarm):
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, raid_info):
+        self.send_alert(self.__egg, raid_info)
 
     # Trigger an alert based on Gym info
     def raid_alert(self, raid_info):
