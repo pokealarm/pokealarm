@@ -782,8 +782,6 @@ class Manager(object):
         lat, lng = raid['lat'], raid['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
 
-        self.add_optional_travel_arguments(raid)
-
         # Check if in geofences
         if len(self.__geofences) > 0:
             inside = False
@@ -829,6 +827,8 @@ class Manager(object):
         if not passed:
             log.debug("Raid {} did not pass filter check".format(id_))
             return
+
+        self.add_optional_travel_arguments(raid)
 
         if self.__quiet is False:
             log.info("Raid ({}) notification has been triggered!".format(id_))
