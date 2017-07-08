@@ -797,6 +797,13 @@ class Manager(object):
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
 
+        # check if the level is in the filter range or if we are ignoring eggs
+        passed = self.check_raid_filter(self.__raid_settings,raid)
+
+        if not passed:
+            log.debug("Raid {} did not pass filter check".format(id_))
+            return
+
         if pkmn_id > 0:
             # check filters for pokemon if i
             name = self.__pokemon_name[pkmn_id]
@@ -821,12 +828,6 @@ class Manager(object):
                 log.debug("Raid {} did not pass pokemon check".format(id_))
                 return
 
-        # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_raid_filter(self.__raid_settings,raid)
-
-        if not passed:
-            log.debug("Raid {} did not pass filter check".format(id_))
-            return
 
         self.add_optional_travel_arguments(raid)
 
