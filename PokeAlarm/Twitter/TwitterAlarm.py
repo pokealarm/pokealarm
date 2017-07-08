@@ -23,19 +23,19 @@ class TwitterAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'status': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>). <gmaps>",
+            'status': "A wild <pkmn> has appeared! Available until <24h_time> (<time_left>). <gmaps>"
         },
         'pokestop': {
-            'status': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).  <gmaps>",
+            'status': "Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).  <gmaps>"
         },
         'gym': {
             'status': "A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>"
         },
-        'raid': {
-            'status': "Raid on <pkmn>! Available until <24h_time> (<time_left>). <gmaps>",
-        },
         'egg': {
-            'status': "lvl <raid_level> raid! Hatches at <begin_24h_time> (<begin_time_left>). <gmaps>",
+            'status': "lvl <raid_level> raid! Hatches at <begin_24h_time> (<begin_time_left>). <gmaps>"
+        },
+        'raid': {
+            'status': "Raid on <pkmn>! Available until <24h_time> (<time_left>). <gmaps>"
         }
     }
 
@@ -55,8 +55,8 @@ class TwitterAlarm(Alarm):
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
-        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
         self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")

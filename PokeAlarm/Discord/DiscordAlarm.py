@@ -47,15 +47,6 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
         },
-        'raid': {
-            'username': "Raid",
-            'content': "",
-            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
-            'avatar_url': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
-            'title': "Level <raid_level> Raid is available against <pkmn>!",
-            'url': "<gmaps>",
-            'body': "The raid is available until <24h_time> (<time_left>).",
-        },
         'egg': {
             'username': "Egg",
             'content': "",
@@ -64,6 +55,15 @@ class DiscordAlarm(Alarm):
             'title': "Raid is incoming!",
             'url': "<gmaps>",
             'body': "A level <raid_level> raid will hatch <begin_24h_time> (<begin_time_left>)."
+        },
+        'raid': {
+            'username': "Raid",
+            'content': "",
+            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'avatar_url': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
+            'title': "Level <raid_level> Raid is available against <pkmn>!",
+            'url': "<gmaps>",
+            'body': "The raid is available until <24h_time> (<time_left>)."
         }
     }
 
@@ -84,8 +84,8 @@ class DiscordAlarm(Alarm):
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
-        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
         self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
