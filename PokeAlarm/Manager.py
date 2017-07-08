@@ -36,7 +36,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {},  {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -49,6 +49,7 @@ class Manager(object):
         # Load and Setup the Pokemon Filters
         self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
         self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist = {}, {}, {}
+        self.__gym_info = {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -332,6 +333,8 @@ class Manager(object):
         passed = False
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
+        cp = pkmn['cp']
+        level = pkmn['level']
         iv = pkmn['iv']
         def_ = pkmn['def']
         atk = pkmn['atk']
@@ -340,6 +343,7 @@ class Manager(object):
         charge_id = pkmn['charge_id']
         size = pkmn['size']
         gender = pkmn['gender']
+        form_id = pkmn['form_id']
 
         filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
@@ -354,6 +358,32 @@ class Manager(object):
                     continue
             else:
                 log.debug("Filter dist was not checked because the manager has no location set.")
+
+            # Check the CP of the Pokemon
+            if cp != '?':
+                if not filt.check_cp(cp):
+                    if self.__quiet is False:
+                        log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
+                            name, cp, filt.min_cp, filt.max_cp, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'cp' was not checked because it was missing.")
+
+            # Check the Level of the Pokemon
+            if level != '?':
+                if not filt.check_level(level):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Level ({}) not in range {} to {} - (F #{})".format(
+                            name, level, filt.min_level, filt.max_level, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Level information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'level' was not checked because it was missing.")
 
             # Check the IV percent of the Pokemon
             if iv != '?':
@@ -466,6 +496,13 @@ class Manager(object):
                     log.info("{} rejected: Gender information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
+
+            # Check for a valid form
+            if form_id != '?':
+                if not filt.check_form(form_id):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
+                    continue
 
             # Nothing left to check, so it must have passed
             passed = True
@@ -595,6 +632,14 @@ class Manager(object):
         to_team_id = gym['team_id']
         from_team_id = self.__gym_hist.get(gym_id)
 
+        # Update Gym details (if they exist)
+        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+            self.__gym_info[gym_id] = {
+                "name": gym['name'],
+                "description": gym['description'],
+                "url": gym['url']
+            }
+
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
@@ -605,6 +650,7 @@ class Manager(object):
             return
         # Update gym's last known team
         self.__gym_hist[gym_id] = to_team_id
+
         # Ignore first time updates
         if from_team_id is None:
             log.debug("Gym update ignored: first time seeing this gym")
@@ -668,11 +714,17 @@ class Manager(object):
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
         gym.update({
+            "name": self.__gym_info[gym_id]['name'],
+            "description": self.__gym_info[gym_id]['description'],
+            "url": self.__gym_info[gym_id]['url'],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
-            'old_team': old_team
+            'old_team': old_team,
+            'old_team_id': from_team_id,
+            'new_team_leader': self.__leader[to_team_id],
+            'old_team_leader': self.__leader[from_team_id]
         })
         self.add_optional_travel_arguments(gym)
 
@@ -731,6 +783,11 @@ class Manager(object):
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
                 self.__team_name[int(team_id)] = value
+        # Update leader names
+        with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
+            leaders = json.loads(f.read())
+            for team_id, value in leaders.iteritems():
+                self.__leader[int(team_id)] = value
 
     ####################################################################################################################
 

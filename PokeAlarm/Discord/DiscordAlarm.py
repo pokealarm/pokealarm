@@ -22,21 +22,27 @@ class DiscordAlarm(Alarm):
     _defaults = {
         'pokemon': {
             'username': "<pkmn>",
+            'content':"",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
             'username': "Pokestop",
+            'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
             'username': "<new_team> Gym Alerts",
+            'content': "",
             'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
+            'avatar_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
@@ -51,6 +57,8 @@ class DiscordAlarm(Alarm):
 
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__disable_embed = parse_boolean(settings.pop('disable_embed', "False"))
+        self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})  # default for the rest of the alerts
         self.__static_map_key = static_map_key
 
@@ -86,6 +94,9 @@ class DiscordAlarm(Alarm):
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
+            'avatar_url': settings.pop('avatar_url', default['avatar_url']),
+            'disable_embed': parse_boolean(settings.pop('disable_embed', self.__disable_embed)),
+            'content': settings.pop('content', default['content']),
             'icon_url': settings.pop('icon_url', default['icon_url']),
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
@@ -100,16 +111,19 @@ class DiscordAlarm(Alarm):
     def send_alert(self, alert, info):
         log.debug("Attempting to send notification to Discord.")
         payload = {
-            'username': replace(alert['username'], info),
-            'embeds': [{
+            'username': replace(alert['username'], info)[:32],  # Username must be 32 characters or less
+            'content': replace(alert['content'], info),
+            'avatar_url':  replace(alert['avatar_url'], info),
+        }
+        if alert['disable_embed'] is False:
+            payload['embeds'] = [{
                 'title': replace(alert['title'], info),
                 'url': replace(alert['url'], info),
                 'description': replace(alert['body'], info),
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
             }]
-        }
-        if alert['map'] is not None:
-            payload['embeds'][0]['image'] = {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})}
+            if alert['map'] is not None:
+                payload['embeds'][0]['image'] = {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})}
         args = {
             'url': alert['webhook_url'],
             'payload': payload
@@ -131,10 +145,13 @@ class DiscordAlarm(Alarm):
         log.debug("Gym notification triggered.")
         self.send_alert(self.__gym, gym_info)
 
+    # Send a payload to the webhook url
     def send_webhook(self, url, payload):
+        log.debug(payload)
         resp = requests.post(url, json=payload, timeout=(None, 5))
         if resp.ok is True:
             log.debug("Notification successful (returned {})".format(resp.status_code))
         else:
+            log.debug("Discord response was {}".format(resp.content))
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(resp.status_code))
