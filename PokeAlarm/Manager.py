@@ -474,6 +474,26 @@ class Manager(object):
 
         return passed
 
+    # Check if a raid filter will pass for given raid
+    def check_raid_filter(self, settings, raid):
+        level = raid['raid_level']
+
+        if level < settings['min_level']:
+            log.debug("Raid {} is less ({}) than min ({}) level, ignore"
+                      .format(raid['id'], level, settings['min_level']))
+            return False
+
+        if level > settings['max_level']:
+            log.debug("Raid {} is higher ({}) than max ({}) level, ignore"
+                      .format(raid['id'], level, settings['max_level']))
+            return False
+
+        if settings['ignore_eggs'] is True and raid['pkmn_id'] == 0:
+            log.debug("Raid {} is an egg, ignore".format(raid['id']))
+            return False
+
+        return True
+
     # Process new Pokemon data and decide if a notification needs to be sent
     def process_pokemon(self, pkmn):
         # Make sure that pokemon are enabled
@@ -828,7 +848,6 @@ class Manager(object):
                 log.debug("Raid {} did not pass pokemon check".format(id_))
                 return
 
-
         self.add_optional_travel_arguments(raid)
 
         if self.__quiet is False:
@@ -1029,22 +1048,3 @@ class Manager(object):
         return data
 
     ####################################################################################################################
-
-    def check_raid_filter(self, settings, raid):
-        level = raid['raid_level']
-
-        if level < settings['min_level']:
-            log.debug("Raid {} is less ({}) than min ({}) level, ignore"
-                      .format(raid['id'], level, settings['min_level']))
-            return False
-
-        if level > settings['max_level']:
-            log.debug("Raid {} is higher ({}) than max ({}) level, ignore"
-                      .format(raid['id'], level, settings['max_level']))
-            return False
-
-        if settings['ignore_eggs'] is True and raid['pkmn_id'] == 0:
-            log.debug("Raid {} is an egg, ignore".format(raid['id']))
-            return False
-
-        return True
