@@ -21,6 +21,7 @@ replace = Alarm.replace
 
 class FacebookPageAlarm(Alarm):
 
+
     _defaults = {
         'pokemon': {
             'message': "A wild <pkmn> has appeared!",
@@ -42,12 +43,27 @@ class FacebookPageAlarm(Alarm):
             'message': "A Team <old_team> gym has fallen!",
             'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<team_id>.png",
             'link': "<gmaps>",
-            'name': "<old_team> gym fallen", 
+            'name': "<old_team> gym fallen",
             'description': "It is now controlled by <new_team>",
+            'caption': None
+        },
+        'egg': {
+            'message': "A level <raid_level> raid is upcoming!",
+            'image': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
+            'link': "<gmaps>",
+            'name': 'Egg',
+            'description': "The egg will hatch <begin_24h_time> (<begin_time_left>).",
+            'caption': None
+        },
+        'raid': {
+            'message': "A Raid is available against <pkmn>!",
+            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'link': "<gmaps>",
+            'name': 'Raid',
+            'description': "The raid is available until <24h_time> (<time_left>).",
             'caption': None
         }
     }
-
     # Gather settings and create alarm
     def __init__(self, settings):
         # Required Parameters
@@ -61,6 +77,8 @@ class FacebookPageAlarm(Alarm):
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
+        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in FacebookPage alarm.")
@@ -118,6 +136,14 @@ class FacebookPageAlarm(Alarm):
     # Trigger an alert based on Gym info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, raid_info):
+        self.send_alert(self.__egg, raid_info)
+
+    # Trigger an alert based on Raid info
+    def raid_alert(self, raid_info):
+        self.send_alert(self.__raid, raid_info)
 
     # Sends a wall post to Facebook
     def post_to_wall(self, message, attachment=None):

@@ -54,9 +54,20 @@ class Alarm(object):
     def gym_alert(self, pokegym_info):
         raise NotImplementedError("This is an abstract method.")
 
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, pokeraid_info):
+        raise NotImplementedError("Raid Egg is not implemented!")
+
+    # Trigger an alert when a raid egg is HATCHED (active raid)
+    def raid_alert(self, pokeraid_info):
+        raise NotImplementedError('Raid Alert is not implemented.')
+
     # Return a version of the string with the correct substitutions made
     @staticmethod
     def replace(string, pkinfo):
+        if string is None:
+            return None
+
         s = string.encode('utf-8')
         for key in pkinfo:
             s = s.replace("<{}>".format(key), str(pkinfo[key]))
