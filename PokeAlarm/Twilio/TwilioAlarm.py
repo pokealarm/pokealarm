@@ -22,13 +22,19 @@ class TwilioAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>).",
+            'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
-            'message': "Someone has placed a lure on a Pokestop! <gmaps> Lure will expire at <24h_time> (<time_left>).",
+            'message': "Someone has placed a lure on a Pokestop! <gmaps> Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
-            'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>",
+            'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>"
+        },
+        'egg': {
+            'message': "A level <raid_level> raid is incoming! <gmap> Egg hatches <begin_24h_time> (<begin_time_left>)."
+        },
+        'raid': {
+           'message': "A raid on <pkmn> is available! <gmap> Available until <24h_time> (<time_left>)."
         }
     }
 
@@ -48,6 +54,8 @@ class TwilioAlarm(Alarm):
         self.__pokemon = self.set_alert(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.set_alert(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.set_alert(settings.pop('gyms', {}), self._defaults['gym'])
+        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.set_alert(settings.pop('raid', {}), self._defaults['raid'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
@@ -98,6 +106,14 @@ class TwilioAlarm(Alarm):
     # Trigger an alert based on Gym info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, raid_info):
+        self.send_alert(self.__egg, raid_info)
+
+    # Trigger an alert based on Raid info
+    def raid_alert(self, raid_info):
+        self.send_alert(self.__raid, raid_info)
 
     # Send a SMS message
     def send_sms(self, to_num, from_num, body):

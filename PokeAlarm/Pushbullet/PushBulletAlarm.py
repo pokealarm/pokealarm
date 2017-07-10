@@ -19,7 +19,6 @@ replace = Alarm.replace
 
 
 class PushbulletAlarm(Alarm):
-
     _defaults = {
         'pokemon': {
             'title': "A wild <pkmn> has appeared!",
@@ -35,8 +34,19 @@ class PushbulletAlarm(Alarm):
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
+        },
+        'egg': {
+            'title': "A level <raid_level> raid is incoming!",
+            'url': "<gmaps>",
+            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
+        },
+        'raid': {
+            'title': "A Raid is available against <pkmn>!",
+            'url': "<gmaps>",
+            'body': "The raid is available until <24h_time> (<time_left>)."
         }
     }
+
 
     # Gather settings and create alarm
     def __init__(self, settings):
@@ -53,6 +63,8 @@ class PushbulletAlarm(Alarm):
         self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.create_alert_settings(settings.pop('gyms', {}), self._defaults['gym'])
+        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Pushbullet alarm.")
@@ -109,6 +121,14 @@ class PushbulletAlarm(Alarm):
     # Trigger an alert based on Gym info
     def gym_alert(self, gym_info):
         self.send_alert(self.__gym, gym_info)
+
+    # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
+    def raid_egg_alert(self, raid_info):
+        self.send_alert(self.__egg, raid_info)
+
+    # Trigger an alert based on Gym info
+    def raid_alert(self, raid_info):
+        self.send_alert(self.__raid, raid_info)
 
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):
