@@ -28,7 +28,7 @@ class DiscordAlarm(Alarm):
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>).",
-            'color': "<iv_0>"
+            'color': "<iv>"
         },
         'pokestop': {
             'username': "Pokestop",

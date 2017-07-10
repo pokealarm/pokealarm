@@ -229,17 +229,25 @@ def get_pokemon_gender(gender):
 # Returns color for discord embeds
 def get_color(color_id):
     try:
-        if int(color_id) < 25:
+        if float(color_id) == 1:
+            color_ = 0xffb3d9
+        elif float(color_id) == 2:
+            color_ = 0xff3377
+        elif float(color_id) == 3:
+            color_ = 0xffcc99
+        elif float(color_id) == 4:
+            color_ = 0xffcc33
+        elif float(color_id) < 25:
             color_ = 0x9d9d9d
-        elif int(color_id) < 50:
+        elif float(color_id) < 50:
             color_ = 0xffffff
-        elif int(color_id) < 81:
+        elif float(color_id) < 82:
             color_ = 0x1eff00
-        elif int(color_id) < 90:
+        elif float(color_id) < 90:
             color_ = 0x0070dd
-        elif int(color_id) < 100:
+        elif float(color_id) < 100:
             color_ = 0xa335ee
-        elif int(color_id) == 100:
+        elif float(color_id) == 100:
             color_ = 0xff8000
     except:
         try:
@@ -251,7 +259,7 @@ def get_color(color_id):
                 color_ = 0x1102FD
             elif color_id == "Instinct":
                 color_ = 0xF6F006
-            elif color_id[-1] == 's':
+            elif color_id[-1] == 's' or color_id[-1] == 'm':
                 color_ = 0xff66ff
             else:
                 color_ = 0x4F545C
