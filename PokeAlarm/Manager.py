@@ -487,17 +487,20 @@ class Manager(object):
         level = raid['raid_level']
 
         if level < settings['min_level']:
-            log.debug("Raid {} is less ({}) than min ({}) level, ignore"
+            if self.__quiet is False:
+                log.info("Raid {} is less ({}) than min ({}) level, ignore"
                       .format(raid['id'], level, settings['min_level']))
             return False
 
         if level > settings['max_level']:
-            log.debug("Raid {} is higher ({}) than max ({}) level, ignore"
+            if self.__quiet is False:
+                log.info("Raid {} is higher ({}) than max ({}) level, ignore"
                       .format(raid['id'], level, settings['max_level']))
             return False
 
         if settings['ignore_eggs'] is True and raid['pkmn_id'] == 0:
-            log.debug("Raid {} is an egg, ignore".format(raid['id']))
+            if self.__quiet is False:
+                log.info("Raid {} is an egg, ignore".format(raid['id']))
             return False
 
         return True
@@ -802,14 +805,15 @@ class Manager(object):
             if old_raid_end == raid_end:
                 if old_raid_pkmn == pkmn_id: # raid with same end time exists and it has same pokemon id, skip it
                     if self.__quiet is False:
-                        log.debug("Raid {} was skipped because it was previously processed.".format(id))
+                        log.info("Raid {} ignored. Was previously processed.".format(id_))
                     return
 
         self.__raid_hist[id_] = dict(expire_time=raid_end, pkmn_id=pkmn_id)
 
         # don't alert about expired raids
         if datetime.utcnow() > raid_end:
-            log.debug("Raid {} has expired, shame on whoever sent this old stuff")
+            if self.__quiet is False:
+                log.info("Raid {} ignored. It has ended".format(id_))
             return
 
         lat, lng = raid['lat'], raid['lng']
@@ -818,10 +822,11 @@ class Manager(object):
         # Check if raid is in geofences
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and raid['geofence'] == 'unknown':
-            log.info("Raid update ignored: located outside geofences.")
+            if self.__quiet is False:
+                log.info("Raid {} ignored: located outside geofences.".format(id_))
             return
         else:
-            log.debug("Raid inside geofences was not checked because no geofences were set.")
+            log.debug("Raid inside geofence was not checked because no geofences were set.")
 
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
