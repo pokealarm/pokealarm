@@ -134,7 +134,10 @@ class TelegramAlarm(Alarm):
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
-        self.send_alert(self.__egg, raid_info)
+        if self.__raid['stickers'] and raid_info['raid_level'] > 0:
+            self.send_alert(self.__raid, raid_info, sticker_list.get('raid_level_{}'.format(raid_info['raid_level'])))
+        else:
+            self.send_alert(self.__egg, raid_info)
 
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
