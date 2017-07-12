@@ -304,6 +304,14 @@ class Manager(object):
             for id_ in old:  # Remove gathered events
                 del dict_[id_]
 
+        # raid history has a different structure because it saves both expire time and pokemon
+        old = []
+        for id_ in self.__raid_hist:
+            if self.__raid_hist[id_]['expire_time'] < datetime.utcnow():
+                old.append(id_)
+        for id_ in old:     # Remove expired raids
+            del self.__raid_hist[id_]
+
     # Check if a given pokemon is active on a filter
     def check_pokemon_filter(self, filters, attack, defense, stamina, quick_id, charge_id, cp, dist, form_id, gender, iv,
                              level, name, size):
