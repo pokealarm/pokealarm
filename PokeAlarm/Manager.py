@@ -807,6 +807,11 @@ class Manager(object):
 
         self.__raid_hist[id_] = dict(expire_time=raid_end, pkmn_id=pkmn_id)
 
+        # don't alert about expired raids
+        if datetime.utcnow() > raid_end:
+            log.debug("Raid {} has expired, shame on whoever sent this old stuff")
+            return
+
         lat, lng = raid['lat'], raid['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
 
