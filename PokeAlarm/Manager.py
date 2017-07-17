@@ -345,7 +345,7 @@ class Manager(object):
                 log.debug("Filter dist was not checked because the manager has no location set.")
 
             # Check the CP of the Pokemon
-            if cp is not None and cp != '?' and cp != 'unkn':
+            if cp != '?':
                 if not filt.check_cp(cp):
                     if self.__quiet is False:
                         log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
