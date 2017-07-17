@@ -364,7 +364,7 @@ class Manager(object):
                 log.debug("Pokemon 'cp' was not checked because it was missing.")
 
             # Check the Level of the Pokemon
-            if level is not None and level != 'unkn' and level != '?':
+            if level != '?':
                 if not filt.check_level(level):
                     if self.__quiet is False:
                         log.info("{} rejected: Level ({}) not in range {} to {} - (F #{})".format(
@@ -377,7 +377,7 @@ class Manager(object):
                 log.debug("Pokemon 'level' was not checked because it was missing.")
 
             # Check the IV percent of the Pokemon
-            if iv is not None and iv != 'unkn' and iv != '?':
+            if iv != '?':
                 if not filt.check_iv(iv):
                     if self.__quiet is False:
                         log.info("{} rejected: IV percent ({:.2f}) not in range {:.2f} to {:.2f} - (F #{})".format(
@@ -390,7 +390,7 @@ class Manager(object):
                 log.debug("Pokemon IV percent was not checked because it was missing.")
 
             # Check the Attack IV of the Pokemon
-            if atk is not None and atk != 'unkn' and atk != '?':
+            if atk != '?':
                 if not filt.check_atk(atk):
                     if self.__quiet is False:
                         log.info("{} rejected: Attack IV ({}) not in range {} to {} - (F #{})".format(
@@ -403,7 +403,7 @@ class Manager(object):
                 log.debug("Pokemon 'atk' was not checked because it was missing.")
 
             # Check the Defense IV of the Pokemon
-            if def_ is not None and def_ != 'unkn' and def_ != '?':
+            if def_ != '?':
                 if not filt.check_def(def_):
                     if self.__quiet is False:
                         log.info("{} rejected: Defense IV ({}) not in range {} to {} - (F #{})".format(
@@ -416,7 +416,7 @@ class Manager(object):
                 log.debug("Pokemon 'def' was not checked because it was missing.")
 
             # Check the Stamina IV of the Pokemon
-            if sta is not None and sta != 'unkn' and sta != '?':
+            if sta != '?':
                 if not filt.check_sta(sta):
                     if self.__quiet is False:
                         log.info("{} rejected: Stamina IV ({}) not in range {} to {} - (F #{}).".format(
@@ -489,7 +489,7 @@ class Manager(object):
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
 
             # Check for a valid form
-            if form_id is not None and form_id != 'unkn' and form_id != '?':
+            if form_id != '?':
                 if not filt.check_form(form_id):
                     if self.__quiet is False:
                         log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
@@ -931,9 +931,9 @@ class Manager(object):
             'def': 15,
             'atk': 15,
             'sta': 15,
-            'size': 'unknown',
             'gender': 'unknown',
-            'form_id': 'unknown',
+            'size': 'unknown',
+            'form_id': '?',
             'quick_id': quick_id,
             'charge_id': charge_id
         }
