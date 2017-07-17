@@ -289,13 +289,13 @@
         "Ho-Oh":"False",
         "Celebi":"False"
     },
+    "eggs":{
+        "enabled":"True",
+        "min_level": "1",
+        "max_level": "5"
+    },
     "raids":{
         "enabled":"True",
-        "eggs": {
-            "min_level": "1",
-            "max_level": "5",
-            "ignore_eggs": "False"
-        },
         "default": {
             "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "999999", "min_iv":"0", "max_iv":"100",
             "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
@@ -324,6 +324,6 @@
         "Rhydon":"True",
         "Snorlax":"True",
         "Tyranitar":"True",
-        "Venasaur":"True"
+        "Venusaur":"True"
     }
 }

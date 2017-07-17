@@ -106,28 +106,6 @@ def load_pokestop_section(settings):
     return stop
 
 
-def load_raid_section(settings):
-    log.info("Setting up Raid Filters...")
-    raid = {
-        "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)
-    }
-
-    raid_filters = settings.pop('eggs', {})
-
-    raid['min_level'] = int(raid_filters.pop('min_level', 0) or 0)
-    raid['max_level'] = int(raid_filters.pop('max_level', 10) or 10)
-    raid['ignore_eggs'] = bool(parse_boolean(raid_filters.pop('ignore_eggs', None)) or False)
-
-    log.debug("Report raids between level {} and {}, ignore eggs? {}"
-              .format(raid['min_level'], raid['max_level'], raid['ignore_eggs']))
-
-    # load any pokemon filters
-    filters = load_pokemon_filters(settings)
-    raid['filters'] = filters
-
-    return raid
-
-
 def load_gym_section(settings):
     log.info("Setting Gym filters...")
     # Set the defaults for "True"
@@ -154,6 +132,34 @@ def load_gym_section(settings):
     if gym['enabled'] is False:
         log.info("Gym notifications will NOT be sent. - Enabled is False  ")
     return gym
+
+
+# Load Egg filter section
+def load_egg_section(settings):
+    log.info("Setting up Egg Filters...")
+    egg = {
+        "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False),
+        "min_level": int(settings.pop('min_level', 0) or 0),
+        "max_level": int(settings.pop('max_level', 10) or 10)
+    }
+
+    log.debug("Report eggs between level {} and {}".format(egg['min_level'], egg['max_level']))
+
+    return egg
+
+
+# Load Raid filter section
+def load_raid_section(settings):
+    log.info("Setting up Raid Filters...")
+    raid = {
+        "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)
+    }
+
+    # load any raid pokemon filters
+    filters = load_pokemon_filters(settings)
+    raid['filters'] = filters
+
+    return raid
 
 
 class Filter(object):

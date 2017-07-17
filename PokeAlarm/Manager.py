@@ -13,7 +13,8 @@ import gipc
 import googlemaps
 # Local Imports
 from . import config
-from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section, load_raid_section
+from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
+    load_raid_section
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg
 log = logging.getLogger('Manager')
@@ -47,7 +48,8 @@ class Manager(object):
         self.__quiet = quiet
 
         # Load and Setup the Pokemon Filters
-        self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings, self.__raid_settings = {}, {}, {}, {}
+        self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
+        self.__raid_settings, self.__egg_settings = {}, {}
         self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist, self.__raid_hist = {}, {}, {}, {}
         self.__gym_info = {}
         self.load_filter_file(get_path(filter_file))
@@ -100,6 +102,10 @@ class Manager(object):
             # Load in the Gym Section
             self.__gym_settings = load_gym_section(
                 require_and_remove_key('gyms', filters, "Filters file."))
+
+            # Load in the Egg Section
+            self.__egg_settings = load_egg_section(
+                require_and_remove_key("eggs", filters, "Filters file."))
 
             # Load in the Raid Section
             self.__raid_settings = load_raid_section(
@@ -497,24 +503,19 @@ class Manager(object):
         return passed
 
     # Check if a raid filter will pass for given raid
-    def check_raid_filter(self, settings, raid):
-        level = raid['raid_level']
+    def check_egg_filter(self, settings, egg):
+        level = egg['raid_level']
 
         if level < settings['min_level']:
             if self.__quiet is False:
-                log.info("Raid {} is less ({}) than min ({}) level, ignore"
-                      .format(raid['id'], level, settings['min_level']))
+                log.info("Egg {} is less ({}) than min ({}) level, ignore"
+                         .format(egg['id'], level, settings['min_level']))
             return False
 
         if level > settings['max_level']:
             if self.__quiet is False:
-                log.info("Raid {} is higher ({}) than max ({}) level, ignore"
-                      .format(raid['id'], level, settings['max_level']))
-            return False
-
-        if settings['ignore_eggs'] is True and raid['pkmn_id'] == 0:
-            if self.__quiet is False:
-                log.info("Raid {} is an egg, ignore".format(raid['id']))
+                log.info("Egg {} is higher ({}) than max ({}) level, ignore"
+                         .format(egg['id'], level, settings['max_level']))
             return False
 
         return True
@@ -797,8 +798,8 @@ class Manager(object):
 
     def process_egg(self, egg):
         # Quick check for enabled
-        if self.__raid_settings['enabled'] is False:
-            log.debug("Raid ignored: notifications are disabled.")
+        if self.__egg_settings['enabled'] is False:
+            log.debug("Egg ignored: notifications are disabled.")
             return
 
         id_ = egg['id']
@@ -818,7 +819,7 @@ class Manager(object):
         # don't alert about expired raids
         if datetime.utcnow() > raid_end:
             if self.__quiet is False:
-                log.info("Raid {} ignored. It has ended".format(id_))
+                log.info("Egg {} ignored. Raid has ended".format(id_))
             return
 
         lat, lng = egg['lat'], egg['lng']
@@ -828,22 +829,22 @@ class Manager(object):
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and egg['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Raid {} ignored: located outside geofences.".format(id_))
+                log.info("Egg {} ignored: located outside geofences.".format(id_))
             return
         else:
-            log.debug("Raid inside geofence was not checked because no geofences were set.")
+            log.debug("Egg inside geofence was not checked because no geofences were set.")
 
         # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_raid_filter(self.__raid_settings,egg)
+        passed = self.check_egg_filter(self.__egg_settings,egg)
 
         if not passed:
-            log.debug("Raid {} did not pass filter check".format(id_))
+            log.debug("Egg {} did not pass filter check".format(id_))
             return
 
         self.add_optional_travel_arguments(egg)
 
         if self.__quiet is False:
-            log.info("Raid ({}) notification has been triggered!".format(id_))
+            log.info("Egg ({}) notification has been triggered!".format(id_))
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
@@ -911,13 +912,6 @@ class Manager(object):
 
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
-
-        # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_raid_filter(self.__raid_settings,raid)
-
-        if not passed:
-            log.debug("Raid {} did not pass filter check".format(id_))
-            return
 
         #  check filters for pokemon
         name = self.__pokemon_name[pkmn_id]
