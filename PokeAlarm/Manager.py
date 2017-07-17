@@ -816,10 +816,11 @@ class Manager(object):
 
         self.__raid_hist[id_] = dict(raid_end=raid_end, pkmn_id=0)
 
-        # don't alert about expired raids
-        if datetime.utcnow() > raid_end:
+        # don't alert about (nearly) hatched eggs
+        seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Egg {} ignored. Raid has ended".format(id_))
+                log.info("Egg {} ignored. Egg hatch in {} seconds".format(id_, seconds_left))
             return
 
         lat, lng = egg['lat'], egg['lng']
@@ -893,9 +894,10 @@ class Manager(object):
         self.__raid_hist[id_] = dict(raid_end=raid_end, pkmn_id=pkmn_id)
 
         # don't alert about expired raids
-        if datetime.utcnow() > raid_end:
+        seconds_left = (raid_end - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Raid {} ignored. It has ended".format(id_))
+                log.info("Raid {} ignored. Only {} seconds left.".format(id_, seconds_left))
             return
 
         lat, lng = raid['lat'], raid['lng']
