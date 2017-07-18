@@ -45,7 +45,7 @@ class SlackAlarm(Alarm):
         },
         'egg': {
             'username': "Egg",
-            'icon_url': "https://raw.githubusercontent.com/fosJoddie/PokeAlarm/raids/icons/egg_<raid_level>.png",
+            'icon_url': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/egg_<raid_level>.png",
             'title': "A level <raid_level> raid is incoming!",
             'url': "<gmaps>",
             'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
