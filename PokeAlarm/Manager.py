@@ -13,7 +13,8 @@ import gipc
 import googlemaps
 # Local Imports
 from . import config
-from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section
+from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
+    load_raid_section
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg
 log = logging.getLogger('Manager')
@@ -36,7 +37,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name = {}, {}, {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {},  {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -48,7 +49,9 @@ class Manager(object):
 
         # Load and Setup the Pokemon Filters
         self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
-        self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist = {}, {}, {}
+        self.__raid_settings, self.__egg_settings = {}, {}
+        self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist, self.__raid_hist = {}, {}, {}, {}
+        self.__gym_info = {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -99,6 +102,14 @@ class Manager(object):
             # Load in the Gym Section
             self.__gym_settings = load_gym_section(
                 require_and_remove_key('gyms', filters, "Filters file."))
+
+            # Load in the Egg Section
+            self.__egg_settings = load_egg_section(
+                require_and_remove_key("eggs", filters, "Filters file."))
+
+            # Load in the Raid Section
+            self.__raid_settings = load_raid_section(
+                require_and_remove_key('raids', filters, "Filters file."))
 
             return
 
@@ -280,6 +291,10 @@ class Manager(object):
                     self.process_pokestop(obj)
                 elif kind == "gym":
                     self.process_gym(obj)
+                elif kind == 'egg':
+                    self.process_egg(obj)
+                elif kind == "raid":
+                    self.process_raid(obj)
                 else:
                     log.error("!!! Manager does not support {} objects!".format(kind))
                 log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
@@ -297,51 +312,31 @@ class Manager(object):
             for id_ in old:  # Remove gathered events
                 del dict_[id_]
 
-    # Process new Pokemon data and decide if a notification needs to be sent
-    def process_pokemon(self, pkmn):
-        # Make sure that pokemon are enabled
-        if self.__pokemon_settings['enabled'] is False:
-            log.debug("Pokemon ignored: pokemon notifications are disabled.")
-            return
+        # raid history has a different structure because it saves both expire time and pokemon
+        old = []
+        for id_ in self.__raid_hist:
+            if self.__raid_hist[id_]['raid_end'] < datetime.utcnow():
+                old.append(id_)
+        for id_ in old:     # Remove expired raids
+            del self.__raid_hist[id_]
 
-        # Extract some base information
-        id_ = pkmn['id']
-        pkmn_id = pkmn['pkmn_id']
-        name = self.__pokemon_name[pkmn_id]
-
-        # Check for previously processed
-        if id_ in self.__pokemon_hist:
-            log.debug("{} was skipped because it was previously processed.".format(name))
-            return
-        self.__pokemon_hist[id_] = pkmn['disappear_time']
-
-        # Check the time remaining
-        seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
-        if seconds_left < self.__time_limit:
-            if self.__quiet is False:
-                log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
-            return
-
-        # Check that the filter is even set
-        if pkmn_id not in self.__pokemon_settings['filters']:
-            if self.__quiet is False:
-                log.info("{} ignored: no filters are set".format(name))
-            return
-
-        # Extract some useful info that will be used in the filters
+    # Check if a given pokemon is active on a filter
+    def check_pokemon_filter(self, filters, pkmn, dist):
         passed = False
-        lat, lng = pkmn['lat'], pkmn['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
+
+        cp = pkmn['cp']
+        level = pkmn['level']
         iv = pkmn['iv']
         def_ = pkmn['def']
         atk = pkmn['atk']
         sta = pkmn['sta']
-        quick_id = pkmn['quick_id']
-        charge_id = pkmn['charge_id']
         size = pkmn['size']
         gender = pkmn['gender']
+        form_id = pkmn['form_id']
+        name = pkmn['pkmn']
+        quick_id = pkmn['quick_id']
+        charge_id = pkmn['charge_id']
 
-        filters = self.__pokemon_settings['filters'][pkmn_id]
         for filt_ct in range(len(filters)):
             filt = filters[filt_ct]
 
@@ -354,6 +349,32 @@ class Manager(object):
                     continue
             else:
                 log.debug("Filter dist was not checked because the manager has no location set.")
+
+            # Check the CP of the Pokemon
+            if cp != '?':
+                if not filt.check_cp(cp):
+                    if self.__quiet is False:
+                        log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
+                            name, cp, filt.min_cp, filt.max_cp, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'cp' was not checked because it was missing.")
+
+            # Check the Level of the Pokemon
+            if level != '?':
+                if not filt.check_level(level):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Level ({}) not in range {} to {} - (F #{})".format(
+                            name, level, filt.min_level, filt.max_level, filt_ct))
+                    continue
+            else:
+                if filt.ignore_missing is True:
+                    log.info("{} rejected: Level information was missing - (F #{})".format(name, filt_ct))
+                    continue
+                log.debug("Pokemon 'level' was not checked because it was missing.")
 
             # Check the IV percent of the Pokemon
             if iv != '?':
@@ -399,7 +420,7 @@ class Manager(object):
                 if not filt.check_sta(sta):
                     if self.__quiet is False:
                         log.info("{} rejected: Stamina IV ({}) not in range {} to {} - (F #{}).".format(
-                            name, def_, filt.min_sta, filt.max_sta, filt_ct))
+                            name, sta, filt.min_sta, filt.max_sta, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
@@ -467,14 +488,84 @@ class Manager(object):
                     continue
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
 
+            # Check for a valid form
+            if form_id != '?':
+                if not filt.check_form(form_id):
+                    if self.__quiet is False:
+                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
+                    continue
+
             # Nothing left to check, so it must have passed
             passed = True
             log.debug("{} passed filter #{}".format(name, filt_ct))
             break
 
+        return passed
+
+    # Check if a raid filter will pass for given raid
+    def check_egg_filter(self, settings, egg):
+        level = egg['raid_level']
+
+        if level < settings['min_level']:
+            if self.__quiet is False:
+                log.info("Egg {} is less ({}) than min ({}) level, ignore"
+                         .format(egg['id'], level, settings['min_level']))
+            return False
+
+        if level > settings['max_level']:
+            if self.__quiet is False:
+                log.info("Egg {} is higher ({}) than max ({}) level, ignore"
+                         .format(egg['id'], level, settings['max_level']))
+            return False
+
+        return True
+
+    # Process new Pokemon data and decide if a notification needs to be sent
+    def process_pokemon(self, pkmn):
+        # Make sure that pokemon are enabled
+        if self.__pokemon_settings['enabled'] is False:
+            log.debug("Pokemon ignored: pokemon notifications are disabled.")
+            return
+
+        # Extract some base information
+        id_ = pkmn['id']
+        pkmn_id = pkmn['pkmn_id']
+        name = self.__pokemon_name[pkmn_id]
+
+        # Check for previously processed
+        if id_ in self.__pokemon_hist:
+            log.debug("{} was skipped because it was previously processed.".format(name))
+            return
+        self.__pokemon_hist[id_] = pkmn['disappear_time']
+
+        # Check the time remaining
+        seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
+            if self.__quiet is False:
+                log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
+            return
+
+        # Check that the filter is even set
+        if pkmn_id not in self.__pokemon_settings['filters']:
+            if self.__quiet is False:
+                log.info("{} ignored: no filters are set".format(name))
+            return
+
+        # Extract some useful info that will be used in the filters
+
+        lat, lng = pkmn['lat'], pkmn['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
+
+        pkmn['pkmn'] = name
+
+        filters = self.__pokemon_settings['filters'][pkmn_id]
+        passed = self.check_pokemon_filter(filters, pkmn, dist)
         # If we didn't pass any filters
         if not passed:
             return
+
+        quick_id = pkmn['quick_id']
+        charge_id = pkmn['charge_id']
 
         # Check all the geofences
         pkmn['geofence'] = self.check_geofences(name, lat, lng)
@@ -484,6 +575,8 @@ class Manager(object):
 
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
+        iv = pkmn['iv']
+
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
@@ -595,6 +688,14 @@ class Manager(object):
         to_team_id = gym['team_id']
         from_team_id = self.__gym_hist.get(gym_id)
 
+        # Update Gym details (if they exist)
+        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+            self.__gym_info[gym_id] = {
+                "name": gym['name'],
+                "description": gym['description'],
+                "url": gym['url']
+            }
+
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
@@ -605,6 +706,7 @@ class Manager(object):
             return
         # Update gym's last known team
         self.__gym_hist[gym_id] = to_team_id
+
         # Ignore first time updates
         if from_team_id is None:
             log.debug("Gym update ignored: first time seeing this gym")
@@ -628,7 +730,7 @@ class Manager(object):
                                  " {:.2f} to {:.2f} (F #{})".format(dist, filt.min_dist, filt.max_dist, filt_ct))
                     continue
             else:
-                log.debug("Pokestop dist was not checked because the manager has no location set.")
+                log.debug("Gym dist was not checked because the manager has no location set.")
 
             # Check the old team
             if filt.check_from_team(from_team_id) is False:
@@ -668,11 +770,17 @@ class Manager(object):
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
         gym.update({
+            "name": self.__gym_info[gym_id]['name'],
+            "description": self.__gym_info[gym_id]['description'],
+            "url": self.__gym_info[gym_id]['url'],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
             'new_team_id': "team{}".format(to_team_id),
-            'old_team': old_team
+            'old_team': old_team,
+            'old_team_id': from_team_id,
+            'new_team_leader': self.__leader[to_team_id],
+            'old_team_leader': self.__leader[from_team_id]
         })
         self.add_optional_travel_arguments(gym)
 
@@ -683,6 +791,187 @@ class Manager(object):
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
             threads.append(gevent.spawn(alarm.gym_alert, gym))
+            gevent.sleep(0)  # explict context yield
+
+        for thread in threads:
+            thread.join()
+
+    def process_egg(self, egg):
+        # Quick check for enabled
+        if self.__egg_settings['enabled'] is False:
+            log.debug("Egg ignored: notifications are disabled.")
+            return
+
+        id_ = egg['id']
+
+        raid_end = egg['raid_end']
+
+        # raid history will contains any raid processed
+        if id_ in self.__raid_hist:
+            old_raid_end = self.__raid_hist[id_]['raid_end']
+            if old_raid_end == raid_end:
+                if self.__quiet is False:
+                    log.info("Raid {} ignored. Was previously processed.".format(id_))
+                return
+
+        self.__raid_hist[id_] = dict(raid_end=raid_end, pkmn_id=0)
+
+        # don't alert about (nearly) hatched eggs
+        seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
+            if self.__quiet is False:
+                log.info("Egg {} ignored. Egg hatch in {} seconds".format(id_, seconds_left))
+            return
+
+        lat, lng = egg['lat'], egg['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
+
+        # Check if raid is in geofences
+        egg['geofence'] = self.check_geofences('Raid', lat, lng)
+        if len(self.__geofences) > 0 and egg['geofence'] == 'unknown':
+            if self.__quiet is False:
+                log.info("Egg {} ignored: located outside geofences.".format(id_))
+            return
+        else:
+            log.debug("Egg inside geofence was not checked because no geofences were set.")
+
+        # check if the level is in the filter range or if we are ignoring eggs
+        passed = self.check_egg_filter(self.__egg_settings,egg)
+
+        if not passed:
+            log.debug("Egg {} did not pass filter check".format(id_))
+            return
+
+        self.add_optional_travel_arguments(egg)
+
+        if self.__quiet is False:
+            log.info("Egg ({}) notification has been triggered!".format(id_))
+
+        time_str = get_time_as_str(egg['raid_end'], self.__timezone)
+        start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
+
+        egg.update({
+            'time_left': time_str[0],
+            '12h_time': time_str[1],
+            '24h_time': time_str[2],
+            'begin_time_left': start_time_str[0],
+            'begin_12h_time': start_time_str[1],
+            'begin_24h_time': start_time_str[2],
+            "dist": get_dist_as_str(dist),
+            'dir': get_cardinal_dir([lat, lng], self.__latlng)
+        })
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for alarm in self.__alarms:
+            threads.append(gevent.spawn(alarm.raid_egg_alert, egg))
+            gevent.sleep(0)  # explict context yield
+
+        for thread in threads:
+            thread.join()
+
+    def process_raid(self, raid):
+        # Quick check for enabled
+        if self.__raid_settings['enabled'] is False:
+            log.debug("Raid ignored: notifications are disabled.")
+            return
+
+        id_ = raid['id']
+
+        pkmn_id = raid['pkmn_id']
+        raid_end = raid['raid_end']
+
+        # raid history will contain the end date and also the pokemon if it has hatched
+        if id_ in self.__raid_hist:
+            old_raid_end = self.__raid_hist[id_]['raid_end']
+            old_raid_pkmn = self.__raid_hist[id_].get('pkmn_id', 0)
+            if old_raid_end == raid_end:
+                if old_raid_pkmn == pkmn_id:  # raid with same end time exists and it has same pokemon id, skip it
+                    if self.__quiet is False:
+                        log.info("Raid {} ignored. Was previously processed.".format(id_))
+                    return
+
+        self.__raid_hist[id_] = dict(raid_end=raid_end, pkmn_id=pkmn_id)
+
+        # don't alert about expired raids
+        seconds_left = (raid_end - datetime.utcnow()).total_seconds()
+        if seconds_left < self.__time_limit:
+            if self.__quiet is False:
+                log.info("Raid {} ignored. Only {} seconds left.".format(id_, seconds_left))
+            return
+
+        lat, lng = raid['lat'], raid['lng']
+        dist = get_earth_dist([lat, lng], self.__latlng)
+
+        # Check if raid is in geofences
+        raid['geofence'] = self.check_geofences('Raid', lat, lng)
+        if len(self.__geofences) > 0 and raid['geofence'] == 'unknown':
+            if self.__quiet is False:
+                log.info("Raid {} ignored: located outside geofences.".format(id_))
+            return
+        else:
+            log.debug("Raid inside geofence was not checked because no geofences were set.")
+
+        quick_id = raid['quick_id']
+        charge_id = raid['charge_id']
+
+        #  check filters for pokemon
+        name = self.__pokemon_name[pkmn_id]
+
+        if pkmn_id not in self.__raid_settings['filters']:
+            if self.__quiet is False:
+                log.info("Raid on {} ignored: no filters are set".format(name))
+            return
+
+        raid_pkmn = {
+            'pkmn': name,
+            'cp': raid['cp'],
+            'iv': 100,
+            'level': 20,
+            'def': 15,
+            'atk': 15,
+            'sta': 15,
+            'gender': 'unknown',
+            'size': 'unknown',
+            'form_id': '?',
+            'quick_id': quick_id,
+            'charge_id': charge_id
+        }
+
+        filters = self.__raid_settings['filters'][pkmn_id]
+        passed = self.check_pokemon_filter(filters, raid_pkmn, dist)
+        # If we didn't pass any filters
+        if not passed:
+            log.debug("Raid {} did not pass pokemon check".format(id_))
+            return
+
+        self.add_optional_travel_arguments(raid)
+
+        if self.__quiet is False:
+            log.info("Raid ({}) notification has been triggered!".format(id_))
+
+        time_str = get_time_as_str(raid['raid_end'], self.__timezone)
+        start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
+
+        raid.update({
+            'pkmn': name,
+            'time_left': time_str[0],
+            '12h_time': time_str[1],
+            '24h_time': time_str[2],
+            'begin_time_left': start_time_str[0],
+            'begin_12h_time': start_time_str[1],
+            'begin_24h_time': start_time_str[2],
+            "dist": get_dist_as_str(dist),
+            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'quick_move': self.__move_name.get(quick_id, 'unknown'),
+            'charge_move': self.__move_name.get(charge_id, 'unknown')
+        })
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for alarm in self.__alarms:
+            threads.append(gevent.spawn(alarm.raid_alert, raid))
+
             gevent.sleep(0)  # explict context yield
 
         for thread in threads:
@@ -731,6 +1020,11 @@ class Manager(object):
             teams = json.loads(f.read())
             for team_id, value in teams.iteritems():
                 self.__team_name[int(team_id)] = value
+        # Update leader names
+        with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
+            leaders = json.loads(f.read())
+            for team_id, value in leaders.iteritems():
+                self.__leader[int(team_id)] = value
 
     ####################################################################################################################
 

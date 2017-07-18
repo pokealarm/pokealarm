@@ -16,23 +16,26 @@
     "pokemon":{
         "enabled":"False",
         "default": {
-            "min_dist":"0", "max_dist":"inf",
-            "min_iv":"0", "max_iv":"100", "min_atk": "0", "max_atk":"15",
-            "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
+            "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "4760", "min_iv":"0", "max_iv":"100",
+            "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
             "quick_move": null, "charge_move": null, "moveset": null,
-            "size": null, "gender": null, "ignore_missing": "False"
+            "size": null, "gender": null, "form": null,
+            "ignore_missing": "False"
         },
         "Bulbasaur":[
             {
-                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
+                "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "4760", "min_iv":"0", "max_iv":"100",
                 "min_atk": "0", "max_atk":"0", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
-                "quick_move": null, "charge_move": null, "moveset": null, "size": null, "ignore_missing": "False"
+                "quick_move": null, "charge_move": null, "moveset": null,
+                "size": null, "gender": null,
+                "ignore_missing": "False"
             },
            {
-                "min_dist":"0", "max_dist":"inf", "min_iv":"0", "max_iv":"100",
+                "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "4760", "min_iv":"0", "max_iv":"100",
                 "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
                 "quick_move": ["Vine Whip"], "charge_move": ["Sludge Bomb"], "moveset": ["Vine Whip/Sludge Bomb"],
-                "size": null, "ignore_missing": "False"
+                "size": null, "gender": null,
+                "ignore_missing": "False"
            }
         ],
         "Ivysaur":{ "min_iv":"0", "max_iv":"100" },
@@ -285,5 +288,42 @@
         "Lugia":"False",
         "Ho-Oh":"False",
         "Celebi":"False"
+    },
+    "eggs":{
+        "enabled":"True",
+        "min_level": "1",
+        "max_level": "5"
+    },
+    "raids":{
+        "enabled":"True",
+        "default": {
+            "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "999999", "min_iv":"0", "max_iv":"100",
+            "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
+            "quick_move": null, "charge_move": null, "moveset": null,
+            "size": null, "gender": null, "form": null, "ignore_missing": "False"
+        },
+        "Bayleef":"True",
+        "Croconaw":"True",
+        "Magikarp":"True",
+        "Quilava":"True",
+        "Electabuzz":"True",
+        "Exeggutor":"True",
+        "Magmar":"True",
+        "Muk":"True",
+        "Weezing":"True",
+        "Alakazam":"True",
+        "Arcanine":"True",
+        "Flareon":"True",
+        "Gengar":"True",
+        "Jolteon":"True",
+        "Machamp":"True",
+        "Vaporeon":"True",
+        "Blastoise":"True",
+        "Charizard":"True",
+        "Lapras":"True",
+        "Rhydon":"True",
+        "Snorlax":"True",
+        "Tyranitar":"True",
+        "Venusaur":"True"
     }
 }
