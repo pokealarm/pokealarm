@@ -17,11 +17,11 @@ from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_
     load_raid_section
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg
+
 log = logging.getLogger('Manager')
 
 
 class Manager(object):
-
     def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
@@ -37,7 +37,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {},  {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {}, {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -317,7 +317,7 @@ class Manager(object):
         for id_ in self.__raid_hist:
             if self.__raid_hist[id_]['raid_end'] < datetime.utcnow():
                 old.append(id_)
-        for id_ in old:     # Remove expired raids
+        for id_ in old:  # Remove expired raids
             del self.__raid_hist[id_]
 
     # Check if a given pokemon is active on a filter
@@ -772,10 +772,12 @@ class Manager(object):
         else:
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
+        gym_info = self.__gym_info.get(gym_id, {})
+
         gym.update({
-            "name": self.__gym_info[gym_id]['name'],
-            "description": self.__gym_info[gym_id]['description'],
-            "url": self.__gym_info[gym_id]['url'],
+            "name": gym_info.get('name', 'unknown'),
+            "description": gym_info.get('description', 'unknown'),
+            "url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
@@ -839,7 +841,7 @@ class Manager(object):
             log.debug("Egg inside geofence was not checked because no geofences were set.")
 
         # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_egg_filter(self.__egg_settings,egg)
+        passed = self.check_egg_filter(self.__egg_settings, egg)
 
         if not passed:
             log.debug("Egg {} did not pass filter check".format(id_))
@@ -1011,8 +1013,8 @@ class Manager(object):
         if gym_id in self.__gym_info:
             gym_info = self.__gym_info[gym_id]
             info.update({
-                "gym_name": gym_info.get('name','unknown'),
-                "gym_description": gym_info.get('description','unknown'),
+                "gym_name": gym_info.get('name', 'unknown'),
+                "gym_description": gym_info.get('description', 'unknown'),
                 "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons'
                                                '/gym_0.png')
             })
@@ -1166,4 +1168,4 @@ class Manager(object):
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return data
 
-    ####################################################################################################################
+        ####################################################################################################################
