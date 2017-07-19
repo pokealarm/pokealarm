@@ -685,7 +685,7 @@ class Manager(object):
 
         # Extract some basic information
         gym_id = gym['id']
-        to_team_id = gym['team_id']
+        to_team_id = gym['new_team_id']
         from_team_id = self.__gym_hist.get(gym_id)
 
         # Update Gym details (if they exist)
@@ -776,7 +776,7 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
-            'new_team_id': "team{}".format(to_team_id),
+            'new_team_id': to_team_id,
             'old_team': old_team,
             'old_team_id': from_team_id,
             'new_team_leader': self.__leader[to_team_id],
