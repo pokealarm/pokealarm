@@ -1009,10 +1009,18 @@ class Manager(object):
     # Add gym details to an info object
     def add_gym_details(self, info, gym_id):
         if gym_id in self.__gym_info:
-            info.update( {
-                "gym_name": self.__gym_info[gym_id]['name'],
-                "gym_description": self.__gym_info[gym_id]['description'],
-                "gym_url": self.__gym_info[gym_id]['url']
+            gym_info = self.__gym_info[gym_id]
+            info.update({
+                "gym_name": gym_info.get('name','unknown'),
+                "gym_description": gym_info.get('description','unknown'),
+                "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons'
+                                               '/gym_0.png')
+            })
+        else:
+            info.update({
+                "gym_name": 'unknown',
+                "gym_description": 'unknown',
+                "gym_url": 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'
             })
 
     ####################################################################################################################
