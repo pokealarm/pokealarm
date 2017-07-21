@@ -1010,7 +1010,7 @@ class Manager(object):
 
     # Add gym details to an info object
     def add_gym_details(self, info, gym_id):
-        gym_info = self.__gym_info.get(gym_id,{})
+        gym_info = self.__gym_info.get(gym_id, {})
         info.update({
             "gym_name": gym_info.get('name', 'unknown'),
             "gym_description": gym_info.get('description', 'unknown'),
