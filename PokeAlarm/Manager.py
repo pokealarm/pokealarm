@@ -21,7 +21,6 @@ log = logging.getLogger('Manager')
 
 
 class Manager(object):
-
     def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
@@ -37,7 +36,7 @@ class Manager(object):
 
         # Setup the language-specific stuff
         self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {},  {}
+        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {}, {}
         self.update_locales()
 
         self.__units = units  # type of unit used for distances
@@ -317,7 +316,7 @@ class Manager(object):
         for id_ in self.__raid_hist:
             if self.__raid_hist[id_]['raid_end'] < datetime.utcnow():
                 old.append(id_)
-        for id_ in old:     # Remove expired raids
+        for id_ in old:  # Remove expired raids
             del self.__raid_hist[id_]
 
     # Check if a given pokemon is active on a filter
@@ -679,22 +678,25 @@ class Manager(object):
             thread.join()
 
     def process_gym(self, gym):
+        gym_id = gym['id']
+
+        if self.__gym_settings['enabled'] is True or self.__egg_settings['enabled'] is True \
+                or self.__raid_settings['enabled'] is True:
+            # Update Gym details (if they exist)
+            if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+                self.__gym_info[gym_id] = {
+                    "name": gym['name'],
+                    "description": gym['description'],
+                    "url": gym['url']
+                }
+
         if self.__gym_settings['enabled'] is False:
             log.debug("Gym ignored: notifications are disabled.")
             return
 
         # Extract some basic information
-        gym_id = gym['id']
         to_team_id = gym['new_team_id']
         from_team_id = self.__gym_hist.get(gym_id)
-
-        # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
-            self.__gym_info[gym_id] = {
-                "name": gym['name'],
-                "description": gym['description'],
-                "url": gym['url']
-            }
 
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
@@ -769,10 +771,12 @@ class Manager(object):
         else:
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
+        gym_info = self.__gym_info.get(gym_id, {})
+
         gym.update({
-            "name": self.__gym_info[gym_id]['name'],
-            "description": self.__gym_info[gym_id]['description'],
-            "url": self.__gym_info[gym_id]['url'],
+            "name": gym_info.get('name', 'unknown'),
+            "description": gym_info.get('description', 'unknown'),
+            "url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
@@ -836,7 +840,7 @@ class Manager(object):
             log.debug("Egg inside geofence was not checked because no geofences were set.")
 
         # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_egg_filter(self.__egg_settings,egg)
+        passed = self.check_egg_filter(self.__egg_settings, egg)
 
         if not passed:
             log.debug("Egg {} did not pass filter check".format(id_))
@@ -849,8 +853,13 @@ class Manager(object):
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
+        gym_info = self.__gym_info.get(id_, {})
 
         egg.update({
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url',
+                                    'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -952,9 +961,14 @@ class Manager(object):
 
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
+        gym_info = self.__gym_info.get(id_, {})
 
         raid.update({
             'pkmn': name,
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url',
+                                    'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -1142,4 +1156,4 @@ class Manager(object):
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return data
 
-    ####################################################################################################################
+        ####################################################################################################################
