@@ -324,6 +324,17 @@
         "Rhydon":"True",
         "Snorlax":"True",
         "Tyranitar":"True",
-        "Venusaur":"True"
+        "Venusaur":"True",
+        "Articuno":"True",
+        "Zapdos":"True",
+        "Moltres":"True",
+        "Mewtwo":"True",
+        "Mew":"True",
+        "Raikou":"True",
+        "Entei":"True",
+        "Suicune":"True",
+        "Lugia":"True",
+        "Ho-Oh":"True",
+        "Celebi":"True"
     }
 }
