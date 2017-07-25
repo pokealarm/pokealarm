@@ -50,7 +50,11 @@ def accept_webhook():
     try:
         log.debug("POST request received from {}.".format(request.remote_addr))
         data = json.loads(request.data)
-        data_queue.put(data)
+        if type(data) == dict: # older webhook style
+            data_queue.put(data)
+        else:   # For RM's frame
+            for frame in data:
+                data_queue.put(frame)
     except Exception as e:
         log.error("Encountered error while receiving webhook ({}: {})".format(type(e).__name__, e))
         abort(400)
