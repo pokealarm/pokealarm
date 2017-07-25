@@ -61,18 +61,25 @@ def accept_webhook():
     return "OK"  # request ok
 
 
-# Thread used to distribute the data into various processes (for PokemonGo-Map format)
+# Thread used to distribute the data into various processes (for RocketMap format)
 def manage_webhook_data(queue):
     while True:
-        if queue.qsize() > 300:
+        if queue.qsize() > 200:
             log.warning("Queue length is at {}... this may be causing a delay in notifications.".format(queue.qsize()))
-        data = queue.get(block=True)
-        obj = RocketMap.make_object(data)
-        if obj is not None:
-            for name, mgr in managers.iteritems():
-                mgr.update(obj)
-                log.debug("Distributed to {}.".format(name))
-            log.debug("Finished distributing object with id {}".format(obj['id']))
+
+        # Get next frame.
+        message_frame = queue.get(block=True)
+
+        # Handle each message in the frame.
+        for data in message_frame:
+            obj = RocketMap.make_object(data)
+            if obj is not None:
+                for name, mgr in managers.iteritems():
+                    mgr.update(obj)
+                    log.debug("Distributed to {}.".format(name))
+                log.debug("Finished distributing object with id {}".format(obj['id']))
+
+        # Mark frame as done.
         queue.task_done()
 
 
