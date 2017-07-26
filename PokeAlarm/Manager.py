@@ -680,15 +680,13 @@ class Manager(object):
     def process_gym(self, gym):
         gym_id = gym['id']
 
-        if self.__gym_settings['enabled'] is True or self.__egg_settings['enabled'] is True \
-                or self.__raid_settings['enabled'] is True:
-            # Update Gym details (if they exist)
-            if gym_id not in self.__gym_info or gym['name'] != 'unknown':
-                self.__gym_info[gym_id] = {
-                    "name": gym['name'],
-                    "description": gym['description'],
-                    "url": gym['url']
-                }
+        # Update Gym details (if they exist)
+        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+            self.__gym_info[gym_id] = {
+                "name": gym['name'],
+                "description": gym['description'],
+                "url": gym['url']
+            }
 
         if self.__gym_settings['enabled'] is False:
             log.debug("Gym ignored: notifications are disabled.")
@@ -774,9 +772,9 @@ class Manager(object):
         gym_info = self.__gym_info.get(gym_id, {})
 
         gym.update({
-            "name": gym_info.get('name', 'unknown'),
-            "description": gym_info.get('description', 'unknown'),
-            "url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
+            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
+            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
@@ -806,25 +804,25 @@ class Manager(object):
             log.debug("Egg ignored: notifications are disabled.")
             return
 
-        id_ = egg['id']
+        gym_id = egg['id']
 
         raid_end = egg['raid_end']
 
         # raid history will contains any raid processed
-        if id_ in self.__raid_hist:
-            old_raid_end = self.__raid_hist[id_]['raid_end']
+        if gym_id in self.__raid_hist:
+            old_raid_end = self.__raid_hist[gym_id]['raid_end']
             if old_raid_end == raid_end:
                 if self.__quiet is False:
-                    log.info("Raid {} ignored. Was previously processed.".format(id_))
+                    log.info("Raid {} ignored. Was previously processed.".format(gym_id))
                 return
 
-        self.__raid_hist[id_] = dict(raid_end=raid_end, pkmn_id=0)
+        self.__raid_hist[gym_id] = dict(raid_end=raid_end, pkmn_id=0)
 
         # don't alert about (nearly) hatched eggs
         seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Egg {} ignored. Egg hatch in {} seconds".format(id_, seconds_left))
+                log.info("Egg {} ignored. Egg hatch in {} seconds".format(gym_id, seconds_left))
             return
 
         lat, lng = egg['lat'], egg['lng']
@@ -834,7 +832,7 @@ class Manager(object):
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and egg['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Egg {} ignored: located outside geofences.".format(id_))
+                log.info("Egg {} ignored: located outside geofences.".format(gym_id))
             return
         else:
             log.debug("Egg inside geofence was not checked because no geofences were set.")
@@ -843,23 +841,22 @@ class Manager(object):
         passed = self.check_egg_filter(self.__egg_settings, egg)
 
         if not passed:
-            log.debug("Egg {} did not pass filter check".format(id_))
+            log.debug("Egg {} did not pass filter check".format(gym_id))
             return
 
         self.add_optional_travel_arguments(egg)
 
         if self.__quiet is False:
-            log.info("Egg ({}) notification has been triggered!".format(id_))
+            log.info("Egg ({}) notification has been triggered!".format(gym_id))
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
-        gym_info = self.__gym_info.get(id_, {})
+        gym_info = self.__gym_info.get(gym_id, {})
 
         egg.update({
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url',
-                                    'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
+            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
+            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -885,28 +882,28 @@ class Manager(object):
             log.debug("Raid ignored: notifications are disabled.")
             return
 
-        id_ = raid['id']
+        gym_id = raid['id']
 
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
 
         # raid history will contain the end date and also the pokemon if it has hatched
-        if id_ in self.__raid_hist:
-            old_raid_end = self.__raid_hist[id_]['raid_end']
-            old_raid_pkmn = self.__raid_hist[id_].get('pkmn_id', 0)
+        if gym_id in self.__raid_hist:
+            old_raid_end = self.__raid_hist[gym_id]['raid_end']
+            old_raid_pkmn = self.__raid_hist[gym_id].get('pkmn_id', 0)
             if old_raid_end == raid_end:
                 if old_raid_pkmn == pkmn_id:  # raid with same end time exists and it has same pokemon id, skip it
                     if self.__quiet is False:
-                        log.info("Raid {} ignored. Was previously processed.".format(id_))
+                        log.info("Raid {} ignored. Was previously processed.".format(gym_id))
                     return
 
-        self.__raid_hist[id_] = dict(raid_end=raid_end, pkmn_id=pkmn_id)
+        self.__raid_hist[gym_id] = dict(raid_end=raid_end, pkmn_id=pkmn_id)
 
         # don't alert about expired raids
         seconds_left = (raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Raid {} ignored. Only {} seconds left.".format(id_, seconds_left))
+                log.info("Raid {} ignored. Only {} seconds left.".format(gym_id, seconds_left))
             return
 
         lat, lng = raid['lat'], raid['lng']
@@ -916,7 +913,7 @@ class Manager(object):
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and raid['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Raid {} ignored: located outside geofences.".format(id_))
+                log.info("Raid {} ignored: located outside geofences.".format(gym_id))
             return
         else:
             log.debug("Raid inside geofence was not checked because no geofences were set.")
@@ -951,24 +948,23 @@ class Manager(object):
         passed = self.check_pokemon_filter(filters, raid_pkmn, dist)
         # If we didn't pass any filters
         if not passed:
-            log.debug("Raid {} did not pass pokemon check".format(id_))
+            log.debug("Raid {} did not pass pokemon check".format(gym_id))
             return
 
         self.add_optional_travel_arguments(raid)
 
         if self.__quiet is False:
-            log.info("Raid ({}) notification has been triggered!".format(id_))
+            log.info("Raid ({}) notification has been triggered!".format(gym_id))
 
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
-        gym_info = self.__gym_info.get(id_, {})
+        gym_info = self.__gym_info.get(gym_id, {})
 
         raid.update({
             'pkmn': name,
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url',
-                                    'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
+            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
+            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
