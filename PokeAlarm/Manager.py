@@ -798,12 +798,12 @@ class Manager(object):
         else:
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
-        gym_info = self.__gym_info.get(gym_id, {})
-
         gym.update({
             "gym_name": gym_info.get('name', 'unknown'),
             "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_url": gym_info.get(
+                'url',
+                'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'new_team': cur_team,
