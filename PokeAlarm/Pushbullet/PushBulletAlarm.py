@@ -78,6 +78,8 @@ class PushbulletAlarm(Alarm):
         self.__pokemon['sender'] = self.get_sender(self.__pokemon['channel'])
         self.__pokestop['sender'] = self.get_sender(self.__pokestop['channel'])
         self.__gym['sender'] = self.get_sender(self.__gym['channel'])
+        self.__egg['sender'] = self.get_sender(self.__egg['channel'])
+        self.__raid['sender'] = self.get_sender(self.__raid['channel'])
 
     def startup_message(self):
         if self.__startup_message:
