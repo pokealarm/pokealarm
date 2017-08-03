@@ -54,7 +54,7 @@ class TwilioAlarm(Alarm):
         self.__pokemon = self.set_alert(settings.pop('pokemon', {}), self._defaults['pokemon'])
         self.__pokestop = self.set_alert(settings.pop('pokestop', {}), self._defaults['pokestop'])
         self.__gym = self.set_alert(settings.pop('gyms', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
+        self.__egg = self.set_alert(settings.pop('egg', {}), self._defaults['egg'])
         self.__raid = self.set_alert(settings.pop('raid', {}), self._defaults['raid'])
 
         # Warn user about leftover parameters
