@@ -88,10 +88,10 @@ class TwitterAlarm(Alarm):
             limit = 140
             status = alert['status']
             if status.endswith("<gmaps>"):
-                limit = 118  # Save 23 characters for the google maps
+                limit = 117  # Save 23 characters for the google maps
                 status = status[:-7] # Truncate gmaps
             status = replace(status[:limit], info) # Truncate status
-            if limit == 118:
+            if limit == 117:
                 status += info['gmaps'] # Add in gmaps link
             args = {"status": status}
             try_sending(log, self.connect, "Twitter", self.send_tweet, args)
