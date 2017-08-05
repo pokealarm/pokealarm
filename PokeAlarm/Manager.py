@@ -565,7 +565,7 @@ class Manager(object):
 
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
-        form_id = pkmn.get('form_id',None)
+        form_id = pkmn.get('form_id', '?')
 
 
         # Check all the geofences
@@ -584,7 +584,7 @@ class Manager(object):
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
-            'form': chr(64 + int(form_id)) if form_id and int(form_id) > 0 else '',
+            'form': chr(64 + int(form_id)) if form_id != '?' and int(form_id) > 0 else '',
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
