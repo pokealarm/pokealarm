@@ -15,6 +15,7 @@ import googlemaps
 from . import config
 from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
+from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg
 log = logging.getLogger('Manager')
@@ -35,9 +36,7 @@ class Manager(object):
         self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
 
         # Setup the language-specific stuff
-        self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {}, {}
-        self.update_locales()
+        self.__locale = Locale(locale)
 
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
@@ -529,7 +528,7 @@ class Manager(object):
         # Extract some base information
         id_ = pkmn['id']
         pkmn_id = pkmn['pkmn_id']
-        name = self.__pokemon_name[pkmn_id]
+        name = self.__locale.get_pokemon_name(pkmn_id)
 
         # Check for previously processed
         if id_ in self.__pokemon_hist:
@@ -586,8 +585,9 @@ class Manager(object):
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
-            'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'quick_move': self.__locale.get_move_name(quick_id),
+            'charge_move': self.__locale.get_move_name(charge_id),
+            'form': self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
         })
         self.add_optional_travel_arguments(pkmn)
 
@@ -715,8 +715,8 @@ class Manager(object):
         # Get some more info out used to check filters
         lat, lng = gym['lat'], gym['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
-        cur_team = self.__team_name[to_team_id]
-        old_team = self.__team_name[from_team_id]
+        cur_team = self.__locale.get_team_name(to_team_id)
+        old_team = self.__locale.get_team_name(from_team_id)
 
         filters = self.__gym_settings['filters']
         passed = False
@@ -772,17 +772,17 @@ class Manager(object):
         gym_info = self.__gym_info.get(gym_id, {})
 
         gym.update({
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'new_team': cur_team,
             'new_team_id': to_team_id,
             'old_team': old_team,
             'old_team_id': from_team_id,
-            'new_team_leader': self.__leader[to_team_id],
-            'old_team_leader': self.__leader[from_team_id]
+            'new_team_leader': self.__locale.get_leader_name(to_team_id),
+            'old_team_leader': self.__locale.get_leader_name(from_team_id)
         })
         self.add_optional_travel_arguments(gym)
 
@@ -851,12 +851,13 @@ class Manager(object):
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
+
         gym_info = self.__gym_info.get(gym_id, {})
 
         egg.update({
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -922,7 +923,7 @@ class Manager(object):
         charge_id = raid['charge_id']
 
         #  check filters for pokemon
-        name = self.__pokemon_name[pkmn_id]
+        name = self.__locale.get_pokemon_name(pkmn_id)
 
         if pkmn_id not in self.__raid_settings['filters']:
             if self.__quiet is False:
@@ -958,13 +959,14 @@ class Manager(object):
 
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
+
         gym_info = self.__gym_info.get(gym_id, {})
 
         raid.update({
             'pkmn': name,
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -973,8 +975,9 @@ class Manager(object):
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
-            'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'quick_move': self.__locale.get_move_name(quick_id),
+            'charge_move': self.__locale.get_move_name(charge_id),
+            'form': self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
         })
 
         threads = []
@@ -1008,33 +1011,6 @@ class Manager(object):
             info.update(**self.get_biking_data(lat, lng))
         if self.__api_req['DRIVE_DIST']:
             info.update(**self.get_driving_data(lat, lng))
-
-    ####################################################################################################################
-
-    ##################################################  INITIALIZATION  ################################################
-
-    def update_locales(self):
-        locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
-        # Update pokemon names
-        with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
-            names = json.loads(f.read())
-            for pkmn_id, value in names.iteritems():
-                self.__pokemon_name[int(pkmn_id)] = value
-        # Update move names
-        with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
-            moves = json.loads(f.read())
-            for move_id, value in moves.iteritems():
-                self.__move_name[int(move_id)] = value
-        # Update team names
-        with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
-            teams = json.loads(f.read())
-            for team_id, value in teams.iteritems():
-                self.__team_name[int(team_id)] = value
-        # Update leader names
-        with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
-            leaders = json.loads(f.read())
-            for team_id, value in leaders.iteritems():
-                self.__leader[int(team_id)] = value
 
     ####################################################################################################################
 

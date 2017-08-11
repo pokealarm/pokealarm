@@ -81,10 +81,11 @@ def get_pkmn_id(pokemon_name):
     name = pokemon_name.lower()
     if not hasattr(get_pkmn_id, 'ids'):
         get_pkmn_id.ids = {}
-        files = glob(get_path('locales/*/pokemon.json'))
+        files = glob(get_path('locales/*.json'))
         for file_ in files:
             with open(file_, 'r') as f:
                 j = json.loads(f.read())
+                j = j['pokemon']
                 for id_ in j:
                     nm = j[id_].lower()
                     get_pkmn_id.ids[nm] = int(id_)
@@ -96,10 +97,11 @@ def get_move_id(move_name):
     name = move_name.lower()
     if not hasattr(get_move_id, 'ids'):
         get_move_id.ids = {}
-        files = glob(get_path('locales/*/moves.json'))
+        files = glob(get_path('locales/*.json'))
         for file_ in files:
             with open(file_, 'r') as f:
                 j = json.loads(f.read())
+                j = j['moves']
                 for id_ in j:
                     nm = j[id_].lower()
                     get_move_id.ids[nm] = int(id_)
@@ -111,10 +113,11 @@ def get_team_id(team_name):
     name = team_name.lower()
     if not hasattr(get_team_id, 'ids'):
         get_team_id.ids = {}
-        files = glob(get_path('locales/*/teams.json'))
+        files = glob(get_path('locales/*.json'))
         for file_ in files:
             with open(file_, 'r') as f:
                 j = json.loads(f.read())
+                j = j['teams']
                 for id_ in j:
                     nm = j[id_].lower()
                     get_team_id.ids[nm] = int(id_)
@@ -125,7 +128,7 @@ def get_team_id(team_name):
 def get_move_damage(move_id):
     if not hasattr(get_move_damage, 'info'):
         get_move_damage.info = {}
-        file_ = get_path('locales/move_info.json')
+        file_ = get_path('data/move_info.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
@@ -137,7 +140,7 @@ def get_move_damage(move_id):
 def get_move_dps(move_id):
     if not hasattr(get_move_dps, 'info'):
         get_move_dps.info = {}
-        file_ = get_path('locales/move_info.json')
+        file_ = get_path('data/move_info.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
@@ -149,7 +152,7 @@ def get_move_dps(move_id):
 def get_move_duration(move_id):
     if not hasattr(get_move_duration, 'info'):
         get_move_duration.info = {}
-        file_ = get_path('locales/move_info.json')
+        file_ = get_path('data/move_info.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
@@ -161,7 +164,7 @@ def get_move_duration(move_id):
 def get_move_energy(move_id):
     if not hasattr(get_move_energy, 'info'):
         get_move_energy.info = {}
-        file_ = get_path('locales/move_info.json')
+        file_ = get_path('data/move_info.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
@@ -173,7 +176,7 @@ def get_move_energy(move_id):
 def get_base_height(pokemon_id):
     if not hasattr(get_base_height, 'info'):
         get_base_height.info = {}
-        file_ = get_path('locales/base_stats.json')
+        file_ = get_path('data/base_stats.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
@@ -185,7 +188,7 @@ def get_base_height(pokemon_id):
 def get_base_weight(pokemon_id):
     if not hasattr(get_base_weight, 'info'):
         get_base_weight.info = {}
-        file_ = get_path('locales/base_stats.json')
+        file_ = get_path('data/base_stats.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
