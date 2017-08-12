@@ -5,7 +5,6 @@ import logging
 import json
 import multiprocessing
 import traceback
-import os
 import re
 import sys
 # 3rd Party Imports
@@ -13,11 +12,13 @@ import gipc
 import googlemaps
 # Local Imports
 from . import config
-from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
+from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
 from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg
+from Geofence import load_geofence_file, Geofence
+
 log = logging.getLogger('Manager')
 
 
@@ -54,9 +55,8 @@ class Manager(object):
 
         # Create the Geofences to filter with from given file
         self.__geofences = []
-        log.debug(geofence_file)
         if str(geofence_file).lower() != 'none':
-            self.load_geofence_file(get_path(geofence_file))
+            self.__geofences = load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
         self.__alarms = []
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
@@ -122,43 +122,6 @@ class Manager(object):
                       "Please check that this file exists and PA has read permissions.").format(file_path)
         except Exception as e:
             log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        sys.exit(1)
-
-    # Load in a geofence file
-    def load_geofence_file(self, file_path):
-        try:
-            geofences = []
-            name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
-            coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
-            with open(file_path, 'r') as f:
-                lines = f.read().splitlines()
-            name = "geofence"
-            points = []
-            for line in lines:
-                line = line.strip()
-                match_name = name_pattern.search(line)
-                if match_name:
-                    if len(points) > 0:
-                        geofences.append(Geofence(name, points))
-                        log.info("Geofence {} added.".format(name))
-                        points = []
-                    name = match_name.group(0)
-                elif coor_patter.match(line):
-                    lat, lng = map(float, line.split(","))
-                    points.append([lat, lng])
-                else:
-                    log.error("Geofence was unable to parse this line: {}".format(line))
-                    log.error("All lines should be either '[name]' or 'lat,lng'.")
-                    sys.exit(1)
-            geofences.append(Geofence(name, points))
-            log.info("Geofence {} added.".format(name))
-            self.__geofences = geofences
-            return
-        except IOError as e:
-            log.error("IOError: Please make sure a file with read/write permissions exsist at {}".format(file_path))
-        except Exception as e:
-            log.error("Encountered error while loading Geofence: {}: {}".format(type(e).__name__, e))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
@@ -977,7 +940,7 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form': self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
+            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
 
         threads = []
