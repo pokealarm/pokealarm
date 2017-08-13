@@ -41,9 +41,7 @@ class Manager(object):
         else:
             log.warning("NO GOOGLE API KEY SET - Reverse Location and Distance Matrix DTS will NOT be detected.")
 
-        # Setup the language-specific stuff
-        self.__locale = Locale(locale)
-
+        self.__locale = Locale(locale)  # Setup the language-specific stuff
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
         self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
