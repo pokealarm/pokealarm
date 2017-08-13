@@ -1,19 +1,17 @@
-# This is a basic interface for the Alarms Modules to implement
-
 # Standard Library Imports
 import time
 import traceback
 # 3rd Party Imports
 # Local Imports
-from Utils import parse_boolean
 
 #####################################################  ATTENTION!  #####################################################
-# You DO NOT NEED to edit this file to custimize messages for services! Please see the Wiki on the correct way to
-# custimize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
+# You DO NOT NEED to edit this file to customize messages for services! Please see the Wiki on the correct way to
+# customize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
 #                               PLEASE ONLY EDIT IF YOU KNOW WHAT YOU ARE DOING!
 #####################################################  ATTENTION!  #####################################################
 
 
+# This is a basic interface for the Alarms Modules to implement
 class Alarm(object):
 
     _defaults = {  # These are the default values for the 'Alerts'
