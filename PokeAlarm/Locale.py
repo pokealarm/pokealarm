@@ -51,8 +51,10 @@ class Locale(object):
         for pkmn_id, forms in default["forms"].iteritems():
             self.__form_names[int(pkmn_id)] = {}
             pkmn_forms = all_forms.get(pkmn_id, {})
+            log.info(all_forms)
+            log.info(pkmn_forms)
             for form_id, form_name in forms.iteritems():
-                self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(form_id)
+                self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(form_id, form_name)
         log.debug("Loaded '{}' locale successfully!".format(language))
 
     # Returns the name of the Pokemon associated with the given ID
