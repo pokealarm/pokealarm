@@ -20,10 +20,10 @@ PokeAlarm is an easy to use yet highly configurable webserver designed to receiv
 Head on over to the [**PokeAlarm Wiki**](https://github.com/RocketMap/PokeAlarm/wiki) to find detailed instructions on setting up and configuring PokeAlarm. You can find the table of contents on the right!
 
 #### Discord
-Before visiting your discord channel, check both the [Wiki](https://github.com/RocketMap/PokeAlarm/wiki) and the [FAQ](https://github.com/kvangent/PokeAlarm/wiki/faq). If you still can't find what you are looking for, try the [**Discord channel**](https://discord.gg/RocketMap)
+Before visiting your discord channel, check both the [Wiki](https://github.com/RocketMap/PokeAlarm/wiki) and the [FAQ](https://github.com/RocketMap/PokeAlarm/wiki/faq). If you still can't find what you are looking for, try the [**Discord channel**](https://discord.gg/RocketMap)
 
 #### Github
-Have an idea for a new feature? Think you found a bug? Head over to our [Github](https://github.com/kvangent/PokeAlarm/issues/new) and open an 'Issue' ticket. Make sure to follow the template completly, or else your issue will be closed without comment.
+Have an idea for a new feature? Think you found a bug? Head over to our [Github](https://github.com/RocketMap/PokeAlarm/issues/new) and open an 'Issue' ticket. Make sure to follow the template completly, or else your issue will be closed without comment.
 
 ## Want to contribute?
 Besides financial support, you can also do your part to help PA grow. Feel free to submit PR's to our [Github](https://github.com/RocketMap/PokeAlarm/issues/new). You can also suggest changes to the Wiki on our [Wiki Github](https://github.com/RocketMap/PokeAlarmWiki). If you find a mistake but don't have the skill to fix it, feel free to open an 'Issue' on the appropriate Github page. 
