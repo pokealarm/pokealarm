@@ -15,7 +15,7 @@
 !--- Please post as many details  --
 Operating System  
 Python Version (use `python -V`)  
-PokemonGo-Map startup command `cmd`  
+RocketMap startup command `cmd`  
 PokeAlarm startup command `cmd`
 
 Did the issue persist after restarting the script yesno
@@ -34,7 +34,7 @@ Did the issue persist after restarting the script yesno
 ```
 
 ## Troubleshooting Checklist
-[ ] Most recent version of PokemonGo-Map
+[ ] Most recent version of RocketMap
 [ ] Most recent version of PokeAlarm
 [ ] Checked the Wiki page for service in question
 

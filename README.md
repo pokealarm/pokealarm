@@ -6,7 +6,7 @@
 PokeAlarm is a highly configurable application that filters and relays alerts about PokemonGo to your favorite online service, allowing you to be first to know of any rare spawns or raids.
 
 ### Patch Notes
-Recently updated? Make sure to check out the [Patch Notes](patch_notes) to help you get caught up on what has changed between versions.
+Recently updated? Make sure to check out the [Patch Notes](patch-notes) to help you get caught up on what has changed between versions.
 
 ## Help Keep PokeAlarm Alive!   
 Like PokeAlarm? Consider supporting development by making a pledge through [Patron](https://www.patreon.com/bePatron?u=5193416). Developing PokeAlarm takes both time and money - and without your support PokeAlarm can't stay up to date or be able to add new features. As an added bonus, contributing to PokeAlarm will get you guaranteed support from the PokeAlarm team!
