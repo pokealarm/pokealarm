@@ -6,6 +6,7 @@
 
 # Server Settings
 #debug											# Enables debugging mode
+#quiet											# Enables quiet mode
 #host:											# Address to listen on (default 127.0.0.1)
 #port:											# Port to listen on (default: 4000)
 #manager_count: 1								# Number of Managers to run. (default: 1)
