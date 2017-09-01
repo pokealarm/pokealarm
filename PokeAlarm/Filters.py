@@ -154,7 +154,13 @@ def load_raid_section(settings):
     raid = {
         "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)
     }
+    raid_filters = settings.pop('filters', {})
 
+    raid['min_level'] = int(raid_filters.pop('min_level', 0) or 0)
+    raid['max_level'] = int(raid_filters.pop('max_level', 10) or 10)
+
+    log.debug("Report raids between level {} and {}"
+              .format(raid['min_level'], raid['max_level']))
     # load any raid pokemon filters
     filters = load_pokemon_filters(settings)
     raid['filters'] = filters
