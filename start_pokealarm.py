@@ -107,6 +107,7 @@ def parse_settings(root_path):
     parser = configargparse.ArgParser(default_config_files=config_files)
     parser.add_argument('-cf', '--config', is_config_file=True, help='Configuration file')
     parser.add_argument('-d', '--debug', help='Debug Mode', action='store_true', default=False)
+    parser.add_argument('-q', '--quiet', help='Quiet Mode', action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=4000)
     parser.add_argument('-m', '--manager_count', type=int, default=1,
@@ -186,7 +187,7 @@ def parse_settings(root_path):
             timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0],
             time_limit=args.timelimit[m_ct] if len(args.timelimit) > 1 else args.timelimit[0],
             max_attempts=args.max_attempts[m_ct] if len(args.max_attempts) > 1 else args.max_attempts[0],
-            quiet=False,  # TODO: I'll totally document this some day. Promise.
+            quiet=args.quiet,
             location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
             filter_file=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
             geofence_file=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
