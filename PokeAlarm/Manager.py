@@ -921,7 +921,14 @@ class Manager(object):
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
 
-        #  check filters for pokemon
+        # check if the level is in the filter range or if we are ignoring eggs
+        passed = self.check_egg_filter(self.__raid_settings, raid)
+
+        if not passed:
+            log.debug("Raid {} did not pass filter check".format(gym_id))
+            return
+
+		#  check filters for pokemon
         name = self.__pokemon_name[pkmn_id]
 
         if pkmn_id not in self.__raid_settings['filters']:
@@ -962,9 +969,9 @@ class Manager(object):
 
         raid.update({
             'pkmn': name,
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            #"gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
+            #"gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
+            #"gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
