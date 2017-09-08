@@ -868,7 +868,10 @@ class Manager(object):
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
         gym_info = self.__gym_info.get(gym_id, {})
-
+        team = egg['team']
+        team_name = self.__team_name[team]
+        fort_name = egg['name']
+        
         egg.update({
             "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
             "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
@@ -880,7 +883,9 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng)
+            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'team': team_name,
+            'name': fort_name    
         })
 
         threads = []
@@ -938,9 +943,6 @@ class Manager(object):
 
         team = raid['team']
         team_name = self.__team_name[team]
-
-        #Posibly change to team not current_team
-
         fort_name = raid['name']
 
         #  check filters for pokemon
