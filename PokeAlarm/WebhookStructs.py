@@ -73,7 +73,7 @@ class RocketMap:
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
-            'form_id': check_for_none(int, data.get('form'), '?'),
+            'form': check_for_none(int, data.get('form'), '?'),
             'size': 'unknown',
             'tiny_rat': '',
             'big_karp': '',
@@ -153,10 +153,8 @@ class RocketMap:
         raid_end = None
         raid_begin = None
 
-        if 'raid_begin' in data:
-            raid_begin = datetime.utcfromtimestamp(data['raid_begin'])
-        elif 'battle' in data:
-            raid_begin = datetime.utcfromtimestamp(data['battle'])
+        if 'raid_battle' in data:
+            raid_begin = datetime.utcfromtimestamp(data['raid_battle'])
         elif 'start' in data:
             raid_begin = datetime.utcfromtimestamp(data['start'])
 
@@ -231,7 +229,9 @@ class RocketMap:
             'raid_end': raid_end,
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            "team": int(data['team']),
+            "name": data['name']
         }
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])

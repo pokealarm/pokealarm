@@ -330,11 +330,11 @@ class Manager(object):
         atk = pkmn['atk']
         sta = pkmn['sta']
         size = pkmn['size']
-        gender = pkmn['gender']
-        form_id = pkmn['form_id']
         name = pkmn['pkmn']
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
+        form = pkmn.get('form', 0)
+        gender = pkmn['gender']
 
         for filt_ct in range(len(filters)):
             filt = filters[filt_ct]
@@ -488,10 +488,10 @@ class Manager(object):
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
 
             # Check for a valid form
-            if form_id != '?':
-                if not filt.check_form(form_id):
+            if form is not None and form != 'unkn' and form != '?':
+                if not filt.check_form(form):
                     if self.__quiet is False:
-                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
+                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form, filt_ct))
                     continue
 
             # Nothing left to check, so it must have passed
@@ -550,13 +550,29 @@ class Manager(object):
                 log.info("{} ignored: no filters are set".format(name))
             return
 
-        # Extract some useful info that will be used in the filters
-
         lat, lng = pkmn['lat'], pkmn['lng']
         dist = get_earth_dist([lat, lng], self.__latlng)
+        cp = pkmn['cp']
+        level = pkmn['level']
+        iv = pkmn['iv']
+        def_ = pkmn['def']
+        atk = pkmn['atk']
+        sta = pkmn['sta']
+        quick_id = pkmn['quick_id']
+        charge_id = pkmn['charge_id']
+        size = pkmn['size']
+        gender = pkmn['gender']
+        form = pkmn.get('form', 0)
+        cpiv = ''		
+		
+        if form == '?':
+            form = 0
 
+        if cp != '?':
+            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + "\n" + self.__move_name.get(quick_id, 'unknown') + " / " + self.__move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
+		
         pkmn['pkmn'] = name
-
+		
         filters = self.__pokemon_settings['filters'][pkmn_id]
         passed = self.check_pokemon_filter(filters, pkmn, dist)
         # If we didn't pass any filters
@@ -569,7 +585,6 @@ class Manager(object):
         # Check all the geofences
         pkmn['geofence'] = self.check_geofences(name, lat, lng)
         if len(self.__geofences) > 0 and pkmn['geofence'] == 'unknown':
-            log.info("{} rejected: not inside geofence(s)".format(name))
             return
 
         # Finally, add in all the extra crap we waited to calculate until now
@@ -582,12 +597,14 @@ class Manager(object):
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
+			'form': (" - " + chr(64 + int(form))) if form and int(form) > 0 else '',
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+			'cpiv': cpiv
         })
         self.add_optional_travel_arguments(pkmn)
 
@@ -832,8 +849,7 @@ class Manager(object):
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and egg['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Egg {} ignored: located outside geofences.".format(gym_id))
-            return
+                return
         else:
             log.debug("Egg inside geofence was not checked because no geofences were set.")
 
@@ -913,13 +929,19 @@ class Manager(object):
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and raid['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Raid {} ignored: located outside geofences.".format(gym_id))
-            return
+                return
         else:
             log.debug("Raid inside geofence was not checked because no geofences were set.")
 
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
+
+        team = raid['team']
+        team_name = self.__team_name[team]
+
+        #Posibly change to team not current_team
+
+        fort_name = raid['name']
 
         #  check filters for pokemon
         name = self.__pokemon_name[pkmn_id]
@@ -939,7 +961,7 @@ class Manager(object):
             'sta': 15,
             'gender': 'unknown',
             'size': 'unknown',
-            'form_id': '?',
+            'form': '?',
             'quick_id': quick_id,
             'charge_id': charge_id
         }
@@ -974,7 +996,9 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'team': team_name,
+            'name': fort_name            
         })
 
         threads = []
