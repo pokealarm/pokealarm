@@ -807,7 +807,7 @@ class Manager(object):
         gym_id = egg['id']
 
         # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+        if gym_id not in self.__gym_info or egg['name'] != 'unknown':
             self.__gym_info[gym_id] = {
                 "name": egg['name']
             }
@@ -894,7 +894,7 @@ class Manager(object):
         gym_id = raid['id']
         
         # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+        if gym_id not in self.__gym_info or raid['name'] != 'unknown':
             self.__gym_info[gym_id] = {
                 "name": raid['name']
             }
