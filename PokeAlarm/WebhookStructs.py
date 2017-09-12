@@ -153,8 +153,10 @@ class RocketMap:
         raid_end = None
         raid_begin = None
 
-        if 'raid_battle' in data:
-            raid_begin = datetime.utcfromtimestamp(data['raid_battle'])
+        if 'raid_begin' in data:
+            raid_begin = datetime.utcfromtimestamp(data['raid_begin'])
+        elif 'battle' in data:
+            raid_begin = datetime.utcfromtimestamp(data['battle'])
         elif 'start' in data:
             raid_begin = datetime.utcfromtimestamp(data['start'])
 
