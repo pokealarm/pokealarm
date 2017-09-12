@@ -177,7 +177,9 @@ class RocketMap:
             'raid_end': raid_end,
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            "team": int(data['team']),
+            "name": data['name']
         }
 
         egg['gmaps'] = get_gmaps_link(egg['lat'], egg['lng'])
@@ -231,7 +233,9 @@ class RocketMap:
             'raid_end': raid_end,
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            "team": int(data['team']),
+            "name": data['name']
         }
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])

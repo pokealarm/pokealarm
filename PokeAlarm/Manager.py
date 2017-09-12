@@ -806,6 +806,12 @@ class Manager(object):
 
         gym_id = egg['id']
 
+        # Update Gym details (if they exist)
+        if gym_id not in self.__gym_info or egg['name'] != 'unknown':
+            self.__gym_info[gym_id] = {
+                "name": egg['name']
+            }
+        
         raid_end = egg['raid_end']
 
         # raid history will contains any raid processed
@@ -852,6 +858,8 @@ class Manager(object):
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
         gym_info = self.__gym_info.get(gym_id, {})
+        team = egg['team']
+        team_name = self.__team_name[team]
 
         egg.update({
             "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
@@ -864,7 +872,8 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng)
+            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'team': team_name
         })
 
         threads = []
@@ -883,6 +892,12 @@ class Manager(object):
             return
 
         gym_id = raid['id']
+        
+        # Update Gym details (if they exist)
+        if gym_id not in self.__gym_info or raid['name'] != 'unknown':
+            self.__gym_info[gym_id] = {
+                "name": raid['name']
+            }
 
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
@@ -959,6 +974,8 @@ class Manager(object):
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
         gym_info = self.__gym_info.get(gym_id, {})
+        team = raid['team']
+        team_name = self.__team_name[team]        
 
         raid.update({
             'pkmn': name,
@@ -974,7 +991,8 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown')
+            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'team': team_name
         })
 
         threads = []
