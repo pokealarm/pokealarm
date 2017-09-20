@@ -5,7 +5,7 @@
 
 Copyright 2016 Kurtis Van Gent
 
-This file is part of PokeAlarm (https://github.com/kvangent/PokeAlarm).
+This file is part of PokeAlarm (https://github.com/RocketMap/PokeAlarm).
 
 Preamble
 
