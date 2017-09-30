@@ -22,3 +22,5 @@
 #timelimit:										# Minimum number of seconds remaining to send a notification (default: 0)
 #max_attempts:									# Maximum number of attempts an alarm makes to send a notification. (default: 3)
 #timezone:                                      # Timezone used for notifications Ex: 'America/Los_Angeles' or '[America/Los_Angeles, America/New_York]'
+#use_adr_file_cache                             # Use a cache file to save address lookups and save google requests (default: False)
+#use_gym_file_cache                             # Use a cache file to save gym information (default: False)
