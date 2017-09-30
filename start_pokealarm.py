@@ -3,21 +3,26 @@
 
 # Monkey Patch to allow Gevent's Concurrency
 from gevent import monkey
+
 monkey.patch_all()
 
 # Setup Logging
 import logging
+
 logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(levelname)8.8s] %(message)s',
                     level=logging.INFO)
 
 # Standard Library Imports
 import configargparse
-from gevent import wsgi, spawn
+from gevent import wsgi
+import gevent
 import pytz
 import Queue
 import json
 import os
+import signal
 import sys
+
 # 3rd Party Imports
 from flask import Flask, request, abort
 # Local Imports
@@ -50,9 +55,9 @@ def accept_webhook():
     try:
         log.debug("POST request received from {}.".format(request.remote_addr))
         data = json.loads(request.data)
-        if type(data) == dict: # older webhook style
+        if type(data) == dict:  # older webhook style
             data_queue.put(data)
-        else:   # For RM's frame
+        else:  # For RM's frame
             for frame in data:
                 data_queue.put(frame)
     except Exception as e:
@@ -61,19 +66,23 @@ def accept_webhook():
     return "OK"  # request ok
 
 
-# Thread used to distribute the data into various processes (for RocketMap format)
+# Thread used to distribute incoming data into the waiting manager processes
 def manage_webhook_data(queue):
-    while True:
-        if queue.qsize() > 300:
-            log.warning("Queue length is at {}... this may be causing a delay in notifications.".format(queue.qsize()))
-        data = queue.get(block=True)
-        obj = RocketMap.make_object(data)
-        if obj is not None:
-            for name, mgr in managers.iteritems():
-                mgr.update(obj)
-                log.debug("Distributed to {}.".format(name))
-            log.debug("Finished distributing object with id {}".format(obj['id']))
-        queue.task_done()
+    try:
+        while True:
+            if queue.qsize() > 300:
+                log.warning(
+                    "Queue length is at {}... this may be causing a delay in notifications.".format(queue.qsize()))
+            data = queue.get(block=True)
+            obj = RocketMap.make_object(data)
+            if obj is not None:
+                for name, mgr in managers.iteritems():
+                    mgr.update(obj)
+                    log.debug("Distributed to {}.".format(name))
+                log.debug("Finished distributing object with id {}".format(obj['id']))
+            queue.task_done()
+    except gevent.GreenletExit:
+        log.info("Webhook Manager exiting gracefully!")
 
 
 # Configure and run PokeAlarm
@@ -85,14 +94,20 @@ def start_server():
     logging.getLogger('connectionpool').setLevel(logging.WARNING)
     logging.getLogger('gipc').setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger('Cache').setLevel(logging.INFO)
 
     parse_settings(os.path.abspath(os.path.dirname(__file__)))
 
     # Start Webhook Manager in a Thread
-    spawn(manage_webhook_data, data_queue)
+    global webhook_manager
+    webhook_manager = gevent.spawn(manage_webhook_data, data_queue)
+
+    # make sure we stop properly
+    signal.signal(signal.SIGINT, signal_handler)
 
     # Start up Server
     log.info("PokeAlarm is listening for webhooks on: http://{}:{}".format(config['HOST'], config['PORT']))
+    global server
     server = wsgi.WSGIServer((config['HOST'], config['PORT']), app, log=logging.getLogger('pyswgi'))
     server.serve_forever()
 
@@ -135,6 +150,10 @@ def parse_settings(root_path):
                         help='Maximum number of attempts an alarm makes to send a notification.')
     parser.add_argument('-tz', '--timezone', type=str, action='append', default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
+    parser.add_argument('-afc', '--use-adr-file-cache', action='store_true', default=False,
+                        help='Use geocode address file cache to save google lookup requests between runs')
+    parser.add_argument('-gfc', '--use-gym-file-cache', action='store_true', default=False,
+                        help='Use gym file cache to save gym information to file between runs')
 
     args = parser.parse_args()
 
@@ -191,18 +210,37 @@ def parse_settings(root_path):
             filter_file=args.filters[m_ct] if len(args.filters) > 1 else args.filters[0],
             geofence_file=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
             alarm_file=args.alarms[m_ct] if len(args.alarms) > 1 else args.alarms[0],
-            debug=config['DEBUG']
+            debug=config['DEBUG'],
+            use_adr_file_cache=args.use_adr_file_cache,
+            use_gym_file_cache=args.use_gym_file_cache
         )
         if m.get_name() not in managers:
             # Add the manager to the map
             managers[m.get_name()] = m
         else:
             log.critical("Names of Manager processes must be unique (regardless of capitalization)! Process will exit.")
-            sys.exit(1)
+            sys.exit(-1)
     log.info("Starting up the Managers")
     for m_name in managers:
         managers[m_name].start()
 
+
+def signal_handler(signal, frame):
+    print("CTRL-C catched, exiting gracefully...")
+
+    # kill the webhook manager
+    try:
+        webhook_manager.kill()
+    except AssertionError:
+        log.warn("Webhook manager was being cranky")
+
+    # stop the server
+    server.stop(timeout=10)
+
+    for m_name in managers:
+        managers[m_name].join_process()
+
+    sys.exit(1)
 
 
 ########################################################################################################################
