@@ -46,7 +46,7 @@ class RocketMap:
         quick_id = check_for_none(int, data.get('move_1'), '?')
         charge_id = check_for_none(int, data.get('move_2'), '?')
         lat, lng = data['latitude'], data['longitude']
-        # Generate all the non-manager specifi
+        # Generate all the non-manager specifics
         pkmn = {
             'type': "pokemon",
             'id': data['encounter_id'],
