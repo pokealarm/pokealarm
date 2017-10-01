@@ -45,6 +45,7 @@ class Manager(object):
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
         self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
+        self.__cp_ranges = {}
 
         # Set up the Location Specific Stuff
         self.__location = None  # Location should be [lat, lng] (or None for no location)
@@ -76,6 +77,12 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__event = multiprocessing.Event()
         self.__process = None
+
+        # Update cp ranges
+        with open(get_path('data/cp_ranges.json'), 'r') as f:
+            cp_ranges = json.loads(f.read())
+            for pkmn_id, value in cp_ranges.iteritems():
+                self.__cp_ranges[int(pkmn_id)] = value
 
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
@@ -1032,6 +1039,8 @@ class Manager(object):
             'form_or_empty': '' if form == 'unknown' else form,
             'team_id': team_id,
             'team_name': self.__locale.get_team_name(team_id)
+            'min_cp': self.__cp_ranges.get(pkmn_id, {}).get('min-cp', '?'),
+            'max_cp': self.__cp_ranges.get(pkmn_id, {}).get('max-cp', '?')
         })
 
         threads = []
