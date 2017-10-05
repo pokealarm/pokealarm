@@ -4,3 +4,4 @@ gevent==1.2.1
 gipc==0.6.0
 googlemaps==2.4.6
 pytz==2016.10
+twitter==1.17.1
