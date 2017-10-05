@@ -305,8 +305,8 @@ class Manager(object):
                     last_clean = datetime.utcnow()
 
                 # Save the cache every 10 minutes in case process dies unexpected
-                if (self.__use_gym_file_cache or self.__use_gym_file_cache) \
-                        and datetime.utcnow() - last_cache_save > timedelta(minutes=10):
+                if ((self.__use_gym_file_cache or self.__use_gym_file_cache) and
+                        datetime.utcnow() - last_cache_save > timedelta(minutes=10)):
                     log.debug("Saving to file cache...")
                     self.__cache.save()
                     last_cache_save = datetime.utcnow()
@@ -747,7 +747,8 @@ class Manager(object):
         gym_id = gym['id']
 
         # Update Gym details (if they exist)
-        if gym_id in self.__cache.gym_cache is False or gym['name'] != 'unknown':
+        if gym_id not in self.__cache.gym_cache or gym['name'] != 'unknown':
+            log.debug(u"Saving gym info for {}".format(gym['name']))
             self.__cache.gym_cache[gym_id] = gym
 
         if self.__gym_settings['enabled'] is False:
