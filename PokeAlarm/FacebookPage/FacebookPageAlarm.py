@@ -25,7 +25,7 @@ class FacebookPageAlarm(Alarm):
     _defaults = {
         'pokemon': {
             'message': "A wild <pkmn> has appeared!",
-            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'image': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/<pkmn_id>.png",
             'link': "<gmaps>",
             'name': "<pkmn>",
             'description': "Available until <24h_time> (<time_left>)",
@@ -33,7 +33,7 @@ class FacebookPageAlarm(Alarm):
         },
         'pokestop': {
             'message': "Someone has placed a lure on a Pokestop!",
-            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/pokestop.png",
+            'image': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/pokestop.png",
             'link': "<gmaps>",
             'name': "Lured Pokestop",
             'description': "Lure will expire at <24h_time> (<time_left>)",
@@ -41,7 +41,7 @@ class FacebookPageAlarm(Alarm):
         },
         'gym': {
             'message': "A Team <old_team> gym has fallen!",
-            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_<new_team_id>.png",
+            'image': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_<new_team_id>.png",
             'link': "<gmaps>",
             'name': "<old_team> gym fallen",
             'description': "It is now controlled by <new_team>",
@@ -49,7 +49,7 @@ class FacebookPageAlarm(Alarm):
         },
         'egg': {
             'message': "A level <raid_level> raid is upcoming!",
-            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/egg_<raid_level>.png",
+            'image': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/egg_<raid_level>.png",
             'link': "<gmaps>",
             'name': 'Egg',
             'description': "The egg will hatch <begin_24h_time> (<begin_time_left>).",
@@ -57,7 +57,7 @@ class FacebookPageAlarm(Alarm):
         },
         'raid': {
             'message': "A Raid is available against <pkmn>!",
-            'image': "https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/<pkmn_id>.png",
+            'image': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/<pkmn_id>.png",
             'link': "<gmaps>",
             'name': 'Raid',
             'description': "The raid is available until <24h_time> (<time_left>).",
