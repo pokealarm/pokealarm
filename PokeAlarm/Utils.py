@@ -341,3 +341,6 @@ def get_time_as_str(t, timezone=None):
     return time_left, time_12, time_24
 
 ########################################################################################################################
+def get_letter(form_id):
+    letters = ['?', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    return letters[form_id]
