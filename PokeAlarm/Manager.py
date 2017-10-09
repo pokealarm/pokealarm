@@ -33,7 +33,7 @@ class Manager(object):
         log.info("----------- Manager '{}' is being created.".format(self.__name))
         self.__debug = debug
 
-        self.__cache = None
+        self.__cache = Cache(self.__name, self.__use_adr_file_cache, self.__use_gym_file_cache)
         self.__use_adr_file_cache = use_adr_file_cache
         self.__use_gym_file_cache = use_gym_file_cache
 
@@ -42,7 +42,7 @@ class Manager(object):
         self.__loc_service = None
         if str(google_key) != 'none':
             self.__google_key = google_key
-            self.__loc_service = LocationService(google_key, locale, units)
+            self.__loc_service = LocationService(google_key, locale, units, self.__cache)
         else:
             log.warning("NO GOOGLE API KEY SET - Reverse Location and Distance Matrix DTS will NOT be detected.")
 
