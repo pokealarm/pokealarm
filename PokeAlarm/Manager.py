@@ -33,7 +33,7 @@ class Manager(object):
         log.info("----------- Manager '{}' is being created.".format(self.__name))
         self.__debug = debug
 
-        self.__cache = Cache(self.__name, self.__use_adr_file_cache, self.__use_gym_file_cache)
+        self.__cache = Cache(self.__name, use_adr_file_cache, use_gym_file_cache)
         self.__use_adr_file_cache = use_adr_file_cache
         self.__use_gym_file_cache = use_gym_file_cache
 
@@ -278,7 +278,6 @@ class Manager(object):
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
 
-        self.__cache = Cache(self.__name, self.__use_adr_file_cache, self.__use_gym_file_cache)
         if self.__use_gym_file_cache or self.__use_adr_file_cache:
             self.__cache.load()
 
