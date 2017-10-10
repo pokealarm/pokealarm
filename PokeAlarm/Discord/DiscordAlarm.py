@@ -175,7 +175,7 @@ class DiscordAlarm(Alarm):
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):
         log.debug(payload)
-        resp = requests.post(url, json=payload, timeout=(None, 5))
+        resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
             log.debug("Notification successful (returned {})".format(resp.status_code))
         else:
