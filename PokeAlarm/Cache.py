@@ -8,16 +8,15 @@ log = logging.getLogger('Cache')
 
 # Cache helper object
 # Caches the reverse geocode lookup of coordinates to addresses
-# and the gym details
+# and the gym details.
 class Cache(object):
-    def __init__(self, name, use_adr_cache, use_gym_cache):
-        self.adr_cache = {}
+    def __init__(self, name, use_gym_cache):
         self.gym_cache = {}
-        self.__name = name
-        self.__use_adr_cache = use_adr_cache
         self.__use_gym_cache = use_gym_cache
-        self.__pkl_file_adr = '.pickles/cached_{}_adr.pkl'.format(name)
-        self.__pkl_file_gym = '.pickles/cached_{}_gym.pkl'.format(name)
+
+        keep = (' ', '.', '_')  # We want to remove bad characters from file names.
+        ascii_name = "".join(c for c in name if c.isalnum() or c in keep).rstrip()
+        self.__pkl_file_gym = '.pickles/cached_{}_gym.pkl'.format(ascii_name)
 
     # load the cache
     @staticmethod
@@ -41,23 +40,17 @@ class Cache(object):
 
     # Load the cache from pickle files
     def load(self):
-        if self.__use_adr_cache:
-            self.adr_cache = self.load_pickle(self.__pkl_file_adr)
-
         if self.__use_gym_cache:
             self.gym_cache = self.load_pickle(self.__pkl_file_gym)
 
     # Save the cache into pickle files.
     def save(self):
-        if (self.__use_adr_cache or self.__use_gym_cache) and not os.path.exists('.pickles'):
+        if self.__use_gym_cache and not os.path.exists('.pickles'):
             try:
                 os.makedirs('.pickles')
             except OSError as exc:  # Guard against race condition
                 if exc.errno != errno.EEXIST:
                     raise
-
-        if self.__use_adr_cache:
-            self.save_pickle(self.adr_cache,self.__pkl_file_adr)
 
         if self.__use_gym_cache:
             self.save_pickle(self.gym_cache,self.__pkl_file_gym)
