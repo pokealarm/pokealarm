@@ -61,7 +61,7 @@ def accept_webhook():
     return "OK"  # request ok
 
 
-# Thread used to distribute the data into various processes (for RocketMap format)
+# Thread used to distribute the data into various processes (for PokemonGo-Map format)
 def manage_webhook_data(queue):
     while True:
         if queue.qsize() > 300:
