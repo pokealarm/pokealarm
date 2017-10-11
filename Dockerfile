@@ -2,8 +2,8 @@
 # It runs with the webhook -wh http://127.0.0.1:4000
 # Usage:
 #   docker build -t pokealarm
-#   docker run -d --net container:PokemonGo-Map --name PokeAlarm -P pokealarm
-# Change "PokemonGo-Map" to the name of your PokemonGo-Map docker
+#   docker run -d --net container:RocketMap --name PokeAlarm -P pokealarm
+# Change "RocketMap" to the name of your RocketMap docker
 # For newer versions of docker maybe you have to change --net to --network
 
 FROM python:2.7-alpine
