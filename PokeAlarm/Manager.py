@@ -27,14 +27,14 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
-                 filter_file, geofence_file, alarm_file, debug, use_adr_file_cache, use_gym_file_cache):
+                 filter_file, geofence_file, alarm_file, debug, use_gym_file_cache):
         # Set the name of the Manager
         self.__name = str(name).lower()
         log.info("----------- Manager '{}' is being created.".format(self.__name))
         self.__debug = debug
 
-        self.__cache = Cache(self.__name, use_adr_file_cache, use_gym_file_cache)
-        self.__use_adr_file_cache = use_adr_file_cache
+        self.__cache = Cache(self.__name, use_gym_file_cache)
+
         self.__use_gym_file_cache = use_gym_file_cache
 
         # Get the Google Maps API
@@ -42,7 +42,7 @@ class Manager(object):
         self.__loc_service = None
         if str(google_key) != 'none':
             self.__google_key = google_key
-            self.__loc_service = LocationService(google_key, locale, units, self.__cache)
+            self.__loc_service = LocationService(google_key, locale, units)
         else:
             log.warning("NO GOOGLE API KEY SET - Reverse Location and Distance Matrix DTS will NOT be detected.")
 
@@ -278,7 +278,7 @@ class Manager(object):
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
 
-        if self.__use_gym_file_cache or self.__use_adr_file_cache:
+        if self.__use_gym_file_cache:
             self.__cache.load()
 
         # Connect the alarms and send the start up message
@@ -304,8 +304,7 @@ class Manager(object):
                     last_clean = datetime.utcnow()
 
                 # Save the cache every 10 minutes in case process dies unexpected
-                if ((self.__use_gym_file_cache or self.__use_gym_file_cache) and
-                        datetime.utcnow() - last_cache_save > timedelta(minutes=10)):
+                if self.__use_gym_file_cache and datetime.utcnow() - last_cache_save > timedelta(minutes=10):
                     log.debug("Saving to file cache...")
                     self.__cache.save()
                     last_cache_save = datetime.utcnow()

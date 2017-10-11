@@ -12,10 +12,9 @@ log = logging.getLogger('LocService')
 class LocationService(object):
 
     # Initialize the APIs
-    def __init__(self, api_key, locale, units,cache):
+    def __init__(self, api_key, locale, units):
         self.__client = googlemaps.Client(key=api_key, timeout=3, retry_timeout=5)
 
-        self.__cache = cache # Cache object for storing geocode results
         self.__locale = locale # Language to use for Geocoding results
         self.__units = units # imperial or metric
 
@@ -65,11 +64,9 @@ class LocationService(object):
     # Returns details about a location from coordinates in the [Lat, Lng] format
     def __get_reverse_location(self, location):
         # Memoize the results
-        cache_key = "{:.5f},{:.5f}".format(location[0], location[1]) # ~1 meter of precision
-        # Look in the geocache
-        if cache_key in self.__cache.adr_cache:
-            log.debug("CACHE MATCH - geocache: {}".format(cache_key))
-            return self.__cache.adr_cache[cache_key]
+        key = "{:.5f},{:.5f}".format(location[0], location[1]) # ~1 meter of precision
+        if key in self.__reverse_location_history:
+            return self.__reverse_location_history[key]
 
         details = { # Set some defaults in case something goes wrong
             'street_num': '???', 'street': 'unknown', 'address': 'unknown', 'postal': 'unknown',
@@ -82,13 +79,9 @@ class LocationService(object):
             for item in result['address_components']:
                 for category in item['types']:
                     loc[category] = item['short_name']
-
-            # Note: for addresses in squares and on unnamed roads, it's correct with blank numbers/streetnames
-            # so we leave this as blank instead of unknown/??? to avoid DTS looking weird
-            details['street_num'] = loc.get('street_number', '')
-            details['street'] = loc.get('route', '')
+            details['street_num'] = loc.get('street_number', '???')
+            details['street'] = loc.get('route', 'unknown')
             details['address'] = "{} {}".format(details['street_num'], details['street'])
-            details['address_eu'] = "{} {}".format(details['street'], details['street_num'])  # EU use Street 123
             details['postal'] = loc.get('postal_code', 'unknown')
             details['neighborhood'] = loc.get('neighborhood', "unknown")
             details['sublocality'] = loc.get('sublocality', "unknown")
@@ -96,10 +89,7 @@ class LocationService(object):
             details['county'] = loc.get('administrative_area_level_2', 'unknown')
             details['state'] = loc.get('administrative_area_level_1', 'unknown')
             details['country'] = loc.get('country', 'unknown')
-
-            # cache result
-            self.__cache.adr_cache[cache_key] = details
-            log.debug("Saved Address in geocache: {} - {}".format(cache_key, details['address']))
+            self.__reverse_location_history[key] = details # If everything was successful, memoize for next time
         except Exception as e:
             log.error("Encountered error while getting reverse location data ({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))

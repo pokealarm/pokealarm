@@ -150,8 +150,6 @@ def parse_settings(root_path):
                         help='Maximum number of attempts an alarm makes to send a notification.')
     parser.add_argument('-tz', '--timezone', type=str, action='append', default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
-    parser.add_argument('-afc', '--use-adr-file-cache', action='store_true', default=False,
-                        help='Use geocode address file cache to save google lookup requests between runs')
     parser.add_argument('-gfc', '--use-gym-file-cache', action='store_true', default=False,
                         help='Use gym file cache to save gym information to file between runs')
 
@@ -211,7 +209,6 @@ def parse_settings(root_path):
             geofence_file=args.geofences[m_ct] if len(args.geofences) > 1 else args.geofences[0],
             alarm_file=args.alarms[m_ct] if len(args.alarms) > 1 else args.alarms[0],
             debug=config['DEBUG'],
-            use_adr_file_cache=args.use_adr_file_cache,
             use_gym_file_cache=args.use_gym_file_cache
         )
         if m.get_name() not in managers:
