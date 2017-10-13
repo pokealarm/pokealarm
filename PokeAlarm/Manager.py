@@ -987,7 +987,7 @@ class Manager(object):
         gym_info = self.__gym_info.get(gym_id, {})
 
         #team id saved in self.__gym_hist when processing gym
-        team_id = self.__gym_hist.get(gym_id, -1)
+        team_id = self.__gym_hist.get(gym_id, '?')
 
         raid.update({
             'pkmn': name,
@@ -1005,7 +1005,8 @@ class Manager(object):
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
             'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id']),
-            'team': self.__locale.get_team_name(team_id)
+            'team_id': team_id,
+            'team_name': self.__locale.get_team_name(team_id)
         })
 
         threads = []
