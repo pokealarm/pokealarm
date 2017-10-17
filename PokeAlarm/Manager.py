@@ -378,9 +378,6 @@ class Manager(object):
             # Check the IV percent of the Pokemon
             if iv != '?':
                 if not filt.check_iv(iv):
-                    if self.__quiet is False:
-                        log.info("{} rejected: IV percent ({:.2f}) not in range {:.2f} to {:.2f} - (F #{})".format(
-                            name, iv, filt.min_iv, filt.max_iv, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
@@ -533,7 +530,6 @@ class Manager(object):
 
         # Check for previously processed
         if id_ in self.__pokemon_hist:
-            log.debug("{} was skipped because it was previously processed.".format(name))
             return
         self.__pokemon_hist[id_] = pkmn['disappear_time']
 
@@ -544,10 +540,8 @@ class Manager(object):
                 log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
             return
 
-        # Check that the filter is even set
+        # Check that the filter is even se
         if pkmn_id not in self.__pokemon_settings['filters']:
-            if self.__quiet is False:
-                log.info("{} ignored: no filters are set".format(name))
             return
 
         lat, lng = pkmn['lat'], pkmn['lng']
@@ -569,7 +563,7 @@ class Manager(object):
             form = 0
 
         if cp != '?':
-            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + "\n" + self.__move_name.get(quick_id, 'unknown') + " / " + self.__move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
+            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + self.__move_name.get(quick_id, 'unknown') + " / " + self.__move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
 		
         pkmn['pkmn'] = name
 		
@@ -824,7 +818,7 @@ class Manager(object):
         gym_id = egg['id']
 
         # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+        if gym_id not in self.__gym_info or egg['name'] != 'unknown':
             self.__gym_info[gym_id] = {
                 "name": egg['name']
             }
@@ -835,8 +829,6 @@ class Manager(object):
         if gym_id in self.__raid_hist:
             old_raid_end = self.__raid_hist[gym_id]['raid_end']
             if old_raid_end == raid_end:
-                if self.__quiet is False:
-                    log.info("Raid {} ignored. Was previously processed.".format(gym_id))
                 return
 
         self.__raid_hist[gym_id] = dict(raid_end=raid_end, pkmn_id=0)
@@ -910,7 +902,7 @@ class Manager(object):
         gym_id = raid['id']
         
         # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
+        if gym_id not in self.__gym_info or raid['name'] != 'unknown':
             self.__gym_info[gym_id] = {
                 "name": raid['name']
             }
@@ -924,8 +916,6 @@ class Manager(object):
             old_raid_pkmn = self.__raid_hist[gym_id].get('pkmn_id', 0)
             if old_raid_end == raid_end:
                 if old_raid_pkmn == pkmn_id:  # raid with same end time exists and it has same pokemon id, skip it
-                    if self.__quiet is False:
-                        log.info("Raid {} ignored. Was previously processed.".format(gym_id))
                     return
 
         self.__raid_hist[gym_id] = dict(raid_end=raid_end, pkmn_id=pkmn_id)
