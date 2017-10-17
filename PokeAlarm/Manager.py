@@ -17,7 +17,7 @@ from Filters import load_pokemon_section, load_pokestop_section, load_gym_sectio
     load_raid_section
 from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg
+    require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
 from Geofence import load_geofence_file
 from LocationServices import LocationService
 
@@ -45,7 +45,6 @@ class Manager(object):
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
         self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
-        self.__cp_ranges = {}
 
         # Set up the Location Specific Stuff
         self.__location = None  # Location should be [lat, lng] (or None for no location)
@@ -77,12 +76,6 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__event = multiprocessing.Event()
         self.__process = None
-
-        # Update cp ranges
-        with open(get_path('data/cp_ranges.json'), 'r') as f:
-            cp_ranges = json.loads(f.read())
-            for pkmn_id, value in cp_ranges.iteritems():
-                self.__cp_ranges[int(pkmn_id)] = value
 
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
@@ -1019,6 +1012,7 @@ class Manager(object):
         team_id = self.__cache.get_gym_team(gym_id)
         gym_info = self.__cache.get_gym_info(gym_id)
         form = self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
+        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
         raid.update({
             'pkmn': name,
@@ -1039,8 +1033,8 @@ class Manager(object):
             'form_or_empty': '' if form == 'unknown' else form,
             'team_id': team_id,
             'team_name': self.__locale.get_team_name(team_id)
-            'min_cp': self.__cp_ranges.get(pkmn_id, {}).get('min-cp', '?'),
-            'max_cp': self.__cp_ranges.get(pkmn_id, {}).get('max-cp', '?')
+            'min_cp': min_cp,
+            'max_cp': max_cp
         })
 
         threads = []
