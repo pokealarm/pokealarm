@@ -578,7 +578,7 @@ class Manager(object):
             cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + quick_move + " / " + charge_move + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
 		
         pkmn['pkmn'] = name
-		
+        
         filters = self.__pokemon_settings['filters'][pkmn_id]
         passed = self.check_pokemon_filter(filters, pkmn, dist)
         # If we didn't pass any filters
