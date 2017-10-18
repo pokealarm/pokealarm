@@ -179,7 +179,8 @@ class RocketMap:
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
             "team": int(data['team']),
-            "name": data['name']
+            "name": data['gym_name'],
+            "gym_url": data.get('gym_url')
         }
 
         egg['gmaps'] = get_gmaps_link(egg['lat'], egg['lng'])
@@ -235,7 +236,8 @@ class RocketMap:
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
             "team": int(data['team']),
-            "name": data['name']
+            "name": data['gym_name'],
+            "gym_url": data.get('gym_url')
         }
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
