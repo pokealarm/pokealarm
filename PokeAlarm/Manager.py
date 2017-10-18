@@ -5,18 +5,20 @@ import logging
 import json
 import multiprocessing
 import traceback
-import os
 import re
 import sys
 # 3rd Party Imports
 import gipc
-import googlemaps
 # Local Imports
 from . import config
-from Filters import Geofence, load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
+from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
+from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg
+from Geofence import load_geofence_file
+from LocationServices import LocationService
+
 log = logging.getLogger('Manager')
 
 
@@ -29,20 +31,26 @@ class Manager(object):
         self.__debug = debug
 
         # Get the Google Maps API
-        self.__google_key = google_key
-        self.__gmaps_client = \
-            googlemaps.Client(key=self.__google_key, timeout=3, retry_timeout=4) if google_key is not None else None
-        self.__api_req = {'REVERSE_LOCATION': False, 'WALK_DIST': False, 'BIKE_DIST': False, 'DRIVE_DIST': False}
+        self.__google_key = None
+        self.__loc_service = None
+        if str(google_key).lower() != 'none':
+            self.__google_key = google_key
+            self.__loc_service = LocationService(google_key, locale, units)
+        else:
+            log.warning("NO GOOGLE API KEY SET - Reverse Location and Distance Matrix DTS will NOT be detected.")
 
-        # Setup the language-specific stuff
-        self.__locale = locale
-        self.__pokemon_name, self.__move_name, self.__team_name, self.__leader = {}, {}, {}, {}
-        self.update_locales()
-
+        self.__locale = Locale(locale)  # Setup the language-specific stuff
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
         self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
-        self.__latlng = self.get_lat_lng_from_name(location)  # Array with Lat, Lng for the Manager
+
+        # Set up the Location Specific Stuff
+        self.__location = None  # Location should be [lat, lng] (or None for no location)
+        if str(location).lower() != 'none':
+            self.set_location(location)
+        else:
+            log.warning("NO LOCATION SET - this may cause issues with distance related DTS.")
+
         # Quiet mode
         self.__quiet = quiet
 
@@ -55,9 +63,8 @@ class Manager(object):
 
         # Create the Geofences to filter with from given file
         self.__geofences = []
-        log.debug(geofence_file)
         if str(geofence_file).lower() != 'none':
-            self.load_geofence_file(get_path(geofence_file))
+            self.__geofences = load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
         self.__alarms = []
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
@@ -126,43 +133,6 @@ class Manager(object):
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
-    # Load in a geofence file
-    def load_geofence_file(self, file_path):
-        try:
-            geofences = []
-            name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
-            coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
-            with open(file_path, 'r') as f:
-                lines = f.read().splitlines()
-            name = "geofence"
-            points = []
-            for line in lines:
-                line = line.strip()
-                match_name = name_pattern.search(line)
-                if match_name:
-                    if len(points) > 0:
-                        geofences.append(Geofence(name, points))
-                        log.info("Geofence {} added.".format(name))
-                        points = []
-                    name = match_name.group(0)
-                elif coor_patter.match(line):
-                    lat, lng = map(float, line.split(","))
-                    points.append([lat, lng])
-                else:
-                    log.error("Geofence was unable to parse this line: {}".format(line))
-                    log.error("All lines should be either '[name]' or 'lat,lng'.")
-                    sys.exit(1)
-            geofences.append(Geofence(name, points))
-            log.info("Geofence {} added.".format(name))
-            self.__geofences = geofences
-            return
-        except IOError as e:
-            log.error("IOError: Please make sure a file with read/write permissions exsist at {}".format(file_path))
-        except Exception as e:
-            log.error("Encountered error while loading Geofence: {}: {}".format(type(e).__name__, e))
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        sys.exit(1)
-
     def load_alarms_file(self, file_path, max_attempts):
         log.info("Loading Alarms from the file at {}".format(file_path))
         try:
@@ -219,28 +189,56 @@ class Manager(object):
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
-    # Returns true if string contains an argument that requires
+    # Check for optional arguments and enable APIs as needed
     def set_optional_args(self, line):
         # Reverse Location
         args = {'street', 'street_num', 'address', 'postal',
                 'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
-        self.__api_req['REVERSE_LOCATION'] = self.__api_req['REVERSE_LOCATION'] or contains_arg(line, args)
-        log.debug("REVERSE_LOCATION set to %s" % self.__api_req['REVERSE_LOCATION'])
+        if contains_arg(line, args):
+            if self.__loc_service is None:
+                log.critical("Reverse location DTS were detected but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_reverse_location()
 
-        # Walking Time
+        # Walking Dist Matrix
         args = {'walk_dist', 'walk_time'}
-        self.__api_req['WALK_DIST'] = self.__api_req['WALK_DIST'] or contains_arg(line, args)
-        log.debug("WALK_DIST set to %s" % self.__api_req['WALK_DIST'])
+        if contains_arg(line, args):
+            if self.__location is None:
+                log.critical("Walking Distance Matrix DTS were detected but no location was set!")
+                log.critical("Please either remove the DTS, set a location, or disable the alarm and try again.")
+                sys.exit(1)
+            if self.__loc_service is None:
+                log.critical("Walking Distance Matrix DTS were detected but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_walking_data()
 
-        # Biking Time
+        # Biking Dist Matrix
         args = {'bike_dist', 'bike_time'}
-        self.__api_req['BIKE_DIST'] = self.__api_req['BIKE_DIST'] or contains_arg(line, args)
-        log.debug("BIKE_DIST set to %s" % self.__api_req['BIKE_DIST'])
+        if contains_arg(line, args):
+            if self.__location is None:
+                log.critical("Biking Distance Matrix DTS were detected but no location was set!")
+                log.critical("Please either remove the DTS, set a location, or disable the alarm and try again.")
+                sys.exit(1)
+            if self.__loc_service is None:
+                log.critical("Biking Distance Matrix DTS were detected but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_biking_data()
 
-        # Driving Time
+        # Driving Dist Matrix
         args = {'drive_dist', 'drive_time'}
-        self.__api_req['DRIVE_DIST'] = self.__api_req['DRIVE_DIST'] or contains_arg(line, args)
-        log.debug("DRIVE_DIST set to %s" % self.__api_req['DRIVE_DIST'])
+        if contains_arg(line, args):
+            if self.__location is None:
+                log.critical("Driving Distance Matrix DTS were detected but no location was set!")
+                log.critical("Please either remove the DTS, set a location, or disable the alarm and try again.")
+                sys.exit(1)
+            if self.__loc_service is None:
+                log.critical("Driving Distance Matrix DTS were detected but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_driving_data()
 
     ####################################################################################################################
 
@@ -318,6 +316,24 @@ class Manager(object):
                 old.append(id_)
         for id_ in old:  # Remove expired raids
             del self.__raid_hist[id_]
+
+    # Set the location of the Manager
+    def set_location(self, location):
+        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")  # RE for Lat,Lng coordinates
+        res = prog.match(location)
+        if res:  # If location is in a Lat,Lng coordinate
+            self.__location = [float(res.group(1)), float(res.group(2))]
+        else:
+            if self.__loc_service is None:  # Check if key was provided
+                log.error("Unable to find location coordinates by name - no Google API key was provided.")
+                return None
+            self.__location = self.__loc_service.get_location_from_name(location)
+
+        if self.__location is None:
+            log.error("Unable to set location - Please check your settings and try again.")
+            sys.exit(1)
+        else:
+            log.info("Location successfully set to '{},{}'.".format(self.__location[0], self.__location[1]))
 
     # Check if a given pokemon is active on a filter
     def check_pokemon_filter(self, filters, pkmn, dist):
@@ -526,7 +542,7 @@ class Manager(object):
         # Extract some base information
         id_ = pkmn['id']
         pkmn_id = pkmn['pkmn_id']
-        name = self.__pokemon_name[pkmn_id]
+        name = self.__locale.get_pokemon_name(pkmn_id)
 
         # Check for previously processed
         if id_ in self.__pokemon_hist:
@@ -600,7 +616,8 @@ class Manager(object):
             'charge_move': self.__move_name.get(charge_id, 'unknown'),
 			'cpiv': cpiv
         })
-        self.add_optional_travel_arguments(pkmn)
+        if self.__loc_service:
+            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], pkmn)
 
         if self.__quiet is False:
             log.info("{} notification has been triggered!".format(name))
@@ -637,7 +654,7 @@ class Manager(object):
 
         # Extract some basic information
         lat, lng = stop['lat'], stop['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
+        dist = get_earth_dist([lat, lng], self.__location)
         passed = False
         filters = self.__pokestop_settings['filters']
         for filt_ct in range(len(filters)):
@@ -672,9 +689,10 @@ class Manager(object):
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
         })
-        self.add_optional_travel_arguments(stop)
+        if self.__loc_service:
+            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], stop)
 
         if self.__quiet is False:
             log.info("Pokestop ({}) notification has been triggered!".format(id_))
@@ -725,9 +743,9 @@ class Manager(object):
 
         # Get some more info out used to check filters
         lat, lng = gym['lat'], gym['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
-        cur_team = self.__team_name[to_team_id]
-        old_team = self.__team_name[from_team_id]
+        dist = get_earth_dist([lat, lng], self.__location)
+        cur_team = self.__locale.get_team_name(to_team_id)
+        old_team = self.__locale.get_team_name(from_team_id)
 
         filters = self.__gym_settings['filters']
         passed = False
@@ -783,19 +801,20 @@ class Manager(object):
         gym_info = self.__gym_info.get(gym_id, {})
 
         gym.update({
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
             'new_team': cur_team,
             'new_team_id': to_team_id,
             'old_team': old_team,
             'old_team_id': from_team_id,
-            'new_team_leader': self.__leader[to_team_id],
-            'old_team_leader': self.__leader[from_team_id]
+            'new_team_leader': self.__locale.get_leader_name(to_team_id),
+            'old_team_leader': self.__locale.get_leader_name(from_team_id)
         })
-        self.add_optional_travel_arguments(gym)
+        if self.__loc_service:
+            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], gym)
 
         if self.__quiet is False:
             log.info("Gym ({}) notification has been triggered!".format(gym_id))
@@ -841,7 +860,7 @@ class Manager(object):
             return
 
         lat, lng = egg['lat'], egg['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
+        dist = get_earth_dist([lat, lng], self.__location)
 
         # Check if raid is in geofences
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -858,21 +877,23 @@ class Manager(object):
             log.debug("Egg {} did not pass filter check".format(gym_id))
             return
 
-        self.add_optional_travel_arguments(egg)
+        if self.__loc_service:
+            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], egg)
 
         if self.__quiet is False:
             log.info("Egg ({}) notification has been triggered!".format(gym_id))
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
+
         gym_info = self.__gym_info.get(gym_id, {})
         team = egg['team']
         team_name = self.__team_name[team]
 
         egg.update({
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -928,7 +949,7 @@ class Manager(object):
             return
 
         lat, lng = raid['lat'], raid['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
+        dist = get_earth_dist([lat, lng], self.__location)
 
         # Check if raid is in geofences
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -946,7 +967,7 @@ class Manager(object):
         fort_name = raid['name']
 
         #  check filters for pokemon
-        name = self.__pokemon_name[pkmn_id]
+        name = self.__locale.get_pokemon_name(pkmn_id)
 
         if pkmn_id not in self.__raid_settings['filters']:
             if self.__quiet is False:
@@ -975,22 +996,24 @@ class Manager(object):
             log.debug("Raid {} did not pass pokemon check".format(gym_id))
             return
 
-        self.add_optional_travel_arguments(raid)
+        if self.__loc_service:
+            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], raid)
 
         if self.__quiet is False:
             log.info("Raid ({}) notification has been triggered!".format(gym_id))
 
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
+
         gym_info = self.__gym_info.get(gym_id, {})
         team = raid['team']
         team_name = self.__team_name[team]        
 
         raid.update({
             'pkmn': name,
-            "gym_name": self.__gym_info.get(gym_id, {}).get('name', 'unknown'),
-            "gym_description": self.__gym_info.get(gym_id, {}).get('description', 'unknown'),
-            "gym_url": self.__gym_info.get(gym_id, {}).get('url', 'https://raw.githubusercontent.com/kvangent/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_description": gym_info.get('description', 'unknown'),
+            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -1002,6 +1025,7 @@ class Manager(object):
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
             'charge_move': self.__move_name.get(charge_id, 'unknown'),
             'team': team_name
+            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
 
         threads = []
@@ -1018,165 +1042,10 @@ class Manager(object):
     def check_geofences(self, name, lat, lng):
         for gf in self.__geofences:
             if gf.contains(lat, lng):
-                log.debug("{} is in geofence {}!".format(name, gf.name))
-                return gf.name
+                log.debug("{} is in geofence {}!".format(name, gf.get_name()))
+                return gf.get_name()
             else:
-                log.debug("{} is not in geofence {}".format(name, gf.name))
+                log.debug("{} is not in geofence {}".format(name, gf.get_name()))
         return 'unknown'
 
-    # Retrieve optional requirements
-    def add_optional_travel_arguments(self, info):
-        lat, lng = info['lat'], info['lng']
-        if self.__api_req['REVERSE_LOCATION']:
-            info.update(**self.reverse_location(lat, lng))
-        if self.__api_req['WALK_DIST']:
-            info.update(**self.get_walking_data(lat, lng))
-        if self.__api_req['BIKE_DIST']:
-            info.update(**self.get_biking_data(lat, lng))
-        if self.__api_req['DRIVE_DIST']:
-            info.update(**self.get_driving_data(lat, lng))
-
     ####################################################################################################################
-
-    ##################################################  INITIALIZATION  ################################################
-
-    def update_locales(self):
-        locale_path = os.path.join(get_path('locales'), '{}'.format(self.__locale))
-        # Update pokemon names
-        with open(os.path.join(locale_path, 'pokemon.json'), 'r') as f:
-            names = json.loads(f.read())
-            for pkmn_id, value in names.iteritems():
-                self.__pokemon_name[int(pkmn_id)] = value
-        # Update move names
-        with open(os.path.join(locale_path, 'moves.json'), 'r') as f:
-            moves = json.loads(f.read())
-            for move_id, value in moves.iteritems():
-                self.__move_name[int(move_id)] = value
-        # Update team names
-        with open(os.path.join(locale_path, 'teams.json'), 'r') as f:
-            teams = json.loads(f.read())
-            for team_id, value in teams.iteritems():
-                self.__team_name[int(team_id)] = value
-        # Update leader names
-        with open(os.path.join(locale_path, 'leaders.json'), 'r') as f:
-            leaders = json.loads(f.read())
-            for team_id, value in leaders.iteritems():
-                self.__leader[int(team_id)] = value
-
-    ####################################################################################################################
-
-    ############################################## REQUIRES GOOGLE API KEY #############################################
-
-    # Returns the LAT,LNG of a location given by either a name or coordinates
-    def get_lat_lng_from_name(self, location_name):
-        if location_name is None:
-            return None
-        try:
-            prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
-            res = prog.match(location_name)
-            latitude, longitude = None, None
-            if res:
-                latitude, longitude = float(res.group(1)), float(res.group(2))
-            elif location_name:
-                if self.__gmaps_client is None:  # Check if key was provided
-                    log.error("No Google Maps API key provided - unable to find location by name.")
-                    return None
-                result = self.__gmaps_client.geocode(location_name)
-                loc = result[0]['geometry']['location']  # Get the first (most likely) result
-                latitude, longitude = loc.get("lat"), loc.get("lng")
-            log.info("Coordinates found for '{}': {:f},{:f}".format(location_name, latitude, longitude))
-            return [latitude, longitude]
-        except Exception as e:
-            log.error("Encountered error while getting error by name ({}: {})".format(type(e).__name__, e))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-            log.error("Encounted error looking for location {}.".format(location_name)
-                      + "Please make sure your location is in the correct format")
-            sys.exit(1)
-
-    # Returns the name of the location based on lat and lng
-    def reverse_location(self, lat, lng):
-        # Set defaults in case something goes wrong
-        details = {
-            'street_num': 'unkn', 'street': 'unknown', 'address': 'unknown', 'postal': 'unknown',
-            'neighborhood': 'unknown', 'sublocality': 'unknown', 'city': 'unknown',
-            'county': 'unknown', 'state': 'unknown', 'country': 'country'
-        }
-        if self.__gmaps_client is None:  # Check if key was provided
-            log.error("No Google Maps API key provided - unable to reverse geocode.")
-            return details
-        try:
-            result = self.__gmaps_client.reverse_geocode((lat, lng))[0]
-            loc = {}
-            for item in result['address_components']:
-                for category in item['types']:
-                    loc[category] = item['short_name']
-            details['street_num'] = loc.get('street_number', 'unkn')
-            details['street'] = loc.get('route', 'unkn')
-            details['address'] = "{} {}".format(details['street_num'], details['street'])
-            details['postal'] = loc.get('postal_code', 'unkn')
-            details['neighborhood'] = loc.get('neighborhood', "unknown")
-            details['sublocality'] = loc.get('sublocality', "unknown")
-            details['city'] = loc.get('locality', loc.get('postal_town', 'unknown'))
-            details['county'] = loc.get('administrative_area_level_2', 'unknown')
-            details['state'] = loc.get('administrative_area_level_1', 'unknown')
-            details['country'] = loc.get('country', 'unknown')
-        except Exception as e:
-            log.error("Encountered error while getting reverse location data ({}: {})".format(type(e).__name__, e))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        return details
-
-    # Returns a set with walking dist and walking duration via Google Distance Matrix API
-    def get_walking_data(self, lat, lng):
-        data = {'walk_dist': "unknown", 'walk_time': "unknown"}
-        if self.__latlng is None:
-            log.error("No location has been set. Unable to get walking data.")
-            return data
-        origin = "{},{}".format(self.__latlng[0], self.__latlng[1])
-        dest = "{},{}".format(lat, lng)
-        try:
-            result = self.__gmaps_client.distance_matrix(origin, dest, mode='walking', units=config['UNITS'])
-            result = result.get('rows')[0].get('elements')[0]
-            data['walk_dist'] = result.get('distance').get('text').encode('utf-8')
-            data['walk_time'] = result.get('duration').get('text').encode('utf-8')
-        except Exception as e:
-            log.error("Encountered error while getting walking data ({}: {})".format(type(e).__name__, e))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        return data
-
-    # Returns a set with biking dist and biking duration via Google Distance Matrix API
-    def get_biking_data(self, lat, lng):
-        data = {'bike_dist': "unknown", 'bike_time': "unknown"}
-        if self.__latlng is None:
-            log.error("No location has been set. Unable to get biking data.")
-            return data
-        origin = "{},{}".format(self.__latlng[0], self.__latlng[1])
-        dest = "{},{}".format(lat, lng)
-        try:
-            result = self.__gmaps_client.distance_matrix(origin, dest, mode='bicycling', units=config['UNITS'])
-            result = result.get('rows')[0].get('elements')[0]
-            data['bike_dist'] = result.get('distance').get('text').encode('utf-8')
-            data['bike_time'] = result.get('duration').get('text').encode('utf-8')
-        except Exception as e:
-            log.error("Encountered error while getting biking data ({}: {})".format(type(e).__name__, e))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        return data
-
-    # Returns a set with driving dist and biking duration via Google Distance Matrix API
-    def get_driving_data(self, lat, lng):
-        data = {'drive_dist': "unknown", 'drive_time': "unknown"}
-        if self.__latlng is None:
-            log.error("No location has been set. Unable to get biking data.")
-            return data
-        origin = "{},{}".format(self.__latlng[0], self.__latlng[1])
-        dest = "{},{}".format(lat, lng)
-        try:
-            result = self.__gmaps_client.distance_matrix(origin, dest, mode='driving', units=config['UNITS'])
-            result = result.get('rows')[0].get('elements')[0]
-            data['drive_dist'] = result.get('distance').get('text').encode('utf-8')
-            data['drive_time'] = result.get('duration').get('text').encode('utf-8')
-        except Exception as e:
-            log.error("Encountered error while getting driving data ({}: {})".format(type(e).__name__, e))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        return data
-
-        ####################################################################################################################
