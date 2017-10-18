@@ -86,7 +86,7 @@ class TelegramAlarm(Alarm):
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
         alert = {
-            'active': parse_boolean(settings.pop('active', self.__active),
+            'active': parse_boolean(settings.pop('active', self.__active)),
             'chat_id': settings.pop('chat_id', self.__chat_id),
             'title': settings.pop('title', default['title']),
             'body': settings.pop('body', default['body']),
