@@ -1026,7 +1026,7 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__latlng),
             'quick_move': self.__move_name.get(quick_id, 'unknown'),
             'charge_move': self.__move_name.get(charge_id, 'unknown'),
-            'team': team_name
+            'team': team_name,
             'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
 
