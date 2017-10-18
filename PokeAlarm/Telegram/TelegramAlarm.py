@@ -96,6 +96,7 @@ class TelegramAlarm(Alarm):
                 settings.pop('disable_map_notification', self.__disable_map_notification)),
             'stickers': parse_boolean(settings.pop('stickers', self.__stickers))
         }
+        
         reject_leftover_parameters(settings, "'Alert level in Telegram alarm.")
         return alert
 
@@ -151,7 +152,7 @@ class TelegramAlarm(Alarm):
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
     
-        log.info("bbdoc active = {}".format(self.__egg['active']))
+        log.info("bbdoc active = {}".format(self.__raid['active']))
         if self.__raid['active']:
             log.info("bbdoc sending alert")
             if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
