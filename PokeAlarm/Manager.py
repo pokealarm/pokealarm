@@ -561,7 +561,7 @@ class Manager(object):
             return
 
         lat, lng = pkmn['lat'], pkmn['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
+        dist = get_earth_dist([lat, lng], self.__location)
         cp = pkmn['cp']
         level = pkmn['level']
         iv = pkmn['iv']
@@ -579,7 +579,7 @@ class Manager(object):
             form = 0
 
         if cp != '?':
-            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + self.__move_name.get(quick_id, 'unknown') + " / " + self.__move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
+            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + self.__locale.get_move_name.get(quick_id, 'unknown') + " / " + self.__locale.get_move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
 		
         pkmn['pkmn'] = name
 		
@@ -608,7 +608,7 @@ class Manager(object):
             '12h_time': time_str[1],
             '24h_time': time_str[2],
 			'form': (" - " + chr(64 + int(form))) if form and int(form) > 0 else '',
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
@@ -889,7 +889,7 @@ class Manager(object):
 
         gym_info = self.__gym_info.get(gym_id, {})
         team = egg['team']
-        team_name = self.__team_name[team]
+        team_name = self.__locale.get_team_name[team]
 
         egg.update({
             "gym_name": gym_info.get('name', 'unknown'),
@@ -902,7 +902,7 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
             'team': team_name
         })
 
@@ -965,7 +965,7 @@ class Manager(object):
         charge_id = raid['charge_id']
 
         team = raid['team']
-        team_name = self.__team_name[team]
+        team_name = self.__locale.get_team_name[team]
         fort_name = raid['name']
 
         #  check filters for pokemon
@@ -1023,9 +1023,9 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
-            'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
+            'quick_move': self.__locale.get_move_name.get(quick_id, 'unknown'),
+            'charge_move': self.__locale.get_move_name.get(charge_id, 'unknown'),
             'team': team_name,
             'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
