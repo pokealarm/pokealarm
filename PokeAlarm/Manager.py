@@ -570,6 +570,8 @@ class Manager(object):
         sta = pkmn['sta']
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
+        quick_move = self.__locale.get_move_name(quick_id)
+        charge_move = self.__locale.get_move_name(charge_id)
         size = pkmn['size']
         gender = pkmn['gender']
         form = pkmn.get('form', 0)
@@ -579,7 +581,7 @@ class Manager(object):
             form = 0
 
         if cp != '?':
-            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + self.__locale.get_move_name.get(quick_id, 'unknown') + " / " + self.__locale.get_move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
+            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + quick_move + " / " + charge_move + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
 		
         pkmn['pkmn'] = name
 		
@@ -612,8 +614,8 @@ class Manager(object):
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
-            'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'quick_move': self.__locale.get_move_name(quick_id),
+            'charge_move': self.__locale.get_move_name(charge_id),
 			'cpiv': cpiv
         })
         if self.__loc_service:
@@ -889,7 +891,7 @@ class Manager(object):
 
         gym_info = self.__gym_info.get(gym_id, {})
         team = egg['team']
-        team_name = self.__locale.get_team_name[team]
+        team_name = self.__locale.get_team_name(team)        
 
         egg.update({
             "gym_name": gym_info.get('name', 'unknown'),
@@ -964,10 +966,6 @@ class Manager(object):
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
 
-        team = raid['team']
-        team_name = self.__locale.get_team_name[team]
-        fort_name = raid['name']
-
         #  check filters for pokemon
         name = self.__locale.get_pokemon_name(pkmn_id)
 
@@ -986,7 +984,7 @@ class Manager(object):
             'sta': 15,
             'gender': 'unknown',
             'size': 'unknown',
-            'form': '?',
+            'form_id': '?',
             'quick_id': quick_id,
             'charge_id': charge_id
         }
@@ -1009,7 +1007,7 @@ class Manager(object):
 
         gym_info = self.__gym_info.get(gym_id, {})
         team = raid['team']
-        team_name = self.__team_name[team]        
+        team_name = self.__locale.get_team_name(team)   
 
         raid.update({
             'pkmn': name,
@@ -1024,8 +1022,8 @@ class Manager(object):
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
-            'quick_move': self.__locale.get_move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__locale.get_move_name.get(charge_id, 'unknown'),
+            'quick_move': self.__locale.get_move_name(quick_id),
+            'charge_move': self.__locale.get_move_name(charge_id),
             'team': team_name,
             'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
