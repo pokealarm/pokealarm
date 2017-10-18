@@ -153,7 +153,7 @@ class TelegramAlarm(Alarm):
     def raid_alert(self, raid_info):
     
         log.info("bbdoc active = {}".format(self.__raid['active']))
-        if self.__raid['active']:
+        if self.__raid['active'] == "True":
             log.info("bbdoc sending alert")
             if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
                 self.send_alert(self.__raid, raid_info, sticker_list.get(str(raid_info['pkmn_id'])))
