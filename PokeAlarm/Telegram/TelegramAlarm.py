@@ -52,6 +52,7 @@ class TelegramAlarm(Alarm):
         self.__bot_token = require_and_remove_key('bot_token', settings, "'Telegram' type alarms.")
         self.__chat_id = require_and_remove_key('chat_id', settings, "'Telegram' type alarms.")
         self.__client = None
+        self.__active = True
 
         # Optional Alarm Parameters
         self.__venue = parse_boolean(settings.pop('venue', "False"))
