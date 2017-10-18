@@ -346,11 +346,11 @@ class Manager(object):
         atk = pkmn['atk']
         sta = pkmn['sta']
         size = pkmn['size']
+        gender = pkmn['gender']
+        form_id = pkmn['form_id']
         name = pkmn['pkmn']
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
-        form = pkmn.get('form', 0)
-        gender = pkmn['gender']
 
         for filt_ct in range(len(filters)):
             filt = filters[filt_ct]
@@ -501,10 +501,10 @@ class Manager(object):
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
 
             # Check for a valid form
-            if form is not None and form != 'unkn' and form != '?':
-                if not filt.check_form(form):
+            if form_id != '?':
+                if not filt.check_form(form_id):
                     if self.__quiet is False:
-                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form, filt_ct))
+                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
                     continue
 
             # Nothing left to check, so it must have passed
@@ -576,9 +576,7 @@ class Manager(object):
         gender = pkmn['gender']
         form = pkmn.get('form', 0)
         cpiv = ''		
-		
-        if form == '?':
-            form = 0
+
 
         if cp != '?':
             cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + quick_move + " / " + charge_move + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
@@ -616,6 +614,7 @@ class Manager(object):
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
+            'form': self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
 			'cpiv': cpiv
         })
         if self.__loc_service:
