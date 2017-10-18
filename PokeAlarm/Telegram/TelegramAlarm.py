@@ -52,7 +52,6 @@ class TelegramAlarm(Alarm):
         self.__bot_token = require_and_remove_key('bot_token', settings, "'Telegram' type alarms.")
         self.__chat_id = require_and_remove_key('chat_id', settings, "'Telegram' type alarms.")
         self.__client = None
-        self.__active = True
 
         # Optional Alarm Parameters
         self.__venue = parse_boolean(settings.pop('venue', "False"))
@@ -115,7 +114,7 @@ class TelegramAlarm(Alarm):
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
-        if self.__active:
+        if self.__pokemon['active']:
             if self.__pokemon['stickers']:
                 self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['pkmn_id'])))
             else:
@@ -123,7 +122,7 @@ class TelegramAlarm(Alarm):
 
     # Trigger an alert based on Pokestop info
     def pokestop_alert(self, pokestop_info):
-        if self.__active:
+        if self.__pokestop['active']:
             if self.__pokestop['stickers']:
                 self.send_alert(self.__pokestop, pokestop_info, sticker_list.get('pokestop'))
             else:
@@ -131,7 +130,7 @@ class TelegramAlarm(Alarm):
 
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
-        if self.__active:
+        if self.__gym['active']:
             if self.__gym['stickers']:
                 self.send_alert(self.__gym, gym_info, sticker_list.get("team{}".format(gym_info['new_team_id'])))
             else:
@@ -139,15 +138,15 @@ class TelegramAlarm(Alarm):
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
-        if self.__active:
-            if self.__raid['stickers'] and raid_info['raid_level'] > 0:
+        if self.__egg['active']:
+            if self.__egg['stickers'] and raid_info['raid_level'] > 0:
                 self.send_alert(self.__egg, raid_info, sticker_list.get('raid_level_{}'.format(raid_info['raid_level'])))
             else:
                 self.send_alert(self.__egg, raid_info)
 
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
-        if self.__active:
+        if self.__raid['active']:
             if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
                 self.send_alert(self.__raid, raid_info, sticker_list.get(str(raid_info['pkmn_id'])))
             else:
