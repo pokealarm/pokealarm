@@ -142,6 +142,7 @@ class TelegramAlarm(Alarm):
         
         log.info("bbdoc active = {}".format(self.__egg['active']))
         if self.__egg['active'] == "True":
+            log.info("bbdoc sending alert")
             if self.__egg['stickers'] and raid_info['raid_level'] > 0:
                 self.send_alert(self.__egg, raid_info, sticker_list.get('raid_level_{}'.format(raid_info['raid_level'])))
             else:
@@ -152,6 +153,7 @@ class TelegramAlarm(Alarm):
     
         log.info("bbdoc active = {}".format(self.__egg['active']))
         if self.__raid['active']:
+            log.info("bbdoc sending alert")
             if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
                 self.send_alert(self.__raid, raid_info, sticker_list.get(str(raid_info['pkmn_id'])))
             else:
