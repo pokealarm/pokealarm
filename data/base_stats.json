@@ -2604,9 +2604,9 @@
     "height": 5.21
   },
   "250": {
-    "attack": 263,
-    "defense": 301,
-    "stamina": 212,
+    "attack": 239,
+    "defense": 274,
+    "stamina": 193,
     "type1": "fire",
     "type2": "flying",
     "legendary": true,
