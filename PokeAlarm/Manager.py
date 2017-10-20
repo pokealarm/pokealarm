@@ -33,7 +33,7 @@ class Manager(object):
         # Get the Google Maps API
         self.__google_key = None
         self.__loc_service = None
-        if str(google_key) != 'none':
+        if str(google_key).lower() != 'none':
             self.__google_key = google_key
             self.__loc_service = LocationService(google_key, locale, units)
         else:
@@ -707,17 +707,13 @@ class Manager(object):
                 "url": gym['url']
             }
 
-        # Extract some basic information
-        to_team_id = gym['new_team_id']
-        from_team_id = self.__gym_hist.get(gym_id)
-
-        if from_team_id != to_team_id:
-            # Update gym's last known team
-            self.__gym_hist[gym_id] = to_team_id
-
         if self.__gym_settings['enabled'] is False:
             log.debug("Gym ignored: notifications are disabled.")
             return
+
+        # Extract some basic information
+        to_team_id = gym['new_team_id']
+        from_team_id = self.__gym_hist.get(gym_id)
 
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
@@ -727,6 +723,8 @@ class Manager(object):
         if self.__gym_settings['ignore_neutral'] and to_team_id == 0:
             log.debug("Gym update ignored: changed to neutral")
             return
+        # Update gym's last known team
+        self.__gym_hist[gym_id] = to_team_id
 
         # Ignore first time updates
         if from_team_id is None:
@@ -986,9 +984,6 @@ class Manager(object):
 
         gym_info = self.__gym_info.get(gym_id, {})
 
-        #team id saved in self.__gym_hist when processing gym
-        team_id = self.__gym_hist.get(gym_id, '?')
-
         raid.update({
             'pkmn': name,
             "gym_name": gym_info.get('name', 'unknown'),
@@ -1004,9 +999,7 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id']),
-            'team_id': team_id,
-            'team_name': self.__locale.get_team_name(team_id)
+            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
 
         threads = []
