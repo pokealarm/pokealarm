@@ -33,7 +33,7 @@ class Manager(object):
         # Get the Google Maps API
         self.__google_key = None
         self.__loc_service = None
-        if str(google_key).lower() != 'none':
+        if str(google_key) != 'none':
             self.__google_key = google_key
             self.__loc_service = LocationService(google_key, locale, units)
         else:
