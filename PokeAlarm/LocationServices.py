@@ -79,9 +79,13 @@ class LocationService(object):
             for item in result['address_components']:
                 for category in item['types']:
                     loc[category] = item['short_name']
-            details['street_num'] = loc.get('street_number', '???')
-            details['street'] = loc.get('route', 'unknown')
+
+            # Note: for addresses in squares and on unnamed roads, it's correct with blank numbers/streetnames
+            # so we leave this as blank instead of unknown/??? to avoid DTS looking weird
+            details['street_num'] = loc.get('street_number', '')
+            details['street'] = loc.get('route', '')
             details['address'] = "{} {}".format(details['street_num'], details['street'])
+            details['address_eu'] = "{} {}".format(details['street'], details['street_num'])  # EU use Street 123
             details['postal'] = loc.get('postal_code', 'unknown')
             details['neighborhood'] = loc.get('neighborhood', "unknown")
             details['sublocality'] = loc.get('sublocality', "unknown")
