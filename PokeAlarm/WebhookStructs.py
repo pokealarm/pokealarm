@@ -73,7 +73,7 @@ class RocketMap:
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
-            'form': check_for_none(int, data.get('form'), '?'),
+            'form_id': check_for_none(int, data.get('form'), '?'),
             'size': 'unknown',
             'tiny_rat': '',
             'big_karp': '',

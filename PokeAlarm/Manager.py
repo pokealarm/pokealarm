@@ -346,11 +346,11 @@ class Manager(object):
         atk = pkmn['atk']
         sta = pkmn['sta']
         size = pkmn['size']
+        gender = pkmn['gender']
+        form_id = pkmn['form_id']
         name = pkmn['pkmn']
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
-        form = pkmn.get('form', 0)
-        gender = pkmn['gender']
 
         for filt_ct in range(len(filters)):
             filt = filters[filt_ct]
@@ -501,10 +501,10 @@ class Manager(object):
                 log.debug("Pokemon 'gender' was not checked because it was missing.")
 
             # Check for a valid form
-            if form is not None and form != 'unkn' and form != '?':
-                if not filt.check_form(form):
+            if form_id != '?':
+                if not filt.check_form(form_id):
                     if self.__quiet is False:
-                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form, filt_ct))
+                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
                     continue
 
             # Nothing left to check, so it must have passed
@@ -556,12 +556,12 @@ class Manager(object):
                 log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
             return
 
-        # Check that the filter is even se
+        # Check that the filter is even set
         if pkmn_id not in self.__pokemon_settings['filters']:
             return
 
         lat, lng = pkmn['lat'], pkmn['lng']
-        dist = get_earth_dist([lat, lng], self.__latlng)
+        dist = get_earth_dist([lat, lng], self.__location)
         cp = pkmn['cp']
         level = pkmn['level']
         iv = pkmn['iv']
@@ -570,27 +570,20 @@ class Manager(object):
         sta = pkmn['sta']
         quick_id = pkmn['quick_id']
         charge_id = pkmn['charge_id']
-        size = pkmn['size']
-        gender = pkmn['gender']
-        form = pkmn.get('form', 0)
-        cpiv = ''		
-		
-        if form == '?':
-            form = 0
+        quick_move = self.__locale.get_move_name(quick_id)
+        charge_move = self.__locale.get_move_name(charge_id)
+        cpiv = ''	
 
         if cp != '?':
-            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + self.__move_name.get(quick_id, 'unknown') + " / " + self.__move_name.get(charge_id, 'unknown') + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
+            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + quick_move + " / " + charge_move + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
 		
         pkmn['pkmn'] = name
-		
+        
         filters = self.__pokemon_settings['filters'][pkmn_id]
         passed = self.check_pokemon_filter(filters, pkmn, dist)
         # If we didn't pass any filters
         if not passed:
             return
-
-        quick_id = pkmn['quick_id']
-        charge_id = pkmn['charge_id']
 
         # Check all the geofences
         pkmn['geofence'] = self.check_geofences(name, lat, lng)
@@ -600,20 +593,26 @@ class Manager(object):
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         iv = pkmn['iv']
-
+        form = self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
+        
+        if form == 'unknown':
+            form = ''
+        else: 
+            form = " - " + form
+        
         pkmn.update({
             'pkmn': name,
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
-			'form': (" - " + chr(64 + int(form))) if form and int(form) > 0 else '',
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
             'iv_0': "{:.0f}".format(iv) if iv != '?' else '?',
             'iv': "{:.1f}".format(iv) if iv != '?' else '?',
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
-            'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown'),
+            'quick_move': self.__locale.get_move_name(quick_id),
+            'charge_move': self.__locale.get_move_name(charge_id),
+            'form': form,
 			'cpiv': cpiv
         })
         if self.__loc_service:
@@ -881,18 +880,16 @@ class Manager(object):
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(self.__location, [lat, lng], egg)
 
-        if self.__quiet is False:
-            log.info("Egg ({}) notification has been triggered!".format(gym_id))
-
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
 
         gym_info = self.__gym_info.get(gym_id, {})
         team = egg['team']
-        team_name = self.__team_name[team]
+        team_name = self.__locale.get_team_name(team) 
+        gym_name = gym_info.get('name', 'unknown')        
 
         egg.update({
-            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_name": gym_name,
             "gym_description": gym_info.get('description', 'unknown'),
             "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
@@ -902,9 +899,12 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
+            'dir': get_cardinal_dir([lat, lng], self.__location),
             'team': team_name
         })
+        
+        if self.__quiet is False:
+            log.info("Egg ({}) notification has been triggered!".format(gym_name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -964,10 +964,6 @@ class Manager(object):
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
 
-        team = raid['team']
-        team_name = self.__team_name[team]
-        fort_name = raid['name']
-
         #  check filters for pokemon
         name = self.__locale.get_pokemon_name(pkmn_id)
 
@@ -986,7 +982,7 @@ class Manager(object):
             'sta': 15,
             'gender': 'unknown',
             'size': 'unknown',
-            'form': '?',
+            'form_id': '?',
             'quick_id': quick_id,
             'charge_id': charge_id
         }
@@ -1001,19 +997,17 @@ class Manager(object):
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(self.__location, [lat, lng], raid)
 
-        if self.__quiet is False:
-            log.info("Raid ({}) notification has been triggered!".format(gym_id))
-
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
         gym_info = self.__gym_info.get(gym_id, {})
         team = raid['team']
-        team_name = self.__team_name[team]        
+        team_name = self.__locale.get_team_name(team)  
+        gym_name = gym_info.get('name', 'unknown')        
 
         raid.update({
             'pkmn': name,
-            "gym_name": gym_info.get('name', 'unknown'),
+            "gym_name": gym_name,
             "gym_description": gym_info.get('description', 'unknown'),
             "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
             'time_left': time_str[0],
@@ -1023,12 +1017,15 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__latlng),
-            'quick_move': self.__move_name.get(quick_id, 'unknown'),
-            'charge_move': self.__move_name.get(charge_id, 'unknown'),
-            'team': team_name
+            'dir': get_cardinal_dir([lat, lng], self.__location),
+            'quick_move': self.__locale.get_move_name(quick_id),
+            'charge_move': self.__locale.get_move_name(charge_id),
+            'team': team_name,
             'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
         })
+        
+        if self.__quiet is False:
+            log.info("Raid ({}) notification has been triggered!".format(gym_name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
