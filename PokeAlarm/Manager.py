@@ -715,6 +715,14 @@ class Manager(object):
         to_team_id = gym['new_team_id']
         from_team_id = self.__gym_hist.get(gym_id)
 
+        if from_team_id != to_team_id:
+            # Update gym's last known team
+            self.__gym_hist[gym_id] = to_team_id
+
+        if self.__gym_settings['enabled'] is False:
+            log.debug("Gym ignored: notifications are disabled.")
+            return
+
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
@@ -982,6 +990,9 @@ class Manager(object):
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
+        # team id saved in self.__gym_hist when processing gym
+        team_id = self.__gym_hist.get(gym_id, '?')
+
         gym_info = self.__gym_info.get(gym_id, {})
 
         raid.update({
@@ -999,7 +1010,9 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
+            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id']),
+            'team_id': team_id,
+            'team_name': self.__locale.get_team_name(team_id)
         })
 
         threads = []
