@@ -1025,9 +1025,10 @@ class Manager(object):
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
-# team id saved in self.__gym_hist when processing gym
+        # team id saved in self.__gym_hist when processing gym
         team_id = self.__gym_hist.get(gym_id, '?')
-        form = self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])        gym_info = self.get_gym_details(gym_id)
+        form = self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
+        gym_info = self.get_gym_details(gym_id)
 
         raid.update({
             'pkmn': name,
