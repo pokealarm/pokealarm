@@ -343,4 +343,9 @@ def get_time_as_str(t, timezone=None):
     time_24 = disappear_time.strftime("%H:%M:%S")
     return time_left, time_12, time_24
 
+
+# Return the default url for images and stuff
+def get_image_url(image):
+    return "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/" + image
+
 ########################################################################################################################

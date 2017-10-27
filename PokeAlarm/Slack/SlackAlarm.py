@@ -5,7 +5,7 @@ import re
 from slacker import Slacker
 # Local Imports
 from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_static_map_url, require_and_remove_key, reject_leftover_parameters
+from ..Utils import parse_boolean, get_static_map_url, require_and_remove_key, reject_leftover_parameters, get_image_url
 
 log = logging.getLogger('Slack')
 try_sending = Alarm.try_sending
@@ -24,35 +24,35 @@ class SlackAlarm(Alarm):
     _defaults = {
         'pokemon': {
             'username': "<pkmn>",
-            'icon_url': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/<pkmn_id>.png",
+            'icon_url': get_image_url("icons/<pkmn_id>.png"),
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
             'username': "Pokestop",
-            'icon_url': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/pokestop.png",
+            'icon_url': get_image_url("icons/pokestop.png"),
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
             'username': "<new_team> Gym Alerts",
-            'icon_url': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_<new_team_id>.png",
+            'icon_url': get_image_url("icons/gym_<new_team_id>.png"),
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
         },
         'egg': {
             'username': "Egg",
-            'icon_url': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/egg_<raid_level>.png",
+            'icon_url': get_image_url("icons/egg_<raid_level>.png"),
             'title': "A level <raid_level> raid is incoming!",
             'url': "<gmaps>",
             'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
         },
         'raid': {
             'username': "<pkmn> Raid",
-            'icon_url': "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/<pkmn_id>.png",
+            'icon_url': get_image_url("icons/<pkmn_id>.png"),
             'title': "A Raid is available against <pkmn>!",
             'url': "<gmaps>",
             'body': "The raid is available until <24h_time> (<time_left>)."
