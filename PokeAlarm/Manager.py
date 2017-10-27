@@ -4,6 +4,7 @@ import gevent
 import logging
 import json
 import multiprocessing
+import Queue
 import traceback
 import re
 import sys
@@ -11,6 +12,7 @@ import sys
 import gipc
 # Local Imports
 from . import config
+from Cache import Cache
 from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
 from Locale import Locale
@@ -18,17 +20,22 @@ from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, g
     require_and_remove_key, parse_boolean, contains_arg
 from Geofence import load_geofence_file
 from LocationServices import LocationService
+from GracefulKiller import GracefulKiller
 
 log = logging.getLogger('Manager')
 
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
-                 filter_file, geofence_file, alarm_file, debug):
+                 filter_file, geofence_file, alarm_file, debug, use_gym_file_cache):
         # Set the name of the Manager
         self.__name = str(name).lower()
         log.info("----------- Manager '{}' is being created.".format(self.__name))
         self.__debug = debug
+
+        self.__cache = Cache(self.__name, use_gym_file_cache)
+
+        self.__use_gym_file_cache = use_gym_file_cache
 
         # Get the Google Maps API
         self.__google_key = None
@@ -58,7 +65,6 @@ class Manager(object):
         self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
         self.__raid_settings, self.__egg_settings = {}, {}
         self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist, self.__raid_hist = {}, {}, {}, {}
-        self.__gym_info = {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -73,6 +79,8 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__process = None
 
+        self.__killer = GracefulKiller()
+
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
     ############################################## CALLED BY MAIN PROCESS ##############################################
@@ -86,6 +94,8 @@ class Manager(object):
         return self.__name
 
     ####################################################################################################################
+
+
 
     ################################################## MANAGER LOADING  ################################################
     # Load in a new filters file
@@ -118,7 +128,6 @@ class Manager(object):
                 require_and_remove_key('raids', filters, "Filters file."))
 
             return
-
         except ValueError as e:
             log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
             log.error(
@@ -192,7 +201,7 @@ class Manager(object):
     # Check for optional arguments and enable APIs as needed
     def set_optional_args(self, line):
         # Reverse Location
-        args = {'street', 'street_num', 'address', 'postal',
+        args = {'street', 'street_num', 'address', 'address_eu', 'postal',
                 'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
         if contains_arg(line, args):
             if self.__loc_service is None:
@@ -248,6 +257,13 @@ class Manager(object):
     def start(self):
         self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
 
+    # Method to stop gracefully
+    def join_process(self):
+        try:
+            self.__process.join()
+        except:
+            log.error("Stopping manager {} failed".format(self.__name))
+
     def setup_in_process(self):
         # Update config
         config['TIMEZONE'] = self.__timezone
@@ -262,7 +278,10 @@ class Manager(object):
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
 
-        # Conect the alarms and send the start up message
+        if self.__use_gym_file_cache:
+            self.__cache.load()
+
+        # Connect the alarms and send the start up message
         for alarm in self.__alarms:
             alarm.connect()
             alarm.startup_message()
@@ -271,33 +290,57 @@ class Manager(object):
     def run(self):
         self.setup_in_process()
         last_clean = datetime.utcnow()
+        last_cache_save = datetime.utcnow()
+
         while True:  # Run forever and ever
-            # Get next object to process
-            obj = self.__queue.get(block=True)
-            # Clean out visited every 3 minutes
-            if datetime.utcnow() - last_clean > timedelta(minutes=3):
-                log.debug("Cleaning history...")
-                self.clean_hist()
-                last_clean = datetime.utcnow()
             try:
-                kind = obj['type']
-                log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
-                if kind == "pokemon":
-                    self.process_pokemon(obj)
-                elif kind == "pokestop":
-                    self.process_pokestop(obj)
-                elif kind == "gym":
-                    self.process_gym(obj)
-                elif kind == 'egg':
-                    self.process_egg(obj)
-                elif kind == "raid":
-                    self.process_raid(obj)
-                else:
-                    log.error("!!! Manager does not support {} objects!".format(kind))
-                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
-            except Exception as e:
-                log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
-                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                # Get next object to process
+                obj = self.__queue.get(block=True, timeout=1000)
+
+                # Clean out visited every 3 minutes
+                if datetime.utcnow() - last_clean > timedelta(minutes=3):
+                    log.debug("Cleaning history...")
+                    self.clean_hist()
+                    last_clean = datetime.utcnow()
+
+                # Save the cache every 10 minutes in case process dies unexpected
+                if self.__use_gym_file_cache and datetime.utcnow() - last_cache_save > timedelta(minutes=10):
+                    log.debug("Saving to file cache...")
+                    self.__cache.save()
+                    last_cache_save = datetime.utcnow()
+
+                try:
+                    kind = obj['type']
+                    log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
+                    if kind == "pokemon":
+                        self.process_pokemon(obj)
+                    elif kind == "pokestop":
+                        self.process_pokestop(obj)
+                    elif kind == "gym":
+                        self.process_gym(obj)
+                    elif kind == 'egg':
+                        self.process_egg(obj)
+                    elif kind == "raid":
+                        self.process_raid(obj)
+                    else:
+                        log.error("!!! Manager does not support {} objects!".format(kind))
+                    log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
+                except Exception as e:
+                    log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
+                    log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            except Queue.Empty:
+                log.debug("Queue is empty, check if we are stopping")
+            except KeyboardInterrupt:
+                log.info("Keyboard interrupt, shutting down")
+                break
+
+            if self.__killer.kill_now:
+                break
+
+            gevent.sleep(0)
+
+        self.__cache.save()
+        log.info("Exited manager {}".format(self.__name))
 
     # Clean out the expired objects from histories (to prevent oversized sets)
     def clean_hist(self):
@@ -702,12 +745,9 @@ class Manager(object):
         gym_id = gym['id']
 
         # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
-            self.__gym_info[gym_id] = {
-                "name": gym['name'],
-                "description": gym['description'],
-                "url": gym['url']
-            }
+        if gym_id not in self.__cache.gym_cache or gym['name'] != 'unknown':
+            log.debug(u"Saving gym info for {}".format(gym['name']))
+            self.__cache.gym_cache[gym_id] = gym
 
         # Extract some basic information
         to_team_id = gym['new_team_id']
@@ -782,24 +822,13 @@ class Manager(object):
             log.info("Gym rejected: not inside geofence(s)")
             return
 
-        # Check if in geofences
-        if len(self.__geofences) > 0:
-            inside = False
-            for gf in self.__geofences:
-                inside |= gf.contains(lat, lng)
-            if inside is False:
-                if self.__quiet is False:
-                    log.info("Gym update ignored: located outside geofences.")
-                return
-        else:
-            log.debug("Gym inside geofences was not checked because no geofences were set.")
-
-        gym_info = self.__gym_info.get(gym_id, {})
+        # Check if gym info is available in the cache
+        gym_info = self.get_gym_details(gym_id)
 
         gym.update({
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name'),
+            "gym_description": gym_info.get('description'),
+            "gym_url": gym_info.get('url'),
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'new_team': cur_team,
@@ -863,7 +892,7 @@ class Manager(object):
         else:
             log.debug("Egg inside geofence was not checked because no geofences were set.")
 
-        # check if the level is in the filter range or if we are ignoring eggs
+        # Check if the level is in the filter range or if we are ignoring eggs
         passed = self.check_egg_filter(self.__egg_settings, egg)
 
         if not passed:
@@ -878,13 +907,12 @@ class Manager(object):
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
-
-        gym_info = self.__gym_info.get(gym_id, {})
+        gym_info = self.get_gym_details(gym_id)
 
         egg.update({
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name'),
+            "gym_description": gym_info.get('description'),
+            "gym_url": gym_info.get('url'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -932,6 +960,11 @@ class Manager(object):
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
                 log.info("Raid {} ignored. Only {} seconds left.".format(gym_id, seconds_left))
+            return
+
+        # don't alert about expired raids
+        if datetime.utcnow() > raid_end:
+            log.debug("Raid {} has expired, shame on whoever sent this old stuff")
             return
 
         lat, lng = raid['lat'], raid['lng']
@@ -991,13 +1024,13 @@ class Manager(object):
         # team id saved in self.__gym_hist when processing gym
         team_id = self.__gym_hist.get(gym_id, '?')
         form = self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
-        gym_info = self.__gym_info.get(gym_id, {})
+        gym_info = self.get_gym_details(gym_id)
 
         raid.update({
             'pkmn': name,
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info.get('name'),
+            "gym_description": gym_info.get('description'),
+            "gym_url": gym_info.get('url'),
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -1024,7 +1057,7 @@ class Manager(object):
         for thread in threads:
             thread.join()
 
-    # Check to see if a notification is within the given range
+    # Check to see if a notification is within the given range, return the first match
     def check_geofences(self, name, lat, lng):
         for gf in self.__geofences:
             if gf.contains(lat, lng):
@@ -1034,4 +1067,16 @@ class Manager(object):
                 log.debug("{} is not in geofence {}".format(name, gf.get_name()))
         return 'unknown'
 
+    # Get gym details from cache or default
+    def get_gym_details(self, gym_id):
+        if gym_id in self.__cache.gym_cache:
+            gym_info = self.__cache.gym_cache[gym_id]
+        else:
+            gym_info = {
+                'name': 'unknown',
+                'description': '',
+                'url': 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'
+            }
+
+        return gym_info
     ####################################################################################################################
