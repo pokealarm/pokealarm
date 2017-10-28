@@ -108,7 +108,7 @@ class LocationService(object):
 
     # Returns a set with walking dist and walking duration via Google Distance Matrix API
     def __get_walking_data(self, origin,  dest):
-        origin = "{:.5f},{:.5f}".format(origin[0], dest[1])
+        origin = "{:.5f},{:.5f}".format(origin[0], origin[1])
         dest = "{:.5f},{:.5f}".format(dest[0], dest[1])
         key = origin + "to" + dest
         if key in self.__walk_data_history:
@@ -134,7 +134,7 @@ class LocationService(object):
 
     # Returns a set with biking dist and biking duration via Google Distance Matrix API
     def __get_biking_data(self, origin,  dest):
-        origin = "{:.5f},{:.5f}".format(origin[0], dest[1])
+        origin = "{:.5f},{:.5f}".format(origin[0], origin[1])
         dest = "{:.5f},{:.5f}".format(dest[0], dest[1])
         key = origin + "to" + dest
         if key in self.__bike_data_history:
