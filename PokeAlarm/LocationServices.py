@@ -160,7 +160,7 @@ class LocationService(object):
 
     # Returns a set with driving dist and biking duration via Google Distance Matrix API
     def __get_driving_data(self, origin,  dest):
-        origin = "{:.5f},{:.5f}".format(origin[0], dest[1])
+        origin = "{:.5f},{:.5f}".format(origin[0], origin[1])
         dest = "{:.5f},{:.5f}".format(dest[0], dest[1])
         key = origin + "to" + dest
         if key in self.__driving_data_history:
