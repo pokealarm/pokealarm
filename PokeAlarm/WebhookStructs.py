@@ -54,6 +54,8 @@ class RocketMap:
             'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude'])),
             'cp': check_for_none(int, data.get('cp'), '?'),
             'level': check_for_none(int, data.get('pokemon_level'), '?'),
             'iv': '?',
@@ -109,7 +111,9 @@ class RocketMap:
             'id': data['pokestop_id'],
             'expire_time':  datetime.utcfromtimestamp(data['lure_expiration']),
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude']))
         }
         stop['gmaps'] = get_gmaps_link(stop['lat'], stop['lng'])
         stop['applemaps'] = get_applemaps_link(stop['lat'], stop['lng'])
@@ -126,6 +130,8 @@ class RocketMap:
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude'])),
             'name': check_for_none(str, data.get('name'), 'unknown'),
             'description': check_for_none(str, data.get('description'), 'unknown'),
             'url': check_for_none(str, data.get('url'), 'unknown')
@@ -177,7 +183,9 @@ class RocketMap:
             'raid_end': raid_end,
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            'lat_5': "{.5f}".format(float(data['latitude'])),
+            'lng_5': "{.5f}".format(float(data['longitude']))
         }
 
         egg['gmaps'] = get_gmaps_link(egg['lat'], egg['lng'])
@@ -231,8 +239,10 @@ class RocketMap:
             'raid_end': raid_end,
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
-        }
+            'lng': float(data['longitude']),
+            'lat_5': "{.5f}".format(float(data['latitude'])),
+            'lng_5': "{.5f}".format(float(data['longitude']))
+       }
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
         raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
