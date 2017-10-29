@@ -879,6 +879,8 @@ class Manager(object):
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
 
+        # team id saved in self.__gym_hist when processing gym
+        team_id = self.__gym_hist.get(gym_id, '?')
         gym_info = self.__gym_info.get(gym_id, {})
 
         egg.update({
@@ -892,7 +894,9 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__location)
+            'dir': get_cardinal_dir([lat, lng], self.__location),
+            'team_id': team_id,
+            'team_name': self.__locale.get_team_name(team_id)
         })
 
         threads = []
