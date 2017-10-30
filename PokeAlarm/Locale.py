@@ -73,4 +73,10 @@ class Locale(object):
 
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
-        return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+        # Has this Pokemon even forms?
+        if self.__form_names.get(pokemon_id, None):
+            # It sure has! Replace it with the correct form, if possible
+            return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+        else:
+            # The Pokemon has no form, return an emtpy string
+            return ''
