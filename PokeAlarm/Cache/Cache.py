@@ -1,59 +1,93 @@
 # Standard Library Imports
+from datetime import datetime, timedelta
 # 3rd Party Imports
 # Local Imports
+from ..Utils import get_image_url
 
 
 class Cache(object):
-    """ Basic interface for caching information.
+    """ Basic object for caching information.
 
-    This interface outlines the abstract methods needed for the fetching, retrieving, and storing of information that
-    would otherwise be lost between runtimes.
+    This object caches and manages information in Memory. Information will be lost between run times if save has not
+    been implemented correctly.
     """
 
-    def __init__(self):
+    __default_gym_info = {
+        "name": "unknown",
+        "description": "unknown",
+        "url":  get_image_url('icons/gym_0.png')
+    }
+
+    def __init__(self, name):
         """ Initialize a new cache object, retrieving and previously saved results if possible. """
-        raise NotImplementedError("This is an abstract method.")
+        self.__name = name
 
-    def get_pokemon_expiration(self, id):
+        self.__pokemon_hist = {}
+        self.__pokestop_hist = {}
+        self.__gym_team = {}
+        self.__gym_info = {}
+        self.__egg_hist = {}
+        self.__raid_hist = {}
+
+    def get_pokemon_expiration(self, pkmn_id):
         """ Get the datetime that the pokemon expires."""
-        raise NotImplementedError("This is an abstract method.")
+        return self.__pokemon_hist.get(pkmn_id)
 
-    def update_pokemon_expiration(self, data):
+    def update_pokemon_expiration(self, pkmn_id, expiration):
         """ Updates the datetime that the pokemon expires. """
-        raise NotImplementedError("This is an abstract method.")
+        self.__pokemon_hist[pkmn_id] = expiration
 
-    def get_pokestop_expiration(self, id):
+    def get_pokestop_expiration(self, stop_id):
         """ Returns the datetime that the pokemon expires. """
-        raise NotImplementedError("This is an abstract method.")
+        return self.__pokestop_hist.get(stop_id)
 
-    def get_pokestop_expiration(self, data):
+    def update_pokestop_expiration(self, stop_id, expiration):
         """ Updates the datetime that the pokestop expires. """
-        raise NotImplementedError("This is an abstract method.")
+        self.__pokestop_hist[stop_id] = expiration
 
-    def get_gym_info(self, id):
+    def get_gym_team(self, gym_id):
+        """ Get the current team that owns the gym. """
+        return self.__gym_team.get(gym_id, '?')
+
+    def update_gym_team(self, gym_id, team):
+        """ Update the current team of the gym. """
+        self.__gym_team[gym_id] = team
+
+    def get_gym_info(self, gym_id):
         """ Gets the information about the gym. """
-        raise NotImplementedError("This is an abstract method.")
+        return self.__gym_info.get(gym_id, self.__default_gym_info)
 
-    def update_gym_info(self, data):
+    def update_gym_info(self, gym_id, name, desc, url):
         """ Updates the information about the gym. """
-        raise NotImplementedError("This is an abstract method.")
+        if name != 'unknown':  # Don't update if the gym info is missing
+            self.__gym_info[gym_id] = {"name": name, "description": desc, "url": url}
 
-    def get_egg_expiration(self, id):
+    def get_egg_expiration(self, gym_id):
         """ Updates the datetime that the egg expires. """
-        raise NotImplementedError("This is an abstract method.")
+        return self.__egg_hist.get(gym_id)
 
-    def update_egg_expiration(self, data):
+    def update_egg_expiration(self, gym_id, expiration):
         """ Updates the datetime that the egg expires. """
-        raise NotImplementedError("This is an abstract method.")
+        self.__egg_hist[gym_id] = expiration
 
-    def get_raid_information(self, id):
-        """ Updates the datetime that the raid expires. """
-        raise NotImplementedError("This is an abstract method.")
+    def get_raid_expiration(self, gym_id):
+        """ Updates the datetime that the raid_ expires. """
+        self.__raid_hist.get(gym_id)
 
-    def update_raid_information(self, data):
+    def update_raid_expiration(self, gym_id, expiration):
         """ Updates the datetime that the egg expires. """
-        raise NotImplementedError("This is an abstract method.")
+        self.__raid_hist[gym_id] = expiration
 
     def save(self):
         """ Export the data to a more permanent location. """
-        raise NotImplementedError("This is an abstract method.")
+        self.__clean_hist()
+
+    def __clean_hist(self):
+        """ Clean expired objects to free up memory """
+        for dict_ in (self.__pokemon_hist, self.__pokestop_hist, self.__egg_hist, self.__raid_hist):
+            old = []
+            for id_ in dict_:  # Gather old events
+                if dict_[id_] < datetime.utcnow():
+                    old.append(id_)
+            for id_ in old:  # Remove gathered events
+                del dict_[id_]
