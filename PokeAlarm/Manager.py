@@ -11,12 +11,12 @@ import sys
 import gipc
 # Local Imports
 from . import config
-from Cache import Cache
+from Cache import cache_factory
 from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
 from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg, get_image_url
+    require_and_remove_key, parse_boolean, contains_arg
 from Geofence import load_geofence_file
 from LocationServices import LocationService
 
@@ -24,7 +24,7 @@ log = logging.getLogger('Manager')
 
 
 class Manager(object):
-    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
+    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet, cache_type,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -55,7 +55,7 @@ class Manager(object):
         # Quiet mode
         self.__quiet = quiet
 
-        self.__cache = Cache(name)
+        self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
         self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}

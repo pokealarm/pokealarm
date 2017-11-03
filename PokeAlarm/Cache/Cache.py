@@ -1,8 +1,11 @@
 # Standard Library Imports
-from datetime import datetime, timedelta
+import logging
+from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from ..Utils import get_image_url
+
+log = logging.getLogger('Cache')
 
 
 class Cache(object):
@@ -18,10 +21,8 @@ class Cache(object):
         "url":  get_image_url('icons/gym_0.png')
     }
 
-    def __init__(self, name):
+    def __init__(self):
         """ Initialize a new cache object, retrieving and previously saved results if possible. """
-        self.__name = name
-
         self.__pokemon_hist = {}
         self.__pokestop_hist = {}
         self.__gym_team = {}
@@ -81,6 +82,7 @@ class Cache(object):
     def save(self):
         """ Export the data to a more permanent location. """
         self.__clean_hist()
+        log.debug("Cache cleaned!")
 
     def __clean_hist(self):
         """ Clean expired objects to free up memory """
