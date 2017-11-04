@@ -1,5 +1,11 @@
+
+# TO USE:
+#   Comment and uncomment the particular version of "payload" based off which type of webhook you wish to send
+#   put your PA webhook url into the "url" variable
+
 import requests
 import logging
+import time
 
 logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(levelname)8.8s] %(message)s',
                     level=logging.INFO)
@@ -7,18 +13,16 @@ logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(
 log = logging.getLogger('Server')
 
 url = 'http://127.0.0.1'
+
 payload = {
     "type": "pokemon",
     "message": {
         "encounter_id": "0",
-        "pokemon_id": 1,
+        "pokemon_id": 149,
         "pokemon_level": 30,
         "player_level": 30,
         "latitude": 33.980823,
         "longitude":  -81.052988,
-        "disappear_time": 1506897031,
-        "last_modified_time": 1475033386661,
-        "time_until_hidden_ms": 5000,
         "cp_multiplier": 0.7317000031471252,
         "form": 15,
         "cp": 768,
@@ -40,29 +44,25 @@ payload = {
 #         "enabled": "True",
 #         "latitude": 62.790967,
 #         "longitude":  76.927920,
-#         "last_modified_time": 1572241600,
-#         "lure_expiration": 1572241600,
 #         "active_fort_modifier": 0
 #     }
 # }
 
 # payload = {
-#     "type": "gyms",
+#     "type": "gym",
 #     "message": {
-# 		"raid_active_until": 0,
-# 		"gym_id": 0,
-# 		"team_id": 0,
-# 		"guard_pokemon_id": 0,
-# 		"gym_points": 100,
-# 		"slots_available": 0,
-# 		"guard_pokemon_id": 99,
-# 		"lowest_pokemon_motivation": 0.8795773983001709,
-# 		"total_cp": 11099,
-#                 "occupied_since": 1506886787,
-# 		"enabled": "True",
-# 		"latitude": 62.790967,
-# 		"longitude":  76.927920,
-# 		"last_modified": 1572241600
+#         "raid_active_until": 0,
+#         "gym_id": 0,
+#         "team_id": 3,
+#         "guard_pokemon_id": 0,
+#         "gym_points": 100,
+#         "slots_available": 0,
+#         "guard_pokemon_id": 99,
+#         "lowest_pokemon_motivation": 0.8795773983001709,
+#         "total_cp": 11099,
+#         "enabled": "True",
+#         "latitude": 62.790967,
+#         "longitude":  76.927920
 #     }
 # }
 
@@ -70,8 +70,6 @@ payload = {
 #     "type": "raid",
 #     "message": {
 #         "gym_id": "gym_id",
-#         "start": 1499244052,
-#         "end": 1499246052 ,
 #         "level": 5,
 #         "latitude": 12.345678,
 #         "longitude": 12.345678
@@ -82,17 +80,38 @@ payload = {
 #     "type": "raid",
 #     "message": {
 #         "gym_id": "gym_id",
-#         "pokemon_id": 200,
+#         "pokemon_id": 150,
 #         "cp": 12345,
 #         "move_1": 123,
 #         "move_2": 123,
-#         "start": 1499244052,
-#         "end": 1499246052 ,
 #         "level": 5,
 #         "latitude": 12.345678,
 #         "longitude": 12.345678
 #     }
 # }
+
+time = time.time()
+if payload["type"] == "pokemon":
+    payload["message"].update({
+        "disappear_time": time + 10,
+        "last_modified_time": time,
+        "time_until_hidden_ms": 10000
+   })
+elif payload["type"] == "pokestop":
+    payload["message"].update({
+        "last_modified_time": time,
+        "lure_expiration": time + 60,
+    })
+elif payload["type"] == "gym":
+    payload["message"].update({
+        "last_modified": time,
+        "occupied_since": time - 9000
+    })
+elif payload["type"] == "raid":
+    payload["message"].update({
+        "start": time + 20,
+        "end": time + 20 + 60,
+    })
 
 for i in range(3):
     resp = requests.post(url, json=payload, timeout=5)
