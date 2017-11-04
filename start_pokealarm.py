@@ -12,7 +12,7 @@ logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(
 
 # Standard Library Imports
 import configargparse
-from gevent import wsgi, spawn
+from gevent import wsgi, spawn, signal
 import pytz
 import Queue
 import json
@@ -37,6 +37,7 @@ log = logging.getLogger('Server')
 
 # Global Variables
 app = Flask(__name__)
+server = None
 data_queue = Queue.Queue()
 managers = {}
 
@@ -208,7 +209,19 @@ def parse_settings(root_path):
     for m_name in managers:
         managers[m_name].start()
 
+    # Set up signal handlers for graceful exit
+    signal(signal.SIGINT, exit_gracefully)
+    signal(signal.SIGTERM, exit_gracefully)
 
+
+def exit_gracefully():
+    log.info("PokeAlarm is closing down!")
+    for m_name in managers:
+        managers[m_name].stop()
+    for m_name in managers:
+        managers[m_name].join()
+    log.info("PokeAlarm exited!")
+    exit(0)
 
 ########################################################################################################################
 

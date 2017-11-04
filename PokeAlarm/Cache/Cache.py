@@ -23,70 +23,70 @@ class Cache(object):
 
     def __init__(self):
         """ Initialize a new cache object, retrieving and previously saved results if possible. """
-        self.__pokemon_hist = {}
-        self.__pokestop_hist = {}
-        self.__gym_team = {}
-        self.__gym_info = {}
-        self.__egg_hist = {}
-        self.__raid_hist = {}
+        self._pokemon_hist = {}
+        self._pokestop_hist = {}
+        self._gym_team = {}
+        self._gym_info = {}
+        self._egg_hist = {}
+        self._raid_hist = {}
 
     def get_pokemon_expiration(self, pkmn_id):
         """ Get the datetime that the pokemon expires."""
-        return self.__pokemon_hist.get(pkmn_id)
+        return self._pokemon_hist.get(pkmn_id)
 
     def update_pokemon_expiration(self, pkmn_id, expiration):
         """ Updates the datetime that the pokemon expires. """
-        self.__pokemon_hist[pkmn_id] = expiration
+        self._pokemon_hist[pkmn_id] = expiration
 
     def get_pokestop_expiration(self, stop_id):
         """ Returns the datetime that the pokemon expires. """
-        return self.__pokestop_hist.get(stop_id)
+        return self._pokestop_hist.get(stop_id)
 
     def update_pokestop_expiration(self, stop_id, expiration):
         """ Updates the datetime that the pokestop expires. """
-        self.__pokestop_hist[stop_id] = expiration
+        self._pokestop_hist[stop_id] = expiration
 
     def get_gym_team(self, gym_id):
         """ Get the current team that owns the gym. """
-        return self.__gym_team.get(gym_id, '?')
+        return self._gym_team.get(gym_id, '?')
 
     def update_gym_team(self, gym_id, team):
         """ Update the current team of the gym. """
-        self.__gym_team[gym_id] = team
+        self._gym_team[gym_id] = team
 
     def get_gym_info(self, gym_id):
         """ Gets the information about the gym. """
-        return self.__gym_info.get(gym_id, self.__default_gym_info)
+        return self._gym_info.get(gym_id, self._default_gym_info)
 
     def update_gym_info(self, gym_id, name, desc, url):
         """ Updates the information about the gym. """
         if name != 'unknown':  # Don't update if the gym info is missing
-            self.__gym_info[gym_id] = {"name": name, "description": desc, "url": url}
+            self._gym_info[gym_id] = {"name": name, "description": desc, "url": url}
 
     def get_egg_expiration(self, gym_id):
         """ Updates the datetime that the egg expires. """
-        return self.__egg_hist.get(gym_id)
+        return self._egg_hist.get(gym_id)
 
     def update_egg_expiration(self, gym_id, expiration):
         """ Updates the datetime that the egg expires. """
-        self.__egg_hist[gym_id] = expiration
+        self._egg_hist[gym_id] = expiration
 
     def get_raid_expiration(self, gym_id):
         """ Updates the datetime that the raid_ expires. """
-        self.__raid_hist.get(gym_id)
+        self._raid_hist.get(gym_id)
 
     def update_raid_expiration(self, gym_id, expiration):
         """ Updates the datetime that the egg expires. """
-        self.__raid_hist[gym_id] = expiration
+        self._raid_hist[gym_id] = expiration
 
     def save(self):
         """ Export the data to a more permanent location. """
-        self.__clean_hist()
+        self._clean_hist()
         log.debug("Cache cleaned!")
 
     def __clean_hist(self):
         """ Clean expired objects to free up memory """
-        for dict_ in (self.__pokemon_hist, self.__pokestop_hist, self.__egg_hist, self.__raid_hist):
+        for dict_ in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
             old = []
             for id_ in dict_:  # Gather old events
                 if dict_[id_] < datetime.utcnow():

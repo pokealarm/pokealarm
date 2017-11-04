@@ -4,5 +4,6 @@ env
 *.json
 *.ini
 *.txt
+cache/*.cache
 !data/*.json
 !locales/*.json

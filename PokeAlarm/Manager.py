@@ -4,6 +4,7 @@ import gevent
 import logging
 import json
 import multiprocessing
+import Queue
 import traceback
 import re
 import sys
@@ -55,6 +56,7 @@ class Manager(object):
         # Quiet mode
         self.__quiet = quiet
 
+        # Create cache
         self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
@@ -72,6 +74,7 @@ class Manager(object):
 
         # Initialize the queue and start the process
         self.__queue = multiprocessing.Queue()
+        self.__event = multiprocessing.Event()
         self.__process = None
 
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
@@ -85,6 +88,19 @@ class Manager(object):
     # Get the name of this Manager
     def get_name(self):
         return self.__name
+
+    # Tell the process to finish up and go home
+    def stop(self):
+        log.info("Manager {} shutting down... {} items in queue.".format(self.__name, self.__queue.qsize()))
+        self.__event.set()
+
+    def join(self):
+        self.__process.join(timeout=10)
+        if self.__process.is_alive():
+            log.warning("Manager {} could not be stopped in time! Forcing process to stop.")
+            self.__process.terminate()
+        else:
+            log.info("Manager {} successfully stopped!".format(self.__name))
 
     ####################################################################################################################
 
@@ -250,6 +266,10 @@ class Manager(object):
         self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
 
     def setup_in_process(self):
+        # Set up signal handlers for graceful exit
+        gevent.signal(gevent.signal.SIGINT, self.stop)
+        gevent.signal(gevent.signal.SIGTERM, self.stop)
+
         # Update config
         config['TIMEZONE'] = self.__timezone
         config['API_KEY'] = self.__google_key
@@ -273,13 +293,32 @@ class Manager(object):
         self.setup_in_process()
         last_clean = datetime.utcnow()
         while True:  # Run forever and ever
-            # Get next object to process
-            obj = self.__queue.get(block=True)
+
+            try:  # Get next object to process
+                obj = self.__queue.get(block=False)
+            except Queue.Empty:
+                # Check if the process should exit process
+                if self.__event.is_set():
+                    break
+                # Give the process a little break to get some stuff in the queue
+                gevent.sleep(1)
+                continue
+
             # Clean out visited every 3 minutes
             if datetime.utcnow() - last_clean > timedelta(minutes=1):
                 log.debug("Cleaning cache...")
                 self.__cache.save()
                 last_clean = datetime.utcnow()
+
+                gevent.sleep(1)
+                continue
+
+            # Clean out visited every 3 minutes
+            if datetime.utcnow() - last_clean > timedelta(minutes=1):
+                log.debug("Cleaning cache...")
+                self.__cache.save()
+                last_clean = datetime.utcnow()
+
             try:
                 kind = obj['type']
                 log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
@@ -299,6 +338,10 @@ class Manager(object):
             except Exception as e:
                 log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+
+        # Save cache and exit
+        self.__cache.save()
+        exit(0)
 
     # Set the location of the Manager
     def set_location(self, location):
