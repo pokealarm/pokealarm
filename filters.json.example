@@ -437,7 +437,7 @@
             "quick_move": null, "charge_move": null, "moveset": null,
             "size": null, "gender": null, "form": null, "ignore_missing": "False"
         },
- "Ivysaur":"True",
+        "Ivysaur":"True",
         "Charmeleon":"True",
         "Wartortle":"True",
         "Metapod":"True",
