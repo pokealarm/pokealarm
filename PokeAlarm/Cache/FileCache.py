@@ -24,7 +24,7 @@ class FileCache(Cache):
         if os.path.isfile(self._file):
             self._load()
         else:
-            with portalocker.Lock(self._file, mode="w+") as f:
+            with portalocker.Lock(self._file, mode="wb+") as f:
                 pickle.dump({}, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     def _load(self):
@@ -52,7 +52,7 @@ class FileCache(Cache):
         log.debug(self._pokestop_hist)
         log.debug("SAVED: {}".format(data))
         try:
-            with portalocker.Lock(self._file, timeout=5, mode="w+") as f:
+            with portalocker.Lock(self._file, timeout=5, mode="wb+") as f:
                 pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
         except Exception as e:
             log.error("Encountered error while saving cache: {}: {}".format(type(e).__name__, e))
