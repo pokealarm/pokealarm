@@ -753,7 +753,7 @@ class Manager(object):
             return
 
         # Ignore first time updates
-        if from_team_id is None:
+        if from_team_id is 'unknown':
             log.debug("Gym update ignored: first time seeing this gym")
             return
 
