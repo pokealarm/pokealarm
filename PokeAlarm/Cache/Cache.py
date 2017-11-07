@@ -15,7 +15,7 @@ class Cache(object):
     been implemented correctly.
     """
 
-    __default_gym_info = {
+    _default_gym_info = {
         "name": "unknown",
         "description": "unknown",
         "url":  get_image_url('icons/gym_0.png')
@@ -84,7 +84,7 @@ class Cache(object):
         self._clean_hist()
         log.debug("Cache cleaned!")
 
-    def __clean_hist(self):
+    def _clean_hist(self):
         """ Clean expired objects to free up memory """
         for dict_ in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
             old = []

@@ -294,6 +294,12 @@ class Manager(object):
         last_clean = datetime.utcnow()
         while True:  # Run forever and ever
 
+            # Clean out visited every 3 minutes
+            if datetime.utcnow() - last_clean > timedelta(minutes=1):
+                log.debug("Cleaning cache...")
+                self.__cache.save()
+                last_clean = datetime.utcnow()
+
             try:  # Get next object to process
                 obj = self.__queue.get(block=False)
             except Queue.Empty:
@@ -303,21 +309,6 @@ class Manager(object):
                 # Give the process a little break to get some stuff in the queue
                 gevent.sleep(1)
                 continue
-
-            # Clean out visited every 3 minutes
-            if datetime.utcnow() - last_clean > timedelta(minutes=1):
-                log.debug("Cleaning cache...")
-                self.__cache.save()
-                last_clean = datetime.utcnow()
-
-                gevent.sleep(1)
-                continue
-
-            # Clean out visited every 3 minutes
-            if datetime.utcnow() - last_clean > timedelta(minutes=1):
-                log.debug("Cleaning cache...")
-                self.__cache.save()
-                last_clean = datetime.utcnow()
 
             try:
                 kind = obj['type']
@@ -753,7 +744,7 @@ class Manager(object):
             return
 
         # Ignore first time updates
-        if from_team_id is 'unknown':
+        if from_team_id is '?':
             log.debug("Gym update ignored: first time seeing this gym")
             return
 
