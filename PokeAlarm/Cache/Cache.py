@@ -79,21 +79,20 @@ class Cache(object):
         """ Updates the datetime that the raid expires. """
         self._raid_hist[gym_id] = expiration
 
-    def cleanup_and_persist(self):
-        """ Invalidates the cache and possibly persists its content. """
+    def clean_and_save(self):
+        """ Cleans the cache and saves the contents if capable. """
         self._clean_hist()
         self._save()
 
     def _save(self):
         """ Export the data to a more permanent location. """
-        # Mem cache won't be persisted.
-        pass
+        pass  # Mem cache isn't backed up.
 
     def _clean_hist(self):
         """ Clean expired objects to free up memory """
-        for dict_ in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
+        for hist in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
             now = datetime.utcnow()
-            for id_, expiration in dict_.items():
+            for time, expiration in hist.items():
                 if expiration < now:
-                    del dict_[id_]
+                    del hist[time]
         log.debug("Cache cleaned!")

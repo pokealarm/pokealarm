@@ -297,7 +297,7 @@ class Manager(object):
             # Clean out visited every 3 minutes
             if datetime.utcnow() - last_clean > timedelta(minutes=1):
                 log.debug("Cleaning cache...")
-                self.__cache.cleanup_and_persist()
+                self.__cache.clean_and_save()
                 last_clean = datetime.utcnow()
 
             try:  # Get next object to process
@@ -331,7 +331,7 @@ class Manager(object):
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 
         # Save cache and exit
-        self.__cache.cleanup_and_persist()
+        self.__cache.clean_and_save()
         exit(0)
 
     # Set the location of the Manager
