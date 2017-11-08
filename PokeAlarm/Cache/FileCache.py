@@ -38,7 +38,7 @@ class FileCache(Cache):
             self._raid_hist = data.get('raid_hist', {})
             log.debug("LOADED: \n {}".format(data))
 
-    def save(self):
+    def _save(self):
         """ Export the data to a more permanent location. """
         log.debug("Writing cache to file...")
         data = {
