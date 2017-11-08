@@ -848,7 +848,7 @@ class Manager(object):
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
             if self.__quiet is False:
-                log.info("Raid {} ignored - previously processed.".format(gym_id))
+                log.info("Egg {} ignored - previously processed.".format(gym_id))
             return
 
         # Update egg hatch
