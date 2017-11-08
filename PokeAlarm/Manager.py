@@ -843,8 +843,6 @@ class Manager(object):
 
         gym_id = egg['id']
 
-        raid_end = egg['raid_end']
-
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
             if self.__quiet is False:
@@ -852,7 +850,7 @@ class Manager(object):
             return
 
         # Update egg hatch
-        self.__cache.update_egg_expiration(gym_id, raid_end)
+        self.__cache.update_egg_expiration(gym_id, egg['raid_begin'])
 
         # don't alert about (nearly) hatched eggs
         seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
