@@ -91,9 +91,9 @@ class Cache(object):
 
     def _clean_hist(self):
         """ Clean expired objects to free up memory """
-        for dict in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
+        for dict_ in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
             now = datetime.utcnow()
-            for id, expiration in dict.items():
+            for id_, expiration in dict_.items():
                 if expiration < now:
-                    del dict[id]
+                    del dict_[id_]
         log.debug("Cache cleaned!")
