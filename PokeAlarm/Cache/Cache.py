@@ -64,7 +64,7 @@ class Cache(object):
             self._gym_info[gym_id] = {"name": name, "description": desc, "url": url}
 
     def get_egg_expiration(self, gym_id):
-        """ Updates the datetime that the egg expires. """
+        """ Returns the datetime that the egg expires. """
         return self._egg_hist.get(gym_id)
 
     def update_egg_expiration(self, gym_id, expiration):
@@ -72,24 +72,27 @@ class Cache(object):
         self._egg_hist[gym_id] = expiration
 
     def get_raid_expiration(self, gym_id):
-        """ Updates the datetime that the raid_ expires. """
-        self._raid_hist.get(gym_id)
+        """ Returns the datetime that the raid expires. """
+        return self._raid_hist.get(gym_id)
 
     def update_raid_expiration(self, gym_id, expiration):
-        """ Updates the datetime that the egg expires. """
+        """ Updates the datetime that the raid expires. """
         self._raid_hist[gym_id] = expiration
 
-    def save(self):
-        """ Export the data to a more permanent location. """
+    def clean_and_save(self):
+        """ Cleans the cache and saves the contents if capable. """
         self._clean_hist()
-        log.debug("Cache cleaned!")
+        self._save()
+
+    def _save(self):
+        """ Export the data to a more permanent location. """
+        pass  # Mem cache isn't backed up.
 
     def _clean_hist(self):
         """ Clean expired objects to free up memory """
-        for dict_ in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
-            old = []
-            for id_ in dict_:  # Gather old events
-                if dict_[id_] < datetime.utcnow():
-                    old.append(id_)
-            for id_ in old:  # Remove gathered events
-                del dict_[id_]
+        for hist in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
+            now = datetime.utcnow()
+            for time, expiration in hist.items():
+                if expiration < now:
+                    del hist[time]
+        log.debug("Cache cleaned!")
