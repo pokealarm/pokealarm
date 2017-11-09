@@ -875,8 +875,10 @@ class Manager(object):
         team_id = self.__cache.get_gym_team(gym_id)
         gym_info = self.__cache.get_gym_info(gym_id)
 
+        if egg['gym_name'] == 'unknown':  # if RM or empty
+            egg.update({"gym_name": gym_info['name']})
+
         egg.update({
-            "gym_name": gym_info['name'],
             "gym_description": gym_info['description'],
             "gym_url": gym_info['url'],
             'time_left': time_str[0],
@@ -988,6 +990,9 @@ class Manager(object):
         form = self.__locale.get_form_name(pkmn_id, form_id)
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
+	if raid['gym_name'] == 'unknown':  # if RM or empty
+	    raid.update({"gym_name": gym_info['name']})
+        
         raid.update({
             'pkmn': name,
             'pkmn_id_3': '{:03}'.format(pkmn_id),

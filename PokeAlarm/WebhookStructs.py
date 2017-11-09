@@ -184,9 +184,15 @@ class RocketMap:
         else:
             id_ = data.get('gym_id')  # RM sends the gym id
 
+        if 'gym_name' in data:  # monocle sends gym_name in egg data.
+            gymname = check_for_none(str, data.get('gym_name'), 'unknown')
+        else:
+            gymname = 'unknown'
+
         egg = {
             'type': 'egg',
             'id': id_,
+            'gym_name': gymname,
             'raid_level': check_for_none(int, data.get('level'), 0),
             'raid_end': raid_end,
             'raid_begin': raid_begin,
@@ -228,9 +234,15 @@ class RocketMap:
         else:
             id_ = data.get('gym_id')  # RM sends the gym id
 
+        if 'gym_name' in data:  # monocle sends gym_name in raid data.
+            gymname = check_for_none(str, data.get('gym_name'), 'unknown')
+        else:
+            gymname = 'unknown'
+
         raid = {
             'type': 'raid',
             'id': id_,
+            'gym_name' : gymname,
             'pkmn_id': check_for_none(int, data.get('pokemon_id'), 0),
             'cp': check_for_none(int, data.get('cp'), '?'),
             'quick_id': quick_id,
@@ -254,7 +266,7 @@ class RocketMap:
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
         raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
-
+	
         return raid
 
 
