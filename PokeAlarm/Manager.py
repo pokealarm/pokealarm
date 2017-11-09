@@ -8,6 +8,7 @@ import Queue
 import traceback
 import re
 import sys
+import os
 # 3rd Party Imports
 import gipc
 # Local Imports
@@ -17,7 +18,7 @@ from Filters import load_pokemon_section, load_pokestop_section, load_gym_sectio
     load_raid_section
 from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg
+    require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
 from Geofence import load_geofence_file
 from LocationServices import LocationService
 
@@ -275,6 +276,7 @@ class Manager(object):
         config['API_KEY'] = self.__google_key
         config['UNITS'] = self.__units
         config['DEBUG'] = self.__debug
+        config['ROOT_PATH'] = os.path.abspath("{}/..".format(os.path.dirname(__file__)))
 
         # Hush some new loggers
         logging.getLogger('requests').setLevel(logging.WARNING)
@@ -1001,6 +1003,7 @@ class Manager(object):
         team_id = self.__cache.get_gym_team(gym_id)
         gym_info = self.__cache.get_gym_info(gym_id)
         form = self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
+        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
         raid.update({
             'pkmn': name,
@@ -1020,7 +1023,9 @@ class Manager(object):
             'form': form,
             'form_or_empty': '' if form == 'unknown' else form,
             'team_id': team_id,
-            'team_name': self.__locale.get_team_name(team_id)
+            'team_name': self.__locale.get_team_name(team_id),
+            'min_cp': min_cp,
+            'max_cp': max_cp
         })
 
         threads = []
