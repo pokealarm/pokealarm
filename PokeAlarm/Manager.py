@@ -876,7 +876,7 @@ class Manager(object):
         gym_info = self.__cache.get_gym_info(gym_id)
 
         if egg['gym_name'] == 'unknown':  # if RM or empty
-            egg.update({"gym_name": gym_info['name']})
+            egg.['gym_name'] = gym_info['name']
 
         egg.update({
             "gym_description": gym_info['description'],
@@ -991,7 +991,7 @@ class Manager(object):
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
 	if raid['gym_name'] == 'unknown':  # if RM or empty
-	    raid.update({"gym_name": gym_info['name']})
+	    raid['gym_name'] = gym_info['name']
         
         raid.update({
             'pkmn': name,
