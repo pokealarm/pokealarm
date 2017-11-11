@@ -4,18 +4,21 @@ import gevent
 import logging
 import json
 import multiprocessing
+import Queue
 import traceback
 import re
 import sys
+import os
 # 3rd Party Imports
 import gipc
 # Local Imports
 from . import config
+from Cache import cache_factory
 from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
 from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg
+    require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
 from Geofence import load_geofence_file
 from LocationServices import LocationService
 
@@ -23,7 +26,7 @@ log = logging.getLogger('Manager')
 
 
 class Manager(object):
-    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet,
+    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet, cache_type,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -54,11 +57,12 @@ class Manager(object):
         # Quiet mode
         self.__quiet = quiet
 
+        # Create cache
+        self.__cache = cache_factory(cache_type, self.__name)
+
         # Load and Setup the Pokemon Filters
         self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
         self.__raid_settings, self.__egg_settings = {}, {}
-        self.__pokemon_hist, self.__pokestop_hist, self.__gym_hist, self.__raid_hist = {}, {}, {}, {}
-        self.__gym_info = {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -71,6 +75,7 @@ class Manager(object):
 
         # Initialize the queue and start the process
         self.__queue = multiprocessing.Queue()
+        self.__event = multiprocessing.Event()
         self.__process = None
 
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
@@ -84,6 +89,19 @@ class Manager(object):
     # Get the name of this Manager
     def get_name(self):
         return self.__name
+
+    # Tell the process to finish up and go home
+    def stop(self):
+        log.info("Manager {} shutting down... {} items in queue.".format(self.__name, self.__queue.qsize()))
+        self.__event.set()
+
+    def join(self):
+        self.__process.join(timeout=10)
+        if self.__process.is_alive():
+            log.warning("Manager {} could not be stopped in time! Forcing process to stop.")
+            self.__process.terminate()
+        else:
+            log.info("Manager {} successfully stopped!".format(self.__name))
 
     ####################################################################################################################
 
@@ -249,11 +267,16 @@ class Manager(object):
         self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
 
     def setup_in_process(self):
+        # Set up signal handlers for graceful exit
+        gevent.signal(gevent.signal.SIGINT, self.stop)
+        gevent.signal(gevent.signal.SIGTERM, self.stop)
+
         # Update config
         config['TIMEZONE'] = self.__timezone
         config['API_KEY'] = self.__google_key
         config['UNITS'] = self.__units
         config['DEBUG'] = self.__debug
+        config['ROOT_PATH'] = os.path.abspath("{}/..".format(os.path.dirname(__file__)))
 
         # Hush some new loggers
         logging.getLogger('requests').setLevel(logging.WARNING)
@@ -272,13 +295,23 @@ class Manager(object):
         self.setup_in_process()
         last_clean = datetime.utcnow()
         while True:  # Run forever and ever
-            # Get next object to process
-            obj = self.__queue.get(block=True)
+
             # Clean out visited every 3 minutes
-            if datetime.utcnow() - last_clean > timedelta(minutes=3):
-                log.debug("Cleaning history...")
-                self.clean_hist()
+            if datetime.utcnow() - last_clean > timedelta(minutes=1):
+                log.debug("Cleaning cache...")
+                self.__cache.clean_and_save()
                 last_clean = datetime.utcnow()
+
+            try:  # Get next object to process
+                obj = self.__queue.get(block=False)
+            except Queue.Empty:
+                # Check if the process should exit process
+                if self.__event.is_set():
+                    break
+                # Give the process a little break to get some stuff in the queue
+                gevent.sleep(1)
+                continue
+
             try:
                 kind = obj['type']
                 log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
@@ -299,23 +332,9 @@ class Manager(object):
                 log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 
-    # Clean out the expired objects from histories (to prevent oversized sets)
-    def clean_hist(self):
-        for dict_ in (self.__pokemon_hist, self.__pokestop_hist):
-            old = []
-            for id_ in dict_:  # Gather old events
-                if dict_[id_] < datetime.utcnow():
-                    old.append(id_)
-            for id_ in old:  # Remove gathered events
-                del dict_[id_]
-
-        # raid history has a different structure because it saves both expire time and pokemon
-        old = []
-        for id_ in self.__raid_hist:
-            if self.__raid_hist[id_]['raid_end'] < datetime.utcnow():
-                old.append(id_)
-        for id_ in old:  # Remove expired raids
-            del self.__raid_hist[id_]
+        # Save cache and exit
+        self.__cache.clean_and_save()
+        exit(0)
 
     # Set the location of the Manager
     def set_location(self, location):
@@ -543,15 +562,15 @@ class Manager(object):
             return
 
         # Extract some base information
-        id_ = pkmn['id']
+        pkmn_hash = pkmn['id']
         pkmn_id = pkmn['pkmn_id']
         name = self.__locale.get_pokemon_name(pkmn_id)
 
         # Check for previously processed
-        if id_ in self.__pokemon_hist:
+        if self.__cache.get_pokemon_expiration(pkmn_hash) is not None:
             log.debug("{} was skipped because it was previously processed.".format(name))
             return
-        self.__pokemon_hist[id_] = pkmn['disappear_time']
+        self.__cache.update_pokemon_expiration(pkmn_hash, pkmn['disappear_time'])
 
         # Check the time remaining
         seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
@@ -591,9 +610,12 @@ class Manager(object):
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         iv = pkmn['iv']
+        form_id = pkmn['form_id']
+        form = self.__locale.get_form_name(pkmn_id, form_id)
 
         pkmn.update({
             'pkmn': name,
+            'pkmn_id_3': '{:03}'.format(pkmn_id),
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'time_left': time_str[0],
             '12h_time': time_str[1],
@@ -604,7 +626,9 @@ class Manager(object):
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form': self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
+            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
+            'form': form,
+            'form_or_empty': '' if form == 'unknown' else form
         })
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(self.__location, [lat, lng], pkmn)
@@ -627,19 +651,19 @@ class Manager(object):
             log.debug("Pokestop ignored: pokestop notifications are disabled.")
             return
 
-        id_ = stop['id']
+        stop_id = stop['id']
 
         # Check for previously processed
-        if id_ in self.__pokestop_hist:
+        if self.__cache.get_pokestop_expiration(stop_id) is not None:
             log.debug("Pokestop was skipped because it was previously processed.")
             return
-        self.__pokestop_hist[id_] = stop['expire_time']
+        self.__cache.update_pokestop_expiration(stop_id, stop['expire_time'])
 
         # Check the time remaining
         seconds_left = (stop['expire_time'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Pokestop ({}) ignored: only {} seconds remaining.".format(id_, seconds_left))
+                log.info("Pokestop ({}) ignored: only {} seconds remaining.".format(stop_id, seconds_left))
             return
 
         # Extract some basic information
@@ -685,7 +709,7 @@ class Manager(object):
             self.__loc_service.add_optional_arguments(self.__location, [lat, lng], stop)
 
         if self.__quiet is False:
-            log.info("Pokestop ({}) notification has been triggered!".format(id_))
+            log.info("Pokestop ({}) notification has been triggered!".format(stop_id))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -700,34 +724,32 @@ class Manager(object):
         gym_id = gym['id']
 
         # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or gym['name'] != 'unknown':
-            self.__gym_info[gym_id] = {
-                "name": gym['name'],
-                "description": gym['description'],
-                "url": gym['url']
-            }
-
-        if self.__gym_settings['enabled'] is False:
-            log.debug("Gym ignored: notifications are disabled.")
-            return
+        self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
 
         # Extract some basic information
         to_team_id = gym['new_team_id']
-        from_team_id = self.__gym_hist.get(gym_id)
+        from_team_id = self.__cache.get_gym_team(gym_id)
+
+        # Ignore changes to neutral
+        if self.__gym_settings['ignore_neutral'] and to_team_id == 0:
+            log.debug("Gym update ignored: changed to neutral")
+            return
+
+        # Update gym's last known team
+        self.__cache.update_gym_team(gym_id, to_team_id)
+
+        # Check if notifications are on
+        if self.__gym_settings['enabled'] is False:
+            log.debug("Gym ignored: notifications are disabled.")
+            return
 
         # Doesn't look like anything to me
         if to_team_id == from_team_id:
             log.debug("Gym ignored: no change detected")
             return
-        # Ignore changes to neutral
-        if self.__gym_settings['ignore_neutral'] and to_team_id == 0:
-            log.debug("Gym update ignored: changed to neutral")
-            return
-        # Update gym's last known team
-        self.__gym_hist[gym_id] = to_team_id
 
         # Ignore first time updates
-        if from_team_id is None:
+        if from_team_id is '?':
             log.debug("Gym update ignored: first time seeing this gym")
             return
 
@@ -788,12 +810,12 @@ class Manager(object):
         else:
             log.debug("Gym inside geofences was not checked because no geofences were set.")
 
-        gym_info = self.__gym_info.get(gym_id, {})
+        gym_info = self.__cache.get_gym_info(gym_id)
 
         gym.update({
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info['name'],
+            "gym_description": gym_info['description'],
+            "gym_url": gym_info['url'],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'new_team': cur_team,
@@ -826,17 +848,14 @@ class Manager(object):
 
         gym_id = egg['id']
 
-        raid_end = egg['raid_end']
+        # Check if egg has been processed yet
+        if self.__cache.get_egg_expiration(gym_id) is not None:
+            if self.__quiet is False:
+                log.info("Egg {} ignored - previously processed.".format(gym_id))
+            return
 
-        # raid history will contains any raid processed
-        if gym_id in self.__raid_hist:
-            old_raid_end = self.__raid_hist[gym_id]['raid_end']
-            if old_raid_end == raid_end:
-                if self.__quiet is False:
-                    log.info("Raid {} ignored. Was previously processed.".format(gym_id))
-                return
-
-        self.__raid_hist[gym_id] = dict(raid_end=raid_end, pkmn_id=0)
+        # Update egg hatch
+        self.__cache.update_egg_expiration(gym_id, egg['raid_begin'])
 
         # don't alert about (nearly) hatched eggs
         seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
@@ -873,12 +892,14 @@ class Manager(object):
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
 
-        gym_info = self.__gym_info.get(gym_id, {})
+        # team id saved in self.__gym_hist when processing gym
+        team_id = self.__cache.get_gym_team(gym_id)
+        gym_info = self.__cache.get_gym_info(gym_id)
 
         egg.update({
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_name": gym_info['name'],
+            "gym_description": gym_info['description'],
+            "gym_url": gym_info['url'],
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -886,7 +907,9 @@ class Manager(object):
             'begin_12h_time': start_time_str[1],
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__location)
+            'dir': get_cardinal_dir([lat, lng], self.__location),
+            'team_id': team_id,
+            'team_name': self.__locale.get_team_name(team_id)
         })
 
         threads = []
@@ -909,18 +932,14 @@ class Manager(object):
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
 
-        # raid history will contain the end date and also the pokemon if it has hatched
-        if gym_id in self.__raid_hist:
-            old_raid_end = self.__raid_hist[gym_id]['raid_end']
-            old_raid_pkmn = self.__raid_hist[gym_id].get('pkmn_id', 0)
-            if old_raid_end == raid_end:
-                if old_raid_pkmn == pkmn_id:  # raid with same end time exists and it has same pokemon id, skip it
-                    if self.__quiet is False:
-                        log.info("Raid {} ignored. Was previously processed.".format(gym_id))
-                    return
+        # Check if raid has been processed
+        if self.__cache.get_raid_expiration(gym_id) is not None:
+            if self.__quiet is False:
+                log.info("Raid {} ignored. Was previously processed.".format(gym_id))
+            return
 
-        self.__raid_hist[gym_id] = dict(raid_end=raid_end, pkmn_id=pkmn_id)
-
+        self.__cache.update_raid_expiration(gym_id, raid_end)
+        log.info(self.__cache.get_raid_expiration(gym_id))
         # don't alert about expired raids
         seconds_left = (raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
@@ -951,6 +970,7 @@ class Manager(object):
                 log.info("Raid on {} ignored: no filters are set".format(name))
             return
 
+        # TODO: Raid filters - don't need all of these attributes/checks
         raid_pkmn = {
             'pkmn': name,
             'cp': raid['cp'],
@@ -982,13 +1002,19 @@ class Manager(object):
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
-        gym_info = self.__gym_info.get(gym_id, {})
+        # team id saved in self.__gym_hist when processing gym
+        team_id = self.__cache.get_gym_team(gym_id)
+        gym_info = self.__cache.get_gym_info(gym_id)
+        form_id = raid_pkmn['form_id']
+        form = self.__locale.get_form_name(pkmn_id, form_id)
+        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
         raid.update({
             'pkmn': name,
-            "gym_name": gym_info.get('name', 'unknown'),
-            "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            'pkmn_id_3': '{:03}'.format(pkmn_id),
+            "gym_name": gym_info['name'],
+            "gym_description": gym_info['description'],
+            "gym_url": gym_info['url'],
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -999,7 +1025,13 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form': self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
+            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
+            'form': form,
+            'form_or_empty': '' if form == 'unknown' else form,
+            'team_id': team_id,
+            'team_name': self.__locale.get_team_name(team_id),
+            'min_cp': min_cp,
+            'max_cp': max_cp
         })
 
         threads = []
