@@ -391,6 +391,6 @@ def get_time_as_str(t, timezone=None):
 
 # Return the default url for images and stuff
 def get_image_url(image):
-    return "https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/" + image
+    return "https://raw.githubusercontent.com/not4profit/images/master/" + image
 
 ########################################################################################################################

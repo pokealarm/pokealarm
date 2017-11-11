@@ -23,8 +23,8 @@ class DiscordAlarm(Alarm):
         'pokemon': {
             'username': "<pkmn>",
             'content': "",
-            'icon_url': get_image_url("icons/<pkmn_id>.png"),
-            'avatar_url': get_image_url("icons/<pkmn_id>.png"),
+            'icon_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'avatar_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
@@ -32,8 +32,8 @@ class DiscordAlarm(Alarm):
         'pokestop': {
             'username': "Pokestop",
             'content': "",
-            'icon_url': get_image_url("icons/pokestop.png"),
-            'avatar_url': get_image_url("icons/pokestop.png"),
+            'icon_url': get_image_url("stop/ready.png"),
+            'avatar_url': get_image_url("stop/ready.png"),
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
@@ -41,8 +41,8 @@ class DiscordAlarm(Alarm):
         'gym': {
             'username': "<new_team> Gym Alerts",
             'content': "",
-            'icon_url': get_image_url("icons/gym_<new_team_id>.png"),
-            'avatar_url': get_image_url("icons/gym_leader_<new_team_id>.png"),
+            'icon_url': get_image_url("gyms/<new_team_id>.png"),
+            'avatar_url': get_image_url("gyms/<new_team_id>.png"),
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
@@ -50,8 +50,8 @@ class DiscordAlarm(Alarm):
         'egg': {
             'username': "Egg",
             'content': "",
-            'icon_url': get_image_url("icons/egg_<raid_level>.png"),
-            'avatar_url': get_image_url("icons/egg_<raid_level>.png"),
+            'icon_url': get_image_url("eggs/<raid_level>.png"),
+            'avatar_url': get_image_url("eggs/<raid_level>.png"),
             'title': "Raid is incoming!",
             'url': "<gmaps>",
             'body': "A level <raid_level> raid will hatch <begin_24h_time> (<begin_time_left>)."
@@ -59,8 +59,8 @@ class DiscordAlarm(Alarm):
         'raid': {
             'username': "Raid",
             'content': "",
-            'icon_url': get_image_url("icons/<pkmn_id>.png"),
-            'avatar_url': get_image_url("icons/egg_<raid_level>.png"),
+            'icon_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'avatar_url': get_image_url("eggs/<raid_level>.png"),
             'title': "Level <raid_level> Raid is available against <pkmn>!",
             'url': "<gmaps>",
             'body': "The raid is available until <24h_time> (<time_left>)."
