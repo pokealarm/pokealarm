@@ -626,8 +626,8 @@ class Manager(object):
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form': form,
             'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
+            'form': form,
             'form_or_empty': '' if form == 'unknown' else form
         })
         if self.__loc_service:
@@ -1005,11 +1005,13 @@ class Manager(object):
         # team id saved in self.__gym_hist when processing gym
         team_id = self.__cache.get_gym_team(gym_id)
         gym_info = self.__cache.get_gym_info(gym_id)
-        form = self.__locale.get_form_name(pkmn_id, raid_pkmn['form_id'])
+        form_id = raid_pkmn['form_id']
+        form = self.__locale.get_form_name(pkmn_id, form_id)
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
         raid.update({
             'pkmn': name,
+            'pkmn_id_3': '{:03}'.format(pkmn_id),
             "gym_name": gym_info['name'],
             "gym_description": gym_info['description'],
             "gym_url": gym_info['url'],
@@ -1023,6 +1025,7 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
+            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
             'form': form,
             'form_or_empty': '' if form == 'unknown' else form,
             'team_id': team_id,
