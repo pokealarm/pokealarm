@@ -876,7 +876,7 @@ class Manager(object):
         gym_info = self.__cache.get_gym_info(gym_id)
 
         if egg['gym_name'] == 'unknown':  # if RM or empty
-            egg.['gym_name'] = gym_info['name']
+            egg['gym_name'] = gym_info['name']
 
         egg.update({
             "gym_description": gym_info['description'],
