@@ -996,7 +996,6 @@ class Manager(object):
         raid.update({
             'pkmn': name,
             'pkmn_id_3': '{:03}'.format(pkmn_id),
-            "gym_name": gym_info['name'],
             "gym_description": gym_info['description'],
             "gym_url": gym_info['url'],
             'time_left': time_str[0],
