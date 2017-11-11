@@ -610,10 +610,12 @@ class Manager(object):
         # Finally, add in all the extra crap we waited to calculate until now
         time_str = get_time_as_str(pkmn['disappear_time'], self.__timezone)
         iv = pkmn['iv']
-        form = self.__locale.get_form_name(pkmn_id, pkmn['form_id'])
+        form_id = pkmn['form_id']
+        form = self.__locale.get_form_name(pkmn_id, form_id)
 
         pkmn.update({
             'pkmn': name,
+            'pkmn_id_3': '{:03}'.format(pkmn_id),
             "dist": get_dist_as_str(dist) if dist != 'unkn' else 'unkn',
             'time_left': time_str[0],
             '12h_time': time_str[1],
@@ -625,6 +627,7 @@ class Manager(object):
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
             'form': form,
+            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
             'form_or_empty': '' if form == 'unknown' else form
         })
         if self.__loc_service:
