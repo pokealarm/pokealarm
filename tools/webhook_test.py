@@ -1,14 +1,9 @@
 import requests
-import logging
 import time
 import sys
 import json
 import re
-
-logging.basicConfig(format='%(asctime)s [%(processName)15.15s][%(name)10.10s][%(levelname)8.8s] %(message)s',
-                    level=logging.INFO)
-
-log = logging.getLogger('Server')
+from random import randint
 
 truthy = frozenset([
     "yes", "Yes", "y", "Y", "true", "True", "TRUE", "YES", "1", "!0"
@@ -43,7 +38,7 @@ def set_init(webhook_type):
                 "player_level": 30,
                 "latitude": 33.980823,
                 "longitude": -81.052988,
-                "encounter_id": 0,
+                "encounter_id": randint(1, 99999999),
                 "cp_multiplier": 0.7317000031471252,
                 "form": 15,
                 "cp": 768,
@@ -65,7 +60,7 @@ def set_init(webhook_type):
         payloadr = {
             "type": "pokestop",
             "message": {
-                "pokestop_id": 0,
+                "pokestop_id": randint(1, 99999999),
                 "enabled": "True",
                 "latitude": 62.790967,
                 "longitude":  76.927920,
@@ -122,7 +117,7 @@ def check_int(questionable_input, default):
     if questionable_input.isdigit():
         return int(questionable_input.lstrip("-"))
     else:
-        log.info("Not a valid number. Defaulting to " + default)
+        print "Not a valid number. Defaulting to " + str(default)
         return default
 
 
@@ -158,7 +153,7 @@ def reset_timers():
 def get_and_validate_team():
     team = teams.get(raw_input(), 5)
     if team == 5:
-        log.info("Team invalid, defaulting to Uncontested")
+        print "Team invalid, defaulting to Uncontested"
         team = 0
     else:
         for team_id, team_name in teams.iteritems():
@@ -171,23 +166,32 @@ webhooks_formatted = re.sub('[{}",]', '', json.dumps(whtypes, indent=4, sort_key
 print "What kind of webhook would you like to send?(put in a number)\n"+webhooks_formatted+">",
 type = whtypes.get(raw_input(), 0)
 if type == 0:
-    log.error("Must put in valid webhook type")
+    print "Must put in valid webhook type"
     sys.exit(1)
 
 payload = set_init(type)
 
-print "What is the URL of where you would like to send the webhook? (default: 127.0.0.1:4000)\n>",
+print "What is the URL of where you would like to send the webhook? (default: http://127.0.0.1:4000)\n>",
 url = raw_input()
 if url == '' or url.isspace():
     url = "http://127.0.0.1:4000"
-    log.info("Assuming " + url + " as webhook URL")
+    print "Assuming " + url + " as webhook URL"
 
 print "Does location matter?\n>",
 if raw_input() in truthy:
+    regex_coords = re.compile("^[-+]?[0-9]*\.?[0-9]*$", re.MULTILINE)
     print "Enter latitude\n>",
     latitude = raw_input()
+    if not regex_coords.match(latitude) or latitude == '':
+        print "Latitude not valid. Defaulting to "+str(payload["message"]["latitude"])
+        latitude = payload["message"]["latitude"]
+    payload["message"]["latitude"] = float(latitude)
     print "Enter longitude\n>",
     longitude = raw_input()
+    if not regex_coords.match(longitude) or longitude == '':
+        print "Longitude not valid. Defaulting to "+str(payload["message"]["longitude"])
+        longitude = payload["message"]["longitude"]
+    payload["message"]["longitude"] = float(longitude)
 
 if type == whtypes["1"]:
     print "Enter Pokemon ID\n>",
@@ -217,7 +221,7 @@ elif type == whtypes["4"]:
     if 6 > egglevel > 0:
         payload["message"]["level"] = egglevel
     else:
-        log.info("Egg level invalid. Assuming level 5")
+        print "Egg level invalid. Assuming level 5"
 elif type == whtypes["5"]:
     print "Enter pokemon id for raid\n>",
     int_or_default("pokemon_id")
@@ -235,22 +239,21 @@ while True:
     for i in range(3):
         resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
-            # log.info("Notification successful (returned {})".format(resp.status_code))
             print "Notification successful. Returned code {}".format(resp.status_code)
             break
         else:
-            log.info("Discord response was {}".format(resp.content))
+            print "Discord response was {}".format(resp.content)
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(resp.status_code))
-            log.info("Attempting connection again")
+            print "Attempting connection again"
     print "Send again?\n>",
     if raw_input() not in truthy:
         break
     if payload["type"] == "pokemon":
-        payload["message"]["encounter_id"] += 1
+        payload["message"]["encounter_id"] = randint(1, 9999999)
     elif payload["type"] == "gym":
         print "Which gym? (put in number)" + teams_formatted + "\n>",
         get_and_validate_team()
     elif payload["type"] == "raid":
-        payload["message"]["gym_id"] += 1
+        payload["message"]["gym_id"] = randint(1, 9999999)
     reset_timers()
