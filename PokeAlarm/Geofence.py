@@ -36,7 +36,7 @@ def load_geofence_file(file_path):
                 log.error("All lines should be either '[name]' or 'lat,lng'.")
                 sys.exit(1)
         geofences.append(Geofence(name, points))
-        log.debug("Geofence {} added!".format(name))
+        log.info("Geofence {} added!".format(name))
         return geofences
     except IOError as e:
         log.error("IOError: Please make sure a file with read/write permissions exsist at {}".format(file_path))
