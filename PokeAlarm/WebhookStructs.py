@@ -136,8 +136,8 @@ class RocketMap:
             'lng': float(data['longitude']),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
             'lng_5': "{:.5f}".format(float(data['longitude'])),
-            'name': check_for_none(str, data.get('name'), 'unknown'),
-            'description': check_for_none(str, data.get('description'), 'unknown'),
+            'name': check_for_none(str, data.get('name'), 'unknown').strip(),
+            'description': check_for_none(str, data.get('description'), 'unknown').strip(),
             'url': check_for_none(str, data.get('url'), 'unknown')
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
