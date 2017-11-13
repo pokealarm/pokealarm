@@ -102,6 +102,10 @@ class RocketMap:
         if pkmn['pkmn_id'] == 129 and pkmn['size'] == 'big':
             pkmn['big_karp'] = 'big'
 
+        # Todo: Remove this when monocle get's it's own standard
+        if pkmn['form_id'] == 0:
+            pkmn['form_id'] = '?'
+
         return pkmn
 
     @staticmethod
