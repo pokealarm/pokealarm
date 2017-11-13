@@ -40,7 +40,7 @@ def set_init(webhook_type):
                 "longitude": -122.390624,
                 "encounter_id": current_time,
                 "cp_multiplier": 0.7317000031471252,
-                "form": 15,
+                "form": None,
                 "cp": 768,
                 "individual_attack": 10,
                 "individual_defense": 1,
