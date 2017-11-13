@@ -52,8 +52,14 @@ class RocketMap:
             'id': data['encounter_id'],
             'pkmn_id': int(data['pokemon_id']),
             'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
+            'time_until_despawn': check_for_none(int, data.get('seconds_until_despawn'), '?'),
+            'spawn_start': check_for_none(int, data.get('spawn_start'), '?'),
+            'spawn_end': check_for_none(int, data.get('spawn_end'), '?'),
+            'verified': check_for_none(bool, data.get('verified'), 'False'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude'])),
             'cp': check_for_none(int, data.get('cp'), '?'),
             'level': check_for_none(int, data.get('pokemon_level'), '?'),
             'iv': '?',
@@ -96,6 +102,10 @@ class RocketMap:
         if pkmn['pkmn_id'] == 129 and pkmn['size'] == 'big':
             pkmn['big_karp'] = 'big'
 
+        # Todo: Remove this when monocle get's it's own standard
+        if pkmn['form_id'] == 0:
+            pkmn['form_id'] = '?'
+
         return pkmn
 
     @staticmethod
@@ -109,7 +119,9 @@ class RocketMap:
             'id': data['pokestop_id'],
             'expire_time':  datetime.utcfromtimestamp(data['lure_expiration']),
             'lat': float(data['latitude']),
-            'lng': float(data['longitude'])
+            'lng': float(data['longitude']),
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude']))
         }
         stop['gmaps'] = get_gmaps_link(stop['lat'], stop['lng'])
         stop['applemaps'] = get_applemaps_link(stop['lat'], stop['lng'])
@@ -122,12 +134,14 @@ class RocketMap:
             'type': "gym",
             'id': data.get('gym_id',  data.get('id')),
             "new_team_id": int(data.get('team_id',  data.get('team'))),
-            "points": str(data.get('gym_points')),
+            #"points": str(data.get('gym_points')),
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
-            'name': check_for_none(str, data.get('name'), 'unknown'),
-            'description': check_for_none(str, data.get('description'), 'unknown'),
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude'])),
+            'name': check_for_none(str, data.get('name'), 'unknown').strip(),
+            'description': check_for_none(str, data.get('description'), 'unknown').strip(),
             'url': check_for_none(str, data.get('url'), 'unknown')
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
@@ -181,6 +195,8 @@ class RocketMap:
             "team": int(data['team']),
             "name": data['gym_name'],
             "gym_url": data.get('gym_url')
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude']))
         }
 
         egg['gmaps'] = get_gmaps_link(egg['lat'], egg['lng'])
@@ -235,10 +251,16 @@ class RocketMap:
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
+<<<<<<< HEAD
             "team": int(data['team']),
             "name": data['gym_name'],
             "gym_url": data.get('gym_url')
         }
+=======
+            'lat_5': "{:.5f}".format(float(data['latitude'])),
+            'lng_5': "{:.5f}".format(float(data['longitude']))
+       }
+>>>>>>> upstream/master
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
         raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
