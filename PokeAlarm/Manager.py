@@ -296,8 +296,8 @@ class Manager(object):
         last_clean = datetime.utcnow()
         while True:  # Run forever and ever
 
-            # Clean out visited every 3 minutes
-            if datetime.utcnow() - last_clean > timedelta(minutes=1):
+            # Clean out visited every 5 minutes
+            if datetime.utcnow() - last_clean > timedelta(minutes=5):
                 log.debug("Cleaning cache...")
                 self.__cache.clean_and_save()
                 last_clean = datetime.utcnow()

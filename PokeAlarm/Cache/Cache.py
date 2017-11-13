@@ -89,10 +89,14 @@ class Cache(object):
         pass  # Mem cache isn't backed up.
 
     def _clean_hist(self):
-        """ Clean expired objects to free up memory """
+        """ Clean expired objects to free up memory. """
         for hist in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
+            old = []
             now = datetime.utcnow()
-            for time, expiration in hist.items():
-                if expiration < now:
-                    del hist[time]
+            log.info(hist)
+            for key, expiration in hist.iteritems():
+                if expiration < now:  # Track expired items
+                    old.append(key)
+            for key in old:  # Remove expired events
+                del hist[key]
         log.debug("Cache cleaned!")
