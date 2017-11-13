@@ -3,7 +3,6 @@ import time
 import sys
 import json
 import re
-from random import randint
 
 truthy = frozenset([
     "yes", "Yes", "y", "Y", "true", "True", "TRUE", "YES", "1", "!0"
@@ -29,6 +28,7 @@ teams_formatted = re.sub('[{}",]', '', json.dumps(teams, indent=4, sort_keys=Tru
 
 def set_init(webhook_type):
     payloadr = {}
+    current_time = time.time()
     if webhook_type == whtypes["1"]:
         payloadr = {
             "type": "pokemon",
@@ -36,9 +36,9 @@ def set_init(webhook_type):
                 "pokemon_id": 149,
                 "pokemon_level": 30,
                 "player_level": 30,
-                "latitude": 33.980823,
-                "longitude": -81.052988,
-                "encounter_id": randint(1, 99999999),
+                "latitude": 37.7876146,
+                "longitude": -122.390624,
+                "encounter_id": current_time,
                 "cp_multiplier": 0.7317000031471252,
                 "form": 15,
                 "cp": 768,
@@ -60,10 +60,10 @@ def set_init(webhook_type):
         payloadr = {
             "type": "pokestop",
             "message": {
-                "pokestop_id": randint(1, 99999999),
+                "pokestop_id": current_time,
                 "enabled": "True",
-                "latitude": 62.790967,
-                "longitude":  76.927920,
+                "latitude": 37.7876146,
+                "longitude": -122.390624,
                 "active_fort_modifier": 0
             }
         }
@@ -81,8 +81,8 @@ def set_init(webhook_type):
                 "lowest_pokemon_motivation": 0.8795773983001709,
                 "total_cp": 11099,
                 "enabled": "True",
-                "latitude": 62.790967,
-                "longitude":  76.927920
+                "latitude": 37.7876146,
+                "longitude": -122.390624
             }
         }
     elif webhook_type == whtypes["4"]:
@@ -91,8 +91,8 @@ def set_init(webhook_type):
             "message": {
                 "gym_id": 0,
                 "level": 5,
-                "latitude": 12.345678,
-                "longitude": 12.345678
+                "latitude": 37.7876146,
+                "longitude": -122.390624
             }
         }
     elif webhook_type == whtypes["5"]:
@@ -105,8 +105,8 @@ def set_init(webhook_type):
                 "move_1": 123,
                 "move_2": 123,
                 "level": 5,
-                "latitude": 12.345678,
-                "longitude": 12.345678
+                "latitude": 37.7876146,
+                "longitude": -122.390624
             }
         }
 
@@ -125,13 +125,14 @@ def int_or_default(input_parm):
     payload["message"][input_parm] = check_int(raw_input(), payload["message"][input_parm])
 
 
-def reset_timers():
+def reset_timers_and_encounters():
     current_time = time.time()
     if payload["type"] == "pokemon":
         payload["message"].update({
             "disappear_time": current_time + 10,
             "last_modified_time": current_time,
-            "time_until_hidden_ms": 10000
+            "time_until_hidden_ms": 10000,
+            "encounter_id": current_time
         })
     elif payload["type"] == "pokestop":
         payload["message"].update({
@@ -147,6 +148,7 @@ def reset_timers():
         payload["message"].update({
             "start": current_time + 20,
             "end": current_time + 20 + 60,
+            "gym_id": current_time
         })
 
 
@@ -177,21 +179,19 @@ if url == '' or url.isspace():
     url = "http://127.0.0.1:4000"
     print "Assuming " + url + " as webhook URL"
 
-print "Does location matter?\n>",
+print "Does location matter or do you use geofences? (Y/N)\n>",
 if raw_input() in truthy:
-    regex_coords = re.compile("^[-+]?[0-9]*\.?[0-9]*$", re.MULTILINE)
-    print "Enter latitude\n>",
-    latitude = raw_input()
-    if not regex_coords.match(latitude) or latitude == '':
-        print "Latitude not valid. Defaulting to "+str(payload["message"]["latitude"])
-        latitude = payload["message"]["latitude"]
-    payload["message"]["latitude"] = float(latitude)
-    print "Enter longitude\n>",
-    longitude = raw_input()
-    if not regex_coords.match(longitude) or longitude == '':
-        print "Longitude not valid. Defaulting to "+str(payload["message"]["longitude"])
-        longitude = payload["message"]["longitude"]
-    payload["message"]["longitude"] = float(longitude)
+    regex_coordinates = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
+    print "Enter latitude,longitude (Ex. 37.7876146,-122.390624)\n>",
+    coordinates = raw_input()
+    lat = payload["message"]["latitude"]
+    lng = payload["message"]["longitude"]
+    if not regex_coordinates.match(coordinates):
+        print "Coordinates not valid. Defaulting to "+str(lat)+','+str(lng)
+    else:
+        lat, lng = map(float, coordinates.split(","))
+    payload["message"]["latitude"] = lat
+    payload["message"]["longitude"] = lng
 
 if type == whtypes["1"]:
     print "Enter Pokemon ID\n>",
@@ -233,7 +233,7 @@ elif type == whtypes["5"]:
         int_or_default("move_2")
 
 
-reset_timers()
+reset_timers_and_encounters()
 
 while True:
     for i in range(3):
@@ -249,11 +249,7 @@ while True:
     print "Send again?\n>",
     if raw_input() not in truthy:
         break
-    if payload["type"] == "pokemon":
-        payload["message"]["encounter_id"] = randint(1, 9999999)
-    elif payload["type"] == "gym":
+    if payload["type"] == "gym":
         print "Which gym? (put in number)" + teams_formatted + "\n>",
         get_and_validate_team()
-    elif payload["type"] == "raid":
-        payload["message"]["gym_id"] = randint(1, 9999999)
-    reset_timers()
+    reset_timers_and_encounters()
