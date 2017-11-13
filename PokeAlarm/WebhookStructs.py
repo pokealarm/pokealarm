@@ -194,7 +194,8 @@ class RocketMap:
             'lng': float(data['longitude']),
             "team": int(data['team']),
             "name": data['gym_name'],
-            "gym_url": data.get('gym_url')
+            "gym_url": data.get('gym_url'),
+            "gym_description": data.get('gym_description'),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
             'lng_5': "{:.5f}".format(float(data['longitude']))
         }
@@ -251,16 +252,13 @@ class RocketMap:
             'raid_begin': raid_begin,
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
-<<<<<<< HEAD
             "team": int(data['team']),
             "name": data['gym_name'],
-            "gym_url": data.get('gym_url')
-        }
-=======
+            "gym_url": data.get('gym_url'),
+            "gym_description": data.get('gym_description'),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
             'lng_5': "{:.5f}".format(float(data['longitude']))
        }
->>>>>>> upstream/master
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
         raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
