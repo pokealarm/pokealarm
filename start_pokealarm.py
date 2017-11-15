@@ -133,7 +133,7 @@ def parse_settings(root_path):
                         help='Specify either metric or imperial units to use for distance measurements. ')
     parser.add_argument('-ct', '--cache_type', type=parse_unicode, action='append', default=['mem'],
                         choices=cache_options,
-                        help='Select cache storage location (mem or file)')
+                        help="Specify the type of cache to use. Options: ['mem', 'file'] (Default: 'mem')")
     parser.add_argument('-tl', '--timelimit', type=int, default=[0], action='append',
                         help='Minimum number of seconds remaining on a pokemon to send a notify')
     parser.add_argument('-ma', '--max_attempts', type=int, default=[3], action='append',
