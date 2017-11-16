@@ -93,7 +93,6 @@ class Cache(object):
         for hist in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
             old = []
             now = datetime.utcnow()
-            log.info(hist)
             for key, expiration in hist.iteritems():
                 if expiration < now:  # Track expired items
                     old.append(key)
