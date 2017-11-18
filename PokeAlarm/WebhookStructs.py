@@ -96,10 +96,10 @@ class RocketMap:
             pkmn['height'] = "{:.2f}".format(pkmn['height'])
             pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
 
-        if pkmn['pkmn_id'] == 19 and pkmn['size'] == 'tiny':
+        if pkmn['pkmn_id'] == 19 and pkmn['weight'] <= 2.41:
             pkmn['tiny_rat'] = 'tiny'
 
-        if pkmn['pkmn_id'] == 129 and pkmn['size'] == 'big':
+        if pkmn['pkmn_id'] == 129 and pkmn['weight'] >= 13.13:
             pkmn['big_karp'] = 'big'
 
         # Todo: Remove this when monocle get's it's own standard
