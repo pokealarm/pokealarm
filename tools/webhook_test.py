@@ -250,6 +250,6 @@ while True:
     if raw_input() not in truthy:
         break
     if payload["type"] == "gym":
-        print "Which gym? (put in number)" + teams_formatted + "\n>",
+        print "Which team? (put in number)" + teams_formatted + "\n>",
         get_and_validate_team()
     reset_timers_and_encounters()
