@@ -1,61 +1,79 @@
 # Standard Library Imports
 import logging
+
 # 3rd Party Imports
 from twilio.rest import TwilioRestClient
+
 # Local Imports
-from ..Alarm import Alarm
-from ..Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
+from PokeAlarm.Alarms import Alarm
+from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
+    reject_leftover_parameters
 
 log = logging.getLogger('Twilio')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
 
-#####################################################  ATTENTION!  #####################################################
-# You DO NOT NEED to edit this file to customize messages for services! Please see the Wiki on the correct way to
-# customize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
-#                               PLEASE ONLY EDIT IF YOU KNOW WHAT YOU ARE DOING!
-#####################################################  ATTENTION!  #####################################################
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#             ONLY EDIT THIS FILE IF YOU KNOW WHAT YOU ARE DOING!
+# You DO NOT NEED to edit this file to customize messages! Please ONLY EDIT the
+#     the 'alarms.json'. Failing to do so can cause other feature to break!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 class TwilioAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared! <gmaps> Available until <24h_time> (<time_left>)."
+            'message': "A wild <pkmn> has appeared! <gmaps>"
+                       + " Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
-            'message': "Someone has placed a lure on a Pokestop! <gmaps> Lure will expire at <24h_time> (<time_left>)."
+            'message': "Someone has placed a lure on a Pokestop! <gmaps>"
+                       + " Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
-            'message': "A Team <old_team> gym has fallen! It is now controlled by <new_team>. <gmaps>"
+            'message': "A Team <old_team> gym has fallen!"
+                       + " It is now controlled by <new_team>. <gmaps>"
         },
         'egg': {
-            'message': "A level <raid_level> raid is incoming! <gmap> Egg hatches <begin_24h_time> (<begin_time_left>)."
+            'message': "A level <raid_level> raid is incoming! <gmap>"
+                       + " Egg hatches <begin_24h_time> (<begin_time_left>)."
         },
         'raid': {
-           'message': "A raid on <pkmn> is available! <gmap> Available until <24h_time> (<time_left>)."
+           'message': "A raid on <pkmn> is available! <gmap>"
+                      + " Available until <24h_time> (<time_left>)."
         }
     }
 
     # Gather settings and create alarm
     def __init__(self, settings):
         # Required Parameters
-        self.__account_sid = require_and_remove_key('account_sid', settings, "'Twilio' type alarms.")
-        self.__auth_token = require_and_remove_key('auth_token', settings, "'Twilio' type alarms.")
-        self.__from_number = require_and_remove_key('from_number', settings, "'Twilio' type alarms.")
-        self.__to_number = require_and_remove_key('to_number', settings, "'Twilio' type alarms.")
+        self.__account_sid = require_and_remove_key(
+            'account_sid', settings, "'Twilio' type alarms.")
+        self.__auth_token = require_and_remove_key(
+            'auth_token', settings, "'Twilio' type alarms.")
+        self.__from_number = require_and_remove_key(
+            'from_number', settings, "'Twilio' type alarms.")
+        self.__to_number = require_and_remove_key(
+            'to_number', settings, "'Twilio' type alarms.")
         self.__client = None
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__startup_message = parse_boolean(
+            settings.pop('startup_message', "True"))
 
         # Optional Alert Parameters
-        self.__pokemon = self.set_alert(settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.set_alert(settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.set_alert(settings.pop('gyms', {}), self._defaults['gym'])
-        self.__egg = self.set_alert(settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.set_alert(settings.pop('raid', {}), self._defaults['raid'])
+        self.__pokemon = self.set_alert(
+            settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.set_alert(
+            settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.set_alert(
+            settings.pop('gyms', {}), self._defaults['gym'])
+        self.__egg = self.set_alert(
+            settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.set_alert(
+            settings.pop('raid', {}), self._defaults['raid'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
@@ -125,4 +143,5 @@ class TwilioAlarm(Alarm):
                 'from_': from_num,
                 'body': body
             }
-            try_sending(log, self.connect, "Twilio", self.__client.messages.create, args)
+            try_sending(log, self.connect,
+                        "Twilio", self.__client.messages.create, args)

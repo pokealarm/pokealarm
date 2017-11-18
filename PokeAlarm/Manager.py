@@ -1,26 +1,29 @@
 # Standard Library Imports
-from datetime import datetime, timedelta
-import gevent
-import logging
-import json
-import multiprocessing
 import Queue
-import traceback
+import json
+import logging
+import multiprocessing
+import os
 import re
 import sys
-import os
+import traceback
+from datetime import datetime, timedelta
+
+import gevent
 # 3rd Party Imports
 import gipc
-# Local Imports
-from . import config
+
+from Alarms import alarm_factory
 from Cache import cache_factory
 from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
+from Geofence import load_geofence_file
 from Locale import Locale
+from LocationServices import LocationService
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
-from Geofence import load_geofence_file
-from LocationServices import LocationService
+# Local Imports
+from . import config
 
 log = logging.getLogger('Manager')
 
@@ -162,33 +165,8 @@ class Manager(object):
             self.__alarms = []
             for alarm in alarm_settings:
                 if parse_boolean(require_and_remove_key('active', alarm, "Alarm objects in Alarms file.")) is True:
-                    _type = require_and_remove_key('type', alarm, "Alarm objects in Alarms file.")
                     self.set_optional_args(str(alarm))
-                    if _type == 'discord':
-                        from Discord import DiscordAlarm
-                        self.__alarms.append(DiscordAlarm(alarm, max_attempts, self.__google_key))
-                    elif _type == 'facebook_page':
-                        from FacebookPage import FacebookPageAlarm
-                        self.__alarms.append(FacebookPageAlarm(alarm))
-                    elif _type == 'pushbullet':
-                        from Pushbullet import PushbulletAlarm
-                        self.__alarms.append(PushbulletAlarm(alarm))
-                    elif _type == 'slack':
-                        from Slack import SlackAlarm
-                        self.__alarms.append(SlackAlarm(alarm, self.__google_key))
-                    elif _type == 'telegram':
-                        from Telegram import TelegramAlarm
-                        self.__alarms.append(TelegramAlarm(alarm))
-                    elif _type == 'twilio':
-                        from Twilio import TwilioAlarm
-                        self.__alarms.append(TwilioAlarm(alarm))
-                    elif _type == 'twitter':
-                        from Twitter import TwitterAlarm
-                        self.__alarms.append(TwitterAlarm(alarm))
-                    else:
-                        log.error("Alarm type not found: " + alarm['type'])
-                        log.error("Please consult the PokeAlarm documentation accepted Alarm Types")
-                        sys.exit(1)
+                    self.__alarms.append(alarm_factory(alarm, max_attempts, self.__google_key))
                 else:
                     log.debug("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
             log.info("{} active alarms found.".format(len(self.__alarms)))

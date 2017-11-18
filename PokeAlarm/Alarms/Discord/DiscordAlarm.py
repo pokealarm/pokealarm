@@ -1,20 +1,23 @@
 # Standard Library Imports
 import logging
 import requests
+
 # 3rd Party Imports
+
 # Local Imports
-from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_static_map_url, reject_leftover_parameters, require_and_remove_key, get_image_url
+from PokeAlarm.Alarms import Alarm
+from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
+    reject_leftover_parameters, require_and_remove_key, get_image_url
 
 log = logging.getLogger('Discord')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
-#####################################################  ATTENTION!  #####################################################
-# You DO NOT NEED to edit this file to customize messages for services! Please see the Wiki on the correct way to
-# customize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
-#                               PLEASE ONLY EDIT IF YOU KNOW WHAT YOU ARE DOING!
-#####################################################  ATTENTION!  #####################################################
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#             ONLY EDIT THIS FILE IF YOU KNOW WHAT YOU ARE DOING!
+# You DO NOT NEED to edit this file to customize messages! Please ONLY EDIT the
+#     the 'alarms.json'. Failing to do so can cause other feature to break!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 class DiscordAlarm(Alarm):
@@ -23,8 +26,10 @@ class DiscordAlarm(Alarm):
         'pokemon': {
             'username': "<pkmn>",
             'content': "",
-            'icon_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'avatar_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'icon_url': get_image_url(
+                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'avatar_url': get_image_url(
+                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
@@ -54,12 +59,14 @@ class DiscordAlarm(Alarm):
             'avatar_url': get_image_url("eggs/<raid_level>.png"),
             'title': "Raid is incoming!",
             'url': "<gmaps>",
-            'body': "A level <raid_level> raid will hatch <begin_24h_time> (<begin_time_left>)."
+            'body': "A level <raid_level> raid will hatch at "
+                    + "<begin_24h_time> (<begin_time_left>)."
         },
         'raid': {
             'username': "Raid",
             'content': "",
-            'icon_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'icon_url': get_image_url(
+                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
             'avatar_url': get_image_url("eggs/<raid_level>.png"),
             'title': "Level <raid_level> Raid is available against <pkmn>!",
             'url': "<gmaps>",
@@ -70,22 +77,30 @@ class DiscordAlarm(Alarm):
     # Gather settings and create alarm
     def __init__(self, settings, max_attempts, static_map_key):
         # Required Parameters
-        self.__webhook_url = require_and_remove_key('webhook_url', settings, "'Discord' type alarms.")
+        self.__webhook_url = require_and_remove_key(
+            'webhook_url', settings, "'Discord' type alarms.")
         self.__max_attempts = max_attempts
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
-        self.__disable_embed = parse_boolean(settings.pop('disable_embed', "False"))
+        self.__startup_message = parse_boolean(
+            settings.pop('startup_message', "True"))
+        self.__disable_embed = parse_boolean(
+            settings.pop('disable_embed', "False"))
         self.__avatar_url = settings.pop('avatar_url', "")
-        self.__map = settings.pop('map', {})  # default for the rest of the alerts
+        self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
 
         # Set Alert Parameters
-        self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
+        self.__pokemon = self.create_alert_settings(
+            settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.create_alert_settings(
+            settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.create_alert_settings(
+            settings.pop('gym', {}), self._defaults['gym'])
+        self.__egg = self.create_alert_settings(
+            settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(
+            settings.pop('raid', {}), self._defaults['raid'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -106,7 +121,8 @@ class DiscordAlarm(Alarm):
                     'content': 'PokeAlarm activated!'
                 }
             }
-            try_sending(log, self.connect, "Discord", self.send_webhook, args, self.__max_attempts)
+            try_sending(log, self.connect, "Discord",
+                        self.send_webhook, args, self.__max_attempts)
             log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
@@ -115,13 +131,15 @@ class DiscordAlarm(Alarm):
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
             'avatar_url': settings.pop('avatar_url', default['avatar_url']),
-            'disable_embed': parse_boolean(settings.pop('disable_embed', self.__disable_embed)),
+            'disable_embed': parse_boolean(
+                settings.pop('disable_embed', self.__disable_embed)),
             'content': settings.pop('content', default['content']),
             'icon_url': settings.pop('icon_url', default['icon_url']),
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': get_static_map_url(settings.pop('map', self.__map), self.__static_map_key)
+            'map': get_static_map_url(
+                settings.pop('map', self.__map), self.__static_map_key)
         }
 
         reject_leftover_parameters(settings, "'Alert level in Discord alarm.")
@@ -131,7 +149,8 @@ class DiscordAlarm(Alarm):
     def send_alert(self, alert, info):
         log.debug("Attempting to send notification to Discord.")
         payload = {
-            'username': replace(alert['username'], info)[:32],  # Username must be 32 characters or less
+            # Usernames are limited to 32 characters
+            'username': replace(alert['username'], info)[:32],
             'content': replace(alert['content'], info),
             'avatar_url':  replace(alert['avatar_url'], info),
         }
@@ -143,12 +162,19 @@ class DiscordAlarm(Alarm):
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
             }]
             if alert['map'] is not None:
-                payload['embeds'][0]['image'] = {'url': replace(alert['map'], {'lat': info['lat'], 'lng': info['lng']})}
+                coords = {
+                    'lat': info['lat'],
+                    'lng': info['lng']
+                }
+                payload['embeds'][0]['image'] = {
+                    'url': replace(alert['map'], coords)
+                }
         args = {
             'url': alert['webhook_url'],
             'payload': payload
         }
-        try_sending(log, self.connect, "Discord", self.send_webhook, args, self.__max_attempts)
+        try_sending(log, self.connect,
+                    "Discord", self.send_webhook, args, self.__max_attempts)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -177,8 +203,10 @@ class DiscordAlarm(Alarm):
         log.debug(payload)
         resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
-            log.debug("Notification successful (returned {})".format(resp.status_code))
+            log.debug("Notification successful (returned {})".format(
+                resp.status_code))
         else:
             log.debug("Discord response was {}".format(resp.content))
             raise requests.exceptions.RequestException(
-                "Response received {}, webhook not accepted.".format(resp.status_code))
+                "Response received {}, webhook not accepted.".format(
+                    resp.status_code))

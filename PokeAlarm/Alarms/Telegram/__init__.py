@@ -1,7 +1,7 @@
 try:
     import telepot
 except ImportError:
-    from ..Utils import pip_install
+    from PokeAlarm.Utils import pip_install
 
     pip_install('telepot', '8.3')
 
