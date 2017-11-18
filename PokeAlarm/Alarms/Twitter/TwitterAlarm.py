@@ -1,15 +1,18 @@
 # Standard Library Imports
-from datetime import datetime
 import logging
+from datetime import datetime
+
 # 3rd Party Imports
 from twitter import Twitter, OAuth
+
 # Local Imports
-from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_time_as_str, require_and_remove_key, reject_leftover_parameters
+from PokeAlarm.Alarms import Alarm
+from PokeAlarm.Utils import parse_boolean, get_time_as_str, require_and_remove_key, reject_leftover_parameters
 
 log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
+
 
 
 #####################################################  ATTENTION!  #####################################################

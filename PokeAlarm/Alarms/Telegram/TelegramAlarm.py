@@ -1,11 +1,13 @@
 # Standard Library Imports
 import logging
+
 # 3rd Party Imports
 import telepot
+
 # Local Imports
-from ..Alarm import Alarm
+from PokeAlarm.Alarms import Alarm
 from Stickers import sticker_list
-from ..Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
+from PokeAlarm.Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
 
 log = logging.getLogger('Telegram')
 try_sending = Alarm.try_sending

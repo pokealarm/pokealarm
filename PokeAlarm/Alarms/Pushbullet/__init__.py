@@ -1,7 +1,7 @@
 try:
     import pushbullet
 except ImportError:
-    from ..Utils import pip_install
+    from PokeAlarm.Utils import pip_install
 
     pip_install('pushbullet.py', '0.10.0')
 
