@@ -4,19 +4,20 @@ import logging
 import traceback
 # 3rd Party Imports
 # Local Imports
-from Utils import get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,\
+from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,\
     get_move_energy, get_pokemon_gender, get_pokemon_size, get_applemaps_link
 
 log = logging.getLogger('WebhookStructs')
 
 
-################################################## Webhook Standards  ##################################################
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Webhook Standards ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 # RocketMap Standards
 class RocketMap:
     def __init__(self):
-        raise NotImplementedError("This is a static class not meant to be initiated")
+        raise NotImplementedError(
+            "This is a static class not meant to be initiated")
 
     @staticmethod
     def make_object(data):
@@ -30,12 +31,15 @@ class RocketMap:
                 return RocketMap.gym(data.get('message'))
             elif kind == 'raid':
                 return RocketMap.egg_or_raid(data.get('message'))
-            elif kind in ['captcha', 'scheduler']:  # Unsupported Webhooks
-                log.debug("{} webhook received. This webhooks is not yet supported at this time.".format({kind}))
+            elif kind in ['captcha', 'scheduler']:  # Unsupported
+                log.debug("{} webhook received.".format(kind)
+                          + " This format not supported at this time.")
             else:
-                log.error("Invalid type specified ({}). Are you using the correct map type?".format(kind))
+                log.error("Invalid type specified ({}). ".format(kind)
+                          + "Are you using the correct map type?")
         except Exception as e:
-            log.error("Encountered error while processing webhook ({}: {})".format(type(e).__name__, e))
+            log.error("Encountered error while processing webhook "
+                      + "({}: {})".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         return None
 
@@ -46,13 +50,15 @@ class RocketMap:
         quick_id = check_for_none(int, data.get('move_1'), '?')
         charge_id = check_for_none(int, data.get('move_2'), '?')
         lat, lng = data['latitude'], data['longitude']
-        # Generate all the non-manager specifi
+        # Generate all the non-manager specific DTS
         pkmn = {
             'type': "pokemon",
             'id': data['encounter_id'],
             'pkmn_id': int(data['pokemon_id']),
-            'disappear_time': datetime.utcfromtimestamp(data['disappear_time']),
-            'time_until_despawn': check_for_none(int, data.get('seconds_until_despawn'), '?'),
+            'disappear_time': datetime.utcfromtimestamp(
+                data['disappear_time']),
+            'time_until_despawn': check_for_none(
+                int, data.get('seconds_until_despawn'), '?'),
             'spawn_start': check_for_none(int, data.get('spawn_start'), '?'),
             'spawn_end': check_for_none(int, data.get('spawn_end'), '?'),
             'verified': check_for_none(bool, data.get('verified'), 'False'),
@@ -78,7 +84,8 @@ class RocketMap:
             'charge_energy': get_move_energy(charge_id),
             'height': check_for_none(float, data.get('height'), 'unkn'),
             'weight': check_for_none(float, data.get('weight'), 'unkn'),
-            'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
+            'gender': get_pokemon_gender(
+                check_for_none(int, data.get('gender'), '?')),
             'form_id': check_for_none(int, data.get('form'), '?'),
             'size': 'unknown',
             'tiny_rat': '',
@@ -87,12 +94,14 @@ class RocketMap:
             'applemaps': get_applemaps_link(lat, lng)
         }
         if pkmn['atk'] != '?' or pkmn['def'] != '?' or pkmn['sta'] != '?':
-            pkmn['iv'] = float(((pkmn['atk'] + pkmn['def'] + pkmn['sta']) * 100) / float(45))
+            pkmn['iv'] = float(((pkmn['atk'] + pkmn['def'] + pkmn['sta'])
+                                * 100) / float(45))
         else:
             pkmn['atk'], pkmn['def'], pkmn['sta'] = '?', '?', '?'
 
         if pkmn['height'] != 'unkn' or pkmn['weight'] != 'unkn':
-            pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
+            pkmn['size'] = get_pokemon_size(
+                pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
             pkmn['height'] = "{:.2f}".format(pkmn['height'])
             pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
 
