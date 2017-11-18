@@ -4,16 +4,19 @@ import logging
 import traceback
 # 3rd Party Imports
 # Local Imports
-from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,\
-    get_move_energy, get_pokemon_gender, get_pokemon_size, get_applemaps_link
+from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, \
+    get_move_duration, get_move_energy, get_pokemon_gender, get_pokemon_size, \
+    get_applemaps_link
 
 log = logging.getLogger('WebhookStructs')
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Webhook Standards ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Todo: Move this into a better place
+# Ensure that the value isn't None but replacing with a default
+def check_for_none(type_, val, default):
+    return type_(val) if val is not None else default
 
 
-# RocketMap Standards
 class RocketMap:
     def __init__(self):
         raise NotImplementedError(
@@ -143,14 +146,14 @@ class RocketMap:
             'type': "gym",
             'id': data.get('gym_id',  data.get('id')),
             "new_team_id": int(data.get('team_id',  data.get('team'))),
-            #"points": str(data.get('gym_points')),
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
             'lng_5': "{:.5f}".format(float(data['longitude'])),
             'name': check_for_none(str, data.get('name'), 'unknown').strip(),
-            'description': check_for_none(str, data.get('description'), 'unknown').strip(),
+            'description': check_for_none(
+                str, data.get('description'), 'unknown').strip(),
             'url': check_for_none(str, data.get('url'), 'unknown')
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
@@ -266,9 +269,3 @@ class RocketMap:
 
         return raid
 
-
-# Ensure that the value isn't None but replacing with a default
-def check_for_none(type_, val, default):
-    return type_(val) if val is not None else default
-
-########################################################################################################################

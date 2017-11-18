@@ -19,7 +19,7 @@ from Filters import load_pokemon_section, load_pokestop_section, load_gym_sectio
     load_raid_section
 from Geofence import load_geofence_file
 from Locale import Locale
-from LocationServices import LocationService
+from LocationServices import location_service_factory
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
 # Local Imports
@@ -41,7 +41,8 @@ class Manager(object):
         self.__loc_service = None
         if str(google_key).lower() != 'none':
             self.__google_key = google_key
-            self.__loc_service = LocationService(google_key, locale, units)
+            self.__loc_service = location_service_factory(
+                "GoogleMaps", google_key, locale, units)
         else:
             log.warning("NO GOOGLE API KEY SET - Reverse Location and Distance Matrix DTS will NOT be detected.")
 
