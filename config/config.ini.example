@@ -8,6 +8,7 @@
 #debug											# Enables debugging mode
 #host:											# Address to listen on (default 127.0.0.1)
 #port:											# Port to listen on (default: 4000)
+#sponsored_gyms:                                # List of gym name strings that indicate sponsored gyms.  (example: [sprint,starbucks])
 #manager_count: 1								# Number of Managers to run. (default: 1)
 
 # Manager-Specific Settings
