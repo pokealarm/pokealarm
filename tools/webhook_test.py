@@ -208,12 +208,12 @@ if type == whtypes["1"]:
             form = ord(form_character)
             # A-Z = 1-26, ! = 27, ? = 28
             if ord('A') <= form <= ord('Z'):
-                form -= (ord('A') -1)
-            # !
+                form -= ord('A') - 1
             elif form == 33:
+                # !
                 form = 27
-            # ?
             elif form == 63:
+                # ?
                 form = 28
             else:
                 print "Invalid form type. Defaulting to A"
