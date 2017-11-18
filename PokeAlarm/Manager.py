@@ -960,7 +960,7 @@ class Manager(object):
         gym_name = gym_info['name'].lower()
 
         # Check if egg gym should be sponsored and is sponsored
-        if (self.__egg_settings['sponsored_raid'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
+        if (self.__egg_settings['sponsored_gym'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
             log.debug("Egg {} is not at a sponsored gym: ".format(gym_name))
             return
 
@@ -1057,7 +1057,7 @@ class Manager(object):
         raid_end = raid['raid_end']
 
         # Check if raid is sponsored
-        if (self.__raid_settings['sponsored_raid'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
+        if (self.__raid_settings['sponsored_gym'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
             log.debug("Raid {} is not at a sponsored gym: ".format(gym_name))
             return
 
@@ -1131,15 +1131,8 @@ class Manager(object):
                 self.__location, [lat, lng], raid)
 
         if self.__quiet is False:
-<<<<<<< HEAD
             log.info("Raid ({}) notification ".format(gym_id)
                      + "has been triggered!")
-=======
-            if (self.__raid_settings['sponsored_raid'] is True):
-                log.info("Sponsored Raid ({}) notification has been triggered!".format(gym_id))
-            else:
-                log.info("Raid ({}) notification has been triggered!".format(gym_id))
->>>>>>> d22f0d7... Sponsored Raids
 
         time_str = get_time_as_str(
             raid['raid_end'], self.__timezone)
