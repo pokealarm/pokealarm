@@ -74,7 +74,7 @@ class TwilioAlarm(Alarm):
                 to_num=self.__to_number,
                 from_num=self.__from_number,
                 body="PokeAlarm activated!"
-                )
+            )
             log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
@@ -89,11 +89,11 @@ class TwilioAlarm(Alarm):
 
     # Send Pokemon Info
     def send_alert(self, alert, info):
-            self.send_sms(
-                to_num=alert['to_number'],
-                from_num=alert['from_number'],
-                body=replace(alert['message'], info)
-            )
+        self.send_sms(
+            to_num=alert['to_number'],
+            from_num=alert['from_number'],
+            body=replace(alert['message'], info)
+        )
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -117,17 +117,11 @@ class TwilioAlarm(Alarm):
 
     # Send a SMS message
     def send_sms(self, to_num, from_num, body):
-        if isinstance(to_num, list):
-            for num in to_num:
-                args={
-                    'to': num,
-                    'from_': from_num,
-                    'body': body
-                }
-                try_sending(log, self.connect, "Twilio", self.__client.messages.create, args)
-        else:
-            args = {
-                'to': to_num,
+        if not isinstance(to_num, list):
+           to_num = [to_num]
+        for num in to_num:
+            args={
+                'to': num,
                 'from_': from_num,
                 'body': body
             }
