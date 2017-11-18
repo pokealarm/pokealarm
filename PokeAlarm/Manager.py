@@ -956,6 +956,13 @@ class Manager(object):
             return
 
         gym_id = egg['id']
+        gym_info = self.__cache.get_gym_info(gym_id)
+        gym_name = gym_info['name'].lower()
+
+        # Check if egg gym should be sponsored and is sponsored
+        if (self.__egg_settings['sponsored_raid'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
+            log.debug("Egg {} is not at a sponsored gym: ".format(gym_name))
+            return
 
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
@@ -1009,7 +1016,6 @@ class Manager(object):
 
         # team id saved in self.__gym_hist when processing gym
         team_id = self.__cache.get_gym_team(gym_id)
-        gym_info = self.__cache.get_gym_info(gym_id)
 
         egg.update({
             "gym_name": gym_info['name'],
@@ -1044,9 +1050,16 @@ class Manager(object):
             return
 
         gym_id = raid['id']
+        gym_info = self.__cache.get_gym_info(gym_id)
+        gym_name = gym_info['name'].lower()
 
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
+
+        # Check if raid is sponsored
+        if (self.__raid_settings['sponsored_raid'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
+            log.debug("Raid {} is not at a sponsored gym: ".format(gym_name))
+            return
 
         # Check if raid has been processed
         if self.__cache.get_raid_expiration(gym_id) is not None:
@@ -1118,8 +1131,15 @@ class Manager(object):
                 self.__location, [lat, lng], raid)
 
         if self.__quiet is False:
+<<<<<<< HEAD
             log.info("Raid ({}) notification ".format(gym_id)
                      + "has been triggered!")
+=======
+            if (self.__raid_settings['sponsored_raid'] is True):
+                log.info("Sponsored Raid ({}) notification has been triggered!".format(gym_id))
+            else:
+                log.info("Raid ({}) notification has been triggered!".format(gym_id))
+>>>>>>> d22f0d7... Sponsored Raids
 
         time_str = get_time_as_str(
             raid['raid_end'], self.__timezone)
@@ -1127,7 +1147,6 @@ class Manager(object):
 
         # team id saved in self.__gym_hist when processing gym
         team_id = self.__cache.get_gym_team(gym_id)
-        gym_info = self.__cache.get_gym_info(gym_id)
         form_id = raid_pkmn['form_id']
         form = self.__locale.get_form_name(pkmn_id, form_id)
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)

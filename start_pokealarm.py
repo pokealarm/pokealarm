@@ -186,6 +186,8 @@ def parse_settings(root_path):
     config['HOST'] = args.host
     config['PORT'] = args.port
     config['DEBUG'] = args.debug
+    args.sponsored_gyms.pop(0)
+    config['SPONSORED_GYMS'] = args.sponsored_gyms
 
     # Check to make sure that the same number of arguments are included
     for arg in [args.key, args.filters, args.alarms, args.geofences,
