@@ -7,6 +7,9 @@ monkey.patch_all()
 
 # Setup Logging
 import logging
+logging.basicConfig(
+    format='%(asctime)s [%(processName)15.15s][%(name)10.10s]'
+           + '[%(levelname)8.8s] %(message)s', level=logging.INFO)
 
 # Standard Library Imports
 import configargparse
@@ -220,7 +223,7 @@ def parse_settings(root_path):
             name=get_from_list(
                 args.manager_name, m_ct, "Manager_{}".format(m_ct)),
             google_key=get_from_list(
-                args.google_key, m_ct, args.google_key[0]),
+                args.key, m_ct, args.key[0]),
             locale=get_from_list(args.locale, m_ct, args.locale[0]),
             units=get_from_list(args.units, m_ct, args.units[0]),
             timezone=get_from_list(args.timezone, m_ct, args.timezone[0]),
