@@ -960,9 +960,10 @@ class Manager(object):
         gym_name = gym_info['name'].lower()
 
         # Check if egg gym should be sponsored and is sponsored
-        if (self.__egg_settings['sponsored_gym'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
-            log.debug("Egg {} is not at a sponsored gym: ".format(gym_name))
-            return
+        if len(self.__egg_settings['contains']) > 0:
+            if not any(x in gym_name for x in self.__egg_settings['contains']):
+                log.debug("Egg {} is not at a sponsored gym: ".format(gym_name))
+                return
 
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
@@ -1056,10 +1057,11 @@ class Manager(object):
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
 
-        # Check if raid is sponsored
-        if (self.__raid_settings['sponsored_gym'] is True and not any(x in gym_name for x in config['SPONSORED_GYMS'])):
-            log.debug("Raid {} is not at a sponsored gym: ".format(gym_name))
-            return
+        # Check if raid gym should be sponsored and is sponsored
+        if len(self.__raid_settings['contains']) > 0:
+            if not any(x in gym_name for x in self.__raid_settings['contains']):
+                log.debug("Raid {} is not at a sponsored gym: ".format(gym_name))
+                return
 
         # Check if raid has been processed
         if self.__cache.get_raid_expiration(gym_id) is not None:
