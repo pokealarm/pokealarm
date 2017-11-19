@@ -198,6 +198,27 @@ if type == whtypes["1"]:
     int_or_default("pokemon_id")
     print "Gender (1-3)\n>",
     int_or_default("gender")
+    if payload["message"]["pokemon_id"] == 201:
+        print "Which form of Unown would you like? (default: A)\n>",
+        form_character = raw_input()[0:1].upper()
+        if form_character == '':
+            print "Defaulting to A"
+            payload["message"]["form"] = 1
+        else:
+            form = ord(form_character)
+            # A-Z = 1-26, ! = 27, ? = 28
+            if ord('A') <= form <= ord('Z'):
+                form -= ord('A') - 1
+            elif form == 33:
+                # !
+                form = 27
+            elif form == 63:
+                # ?
+                form = 28
+            else:
+                print "Invalid form type. Defaulting to A"
+                form = 1
+            payload["message"]["form"] = form
     print "Encounters enabled?\n>",
     if raw_input() in truthy:
         print "CP?\n>",
@@ -212,6 +233,15 @@ if type == whtypes["1"]:
         int_or_default("move_1")
         print "Id of move 2\n>",
         int_or_default("move_2")
+        if payload["message"]["pokemon_id"] == 19:
+            print "Count towards tiny Rattata medal?"
+            if raw_input() in truthy:
+                payload["message"]["weight"] = 2.0
+        if payload["message"]["pokemon_id"] == 129:
+            print "Count towards big Magikarp medal?"
+            if raw_input() in truthy:
+                payload["message"]["weight"] = 14.0
+
 elif type == whtypes["3"]:
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",
     get_and_validate_team()
