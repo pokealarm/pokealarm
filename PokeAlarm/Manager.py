@@ -700,10 +700,30 @@ class Manager(object):
             thread.join()
 
     def process_gym(self, gym):
-        gym_id = gym['id']
+        # Gym from monocle Egg or Raid
+        try:
+            gym_id = gym['gym_id']
+        except KeyError:
+            gym_id = gym['id']
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
+        try:
+            self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
+
+        except KeyError as e: # Gym from Egg or Raid
+            if e.message == "name":
+                self.__cache.update_gym_info(gym_id, gym['gym_name'], gym['gym_description'], gym['gym_url'])
+            else:
+                self.__cache.update_gym_info(gym_id, gym['gym_name'], None, None)
+
+        except Exception as e:
+            log.error("Encountered error while processing gym ({}: {})".format(type(e).__name__, e))
+            return
+
+        # End process if gym team info is missing
+        if gym['new_team_id'] is None:
+            log.debug("No team in gym info : Notification ignored")
+            return
 
         # Extract some basic information
         to_team_id = gym['new_team_id']
@@ -871,14 +891,16 @@ class Manager(object):
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
 
+        # Update gym cache if basic gym info in egg
+        if (egg['gym_id'], egg['gym_name']) is not None:
+            self.process_gym(egg)
+			
         # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id)
-        gym_info = self.__cache.get_gym_info(gym_id)
-
-        if egg['gym_name'] == 'unknown':  # if RM or empty
-            egg['gym_name'] = gym_info['name']
+        team_id = self.__cache.get_gym_team(gym_id) if egg['gym_id'] is None else self.__cache.get_gym_team(egg['gym_id'])
+        gym_info = self.__cache.get_gym_info(gym_id) if egg['gym_id'] is None else self.__cache.get_gym_info(egg['gym_id'])
 
         egg.update({
+            "gym_name": gym_info['name'],
             "gym_description": gym_info['description'],
             "gym_url": gym_info['url'],
             'time_left': time_str[0],
@@ -983,19 +1005,21 @@ class Manager(object):
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
+        # Update gym cache if basic gym info in egg
+        if (raid['id'], raid['gym_name']) is not None:
+            self.process_gym(raid)
+
         # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id)
-        gym_info = self.__cache.get_gym_info(gym_id)
+        team_id = self.__cache.get_gym_team(gym_id) if raid['gym_id'] is None else self.__cache.get_gym_team(raid['gym_id'])
+        gym_info = self.__cache.get_gym_info(gym_id) if raid['gym_id'] is None else self.__cache.get_gym_info(raid['gym_id'])
         form_id = raid_pkmn['form_id']
         form = self.__locale.get_form_name(pkmn_id, form_id)
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
 
-	if raid['gym_name'] == 'unknown':  # if RM or empty
-	    raid['gym_name'] = gym_info['name']
-        
         raid.update({
             'pkmn': name,
             'pkmn_id_3': '{:03}'.format(pkmn_id),
+            'gym_name': gym_info['name'],
             "gym_description": gym_info['description'],
             "gym_url": gym_info['url'],
             'time_left': time_str[0],

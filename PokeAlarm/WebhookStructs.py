@@ -187,7 +187,11 @@ class RocketMap:
         egg = {
             'type': 'egg',
             'id': id_,
-            'gym_name': check_for_none(str, data.get('gym_name'), 'unknown'),
+            'gym_id': data.get('gym_id'),
+            'gym_name': data.get('gym_name'),
+            'gym_description': data.get('gym_description'),
+            'gym_url': data.get('gym_url'),
+            'new_team_id': int(data.get('team')),
             'raid_level': check_for_none(int, data.get('level'), 0),
             'raid_end': raid_end,
             'raid_begin': raid_begin,
@@ -232,7 +236,11 @@ class RocketMap:
         raid = {
             'type': 'raid',
             'id': id_,
-            'gym_name' : check_for_none(str, data.get('gym_name'), 'unknown'),
+            'gym_id': data.get('gym_id'),
+            'gym_name': data.get('gym_name'),
+            'gym_description': data.get('gym_description'),
+            'gym_url': data.get('gym_url'),
+            'new_team_id': data.get('team'),
             'pkmn_id': check_for_none(int, data.get('pokemon_id'), 0),
             'cp': check_for_none(int, data.get('cp'), '?'),
             'quick_id': quick_id,
@@ -258,6 +266,7 @@ class RocketMap:
         raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
 
         return raid
+
 
 # Ensure that the value isn't None but replacing with a default
 def check_for_none(type_, val, default):

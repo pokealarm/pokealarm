@@ -61,7 +61,11 @@ class Cache(object):
     def update_gym_info(self, gym_id, name, desc, url):
         """ Updates the information about the gym. """
         if name != 'unknown':  # Don't update if the gym info is missing
-            self._gym_info[gym_id] = {"name": name, "description": desc, "url": url}
+            # Only update name if url or desc is missing or update them all
+            if (desc, url) is not None:
+                self._gym_info[gym_id] = {"name": name, "description": desc, "url": url}
+            else:
+                self._gym_info[gym_id]['name'] = name
 
     def get_egg_expiration(self, gym_id):
         """ Returns the datetime that the egg expires. """
