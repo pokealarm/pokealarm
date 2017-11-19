@@ -412,10 +412,11 @@ class Manager(object):
             if dist != 'unkn':
                 if filt.check_dist(dist) is False:
                     if self.__quiet is False:
-                        log.info("{} rejected: distance ({:.2f}) was not in "
-                                 + "range {:.2f} to {:.2f} (F #{})".format(
-                                    name, dist, filt.min_dist,
-                                    filt.max_dist, filt_ct))
+                        log.info(
+                            "{} rejected: distance ({:.2f}) was not in "
+                            + "range {:.2f} to {:.2f} (F #{})".format(
+                                name, dist, filt.min_dist,
+                                filt.max_dist, filt_ct))
                     continue
             else:
                 log.debug("Filter dist was not checked because"
@@ -425,10 +426,11 @@ class Manager(object):
             if cp != '?':
                 if not filt.check_cp(cp):
                     if self.__quiet is False:
-                        log.info("{} rejected: CP ({}) not in range "
-                                 + "{} to {} - (F #{})".format(
-                                    name, cp, filt.min_cp,
-                                    filt.max_cp, filt_ct))
+                        log.info(
+                            "{} rejected: CP ({}) not in range "
+                            + "{} to {} - (F #{})".format(
+                                name, cp, filt.min_cp,
+                                filt.max_cp, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
@@ -442,10 +444,11 @@ class Manager(object):
             if level != '?':
                 if not filt.check_level(level):
                     if self.__quiet is False:
-                        log.info("{} rejected: Level ({}) not "
-                                 + "in range {} to {} - (F #{})".format(
-                                    name, level, filt.min_level,
-                                    filt.max_level, filt_ct))
+                        log.info(
+                            "{} rejected: Level ({}) not "
+                            + "in range {} to {} - (F #{})".format(
+                                name, level, filt.min_level,
+                                filt.max_level, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
@@ -459,10 +462,11 @@ class Manager(object):
             if iv != '?':
                 if not filt.check_iv(iv):
                     if self.__quiet is False:
-                        log.info("{} rejected: IV percent ({:.2f}) not in "
-                                 + "range {:.2f} to {:.2f} - (F #{})".format(
-                                    name, iv, filt.min_iv,
-                                    filt.max_iv, filt_ct))
+                        log.info(
+                            "{} rejected: IV percent ({:.2f}) not in "
+                            + "range {:.2f} to {:.2f} - (F #{})".format(
+                                name, iv, filt.min_iv,
+                                filt.max_iv, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
@@ -476,10 +480,11 @@ class Manager(object):
             if atk != '?':
                 if not filt.check_atk(atk):
                     if self.__quiet is False:
-                        log.info("{} rejected: Attack IV ({}) not in "
-                                 + "range {} to {} - (F #{})".format(
-                                    name, atk, filt.min_atk,
-                                    filt.max_atk, filt_ct))
+                        log.info(
+                            "{} rejected: Attack IV ({}) not in "
+                            + "range {} to {} - (F #{})".format(
+                                name, atk, filt.min_atk,
+                                filt.max_atk, filt_ct))
 
                     continue
             else:
@@ -494,10 +499,11 @@ class Manager(object):
             if def_ != '?':
                 if not filt.check_def(def_):
                     if self.__quiet is False:
-                        log.info("{} rejected: Defense IV ({}) not in "
-                                 + "range {} to {} - (F #{})".format(
-                                    name, def_, filt.min_atk,
-                                    filt.max_atk, filt_ct))
+                        log.info(
+                            "{} rejected: Defense IV ({}) not in "
+                            + "range {} to {} - (F #{})".format(
+                                name, def_, filt.min_atk,
+                                filt.max_atk, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
@@ -511,10 +517,11 @@ class Manager(object):
             if sta != '?':
                 if not filt.check_sta(sta):
                     if self.__quiet is False:
-                        log.info("{} rejected: Stamina IV ({}) not in range "
-                                 + "{} to {} - (F #{}).".format(
-                                    name, sta, filt.min_sta,
-                                    filt.max_sta, filt_ct))
+                        log.info(
+                            "{} rejected: Stamina IV ({}) not in range "
+                            + "{} to {} - (F #{}).".format(
+                                name, sta, filt.min_sta,
+                                filt.max_sta, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:

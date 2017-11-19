@@ -76,7 +76,7 @@ def load_pokemon_filters(settings):
 
 def load_pokemon_section(settings):
     log.info("Setting Pokemon filters...")
-    pokemon = { "enabled": bool(parse_boolean(
+    pokemon = {"enabled": bool(parse_boolean(
         settings.pop('enabled', None)) or False)}
 
     filters = load_pokemon_filters(settings)
@@ -226,7 +226,7 @@ class PokemonFilter(Filter):
         self.req_charge_move = PokemonFilter.create_moves_list(
             settings.pop("charge_move", default['charge_move']))
         self.req_moveset = PokemonFilter.create_moveset_list(
-            settings.pop("moveset",  default['moveset']))
+            settings.pop("moveset", default['moveset']))
 
         reject_leftover_parameters(
             settings, "pokemon filter under '{}'".format(location))
@@ -483,7 +483,7 @@ class GymFilter(Filter):
     def create_team_list(settings):  # Create a set of Team ID #'s
         if type(settings) != list:
             log.error("Gym names must be specified in an array. EX: "
-                      + "[\"Valor\", \"Instinct\"]" )
+                      + "[\"Valor\", \"Instinct\"]")
             sys.exit(1)
         s = set()
         for team in settings:

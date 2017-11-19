@@ -82,7 +82,7 @@ class Geofence(object):
         inside = False
         p1x, p1y = self.__points[0]
         n = len(self.__points)
-        for i in range(1, n+1):
+        for i in range(1, n + 1):
             p2x, p2y = self.__points[i % n]
             if min(p1y, p2y) < y <= max(p1y, p2y) and x <= max(p1x, p2x):
                 if p1y != p2y:

@@ -55,7 +55,7 @@ class FacebookPageAlarm(Alarm):
             'image': get_image_url("eggs/<raid_level>.png"),
             'link': "<gmaps>",
             'name': 'Egg',
-            'description':  "A level <raid_level> raid will hatch at "
+            'description': "A level <raid_level> raid will hatch at "
                     + "<begin_24h_time> (<begin_time_left>).",
             'caption': None
         },

@@ -82,8 +82,9 @@ class Alarm(object):
                 log.error("Encountered error while sending notification"
                           + " ({}: {})".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-                log.info("{} is having connection issues. "
-                         + "{} attempt of {}.".format(name, i+1, max_attempts))
+                log.info(
+                    "{} is having connection issues. {} attempt of {}.".format(
+                        name, i + 1, max_attempts))
                 time.sleep(3)
                 reconnect()
         log.error("Could not send notification... Giving up.")

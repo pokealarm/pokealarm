@@ -18,7 +18,7 @@ class Cache(object):
     _default_gym_info = {
         "name": "unknown",
         "description": "unknown",
-        "url":  get_image_url('icons/gym_0.png')
+        "url": get_image_url('icons/gym_0.png')
     }
 
     def __init__(self):

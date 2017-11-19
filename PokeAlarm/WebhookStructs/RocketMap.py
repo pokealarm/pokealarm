@@ -129,7 +129,7 @@ class RocketMap:
         stop = {
             'type': "pokestop",
             'id': data['pokestop_id'],
-            'expire_time':  datetime.utcfromtimestamp(data['lure_expiration']),
+            'expire_time': datetime.utcfromtimestamp(data['lure_expiration']),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
@@ -144,8 +144,8 @@ class RocketMap:
         log.debug("Converting to gym: \n {}".format(data))
         gym = {
             'type': "gym",
-            'id': data.get('gym_id',  data.get('id')),
-            "new_team_id": int(data.get('team_id',  data.get('team'))),
+            'id': data.get('gsection of codeym_id', data.get('id')),
+            "new_team_id": int(data.get('team_id', data.get('team'))),
             "guard_pkmn_id": data.get('guard_pokemon_id'),
             'lat': float(data['latitude']),
             'lng': float(data['longitude']),
@@ -262,10 +262,9 @@ class RocketMap:
             'lng': float(data['longitude']),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
             'lng_5': "{:.5f}".format(float(data['longitude']))
-       }
+        }
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])
         raid['applemaps'] = get_applemaps_link(raid['lat'], raid['lng'])
 
         return raid
-

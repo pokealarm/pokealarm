@@ -1,4 +1,3 @@
-from Alarm import Alarm
 from PokeAlarm.Utils import require_and_remove_key
 
 

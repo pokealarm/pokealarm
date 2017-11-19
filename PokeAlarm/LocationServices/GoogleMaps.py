@@ -121,7 +121,7 @@ class GoogleMaps(object):
             log.info("Walking Data DTS detected - API has been enabled!")
 
     # Returns set with walking dist and duration via Google Distance Matrix API
-    def __get_walking_data(self, origin,  dest):
+    def __get_walking_data(self, origin, dest):
         origin = "{:.5f},{:.5f}".format(origin[0], origin[1])
         dest = "{:.5f},{:.5f}".format(dest[0], dest[1])
         key = origin + "to" + dest
@@ -151,7 +151,7 @@ class GoogleMaps(object):
             log.info("Biking Data DTS detected - API has been enabled!")
 
     # Returns set with biking dist and duration via Google Distance Matrix API
-    def __get_biking_data(self, origin,  dest):
+    def __get_biking_data(self, origin, dest):
         origin = "{:.5f},{:.5f}".format(origin[0], origin[1])
         dest = "{:.5f},{:.5f}".format(dest[0], dest[1])
         key = origin + "to" + dest
@@ -181,7 +181,7 @@ class GoogleMaps(object):
             log.info("Driving Data DTS detected - API has been enabled!")
 
     # Returns set with walking dist and duration via Google Distance Matrix API
-    def __get_driving_data(self, origin,  dest):
+    def __get_driving_data(self, origin, dest):
         origin = "{:.5f},{:.5f}".format(origin[0], origin[1])
         dest = "{:.5f},{:.5f}".format(dest[0], dest[1])
         key = origin + "to" + dest
