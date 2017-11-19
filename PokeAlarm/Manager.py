@@ -896,8 +896,12 @@ class Manager(object):
             self.process_gym(egg)
 			
         # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id) if egg['gym_id'] is None else self.__cache.get_gym_team(egg['gym_id'])
-        gym_info = self.__cache.get_gym_info(gym_id) if egg['gym_id'] is None else self.__cache.get_gym_info(egg['gym_id'])
+        try:
+            team_id = self.__cache.get_gym_team(egg['gym_id'])
+            gym_info = self.__cache.get_gym_info(egg['gym_id'])
+        except KeyError:
+            team_id = self.__cache.get_gym_team(gym_id)
+            gym_info = self.__cache.get_gym_info(gym_id)
 
         egg.update({
             "gym_name": gym_info['name'],
@@ -1010,8 +1014,13 @@ class Manager(object):
             self.process_gym(raid)
 
         # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id) if raid['gym_id'] is None else self.__cache.get_gym_team(raid['gym_id'])
-        gym_info = self.__cache.get_gym_info(gym_id) if raid['gym_id'] is None else self.__cache.get_gym_info(raid['gym_id'])
+        try:
+            team_id = self.__cache.get_gym_team(raid['gym_id'])
+            gym_info = self.__cache.get_gym_info(raid['gym_id'])
+        except KeyError:
+            team_id = self.__cache.get_gym_team(gym_id)
+            gym_info = self.__cache.get_gym_info(gym_id)
+
         form_id = raid_pkmn['form_id']
         form = self.__locale.get_form_name(pkmn_id, form_id)
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
