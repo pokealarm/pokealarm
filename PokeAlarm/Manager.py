@@ -1,26 +1,29 @@
 # Standard Library Imports
-from datetime import datetime, timedelta
-import gevent
-import logging
-import json
-import multiprocessing
 import Queue
-import traceback
+import json
+import logging
+import multiprocessing
+import os
 import re
 import sys
-import os
+import traceback
+from datetime import datetime, timedelta
+
+import gevent
 # 3rd Party Imports
 import gipc
-# Local Imports
-from . import config
+
+from Alarms import alarm_factory
 from Cache import cache_factory
 from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
     load_raid_section
+from Geofence import load_geofence_file
 from Locale import Locale
+from LocationServices import LocationService
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
     require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
-from Geofence import load_geofence_file
-from LocationServices import LocationService
+# Local Imports
+from . import config
 
 log = logging.getLogger('Manager')
 
@@ -162,33 +165,8 @@ class Manager(object):
             self.__alarms = []
             for alarm in alarm_settings:
                 if parse_boolean(require_and_remove_key('active', alarm, "Alarm objects in Alarms file.")) is True:
-                    _type = require_and_remove_key('type', alarm, "Alarm objects in Alarms file.")
                     self.set_optional_args(str(alarm))
-                    if _type == 'discord':
-                        from Discord import DiscordAlarm
-                        self.__alarms.append(DiscordAlarm(alarm, max_attempts, self.__google_key))
-                    elif _type == 'facebook_page':
-                        from FacebookPage import FacebookPageAlarm
-                        self.__alarms.append(FacebookPageAlarm(alarm))
-                    elif _type == 'pushbullet':
-                        from Pushbullet import PushbulletAlarm
-                        self.__alarms.append(PushbulletAlarm(alarm))
-                    elif _type == 'slack':
-                        from Slack import SlackAlarm
-                        self.__alarms.append(SlackAlarm(alarm, self.__google_key))
-                    elif _type == 'telegram':
-                        from Telegram import TelegramAlarm
-                        self.__alarms.append(TelegramAlarm(alarm))
-                    elif _type == 'twilio':
-                        from Twilio import TwilioAlarm
-                        self.__alarms.append(TwilioAlarm(alarm))
-                    elif _type == 'twitter':
-                        from Twitter import TwitterAlarm
-                        self.__alarms.append(TwitterAlarm(alarm))
-                    else:
-                        log.error("Alarm type not found: " + alarm['type'])
-                        log.error("Please consult the PokeAlarm documentation accepted Alarm Types")
-                        sys.exit(1)
+                    self.__alarms.append(alarm_factory(alarm, max_attempts, self.__google_key))
                 else:
                     log.debug("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
             log.info("{} active alarms found.".format(len(self.__alarms)))
@@ -722,10 +700,30 @@ class Manager(object):
             thread.join()
 
     def process_gym(self, gym):
-        gym_id = gym['id']
+        # Gym from monocle Egg or Raid
+        try:
+            gym_id = gym['gym_id']
+        except KeyError:
+            gym_id = gym['id']
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
+        try:
+            self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
+
+        except KeyError as e: # Gym from Egg or Raid
+            if e.message == "name":
+                self.__cache.update_gym_info(gym_id, gym['gym_name'], gym['gym_description'], gym['gym_url'])
+            else:
+                self.__cache.update_gym_info(gym_id, gym['gym_name'], None, None)
+
+        except Exception as e:
+            log.error("Encountered error while processing gym ({}: {})".format(type(e).__name__, e))
+            return
+
+        # End process if gym team info is missing
+        if gym['new_team_id'] is None:
+            log.debug("No team in gym info : Notification ignored")
+            return
 
         # Extract some basic information
         to_team_id = gym['new_team_id']
@@ -893,9 +891,17 @@ class Manager(object):
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
 
+        # Update gym cache if basic gym info in egg
+        if (egg['gym_id'], egg['gym_name']) is not None:
+            self.process_gym(egg)
+			
         # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id)
-        gym_info = self.__cache.get_gym_info(gym_id)
+        try:
+            team_id = self.__cache.get_gym_team(egg['gym_id'])
+            gym_info = self.__cache.get_gym_info(egg['gym_id'])
+        except KeyError:
+            team_id = self.__cache.get_gym_team(gym_id)
+            gym_info = self.__cache.get_gym_info(gym_id)
 
         egg.update({
             "gym_name": gym_info['name'],
@@ -1003,9 +1009,18 @@ class Manager(object):
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
+        # Update gym cache if basic gym info in egg
+        if (raid['id'], raid['gym_name']) is not None:
+            self.process_gym(raid)
+
         # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id)
-        gym_info = self.__cache.get_gym_info(gym_id)
+        try:
+            team_id = self.__cache.get_gym_team(raid['gym_id'])
+            gym_info = self.__cache.get_gym_info(raid['gym_id'])
+        except KeyError:
+            team_id = self.__cache.get_gym_team(gym_id)
+            gym_info = self.__cache.get_gym_info(gym_id)
+
         form_id = raid_pkmn['form_id']
         form = self.__locale.get_form_name(pkmn_id, form_id)
         min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
@@ -1013,7 +1028,7 @@ class Manager(object):
         raid.update({
             'pkmn': name,
             'pkmn_id_3': '{:03}'.format(pkmn_id),
-            "gym_name": gym_info['name'],
+            'gym_name': gym_info['name'],
             "gym_description": gym_info['description'],
             "gym_url": gym_info['url'],
             'time_left': time_str[0],

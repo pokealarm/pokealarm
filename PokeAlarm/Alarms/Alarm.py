@@ -4,11 +4,11 @@ import traceback
 # 3rd Party Imports
 # Local Imports
 
-#####################################################  ATTENTION!  #####################################################
-# You DO NOT NEED to edit this file to customize messages for services! Please see the Wiki on the correct way to
-# customize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
-#                               PLEASE ONLY EDIT IF YOU KNOW WHAT YOU ARE DOING!
-#####################################################  ATTENTION!  #####################################################
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#             ONLY EDIT THIS FILE IF YOU KNOW WHAT YOU ARE DOING!
+# You DO NOT NEED to edit this file to customize messages! Please ONLY EDIT the
+#     the 'alarms.json'. Failing to do so can cause other feature to break!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 # This is a basic interface for the Alarms Modules to implement
@@ -71,7 +71,7 @@ class Alarm(object):
             s = s.replace("<{}>".format(key), str(pkinfo[key]))
         return s
 
-    # Attempts to send the alert with the specified args, reconnecting if neccesary
+    # Attempts to send the alert multiple times
     @staticmethod
     def try_sending(log, reconnect, name, send_alert, args, max_attempts=3):
         for i in range(max_attempts):
@@ -79,9 +79,11 @@ class Alarm(object):
                 send_alert(**args)
                 return  # message sent successfully
             except Exception as e:
-                log.error("Encountered error while sending notification ({}: {})".format(type(e).__name__, e))
+                log.error("Encountered error while sending notification"
+                          + " ({}: {})".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-                log.info("{} is having connection issues. {} attempt of {}.".format(name, i+1, max_attempts))
+                log.info("{} is having connection issues. "
+                         + "{} attempt of {}.".format(name, i+1, max_attempts))
                 time.sleep(3)
                 reconnect()
         log.error("Could not send notification... Giving up.")

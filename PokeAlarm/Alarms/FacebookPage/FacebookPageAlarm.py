@@ -1,31 +1,34 @@
 # Standard Library Imports
-from datetime import datetime
 import logging
+from datetime import datetime
+
 # 3rd Party Imports
 import facebook
+
 # Local Imports
-from ..Alarm import Alarm
-from ..Utils import parse_boolean, get_time_as_str, reject_leftover_parameters, require_and_remove_key, get_image_url
+from PokeAlarm.Alarms import Alarm
+from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
+    reject_leftover_parameters, require_and_remove_key, get_image_url
 
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
 
-#####################################################  ATTENTION!  #####################################################
-# You DO NOT NEED to edit this file to customize messages for services! Please see the Wiki on the correct way to
-# customize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
-#                               PLEASE ONLY EDIT IF YOU KNOW WHAT YOU ARE DOING!
-#####################################################  ATTENTION!  #####################################################
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#             ONLY EDIT THIS FILE IF YOU KNOW WHAT YOU ARE DOING!
+# You DO NOT NEED to edit this file to customize messages! Please ONLY EDIT the
+#     the 'alarms.json'. Failing to do so can cause other feature to break!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 class FacebookPageAlarm(Alarm):
 
-
     _defaults = {
         'pokemon': {
             'message': "A wild <pkmn> has appeared!",
-            'image': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'image': get_image_url(
+                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
             'link': "<gmaps>",
             'name': "<pkmn>",
             'description': "Available until <24h_time> (<time_left>)",
@@ -52,36 +55,48 @@ class FacebookPageAlarm(Alarm):
             'image': get_image_url("eggs/<raid_level>.png"),
             'link': "<gmaps>",
             'name': 'Egg',
-            'description': "The egg will hatch <begin_24h_time> (<begin_time_left>).",
+            'description':  "A level <raid_level> raid will hatch at "
+                    + "<begin_24h_time> (<begin_time_left>).",
             'caption': None
         },
         'raid': {
             'message': "A Raid is available against <pkmn>!",
-            'image': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'image': get_image_url(
+                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
             'link': "<gmaps>",
             'name': 'Raid',
-            'description': "The raid is available until <24h_time> (<time_left>).",
+            'description':
+                "The raid is available until <24h_time> (<time_left>).",
             'caption': None
         }
     }
+
     # Gather settings and create alarm
     def __init__(self, settings):
         # Required Parameters
-        self.__page_access_token = require_and_remove_key('page_access_token', settings, "'FacebookPage' type alarms.")
+        self.__page_access_token = require_and_remove_key(
+            'page_access_token', settings, "'FacebookPage' type alarms.")
         self.__client = None
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__startup_message = parse_boolean(
+            settings.pop('startup_message', "True"))
 
         # Set Alerts
-        self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(settings.pop('gym', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
+        self.__pokemon = self.create_alert_settings(
+            settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.create_alert_settings(
+            settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.create_alert_settings(
+            settings.pop('gym', {}), self._defaults['gym'])
+        self.__egg = self.create_alert_settings(
+            settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(
+            settings.pop('raid', {}), self._defaults['raid'])
 
         #  Warn user about leftover parameters
-        reject_leftover_parameters(settings, "'Alarm level in FacebookPage alarm.")
+        reject_leftover_parameters(
+            settings, "Alarm level in FacebookPage alarm.")
 
         log.info("FacebookPage Alarm has been created!")
 
@@ -93,7 +108,8 @@ class FacebookPageAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
-            self.post_to_wall("{} - PokeAlarm has intialized!".format(timestamps[2]))
+            self.post_to_wall("{} - PokeAlarm has initialized!".format(
+                timestamps[2]))
             log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
@@ -106,7 +122,8 @@ class FacebookPageAlarm(Alarm):
             'image': settings.pop('image', default['image']),
             'name': settings.pop('name', default['name'])
         }
-        reject_leftover_parameters(settings, "'Alert level in FacebookPage alarm.")
+        reject_leftover_parameters(
+            settings, "Alert level in FacebookPage alarm.")
         return alert
 
     # Post Pokemon Message
@@ -122,7 +139,7 @@ class FacebookPageAlarm(Alarm):
             attachment['name'] = replace(alert['name'], info)
         self.post_to_wall(
             message=replace(alert['message'], info),
-            attachment = attachment
+            attachment=attachment
         )
 
     # Trigger an alert based on Pokemon info
@@ -150,4 +167,5 @@ class FacebookPageAlarm(Alarm):
         args = {"message": message}
         if attachment is not None:
             args['attachment'] = attachment
-        try_sending(log, self.connect, "FacebookPage", self.__client.put_wall_post, args)
+        try_sending(log, self.connect, "FacebookPage",
+                    self.__client.put_wall_post, args)
