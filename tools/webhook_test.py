@@ -23,7 +23,8 @@ teams = {
     "3": "Instinct"
 }
 
-teams_formatted = re.sub('[{}",]', '', json.dumps(teams, indent=4, sort_keys=True))
+teams_formatted = re.sub('[{}",]', '', json.dumps(
+    teams, indent=4, sort_keys=True))
 
 
 def set_init(webhook_type):
@@ -74,8 +75,6 @@ def set_init(webhook_type):
                 "raid_active_until": 0,
                 "gym_id": 0,
                 "team_id": 3,
-                "guard_pokemon_id": 0,
-                # "gym_points": 100,
                 "slots_available": 0,
                 "guard_pokemon_id": 99,
                 "lowest_pokemon_motivation": 0.8795773983001709,
@@ -122,7 +121,8 @@ def check_int(questionable_input, default):
 
 
 def int_or_default(input_parm):
-    payload["message"][input_parm] = check_int(raw_input(), payload["message"][input_parm])
+    payload["message"][input_parm] = check_int(
+        raw_input(), payload["message"][input_parm])
 
 
 def reset_timers_and_encounters():
@@ -164,8 +164,10 @@ def get_and_validate_team():
     payload["message"]["team_id"] = team
 
 
-webhooks_formatted = re.sub('[{}",]', '', json.dumps(whtypes, indent=4, sort_keys=True))
-print "What kind of webhook would you like to send?(put in a number)\n"+webhooks_formatted+">",
+webhooks_formatted = re.sub('[{}",]', '', json.dumps(
+    whtypes, indent=4, sort_keys=True))
+print "What kind of webhook would you like to send?(put in a number)\n"\
+      + webhooks_formatted + ">",
 type = whtypes.get(raw_input(), 0)
 if type == 0:
     print "Must put in valid webhook type"
@@ -173,7 +175,8 @@ if type == 0:
 
 payload = set_init(type)
 
-print "What is the URL of where you would like to send the webhook? (default: http://127.0.0.1:4000)\n>",
+print "What is the URL of where you would like to send the webhook? " \
+      + "(default: http://127.0.0.1:4000)\n>",
 url = raw_input()
 if url == '' or url.isspace():
     url = "http://127.0.0.1:4000"
@@ -181,13 +184,15 @@ if url == '' or url.isspace():
 
 print "Does location matter or do you use geofences? (Y/N)\n>",
 if raw_input() in truthy:
-    regex_coordinates = re.compile("[-+]?[0-9]*\.?[0-9]*" + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
+    regex_coordinates = re.compile("[-+]?[0-9]*\.?[0-9]*"
+                                   + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
     print "Enter latitude,longitude (Ex. 37.7876146,-122.390624)\n>",
     coordinates = raw_input()
     lat = payload["message"]["latitude"]
     lng = payload["message"]["longitude"]
     if not regex_coordinates.match(coordinates):
-        print "Coordinates not valid. Defaulting to "+str(lat)+','+str(lng)
+        print "Coordinates not valid. Defaulting to " \
+              + str(lat) + ',' + str(lng)
     else:
         lat, lng = map(float, coordinates.split(","))
     payload["message"]["latitude"] = lat
@@ -269,12 +274,14 @@ while True:
     for i in range(3):
         resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
-            print "Notification successful. Returned code {}".format(resp.status_code)
+            print "Notification successful. Returned code {}".format(
+                resp.status_code)
             break
         else:
             print "Discord response was {}".format(resp.content)
             raise requests.exceptions.RequestException(
-                "Response received {}, webhook not accepted.".format(resp.status_code))
+                "Response received {}, webhook not accepted.".format(
+                    resp.status_code))
             print "Attempting connection again"
     print "Send again?\n>",
     if raw_input() not in truthy:

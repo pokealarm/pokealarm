@@ -41,8 +41,8 @@ class TwilioAlarm(Alarm):
                        + " Egg hatches <begin_24h_time> (<begin_time_left>)."
         },
         'raid': {
-           'message': "A raid on <pkmn> is available! <gmap>"
-                      + " Available until <24h_time> (<time_left>)."
+            'message': "A raid on <pkmn> is available! <gmap>"
+                       + " Available until <24h_time> (<time_left>)."
         }
     }
 
@@ -79,7 +79,6 @@ class TwilioAlarm(Alarm):
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
 
         log.info("Twilio Alarm has been created!")
-
 
     # (Re)establishes Telegram connection
     def connect(self):
@@ -136,12 +135,13 @@ class TwilioAlarm(Alarm):
     # Send a SMS message
     def send_sms(self, to_num, from_num, body):
         if not isinstance(to_num, list):
-           to_num = [to_num]
+            to_num = [to_num]
         for num in to_num:
-            args={
+            args = {
                 'to': num,
                 'from_': from_num,
                 'body': body
             }
-            try_sending(log, self.connect,
-                        "Twilio", self.__client.messages.create, args)
+            try_sending(
+                log, self.connect, "Twilio",
+                self.__client.messages.create, args)

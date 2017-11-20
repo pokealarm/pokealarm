@@ -15,13 +15,14 @@ import gipc
 
 from Alarms import alarm_factory
 from Cache import cache_factory
-from Filters import load_pokemon_section, load_pokestop_section, load_gym_section, load_egg_section, \
-    load_raid_section
+from Filters import load_pokemon_section, load_pokestop_section, \
+    load_gym_section, load_egg_section, load_raid_section
 from Geofence import load_geofence_file
 from Locale import Locale
-from LocationServices import LocationService
-from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
+from LocationServices import location_service_factory
+from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path,\
+    get_time_as_str, require_and_remove_key, parse_boolean, contains_arg, \
+    get_pokemon_cp_range
 # Local Imports
 from . import config
 
@@ -29,11 +30,13 @@ log = logging.getLogger('Manager')
 
 
 class Manager(object):
-    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet, cache_type,
-                 filter_file, geofence_file, alarm_file, debug):
+    def __init__(self, name, google_key, locale, units, timezone, time_limit,
+                 max_attempts, location, quiet, cache_type, filter_file,
+                 geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
-        log.info("----------- Manager '{}' is being created.".format(self.__name))
+        log.info("----------- Manager '{}' ".format(self.__name)
+                 + " is being created.")
         self.__debug = debug
 
         # Get the Google Maps API
@@ -41,21 +44,24 @@ class Manager(object):
         self.__loc_service = None
         if str(google_key).lower() != 'none':
             self.__google_key = google_key
-            self.__loc_service = LocationService(google_key, locale, units)
+            self.__loc_service = location_service_factory(
+                "GoogleMaps", google_key, locale, units)
         else:
-            log.warning("NO GOOGLE API KEY SET - Reverse Location and Distance Matrix DTS will NOT be detected.")
+            log.warning("NO GOOGLE API KEY SET - Reverse Location and"
+                        + " Distance Matrix DTS will NOT be detected.")
 
         self.__locale = Locale(locale)  # Setup the language-specific stuff
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
-        self.__time_limit = time_limit  # Minimum time remaining for stops and pokemon
+        self.__time_limit = time_limit  # Minimum time remaining
 
-        # Set up the Location Specific Stuff
-        self.__location = None  # Location should be [lat, lng] (or None for no location)
+        # Location should be [lat, lng] (or None for no location)
+        self.__location = None
         if str(location).lower() != 'none':
             self.set_location(location)
         else:
-            log.warning("NO LOCATION SET - this may cause issues with distance related DTS.")
+            log.warning("NO LOCATION SET - "
+                        + " this may cause issues with distance related DTS.")
 
         # Quiet mode
         self.__quiet = quiet
@@ -64,8 +70,11 @@ class Manager(object):
         self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
-        self.__pokemon_settings, self.__pokestop_settings, self.__gym_settings = {}, {}, {}
-        self.__raid_settings, self.__egg_settings = {}, {}
+        self.__pokemon_settings = {}
+        self.__pokestop_settings = {}
+        self.__gym_settings = {}
+        self.__raid_settings = {}
+        self.__egg_settings = {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -81,9 +90,10 @@ class Manager(object):
         self.__event = multiprocessing.Event()
         self.__process = None
 
-        log.info("----------- Manager '{}' successfully created.".format(self.__name))
+        log.info("----------- Manager '{}' ".format(self.__name)
+                 + " successfully created.")
 
-    ############################################## CALLED BY MAIN PROCESS ##############################################
+    # ~~~~~~~~~~~~~~~~~~~~~~~ MAIN PROCESS CONTROL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Update the object into the queue
     def update(self, obj):
@@ -95,20 +105,23 @@ class Manager(object):
 
     # Tell the process to finish up and go home
     def stop(self):
-        log.info("Manager {} shutting down... {} items in queue.".format(self.__name, self.__queue.qsize()))
+        log.info("Manager {} shutting down... ".format(self.__name)
+                 + "{} items in queue.".format(self.__queue.qsize()))
         self.__event.set()
 
     def join(self):
         self.__process.join(timeout=10)
         if self.__process.is_alive():
-            log.warning("Manager {} could not be stopped in time! Forcing process to stop.")
+            log.warning("Manager {} could not be stopped in time!"
+                        + " Forcing process to stop.")
             self.__process.terminate()
         else:
             log.info("Manager {} successfully stopped!".format(self.__name))
 
-    ####################################################################################################################
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    ################################################## MANAGER LOADING  ################################################
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # Load in a new filters file
     def load_filter_file(self, file_path):
         try:
@@ -116,7 +129,8 @@ class Manager(object):
             with open(file_path, 'r') as f:
                 filters = json.load(f)
             if type(filters) is not dict:
-                log.critical("Filters file's must be a JSON object: { \"pokemon\":{...},... }")
+                log.critical("Filters file's must be a JSON object:"
+                             + " { \"pokemon\":{...},... }")
 
             # Load in the Pokemon Section
             self.__pokemon_settings = load_pokemon_section(
@@ -141,16 +155,22 @@ class Manager(object):
             return
 
         except ValueError as e:
-            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
+            log.error("Encountered error while loading Filters:"
+                      + " {}: {}".format(type(e).__name__, e))
             log.error(
-                "PokeAlarm has encountered a 'ValueError' while loading the Filters file. This typically means your " +
-                "file isn't in the correct json format. Try loading your file contents into a json validator.")
+                "PokeAlarm has encountered a 'ValueError' while loading the"
+                + " Filters file. This typically means your file isn't in the"
+                + "correct json format. Try loading your file contents into a"
+                + " json validator.")
         except IOError as e:
-            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
-            log.error("PokeAlarm was unable to find a filters file at {}." +
-                      "Please check that this file exists and PA has read permissions.").format(file_path)
+            log.error("Encountered error while loading Filters: "
+                      + "{}: {}".format(type(e).__name__, e))
+            log.error("PokeAlarm was unable to find a filters file"
+                      + " at {}. Please check that this ".format(file_path)
+                      + " file exists and that PA has read permissions.")
         except Exception as e:
-            log.error("Encountered error while loading Filters: {}: {}".format(type(e).__name__, e))
+            log.error("Encountered error while loading Filters:  "
+                      + "{}: {}".format(type(e).__name__, e))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
@@ -160,40 +180,52 @@ class Manager(object):
             with open(file_path, 'r') as f:
                 alarm_settings = json.load(f)
             if type(alarm_settings) is not list:
-                log.critical("Alarms file must be a list of Alarms objects - [ {...}, {...}, ... {...} ]")
+                log.critical("Alarms file must be a list of Alarms objects "
+                             + "- [ {...}, {...}, ... {...} ]")
                 sys.exit(1)
             self.__alarms = []
             for alarm in alarm_settings:
-                if parse_boolean(require_and_remove_key('active', alarm, "Alarm objects in Alarms file.")) is True:
+                if parse_boolean(require_and_remove_key(
+                        'active', alarm, "Alarm objects in file.")) is True:
                     self.set_optional_args(str(alarm))
-                    self.__alarms.append(alarm_factory(alarm, max_attempts, self.__google_key))
+                    self.__alarms.append(
+                        alarm_factory(alarm, max_attempts, self.__google_key))
                 else:
-                    log.debug("Alarm not activated: " + alarm['type'] + " because value not set to \"True\"")
+                    log.debug("Alarm not activated: {}".format(alarm['type'])
+                              + " because value not set to \"True\"")
             log.info("{} active alarms found.".format(len(self.__alarms)))
             return  # all done
         except ValueError as e:
-            log.error("Encountered error while loading Alarms file: {}: {}".format(type(e).__name__, e))
+            log.error("Encountered error while loading Alarms file: "
+                      + "{}: {}".format(type(e).__name__, e))
             log.error(
-                "PokeAlarm has encountered a 'ValueError' while loading the Alarms file. This typically means your " +
-                "file isn't in the correct json format. Try loading your file contents into a json validator.")
+                "PokeAlarm has encountered a 'ValueError' while loading the "
+                + " Alarms file. This typically means your file isn't in the "
+                + "correct json format. Try loading your file contents into"
+                + " a json validator.")
         except IOError as e:
-            log.error("Encountered error while loading Alarms: {}: {}".format(type(e).__name__, e))
-            log.error("PokeAlarm was unable to find a filters file at {}." +
-                      "Please check that this file exists and PA has read permissions.").format(file_path)
+            log.error("Encountered error while loading Alarms: "
+                      + "{}: {}".format(type(e).__name__, e))
+            log.error("PokeAlarm was unable to find a filters file "
+                      + "at {}. Please check that this file".format(file_path)
+                      + " exists and PA has read permissions.")
         except Exception as e:
-            log.error("Encountered error while loading Alarms: {}: {}".format(type(e).__name__, e))
+            log.error("Encountered error while loading Alarms: "
+                      + "{}: {}".format(type(e).__name__, e))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
 
     # Check for optional arguments and enable APIs as needed
     def set_optional_args(self, line):
         # Reverse Location
-        args = {'street', 'street_num', 'address', 'postal',
-                'neighborhood', 'sublocality', 'city', 'county', 'state', 'country'}
+        args = {'street', 'street_num', 'address', 'postal', 'neighborhood',
+                'sublocality', 'city', 'county', 'state', 'country'}
         if contains_arg(line, args):
             if self.__loc_service is None:
-                log.critical("Reverse location DTS were detected but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                log.critical("Reverse location DTS were detected but "
+                             + "no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + "or disable the alarm and try again.")
                 sys.exit(1)
             self.__loc_service.enable_reverse_location()
 
@@ -201,12 +233,16 @@ class Manager(object):
         args = {'walk_dist', 'walk_time'}
         if contains_arg(line, args):
             if self.__location is None:
-                log.critical("Walking Distance Matrix DTS were detected but no location was set!")
-                log.critical("Please either remove the DTS, set a location, or disable the alarm and try again.")
+                log.critical("Walking Distance Matrix DTS were detected but "
+                             + " no location was set!")
+                log.critical("Please either remove the DTS, set a location, "
+                             + "or disable the alarm and try again.")
                 sys.exit(1)
             if self.__loc_service is None:
-                log.critical("Walking Distance Matrix DTS were detected but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                log.critical("Walking Distance Matrix DTS were detected "
+                             + "but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + "or disable the alarm and try again.")
                 sys.exit(1)
             self.__loc_service.enable_walking_data()
 
@@ -214,12 +250,16 @@ class Manager(object):
         args = {'bike_dist', 'bike_time'}
         if contains_arg(line, args):
             if self.__location is None:
-                log.critical("Biking Distance Matrix DTS were detected but no location was set!")
-                log.critical("Please either remove the DTS, set a location, or disable the alarm and try again.")
+                log.critical("Biking Distance Matrix DTS were detected but "
+                             + " no location was set!")
+                log.critical("Please either remove the DTS, set a location, "
+                             + " or disable the alarm and try again.")
                 sys.exit(1)
             if self.__loc_service is None:
-                log.critical("Biking Distance Matrix DTS were detected but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                log.critical("Biking Distance Matrix DTS were detected "
+                             + "  but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + " or disable the alarm and try again.")
                 sys.exit(1)
             self.__loc_service.enable_biking_data()
 
@@ -227,22 +267,27 @@ class Manager(object):
         args = {'drive_dist', 'drive_time'}
         if contains_arg(line, args):
             if self.__location is None:
-                log.critical("Driving Distance Matrix DTS were detected but no location was set!")
-                log.critical("Please either remove the DTS, set a location, or disable the alarm and try again.")
+                log.critical("Driving Distance Matrix DTS were detected but "
+                             + "no location was set!")
+                log.critical("Please either remove the DTS, set a location, "
+                             + "or disable the alarm and try again.")
                 sys.exit(1)
             if self.__loc_service is None:
-                log.critical("Driving Distance Matrix DTS were detected but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, or disable the alarm and try again.")
+                log.critical("Driving Distance Matrix DTS were detected but "
+                             + "no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + " or disable the alarm and try again.")
                 sys.exit(1)
             self.__loc_service.enable_driving_data()
 
-    ####################################################################################################################
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    ################################################## HANDLE EVENTS  ##################################################
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HANDLE EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Start it up
     def start(self):
-        self.__process = gipc.start_process(target=self.run, args=(), name=self.__name)
+        self.__process = gipc.start_process(
+            target=self.run, args=(), name=self.__name)
 
     def setup_in_process(self):
         # Set up signal handlers for graceful exit
@@ -254,7 +299,8 @@ class Manager(object):
         config['API_KEY'] = self.__google_key
         config['UNITS'] = self.__units
         config['DEBUG'] = self.__debug
-        config['ROOT_PATH'] = os.path.abspath("{}/..".format(os.path.dirname(__file__)))
+        config['ROOT_PATH'] = os.path.abspath(
+            "{}/..".format(os.path.dirname(__file__)))
 
         # Hush some new loggers
         logging.getLogger('requests').setLevel(logging.WARNING)
@@ -292,7 +338,8 @@ class Manager(object):
 
             try:
                 kind = obj['type']
-                log.debug("Processing object {} with id {}".format(obj['type'], obj['id']))
+                log.debug("Processing object {} with id {}".format(
+                    obj['type'], obj['id']))
                 if kind == "pokemon":
                     self.process_pokemon(obj)
                 elif kind == "pokestop":
@@ -304,10 +351,13 @@ class Manager(object):
                 elif kind == "raid":
                     self.process_raid(obj)
                 else:
-                    log.error("!!! Manager does not support {} objects!".format(kind))
-                log.debug("Finished processing object {} with id {}".format(obj['type'], obj['id']))
+                    log.error("!!! Manager does not support "
+                              + "{} objects!".format(kind))
+                log.debug("Finished processing object {} with id {}".format(
+                    obj['type'], obj['id']))
             except Exception as e:
-                log.error("Encountered error during processing: {}: {}".format(type(e).__name__, e))
+                log.error("Encountered error during processing: "
+                          + "{}: {}".format(type(e).__name__, e))
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             # Explict context yield
             gevent.sleep(0)
@@ -317,21 +367,26 @@ class Manager(object):
 
     # Set the location of the Manager
     def set_location(self, location):
-        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")  # RE for Lat,Lng coordinates
+        # Regex for Lat,Lng coordinate
+        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
         res = prog.match(location)
         if res:  # If location is in a Lat,Lng coordinate
             self.__location = [float(res.group(1)), float(res.group(2))]
         else:
             if self.__loc_service is None:  # Check if key was provided
-                log.error("Unable to find location coordinates by name - no Google API key was provided.")
+                log.error("Unable to find location coordinates by name - "
+                          + "no Google API key was provided.")
                 return None
-            self.__location = self.__loc_service.get_location_from_name(location)
+            self.__location = self.__loc_service.get_location_from_name(
+                location)
 
         if self.__location is None:
-            log.error("Unable to set location - Please check your settings and try again.")
+            log.error("Unable to set location - "
+                      + "Please check your settings and try again.")
             sys.exit(1)
         else:
-            log.info("Location successfully set to '{},{}'.".format(self.__location[0], self.__location[1]))
+            log.info("Location successfully set to '{},{}'.".format(
+                self.__location[0], self.__location[1]))
 
     # Check if a given pokemon is active on a filter
     def check_pokemon_filter(self, filters, pkmn, dist):
@@ -357,155 +412,206 @@ class Manager(object):
             if dist != 'unkn':
                 if filt.check_dist(dist) is False:
                     if self.__quiet is False:
-                        log.info("{} rejected: distance ({:.2f}) was not in range {:.2f} to {:.2f} (F #{})".format(
-                            name, dist, filt.min_dist, filt.max_dist, filt_ct))
+                        log.info(
+                            "{} rejected: distance ({:.2f}) was not in "
+                            + "range {:.2f} to {:.2f} (F #{})".format(
+                                name, dist, filt.min_dist,
+                                filt.max_dist, filt_ct))
                     continue
             else:
-                log.debug("Filter dist was not checked because the manager has no location set.")
+                log.debug("Filter dist was not checked because"
+                          + " the manager has no location set.")
 
             # Check the CP of the Pokemon
             if cp != '?':
                 if not filt.check_cp(cp):
                     if self.__quiet is False:
-                        log.info("{} rejected: CP ({}) not in range {} to {} - (F #{})".format(
-                            name, cp, filt.min_cp, filt.max_cp, filt_ct))
+                        log.info(
+                            "{} rejected: CP ({}) not in range "
+                            + "{} to {} - (F #{})".format(
+                                name, cp, filt.min_cp,
+                                filt.max_cp, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: CP information was missing - "
+                             + "(F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'cp' was not checked because it was missing.")
+                log.debug("Pokemon 'cp' was not checked "
+                          + "because it was missing.")
 
             # Check the Level of the Pokemon
             if level != '?':
                 if not filt.check_level(level):
                     if self.__quiet is False:
-                        log.info("{} rejected: Level ({}) not in range {} to {} - (F #{})".format(
-                            name, level, filt.min_level, filt.max_level, filt_ct))
+                        log.info(
+                            "{} rejected: Level ({}) not "
+                            + "in range {} to {} - (F #{})".format(
+                                name, level, filt.min_level,
+                                filt.max_level, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Level information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Level information was missing "
+                             + "- (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'level' was not checked because it was missing.")
+                log.debug("Pokemon 'level' was not checked because "
+                          + "it was missing.")
 
             # Check the IV percent of the Pokemon
             if iv != '?':
                 if not filt.check_iv(iv):
                     if self.__quiet is False:
-                        log.info("{} rejected: IV percent ({:.2f}) not in range {:.2f} to {:.2f} - (F #{})".format(
-                            name, iv, filt.min_iv, filt.max_iv, filt_ct))
+                        log.info(
+                            "{} rejected: IV percent ({:.2f}) not in "
+                            + "range {:.2f} to {:.2f} - (F #{})".format(
+                                name, iv, filt.min_iv,
+                                filt.max_iv, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: 'IV' information was missing (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: 'IV' information was missing "
+                             + "(F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon IV percent was not checked because it was missing.")
+                log.debug("Pokemon IV percent was not checked because "
+                          + "it was missing.")
 
             # Check the Attack IV of the Pokemon
             if atk != '?':
                 if not filt.check_atk(atk):
                     if self.__quiet is False:
-                        log.info("{} rejected: Attack IV ({}) not in range {} to {} - (F #{})".format(
-                            name, atk, filt.min_atk, filt.max_atk, filt_ct))
+                        log.info(
+                            "{} rejected: Attack IV ({}) not in "
+                            + "range {} to {} - (F #{})".format(
+                                name, atk, filt.min_atk,
+                                filt.max_atk, filt_ct))
+
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Attack IV information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Attack IV information was missing "
+                             + "- (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'atk' was not checked because it was missing.")
+                log.debug("Pokemon 'atk' was not checked because "
+                          + "it was missing.")
 
             # Check the Defense IV of the Pokemon
             if def_ != '?':
                 if not filt.check_def(def_):
                     if self.__quiet is False:
-                        log.info("{} rejected: Defense IV ({}) not in range {} to {} - (F #{})".format(
-                            name, def_, filt.min_atk, filt.max_atk, filt_ct))
+                        log.info(
+                            "{} rejected: Defense IV ({}) not in "
+                            + "range {} to {} - (F #{})".format(
+                                name, def_, filt.min_atk,
+                                filt.max_atk, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Defense IV information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Defense IV information was missing "
+                             + "- (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'def' was not checked because it was missing.")
+                log.debug("Pokemon 'def' was not checked because it "
+                          + "was missing.")
 
             # Check the Stamina IV of the Pokemon
             if sta != '?':
                 if not filt.check_sta(sta):
                     if self.__quiet is False:
-                        log.info("{} rejected: Stamina IV ({}) not in range {} to {} - (F #{}).".format(
-                            name, sta, filt.min_sta, filt.max_sta, filt_ct))
+                        log.info(
+                            "{} rejected: Stamina IV ({}) not in range "
+                            + "{} to {} - (F #{}).".format(
+                                name, sta, filt.min_sta,
+                                filt.max_sta, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Stamina IV information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Stamina IV information was missing"
+                             + " - (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'sta' was not checked because it was missing.")
+                log.debug("Pokemon 'sta' was not checked because it"
+                          + " was missing.")
 
             # Check the Quick Move of the Pokemon
             if quick_id != '?':
                 if not filt.check_quick_move(quick_id):
                     if self.__quiet is False:
-                        log.info("{} rejected: Quick move was not correct - (F #{})".format(name, filt_ct))
+                        log.info("{} rejected: Quick move was not correct - "
+                                 + "(F #{})".format(name, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Quick move information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Quick move information was missing"
+                             + " - (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'quick_id' was not checked because it was missing.")
+                log.debug("Pokemon 'quick_id' was not checked because "
+                          + "it was missing.")
 
             # Check the Quick Move of the Pokemon
             if charge_id != '?':
                 if not filt.check_charge_move(charge_id):
                     if self.__quiet is False:
-                        log.info("{} rejected: Charge move was not correct - (F #{})".format(name, filt_ct))
+                        log.info("{} rejected: Charge move was not correct - "
+                                 + "(F #{})".format(name, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Charge move information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Charge move information was missing"
+                             + " - (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'charge_id' was not checked because it was missing.")
+                log.debug("Pokemon 'charge_id' was not checked because "
+                          + "it was missing.")
 
             # Check for a correct move combo
             if quick_id != '?' and charge_id != '?':
                 if not filt.check_moveset(quick_id, charge_id):
                     if self.__quiet is False:
-                        log.info("{} rejected: Moveset was not correct - (F #{})".format(name, filt_ct))
+                        log.info("{} rejected: Moveset was not correct - "
+                                 + "(F #{})".format(name, filt_ct))
                     continue
             else:  # This will probably never happen? but just to be safe...
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Moveset information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Moveset information was missing - "
+                             + " (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'moveset' was not checked because it was missing.")
+                log.debug("Pokemon 'moveset' was not checked because "
+                          + "it was missing.")
 
             # Check for a valid size
             if size != 'unknown':
                 if not filt.check_size(size):
                     if self.__quiet is False:
-                        log.info("{} rejected: Size ({}) was not correct - (F #{})".format(name, size, filt_ct))
+                        log.info("{} rejected: Size ({}) was not correct "
+                                 + "- (F #{})".format(name, size, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Size information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Size information was missing "
+                             + "- (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'size' was not checked because it was missing.")
+                log.debug("Pokemon 'size' was not checked because it "
+                          + "was missing.")
 
             # Check for a valid gender
             if gender != 'unknown':
                 if not filt.check_gender(gender):
                     if self.__quiet is False:
-                        log.info("{} rejected: Gender ({}) was not correct - (F #{})".format(name, gender, filt_ct))
+                        log.info("{} rejected: Gender ({}) was not correct "
+                                 + "- (F #{})".format(name, gender, filt_ct))
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: Gender information was missing - (F #{})".format(name, filt_ct))
+                    log.info("{} rejected: Gender information was missing "
+                             + "- (F #{})".format(name, filt_ct))
                     continue
-                log.debug("Pokemon 'gender' was not checked because it was missing.")
+                log.debug("Pokemon 'gender' was not checked because it "
+                          + "was missing.")
 
             # Check for a valid form
             if form_id != '?':
                 if not filt.check_form(form_id):
                     if self.__quiet is False:
-                        log.info("{} rejected: Form ({}) was not correct - (F #{})".format(name, form_id, filt_ct))
+                        log.info("{} rejected: Form ({}) was not correct "
+                                 + "- (F #{})".format(name, form_id, filt_ct))
                     continue
 
             # Nothing left to check, so it must have passed
@@ -547,15 +653,19 @@ class Manager(object):
 
         # Check for previously processed
         if self.__cache.get_pokemon_expiration(pkmn_hash) is not None:
-            log.debug("{} was skipped because it was previously processed.".format(name))
+            log.debug("{} was skipped because it was previously ".format(name)
+                      + "processed.")
             return
-        self.__cache.update_pokemon_expiration(pkmn_hash, pkmn['disappear_time'])
+        self.__cache.update_pokemon_expiration(
+            pkmn_hash, pkmn['disappear_time'])
 
         # Check the time remaining
-        seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
+        seconds_left = (pkmn['disappear_time']
+                        - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
+                log.info("{} ignored: Only {} seconds remaining.".format(
+                    name, seconds_left))
             return
 
         # Check that the filter is even set
@@ -605,12 +715,14 @@ class Manager(object):
             'iv_2': "{:.2f}".format(iv) if iv != '?' else '?',
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
+            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(
+                form_id),
             'form': form,
             'form_or_empty': '' if form == 'unknown' else form
         })
         if self.__loc_service:
-            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], pkmn)
+            self.__loc_service.add_optional_arguments(
+                self.__location, [lat, lng], pkmn)
 
         if self.__quiet is False:
             log.info("{} notification has been triggered!".format(name))
@@ -634,15 +746,18 @@ class Manager(object):
 
         # Check for previously processed
         if self.__cache.get_pokestop_expiration(stop_id) is not None:
-            log.debug("Pokestop was skipped because it was previously processed.")
+            log.debug("Pokestop was skipped because "
+                      + "it was previously processed.")
             return
         self.__cache.update_pokestop_expiration(stop_id, stop['expire_time'])
 
         # Check the time remaining
-        seconds_left = (stop['expire_time'] - datetime.utcnow()).total_seconds()
+        seconds_left = (stop['expire_time']
+                        - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Pokestop ({}) ignored: only {} seconds remaining.".format(stop_id, seconds_left))
+                log.info("Pokestop ({}) ignored: only {} "
+                         + "seconds remaining.".format(stop_id, seconds_left))
             return
 
         # Extract some basic information
@@ -656,11 +771,14 @@ class Manager(object):
             if dist != 'unkn':
                 if filt.check_dist(dist) is False:
                     if self.__quiet is False:
-                        log.info("Pokestop rejected: distance ({:.2f}) was not in range".format(dist) +
-                                 " {:.2f} to {:.2f} (F #{})".format(filt.min_dist, filt.max_dist, filt_ct))
+                        log.info("Pokestop rejected: distance "
+                                 + "({:.2f}) was not in range".format(dist) +
+                                 " {:.2f} to {:.2f} (F #{})".format(
+                                     filt.min_dist, filt.max_dist, filt_ct))
                     continue
             else:
-                log.debug("Pokestop dist was not checked because the manager has no location set.")
+                log.debug("Pokestop dist was not checked because the manager "
+                          + " has no location set.")
 
             # Nothing left to check, so it must have passed
             passed = True
@@ -685,10 +803,12 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
         })
         if self.__loc_service:
-            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], stop)
+            self.__loc_service.add_optional_arguments(
+                self.__location, [lat, lng], stop)
 
         if self.__quiet is False:
-            log.info("Pokestop ({}) notification has been triggered!".format(stop_id))
+            log.info("Pokestop ({})".format(stop_id)
+                     + " notification has been triggered!")
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -703,7 +823,8 @@ class Manager(object):
         gym_id = gym['id']
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
+        self.__cache.update_gym_info(
+            gym_id, gym['name'], gym['description'], gym['url'])
 
         # Extract some basic information
         to_team_id = gym['new_team_id']
@@ -746,21 +867,27 @@ class Manager(object):
             if dist != 'unkn':
                 if filt.check_dist(dist) is False:
                     if self.__quiet is False:
-                        log.info("Gym rejected: distance ({:.2f}) was not in range" +
-                                 " {:.2f} to {:.2f} (F #{})".format(dist, filt.min_dist, filt.max_dist, filt_ct))
+                        log.info("Gym rejected: distance ({:.2f})"
+                                 + " was not in range" +
+                                 " {:.2f} to {:.2f} (F #{})".format(
+                                     dist, filt.min_dist,
+                                     filt.max_dist, filt_ct))
                     continue
             else:
-                log.debug("Gym dist was not checked because the manager has no location set.")
+                log.debug("Gym dist was not checked because the manager "
+                          + "has no location set.")
 
             # Check the old team
             if filt.check_from_team(from_team_id) is False:
                 if self.__quiet is False:
-                    log.info("Gym rejected: {} as old team is not correct (F #{})".format(old_team, filt_ct))
+                    log.info("Gym rejected: {} as old team is not correct "
+                             + " (F #{})".format(old_team, filt_ct))
                 continue
             # Check the new team
             if filt.check_to_team(to_team_id) is False:
                 if self.__quiet is False:
-                    log.info("Gym rejected: {} as current team is not correct (F #{})".format(cur_team, filt_ct))
+                    log.info("Gym rejected: {} as current team is not correct "
+                             + "(F #{})".format(cur_team, filt_ct))
                 continue
 
             # Nothing left to check, so it must have passed
@@ -787,7 +914,8 @@ class Manager(object):
                     log.info("Gym update ignored: located outside geofences.")
                 return
         else:
-            log.debug("Gym inside geofences was not checked because no geofences were set.")
+            log.debug("Gym inside geofences was not checked because "
+                      + " no geofences were set.")
 
         gym_info = self.__cache.get_gym_info(gym_id)
 
@@ -805,10 +933,12 @@ class Manager(object):
             'old_team_leader': self.__locale.get_leader_name(from_team_id)
         })
         if self.__loc_service:
-            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], gym)
+            self.__loc_service.add_optional_arguments(
+                self.__location, [lat, lng], gym)
 
         if self.__quiet is False:
-            log.info("Gym ({}) notification has been triggered!".format(gym_id))
+            log.info("Gym ({}) ".format(gym_id)
+                     + " notification has been triggered!")
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -830,7 +960,8 @@ class Manager(object):
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
             if self.__quiet is False:
-                log.info("Egg {} ignored - previously processed.".format(gym_id))
+                log.info("Egg {} ".format(gym_id)
+                         + "ignored - previously processed.")
             return
 
         # Update egg hatch
@@ -840,7 +971,8 @@ class Manager(object):
         seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Egg {} ignored. Egg hatch in {} seconds".format(gym_id, seconds_left))
+                log.info("Egg {} ignored. Egg hatch in {} seconds".format(
+                    gym_id, seconds_left))
             return
 
         lat, lng = egg['lat'], egg['lng']
@@ -850,10 +982,12 @@ class Manager(object):
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and egg['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Egg {} ignored: located outside geofences.".format(gym_id))
+                log.info("Egg {} ".format(gym_id)
+                         + "ignored: located outside geofences.")
             return
         else:
-            log.debug("Egg inside geofence was not checked because no geofences were set.")
+            log.debug("Egg inside geofence was not checked because no "
+                      + "geofences were set.")
 
         # check if the level is in the filter range or if we are ignoring eggs
         passed = self.check_egg_filter(self.__egg_settings, egg)
@@ -863,10 +997,12 @@ class Manager(object):
             return
 
         if self.__loc_service:
-            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], egg)
+            self.__loc_service.add_optional_arguments(
+                self.__location, [lat, lng], egg)
 
         if self.__quiet is False:
-            log.info("Egg ({}) notification has been triggered!".format(gym_id))
+            log.info("Egg ({})".format(gym_id)
+                     + " notification has been triggered!")
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
@@ -914,7 +1050,8 @@ class Manager(object):
         # Check if raid has been processed
         if self.__cache.get_raid_expiration(gym_id) is not None:
             if self.__quiet is False:
-                log.info("Raid {} ignored. Was previously processed.".format(gym_id))
+                log.info("Raid {} ignored. ".format(gym_id)
+                         + "Was previously processed.")
             return
 
         self.__cache.update_raid_expiration(gym_id, raid_end)
@@ -923,7 +1060,8 @@ class Manager(object):
         seconds_left = (raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             if self.__quiet is False:
-                log.info("Raid {} ignored. Only {} seconds left.".format(gym_id, seconds_left))
+                log.info("Raid {} ignored. Only {} seconds left.".format(
+                    gym_id, seconds_left))
             return
 
         lat, lng = raid['lat'], raid['lng']
@@ -933,10 +1071,12 @@ class Manager(object):
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
         if len(self.__geofences) > 0 and raid['geofence'] == 'unknown':
             if self.__quiet is False:
-                log.info("Raid {} ignored: located outside geofences.".format(gym_id))
+                log.info("Raid {} ignored: ".format(gym_id)
+                         + "located outside geofences.")
             return
         else:
-            log.debug("Raid inside geofence was not checked because no geofences were set.")
+            log.debug("Raid inside geofence was not checked "
+                      + " because no geofences were set.")
 
         quick_id = raid['quick_id']
         charge_id = raid['charge_id']
@@ -973,12 +1113,15 @@ class Manager(object):
             return
 
         if self.__loc_service:
-            self.__loc_service.add_optional_arguments(self.__location, [lat, lng], raid)
+            self.__loc_service.add_optional_arguments(
+                self.__location, [lat, lng], raid)
 
         if self.__quiet is False:
-            log.info("Raid ({}) notification has been triggered!".format(gym_id))
+            log.info("Raid ({}) notification ".format(gym_id)
+                     + "has been triggered!")
 
-        time_str = get_time_as_str(raid['raid_end'], self.__timezone)
+        time_str = get_time_as_str(
+            raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
 
         # team id saved in self.__gym_hist when processing gym
@@ -1004,7 +1147,8 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
+            'form_id_or_empty': '' if form_id == '?'
+                                else '{:03}'.format(form_id),
             'form': form,
             'form_or_empty': '' if form == 'unknown' else form,
             'team_id': team_id,
@@ -1030,7 +1174,8 @@ class Manager(object):
                 log.debug("{} is in geofence {}!".format(name, gf.get_name()))
                 return gf.get_name()
             else:
-                log.debug("{} is not in geofence {}".format(name, gf.get_name()))
+                log.debug("{} is not in geofence {}".format(
+                    name, gf.get_name()))
         return 'unknown'
 
-    ####################################################################################################################
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
