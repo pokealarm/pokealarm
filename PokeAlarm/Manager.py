@@ -957,13 +957,6 @@ class Manager(object):
 
         gym_id = egg['id']
         gym_info = self.__cache.get_gym_info(gym_id)
-        gym_name = gym_info['name'].lower()
-
-        # Check if egg gym should be sponsored and is sponsored
-        if len(self.__egg_settings['contains']) > 0:
-            if not any(x in gym_name for x in self.__egg_settings['contains']):
-                log.debug("Egg {} is not at a sponsored gym: ".format(gym_name))
-                return
 
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
@@ -985,6 +978,12 @@ class Manager(object):
 
         lat, lng = egg['lat'], egg['lng']
         dist = get_earth_dist([lat, lng], self.__location)
+
+        # Check if egg gym filter has a contains field and if so check it
+        if len(self.__egg_settings['contains']) > 0:
+            if not any(x in gym_info['name'].lower() for x in self.__egg_settings['contains']):
+                log.info("Egg {} ignored: gym name did not match contains filter.".format(gym_info['name'].lower()))
+                return
 
         # Check if raid is in geofences
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -1052,16 +1051,9 @@ class Manager(object):
 
         gym_id = raid['id']
         gym_info = self.__cache.get_gym_info(gym_id)
-        gym_name = gym_info['name'].lower()
 
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
-
-        # Check if raid gym should be sponsored and is sponsored
-        if len(self.__raid_settings['contains']) > 0:
-            if not any(x in gym_name for x in self.__raid_settings['contains']):
-                log.debug("Raid {} is not at a sponsored gym: ".format(gym_name))
-                return
 
         # Check if raid has been processed
         if self.__cache.get_raid_expiration(gym_id) is not None:
@@ -1082,6 +1074,12 @@ class Manager(object):
 
         lat, lng = raid['lat'], raid['lng']
         dist = get_earth_dist([lat, lng], self.__location)
+
+        # Check if raid gym filter has a contains field and if so check it
+        if len(self.__raid_settings['contains']) > 0:
+            if not any(x in gym_info['name'].lower() for x in self.__raid_settings['contains']):
+                log.info("Raid {} ignored: gym name did not match contains filter.".format(gym_info['name'].lower()))
+                return
 
         # Check if raid is in geofences
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -1132,9 +1130,13 @@ class Manager(object):
             self.__loc_service.add_optional_arguments(
                 self.__location, [lat, lng], raid)
 
+            log.info("Raid ({}) notification has been triggered!".format(gym_id))
         if self.__quiet is False:
+<<<<<<< HEAD
             log.info("Raid ({}) notification ".format(gym_id)
                      + "has been triggered!")
+=======
+>>>>>>> feae45b... Make recommended improvements
 
         time_str = get_time_as_str(
             raid['raid_end'], self.__timezone)
