@@ -1130,13 +1130,9 @@ class Manager(object):
             self.__loc_service.add_optional_arguments(
                 self.__location, [lat, lng], raid)
 
-            log.info("Raid ({}) notification has been triggered!".format(gym_id))
         if self.__quiet is False:
-<<<<<<< HEAD
             log.info("Raid ({}) notification ".format(gym_id)
                      + "has been triggered!")
-=======
->>>>>>> feae45b... Make recommended improvements
 
         time_str = get_time_as_str(
             raid['raid_end'], self.__timezone)
