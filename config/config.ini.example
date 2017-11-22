@@ -8,8 +8,7 @@
 #debug                          # Enables debugging mode
 #host:                          # Address to listen on (default 127.0.0.1)
 #port:                          # Port to listen on (default: 4000)
-#log_to_file                    # Enabled logging to file (default: false)
-#log_path:                      # Sets the path to log files if log_to_file is given (default: logs/)
+#log:                           # Enable logging to given filename
 #manager_count: 1               # Number of Managers to run. (default: 1)
 
 # Manager-Specific Settings
