@@ -1024,7 +1024,8 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'team_id': team_id,
-            'team_name': self.__locale.get_team_name(team_id)
+            'team_name': self.__locale.get_team_name(team_id),
+            'team_leader': self.__locale.get_leader_name(team_id)
         })
 
         threads = []
@@ -1153,6 +1154,7 @@ class Manager(object):
             'form_or_empty': '' if form == 'unknown' else form,
             'team_id': team_id,
             'team_name': self.__locale.get_team_name(team_id),
+            'team_leader': self.__locale.get_leader_name(team_id),
             'min_cp': min_cp,
             'max_cp': max_cp
         })
