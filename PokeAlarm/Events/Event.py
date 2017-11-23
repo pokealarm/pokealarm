@@ -8,7 +8,7 @@ class Event(object):
     """ Abstract class representing details related to different events. """
 
     def __init__(self, kind):
-        """ Initializes the logger for the event. """
+        """ Initializes base parameters for an event. """
         self._log = logging.getLogger(kind)
 
     def generate_dts(self, locale):
