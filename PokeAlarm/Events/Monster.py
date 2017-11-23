@@ -81,7 +81,7 @@ class Monster(Event):
         self.geofence = "None"
 
     def generate_dts(self, locale):
-        """ Generate key/value pairs used for Dynamic Text Substitutions. """
+        """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.despawn_time)
         form_name = locale.get_form_name(self.form_id)
         return {

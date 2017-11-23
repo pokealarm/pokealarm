@@ -2,22 +2,17 @@
 import logging
 # 3rd Party Imports
 # Local Imports
-from PokeAlarm import Unknown
 
 
 class Event(object):
     """ Abstract class representing details related to different events. """
-
-    unknown_set = {
-        Unknown.TINY, Unknown.SMALL, Unknown.REGULAR
-    }
 
     def __init__(self, kind):
         """ Initializes the logger for the event. """
         self._log = logging.getLogger(kind)
 
     def generate_dts(self, locale):
-        """ Return a dict with all the DTS for this events. """
+        """ Return a dict with all the DTS for this event. """
         raise NotImplementedError("This is an abstract method.")
 
     @classmethod
