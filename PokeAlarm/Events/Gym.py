@@ -31,7 +31,7 @@ class Gym(Event):
         self.gym_name = check_for_none(
             str, data.get('name'), Unknown.REGULAR).strip()
         self.gym_description = check_for_none(
-                str, data.get('description'), Unknown.REGULAR).strip()
+            str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image_url = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
 

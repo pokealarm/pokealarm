@@ -72,7 +72,7 @@ class Monster(Event):
 
         # Cosmetic
         self.gender = get_pokemon_gender(
-                check_for_none(int, data.get('gender'), Unknown.TINY)),
+            check_for_none(int, data.get('gender'), Unknown.TINY)),
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         self.size = get_pokemon_size(self.pkmn_id, self.height, self.weight)

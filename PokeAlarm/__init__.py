@@ -23,4 +23,3 @@ class Unknown:
     def or_empty(cls, val, default=''):
         """ Returns an default if unknown, else the original value. """
         return cls.EMPTY if val in cls.__unknown_set else default
-
