@@ -27,6 +27,8 @@ class Raid(Event):
         # Location
         self.lat = float(data['latitude'])
         self.lng = float(data['longitude'])
+        self.distance = Unknown.SMALL  # Completed by Manager
+        self.direction = Unknown.TINY  # Completed by Manager
 
         # Monster Info
         self.raid_level = check_for_none(int, data.get('level'), Unknown.TINY)
@@ -71,6 +73,8 @@ class Raid(Event):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
+            'distance': get_dist_as_str(self.distance),
+            'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
 

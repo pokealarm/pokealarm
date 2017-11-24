@@ -5,7 +5,7 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_pokemon_gender, get_pokemon_size, \
-    get_applemaps_link, get_time_as_str
+    get_applemaps_link, get_time_as_str, get_dist_as_str
 from . import Event
 
 
@@ -35,6 +35,8 @@ class Monster(Event):
         # Location
         self.lat = float(data['latitude'])
         self.lng = float(data['longitude'])
+        self.distance = Unknown.SMALL  # Completed by Manager
+        self.direction = Unknown.TINY  # Completed by Manager
 
         # Encounter Stats
         self.pkmn_lvl = check_for_none(int, data.get('cp'), Unknown.TINY)
@@ -75,17 +77,14 @@ class Monster(Event):
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         self.size = get_pokemon_size(self.pkmn_id, self.height, self.weight)
 
-        # We'll set this latter
-        self.geofence = "None"
-
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.despawn_time)
         form_name = locale.get_form_name(self.form_id)
         return {
             # Identification
-            'pkmn': locale.get_pokemon_name(self.pkmn_id),
             'enc_id': self.enc_id,
+            'pkmn': locale.get_pokemon_name(self.pkmn_id),
             'pkmn_id': self.pkmn_id,
             'pkmn_id_3': "{:03}".format(self.pkmn_id),
 
@@ -105,6 +104,8 @@ class Monster(Event):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
+            'distance': get_dist_as_str(self.distance),
+            'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
 
