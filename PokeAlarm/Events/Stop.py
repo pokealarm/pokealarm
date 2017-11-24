@@ -22,8 +22,6 @@ class Stop(Event):
         # Location
         self.lat = float(data['latitude'])
         self.lng = float(data['longitude'])
-        self.gmaps = get_gmaps_link(self.lat, self.lng)
-        self.applemaps = get_applemaps_link(self.lat, self.lng)
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
@@ -42,6 +40,6 @@ class Stop(Event):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lat),
-            'gmaps': self.gmaps,
-            'applemaps': self.applemaps,
+            'gmaps': get_gmaps_link(self.lat, self.lng),
+            'applemaps': get_applemaps_link(self.lat, self.lng),
         }

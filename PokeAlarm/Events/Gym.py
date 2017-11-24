@@ -1,7 +1,7 @@
 # Standard Library Imports
 # 3rd Party Imports
 # Local Imports
-from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, get_time_as_str
+from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link
 from . import Event
 from PokeAlarm import Unknown
 

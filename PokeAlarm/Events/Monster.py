@@ -35,8 +35,6 @@ class Monster(Event):
         # Location
         self.lat = float(data['latitude'])
         self.lng = float(data['longitude'])
-        self.gmaps = get_gmaps_link(self.lat, self.lng)
-        self.applemaps = get_applemaps_link(self.lat, self.lng)
 
         # Encounter Stats
         self.pkmn_lvl = check_for_none(int, data.get('cp'), Unknown.TINY)
@@ -107,8 +105,8 @@ class Monster(Event):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'gmaps': self.gmaps,
-            'applemaps': self.applemaps,
+            'gmaps': get_gmaps_link(self.lat, self.lng),
+            'applemaps': get_applemaps_link(self.lat, self.lng),
 
             # Encounter Stats
             'pkmn_lvl': self.pkmn_lvl,
