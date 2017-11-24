@@ -1,3 +1,5 @@
+from SlackAlarm import SlackAlarm  # noqa 401
+
 try:
     import slacker  # noqa F401
 except ImportError:
