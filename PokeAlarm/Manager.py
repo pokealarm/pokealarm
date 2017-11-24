@@ -981,8 +981,11 @@ class Manager(object):
 
         # Check if egg gym filter has a contains field and if so check it
         if len(self.__egg_settings['contains']) > 0:
-            if not any(x in gym_info['name'].lower() for x in self.__egg_settings['contains']):
-                log.info("Egg {} ignored: gym name did not match contains filter.".format(gym_info['name'].lower()))
+            if not any(x in gym_info['name'].lower()
+                       for x in self.__egg_settings['contains']):
+                log.info("Egg {} ignored: gym name did not match the "
+                         + "gymname_contains "
+                         + "filter.".format(gym_info['name'].lower()))
                 return
 
         # Check if raid is in geofences
@@ -1077,8 +1080,11 @@ class Manager(object):
 
         # Check if raid gym filter has a contains field and if so check it
         if len(self.__raid_settings['contains']) > 0:
-            if not any(x in gym_info['name'].lower() for x in self.__raid_settings['contains']):
-                log.info("Raid {} ignored: gym name did not match contains filter.".format(gym_info['name'].lower()))
+            if not any(x in gym_info['name'].lower()
+                       for x in self.__raid_settings['contains']):
+                log.info("Raid {} ignored: gym name did not match the "
+                         + "gymname_contains "
+                         + "filter.".format(gym_info['name'].lower()))
                 return
 
         # Check if raid is in geofences

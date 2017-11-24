@@ -176,7 +176,7 @@ def load_raid_section(settings):
     if not isinstance(raid['contains'], list):
             log.error("'gymname_contains' filter must be a list")
             sys.exit(1)
-    
+
     # load any raid pokemon filters
     filters = load_pokemon_filters(settings)
     raid['filters'] = filters
