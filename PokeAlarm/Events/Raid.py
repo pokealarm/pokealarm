@@ -6,7 +6,7 @@ from PokeAlarm import Unknown
 from . import Event
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
-    get_move_energy
+    get_move_energy, get_dist_as_str
 
 
 class Raid(Event):
