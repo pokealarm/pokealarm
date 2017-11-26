@@ -144,7 +144,7 @@ class RocketMap:
         log.debug("Converting to gym: \n {}".format(data))
         gym = {
             'type': "gym",
-            'id': data.get('gsection of codeym_id', data.get('id')),
+            'id': data.get('gym_id', data.get('id')),
             "new_team_id": int(data.get('team_id', data.get('team'))),
             "slots_available": check_for_none(
                 int, data.get('slots_available'), '?'),

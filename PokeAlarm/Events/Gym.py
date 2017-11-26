@@ -63,4 +63,8 @@ class Gym(Event):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image_url': self.gym_image_url,
+            'slots_available': check_for_none(
+                int, data.get('slots_available'), '?'),
+            'guard_count': check_for_none(
+                int, 6 - data.get('slots_available'), '?'),
         }
