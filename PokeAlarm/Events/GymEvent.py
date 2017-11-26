@@ -35,15 +35,18 @@ class GymEvent(BaseEvent):
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
         self.slots_available = check_for_none(
-            int, data.get('slots_available'), Uknown.TINY)
+            int, data.get('slots_available'), Unknown.TINY)
         self.guard_count = check_for_none(
             int, 6 - data.get('slots_available'), Unknown.TINY)
 
+<<<<<<< HEAD:PokeAlarm/Events/GymEvent.py
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
+=======
+>>>>>>> 43e9988... Updating to meet standards of new Events classes:PokeAlarm/Events/Gym.py
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         dts = self.custom_dts.copy()
