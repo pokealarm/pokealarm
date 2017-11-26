@@ -35,10 +35,9 @@ class Gym(Event):
         self.gym_image_url = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
         self.slots_available = check_for_none(
-            int, data.get('slots_available'), Uknown.TINY)
+            int, data.get('slots_available'), Unknown.TINY)
         self.guard_count = check_for_none(
             int, 6 - data.get('slots_available'), Unknown.TINY)
-
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
