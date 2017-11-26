@@ -70,6 +70,15 @@ class GymEvent(BaseEvent):
             # Details
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
+<<<<<<< HEAD:PokeAlarm/Events/GymEvent.py
             'gym_image': self.gym_image,
         })
         return dts
+=======
+            'gym_image_url': self.gym_image_url,
+            'slots_available': check_for_none(
+                int, data.get('slots_available'), '?'),
+            'guard_count': check_for_none(
+                int, 6 - data.get('slots_available'), '?'),
+        }
+>>>>>>> a7332d1... Carrying changes over to new Events system:PokeAlarm/Events/Gym.py
