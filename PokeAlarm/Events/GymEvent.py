@@ -34,6 +34,11 @@ class GymEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+        self.slots_available = check_for_none(
+            int, data.get('slots_available'), Uknown.TINY)
+        self.guard_count = check_for_none(
+            int, 6 - data.get('slots_available'), Unknown.TINY)
+
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
@@ -76,9 +81,7 @@ class GymEvent(BaseEvent):
         return dts
 =======
             'gym_image_url': self.gym_image_url,
-            'slots_available': check_for_none(
-                int, data.get('slots_available'), '?'),
-            'guard_count': check_for_none(
-                int, 6 - data.get('slots_available'), '?'),
+            'slots_available': self.slots_available,
+            'guard_count': self.guard_count,
         }
 >>>>>>> a7332d1... Carrying changes over to new Events system:PokeAlarm/Events/Gym.py
