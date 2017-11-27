@@ -12,6 +12,14 @@ class Unknown:
     __unknown_set = {TINY, SMALL, REGULAR}
 
     @classmethod
+    def is_(cls, *args):
+        """ Returns true if any given arguments are unknown, else false """
+        for arg in args:
+            if arg in cls.__unknown_set:
+                return True
+        return False
+
+    @classmethod
     def is_not(cls, *args):
         """ Returns false if any given arguments are unknown, else true """
         for arg in args:
