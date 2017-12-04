@@ -30,17 +30,21 @@ teams_formatted = re.sub('[{}",]', '', json.dumps(
     teams, indent=4, sort_keys=True))
 
 _cache = {}
+
 _gym_info = {}
+
 
 def get_image_url(image):
     return \
         "https://raw.githubusercontent.com/not4profit/images/master/" + image
+
 
 _default_gym_info = {
     "name": "unknown",
     "description": "unknown",
     "url": get_image_url('icons/gym_0.png')
 }
+
 
 def set_init(webhook_type):
     payloadr = {}
@@ -135,13 +139,16 @@ def check_int(questionable_input, default):
         print "Not a valid number. Defaulting to " + str(default)
         return default
 
+
 def int_or_default(input_parm):
     payload["message"][input_parm] = check_int(
         raw_input(), payload["message"][input_parm])
 
+
 def get_gym_info(gym_id):
     """ Gets the information about the gym. """
     return _gym_info.get(gym_id, _default_gym_info)
+
 
 def check_gym(questionable_input):
     if get_gym_info(questionable_input)['name'] != "unknown":
@@ -151,8 +158,9 @@ def check_gym(questionable_input):
         print "Not a valid gym. Please try again.."
         check_gym(raw_input())
 
-def gym_or_invalid(input_parm, input_parm2):
-    payload["message"][input_parm], payload["message"][input_parm2] = check_gym(raw_input())
+
+def gym_or_invalid(prm, prm2):
+    payload["message"][prm], payload["message"][prm2] = check_gym(raw_input())
 
 
 def cache_or_invalid():
@@ -166,14 +174,16 @@ def cache_or_invalid():
         print "Invalid file using default = {}".format(file)
     else:
         print "No valid cache file found, terminating.."
-        exit()
+        sys.exit(1)
     load_cache(file)
+
 
 def load_cache(file):
     global _gym_info
     with portalocker.Lock(file, mode="rb") as f:
-        data = pickle.load(f)        
+        data = pickle.load(f)
         _gym_info = data.get('gym_info', {})
+
 
 def reset_timers_and_encounters():
     current_time = time.time()
@@ -307,7 +317,7 @@ elif type == whtypes["4"]:
     else:
         print "Egg level invalid. Assuming level 5"
 elif type == whtypes["5"]:
-    print "Enter name of the cache file to verify the gym with (default: manager_0)\n>",
+    print "Enter cache file name to verify the gym (default: manager_0)\n>",
     cache_or_invalid()
     print "Enter gym id for raid (external_id in your database)\n>",
     gym_or_invalid("gym_id", "gym_name")
