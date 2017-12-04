@@ -3,6 +3,9 @@ import time
 import sys
 import json
 import re
+import os
+import portalocker
+import pickle
 
 truthy = frozenset([
     "yes", "Yes", "y", "Y", "true", "True", "TRUE", "YES", "1", "!0"
@@ -26,6 +29,18 @@ teams = {
 teams_formatted = re.sub('[{}",]', '', json.dumps(
     teams, indent=4, sort_keys=True))
 
+_cache = {}
+_gym_info = {}
+
+def get_image_url(image):
+    return \
+        "https://raw.githubusercontent.com/not4profit/images/master/" + image
+
+_default_gym_info = {
+    "name": "unknown",
+    "description": "unknown",
+    "url": get_image_url('icons/gym_0.png')
+}
 
 def set_init(webhook_type):
     payloadr = {}
@@ -99,6 +114,7 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
+                "gym_name": "unknown",
                 "pokemon_id": 150,
                 "cp": 12345,
                 "move_1": 123,
@@ -119,11 +135,45 @@ def check_int(questionable_input, default):
         print "Not a valid number. Defaulting to " + str(default)
         return default
 
-
 def int_or_default(input_parm):
     payload["message"][input_parm] = check_int(
         raw_input(), payload["message"][input_parm])
 
+def get_gym_info(gym_id):
+    """ Gets the information about the gym. """
+    return _gym_info.get(gym_id, _default_gym_info)
+
+def check_gym(questionable_input):
+    if get_gym_info(questionable_input)['name'] != "unknown":
+        print "Gym found = {}".format(get_gym_info(questionable_input)['name'])
+        return questionable_input, get_gym_info(questionable_input)['name']
+    else:
+        print "Not a valid gym. Please try again.."
+        check_gym(raw_input())
+
+def gym_or_invalid(input_parm, input_parm2):
+    payload["message"][input_parm], payload["message"][input_parm2] = check_gym(raw_input())
+
+
+def cache_or_invalid():
+    path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    input = raw_input()
+    if os.path.exists(os.path.join(path, "cache", "{}.cache".format(input))):
+        file = os.path.join(path, "cache", "{}.cache".format(input))
+        print "Valid file = {}".format(file)
+    elif os.path.exists(os.path.join(path, "cache", "manager_0.cache")):
+        file = os.path.join(path, "cache", "manager_0.cache")
+        print "Invalid file using default = {}".format(file)
+    else:
+        print "No valid cache file found, terminating.."
+        exit()
+    load_cache(file)
+
+def load_cache(file):
+    global _gym_info
+    with portalocker.Lock(file, mode="rb") as f:
+        data = pickle.load(f)        
+        _gym_info = data.get('gym_info', {})
 
 def reset_timers_and_encounters():
     current_time = time.time()
@@ -148,7 +198,6 @@ def reset_timers_and_encounters():
         payload["message"].update({
             "start": current_time + 20,
             "end": current_time + 20 + 60,
-            "gym_id": current_time
         })
 
 
@@ -258,6 +307,10 @@ elif type == whtypes["4"]:
     else:
         print "Egg level invalid. Assuming level 5"
 elif type == whtypes["5"]:
+    print "Enter name of the cache file to verify the gym with (default: manager_0)\n>",
+    cache_or_invalid()
+    print "Enter gym id for raid (external_id in your database)\n>",
+    gym_or_invalid("gym_id", "gym_name")
     print "Enter pokemon id for raid\n>",
     int_or_default("pokemon_id")
     print "Moveset important?\n>",
