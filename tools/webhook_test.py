@@ -198,14 +198,14 @@ def list_cache():
 def list_gyms():
     path = os.path.dirname(os.path.abspath(__file__))
     if len(_gym_info) > 50:
-        with portalocker.Lock(os.path.join(path, "cachedgyms.txt"), mode="wb+") as f:
+        with portalocker.Lock(os.path.join(path, "gyms.txt"), mode="wb+") as f:
             i = 0
             for key in _gym_info.keys():
                 i += 1
                 name = get_gym_info(key)['name']
                 f.write("[{}] {} : {} \n".format(i, name, key))
             f.close()
-        print "Find the list of gyms found in your \\tools\ folder (cachedgyms.txt)"
+        print "Find list of gyms in your \\tools\ folder (cachedgyms.txt)"
         print "Enter gym id for raid (from file)\n>",
     else:
         print "Here is a list of gyms found in your cache:"
@@ -341,7 +341,7 @@ elif type == whtypes["3"]:
     print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
     if raw_input() in truthy:
         list_cache()
-        print "Enter cache file name to verify the gym (default: manager_0)\n>",
+        print "Enter cache file name to verify the gym (default:manager_0)\n>",
         cache_or_invalid()
         list_gyms()
         gym_or_invalid("gym_id", "gym_name")
@@ -351,7 +351,7 @@ elif type == whtypes["4"]:
     print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
     if raw_input() in truthy:
         list_cache()
-        print "Enter cache file name to verify the gym (default: manager_0)\n>",
+        print "Enter cache file name to verify the gym (default:manager_0)\n>",
         cache_or_invalid()
         list_gyms()
         gym_or_invalid("gym_id", "gym_name")
@@ -365,7 +365,7 @@ elif type == whtypes["5"]:
     print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
     if raw_input() in truthy:
         list_cache()
-        print "Enter cache file name to verify the gym (default: manager_0)\n>",
+        print "Enter cache file name to verify the gym (default:manager_0)\n>",
         cache_or_invalid()
         list_gyms()
         gym_or_invalid("gym_id", "gym_name")
