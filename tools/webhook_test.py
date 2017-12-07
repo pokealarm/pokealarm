@@ -93,6 +93,7 @@ def set_init(webhook_type):
             "message": {
                 "raid_active_until": 0,
                 "gym_id": 0,
+                "gym_name": "unknown",
                 "team_id": 3,
                 "slots_available": 0,
                 "guard_pokemon_id": 99,
@@ -108,6 +109,7 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
+                "gym_name": "unknown",
                 "level": 5,
                 "latitude": 37.7876146,
                 "longitude": -122.390624
@@ -155,7 +157,7 @@ def check_gym(questionable_input):
         print "Gym found = {}".format(get_gym_info(questionable_input)['name'])
         return questionable_input, get_gym_info(questionable_input)['name']
     else:
-        print "Not a valid gym. Please try again.."
+        print "Not a valid gym. Please try again..\n>"
         check_gym(raw_input())
 
 
@@ -183,6 +185,36 @@ def load_cache(file):
     with portalocker.Lock(file, mode="rb") as f:
         data = pickle.load(f)
         _gym_info = data.get('gym_info', {})
+
+
+def list_cache():
+    path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    print "Here is a list of cache files found in \cache\ :"
+    for file in os.listdir(os.path.join(path, "cache")):
+        if file.endswith(".cache"):
+            print file
+
+
+def list_gyms():
+    path = os.path.dirname(os.path.abspath(__file__))
+    if len(_gym_info) > 50:
+        with portalocker.Lock(os.path.join(path, "cachedgyms.txt"), mode="wb+") as f:
+            i = 0
+            for key in _gym_info.keys():
+                i += 1
+                name = get_gym_info(key)['name']
+                f.write("[{}] {} : {} \n".format(i, name, key))
+            f.close()
+        print "Find the list of gyms found in your \\tools\ folder (cachedgyms.txt)"
+        print "Enter gym id for raid (from file)\n>",
+    else:
+        print "Here is a list of gyms found in your cache:"
+        i = 0
+        for key in _gym_info.keys():
+            i += 1
+            name = get_gym_info(key)['name']
+            print "[{}] {} : {} ".format(i, name, key)
+        print "Enter gym id for raid (from above)\n>",
 
 
 def reset_timers_and_encounters():
@@ -305,11 +337,24 @@ if type == whtypes["1"]:
             print "Count towards big Magikarp medal?"
             if raw_input() in truthy:
                 payload["message"]["weight"] = 14.0
-
 elif type == whtypes["3"]:
+    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
+    if raw_input() in truthy:
+        list_cache()
+        print "Enter cache file name to verify the gym (default: manager_0)\n>",
+        cache_or_invalid()
+        list_gyms()
+        gym_or_invalid("gym_id", "gym_name")
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",
     get_and_validate_team()
 elif type == whtypes["4"]:
+    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
+    if raw_input() in truthy:
+        list_cache()
+        print "Enter cache file name to verify the gym (default: manager_0)\n>",
+        cache_or_invalid()
+        list_gyms()
+        gym_or_invalid("gym_id", "gym_name")
     print "What level of gym egg? (1-5)\n>",
     egglevel = check_int(raw_input(), payload["message"]["level"])
     if 6 > egglevel > 0:
@@ -317,10 +362,13 @@ elif type == whtypes["4"]:
     else:
         print "Egg level invalid. Assuming level 5"
 elif type == whtypes["5"]:
-    print "Enter cache file name to verify the gym (default: manager_0)\n>",
-    cache_or_invalid()
-    print "Enter gym id for raid (external_id in your database)\n>",
-    gym_or_invalid("gym_id", "gym_name")
+    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
+    if raw_input() in truthy:
+        list_cache()
+        print "Enter cache file name to verify the gym (default: manager_0)\n>",
+        cache_or_invalid()
+        list_gyms()
+        gym_or_invalid("gym_id", "gym_name")
     print "Enter pokemon id for raid\n>",
     int_or_default("pokemon_id")
     print "Moveset important?\n>",
@@ -329,7 +377,6 @@ elif type == whtypes["5"]:
         int_or_default("move_1")
         print "Id of move 2\n>",
         int_or_default("move_2")
-
 
 reset_timers_and_encounters()
 
