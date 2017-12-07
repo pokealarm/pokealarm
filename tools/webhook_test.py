@@ -205,7 +205,7 @@ def list_gyms():
                 name = get_gym_info(key)['name']
                 f.write("[{}] {} : {} \n".format(i, name, key))
             f.close()
-        print "Find list of gyms in your \\tools\ folder (cachedgyms.txt)"
+        print "Find list of gyms in your \\tools\ folder (gyms.txt)"
         print "Enter gym id for raid (from file)\n>",
     else:
         print "Here is a list of gyms found in your cache:"
