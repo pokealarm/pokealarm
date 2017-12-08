@@ -426,11 +426,13 @@
     },
     "eggs":{
         "enabled":"True",
+        "gymname_contains":["sprint","level badge","phone skin","starbucks"],
         "min_level": "1",
         "max_level": "5"
     },
     "raids":{
         "enabled":"True",
+        "gymname_contains":["sprint","level badge","phone skin","starbucks"],
         "default": {
             "min_dist":"0", "max_dist":"inf", "min_cp": "0", "max_cp": "999999", "min_iv":"0", "max_iv":"100",
             "min_atk": "0", "max_atk":"15", "min_def": "0", "max_def":"15", "min_sta": "0", "max_sta":"15",
