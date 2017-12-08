@@ -636,7 +636,7 @@ class Manager(object):
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
             'form': form,
-			'cpiv': cpiv
+			'cpiv': cpiv,
             'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
             'form_or_empty': '' if form == 'unknown' else form
         })
@@ -856,21 +856,18 @@ class Manager(object):
             log.debug("Egg ignored: notifications are disabled.")
             return
 
-        gym_id = egg['id']
-
-        # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or egg['name'] != 'unknown':
-            self.__gym_info[gym_id] = {
-                "name": egg['name'],
-                "url": egg['gym_url']
-            }
-        
+        gym_id = egg['id']       
         raid_end = egg['raid_end']
+        gym_info = {
+            "name": egg['name'],
+            "url": egg['gym_url'],
+            "description": egg['gym_description']
+        }
 
         # Check if egg has been processed yet
         if self.__cache.get_egg_expiration(gym_id) is not None:
             if self.__quiet is False:
-            return
+                return
 
         # Update egg hatch
         self.__cache.update_egg_expiration(gym_id, egg['raid_begin'])
@@ -905,15 +902,15 @@ class Manager(object):
 
         time_str = get_time_as_str(egg['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
-        gym_info = self.__gym_info.get(gym_id, {})
+        team_id = self.__cache.get_gym_team(gym_id)
         team = egg['team']
-        team_name = self.__locale.get_team_name(team) 
-        gym_name = gym_info.get('name', 'unknown')        
-
+        team_name = self.__locale.get_team_name(team)       
+        gym_name = gym_info['name']
+        
         egg.update({
             "gym_name": gym_name,
             "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_url": gym_info['url'],
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -922,6 +919,7 @@ class Manager(object):
             'begin_24h_time': start_time_str[2],
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
+            'team_id': team,
             'team': team_name
         })
         
@@ -944,24 +942,20 @@ class Manager(object):
             return
 
         gym_id = raid['id']
-        
-        # Update Gym details (if they exist)
-        if gym_id not in self.__gym_info or raid['name'] != 'unknown':
-            self.__gym_info[gym_id] = {
-                "name": raid['name'],
-                "url": raid['gym_url']
-            }
-
         pkmn_id = raid['pkmn_id']
         raid_end = raid['raid_end']
+        gym_info = {
+            "name": raid['name'],
+            "url": raid['gym_url'],
+            "description": raid['gym_description']
+        }
 
         # Check if raid has been processed
         if self.__cache.get_raid_expiration(gym_id) is not None:
             if self.__quiet is False:
-            return
+                return
 
         self.__cache.update_raid_expiration(gym_id, raid_end)
-        log.info(self.__cache.get_raid_expiration(gym_id))
         # don't alert about expired raids
         seconds_left = (raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
@@ -1019,20 +1013,20 @@ class Manager(object):
 
         time_str = get_time_as_str(raid['raid_end'], self.__timezone)
         start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
-        gym_info = self.__cache.get_gym_info(gym_id)
-        team = raid['team']
-        team_name = self.__locale.get_team_name(team)  
-        gym_name = gym_info.get('name', 'unknown')   
-        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)  
+        team = raid['team']  
         form_id = raid_pkmn['form_id']
-        form = self.__locale.get_form_name(pkmn_id, form_id)        
-
+        form = self.__locale.get_form_name(pkmn_id, form_id) 
+        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)  
+        team = raid['team']
+        team_name = self.__locale.get_team_name(team)         
+        gym_name = gym_info['name']
+        
         raid.update({
             'pkmn': name,
             'pkmn_id_3': '{:03}'.format(pkmn_id),
             "gym_name": gym_name,
             "gym_description": gym_info.get('description', 'unknown'),
-            "gym_url": gym_info.get('url', 'https://raw.githubusercontent.com/RocketMap/PokeAlarm/master/icons/gym_0.png'),
+            "gym_url": gym_info['url'],
             'time_left': time_str[0],
             '12h_time': time_str[1],
             '24h_time': time_str[2],
@@ -1043,10 +1037,11 @@ class Manager(object):
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'quick_move': self.__locale.get_move_name(quick_id),
             'charge_move': self.__locale.get_move_name(charge_id),
-            'team': team_name,
             'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
             'form': form,
             'form_or_empty': '' if form == 'unknown' else form,
+            'team_id': team,
+            'team': team_name,
             'min_cp': min_cp,
             'max_cp': max_cp
         })
