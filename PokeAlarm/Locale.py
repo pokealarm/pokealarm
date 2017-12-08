@@ -17,8 +17,10 @@ class Locale(object):
         # Load in English as the default
         with open(os.path.join(get_path('locales'), 'en.json')) as f:
             default = json.loads(f.read())
-        # Now load in the actual language we want (unnecessary for English but we don't want to discriminate)
-        with open(os.path.join(get_path('locales'), '{}.json'.format(language))) as f:
+        # Now load in the actual language we want
+        # (unnecessary for English but we don't want to discriminate)
+        with open(os.path.join(
+                get_path('locales'), '{}.json'.format(language))) as f:
             info = json.loads(f.read())
 
         # Pokemon ID -> Name
@@ -52,7 +54,8 @@ class Locale(object):
             self.__form_names[int(pkmn_id)] = {}
             pkmn_forms = all_forms.get(pkmn_id, {})
             for form_id, form_name in forms.iteritems():
-                self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(form_id, form_name)
+                self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(
+                    form_id, form_name)
         log.debug("Loaded '{}' locale successfully!".format(language))
 
     # Returns the name of the Pokemon associated with the given ID

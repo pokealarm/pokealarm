@@ -1,21 +1,24 @@
 # Standard Library Imports
 import logging
+
 # 3rd Party Imports
 from pushbullet import PushBullet
+
 # Local Imports
-from ..Alarm import Alarm
-from ..Utils import parse_boolean, require_and_remove_key, reject_leftover_parameters
+from PokeAlarm.Alarms import Alarm
+from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
+    reject_leftover_parameters
 
 log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
 
-#####################################################  ATTENTION!  #####################################################
-# You DO NOT NEED to edit this file to customize messages for services! Please see the Wiki on the correct way to
-# customize services In fact, doing so will likely NOT work correctly with many features included in PokeAlarm.
-#                               PLEASE ONLY EDIT IF YOU KNOW WHAT YOU ARE DOING!
-#####################################################  ATTENTION!  #####################################################
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#             ONLY EDIT THIS FILE IF YOU KNOW WHAT YOU ARE DOING!
+# You DO NOT NEED to edit this file to customize messages! Please ONLY EDIT the
+#     the 'alarms.json'. Failing to do so can cause other feature to break!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 class PushbulletAlarm(Alarm):
@@ -47,27 +50,34 @@ class PushbulletAlarm(Alarm):
         }
     }
 
-
     # Gather settings and create alarm
     def __init__(self, settings):
         # Required Parameters
-        self.__api_key = require_and_remove_key('api_key', settings, "'Pushbullet' type alarms.")
+        self.__api_key = require_and_remove_key(
+            'api_key', settings, "'Pushbullet' type alarms.")
         self.__client = None
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(settings.pop('startup_message', "True"))
+        self.__startup_message = parse_boolean(
+            settings.pop('startup_message', "True"))
         self.__channel = settings.pop('channel', "True")
         self.__sender = None
 
         # Optional Alert Parameters
-        self.__pokemon = self.create_alert_settings(settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.create_alert_settings(settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(settings.pop('gyms', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.create_alert_settings(settings.pop('raid', {}), self._defaults['raid'])
+        self.__pokemon = self.create_alert_settings(
+            settings.pop('pokemon', {}), self._defaults['pokemon'])
+        self.__pokestop = self.create_alert_settings(
+            settings.pop('pokestop', {}), self._defaults['pokestop'])
+        self.__gym = self.create_alert_settings(
+            settings.pop('gyms', {}), self._defaults['gym'])
+        self.__egg = self.create_alert_settings(
+            settings.pop('egg', {}), self._defaults['egg'])
+        self.__raid = self.create_alert_settings(
+            settings.pop('raid', {}), self._defaults['raid'])
 
         #  Warn user about leftover parameters
-        reject_leftover_parameters(settings, "'Alarm level in Pushbullet alarm.")
+        reject_leftover_parameters(
+            settings, "Alarm level in Pushbullet alarm.")
 
         log.info("Pushbullet Alarm has been created!")
 
@@ -99,7 +109,8 @@ class PushbulletAlarm(Alarm):
             'body': settings.pop('body', default['body']),
             'channel': settings.pop('channel', None)
         }
-        reject_leftover_parameters(settings, "'Alert level in Pushbullet alarm.")
+        reject_leftover_parameters(
+            settings, "Alert level in Pushbullet alarm.")
         return alert
 
     # Send Alert to Pushbullet
@@ -134,10 +145,11 @@ class PushbulletAlarm(Alarm):
 
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):
-        req_channel = next((channel for channel in self.__client.channels
-                            if channel.channel_tag == channel_tag), self.__client)
+        req_channel = next(
+            (channel for channel in self.__client.channels
+             if channel.channel_tag == channel_tag), self.__client)
         if req_channel is self.__client and channel_tag is not None:
-            log.error("Unable to find channel... Pushing to all devices instead...")
+            log.error("Unable to find channel.Pushing to all devices instead.")
         else:
             log.debug("Setting to channel %s." % channel_tag)
         return req_channel

@@ -15,7 +15,7 @@ log = logging.getLogger('FileCache')
 class FileCache(Cache):
 
     def __init__(self, name):
-        """ Initialize a new cache object, retrieving and previously saved results if possible. """
+        """ Initializes a new cache object for storing data between events. """
         super(FileCache, self).__init__()
         self._name = name
         self._file = get_path(os.path.join("cache", "{}.cache".format(name)))
@@ -55,5 +55,6 @@ class FileCache(Cache):
             with portalocker.Lock(self._file, timeout=5, mode="wb+") as f:
                 pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
         except Exception as e:
-            log.error("Encountered error while saving cache: {}: {}".format(type(e).__name__, e))
+            log.error("Encountered error while saving cache: "
+                      + "{}: {}".format(type(e).__name__, e))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
