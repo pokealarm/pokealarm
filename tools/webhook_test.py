@@ -214,6 +214,16 @@ def list_gyms():
         print "Enter gym id for raid (from above)\n>",
 
 
+def gym_cache():
+    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
+    if raw_input() in truthy:
+        list_cache()
+        print "Enter cache file name to verify the gym (default:manager_0)\n>",
+        cache_or_invalid()
+        list_gyms()
+        gym_or_invalid("gym_id", "gym_name")
+
+
 def reset_timers_and_encounters():
     current_time = time.time()
     if payload["type"] == "pokemon":
@@ -335,23 +345,11 @@ if type == whtypes["1"]:
             if raw_input() in truthy:
                 payload["message"]["weight"] = 14.0
 elif type == whtypes["3"]:
-    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
-    if raw_input() in truthy:
-        list_cache()
-        print "Enter cache file name to verify the gym (default:manager_0)\n>",
-        cache_or_invalid()
-        list_gyms()
-        gym_or_invalid("gym_id", "gym_name")
+    gym_cache()
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",
     get_and_validate_team()
 elif type == whtypes["4"]:
-    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
-    if raw_input() in truthy:
-        list_cache()
-        print "Enter cache file name to verify the gym (default:manager_0)\n>",
-        cache_or_invalid()
-        list_gyms()
-        gym_or_invalid("gym_id", "gym_name")
+    gym_cache()
     print "What level of gym egg? (1-5)\n>",
     egglevel = check_int(raw_input(), payload["message"]["level"])
     if 6 > egglevel > 0:
@@ -359,13 +357,7 @@ elif type == whtypes["4"]:
     else:
         print "Egg level invalid. Assuming level 5"
 elif type == whtypes["5"]:
-    print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
-    if raw_input() in truthy:
-        list_cache()
-        print "Enter cache file name to verify the gym (default:manager_0)\n>",
-        cache_or_invalid()
-        list_gyms()
-        gym_or_invalid("gym_id", "gym_name")
+    gym_cache()
     print "Enter pokemon id for raid\n>",
     int_or_default("pokemon_id")
     print "Moveset important?\n>",
