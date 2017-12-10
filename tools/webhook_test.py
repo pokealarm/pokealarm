@@ -152,17 +152,14 @@ def get_gym_info(gym_id):
     return _gym_info.get(gym_id, _default_gym_info)
 
 
-def check_gym(questionable_input):
-    if get_gym_info(questionable_input)['name'] != "unknown":
-        print "Gym found = {}".format(get_gym_info(questionable_input)['name'])
-        return questionable_input, get_gym_info(questionable_input)['name']
-    else:
-        print "Not a valid gym. Please try again..\n>"
-        check_gym(raw_input())
-
-
 def gym_or_invalid(prm, prm2):
-    payload["message"][prm], payload["message"][prm2] = check_gym(raw_input())
+    questionable_input = raw_input()
+    while get_gym_info(questionable_input)['name'] == "unknown":
+        print "Not a valid gym. Please try again..\n>",
+        questionable_input = raw_input()
+    print "Gym found! {}".format(get_gym_info(questionable_input)['name'])
+    payload["message"][prm] = questionable_input
+    payload["message"][prm2] = get_gym_info(questionable_input)['name']
 
 
 def cache_or_invalid():
