@@ -448,6 +448,7 @@
         "Sandslash":"True",
         "Tentacruel":"True",
         "Marowak":"True",
+        "Mawile":"True",
         "Cloyster":"True",
         "Ninetales":"True",
         "Scyther":"True",
@@ -464,6 +465,7 @@
         "Nidoqueen":"True",
         "Tyranitar":"True",
         "Lapras":"True",
+        "Absol":"True",
         "Snorlax":"True",
         "Articuno":"True",
         "Zapdos":"True",
@@ -475,6 +477,16 @@
         "Suicune":"True",
         "Lugia":"True",
         "Ho-Oh":"True",
-        "Celebi":"True"
+        "Celebi":"True",
+        "Regirock":"True",
+        "Regice":"True",
+        "Registeel":"True",
+        "Latias":"True",
+        "Latios":"True",
+        "Kyogre":"True",
+        "Groudon":"True",
+        "Rayquaza":"True",
+        "Jirachi":"True",
+        "Deoxys":"True"
     }
 }
