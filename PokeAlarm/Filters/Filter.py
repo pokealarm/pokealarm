@@ -38,6 +38,7 @@ class Filter(object):
         # Do a special check for is missing_info is set
         if self.missing_info is not None and missing == self.missing_info:
             self.reject(event, "needed information was missing.")
+            return False
         return True
 
     def reject(self, event, reason):
@@ -52,9 +53,9 @@ class Filter(object):
         # Create a function to compare the event vs the limit
         def check(f, e):  # filter.check(event)
             value = getattr(e, event_attribute)  # e.event_attribute
-            if Unknown.is_not(value):
+            if Unknown.is_(value):
                 return Unknown.TINY  # Cannot check - missing attribute
-            result = eval_func(value, limit)  # compare value to limit
+            result = eval_func(limit, value)  # compare value to limit
             if result is False:
                 f.reject(  # Log rejection
                     e, "{} incorrect ({} to {})".format(
@@ -68,7 +69,7 @@ class Filter(object):
     def parse_as_type(kind, param_name, data):
         """ Parse a parameter as a certain type. """
         try:
-            value = data.get(param_name)
+            value = data.pop(param_name, None)
             if value is None:
                 return None
             else:
@@ -82,20 +83,18 @@ class Filter(object):
     def parse_as_set(value_type, param_name, data):
         """ Parse and convert a list of values into a set."""
         # Validate Input
-        try:
-            values = data.get('param_name')
-            if values is None or len(values) == 0:
-                return None
-            if not isinstance(values, list):
-                raise ValueError()
-            # Generate Allowed Set
-            allowed = set()
-            for value in values:
-                # Value type should throw the correct error
-                allowed.add(value_type(value))
-            return allowed
-        except Exception:
+        values = data.pop(param_name, None)
+        if values is None or len(values) == 0:
+            return None
+        if not isinstance(values, list):
             raise ValueError(
                 'The "{0}" parameter must formatted as a list containing '
                 'different values. Example: "{0}": '
                 '[ "value1", "value2", "value3" ] '.format(param_name))
+        # Generate Allowed Set
+        allowed = set()
+        for value in values:
+            # Value type should throw the correct error
+            allowed.add(value_type(value))
+        return allowed
+

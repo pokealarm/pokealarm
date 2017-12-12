@@ -1,5 +1,9 @@
+import os
+
 # Global variables used by all functions
-config = {}
+config = {
+    'ROOT_PATH': os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+}
 
 
 class Unknown:

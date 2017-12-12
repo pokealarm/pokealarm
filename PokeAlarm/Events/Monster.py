@@ -52,7 +52,7 @@ class Monster(Event):
         if Unknown.is_not(self.atk_iv, self.def_iv, self.sta_iv):
             self.iv = 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
         else:
-            self.iv - Unknown.SMALL
+            self.iv = Unknown.SMALL
         # Form
         self.form_id = check_for_none(int, data.get('form'), 0)
         if self.form_id == 0:  # TODO: Change this before pulling 3.5
@@ -76,7 +76,13 @@ class Monster(Event):
             check_for_none(int, data.get('gender'), Unknown.TINY)),
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
-        self.size = get_pokemon_size(self.monster_id, self.height, self.weight)
+        if Unknown.is_not(self.height, self.weight):
+            self.size = get_pokemon_size(
+                self.monster_id, self.height, self.weight)
+        else:
+            self.size = Unknown.SMALL
+
+        self.name = self.monster_id
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """

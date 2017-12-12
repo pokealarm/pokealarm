@@ -10,7 +10,7 @@ from PokeAlarm.Utils import get_path
 # (use all locales for flexibility)
 def get_monster_id(pokemon_name):
     try:
-        name = pokemon_name.lower()
+        name = str(pokemon_name).lower()
         if not hasattr(get_monster_id, 'ids'):
             get_monster_id.ids = {}
             files = glob(get_path('locales/*.json'))
@@ -25,9 +25,9 @@ def get_monster_id(pokemon_name):
             return get_monster_id.ids[name]
         else:
             return int(name)  # try as an integer
-    except Exception:
+    except ValueError as e:
         raise ValueError("Unable to interpret `{}` as a valid "
-                         " monster name or id.".format(pokemon_name))
+                         " monster name or id. {}".format(pokemon_name, e.message))
 
 
 # Returns the id corresponding with the move (use all locales for flexibility)

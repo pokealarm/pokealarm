@@ -13,7 +13,7 @@ class Monster(Filter):
         """ Initializes base parameters for a filter. """
         super(Monster, self).__init__(name)
 
-        # Monster ID - m.monster_id in f.monster_ids
+        # Monster ID - f.monster_ids in m.monster_id
         self.monster_ids = self.evaluate_attribute(  #
             event_attribute='monster_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
@@ -25,87 +25,87 @@ class Monster(Filter):
             limit=Filter.parse_as_type(int, 'time_left', data))
 
         # Distance
-        self.min_dist = self.evaluate_attribute(  # m.distance >= f.min_dist
-            event_attribute='distance', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'min_dist', data))
-        self.max_dist = self.evaluate_attribute(  # m.distance <= f.max_dist
+        self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
             event_attribute='distance', eval_func=operator.le,
             limit=Filter.parse_as_type(int, 'min_dist', data))
+        self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
+            event_attribute='distance', eval_func=operator.ge,
+            limit=Filter.parse_as_type(int, 'max_dist', data))
 
         # Encounter Stats
         # Level
-        self.min_lvl = self.evaluate_attribute(  # m.mon_lvl >= f.min_lvl
-            event_attribute='mon_lvl', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'min_lvl', data))
-        self.max_lvl = self.evaluate_attribute(  # m.mon_lvl <= f.max_lvl
+        self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= m.mon_lvl
             event_attribute='mon_lvl', eval_func=operator.le,
+            limit=Filter.parse_as_type(int, 'min_lvl', data))
+        self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= m.mon_lvl
+            event_attribute='mon_lvl', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_lvl', data))
         # Attack IV
-        self.min_atk = self.evaluate_attribute(  # m.atk_iv >= f.min_atk
-            event_attribute='atk_iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'min_atk', data))
-        self.max_atk = self.evaluate_attribute(  # m.atk_iv <= f.max_atk
+        self.min_atk = self.evaluate_attribute(  # f.min_atk <= m.atk_iv
             event_attribute='atk_iv', eval_func=operator.le,
+            limit=Filter.parse_as_type(int, 'min_atk', data))
+        self.max_atk = self.evaluate_attribute(  # f.max_atk >= m.atk_iv
+            event_attribute='atk_iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_atk', data))
         # Defense IV
-        self.min_def = self.evaluate_attribute(  # m.def_iv >= f.min_def
-            event_attribute='def_iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'min_def', data))
-        self.max_def = self.evaluate_attribute(  # m.def_iv <= f.max_def
+        self.min_def = self.evaluate_attribute(  # f.min_def <= m.def_iv
             event_attribute='def_iv', eval_func=operator.le,
+            limit=Filter.parse_as_type(int, 'min_def', data))
+        self.max_def = self.evaluate_attribute(  # f.max_def >= m.def_iv
+            event_attribute='def_iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_def', data))
         # Stamina IV
-        self.min_sta = self.evaluate_attribute(  # m.sta_iv >= f.min_sta
-            event_attribute='sta_iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'min_sta', data))
-        self.max_sta = self.evaluate_attribute(  # m.sta_iv <= f.max_sta
+        self.min_sta = self.evaluate_attribute(  # f.min_sta <= m.sta_iv
             event_attribute='sta_iv', eval_func=operator.le,
+            limit=Filter.parse_as_type(int, 'min_sta', data))
+        self.max_sta = self.evaluate_attribute(  # f.max_sta >= m.sta_iv
+            event_attribute='sta_iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_sta', data))
         # Percent IV
-        self.min_iv = self.evaluate_attribute(  # m.iv >= f.min_iv
-            event_attribute='iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(float, 'min_iv', data))
-        self.max_iv = self.evaluate_attribute(  # m.iv <= f.max_iv
+        self.min_iv = self.evaluate_attribute(  # f.min_iv <= m.iv
             event_attribute='iv', eval_func=operator.le,
+            limit=Filter.parse_as_type(float, 'min_iv', data))
+        self.max_iv = self.evaluate_attribute(  # f.max_iv >= m.iv
+            event_attribute='iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(float, 'max_iv', data))
         # Form
-        self.forms = self.evaluate_attribute(  # m.form_id in f.forms
+        self.forms = self.evaluate_attribute(  # f.forms in m.form_id
             event_attribute='form_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(int, 'form_ids', data))  # TODO: names
 
         # Quick Move
-        self.quick_moves = self.evaluate_attribute(  # m.q_m in f.q_ms
+        self.quick_moves = self.evaluate_attribute(  # f.q_ms contains m.q_m
             event_attribute='quick_move_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
         # Charge Move
-        self.charge_moves = self.evaluate_attribute(  # m.c_m in f.c_ms
+        self.charge_moves = self.evaluate_attribute(  # f.c_ms contains m.c_m
             event_attribute='charge_move_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_move_id, 'charge_moves', data))
 
         # Cosmetic
         # Gender
-        self.genders = self.evaluate_attribute(  # m.gender in f.genders
+        self.genders = self.evaluate_attribute(  # f.genders contains m.gender
             event_attribute='gender', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_gender_sym, 'genders', data))
         # Height
-        self.min_height = self.evaluate_attribute(  # m.height >= f.min_height
-            event_attribute='height', eval_func=operator.ge,
-            limit=Filter.parse_as_type(float, 'min_height', data))
-        self.max_height = self.evaluate_attribute(  # m.height <= f.max_height
+        self.min_height = self.evaluate_attribute(  # f.min_height <= m.height
             event_attribute='height', eval_func=operator.le,
+            limit=Filter.parse_as_type(float, 'min_height', data))
+        self.max_height = self.evaluate_attribute(  # f.max_height >= m.height
+            event_attribute='height', eval_func=operator.ge,
             limit=Filter.parse_as_type(float, 'max_height', data))
         # Weight
-        self.min_weight = self.evaluate_attribute(  # m.weight >= f.min_weight
-            event_attribute='weight', eval_func=operator.ge,
-            limit=Filter.parse_as_type(float, 'min_weight', data))
-        self.max_weight = self.evaluate_attribute(  # m.weight <= f.max_weight
+        self.min_weight = self.evaluate_attribute(  # f.min_weight <= m.weight
             event_attribute='weight', eval_func=operator.le,
+            limit=Filter.parse_as_type(float, 'min_weight', data))
+        self.max_weight = self.evaluate_attribute(  # f.max_weight >= m.weight
+            event_attribute='weight', eval_func=operator.ge,
             limit=Filter.parse_as_type(float, 'max_weight', data))
         # Size
-        self.sizes = self.evaluate_attribute(  # m.size in f.sizes
+        self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
             event_attribute='size', eval_func=operator.contains,
             limit=Filter.parse_as_type(
                 MonUtils.validate_pokemon_size, 'sizes', data))
