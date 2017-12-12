@@ -1,12 +1,12 @@
 import logging
 import traceback
 
-from Event import Event  # noqa F401
-from Monster import Monster
-from Stop import Stop
-from Gym import Gym
-from Egg import Egg
-from Raid import Raid
+from BaseEvent import Event  # noqa F401
+from MonEvent import Monster
+from StopEvent import Stop
+from GymEvent import Gym
+from EggEvent import Egg
+from RaidEvent import Raid
 
 log = logging.getLogger('Events')
 
