@@ -32,7 +32,7 @@ class Egg(Event):
         self.direction = Unknown.TINY  # Completed by Manager
 
         # Egg Info
-        self.egg_level = check_for_none(int, data.get('level'), 0)
+        self.egg_lvl = check_for_none(int, data.get('level'), 0)
 
         # Gym Details (currently only sent from Monocle)
         self.gym_name = check_for_none(
@@ -70,7 +70,7 @@ class Egg(Event):
             'applemaps': get_applemaps_link(self.lat, self.lng),
 
             # Egg info
-            'egg_level': self.egg_level,
+            'egg_lvl': self.egg_lvl,
 
             # Gym Details
             'gym_name': self.gym_name,
