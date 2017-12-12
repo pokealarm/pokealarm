@@ -35,6 +35,8 @@ class Gym(Event):
         self.gym_image_url = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
 
+        self.name = self.gym_id
+
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         return {

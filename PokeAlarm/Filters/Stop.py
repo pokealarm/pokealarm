@@ -26,7 +26,7 @@ class Stop(Filter):
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
-                             " Monster filters".format(key))
+                             " Stop filters".format(key))
 
     def to_dict(self):
         """ Create a dict representation of this Filter. """
@@ -37,5 +37,9 @@ class Stop(Filter):
             settings['min_dist'] = self.min_dist
         if self.max_dist is not None:
             settings['max_dist'] = self.max_dist
+
+        # Missing Info
+        if self.missing_info is not None:
+            settings['missing_info'] = self.missing_info
 
         return settings

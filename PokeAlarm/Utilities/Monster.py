@@ -27,7 +27,7 @@ def get_monster_id(pokemon_name):
             return int(name)  # try as an integer
     except ValueError as e:
         raise ValueError("Unable to interpret `{}` as a valid "
-                         " monster name or id. {}".format(pokemon_name, e.message))
+                         " monster name or id.".format(pokemon_name))
 
 
 # Returns the id corresponding with the move (use all locales for flexibility)
