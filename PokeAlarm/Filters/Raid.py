@@ -1,109 +1,85 @@
 # Standard Library Imports
 import operator
+import re
 # 3rd Party Imports
 # Local Imports
 from . import Filter
 from PokeAlarm.Utilities import Monster as MonUtils
+from PokeAlarm.Utilities import Gym as GymUtils
 
 
-class Monster(Filter):
-    """ Filter class for limiting which monsters trigger a notification. """
+class Raid(Filter):
+    """ Filter class for limiting which egg trigger a notification. """
 
     def __init__(self, name, data):
         """ Initializes base parameters for a filter. """
-        super(Monster, self).__init__(name)
+        super(Raid, self).__init__(name)
 
-        # Monster ID - f.monster_ids in m.monster_id
+        # Monster ID - f.monster_ids in r.monster_id
         self.monster_ids = self.evaluate_attribute(  #
             event_attribute='monster_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters', data))
 
         # Distance
-        self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
+        self.min_dist = self.evaluate_attribute(  # f.min_dist <= r.distance
             event_attribute='distance', eval_func=operator.le,
             limit=Filter.parse_as_type(int, 'min_dist', data))
-        self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
+        self.max_dist = self.evaluate_attribute(  # f.max_dist <= r.distance
             event_attribute='distance', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_dist', data))
 
-        # Encounter Stats
-        # Level
-        self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= m.mon_lvl
+        # Monster Info
+        self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
             event_attribute='mon_lvl', eval_func=operator.le,
             limit=Filter.parse_as_type(int, 'min_lvl', data))
-        self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= m.mon_lvl
+        self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= r.mon_lvl
             event_attribute='mon_lvl', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_lvl', data))
         # Attack IV
-        self.min_atk = self.evaluate_attribute(  # f.min_atk <= m.atk_iv
+        self.min_atk = self.evaluate_attribute(  # f.min_atk <= r.atk_iv
             event_attribute='atk_iv', eval_func=operator.le,
             limit=Filter.parse_as_type(int, 'min_atk', data))
-        self.max_atk = self.evaluate_attribute(  # f.max_atk >= m.atk_iv
+        self.max_atk = self.evaluate_attribute(  # f.max_atk >= r.atk_iv
             event_attribute='atk_iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_atk', data))
         # Defense IV
-        self.min_def = self.evaluate_attribute(  # f.min_def <= m.def_iv
+        self.min_def = self.evaluate_attribute(  # f.min_def <= r.def_iv
             event_attribute='def_iv', eval_func=operator.le,
             limit=Filter.parse_as_type(int, 'min_def', data))
-        self.max_def = self.evaluate_attribute(  # f.max_def >= m.def_iv
+        self.max_def = self.evaluate_attribute(  # f.max_def >= r.def_iv
             event_attribute='def_iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_def', data))
         # Stamina IV
-        self.min_sta = self.evaluate_attribute(  # f.min_sta <= m.sta_iv
+        self.min_sta = self.evaluate_attribute(  # f.min_sta <= r.sta_iv
             event_attribute='sta_iv', eval_func=operator.le,
             limit=Filter.parse_as_type(int, 'min_sta', data))
-        self.max_sta = self.evaluate_attribute(  # f.max_sta >= m.sta_iv
+        self.max_sta = self.evaluate_attribute(  # f.max_sta >= r.sta_iv
             event_attribute='sta_iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(int, 'max_sta', data))
         # Percent IV
-        self.min_iv = self.evaluate_attribute(  # f.min_iv <= m.iv
+        self.min_iv = self.evaluate_attribute(  # f.min_iv <= r.iv
             event_attribute='iv', eval_func=operator.le,
             limit=Filter.parse_as_type(float, 'min_iv', data))
-        self.max_iv = self.evaluate_attribute(  # f.max_iv >= m.iv
+        self.max_iv = self.evaluate_attribute(  # f.max_iv >= r.iv
             event_attribute='iv', eval_func=operator.ge,
             limit=Filter.parse_as_type(float, 'max_iv', data))
-        # Form
-        self.forms = self.evaluate_attribute(  # f.forms in m.form_id
-            event_attribute='form_id', eval_func=operator.contains,
-            limit=Filter.parse_as_set(int, 'form_ids', data))  # TODO: names
 
         # Quick Move
-        self.quick_moves = self.evaluate_attribute(  # f.q_ms contains m.q_m
+        self.quick_moves = self.evaluate_attribute(  # f.q_ms contains r.q_m
             event_attribute='quick_move_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
         # Charge Move
-        self.charge_moves = self.evaluate_attribute(  # f.c_ms contains m.c_m
+        self.charge_moves = self.evaluate_attribute(  # f.c_ms contains r.c_m
             event_attribute='charge_move_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_move_id, 'charge_moves', data))
 
-        # Cosmetic
-        # Gender
-        self.genders = self.evaluate_attribute(  # f.genders contains m.gender
-            event_attribute='gender', eval_func=operator.contains,
-            limit=Filter.parse_as_set(
-                MonUtils.get_gender_sym, 'genders', data))
-        # Height
-        self.min_height = self.evaluate_attribute(  # f.min_height <= m.height
-            event_attribute='height', eval_func=operator.le,
-            limit=Filter.parse_as_type(float, 'min_height', data))
-        self.max_height = self.evaluate_attribute(  # f.max_height >= m.height
-            event_attribute='height', eval_func=operator.ge,
-            limit=Filter.parse_as_type(float, 'max_height', data))
-        # Weight
-        self.min_weight = self.evaluate_attribute(  # f.min_weight <= m.weight
-            event_attribute='weight', eval_func=operator.le,
-            limit=Filter.parse_as_type(float, 'min_weight', data))
-        self.max_weight = self.evaluate_attribute(  # f.max_weight >= m.weight
-            event_attribute='weight', eval_func=operator.ge,
-            limit=Filter.parse_as_type(float, 'max_weight', data))
-        # Size
-        self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
-            event_attribute='size', eval_func=operator.contains,
-            limit=Filter.parse_as_type(
-                MonUtils.validate_pokemon_size, 'sizes', data))
+        # Gym name
+        self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
+            event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
+            limit=Filter.parse_as_set(re.compile, 'gym_name_matches', data))
 
         # Missing Info
         self.missing_info = Filter.parse_as_type(bool, 'missing_info', data)
@@ -111,7 +87,7 @@ class Monster(Filter):
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
-                             " Monster filters".format(key))
+                             " Egg filters".format(key))
 
     def to_dict(self):
         """ Create a dict representation of this Filter. """
@@ -151,33 +127,10 @@ class Monster(Filter):
             settings['min_iv'] = self.min_iv
         if self.max_iv is not None:
             settings['max_iv'] = self.max_iv
-        # Form
-        if self.forms is not None:
-            settings['forms'] = self.forms
 
-        # Quick Move
-        if self.quick_moves is not None:
-            settings['quick_moves'] = self.quick_moves
-        # Charge Move
-        if self.charge_moves is not None:
-            settings['charge_moves'] = self.charge_moves
-
-        # Cosmetic
-        if self.genders is not None:
-            settings['genders'] = self.genders
-        # Height
-        if self.min_height is not None:
-            settings['min_height'] = self.min_height
-        if self.max_height is not None:
-            settings['max_height'] = self.max_height
-        # Weight
-        if self.min_weight is not None:
-            settings['min_weight'] = self.min_weight
-        if self.max_weight is not None:
-            settings['max_weight'] = self.max_weight
-        # Size
-        if self.sizes is not None:
-            settings['sizes'] = self.sizes
+        # Gym Name
+        if self.gym_name_matches is not None:
+            settings['gym_name_matches'] = self.gym_name_matches
 
         # Missing Info
         if self.missing_info is not None:

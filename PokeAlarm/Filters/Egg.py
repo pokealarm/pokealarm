@@ -54,7 +54,7 @@ class Egg(Filter):
         if self.max_dist is not None:
             settings['max_dist'] = self.max_dist
 
-        # Teams
+        # Levels
         if self.min_lvl is not None:
             settings['min_lvl'] = self.min_lvl
         if self.max_lvl is not None:
