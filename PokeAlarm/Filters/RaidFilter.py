@@ -4,8 +4,8 @@ import re
 # 3rd Party Imports
 # Local Imports
 from . import Filter
-from PokeAlarm.Utilities import Monster as MonUtils
-from PokeAlarm.Utilities import Gym as GymUtils
+from PokeAlarm.Utilities import MonUtils as MonUtils
+from PokeAlarm.Utilities import GymUtils as GymUtils
 
 
 class Raid(Filter):

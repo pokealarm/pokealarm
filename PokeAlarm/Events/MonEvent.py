@@ -50,7 +50,8 @@ class Monster(Event):
         self.sta_iv = check_for_none(
             int, data.get('individual_stamina'), Unknown.TINY)
         if Unknown.is_not(self.atk_iv, self.def_iv, self.sta_iv):
-            self.iv = 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
+            self.iv = \
+                100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
         else:
             self.iv = Unknown.SMALL
         # Form
@@ -59,13 +60,15 @@ class Monster(Event):
             self.form_id = Unknown.TINY
 
         # Quick Move
-        self.quick_move_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
+        self.quick_move_id = check_for_none(
+            int, data.get('move_1'), Unknown.TINY)
         self.quick_damage = get_move_damage(self.quick_move_id)
         self.quick_dps = get_move_dps(self.quick_move_id)
         self.quick_duration = get_move_duration(self.quick_move_id)
         self.quick_energy = get_move_energy(self.quick_move_id)
         # Charge Move
-        self.charge_move_id = check_for_none(int, data.get('move_2'), Unknown.TINY)
+        self.charge_move_id = check_for_none(
+            int, data.get('move_2'), Unknown.TINY)
         self.charge_damage = get_move_damage(self.charge_move_id)
         self.charge_dps = get_move_dps(self.charge_move_id)
         self.charge_duration = get_move_duration(self.quick_move_id)

@@ -88,5 +88,6 @@ def generate_generic_monster(values):
     mon.update(values)
     return mon
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -97,4 +97,3 @@ class Filter(object):
             # Value type should throw the correct error
             allowed.add(value_type(value))
         return allowed
-

@@ -4,7 +4,7 @@ import re
 # 3rd Party Imports
 # Local Imports
 from . import Filter
-from PokeAlarm.Utilities import Gym as GymUtils
+from PokeAlarm.Utilities import GymUtils as GymUtils
 
 
 class Egg(Filter):

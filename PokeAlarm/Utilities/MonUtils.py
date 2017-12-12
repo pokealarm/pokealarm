@@ -25,7 +25,7 @@ def get_monster_id(pokemon_name):
             return get_monster_id.ids[name]
         else:
             return int(name)  # try as an integer
-    except ValueError as e:
+    except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
                          " monster name or id.".format(pokemon_name))
 
@@ -77,4 +77,3 @@ def validate_pokemon_size(size_name):
     else:
         raise ValueError("Unable to interpret `{}` as a supported "
                          " size name.".format(size_name))
-

@@ -1,7 +1,6 @@
 # Standard Library Imports
 from glob import glob
 import json
-import re
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_path
@@ -26,7 +25,7 @@ def get_team_id(team_name):
             return get_team_id.ids[name]
         else:
             return int(name)  # try as an integer
-    except ValueError as e:
+    except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
                          " team name or id.".format(team_name))
 

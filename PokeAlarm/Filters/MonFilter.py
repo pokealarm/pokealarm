@@ -3,7 +3,7 @@ import operator
 # 3rd Party Imports
 # Local Imports
 from . import Filter
-from PokeAlarm.Utilities import Monster as MonUtils
+from PokeAlarm.Utilities import MonUtils as MonUtils
 
 
 class Monster(Filter):
