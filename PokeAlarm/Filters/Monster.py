@@ -7,7 +7,7 @@ from PokeAlarm.Utilities import Monster as MonUtils
 
 
 class Monster(Filter):
-    """ Filter class for limiting which events trigger a notification. """
+    """ Filter class for limiting which monsters trigger a notification. """
 
     def __init__(self, name, data):
         """ Initializes base parameters for a filter. """
@@ -18,11 +18,6 @@ class Monster(Filter):
             event_attribute='monster_id', eval_func=operator.contains,
             limit=Filter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters', data))
-
-        # Time Left - m.time_left >= f.time_left
-        self.time_left = self.evaluate_attribute(
-            event_attribute='time_left', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'time_left', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
