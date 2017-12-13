@@ -5,7 +5,7 @@ import logging
 from PokeAlarm import Unknown
 
 
-class Filter(object):
+class BaseFilter(object):
     """ Abstract class representing details related to different events. """
 
     def __init__(self, name):

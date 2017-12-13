@@ -14,20 +14,20 @@ class TestMonsterFilter(unittest.TestCase):
     def test_monster_id(self):
         # Create the filters
         settings = {"monsters": [1, "2", "Venusaur"]}
-        mon_filter = Filters.Monster('filter1', settings)
+        mon_filter = Filters.MonFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.Monster(generate_generic_monster({"pokemon_id": 1}))
-        pass2 = Events.Monster(generate_generic_monster({"pokemon_id": 2}))
-        pass3 = Events.Monster(generate_generic_monster({"pokemon_id": 3}))
+        pass1 = Events.MonEvent(generate_monster({"pokemon_id": 1}))
+        pass2 = Events.MonEvent(generate_monster({"pokemon_id": 2}))
+        pass3 = Events.MonEvent(generate_monster({"pokemon_id": 3}))
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(mon_filter.check_event(e))
 
         # Generate events that should fail
-        fail1 = Events.Monster(generate_generic_monster({"pokemon_id": 5}))
-        fail2 = Events.Monster(generate_generic_monster({"pokemon_id": 102}))
-        fail3 = Events.Monster(generate_generic_monster({"pokemon_id": 30}))
+        fail1 = Events.MonEvent(generate_monster({"pokemon_id": 5}))
+        fail2 = Events.MonEvent(generate_monster({"pokemon_id": 102}))
+        fail3 = Events.MonEvent(generate_monster({"pokemon_id": 30}))
 
         # Test failing events
         for e in [fail1, fail2, fail3]:
@@ -36,20 +36,20 @@ class TestMonsterFilter(unittest.TestCase):
     def test_lvl(self):
         # Create the filters
         settings = {"min_lvl": 5, "max_lvl": 10}
-        mon_filter = Filters.Monster('filter1', settings)
+        mon_filter = Filters.MonFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.Monster(generate_generic_monster({"pokemon_level": 5}))
-        pass2 = Events.Monster(generate_generic_monster({"pokemon_level": 7}))
-        pass3 = Events.Monster(generate_generic_monster({"pokemon_level": 10}))
+        pass1 = Events.MonEvent(generate_monster({"pokemon_level": 5}))
+        pass2 = Events.MonEvent(generate_monster({"pokemon_level": 7}))
+        pass3 = Events.MonEvent(generate_monster({"pokemon_level": 10}))
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(mon_filter.check_event(e))
 
         # Generate events that should fail
-        fail1 = Events.Monster(generate_generic_monster({"pokemon_id": 4}))
-        fail2 = Events.Monster(generate_generic_monster({"pokemon_id": 11}))
-        fail3 = Events.Monster(generate_generic_monster({"pokemon_id": 100}))
+        fail1 = Events.MonEvent(generate_monster({"pokemon_id": 4}))
+        fail2 = Events.MonEvent(generate_monster({"pokemon_id": 11}))
+        fail3 = Events.MonEvent(generate_monster({"pokemon_id": 100}))
 
         # Test failing events
         for e in [fail1, fail2, fail3]:
@@ -57,7 +57,7 @@ class TestMonsterFilter(unittest.TestCase):
 
 
 # Create a generic monster, overriding with an specific values
-def generate_generic_monster(values):
+def generate_monster(values):
     mon = {
         "encounter_id": "0",
         "spawnpoint_id": "0",

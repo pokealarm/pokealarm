@@ -2,17 +2,17 @@
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, get_dist_as_str
-from . import Event
+from . import BaseEvent
 from PokeAlarm import Unknown
 
 
-class Gym(Event):
+class GymEvent(BaseEvent):
     """ Event representing the change occurred in a Gym. """
 
     def __init__(self, data):
         """ Creates a new Gym Event based on the given dict. """
-        super(Gym, self).__init__('gym')
-        check_for_none = Event.check_for_none
+        super(GymEvent, self).__init__('gym')
+        check_for_none = BaseEvent.check_for_none
 
         # Identification
         self.gym_id = data.get('gym_id', data.get('id'))

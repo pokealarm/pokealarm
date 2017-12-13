@@ -2,26 +2,27 @@
 import operator
 # 3rd Party Imports
 # Local Imports
-from . import Filter
+from . import BaseFilter
 
 
-class Stop(Filter):
+class StopFilter(BaseFilter):
     """ Filter class for limiting which stops trigger a notification. """
 
     def __init__(self, name, data):
         """ Initializes base parameters for a filter. """
-        super(Stop, self).__init__(name)
+        super(StopFilter, self).__init__(name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
 
         # Missing Info
-        self.missing_info = Filter.parse_as_type(bool, 'missing_info', data)
+        self.missing_info = BaseFilter.parse_as_type(
+            bool, 'missing_info', data)
 
         # Reject leftover parameters
         for key in data:

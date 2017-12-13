@@ -1,6 +1,6 @@
-from BaseFilter import Filter  # noqa F401
-from MonFilter import Monster  # noqa F401
-from StopFilter import Stop  # noqa F401
-from GymFilter import Gym  # noqa F401
-from EggFilter import Egg  # noqa F401
-from RaidFilter import Raid  # noqa F401
+from BaseFilter import BaseFilter  # noqa F401
+from MonFilter import MonFilter  # noqa F401
+from StopFilter import StopFilter  # noqa F401
+from GymFilter import GymFilter  # noqa F401
+from EggFilter import EggFilter  # noqa F401
+from RaidFilter import RaidFilter  # noqa F401

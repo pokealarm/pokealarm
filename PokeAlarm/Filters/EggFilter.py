@@ -3,41 +3,43 @@ import operator
 import re
 # 3rd Party Imports
 # Local Imports
-from . import Filter
+from . import BaseFilter
 from PokeAlarm.Utilities import GymUtils as GymUtils
 
 
-class Egg(Filter):
+class EggFilter(BaseFilter):
     """ Filter class for limiting which egg trigger a notification. """
 
     def __init__(self, name, data):
         """ Initializes base parameters for a filter. """
-        super(Egg, self).__init__(name)
+        super(EggFilter, self).__init__(name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= e.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= e.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
 
         # Egg Level
         # Level
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= e.egg_lvl
             event_attribute='egg_lvl', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'min_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= e.egg_lvl
             event_attribute='egg_lvl', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'max_lvl', data))
 
         # Gym name
         self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
-            limit=Filter.parse_as_set(re.compile, 'gym_name_matches', data))
+            limit=BaseFilter.parse_as_set(
+                re.compile, 'gym_name_matches', data))
 
         # Missing Info
-        self.missing_info = Filter.parse_as_type(bool, 'missing_info', data)
+        self.missing_info = BaseFilter.parse_as_type(
+            bool, 'missing_info', data)
 
         # Reject leftover parameters
         for key in data:

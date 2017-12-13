@@ -4,17 +4,17 @@ from datetime import datetime
 # Local Imports
 from PokeAlarm.Utils import get_time_as_str, get_gmaps_link, \
     get_applemaps_link, get_dist_as_str
-from . import Event
+from . import BaseEvent
 from PokeAlarm import Unknown
 
 
-class Egg(Event):
+class EggEvent(BaseEvent):
     """ Event representing the change occurred in a Gym. """
 
     def __init__(self, data):
         """ Creates a new Stop Event based on the given dict. """
-        super(Egg, self).__init__('egg')
-        check_for_none = Event.check_for_none
+        super(EggEvent, self).__init__('egg')
+        check_for_none = BaseEvent.check_for_none
 
         # Identification
         self.gym_id = data.get('gym_id')

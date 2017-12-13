@@ -6,16 +6,16 @@ from PokeAlarm import Unknown
 from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_pokemon_gender, get_pokemon_size, \
     get_applemaps_link, get_time_as_str, get_dist_as_str
-from . import Event
+from . import BaseEvent
 
 
-class Monster(Event):
+class MonEvent(BaseEvent):
     """ Event representing the discovery of a Pokemon. """
 
     def __init__(self, data):
         """ Creates a new Monster Event based on the given dict. """
-        super(Monster, self).__init__('monster')
-        check_for_none = Event.check_for_none
+        super(MonEvent, self).__init__('monster')
+        check_for_none = BaseEvent.check_for_none
 
         # Identification
         self.enc_id = data['encounter_id']

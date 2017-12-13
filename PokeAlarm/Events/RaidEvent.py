@@ -3,19 +3,19 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from . import Event
+from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
     get_move_energy, get_dist_as_str
 
 
-class Raid(Event):
+class RaidEvent(BaseEvent):
     """ Event representing the discovery of a Raid. """
 
     def __init__(self, data):
         """ Creates a new Stop Event based on the given dict. """
-        super(Raid, self).__init__('raid')
-        check_for_none = Event.check_for_none
+        super(RaidEvent, self).__init__('raid')
+        check_for_none = BaseEvent.check_for_none
 
         # Identification
         self.gym_id = data.get('gym_id')

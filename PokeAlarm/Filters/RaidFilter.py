@@ -3,86 +3,88 @@ import operator
 import re
 # 3rd Party Imports
 # Local Imports
-from . import Filter
+from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
 
 
-class Raid(Filter):
+class RaidFilter(BaseFilter):
     """ Filter class for limiting which egg trigger a notification. """
 
     def __init__(self, name, data):
         """ Initializes base parameters for a filter. """
-        super(Raid, self).__init__(name)
+        super(RaidFilter, self).__init__(name)
 
         # Monster ID - f.monster_ids in r.monster_id
         self.monster_ids = self.evaluate_attribute(  #
             event_attribute='monster_id', eval_func=operator.contains,
-            limit=Filter.parse_as_set(
+            limit=BaseFilter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= r.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= r.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
 
         # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
             event_attribute='mon_lvl', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'min_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= r.mon_lvl
             event_attribute='mon_lvl', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'max_lvl', data))
         # Attack IV
         self.min_atk = self.evaluate_attribute(  # f.min_atk <= r.atk_iv
             event_attribute='atk_iv', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_atk', data))
+            limit=BaseFilter.parse_as_type(int, 'min_atk', data))
         self.max_atk = self.evaluate_attribute(  # f.max_atk >= r.atk_iv
             event_attribute='atk_iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_atk', data))
+            limit=BaseFilter.parse_as_type(int, 'max_atk', data))
         # Defense IV
         self.min_def = self.evaluate_attribute(  # f.min_def <= r.def_iv
             event_attribute='def_iv', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_def', data))
+            limit=BaseFilter.parse_as_type(int, 'min_def', data))
         self.max_def = self.evaluate_attribute(  # f.max_def >= r.def_iv
             event_attribute='def_iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_def', data))
+            limit=BaseFilter.parse_as_type(int, 'max_def', data))
         # Stamina IV
         self.min_sta = self.evaluate_attribute(  # f.min_sta <= r.sta_iv
             event_attribute='sta_iv', eval_func=operator.le,
-            limit=Filter.parse_as_type(int, 'min_sta', data))
+            limit=BaseFilter.parse_as_type(int, 'min_sta', data))
         self.max_sta = self.evaluate_attribute(  # f.max_sta >= r.sta_iv
             event_attribute='sta_iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(int, 'max_sta', data))
+            limit=BaseFilter.parse_as_type(int, 'max_sta', data))
         # Percent IV
         self.min_iv = self.evaluate_attribute(  # f.min_iv <= r.iv
             event_attribute='iv', eval_func=operator.le,
-            limit=Filter.parse_as_type(float, 'min_iv', data))
+            limit=BaseFilter.parse_as_type(float, 'min_iv', data))
         self.max_iv = self.evaluate_attribute(  # f.max_iv >= r.iv
             event_attribute='iv', eval_func=operator.ge,
-            limit=Filter.parse_as_type(float, 'max_iv', data))
+            limit=BaseFilter.parse_as_type(float, 'max_iv', data))
 
         # Quick Move
         self.quick_moves = self.evaluate_attribute(  # f.q_ms contains r.q_m
             event_attribute='quick_move_id', eval_func=operator.contains,
-            limit=Filter.parse_as_set(
+            limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
         # Charge Move
         self.charge_moves = self.evaluate_attribute(  # f.c_ms contains r.c_m
             event_attribute='charge_move_id', eval_func=operator.contains,
-            limit=Filter.parse_as_set(
+            limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'charge_moves', data))
 
         # Gym name
         self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
-            limit=Filter.parse_as_set(re.compile, 'gym_name_matches', data))
+            limit=BaseFilter.parse_as_set(
+                re.compile, 'gym_name_matches', data))
 
         # Missing Info
-        self.missing_info = Filter.parse_as_type(bool, 'missing_info', data)
+        self.missing_info = BaseFilter.parse_as_type(
+            bool, 'missing_info', data)
 
         # Reject leftover parameters
         for key in data:

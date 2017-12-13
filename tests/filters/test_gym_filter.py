@@ -14,20 +14,20 @@ class TestGymFilter(unittest.TestCase):
     def test_gym_names(self):
         # Create the filters
         settings = {"gym_name_matches": ["pass.\Z"]}
-        gym_filter = Filters.Gym('filter1', settings)
+        gym_filter = Filters.GymFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.Gym(generate_generic_gym({"name": "pass1"}))
-        pass2 = Events.Gym(generate_generic_gym({"name": "pass2"}))
-        pass3 = Events.Gym(generate_generic_gym({"name": "pass3"}))
+        pass1 = Events.GymEvent(generate_generic_gym({"name": "pass1"}))
+        pass2 = Events.GymEvent(generate_generic_gym({"name": "pass2"}))
+        pass3 = Events.GymEvent(generate_generic_gym({"name": "pass3"}))
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(gym_filter.check_event(e))
 
         # Generate events that should fail
-        fail1 = Events.Gym(generate_generic_gym({"name": "fail1"}))
-        fail2 = Events.Gym(generate_generic_gym({"name": "failpass"}))
-        fail3 = Events.Gym(generate_generic_gym({"name": "passfail"}))
+        fail1 = Events.GymEvent(generate_generic_gym({"name": "fail1"}))
+        fail2 = Events.GymEvent(generate_generic_gym({"name": "failpass"}))
+        fail3 = Events.GymEvent(generate_generic_gym({"name": "passfail"}))
 
         # Test failing events
         for e in [fail1, fail2, fail3]:

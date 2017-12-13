@@ -1,12 +1,12 @@
 import logging
 import traceback
 
-from BaseEvent import Event  # noqa F401
-from MonEvent import Monster
-from StopEvent import Stop
-from GymEvent import Gym
-from EggEvent import Egg
-from RaidEvent import Raid
+from BaseEvent import BaseEvent  # noqa F401
+from MonEvent import MonEvent
+from StopEvent import StopEvent
+from GymEvent import GymEvent
+from EggEvent import EggEvent
+from RaidEvent import RaidEvent
 
 log = logging.getLogger('Events')
 
@@ -17,15 +17,15 @@ def event_factory(self, data):
         kind = data['type']
         message = data['message']
         if kind == 'pokemon':
-            return Monster(message)
+            return MonEvent(message)
         elif kind == 'pokestop':
-            return Stop(message)
+            return StopEvent(message)
         elif kind == 'gym' or kind == 'gym_details':
-            return Gym(message)
+            return GymEvent(message)
         elif kind == 'raid' and message.get('pkmn_id', 0) == 0:
-            return Egg(message)
+            return EggEvent(message)
         elif kind == 'raid' and message.get('pkmn_id', 0) != 0:
-            return Raid(message)
+            return RaidEvent(message)
         elif kind in ['captcha', 'scheduler']:
             log.debug(
                 "{} data ignored - unsupported webhook type.".format(kind))
