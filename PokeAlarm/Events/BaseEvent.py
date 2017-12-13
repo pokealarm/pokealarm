@@ -4,7 +4,7 @@ import logging
 # Local Imports
 
 
-class Event(object):
+class BaseEvent(object):
     """ Abstract class representing details related to different events. """
 
     def __init__(self, kind):
