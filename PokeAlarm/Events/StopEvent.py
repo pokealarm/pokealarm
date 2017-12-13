@@ -3,17 +3,17 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from . import Event
+from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_dist_as_str
 
 
-class Stop(Event):
+class StopEvent(BaseEvent):
     """ Event representing the discovery of a PokeStop. """
 
     def __init__(self, data):
         """ Creates a new Stop Event based on the given dict. """
-        super(Stop, self).__init__('stop')
+        super(StopEvent, self).__init__('stop')
 
         # Identification
         self.id = data['pokestop_id']
