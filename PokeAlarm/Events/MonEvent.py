@@ -139,9 +139,9 @@ class MonEvent(BaseEvent):
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
-            'form_id_3_or_empty': (
+            'form_id_3': (
                 ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
-                else Unknown.TINY),
+                else Unknown.SMALL),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_move_id),
