@@ -13,17 +13,16 @@ import gevent
 # 3rd Party Imports
 import gipc
 
-from Alarms import alarm_factory
+# Local Imports
+import Alarms
+import Filters
 from Cache import cache_factory
-from Filters_Old import load_pokemon_section, load_pokestop_section, \
-    load_gym_section, load_egg_section, load_raid_section
 from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path,\
     get_time_as_str, require_and_remove_key, parse_boolean, contains_arg, \
     get_pokemon_cp_range
-# Local Imports
 from . import config
 
 log = logging.getLogger('Manager')
@@ -70,11 +69,12 @@ class Manager(object):
         self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
-        self.__pokemon_settings = {}
-        self.__pokestop_settings = {}
-        self.__gym_settings = {}
-        self.__raid_settings = {}
-        self.__egg_settings = {}
+        self.__mons_enabled, self.__mon_filters = True, {}
+        self.__stops_enabled, self.__stop_filters = True, {}
+        self.__gyms_enabled, self.__gym_filters = True, {}
+        self.__ignore_neutral = False
+        self.__eggs_enabled, self.__egg_filters = False, {}
+        self.__raids_enabled, self.__raid_filters = False, {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -122,6 +122,21 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    @staticmethod
+    def load_filter_section(section, sect_name, filter_type):
+        defaults = section.pop('defaults', {})
+        filter_set = {}
+        for name, settings in section.pop('filters', {}).iteritems():
+            settings = dict(settings.items() + defaults.items())
+            filter_set[name] = filter_type(name, settings)
+            log.debug(
+                "Filter '%s' set as the following: %s", name,
+                filter_set[name].to_dict())
+        for key in section:  # Reject leftover parameters
+            raise ValueError("'{}' is not a recognized parameter for the"
+                             " '{}' section.".format(key, sect_name))
+        return filter_set
+
     # Load in a new filters file
     def load_filter_file(self, file_path):
         try:
@@ -130,30 +145,7 @@ class Manager(object):
                 filters = json.load(f)
             if type(filters) is not dict:
                 log.critical("Filters file's must be a JSON object:"
-                             + " { \"pokemon\":{...},... }")
-
-            # Load in the Pokemon Section
-            self.__pokemon_settings = load_pokemon_section(
-                require_and_remove_key('pokemon', filters, "Filters file."))
-
-            # Load in the Pokestop Section
-            self.__pokestop_settings = load_pokestop_section(
-                require_and_remove_key('pokestops', filters, "Filters file."))
-
-            # Load in the Gym Section
-            self.__gym_settings = load_gym_section(
-                require_and_remove_key('gyms', filters, "Filters file."))
-
-            # Load in the Egg Section
-            self.__egg_settings = load_egg_section(
-                require_and_remove_key("eggs", filters, "Filters file."))
-
-            # Load in the Raid Section
-            self.__raid_settings = load_raid_section(
-                require_and_remove_key('raids', filters, "Filters file."))
-
-            return
-
+                             + " { \"monsters\":{...},... }")
         except ValueError as e:
             log.error("Encountered error while loading Filters:"
                       + " {}: {}".format(type(e).__name__, e))
@@ -162,17 +154,57 @@ class Manager(object):
                 + " Filters file. This typically means your file isn't in the"
                 + "correct json format. Try loading your file contents into a"
                 + " json validator.")
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            sys.exit(1)
         except IOError as e:
             log.error("Encountered error while loading Filters: "
                       + "{}: {}".format(type(e).__name__, e))
             log.error("PokeAlarm was unable to find a filters file"
                       + " at {}. Please check that this ".format(file_path)
                       + " file exists and that PA has read permissions.")
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            sys.exit(1)
+
+        try:
+            # Load Monsters Section
+            section = filters.pop('monsters', {})
+            self.__mons_enabled = bool(section.pop('enabled', True))
+            self.__mon_filters = self.load_filter_section(
+                section, 'monsters', Filters.MonFilter)
+
+            # Load Stops Section
+            section = filters.pop('stops', {})
+            self.__stops_enabled = bool(section.pop('enabled', True))
+            self.__stop_filters = self.load_filter_section(
+                section, 'stops', Filters.StopFilter)
+
+            # Load Gyms Section
+            section = filters.pop('gyms', {})
+            self.__gyms_enabled = bool(section.pop('enabled', True))
+            self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
+            self.__gym_filters = self.load_filter_section(
+                section, 'gyms', Filters.GymFilter)
+
+            # Load Eggs Section
+            section = filters.pop('eggs', {})
+            self.__eggs_enabled = bool(section.pop('enabled', True))
+            self.__egg_filters = self.load_filter_section(
+                section, 'eggs', Filters.EggFilter)
+
+            # Load Raids Section
+            section = filters.pop('raids', {})
+            self.__raids_enabled = bool(section.pop('enabled', True))
+            self.__raid_filters = self.load_filter_section(
+                section, 'raids', Filters.RaidFilter)
+
+            return  # exit function
+
         except Exception as e:
-            log.error("Encountered error while loading Filters:  "
-                      + "{}: {}".format(type(e).__name__, e))
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        sys.exit(1)
+            log.error("Encountered error while parsing Filters. "
+                      "This is because of a mistake in your Filters file.")
+            log.error("{}: {}".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            sys.exit(1)
 
     def load_alarms_file(self, file_path, max_attempts):
         log.info("Loading Alarms from the file at {}".format(file_path))
@@ -188,8 +220,8 @@ class Manager(object):
                 if parse_boolean(require_and_remove_key(
                         'active', alarm, "Alarm objects in file.")) is True:
                     self.set_optional_args(str(alarm))
-                    self.__alarms.append(
-                        alarm_factory(alarm, max_attempts, self.__google_key))
+                    self.__alarms.append(Alarms.alarm_factory(
+                            alarm, max_attempts, self.__google_key))
                 else:
                     log.debug("Alarm not activated: {}".format(alarm['type'])
                               + " because value not set to \"True\"")
@@ -642,7 +674,7 @@ class Manager(object):
     # Process new Pokemon data and decide if a notification needs to be sent
     def process_pokemon(self, pkmn):
         # Make sure that pokemon are enabled
-        if self.__pokemon_settings['enabled'] is False:
+        if self.__mon_filters['enabled'] is False:
             log.debug("Pokemon ignored: pokemon notifications are disabled.")
             return
 
@@ -669,7 +701,7 @@ class Manager(object):
             return
 
         # Check that the filter is even set
-        if pkmn_id not in self.__pokemon_settings['filters']:
+        if pkmn_id not in self.__mon_filters['filters']:
             if self.__quiet is False:
                 log.info("{} ignored: no filters are set".format(name))
             return
@@ -681,7 +713,7 @@ class Manager(object):
 
         pkmn['pkmn'] = name
 
-        filters = self.__pokemon_settings['filters'][pkmn_id]
+        filters = self.__mon_filters['filters'][pkmn_id]
         passed = self.check_pokemon_filter(filters, pkmn, dist)
         # If we didn't pass any filters
         if not passed:
@@ -738,7 +770,7 @@ class Manager(object):
 
     def process_pokestop(self, stop):
         # Make sure that pokemon are enabled
-        if self.__pokestop_settings['enabled'] is False:
+        if self.__stop_filters['enabled'] is False:
             log.debug("Pokestop ignored: pokestop notifications are disabled.")
             return
 
@@ -764,7 +796,7 @@ class Manager(object):
         lat, lng = stop['lat'], stop['lng']
         dist = get_earth_dist([lat, lng], self.__location)
         passed = False
-        filters = self.__pokestop_settings['filters']
+        filters = self.__stop_filters['filters']
         for filt_ct in range(len(filters)):
             filt = filters[filt_ct]
             # Check the distance from the set location
@@ -831,7 +863,7 @@ class Manager(object):
         from_team_id = self.__cache.get_gym_team(gym_id)
 
         # Ignore changes to neutral
-        if self.__gym_settings['ignore_neutral'] and to_team_id == 0:
+        if self.__gym_filters['ignore_neutral'] and to_team_id == 0:
             log.debug("Gym update ignored: changed to neutral")
             return
 
@@ -839,7 +871,7 @@ class Manager(object):
         self.__cache.update_gym_team(gym_id, to_team_id)
 
         # Check if notifications are on
-        if self.__gym_settings['enabled'] is False:
+        if self.__gym_filters['enabled'] is False:
             log.debug("Gym ignored: notifications are disabled.")
             return
 
@@ -859,7 +891,7 @@ class Manager(object):
         cur_team = self.__locale.get_team_name(to_team_id)
         old_team = self.__locale.get_team_name(from_team_id)
 
-        filters = self.__gym_settings['filters']
+        filters = self.__gym_filters['filters']
         passed = False
         for filt_ct in range(len(filters)):
             filt = filters[filt_ct]
@@ -951,7 +983,7 @@ class Manager(object):
 
     def process_egg(self, egg):
         # Quick check for enabled
-        if self.__egg_settings['enabled'] is False:
+        if self.__egg_filters['enabled'] is False:
             log.debug("Egg ignored: notifications are disabled.")
             return
 
@@ -980,13 +1012,13 @@ class Manager(object):
         dist = get_earth_dist([lat, lng], self.__location)
 
         # Check if egg gym filter has a contains field and if so check it
-        if len(self.__egg_settings['contains']) > 0:
+        if len(self.__egg_filters['contains']) > 0:
             log.debug("Egg gymname_contains "
-                      "filter: '{}'".format(self.__egg_settings['contains']))
+                      "filter: '{}'".format(self.__egg_filters['contains']))
             log.debug("Egg Gym Name is '{}'".format(gym_info['name'].lower()))
             log.debug("Egg Gym Info is '{}'".format(gym_info))
             if not any(x in gym_info['name'].lower()
-                       for x in self.__egg_settings['contains']):
+                       for x in self.__egg_filters['contains']):
                 log.info("Egg {} ignored: gym name did not match the "
                          "gymname_contains "
                          "filter.".format(gym_id))
@@ -1004,7 +1036,7 @@ class Manager(object):
                       "geofences were set.")
 
         # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_egg_filter(self.__egg_settings, egg)
+        passed = self.check_egg_filter(self.__egg_filters, egg)
 
         if not passed:
             log.debug("Egg {} did not pass filter check".format(gym_id))
@@ -1052,7 +1084,7 @@ class Manager(object):
 
     def process_raid(self, raid):
         # Quick check for enabled
-        if self.__raid_settings['enabled'] is False:
+        if self.__raid_filters['enabled'] is False:
             log.debug("Raid ignored: notifications are disabled.")
             return
 
@@ -1083,13 +1115,13 @@ class Manager(object):
         dist = get_earth_dist([lat, lng], self.__location)
 
         # Check if raid gym filter has a contains field and if so check it
-        if len(self.__raid_settings['contains']) > 0:
+        if len(self.__raid_filters['contains']) > 0:
             log.debug("Raid gymname_contains "
-                      "filter: '{}'".format(self.__raid_settings['contains']))
+                      "filter: '{}'".format(self.__raid_filters['contains']))
             log.debug("Raid Gym Name is '{}'".format(gym_info['name'].lower()))
             log.debug("Raid Gym Info is '{}'".format(gym_info))
             if not any(x in gym_info['name'].lower()
-                       for x in self.__raid_settings['contains']):
+                       for x in self.__raid_filters['contains']):
                 log.info("Raid {} ignored: gym name did not match the "
                          "gymname_contains "
                          "filter.".format(gym_id))
@@ -1112,7 +1144,7 @@ class Manager(object):
         #  check filters for pokemon
         name = self.__locale.get_pokemon_name(pkmn_id)
 
-        if pkmn_id not in self.__raid_settings['filters']:
+        if pkmn_id not in self.__raid_filters['filters']:
             if self.__quiet is False:
                 log.info("Raid on {} ignored: no filters are set".format(name))
             return
@@ -1133,7 +1165,7 @@ class Manager(object):
             'charge_id': charge_id
         }
 
-        filters = self.__raid_settings['filters'][pkmn_id]
+        filters = self.__raid_filters['filters'][pkmn_id]
         passed = self.check_pokemon_filter(filters, raid_pkmn, dist)
         # If we didn't pass any filters
         if not passed:

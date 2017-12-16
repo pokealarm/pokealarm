@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+import json
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
@@ -26,6 +27,9 @@ class BaseFilter(object):
     def to_dict(self):
         """ Create a dict representation of this Event. """
         raise NotImplementedError("This is an abstract method.")
+
+    def to_string(self):
+        return json.dumps(self.to_dict(), indent=4, sort_keys=True)
 
     def check_event(self, event):
         missing = False  # Is the event missing needed info?
