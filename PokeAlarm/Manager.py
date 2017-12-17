@@ -21,9 +21,8 @@ from Cache import cache_factory
 from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
-from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path,\
-    get_time_as_str, require_and_remove_key, parse_boolean, contains_arg, \
-    get_pokemon_cp_range
+from Utils import (get_earth_dist, get_path, require_and_remove_key,
+                   parse_boolean, contains_arg)
 from . import config
 
 log = logging.getLogger('Manager')
@@ -146,23 +145,23 @@ class Manager(object):
                 filters = json.load(f)
             if type(filters) is not dict:
                 log.critical("Filters file's must be a JSON object:"
-                             + " { \"monsters\":{...},... }")
+                             " { \"monsters\":{...},... }")
         except ValueError as e:
             log.error("Encountered error while loading Filters:"
-                      + " {}: {}".format(type(e).__name__, e))
+                      " {}: {}".format(type(e).__name__, e))
             log.error(
                 "PokeAlarm has encountered a 'ValueError' while loading the"
-                + " Filters file. This typically means your file isn't in the"
-                + "correct json format. Try loading your file contents into a"
-                + " json validator.")
+                " Filters file. This typically means your file isn't in the"
+                "correct json format. Try loading your file contents into a"
+                " json validator.")
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             sys.exit(1)
         except IOError as e:
             log.error("Encountered error while loading Filters: "
-                      + "{}: {}".format(type(e).__name__, e))
+                      "{}: {}".format(type(e).__name__, e))
             log.error("PokeAlarm was unable to find a filters file"
-                      + " at {}. Please check that this ".format(file_path)
-                      + " file exists and that PA has read permissions.")
+                      " at {}. Please check that this file exists "
+                      "and that PA has read permissions.".format(file_path))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             sys.exit(1)
 
@@ -227,7 +226,7 @@ class Manager(object):
                         'active', alarm, "Alarm objects in file.")) is True:
                     self.set_optional_args(str(alarm))
                     self.__alarms.append(Alarms.alarm_factory(
-                            alarm, max_attempts, self.__google_key))
+                        alarm, max_attempts, self.__google_key))
                 else:
                     log.debug("Alarm not activated: {}".format(alarm['type'])
                               + " because value not set to \"True\"")

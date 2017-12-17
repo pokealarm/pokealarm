@@ -4,9 +4,10 @@ from datetime import datetime
 # Local Imports
 from PokeAlarm import Unknown
 from PokeAlarm.Utilities import MonUtils
-from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, \
-    get_move_duration, get_move_energy, get_pokemon_gender, get_pokemon_size, \
-    get_applemaps_link, get_time_as_str, get_dist_as_str
+from PokeAlarm.Utils import (
+    get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
+    get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
+    get_dist_as_str)
 from . import BaseEvent
 
 
