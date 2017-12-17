@@ -11,7 +11,7 @@ from RaidEvent import RaidEvent
 log = logging.getLogger('Events')
 
 
-def event_factory(self, data):
+def event_factory(data):
     """ Creates and returns the appropriate Event from the given data. """
     try:
         kind = data['type']
@@ -34,4 +34,4 @@ def event_factory(self, data):
     except Exception as e:
         log.error("Encountered error while converting webhook data"
                   + "({}: {})".format(type(e).__name__, e))
-        log.debug("Stack trace: \n {}".format(traceback.format_exec()))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))

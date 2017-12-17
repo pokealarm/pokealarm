@@ -22,8 +22,7 @@ class MonEvent(BaseEvent):
         self.monster_id = int(data['pokemon_id'])
 
         # Time Left
-        self.despawn_time = datetime.utcfromtimestamp(data['disappear_time'])
-        self.time_left = int(data.get('seconds_until_despawn'))
+        self.disappear_time = datetime.utcfromtimestamp(data['disappear_time'])
 
         # Spawn Data
         self.spawn_start = check_for_none(
@@ -56,8 +55,6 @@ class MonEvent(BaseEvent):
             self.iv = Unknown.SMALL
         # Form
         self.form_id = check_for_none(int, data.get('form'), 0)
-        if self.form_id == 0:  # TODO: Change this before pulling 3.5
-            self.form_id = Unknown.TINY
 
         # Quick Move
         self.quick_move_id = check_for_none(
@@ -85,12 +82,13 @@ class MonEvent(BaseEvent):
         else:
             self.size = Unknown.SMALL
 
+        # Correct this later
         self.name = self.monster_id
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
-        time = get_time_as_str(self.despawn_time)
-        form_name = locale.get_form_name(self.form_id)
+        time = get_time_as_str(self.disappear_time)
+        form_name = locale.get_form_name(self.monster_id, self.form_id)
         return {
             # Identification
             'enc_id': self.enc_id,
@@ -102,7 +100,6 @@ class MonEvent(BaseEvent):
             'time_left': time[0],
             '12h_time': time[1],
             '24h_time': time[2],
-            'seconds_remaining': self.time_left,
 
             # Spawn Data
             'spawn_start': self.spawn_start,
@@ -114,7 +111,9 @@ class MonEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
