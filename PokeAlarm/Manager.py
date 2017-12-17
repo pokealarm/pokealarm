@@ -471,7 +471,7 @@ class Manager(object):
             mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
 
         # Check the Filters
-        passed = False
+        passed = True
         for name, filt in self.__mon_filters.iteritems():
             passed = filt.check_event(mon)
             if passed is True:  # continue to notification if we find a match
@@ -527,7 +527,7 @@ class Manager(object):
                 [stop.lat, stop.lng], self.__location)
 
         # Check the Filters
-        passed = False
+        passed = True
         for name, filt in self.__stop_filters.iteritems():
             passed = filt.check_event(stop)
             if passed is True:  # continue to notification if we find a match
@@ -588,7 +588,7 @@ class Manager(object):
             gym.distance = get_earth_dist([gym.lat, gym.lng], self.__location)
 
         # Check the Filters
-        passed = False
+        passed = True
         for name, filt in self.__gym_filters.iteritems():
             passed = filt.check_event(gym)
             if passed is True:  # continue to notification if we find a match
@@ -645,7 +645,7 @@ class Manager(object):
                 [egg.lat, egg.lng], self.__location)
 
         # Check the Filters
-        passed = False
+        passed = True
         for name, filt in self.__egg_filters.iteritems():
             passed = filt.check_event(egg)
             if passed is True:  # continue to notification if we find a match
@@ -702,7 +702,7 @@ class Manager(object):
                 [raid.lat, raid.lng], self.__location)
 
         # Check the Filters
-        passed = False
+        passed = True
         for name, filt in self.__raid_filters.iteritems():
             passed = filt.check_event(raid)
             if passed is True:  # continue to notification if we find a match
