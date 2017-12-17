@@ -38,8 +38,8 @@ class EggFilter(BaseFilter):
                 re.compile, 'gym_name_matches', data))
 
         # Missing Info
-        self.ignore_missing = BaseFilter.parse_as_type(
-            bool, 'ignore_missing', data)
+        self.missing_info = BaseFilter.parse_as_type(
+            bool, 'missing_info', data)
 
         # Reject leftover parameters
         for key in data:
@@ -67,7 +67,7 @@ class EggFilter(BaseFilter):
             settings['gym_name_matches'] = self.gym_name_matches
 
         # Missing Info
-        if self.ignore_missing is not None:
-            settings['missing_info'] = self.ignore_missing
+        if self.missing_info is not None:
+            settings['missing_info'] = self.missing_info
 
         return settings

@@ -106,8 +106,8 @@ class MonFilter(BaseFilter):
                 MonUtils.validate_pokemon_size, 'sizes', data))
 
         # Missing Info
-        self.ignore_missing = BaseFilter.parse_as_type(
-            bool, 'ignore_missing', data)
+        self.missing_info = BaseFilter.parse_as_type(
+            bool, 'missing_info', data)
 
         # Reject leftover parameters
         for key in data:
@@ -181,7 +181,7 @@ class MonFilter(BaseFilter):
             settings['sizes'] = self.sizes
 
         # Missing Info
-        if self.ignore_missing is not None:
-            settings['missing_info'] = self.ignore_missing
+        if self.missing_info is not None:
+            settings['missing_info'] = self.missing_info
 
         return settings

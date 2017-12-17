@@ -94,10 +94,10 @@ class MonEvent(BaseEvent):
         form_name = locale.get_form_name(self.monster_id, self.form_id)
         return {
             # Identification
-            'enc_id': self.enc_id,
-            'pkmn': locale.get_pokemon_name(self.monster_id),
-            'pkmn_id': self.monster_id,
-            'pkmn_id_3': "{:03}".format(self.monster_id),
+            'encounter_id': self.enc_id,
+            'mon_name': locale.get_pokemon_name(self.monster_id),
+            'mon_id': self.monster_id,
+            'mon_id_3': "{:03}".format(self.monster_id),
 
             # Time Remaining
             'time_left': time[0],

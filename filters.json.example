@@ -1,6 +1,6 @@
 {
     "monsters":{
-        "enabled":"False",
+        "enabled": false,
         "defaults": {
         },
         "filters": {
@@ -17,23 +17,23 @@
                 "min_height": 0, "max_height": "inf",
                 "min_weight": 0, "max_weight": "inf",
                 "sizes": [ "tiny", "small", "normal", "large", "big" ],
-                "ignore_missing": false
+                "missing_info": false
             }
         }
     },
     "stops":{
-        "enabled":"False",
+        "enabled": false,
         "defaults": {
         },
         "filters": {
             "filter-name" : {
                 "min_dist": 0, "max_dist": "inf",
-                "ignore_missing": false
+                "missing_info": false
             }
         }
     },
     "gyms":{
-        "enabled":"False",
+        "enabled": false,
         "ignore_neutral":"False",
         "defaults": {
         },
@@ -43,12 +43,12 @@
                 "old_teams": [ "Valor", "Instinct", "Mystic" ],
                 "new_teams": [ "Valor", "Instinct", "Mystic" ],
                 "gym_name_matches": [ ".*" ],
-                "ignore_missing": false
+                "missing_info": false
             }
         }
     },
     "eggs":{
-        "enabled":"False",
+        "enabled": false,
         "defaults": {
         },
         "filters": {
@@ -56,12 +56,12 @@
                 "min_dist": 0, "max_dist": "inf",
                 "min_egg_lvl": 0, "max_egg_lvl": 40,
                 "gym_name_matches": [ ".*" ],
-                "ignore_missing": false
+                "missing_info": false
             }
         }
     },
     "raids":{
-        "enabled":"False",
+        "enabled": false,
         "defaults": {
         },
         "filters": {
@@ -72,7 +72,7 @@
                 "quick_moves": [ "Vine Whip", "Tackle"],
                 "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
                 "gym_name_matches": [ ".*" ],
-                "ignore_missing": false
+                "missing_info": false
             }
         }
     }
