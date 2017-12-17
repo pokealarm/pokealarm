@@ -15,64 +15,36 @@ class RaidFilter(BaseFilter):
         """ Initializes base parameters for a filter. """
         super(RaidFilter, self).__init__(name)
 
-        # Monster ID - f.monster_ids in r.monster_id
-        self.monster_ids = self.evaluate_attribute(  #
-            event_attribute='monster_id', eval_func=operator.contains,
+        # Monster ID - f.mon_ids in r.mon_id
+        self.mon_ids = self.evaluate_attribute(  #
+            event_attribute='mon_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= r.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= r.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
-            event_attribute='mon_lvl', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_lvl', data))
+            event_attribute='raid_lvl', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_raid_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= r.mon_lvl
-            event_attribute='mon_lvl', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_lvl', data))
-        # Attack IV
-        self.min_atk = self.evaluate_attribute(  # f.min_atk <= r.atk_iv
-            event_attribute='atk_iv', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_atk', data))
-        self.max_atk = self.evaluate_attribute(  # f.max_atk >= r.atk_iv
-            event_attribute='atk_iv', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_atk', data))
-        # Defense IV
-        self.min_def = self.evaluate_attribute(  # f.min_def <= r.def_iv
-            event_attribute='def_iv', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_def', data))
-        self.max_def = self.evaluate_attribute(  # f.max_def >= r.def_iv
-            event_attribute='def_iv', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_def', data))
-        # Stamina IV
-        self.min_sta = self.evaluate_attribute(  # f.min_sta <= r.sta_iv
-            event_attribute='sta_iv', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_sta', data))
-        self.max_sta = self.evaluate_attribute(  # f.max_sta >= r.sta_iv
-            event_attribute='sta_iv', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_sta', data))
-        # Percent IV
-        self.min_iv = self.evaluate_attribute(  # f.min_iv <= r.iv
-            event_attribute='iv', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(float, 'min_iv', data))
-        self.max_iv = self.evaluate_attribute(  # f.max_iv >= r.iv
-            event_attribute='iv', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(float, 'max_iv', data))
+            event_attribute='raid_lvl', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_raid_lvl', data))
 
         # Quick Move
         self.quick_moves = self.evaluate_attribute(  # f.q_ms contains r.q_m
-            event_attribute='quick_move_id', eval_func=operator.contains,
+            event_attribute='quick_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
         # Charge Move
         self.charge_moves = self.evaluate_attribute(  # f.c_ms contains r.c_m
-            event_attribute='charge_move_id', eval_func=operator.contains,
+            event_attribute='charge_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'charge_moves', data))
 
@@ -83,8 +55,8 @@ class RaidFilter(BaseFilter):
                 re.compile, 'gym_name_matches', data))
 
         # Missing Info
-        self.missing_info = BaseFilter.parse_as_type(
-            bool, 'missing_info', data)
+        self.ignore_missing = BaseFilter.parse_as_type(
+            bool, 'ignore_missing', data)
 
         # Reject leftover parameters
         for key in data:
@@ -95,8 +67,8 @@ class RaidFilter(BaseFilter):
         """ Create a dict representation of this Filter. """
         settings = {}
         # Monster ID
-        if self.monster_ids is not None:
-            settings['monster_ids'] = self.monster_ids
+        if self.mon_ids is not None:
+            settings['monster_ids'] = self.mon_ids
 
         # Distance
         if self.min_dist is not None:
@@ -109,33 +81,13 @@ class RaidFilter(BaseFilter):
             settings['min_lvl'] = self.min_lvl
         if self.max_lvl is not None:
             settings['max_lvl'] = self.max_lvl
-        # Attack IV
-        if self.min_atk is not None:
-            settings['min_atk'] = self.min_atk
-        if self.max_atk is not None:
-            settings['max_atk'] = self.max_atk
-        # Defense IV
-        if self.min_def is not None:
-            settings['min_def'] = self.min_def
-        if self.max_def is not None:
-            settings['max_def'] = self.max_def
-        # Stamina IV
-        if self.min_atk is not None:
-            settings['min_atk'] = self.min_atk
-        if self.min_sta is not None:
-            settings['min_sta'] = self.min_sta
-        # Percent IV
-        if self.min_iv is not None:
-            settings['min_iv'] = self.min_iv
-        if self.max_iv is not None:
-            settings['max_iv'] = self.max_iv
 
         # Gym Name
         if self.gym_name_matches is not None:
             settings['gym_name_matches'] = self.gym_name_matches
 
         # Missing Info
-        if self.missing_info is not None:
-            settings['missing_info'] = self.missing_info
+        if self.ignore_missing is not None:
+            settings['missing_info'] = self.ignore_missing
 
         return settings

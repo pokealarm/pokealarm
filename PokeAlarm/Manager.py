@@ -168,18 +168,21 @@ class Manager(object):
 
         try:
             # Load Monsters Section
+            log.info("Parsing 'monsters' section.")
             section = filters.pop('monsters', {})
             self.__mons_enabled = bool(section.pop('enabled', True))
             self.__mon_filters = self.load_filter_section(
                 section, 'monsters', Filters.MonFilter)
 
             # Load Stops Section
+            log.info("Parsing 'stops' section.")
             section = filters.pop('stops', {})
             self.__stops_enabled = bool(section.pop('enabled', True))
             self.__stop_filters = self.load_filter_section(
                 section, 'stops', Filters.StopFilter)
 
             # Load Gyms Section
+            log.info("Parsing 'gyms' section.")
             section = filters.pop('gyms', {})
             self.__gyms_enabled = bool(section.pop('enabled', True))
             self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
@@ -187,12 +190,14 @@ class Manager(object):
                 section, 'gyms', Filters.GymFilter)
 
             # Load Eggs Section
+            log.info("Parsing 'eggs' section.")
             section = filters.pop('eggs', {})
             self.__eggs_enabled = bool(section.pop('enabled', True))
             self.__egg_filters = self.load_filter_section(
                 section, 'eggs', Filters.EggFilter)
 
             # Load Raids Section
+            log.info("Parsing 'raids' section.")
             section = filters.pop('raids', {})
             self.__raids_enabled = bool(section.pop('enabled', True))
             self.__raid_filters = self.load_filter_section(

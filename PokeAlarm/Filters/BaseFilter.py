@@ -22,7 +22,7 @@ class BaseFilter(object):
         self._check_list = []
 
         # Missing Info
-        self.missing_info = None
+        self.ignore_missing = None
 
     def to_dict(self):
         """ Create a dict representation of this Event. """
@@ -40,7 +40,7 @@ class BaseFilter(object):
             elif Unknown.is_(result):
                 missing = True
         # Do a special check for is missing_info is set
-        if self.missing_info is not None and missing == self.missing_info:
+        if self.ignore_missing is not None and missing == self.ignore_missing:
             self.reject(event, "needed information was missing.")
             return False
         return True

@@ -17,19 +17,19 @@ class EggFilter(BaseFilter):
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= e.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= e.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Egg Level
         # Level
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= e.egg_lvl
             event_attribute='egg_lvl', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'min_egg_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= e.egg_lvl
             event_attribute='egg_lvl', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'max_egg_lvl', data))
 
         # Gym name
         self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
@@ -38,8 +38,8 @@ class EggFilter(BaseFilter):
                 re.compile, 'gym_name_matches', data))
 
         # Missing Info
-        self.missing_info = BaseFilter.parse_as_type(
-            bool, 'missing_info', data)
+        self.ignore_missing = BaseFilter.parse_as_type(
+            bool, 'ignore_missing', data)
 
         # Reject leftover parameters
         for key in data:
@@ -67,7 +67,7 @@ class EggFilter(BaseFilter):
             settings['gym_name_matches'] = self.gym_name_matches
 
         # Missing Info
-        if self.missing_info is not None:
-            settings['missing_info'] = self.missing_info
+        if self.ignore_missing is not None:
+            settings['missing_info'] = self.ignore_missing
 
         return settings

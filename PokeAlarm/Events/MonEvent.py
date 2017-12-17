@@ -3,6 +3,7 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
+from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_pokemon_gender, get_pokemon_size, \
     get_applemaps_link, get_time_as_str, get_dist_as_str
@@ -72,8 +73,9 @@ class MonEvent(BaseEvent):
         self.charge_energy = get_move_energy(self.charge_move_id)
 
         # Cosmetic
-        self.gender = get_pokemon_gender(
-            check_for_none(int, data.get('gender'), Unknown.TINY)),
+        self.gender = MonUtils.get_gender_sym(
+            check_for_none(int, data.get('gender'), Unknown.TINY))
+
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):

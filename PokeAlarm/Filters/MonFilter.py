@@ -22,10 +22,10 @@ class MonFilter(BaseFilter):
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Encounter Stats
         # Level
@@ -102,12 +102,12 @@ class MonFilter(BaseFilter):
         # Size
         self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
             event_attribute='size', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_type(
+            limit=BaseFilter.parse_as_set(
                 MonUtils.validate_pokemon_size, 'sizes', data))
 
         # Missing Info
-        self.missing_info = BaseFilter.parse_as_type(
-            bool, 'missing_info', data)
+        self.ignore_missing = BaseFilter.parse_as_type(
+            bool, 'ignore_missing', data)
 
         # Reject leftover parameters
         for key in data:
@@ -181,7 +181,7 @@ class MonFilter(BaseFilter):
             settings['sizes'] = self.sizes
 
         # Missing Info
-        if self.missing_info is not None:
-            settings['missing_info'] = self.missing_info
+        if self.ignore_missing is not None:
+            settings['missing_info'] = self.ignore_missing
 
         return settings
