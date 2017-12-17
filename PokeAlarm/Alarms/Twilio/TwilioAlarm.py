@@ -37,8 +37,8 @@ class TwilioAlarm(Alarm):
                        + " It is now controlled by <new_team>. <gmaps>"
         },
         'egg': {
-            'message': "A level <raid_level> raid is incoming! <gmap>"
-                       + " Egg hatches <begin_24h_time> (<begin_time_left>)."
+            'message': "A level <egg_lvl> raid is incoming! <gmap>"
+                       + " Egg hatches <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
             'message': "A raid on <pkmn> is available! <gmap>"

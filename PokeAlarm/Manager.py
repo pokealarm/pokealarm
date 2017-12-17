@@ -375,7 +375,7 @@ class Manager(object):
                 if kind == Events.MonEvent:
                     self.process_monster(event)
                 elif kind == Events.StopEvent:
-                    self.process_pokestop(event)
+                    self.process_stop(event)
                 elif kind == Events.GymEvent:
                     self.process_gym(event)
                 elif kind == Events.EggEvent:
@@ -498,11 +498,11 @@ class Manager(object):
         for thread in threads:
             thread.join()
 
-    def process_pokestop(self, stop):
+    def process_stop(self, stop):
         # type: (Events.StopEvent) -> None
-        """ Process a monster event and notify alarms if it passes. """
+        """ Process a stop event and notify alarms if it passes. """
 
-        # Make sure that monsters are enabled
+        # Make sure that stops are enabled
         if self.__stops_enabled is False:
             log.debug("Stop ignored: stop notifications are disabled.")
             return
@@ -555,232 +555,120 @@ class Manager(object):
             thread.join()
 
     def process_gym(self, gym):
-        gym_id = gym['id']
+        # type: (Events.GymEvent) -> None
+        """ Process a gym event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
         self.__cache.update_gym_info(
-            gym_id, gym['name'], gym['description'], gym['url'])
-
-        # Extract some basic information
-        to_team_id = gym['new_team_id']
-        from_team_id = self.__cache.get_gym_team(gym_id)
-
-        # Ignore changes to neutral
-        if self.__gym_filters['ignore_neutral'] and to_team_id == 0:
-            log.debug("Gym update ignored: changed to neutral")
-            return
-
-        # Update gym's last known team
-        self.__cache.update_gym_team(gym_id, to_team_id)
+            gym.gym_id, gym.name, gym.gym_description, gym.image_url)
 
         # Check if notifications are on
-        if self.__gym_filters['enabled'] is False:
-            log.debug("Gym ignored: notifications are disabled.")
+        if self.__gyms_enabled is False:
+            log.debug("Gym ignored: gym notifications are disabled.")
             return
+
+        # Get the old team
+        gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
+
+        # Ignore changes to neutral
+        if self.__ignore_neutral and gym.new_team_id == 0:
+            log.debug("{} gym update skipped: new team was neutral")
+            return
+
+        # Update the cache with the gyms new team
+        self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
 
         # Doesn't look like anything to me
-        if to_team_id == from_team_id:
-            log.debug("Gym ignored: no change detected")
+        if gym.new_team_id == gym.old_team_id:
+            log.debug("{} gym update skipped: no change detected", gym.gym_id)
             return
 
-        # Ignore first time updates
-        if from_team_id is '?':
-            log.debug("Gym update ignored: first time seeing this gym")
-            return
+        # Calculate distance
+        if self.__location is not None:
+            gym.distance = get_earth_dist([gym.lat, gym.lng], self.__location)
 
-        # Get some more info out used to check filters
-        lat, lng = gym['lat'], gym['lng']
-        dist = get_earth_dist([lat, lng], self.__location)
-        cur_team = self.__locale.get_team_name(to_team_id)
-        old_team = self.__locale.get_team_name(from_team_id)
-
-        filters = self.__gym_filters['filters']
+        # Check the Filters
         passed = False
-        for filt_ct in range(len(filters)):
-            filt = filters[filt_ct]
-            # Check the distance from the set location
-            if dist != 'unkn':
-                if filt.check_dist(dist) is False:
-                    if self.__quiet is False:
-                        log.info("Gym rejected: distance ({:.2f})"
-                                 " was not in range"
-                                 " {:.2f} to {:.2f} (F #{})".format(
-                                     dist, filt.min_dist,
-                                     filt.max_dist, filt_ct))
-                    continue
-            else:
-                log.debug("Gym dist was not checked because the manager "
-                          "has no location set.")
-
-            # Check the old team
-            if filt.check_from_team(from_team_id) is False:
-                if self.__quiet is False:
-                    log.info("Gym rejected: {} as old team is not correct "
-                             " (F #{})".format(old_team, filt_ct))
-                continue
-            # Check the new team
-            if filt.check_to_team(to_team_id) is False:
-                if self.__quiet is False:
-                    log.info("Gym rejected: {} as current team is not correct "
-                             "(F #{})".format(cur_team, filt_ct))
-                continue
-
-            # Nothing left to check, so it must have passed
-            passed = True
-            log.debug("Gym passed filter #{}".format(filt_ct))
-            break
-
-        if not passed:
+        for name, filt in self.__gym_filters.iteritems():
+            passed = filt.check_event(gym)
+            if passed is True:  # continue to notification if we find a match
+                break
+        if not passed:  # Gym was rejected by all filters
             return
 
-        # Check the geofences
-        gym['geofence'] = self.check_geofences('Gym', lat, lng)
-        if len(self.__geofences) > 0 and gym['geofence'] == 'unknown':
-            log.info("Gym rejected: not inside geofence(s)")
-            return
-
-        # Check if in geofences
-        if len(self.__geofences) > 0:
-            inside = False
-            for gf in self.__geofences:
-                inside |= gf.contains(lat, lng)
-            if inside is False:
-                if self.__quiet is False:
-                    log.info("Gym update ignored: located outside geofences.")
-                return
-        else:
-            log.debug("Gym inside geofences was not checked because "
-                      " no geofences were set.")
-
-        gym_info = self.__cache.get_gym_info(gym_id)
-
-        gym.update({
-            "gym_name": gym_info['name'],
-            "gym_description": gym_info['description'],
-            "gym_url": gym_info['url'],
-            "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__location),
-            'new_team': cur_team,
-            'new_team_id': to_team_id,
-            'old_team': old_team,
-            'old_team_id': from_team_id,
-            'new_team_leader': self.__locale.get_leader_name(to_team_id),
-            'old_team_leader': self.__locale.get_leader_name(from_team_id)
-        })
+        # Generate the DTS for the event
+        dts = gym.generate_dts(self.__locale)
+        dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
-                self.__location, [lat, lng], gym)
+                self.__location, [gym.lat, gym.lng], dts)
 
         if self.__quiet is False:
-            log.info("Gym ({}) notification has been "
-                     "triggered!".format(gym_id))
+            log.info(
+                "{} gym notification has been triggered!".format(gym.name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.gym_alert, gym))
-            gevent.sleep(0)  # explict context yield
+            threads.append(gevent.spawn(alarm.gym_alert, dts))
+        gevent.sleep(0)  # explict context yield
 
         for thread in threads:
             thread.join()
 
     def process_egg(self, egg):
-        # Quick check for enabled
-        if self.__egg_filters['enabled'] is False:
-            log.debug("Egg ignored: notifications are disabled.")
+        # type: (Events.EggEvent) -> None
+        """ Process a egg event and notify alarms if it passes. """
+
+        # Make sure that eggs are enabled
+        if self.__stops_enabled is False:
+            log.debug("Egg ignored: egg notifications are disabled.")
             return
 
-        gym_id = egg['id']
-        gym_info = self.__cache.get_gym_info(gym_id)
-
-        # Check if egg has been processed yet
-        if self.__cache.get_egg_expiration(gym_id) is not None:
-            if self.__quiet is False:
-                log.info("Egg {} ignored - previously "
-                         "processed.".format(gym_id))
+        # Skip if previously processed
+        if self.__cache.get_egg_expiration(egg.gym_id) is not None:
+            log.debug("Egg {} was skipped because it was previously "
+                      "processed.".format(egg.name))
             return
+        self.__cache.update_egg_expiration(egg.gym_id, egg.hatch_time)
 
-        # Update egg hatch
-        self.__cache.update_egg_expiration(gym_id, egg['raid_begin'])
-
-        # don't alert about (nearly) hatched eggs
-        seconds_left = (egg['raid_begin'] - datetime.utcnow()).total_seconds()
+        # Check the time remaining
+        seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            if self.__quiet is False:
-                log.info("Egg {} ignored. Egg hatch in {} seconds".format(
-                    gym_id, seconds_left))
+            log.debug("Egg {} was skipped because only {} seconds remained"
+                      "".format(egg.name, seconds_left))
             return
 
-        lat, lng = egg['lat'], egg['lng']
-        dist = get_earth_dist([lat, lng], self.__location)
+        # Calculate distance
+        if self.__location is not None:
+            egg.distance = get_earth_dist(
+                [egg.lat, egg.lng], self.__location)
 
-        # Check if egg gym filter has a contains field and if so check it
-        if len(self.__egg_filters['contains']) > 0:
-            log.debug("Egg gymname_contains "
-                      "filter: '{}'".format(self.__egg_filters['contains']))
-            log.debug("Egg Gym Name is '{}'".format(gym_info['name'].lower()))
-            log.debug("Egg Gym Info is '{}'".format(gym_info))
-            if not any(x in gym_info['name'].lower()
-                       for x in self.__egg_filters['contains']):
-                log.info("Egg {} ignored: gym name did not match the "
-                         "gymname_contains "
-                         "filter.".format(gym_id))
-                return
-
-        # Check if raid is in geofences
-        egg['geofence'] = self.check_geofences('Raid', lat, lng)
-        if len(self.__geofences) > 0 and egg['geofence'] == 'unknown':
-            if self.__quiet is False:
-                log.info("Egg {} ignored: located outside "
-                         "geofences.".format(gym_id))
-            return
-        else:
-            log.debug("Egg inside geofence was not checked because no "
-                      "geofences were set.")
-
-        # check if the level is in the filter range or if we are ignoring eggs
-        passed = self.check_egg_filter(self.__egg_filters, egg)
-
-        if not passed:
-            log.debug("Egg {} did not pass filter check".format(gym_id))
+        # Check the Filters
+        passed = False
+        for name, filt in self.__egg_filters.iteritems():
+            passed = filt.check_event(egg)
+            if passed is True:  # continue to notification if we find a match
+                break
+        if not passed:  # Egg was rejected by all filters
             return
 
+        # Generate the DTS for the event
+        dts = egg.generate_dts(self.__locale)
+        dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
-                self.__location, [lat, lng], egg)
+                self.__location, [egg.lat, egg.lng], dts)
 
         if self.__quiet is False:
-            log.info("Egg ({})  notification has been "
-                     "triggered!").format(gym_id)
-
-        time_str = get_time_as_str(egg['raid_end'], self.__timezone)
-        start_time_str = get_time_as_str(egg['raid_begin'], self.__timezone)
-
-        # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id)
-
-        egg.update({
-            "gym_name": gym_info['name'],
-            "gym_description": gym_info['description'],
-            "gym_url": gym_info['url'],
-            'time_left': time_str[0],
-            '12h_time': time_str[1],
-            '24h_time': time_str[2],
-            'begin_time_left': start_time_str[0],
-            'begin_12h_time': start_time_str[1],
-            'begin_24h_time': start_time_str[2],
-            "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__location),
-            'team_id': team_id,
-            'team_name': self.__locale.get_team_name(team_id),
-            'team_leader': self.__locale.get_leader_name(team_id)
-        })
+            log.info(
+                "{} egg notification has been triggered!".format(egg.name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_egg_alert, egg))
-            gevent.sleep(0)  # explict context yield
+            threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
+        gevent.sleep(0)  # explict context yield
 
         for thread in threads:
             thread.join()

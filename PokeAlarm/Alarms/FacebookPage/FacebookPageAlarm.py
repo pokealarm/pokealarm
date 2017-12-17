@@ -51,12 +51,12 @@ class FacebookPageAlarm(Alarm):
             'caption': None
         },
         'egg': {
-            'message': "A level <raid_level> raid is upcoming!",
-            'image': get_image_url("eggs/<raid_level>.png"),
+            'message': "A level <egg_level> raid is upcoming!",
+            'image': get_image_url("eggs/<egg_level>.png"),
             'link': "<gmaps>",
             'name': 'Egg',
-            'description': "A level <raid_level> raid will hatch at "
-                    + "<begin_24h_time> (<begin_time_left>).",
+            'description': "A level <egg_level> raid will hatch at "
+                           "<24h_hatch_time> (<hatch_time_left>).",
             'caption': None
         },
         'raid': {

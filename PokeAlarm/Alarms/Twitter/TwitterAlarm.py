@@ -38,8 +38,8 @@ class TwitterAlarm(Alarm):
                       + "It is now controlled by <new_team>. <gmaps>"
         },
         'egg': {
-            'status': "lvl <raid_level> raid! Hatches at <begin_24h_time>"
-                      + "(<begin_time_left>). <gmaps>"
+            'status': "lvl <raid_level> raid! Hatches at "
+                      "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
         },
         'raid': {
             'status': "Raid on <pkmn>! Available until <24h_time>"

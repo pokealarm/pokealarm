@@ -55,12 +55,12 @@ class DiscordAlarm(Alarm):
         'egg': {
             'username': "Egg",
             'content': "",
-            'icon_url': get_image_url("eggs/<raid_level>.png"),
-            'avatar_url': get_image_url("eggs/<raid_level>.png"),
+            'icon_url': get_image_url("eggs/<egg_lvl>.png"),
+            'avatar_url': get_image_url("eggs/<egg_lvl>.png"),
             'title': "Raid is incoming!",
             'url': "<gmaps>",
-            'body': "A level <raid_level> raid will hatch at "
-                    + "<begin_24h_time> (<begin_time_left>)."
+            'body': "A level <egg_lvl> raid will hatch at "
+                    "<24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
             'username': "Raid",

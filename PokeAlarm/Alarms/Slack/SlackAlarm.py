@@ -49,10 +49,10 @@ class SlackAlarm(Alarm):
         },
         'egg': {
             'username': "Egg",
-            'icon_url': get_image_url("eggs/<raid_level>.png"),
-            'title': "A level <raid_level> raid is incoming!",
+            'icon_url': get_image_url("eggs/<egg_lvl>.png"),
+            'title': "A level <egg_lvl> raid is incoming!",
             'url': "<gmaps>",
-            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
+            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)"
         },
         'raid': {
             'username': "<pkmn> Raid",

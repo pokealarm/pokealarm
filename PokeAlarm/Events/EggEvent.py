@@ -43,6 +43,8 @@ class EggEvent(BaseEvent):
             str, data.get('url'), Unknown.REGULAR)
         self.current_team_id = Unknown.TINY
 
+        self.name = self.gym_id
+
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         hatch_time = get_time_as_str(self.hatch_time)
@@ -64,7 +66,9 @@ class EggEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),

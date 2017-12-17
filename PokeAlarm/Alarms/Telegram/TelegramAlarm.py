@@ -40,8 +40,8 @@ class TelegramAlarm(Alarm):
             'body': "It is now controlled by <new_team>."
         },
         'egg': {
-            'title': "A level <raid_level> raid is incoming!",
-            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
+            'title': "A level <egg_lvl> raid is incoming!",
+            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
             'title': "A raid is available against <pkmn>!",

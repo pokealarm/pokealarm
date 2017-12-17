@@ -39,9 +39,9 @@ class PushbulletAlarm(Alarm):
             'body': "It is now controlled by <new_team>."
         },
         'egg': {
-            'title': "A level <raid_level> raid is incoming!",
+            'title': "A level <egg_lvl> raid is incoming!",
             'url': "<gmaps>",
-            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
+            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
             'title': "A Raid is available against <pkmn>!",
