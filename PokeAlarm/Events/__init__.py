@@ -22,9 +22,9 @@ def event_factory(data):
             return StopEvent(message)
         elif kind == 'gym' or kind == 'gym_details':
             return GymEvent(message)
-        elif kind == 'raid' and message.get('pkmn_id', 0) == 0:
+        elif kind == 'raid' and message.get('pokemon_id', 0) == 0:
             return EggEvent(message)
-        elif kind == 'raid' and message.get('pkmn_id', 0) != 0:
+        elif kind == 'raid' and message.get('pokemon_id', 0) != 0:
             return RaidEvent(message)
         elif kind in ['captcha', 'scheduler']:
             log.debug(

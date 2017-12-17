@@ -45,7 +45,7 @@ class TelegramAlarm(Alarm):
         },
         'raid': {
             'title': "A raid is available against <pkmn>!",
-            'body': "The raid is available until <24h_time> (<time_left>)."
+            'body': "The raid is available until <24h_raid_end> (<time_left>)."
         }
     }
 

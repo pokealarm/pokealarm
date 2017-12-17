@@ -621,7 +621,7 @@ class Manager(object):
         """ Process a egg event and notify alarms if it passes. """
 
         # Make sure that eggs are enabled
-        if self.__stops_enabled is False:
+        if self.__eggs_enabled is False:
             log.debug("Egg ignored: egg notifications are disabled.")
             return
 
@@ -674,146 +674,58 @@ class Manager(object):
             thread.join()
 
     def process_raid(self, raid):
-        # Quick check for enabled
-        if self.__raid_filters['enabled'] is False:
-            log.debug("Raid ignored: notifications are disabled.")
+        # type: (Events.RaidEvent) -> None
+        """ Process a raid event and notify alarms if it passes. """
+
+        # Make sure that eggs are enabled
+        if self.__raids_enabled is False:
+            log.debug("Raid ignored: raid notifications are disabled.")
             return
 
-        gym_id = raid['id']
-        gym_info = self.__cache.get_gym_info(gym_id)
-
-        pkmn_id = raid['pkmn_id']
-        raid_end = raid['raid_end']
-
-        # Check if raid has been processed
-        if self.__cache.get_raid_expiration(gym_id) is not None:
-            if self.__quiet is False:
-                log.info("Raid {} ignored. Was previously "
-                         "processed.").format(gym_id)
+        # Skip if previously processed
+        if self.__cache.get_raid_expiration(raid.gym_id) is not None:
+            log.debug("Raid {} was skipped because it was previously "
+                      "processed.".format(raid.name))
             return
+        self.__cache.update_raid_expiration(raid.gym_id, raid.raid_end)
 
-        self.__cache.update_raid_expiration(gym_id, raid_end)
-        log.info(self.__cache.get_raid_expiration(gym_id))
-        # don't alert about expired raids
-        seconds_left = (raid_end - datetime.utcnow()).total_seconds()
+        # Check the time remaining
+        seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            if self.__quiet is False:
-                log.info("Raid {} ignored. Only {} seconds left.".format(
-                    gym_id, seconds_left))
+            log.debug("Raid {} was skipped because only {} seconds remained"
+                      "".format(raid.name, seconds_left))
             return
 
-        lat, lng = raid['lat'], raid['lng']
-        dist = get_earth_dist([lat, lng], self.__location)
+        # Calculate distance
+        if self.__location is not None:
+            raid.distance = get_earth_dist(
+                [raid.lat, raid.lng], self.__location)
 
-        # Check if raid gym filter has a contains field and if so check it
-        if len(self.__raid_filters['contains']) > 0:
-            log.debug("Raid gymname_contains "
-                      "filter: '{}'".format(self.__raid_filters['contains']))
-            log.debug("Raid Gym Name is '{}'".format(gym_info['name'].lower()))
-            log.debug("Raid Gym Info is '{}'".format(gym_info))
-            if not any(x in gym_info['name'].lower()
-                       for x in self.__raid_filters['contains']):
-                log.info("Raid {} ignored: gym name did not match the "
-                         "gymname_contains "
-                         "filter.".format(gym_id))
-                return
-
-        # Check if raid is in geofences
-        raid['geofence'] = self.check_geofences('Raid', lat, lng)
-        if len(self.__geofences) > 0 and raid['geofence'] == 'unknown':
-            if self.__quiet is False:
-                log.info("Raid {} ignored: located outside "
-                         "geofences.".format(gym_id))
-            return
-        else:
-            log.debug("Raid inside geofence was not checked "
-                      " because no geofences were set.")
-
-        quick_id = raid['quick_id']
-        charge_id = raid['charge_id']
-
-        #  check filters for pokemon
-        name = self.__locale.get_pokemon_name(pkmn_id)
-
-        if pkmn_id not in self.__raid_filters['filters']:
-            if self.__quiet is False:
-                log.info("Raid on {} ignored: no filters are set".format(name))
+        # Check the Filters
+        passed = False
+        for name, filt in self.__raid_filters.iteritems():
+            passed = filt.check_event(raid)
+            if passed is True:  # continue to notification if we find a match
+                break
+        if not passed:  # Raid was rejected by all filters
             return
 
-        # TODO: Raid filters - don't need all of these attributes/checks
-        raid_pkmn = {
-            'pkmn': name,
-            'cp': raid['cp'],
-            'iv': 100,
-            'level': 20,
-            'def': 15,
-            'atk': 15,
-            'sta': 15,
-            'gender': 'unknown',
-            'size': 'unknown',
-            'form_id': '?',
-            'quick_id': quick_id,
-            'charge_id': charge_id
-        }
-
-        filters = self.__raid_filters['filters'][pkmn_id]
-        passed = self.check_pokemon_filter(filters, raid_pkmn, dist)
-        # If we didn't pass any filters
-        if not passed:
-            log.debug("Raid {} did not pass pokemon check".format(gym_id))
-            return
-
+        # Generate the DTS for the event
+        dts = raid.generate_dts(self.__locale)
+        dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
-                self.__location, [lat, lng], raid)
+                self.__location, [raid.lat, raid.lng], dts)
 
         if self.__quiet is False:
-            log.info("Raid ({}) notification "
-                     "has been triggered!".format(gym_id))
-
-        time_str = get_time_as_str(
-            raid['raid_end'], self.__timezone)
-        start_time_str = get_time_as_str(raid['raid_begin'], self.__timezone)
-
-        # team id saved in self.__gym_hist when processing gym
-        team_id = self.__cache.get_gym_team(gym_id)
-        form_id = raid_pkmn['form_id']
-        form = self.__locale.get_form_name(pkmn_id, form_id)
-        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)
-
-        raid.update({
-            'pkmn': name,
-            'pkmn_id_3': '{:03}'.format(pkmn_id),
-            "gym_name": gym_info['name'],
-            "gym_description": gym_info['description'],
-            "gym_url": gym_info['url'],
-            'time_left': time_str[0],
-            '12h_time': time_str[1],
-            '24h_time': time_str[2],
-            'begin_time_left': start_time_str[0],
-            'begin_12h_time': start_time_str[1],
-            'begin_24h_time': start_time_str[2],
-            "dist": get_dist_as_str(dist),
-            'dir': get_cardinal_dir([lat, lng], self.__location),
-            'quick_move': self.__locale.get_move_name(quick_id),
-            'charge_move': self.__locale.get_move_name(charge_id),
-            'form_id_or_empty': '' if form_id == '?'
-                                else '{:03}'.format(form_id),
-            'form': form,
-            'form_or_empty': '' if form == 'unknown' else form,
-            'team_id': team_id,
-            'team_name': self.__locale.get_team_name(team_id),
-            'team_leader': self.__locale.get_leader_name(team_id),
-            'min_cp': min_cp,
-            'max_cp': max_cp
-        })
+            log.info(
+                "{} raid notification has been triggered!".format(raid.name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_alert, raid))
-
-            gevent.sleep(0)  # explict context yield
+            threads.append(gevent.spawn(alarm.raid_alert, dts))
+        gevent.sleep(0)  # explict context yield
 
         for thread in threads:
             thread.join()

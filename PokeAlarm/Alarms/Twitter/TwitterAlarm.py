@@ -42,7 +42,7 @@ class TwitterAlarm(Alarm):
                       "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
         },
         'raid': {
-            'status': "Raid on <pkmn>! Available until <24h_time>"
+            'status': "Raid on <mon_name>! Available until <24h_raid_end>"
                       + " (<time_left>). <gmaps>"
         }
     }

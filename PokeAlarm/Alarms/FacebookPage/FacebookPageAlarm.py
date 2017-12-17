@@ -60,13 +60,13 @@ class FacebookPageAlarm(Alarm):
             'caption': None
         },
         'raid': {
-            'message': "A Raid is available against <pkmn>!",
+            'message': "A Raid is available against <mon_name>!",
             'image': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+                "monsters/<mon_id_3>_<form_id_or_empty>.png"),
             'link': "<gmaps>",
             'name': 'Raid',
             'description':
-                "The raid is available until <24h_time> (<time_left>).",
+                "The raid is available until <24h_raid_end> (<time_left>).",
             'caption': None
         }
     }

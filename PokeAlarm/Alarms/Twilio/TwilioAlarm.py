@@ -41,8 +41,8 @@ class TwilioAlarm(Alarm):
                        + " Egg hatches <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
-            'message': "A raid on <pkmn> is available! <gmap>"
-                       + " Available until <24h_time> (<time_left>)."
+            'message': "A raid on <mon_name> is available! <gmap>"
+                       + " Available until <24h_raid_end> (<time_left>)."
         }
     }
 

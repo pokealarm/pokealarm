@@ -31,8 +31,8 @@ class RaidEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
 
         # Monster Info
-        self.raid_level = check_for_none(int, data.get('level'), Unknown.TINY)
-        self.pkmn_id = check_for_none(
+        self.raid_lvl = check_for_none(int, data.get('level'), Unknown.TINY)
+        self.mon_id = check_for_none(
             int, data.get('pokemon_id'), Unknown.TINY)
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
@@ -56,6 +56,8 @@ class RaidEvent(BaseEvent):
             str, data.get('url'), Unknown.REGULAR)
         self.current_team_id = Unknown.TINY  # Will set later
 
+        self.name = self.gym_id
+
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         raid_end_time = get_time_as_str(self.raid_end)
@@ -64,7 +66,7 @@ class RaidEvent(BaseEvent):
             'gym_id': self.gym_id,
 
             # Time Remaining
-            'raid_end': raid_end_time[0],
+            'time_left': raid_end_time[0],
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
@@ -73,16 +75,18 @@ class RaidEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
 
             # Raid Info
-            'raid_level': self.raid_level,
-            'pkmn': locale.get_pokemon_name(self.pkmn_id),
-            'pkmn_id': self.pkmn_id,
-            'pkmn_id_3': "{:03}".format(self.pkmn_id),
+            'raid_lvl': self.raid_lvl,
+            'mon_name': locale.get_pokemon_name(self.mon_id),
+            'mon_id': self.mon_id,
+            'mon_id_3': "{:03}".format(self.mon_id),
             # TODO: Form?
 
             # Quick Move

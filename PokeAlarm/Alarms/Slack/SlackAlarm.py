@@ -55,12 +55,12 @@ class SlackAlarm(Alarm):
             'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)"
         },
         'raid': {
-            'username': "<pkmn> Raid",
+            'username': "<mon_name> Raid",
             'icon_url': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'title': "A Raid is available against <pkmn>!",
+                "monsters/<mon_id_3>_<form_id_or_empty>.png"),
+            'title': "A Raid is available against <mon_name>!",
             'url': "<gmaps>",
-            'body': "The raid is available until <24h_time> (<time_left>)."
+            'body': "The raid is available until <24h_raid_end> (<time_left>)."
         }
     }
 
