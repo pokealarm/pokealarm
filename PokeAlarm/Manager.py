@@ -373,7 +373,7 @@ class Manager(object):
                 kind = type(event)
                 log.debug("Processing event: %s", event.id)
                 if kind == Events.MonEvent:
-                    self.process_pokemon(event)
+                    self.process_monster(event)
                 elif kind == Events.StopEvent:
                     self.process_pokestop(event)
                 elif kind == Events.GymEvent:
@@ -419,7 +419,6 @@ class Manager(object):
             log.info("Location successfully set to '{},{}'.".format(
                 self.__location[0], self.__location[1]))
 
-
     # Check if a raid filter will pass for given raid
     def check_egg_filter(self, settings, egg):
         level = egg['raid_level']
@@ -438,11 +437,12 @@ class Manager(object):
 
         return True
 
-    # Process new Pokemon data and decide if a notification needs to be sent
-    def process_pokemon(self, mon):
+    # Process new Monster data and decide if a notification needs to be sent
+    def process_monster(self, mon):
         # type: (Events.MonEvent) -> None
+        """ Process a monster event and notify alarms if it passes. """
 
-        # Make sure that pokemon are enabled
+        # Make sure that monsters are enabled
         if self.__mons_enabled is False:
             log.debug("Monster ignored: monster notifications are disabled.")
             return
@@ -450,9 +450,9 @@ class Manager(object):
         # Set the name for this event so we can log rejects better
         mon.name = self.__locale.get_pokemon_name(mon.monster_id)
 
-        # Reject if previously processed
+        # Skip if previously processed
         if self.__cache.get_pokemon_expiration(mon.enc_id) is not None:
-            log.debug("{} was skipped because it was previously "
+            log.debug("{} monster was skipped because it was previously "
                       "processed.".format(mon.name))
             return
         self.__cache.update_pokemon_expiration(
@@ -462,7 +462,7 @@ class Manager(object):
         seconds_left = (mon.disappear_time
                         - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            log.debug("{} was skipped because only {} seconds remained"
+            log.debug("{} monster was skipped because only {} seconds remained"
                       "".format(mon.name, seconds_left))
             return
 
@@ -470,10 +470,11 @@ class Manager(object):
         if self.__location is not None:
             mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
 
+        # Check the Filters
         passed = False
         for name, filt in self.__mon_filters.iteritems():
             passed = filt.check_event(mon)
-            if passed is True: # continue to notification if we find a match
+            if passed is True:  # continue to notification if we find a match
                 break
         if not passed:  # Monster was rejected by all filters
             return
@@ -485,7 +486,8 @@ class Manager(object):
                 self.__location, [mon.lat, mon.lng], dts)
 
         if self.__quiet is False:
-            log.info("{} notification has been triggered!".format(mon.name))
+            log.info("{} monster notification has been triggered!".format(
+                mon.name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -497,84 +499,57 @@ class Manager(object):
             thread.join()
 
     def process_pokestop(self, stop):
-        # Make sure that pokemon are enabled
-        if self.__stop_filters['enabled'] is False:
-            log.debug("Pokestop ignored: pokestop notifications are disabled.")
+        # type: (Events.StopEvent) -> None
+        """ Process a monster event and notify alarms if it passes. """
+
+        # Make sure that monsters are enabled
+        if self.__stops_enabled is False:
+            log.debug("Stop ignored: stop notifications are disabled.")
             return
 
-        stop_id = stop['id']
-
-        # Check for previously processed
-        if self.__cache.get_pokestop_expiration(stop_id) is not None:
-            log.debug("Pokestop was skipped because "
-                      + "it was previously processed.")
+        # Skip if previously processed
+        if self.__cache.get_pokestop_expiration(stop.stop_id) is not None:
+            log.debug("Stop {} was skipped because it was previously "
+                      "processed.".format(stop.name))
             return
-        self.__cache.update_pokestop_expiration(stop_id, stop['expire_time'])
+        self.__cache.update_pokestop_expiration(stop.stop_id, stop.expiration)
 
         # Check the time remaining
-        seconds_left = (stop['expire_time']
-                        - datetime.utcnow()).total_seconds()
+        seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            if self.__quiet is False:
-                log.info("Pokestop ({}) ignored: only {} "
-                         + "seconds remaining.".format(stop_id, seconds_left))
+            log.debug("Stop {} was skipped because only {} seconds remained"
+                      "".format(stop.name, seconds_left))
             return
 
-        # Extract some basic information
-        lat, lng = stop['lat'], stop['lng']
-        dist = get_earth_dist([lat, lng], self.__location)
+        # Calculate distance
+        if self.__location is not None:
+            stop.distance = get_earth_dist(
+                [stop.lat, stop.lng], self.__location)
+
+        # Check the Filters
         passed = False
-        filters = self.__stop_filters['filters']
-        for filt_ct in range(len(filters)):
-            filt = filters[filt_ct]
-            # Check the distance from the set location
-            if dist != 'unkn':
-                if filt.check_dist(dist) is False:
-                    if self.__quiet is False:
-                        log.info("Pokestop rejected: distance "
-                                 + "({:.2f}) was not in range".format(dist) +
-                                 " {:.2f} to {:.2f} (F #{})".format(
-                                     filt.min_dist, filt.max_dist, filt_ct))
-                    continue
-            else:
-                log.debug("Pokestop dist was not checked because the manager "
-                          + " has no location set.")
-
-            # Nothing left to check, so it must have passed
-            passed = True
-            log.debug("Pokstop passed filter #{}".format(filt_ct))
-            break
-
-        if not passed:
+        for name, filt in self.__stop_filters.iteritems():
+            passed = filt.check_event(stop)
+            if passed is True:  # continue to notification if we find a match
+                break
+        if not passed:  # Stop was rejected by all filters
             return
 
-        # Check the geofences
-        stop['geofence'] = self.check_geofences('Pokestop', lat, lng)
-        if len(self.__geofences) > 0 and stop['geofence'] == 'unknown':
-            log.info("Pokestop rejected: not within any specified geofence")
-            return
-
-        time_str = get_time_as_str(stop['expire_time'], self.__timezone)
-        stop.update({
-            "dist": get_dist_as_str(dist),
-            'time_left': time_str[0],
-            '12h_time': time_str[1],
-            '24h_time': time_str[2],
-            'dir': get_cardinal_dir([lat, lng], self.__location),
-        })
+        # Generate the DTS for the event
+        dts = stop.generate_dts(self.__locale)
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
-                self.__location, [lat, lng], stop)
+                self.__location, [stop.lat, stop.lng], dts)
 
         if self.__quiet is False:
-            log.info("Pokestop ({})".format(stop_id)
-                     + " notification has been triggered!")
+            log.info("Stop {} notification has been triggered!".format(
+                stop.name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
         for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokestop_alert, stop))
-            gevent.sleep(0)  # explict context yield
+            threads.append(gevent.spawn(alarm.pokestop_alert, dts))
+        gevent.sleep(0)  # explict context yield
 
         for thread in threads:
             thread.join()

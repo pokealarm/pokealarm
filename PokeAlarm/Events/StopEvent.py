@@ -16,7 +16,7 @@ class StopEvent(BaseEvent):
         super(StopEvent, self).__init__('stop')
 
         # Identification
-        self.id = data['pokestop_id']
+        self.stop_id = data['pokestop_id']
 
         # Time left
         self.expiration = datetime.utcfromtimestamp(data['lure_expiration'])
@@ -24,15 +24,20 @@ class StopEvent(BaseEvent):
         # Location
         self.lat = float(data['latitude'])
         self.lng = float(data['longitude'])
-        self.distance = Unknown.SMALL  # Completed by Manager
-        self.direction = Unknown.TINY  # Completed by Manager
+
+        # Completed by Manager
+        self.distance = Unknown.SMALL
+        self.direction = Unknown.TINY
+
+        # Used to reject
+        self.name = self.stop_id
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration)
         return {
             # Identification
-            'id': self.id,
+            'stop_id': self.stop_id,
 
             # Time left
             'time_left': time[0],
@@ -44,7 +49,9 @@ class StopEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lat),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
