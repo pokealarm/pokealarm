@@ -16,8 +16,10 @@ import gipc
 from Alarms import alarm_factory
 from Cache import cache_factory
 from Filters_Old import load_pokemon_section, load_pokestop_section, \
-    load_gym_section, load_egg_section, load_raid_section
+    load_gym_section, load_egg_section, load_raid_section, load_role_pokemon_section
 from Geofence import load_geofence_file
+from Gymlist import load_gymlist_file
+from Roles import load_rolelist_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path,\
@@ -32,7 +34,7 @@ log = logging.getLogger('Manager')
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
                  max_attempts, location, quiet, cache_type, filter_file,
-                 geofence_file, alarm_file, debug):
+                 geofence_file, alarm_file, gymlist_file, roles_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
         log.info("----------- Manager '{}' ".format(self.__name)
@@ -81,6 +83,17 @@ class Manager(object):
         self.__geofences = []
         if str(geofence_file).lower() != 'none':
             self.__geofences = load_geofence_file(get_path(geofence_file))
+
+        # Load and setup the Gymlists
+        self.__gymlist = []
+        if str(gymlist_file).lower() != 'none':
+            self.__gymlist = load_gymlist_file(get_path(gymlist_file),self.__cache)
+
+        # Load in the Rolelist
+        self.__roleslist = []
+        if str(roles_file).lower() != 'none':
+            self.__roleslist = load_rolelist_file(get_path(roles_file))
+
         # Create the alarms to send notifications out with
         self.__alarms = []
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
@@ -151,6 +164,10 @@ class Manager(object):
             # Load in the Raid Section
             self.__raid_settings = load_raid_section(
                 require_and_remove_key('raids', filters, "Filters file."))
+            
+            # Load in the Roles Section
+            self.__role_pokemon_settings = load_role_pokemon_section(
+                require_and_remove_key('role_pokemon', filters, "Filters file."))
 
             return
 
@@ -723,6 +740,19 @@ class Manager(object):
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [lat, lng], pkmn)
+            if pkmn_id in self.__role_pokemon_settings['filters']:
+                log.debug("[%s] was found in the role_pokemon_filter", name)
+                log.debug("Found Pokemon in: %s", pkmn['city'])
+                r = self.__roleslist[0].get_role_id(self.__roleslist[0].in_list(pkmn['city']))
+                pkmn.update({
+                    'role': r,
+                })
+               # log.debug("PKMN: %s",repr(pkmn))
+            else:
+                pkmn.update({
+                    'role' : "N/A",
+                })
+
 
         if self.__quiet is False:
             log.info("{} notification has been triggered!".format(name))
@@ -822,9 +852,23 @@ class Manager(object):
     def process_gym(self, gym):
         gym_id = gym['id']
 
-        # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            gym_id, gym['name'], gym['description'], gym['url'])
+        # Additional properties coming form a Gym webhook POST
+        occupied_since = gym['occupied_since']
+        total_cp = gym['total_cp']
+        slots_availible = gym['slots_availible']
+        lowest_motivation = gym['lowest_motivation']
+        raid_active_until = gym['raid_active_until']
+
+        # Update Gym details (if they exist) and we have not specified them in the gymlist
+        if len(self.__gymlist) > 0:
+            la,lo = gym['lat'], gym['lng']
+            # Only update the details if we didn;t provide a list and the lat/lon are not in the list.
+            if self.__gymlist[0].in_list(la,lo) == -1:
+                log.info("Gym not found in Gymlist, updating details, [%s]", gym['name'])
+                self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
+        else:
+            # No Gymlist provided, update the cache.
+            self.__cache.update_gym_info(gym_id, gym['name'], gym['description'], gym['url'])
 
         # Extract some basic information
         to_team_id = gym['new_team_id']
@@ -932,6 +976,26 @@ class Manager(object):
             'new_team_leader': self.__locale.get_leader_name(to_team_id),
             'old_team_leader': self.__locale.get_leader_name(from_team_id)
         })
+
+        # Update Gym with additional Details
+        #log.debug("%s",gym['occupied_since'])
+        if gym['occupied_since'] != "?":
+            time_str = get_time_as_str(gym['occupied_since'], self.__timezone)
+            gym.update({
+                '12h_time': time_str[1],
+                '24h_time': time_str[2],
+            })
+        if gym['raid_active_until'] != "N/A":
+            raid_time_str = get_time_as_str(gym['raid_active_until'], self.__timezone)
+            gym.update({
+                'raid_active_until' : raid_time_str[1],
+            })
+        gym.update({
+            'total_cp' : total_cp,
+            'slots_availible' : slots_availible,
+            'lowest_motivation' : lowest_motivation,
+        })
+        
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [lat, lng], gym)

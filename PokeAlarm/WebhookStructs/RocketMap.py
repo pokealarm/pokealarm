@@ -142,6 +142,29 @@ class RocketMap:
     @staticmethod
     def gym(data):
         log.debug("Converting to gym: \n {}".format(data))
+        
+        # Adding in the Raid Active Till, and occupied since data
+        active_raid_until = "N/A"
+        occupied_since = 0
+        if 'raid_active_until' in data:
+            if data.get('raid_active_until') is not 0:
+                active_raid_until = datetime.utcfromtimestamp(data['raid_active_until'])
+            else:
+                raid_active_until = "Unknown"
+        if 'occupied_since' in data:
+            if data.get('occupied_since') is not 0:
+                occupied_since = datetime.utcfromtimestamp(data['occupied_since'])
+            else:
+                occupied_since = "Unknown"
+        # Add trainers to a list if they are in there.
+        trainers = []
+        #if 'pokemon' in data:
+        #    log.info("DATA: %s",repr(data))
+        #    for i in data['pokemon']:
+        #        #log.info("INDEX: %s",repr(i))
+        #        log.info("Trainer in the gym: %s",i['trainer_name'])
+        #        trainers.append({'name' : i['trainer_name']})
+
         gym = {
             'type': "gym",
             'id': data.get('gym_id', data.get('id')),
@@ -154,7 +177,13 @@ class RocketMap:
             'name': check_for_none(str, data.get('name'), 'unknown').strip(),
             'description': check_for_none(
                 str, data.get('description'), 'unknown').strip(),
-            'url': check_for_none(str, data.get('url'), 'unknown')
+            'url': check_for_none(str, data.get('url'), 'unknown'),
+            'occupied_since' : occupied_since,
+            'total_cp' : data.get('total_cp'),
+            'slots_availible' : data.get('slots_availible'),
+            'lowest_motivation' : data.get('lowest_pokemon_motivation'),
+            'raid_active_until' : active_raid_until,
+            'trainers' : trainers
         }
         gym['gmaps'] = get_gmaps_link(gym['lat'], gym['lng'])
         gym['applemaps'] = get_applemaps_link(gym['lat'], gym['lng'])
