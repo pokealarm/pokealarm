@@ -78,9 +78,9 @@ class Manager(object):
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
-        self.__geofences = []
+        self.geofences = None
         if str(geofence_file).lower() != 'none':
-            self.__geofences = load_geofence_file(get_path(geofence_file))
+            self.geofences = load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
         self.__alarms = []
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
@@ -476,9 +476,9 @@ class Manager(object):
 
         # Check the Filters
         passed = True
-        for name, filt in self.__mon_filters.iteritems():
-            passed = filt.check_event(mon)
-            if passed is True:  # continue to notification if we find a match
+        for name, f in self.__mon_filters.iteritems():
+            passed = f.check_event(mon) and self.check_geofences(f, mon)
+            if passed:  # Stop checking
                 break
         if not passed:  # Monster was rejected by all filters
             return
@@ -532,9 +532,9 @@ class Manager(object):
 
         # Check the Filters
         passed = True
-        for name, filt in self.__stop_filters.iteritems():
-            passed = filt.check_event(stop)
-            if passed is True:  # continue to notification if we find a match
+        for name, f in self.__stop_filters.iteritems():
+            passed = f.check_event(stop) and self.check_geofences(f, stop)
+            if passed:  # Stop checking
                 break
         if not passed:  # Stop was rejected by all filters
             return
@@ -593,9 +593,9 @@ class Manager(object):
 
         # Check the Filters
         passed = True
-        for name, filt in self.__gym_filters.iteritems():
-            passed = filt.check_event(gym)
-            if passed is True:  # continue to notification if we find a match
+        for name, f in self.__gym_filters.iteritems():
+            passed = f.check_event(gym) and self.check_geofences(f, gym)
+            if passed:  # Stop checking
                 break
         if not passed:  # Gym was rejected by all filters
             return
@@ -650,9 +650,9 @@ class Manager(object):
 
         # Check the Filters
         passed = True
-        for name, filt in self.__egg_filters.iteritems():
-            passed = filt.check_event(egg)
-            if passed is True:  # continue to notification if we find a match
+        for name, f in self.__egg_filters.iteritems():
+            passed = f.check_event(egg) and self.check_geofences(f, egg)
+            if passed:  # Stop checking
                 break
         if not passed:  # Egg was rejected by all filters
             return
@@ -707,9 +707,9 @@ class Manager(object):
 
         # Check the Filters
         passed = True
-        for name, filt in self.__raid_filters.iteritems():
-            passed = filt.check_event(raid)
-            if passed is True:  # continue to notification if we find a match
+        for name, f in self.__raid_filters.iteritems():
+            passed = f.check_event(raid) and self.check_geofences(f, raid)
+            if passed:  # Stop checking
                 break
         if not passed:  # Raid was rejected by all filters
             return
@@ -735,14 +735,21 @@ class Manager(object):
             thread.join()
 
     # Check to see if a notification is within the given range
-    def check_geofences(self, name, lat, lng):
-        for gf in self.__geofences:
-            if gf.contains(lat, lng):
+    def check_geofences(self, f, e):
+        """ Returns true if the event passes the filter's geofences. """
+        if self.geofences is None or f.geofences is None:  # No geofences set
+            return True
+        for name in f.geofences:
+            gf = self.geofences.get(name)
+            if not gf:  # gf doesn't exist
+                log.error("Cannot check geofence %s: does not exist!", name)
+            elif gf.contains(e.lat, e.lng):  # e in gf
                 log.debug("{} is in geofence {}!".format(name, gf.get_name()))
-                return gf.get_name()
-            else:
-                log.debug("{} is not in geofence {}".format(
-                    name, gf.get_name()))
-        return 'unknown'
+                e.geofence = name  # Set the geofence for dts
+                return True
+            else:  # e not in gf
+                log.debug("%s not in %s.", e.name, name)
+        f.reject(e, "not in geofences")
+        return False
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

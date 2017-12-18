@@ -87,6 +87,7 @@ class MonEvent(BaseEvent):
 
         # Correct this later
         self.name = self.monster_id
+        self.geofence = Unknown.REGULAR
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
@@ -120,6 +121,7 @@ class MonEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Encounter Stats
             'pkmn_lvl': self.mon_lvl,

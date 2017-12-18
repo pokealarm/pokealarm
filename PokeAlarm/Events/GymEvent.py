@@ -36,6 +36,7 @@ class GymEvent(BaseEvent):
             str, data.get('url'), Unknown.REGULAR)
 
         self.name = self.gym_id
+        self.geofence = Unknown.REGULAR
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
@@ -54,6 +55,7 @@ class GymEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Team Info
             'old_team': locale.get_team_name(self.old_team_id),

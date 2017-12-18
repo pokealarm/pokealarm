@@ -105,6 +105,9 @@ class MonFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 MonUtils.validate_pokemon_size, 'sizes', data))
 
+        # Geofences
+        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+
         # Missing Info
         self.missing_info = BaseFilter.parse_as_type(
             bool, 'missing_info', data)
@@ -179,6 +182,10 @@ class MonFilter(BaseFilter):
         # Size
         if self.sizes is not None:
             settings['sizes'] = self.sizes
+
+        # Geofences
+        if self.geofences is not None:
+            settings['geofences'] = self.geofences
 
         # Missing Info
         if self.missing_info is not None:

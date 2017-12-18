@@ -57,6 +57,7 @@ class RaidEvent(BaseEvent):
         self.current_team_id = Unknown.TINY  # Will set later
 
         self.name = self.gym_id
+        self.geofence = Unknown.REGULAR
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
@@ -81,6 +82,7 @@ class RaidEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Raid Info
             'raid_lvl': self.raid_lvl,

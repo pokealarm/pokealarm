@@ -12,7 +12,7 @@ log = logging.getLogger('Geofence')
 # Load in a geofence file
 def load_geofence_file(file_path):
     try:
-        geofences = []
+        geofences = {}
         name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
         coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*"
                                  + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
@@ -25,7 +25,7 @@ def load_geofence_file(file_path):
             match_name = name_pattern.search(line)
             if match_name:
                 if len(points) > 0:
-                    geofences.append(Geofence(name, points))
+                    geofences[name] = Geofence(name, points)
                     log.info("Geofence {} added.".format(name))
                     points = []
                 name = match_name.group(0)
@@ -37,7 +37,7 @@ def load_geofence_file(file_path):
                           + "  {}".format(line))
                 log.error("All lines should be either '[name]' or 'lat,lng'.")
                 sys.exit(1)
-        geofences.append(Geofence(name, points))
+        geofences[name] = Geofence(name, points)
         log.info("Geofence {} added!".format(name))
         return geofences
     except IOError as e:

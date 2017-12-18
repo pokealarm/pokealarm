@@ -37,6 +37,9 @@ class EggFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 re.compile, 'gym_name_matches', data))
 
+        # Geofences
+        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+
         # Missing Info
         self.missing_info = BaseFilter.parse_as_type(
             bool, 'missing_info', data)
@@ -65,6 +68,10 @@ class EggFilter(BaseFilter):
         # Gym Name
         if self.gym_name_matches is not None:
             settings['gym_name_matches'] = self.gym_name_matches
+
+        # Geofences
+        if self.geofences is not None:
+            settings['geofences'] = self.geofences
 
         # Missing Info
         if self.missing_info is not None:

@@ -44,6 +44,7 @@ class EggEvent(BaseEvent):
         self.current_team_id = Unknown.TINY
 
         self.name = self.gym_id
+        self.geofence = Unknown.REGULAR
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
@@ -72,6 +73,7 @@ class EggEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Egg info
             'egg_lvl': self.egg_lvl,
