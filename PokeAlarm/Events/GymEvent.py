@@ -32,7 +32,7 @@ class GymEvent(BaseEvent):
             str, data.get('name'), Unknown.REGULAR).strip()
         self.gym_description = check_for_none(
             str, data.get('description'), Unknown.REGULAR).strip()
-        self.image_url = check_for_none(
+        self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
 
         self.name = self.gym_id
@@ -70,6 +70,6 @@ class GymEvent(BaseEvent):
             # Details
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
-            'gym_image_url': self.image_url,
+            'gym_image': self.gym_image,
         })
         return dts

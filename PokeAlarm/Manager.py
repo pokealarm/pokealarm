@@ -567,7 +567,7 @@ class Manager(object):
 
         # Update Gym details (if they exist)
         self.__cache.update_gym_info(
-            gym.gym_id, gym.name, gym.gym_description, gym.image_url)
+            gym.gym_id, gym.name, gym.gym_description, gym.gym_image)
 
         # Check if notifications are on
         if self.__gyms_enabled is False:
@@ -628,6 +628,10 @@ class Manager(object):
         # type: (Events.EggEvent) -> None
         """ Process a egg event and notify alarms if it passes. """
 
+        # Update Gym details (if they exist)
+        self.__cache.update_gym_info(
+            egg.gym_id, egg.name, egg.gym_description, egg.gym_image)
+
         # Make sure that eggs are enabled
         if self.__eggs_enabled is False:
             log.debug("Egg ignored: egg notifications are disabled.")
@@ -686,7 +690,11 @@ class Manager(object):
         # type: (Events.RaidEvent) -> None
         """ Process a raid event and notify alarms if it passes. """
 
-        # Make sure that eggs are enabled
+        # Update Gym details (if they exist)
+        self.__cache.update_gym_info(
+            raid.gym_id, raid.name, raid.gym_description, raid.gym_image)
+
+        # Make sure that raids are enabled
         if self.__raids_enabled is False:
             log.debug("Raid ignored: raid notifications are disabled.")
             return
