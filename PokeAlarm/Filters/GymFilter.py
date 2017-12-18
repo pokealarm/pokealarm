@@ -41,6 +41,10 @@ class GymFilter(BaseFilter):
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
 
+        # Custom DTS
+        self.custom_dts = BaseFilter.parse_as_dict(
+            str, str, 'custom_dts', data)
+
         # Missing Info
         self.missing_info = BaseFilter.parse_as_type(
             bool, 'missing_info', data)

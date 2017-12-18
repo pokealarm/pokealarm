@@ -37,10 +37,12 @@ class GymEvent(BaseEvent):
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
-        return {
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
             'gym_id': self.gym_id,
 
@@ -69,4 +71,5 @@ class GymEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image_url': self.image_url,
-        }
+        })
+        return dts

@@ -25,7 +25,7 @@ class TwilioAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared! <gmaps>"
+            'message': "A wild <mon_name> has appeared! <gmaps>"
                        + " Available until <24h_time> (<time_left>)."
         },
         'pokestop': {

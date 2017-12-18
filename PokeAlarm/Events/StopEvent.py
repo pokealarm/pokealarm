@@ -32,11 +32,13 @@ class StopEvent(BaseEvent):
         # Used to reject
         self.name = self.stop_id
         self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration)
-        return {
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
             'stop_id': self.stop_id,
 
@@ -57,4 +59,5 @@ class StopEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence
-        }
+        })
+        return dts

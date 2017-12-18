@@ -26,11 +26,11 @@ class FacebookPageAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared!",
+            'message': "A wild <mon_name> has appeared!",
             'image': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+                "monsters/<mon_id_3>_<form_id_or_empty>.png"),
             'link': "<gmaps>",
-            'name': "<pkmn>",
+            'name': "<mon_name>",
             'description': "Available until <24h_time> (<time_left>)",
             'caption': None
         },

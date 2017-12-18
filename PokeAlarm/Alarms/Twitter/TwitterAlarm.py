@@ -26,7 +26,7 @@ class TwitterAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'status': "A wild <pkmn> has appeared!"
+            'status': "A wild <mon_name> has appeared!"
                       + " Available until <24h_time> (<time_left>). <gmaps>"
         },
         'pokestop': {

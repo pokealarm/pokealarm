@@ -88,12 +88,14 @@ class MonEvent(BaseEvent):
         # Correct this later
         self.name = self.monster_id
         self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.disappear_time)
         form_name = locale.get_form_name(self.monster_id, self.form_id)
-        return {
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
             'encounter_id': self.enc_id,
             'mon_name': locale.get_pokemon_name(self.monster_id),
@@ -167,4 +169,5 @@ class MonEvent(BaseEvent):
             'height': self.height,
             'weight': self.weight,
             'size': self.size
-        }
+        })
+        return dts

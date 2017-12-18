@@ -475,16 +475,18 @@ class Manager(object):
             mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
 
         # Check the Filters
-        passed = True
+        passed = False
         for name, f in self.__mon_filters.iteritems():
             passed = f.check_event(mon) and self.check_geofences(f, mon)
             if passed:  # Stop checking
+                mon.custom_dts = f.custom_dts
                 break
         if not passed:  # Monster was rejected by all filters
             return
 
         # Generate the DTS for the event
         dts = mon.generate_dts(self.__locale)
+
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [mon.lat, mon.lng], dts)
@@ -535,6 +537,7 @@ class Manager(object):
         for name, f in self.__stop_filters.iteritems():
             passed = f.check_event(stop) and self.check_geofences(f, stop)
             if passed:  # Stop checking
+                stop.custom_dts = f.custom_dts
                 break
         if not passed:  # Stop was rejected by all filters
             return
@@ -596,6 +599,7 @@ class Manager(object):
         for name, f in self.__gym_filters.iteritems():
             passed = f.check_event(gym) and self.check_geofences(f, gym)
             if passed:  # Stop checking
+                gym.custom_dts = f.custom_dts
                 break
         if not passed:  # Gym was rejected by all filters
             return
@@ -653,6 +657,7 @@ class Manager(object):
         for name, f in self.__egg_filters.iteritems():
             passed = f.check_event(egg) and self.check_geofences(f, egg)
             if passed:  # Stop checking
+                egg.custom_dts = f.custom_dts
                 break
         if not passed:  # Egg was rejected by all filters
             return
@@ -710,6 +715,7 @@ class Manager(object):
         for name, f in self.__raid_filters.iteritems():
             passed = f.check_event(raid) and self.check_geofences(f, raid)
             if passed:  # Stop checking
+                raid.custom_dts = f.custom_dts
                 break
         if not passed:  # Raid was rejected by all filters
             return

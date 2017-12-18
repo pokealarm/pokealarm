@@ -45,12 +45,14 @@ class EggEvent(BaseEvent):
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         hatch_time = get_time_as_str(self.hatch_time)
         raid_end_time = get_time_as_str(self.raid_end)
-        return {
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
             'gym_id': self.gym_id,
 
@@ -85,4 +87,5 @@ class EggEvent(BaseEvent):
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)
-        }
+        })
+        return dts

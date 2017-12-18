@@ -101,3 +101,22 @@ class BaseFilter(object):
             # Value type should throw the correct error
             allowed.add(value_type(value))
         return allowed
+
+    @staticmethod
+    def parse_as_dict(key_type, value_type, param_name, data):
+        """ Parse and convert a dict of values into a specific types."""
+        values = data.pop(param_name, {})
+        if not isinstance(values, dict):
+            raise ValueError(
+                'The "{0}" parameter must formatted as a dict containing '
+                'key-value pairs. Example: "{0}": '
+                '{{ "key1": "value1", "key2": "value2" }}'.format(param_name))
+        out = {}
+        for k, v in values.iteritems():
+            try:
+                out[key_type(k)] = value_type(v)
+            except Exception:
+                raise ValueError(
+                    'There was an error while parsing \'"{}": "{}"\' in '
+                    'parameter name "{}"'.format(k, v, param_name))
+        return out

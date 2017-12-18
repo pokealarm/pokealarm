@@ -24,7 +24,7 @@ replace = Alarm.replace
 class PushbulletAlarm(Alarm):
     _defaults = {
         'pokemon': {
-            'title': "A wild <pkmn> has appeared!",
+            'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
