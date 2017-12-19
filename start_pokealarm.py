@@ -173,8 +173,13 @@ def parse_settings(root_path):
     parser.add_argument(
         '-tz', '--timezone', type=str, action='append', default=[None],
         help='Timezone used for notifications. Ex: "America/Los_Angeles"')
+    parser.add_argument(
+        '--log', help='Log output to given file.')
 
     args = parser.parse_args()
+
+    if args.log:
+        configure_file_logging(args.log)
 
     if args.debug:
         log.setLevel(logging.DEBUG)
@@ -254,6 +259,23 @@ def parse_settings(root_path):
     # Set up signal handlers for graceful exit
     signal(signal.SIGINT, exit_gracefully)
     signal(signal.SIGTERM, exit_gracefully)
+
+
+def configure_file_logging(log_file):
+    path, filename = os.path.split(log_file)
+    if not os.path.exists(path):
+        try:
+            os.makedirs(path)
+        except OSError:
+            log.exception("Could not enable logging to file.")
+            return
+    if os.access(path, os.W_OK):
+        fh = logging.FileHandler(log_file)
+        fh.setFormatter(
+            logging.Formatter(
+                fmt='%(asctime)s [%(processName)15.15s][%(name)10.10s]'
+                    + '[%(levelname)8.8s] %(message)s'))
+        logging.root.addHandler(fh)
 
 
 # Because lists are dumb and don't have a failsafe get
