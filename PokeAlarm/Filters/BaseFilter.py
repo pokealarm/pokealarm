@@ -55,16 +55,9 @@ class BaseFilter(object):
             return None  # limit not set
 
         # Create a function to compare the event vs the limit
-        def check(f, e):  # filter.check(event)
-            value = getattr(e, event_attribute)  # e.event_attribute
-            if Unknown.is_(value):
-                return Unknown.TINY  # Cannot check - missing attribute
-            result = eval_func(limit, value)  # compare value to limit
-            if result is False:
-                f.reject(  # Log rejection
-                    e, "{} incorrect ({} to {})".format(
-                        event_attribute, value, limit))
-            return result
+        # TODO: This can be a close if not pickled
+        check = CheckFunction(limit, eval_func, event_attribute)
+
         # Add check function to our list
         self._check_list.append(check)
         return limit
@@ -120,3 +113,22 @@ class BaseFilter(object):
                     'There was an error while parsing \'"{}": "{}"\' in '
                     'parameter name "{}"'.format(k, v, param_name))
         return out
+
+
+class CheckFunction(object):
+    """ Function used to check if an event passes or not. """
+
+    def __init__(self, limit, eval_func, attr_name):
+        self._limit = limit
+        self._eval_func = eval_func
+        self._attr_name = attr_name
+
+    def __call__(self, filtr, event):
+        value = getattr(event, self._attr_name)  # event.event_attr
+        if Unknown.is_(value):
+            return Unknown.TINY  # Cannot check - missing attribute
+        result = self._eval_func(self._limit, value)  # compare value to limit
+        if result is False:  # Log rejection
+            filtr.reject(event, "{} incorrect ({} to {})".format(
+                self._attr_name, value, self._limit))
+        return result
