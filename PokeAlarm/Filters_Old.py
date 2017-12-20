@@ -91,6 +91,20 @@ def load_pokemon_section(settings):
         log.info("Pokemon notifications will NOT be sent - Enabled is False.")
     return pokemon
 
+def load_role_pokemon_section(settings):
+    log.info("Setting Role Pokemon filters...")
+    role_pokemon = { "enabled": bool(parse_boolean(settings.pop('enabled', None)) or False)}
+    filters = load_pokemon_filters(settings)
+    role_pokemon['filters'] = filters
+    log.debug(filters)
+    for pkmn_id in sorted(filters):
+        log.debug("The following filters are set for #{}:".format(pkmn_id))
+        for i in range(len(filters[pkmn_id])):
+            log.debug("F#{}: ".format(i) + filters[pkmn_id][i].to_string())
+    if role_pokemon['enabled'] is False:
+        log.info("Role Pokemon notifications will NOT be sent - Enabled is False.")
+    return role_pokemon
+
 
 def load_pokestop_section(settings):
     log.info("Setting Pokestop filters...")

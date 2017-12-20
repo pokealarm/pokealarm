@@ -173,6 +173,12 @@ def parse_settings(root_path):
     parser.add_argument(
         '-tz', '--timezone', type=str, action='append', default=[None],
         help='Timezone used for notifications. Ex: "America/Los_Angeles"')
+    parser.add_argument(
+        '-gy', '--gymlist',type=parse_unicode, action='append', default=[None],
+        help='Gymlist file for friendly names. defualt: None')
+    parser.add_argument(
+        '-rl', '--roleslist',type=parse_unicode, action='append', default=[None],
+        help='Roles list for adding @<role> to alerts, defualt: None') 
 
     args = parser.parse_args()
 
@@ -190,7 +196,8 @@ def parse_settings(root_path):
     # Check to make sure that the same number of arguments are included
     for arg in [args.key, args.filters, args.alarms, args.geofences,
                 args.location, args.locale, args.units, args.cache_type,
-                args.timelimit, args.max_attempts, args.timezone]:
+                args.timelimit, args.max_attempts, args.timezone,
+                args.gymlist, args.roleslist]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -238,6 +245,8 @@ def parse_settings(root_path):
             geofence_file=get_from_list(
                 args.geofences, m_ct, args.geofences[0]),
             alarm_file=get_from_list(args.alarms, m_ct, args.alarms[0]),
+            gymlist_file=get_from_list(args.gymlist, m_ct, args.gymlist[0]),
+            roles_file=get_from_list(args.roleslist, m_ct, args.roleslist[0]),
             debug=config['DEBUG']
         )
         if m.get_name() not in managers:
