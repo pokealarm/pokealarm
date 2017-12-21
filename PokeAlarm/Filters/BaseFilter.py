@@ -5,6 +5,8 @@ import json
 # Local Imports
 from PokeAlarm import Unknown
 
+log = logging.getLogger('Filter')
+
 
 class BaseFilter(object):
     """ Abstract class representing details related to different events. """
@@ -13,7 +15,7 @@ class BaseFilter(object):
         """ Initializes base parameters for a filter. """
 
         # Logger for rejecting items
-        self._log = logging.getLogger(name)
+        self._name = name
 
         # Dict representation for the filter
         self._settings = {}
@@ -47,7 +49,7 @@ class BaseFilter(object):
 
     def reject(self, event, reason):
         """ Log the reason for rejecting the Event. """
-        self._log.info("%s rejected: %s", event.name, reason)
+        log.info("[%10s] %s rejected: %s", self._name, event.name, reason)
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """ Evaluates a parameter and generate a check if needed. """
@@ -55,7 +57,7 @@ class BaseFilter(object):
             return None  # limit not set
 
         # Create a function to compare the event vs the limit
-        # TODO: This can be a close if not pickled
+        # TODO: This can be a closure if not pickled
         check = CheckFunction(limit, eval_func, event_attribute)
 
         # Add check function to our list
