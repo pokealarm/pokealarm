@@ -567,7 +567,7 @@ class Manager(object):
 
         # Update Gym details (if they exist)
         self.__cache.update_gym_info(
-            gym.gym_id, gym.name, gym.gym_description, gym.gym_image)
+            gym.gym_id, gym.gym_name, gym.gym_description, gym.gym_image)
 
         # Check if notifications are on
         if self.__gyms_enabled is False:
@@ -579,15 +579,19 @@ class Manager(object):
 
         # Ignore changes to neutral
         if self.__ignore_neutral and gym.new_team_id == 0:
-            log.debug("{} gym update skipped: new team was neutral")
+            log.debug("%s gym update skipped: new team was neutral")
             return
 
-        # Update the cache with the gyms new team
+        # Update the cache with the gyms info
         self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
+        info = self.__cache.get_gym_info(gym.gym_id)
+        gym.gym_name = info['name']
+        gym.gym_description = info['description']
+        gym.gym_image = info['url']
 
         # Doesn't look like anything to me
         if gym.new_team_id == gym.old_team_id:
-            log.debug("{} gym update skipped: no change detected", gym.gym_id)
+            log.debug("%s gym update skipped: no change detected", gym.gym_id)
             return
 
         # Calculate distance
@@ -630,7 +634,7 @@ class Manager(object):
 
         # Update Gym details (if they exist)
         self.__cache.update_gym_info(
-            egg.gym_id, egg.name, egg.gym_description, egg.gym_image)
+            egg.gym_id, egg.gym_name, egg.gym_description, egg.gym_image)
 
         # Make sure that eggs are enabled
         if self.__eggs_enabled is False:
@@ -650,6 +654,13 @@ class Manager(object):
             log.debug("Egg {} was skipped because only {} seconds remained"
                       "".format(egg.name, seconds_left))
             return
+
+        # Assigned cached info
+        info = self.__cache.get_gym_info(egg.gym_id)
+        egg.current_team_id = self.__cache.get_gym_team(egg.gym_id)
+        egg.gym_name = info['name']
+        egg.gym_description = info['description']
+        egg.gym_image = info['url']
 
         # Calculate distance
         if self.__location is not None:
@@ -692,7 +703,7 @@ class Manager(object):
 
         # Update Gym details (if they exist)
         self.__cache.update_gym_info(
-            raid.gym_id, raid.name, raid.gym_description, raid.gym_image)
+            raid.gym_id, raid.gym_name, raid.gym_description, raid.gym_image)
 
         # Make sure that raids are enabled
         if self.__raids_enabled is False:
@@ -712,6 +723,13 @@ class Manager(object):
             log.debug("Raid {} was skipped because only {} seconds remained"
                       "".format(raid.name, seconds_left))
             return
+
+        # Assigned cached info
+        info = self.__cache.get_gym_info(raid.gym_id)
+        raid.current_team_id = self.__cache.get_gym_team(raid.gym_id)
+        raid.gym_name = info['name']
+        raid.gym_description = info['description']
+        raid.gym_image = info['url']
 
         # Calculate distance
         if self.__location is not None:
