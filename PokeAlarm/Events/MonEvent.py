@@ -148,6 +148,9 @@ class MonEvent(BaseEvent):
             'form_id_3': (
                 ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
                 else Unknown.SMALL),
+            'form_id_3_or_empty': (Unknown.or_empty(
+                ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
+                else Unknown.SMALL)),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_move_id),
