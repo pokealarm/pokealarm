@@ -54,6 +54,12 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 re.compile, 'gym_name_matches', data))
 
+        # Team Info
+        self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
+            event_attribute='current_team_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.get_team_id, 'current_teams', data))
+
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
 
