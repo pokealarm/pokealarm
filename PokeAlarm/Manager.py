@@ -594,7 +594,7 @@ class Manager(object):
         quick_move = self.__locale.get_move_name(quick_id)
         charge_move = self.__locale.get_move_name(charge_id)
         cpiv = ''
-        weather = pkmn['weather']        
+        weather_id = pkmn['weather']        
 
         if cp != '?':
             cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + quick_move + " / " + charge_move + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
@@ -640,7 +640,7 @@ class Manager(object):
 			'cpiv': cpiv,
             'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
             'form_or_empty': '' if form == 'unknown' else form,
-            'weather': weather
+            'weather': self.__locale.get_weather_name(weather_id)
         })
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(self.__location, [lat, lng], pkmn)

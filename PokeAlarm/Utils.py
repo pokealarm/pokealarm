@@ -125,17 +125,6 @@ def get_team_id(team_name):
     return get_team_id.ids.get(name)
 
 # Returns the damage of a move when requesting
-def get_weather(weather_id):
-    if not hasattr(get_weather, 'info'):
-        get_weather.info = {}
-        file_ = get_path('data/weather.json')
-        with open(file_, 'r') as f:
-            j = json.loads(f.read())
-        for id_ in j:
-            get_weather.info[int(id_)] = j[id_]['name']
-    return get_weather.info.get(weather_id, 'None')
-
-# Returns the damage of a move when requesting
 def get_move_damage(move_id):
     if not hasattr(get_move_damage, 'info'):
         get_move_damage.info = {}
