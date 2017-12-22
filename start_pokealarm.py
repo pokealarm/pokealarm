@@ -114,6 +114,7 @@ def parse_settings(root_path):
     if '-cf' in sys.argv or '--config' in sys.argv:
         config_files = []
     parser = configargparse.ArgParser(default_config_files=config_files)
+
     parser.add_argument(
         '-cf', '--config', is_config_file=True, help='Configuration file')
     parser.add_argument(
@@ -151,7 +152,7 @@ def parse_settings(root_path):
         default=[None], help='Location, can be an address or coordinates')
     parser.add_argument(
         '-L', '--locale', type=parse_unicode, action='append', default=['en'],
-        choices=['de', 'en', 'es', 'fr', 'it', 'ko', 'zh_hk'],
+        choices=['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'zh_hk'],
         help='Locale for Pokemon and Move names: default en," '
              '+ " check locale folder for more options')
     parser.add_argument(
