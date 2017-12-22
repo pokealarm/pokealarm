@@ -25,24 +25,24 @@ class TwilioAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <mon_name> has appeared! <gmaps>"
-                       + " Available until <24h_time> (<time_left>)."
+            'message': "A wild <mon_name> has appeared! <gmaps> "
+                       "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
             'message': "Someone has placed a lure on a Pokestop! <gmaps>"
-                       + " Lure will expire at <24h_time> (<time_left>)."
+                       "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
             'message': "A Team <old_team> gym has fallen!"
-                       + " It is now controlled by <new_team>. <gmaps>"
+                       "It is now controlled by <new_team>. <gmaps>"
         },
         'egg': {
             'message': "A level <egg_lvl> raid is incoming! <gmap>"
-                       + " Egg hatches <24h_hatch_time> (<hatch_time_left>)."
+                       "Egg hatches <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
             'message': "A raid on <mon_name> is available! <gmap>"
-                       + " Available until <24h_raid_end> (<time_left>)."
+                       " Available until <24h_raid_end> (<raid_time_left>)."
         }
     }
 

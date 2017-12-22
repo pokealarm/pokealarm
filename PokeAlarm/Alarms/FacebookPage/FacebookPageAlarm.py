@@ -62,11 +62,12 @@ class FacebookPageAlarm(Alarm):
         'raid': {
             'message': "A Raid is available against <mon_name>!",
             'image': get_image_url(
-                "monsters/<mon_id_3>_<form_id_or_empty>.png"),
+                "monsters/<mon_id_3>_000.png"),
             'link': "<gmaps>",
             'name': 'Raid',
             'description':
-                "The raid is available until <24h_raid_end> (<time_left>).",
+                "The raid is available until <24h_raid_end>"
+                " (<raid_time_left>).",
             'caption': None
         }
     }

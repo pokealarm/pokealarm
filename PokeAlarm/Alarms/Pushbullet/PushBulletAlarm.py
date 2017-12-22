@@ -46,7 +46,8 @@ class PushbulletAlarm(Alarm):
         'raid': {
             'title': "A Raid is available against <mon_name>!",
             'url': "<gmaps>",
-            'body': "The raid is available until <24h_raid_end> (<time_left>)."
+            'body': "The raid is available until <24h_raid_end>"
+                    " (<raid_time_left>)."
         }
     }
 
