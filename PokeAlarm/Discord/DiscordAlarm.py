@@ -23,8 +23,8 @@ class DiscordAlarm(Alarm):
         'pokemon': {
             'username': "<pkmn>",
             'content': "",
-            'icon_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'avatar_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+            'icon_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png?raw=true"),
+            'avatar_url': get_image_url("monsters/<pkmn_id_3>_<form_id_or_empty>.png?raw=true"),
             'title': "A wild <pkmn> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
