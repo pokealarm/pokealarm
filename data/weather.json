@@ -1,0 +1,26 @@
+{
+  "0": {
+    "name": "None"
+  },
+  "1": {
+    "name": "Clear"
+  },
+  "2": {
+    "name": "Rain"
+  },
+  "3": {
+    "name": "Partly Cloudy"
+  },
+  "4": {
+    "name": "Cloudy"
+  },
+  "5": {
+    "name": "Windy"
+  },
+  "6": {
+    "name": "Snow"
+  },
+  "7": {
+    "name": "Fog"
+  } 
+}
