@@ -3990,9 +3990,9 @@
     "height": 2.01
   },
   "382": {
-    "attack": 297,
-    "defense": 276,
-    "stamina": 200,
+    "attack": 270,
+    "defense": 251,
+    "stamina": 182,
     "type1": "water",
     "legendary": true,
     "generation": 3,
@@ -4000,9 +4000,9 @@
     "height": 4.5
   },
   "383": {
-    "attack": 297,
-    "defense": 276,
-    "stamina": 200,
+    "attack": 270,
+    "defense": 251,
+    "stamina": 182,
     "type1": "ground",
     "legendary": true,
     "generation": 3,
