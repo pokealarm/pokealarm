@@ -130,13 +130,13 @@ class MonEvent(BaseEvent):
             'cp': self.cp,
             # IVs
             'iv_0': (
-                ":.0f".format(self.iv) if Unknown.is_not(self.iv)
+                "{:.0f}".format(self.iv) if Unknown.is_not(self.iv)
                 else Unknown.TINY),
             'iv': (
-                ":.1f".format(self.iv) if Unknown.is_not(self.iv)
+                "{:.1f}".format(self.iv) if Unknown.is_not(self.iv)
                 else Unknown.SMALL),
             'iv_2': (
-                ":.2f".format(self.iv) if Unknown.is_not(self.iv)
+                "{:.2f}".format(self.iv) if Unknown.is_not(self.iv)
                 else Unknown.SMALL),
             'atk': self.atk_iv,
             'def': self.def_iv,
@@ -145,12 +145,7 @@ class MonEvent(BaseEvent):
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
-            'form_id_3': (
-                ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
-                else Unknown.SMALL),
-            'form_id_3_or_empty': (Unknown.or_empty(
-                ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
-                else Unknown.SMALL)),
+            'form_id_3': "{:03d}".format(self.form_id),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_move_id),

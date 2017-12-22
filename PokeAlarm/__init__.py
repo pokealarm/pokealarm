@@ -1,9 +1,13 @@
 import os
+import binascii
 
 # Global variables used by all functions
 config = {
     'ROOT_PATH': os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 }
+
+not_so_secret_url = binascii.unhexlify(
+    '68747470733a2f2f6d6f6e73746572696d616765732e746b2f76312e302f')
 
 
 class Unknown:
