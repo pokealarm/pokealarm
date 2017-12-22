@@ -69,7 +69,7 @@ class RaidEvent(BaseEvent):
             'gym_id': self.gym_id,
 
             # Time Remaining
-            'time_left': raid_end_time[0],
+            'raid_time_left': raid_end_time[0],
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
@@ -101,7 +101,8 @@ class RaidEvent(BaseEvent):
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
             # Charge Move
-            'charge_id': locale.get_move_name(self.quick_id),
+            'charge_move': locale.get_move_name(self.quick_id),
+            'charge_id': self.charge_id,
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,

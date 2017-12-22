@@ -60,7 +60,7 @@ class EggEvent(BaseEvent):
             'hatch_time_left': hatch_time[0],
             '12h_hatch_time': hatch_time[1],
             '24h_hatch_time': hatch_time[2],
-            'raid_end': raid_end_time[0],
+            'raid_time_left': raid_end_time[0],
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
