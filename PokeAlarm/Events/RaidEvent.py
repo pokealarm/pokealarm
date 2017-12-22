@@ -31,8 +31,8 @@ class RaidEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
 
         # Monster Info
-        self.raid_level = check_for_none(int, data.get('level'), Unknown.TINY)
-        self.pkmn_id = check_for_none(
+        self.raid_lvl = check_for_none(int, data.get('level'), Unknown.TINY)
+        self.mon_id = check_for_none(
             int, data.get('pokemon_id'), Unknown.TINY)
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
@@ -52,19 +52,24 @@ class RaidEvent(BaseEvent):
             str, data.get('name'), Unknown.REGULAR).strip()
         self.gym_description = check_for_none(
             str, data.get('description'), Unknown.REGULAR).strip()
-        self.gym_image_url = check_for_none(
+        self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
         self.current_team_id = Unknown.TINY  # Will set later
+
+        self.name = self.gym_id
+        self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         raid_end_time = get_time_as_str(self.raid_end)
-        return {
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
             'gym_id': self.gym_id,
 
             # Time Remaining
-            'raid_end': raid_end_time[0],
+            'raid_time_left': raid_end_time[0],
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
@@ -73,16 +78,19 @@ class RaidEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Raid Info
-            'raid_level': self.raid_level,
-            'pkmn': locale.get_pokemon_name(self.pkmn_id),
-            'pkmn_id': self.pkmn_id,
-            'pkmn_id_3': "{:03}".format(self.pkmn_id),
+            'raid_lvl': self.raid_lvl,
+            'mon_name': locale.get_pokemon_name(self.mon_id),
+            'mon_id': self.mon_id,
+            'mon_id_3': "{:03}".format(self.mon_id),
             # TODO: Form?
 
             # Quick Move
@@ -93,7 +101,8 @@ class RaidEvent(BaseEvent):
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
             # Charge Move
-            'charge_id': locale.get_move_name(self.quick_id),
+            'charge_move': locale.get_move_name(self.quick_id),
+            'charge_id': self.charge_id,
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
@@ -102,8 +111,9 @@ class RaidEvent(BaseEvent):
             # Gym Details
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
-            'gym_image_url': self.gym_image_url,
+            'gym_image': self.gym_image,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)
-        }
+        })
+        return dts

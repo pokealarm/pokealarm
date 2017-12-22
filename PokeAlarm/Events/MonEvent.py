@@ -3,9 +3,11 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from PokeAlarm.Utils import get_gmaps_link, get_move_damage, get_move_dps, \
-    get_move_duration, get_move_energy, get_pokemon_gender, get_pokemon_size, \
-    get_applemaps_link, get_time_as_str, get_dist_as_str
+from PokeAlarm.Utilities import MonUtils
+from PokeAlarm.Utils import (
+    get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
+    get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
+    get_dist_as_str)
 from . import BaseEvent
 
 
@@ -22,8 +24,7 @@ class MonEvent(BaseEvent):
         self.monster_id = int(data['pokemon_id'])
 
         # Time Left
-        self.despawn_time = datetime.utcfromtimestamp(data['disappear_time'])
-        self.time_left = int(data.get('seconds_until_despawn'))
+        self.disappear_time = datetime.utcfromtimestamp(data['disappear_time'])
 
         # Spawn Data
         self.spawn_start = check_for_none(
@@ -56,8 +57,6 @@ class MonEvent(BaseEvent):
             self.iv = Unknown.SMALL
         # Form
         self.form_id = check_for_none(int, data.get('form'), 0)
-        if self.form_id == 0:  # TODO: Change this before pulling 3.5
-            self.form_id = Unknown.TINY
 
         # Quick Move
         self.quick_move_id = check_for_none(
@@ -75,8 +74,9 @@ class MonEvent(BaseEvent):
         self.charge_energy = get_move_energy(self.charge_move_id)
 
         # Cosmetic
-        self.gender = get_pokemon_gender(
-            check_for_none(int, data.get('gender'), Unknown.TINY)),
+        self.gender = MonUtils.get_gender_sym(
+            check_for_none(int, data.get('gender'), Unknown.TINY))
+
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):
@@ -85,24 +85,27 @@ class MonEvent(BaseEvent):
         else:
             self.size = Unknown.SMALL
 
+        # Correct this later
         self.name = self.monster_id
+        self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
-        time = get_time_as_str(self.despawn_time)
-        form_name = locale.get_form_name(self.form_id)
-        return {
+        time = get_time_as_str(self.disappear_time)
+        form_name = locale.get_form_name(self.monster_id, self.form_id)
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
-            'enc_id': self.enc_id,
-            'pkmn': locale.get_pokemon_name(self.monster_id),
-            'pkmn_id': self.monster_id,
-            'pkmn_id_3': "{:03}".format(self.monster_id),
+            'encounter_id': self.enc_id,
+            'mon_name': locale.get_pokemon_name(self.monster_id),
+            'mon_id': self.monster_id,
+            'mon_id_3': "{:03}".format(self.monster_id),
 
             # Time Remaining
             'time_left': time[0],
             '12h_time': time[1],
             '24h_time': time[2],
-            'seconds_remaining': self.time_left,
 
             # Spawn Data
             'spawn_start': self.spawn_start,
@@ -114,10 +117,13 @@ class MonEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Encounter Stats
             'pkmn_lvl': self.mon_lvl,
@@ -139,9 +145,12 @@ class MonEvent(BaseEvent):
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
-            'form_id_3_or_empty': (
+            'form_id_3': (
                 ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
-                else Unknown.TINY),
+                else Unknown.SMALL),
+            'form_id_3_or_empty': (Unknown.or_empty(
+                ":.3f".format(self.iv) if Unknown.is_not(self.form_id)
+                else Unknown.SMALL)),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_move_id),
@@ -163,4 +172,5 @@ class MonEvent(BaseEvent):
             'height': self.height,
             'weight': self.weight,
             'size': self.size
-        }
+        })
+        return dts

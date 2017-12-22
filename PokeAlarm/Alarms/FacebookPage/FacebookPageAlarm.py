@@ -26,11 +26,11 @@ class FacebookPageAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'message': "A wild <pkmn> has appeared!",
+            'message': "A wild <mon_name> has appeared!",
             'image': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+                "monsters/<mon_id_3>_<form_id_3_or_empty>.png"),
             'link': "<gmaps>",
-            'name': "<pkmn>",
+            'name': "<mon_name>",
             'description': "Available until <24h_time> (<time_left>)",
             'caption': None
         },
@@ -51,22 +51,23 @@ class FacebookPageAlarm(Alarm):
             'caption': None
         },
         'egg': {
-            'message': "A level <raid_level> raid is upcoming!",
-            'image': get_image_url("eggs/<raid_level>.png"),
+            'message': "A level <egg_level> raid is upcoming!",
+            'image': get_image_url("eggs/<egg_level>.png"),
             'link': "<gmaps>",
             'name': 'Egg',
-            'description': "A level <raid_level> raid will hatch at "
-                    + "<begin_24h_time> (<begin_time_left>).",
+            'description': "A level <egg_level> raid will hatch at "
+                           "<24h_hatch_time> (<hatch_time_left>).",
             'caption': None
         },
         'raid': {
-            'message': "A Raid is available against <pkmn>!",
+            'message': "A Raid is available against <mon_name>!",
             'image': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+                "monsters/<mon_id_3>_000.png"),
             'link': "<gmaps>",
             'name': 'Raid',
             'description':
-                "The raid is available until <24h_time> (<time_left>).",
+                "The raid is available until <24h_raid_end>"
+                " (<raid_time_left>).",
             'caption': None
         }
     }

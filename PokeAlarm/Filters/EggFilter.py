@@ -17,25 +17,38 @@ class EggFilter(BaseFilter):
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= e.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= e.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Egg Level
         # Level
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= e.egg_lvl
             event_attribute='egg_lvl', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'min_egg_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= e.egg_lvl
             event_attribute='egg_lvl', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'max_egg_lvl', data))
 
         # Gym name
         self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 re.compile, 'gym_name_matches', data))
+
+        # Team Info
+        self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
+            event_attribute='current_team_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.get_team_id, 'current_teams', data))
+
+        # Geofences
+        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+
+        # Custom DTS
+        self.custom_dts = BaseFilter.parse_as_dict(
+            str, str, 'custom_dts', data)
 
         # Missing Info
         self.missing_info = BaseFilter.parse_as_type(
@@ -65,6 +78,10 @@ class EggFilter(BaseFilter):
         # Gym Name
         if self.gym_name_matches is not None:
             settings['gym_name_matches'] = self.gym_name_matches
+
+        # Geofences
+        if self.geofences is not None:
+            settings['geofences'] = self.geofences
 
         # Missing Info
         if self.missing_info is not None:

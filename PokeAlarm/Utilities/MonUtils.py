@@ -55,14 +55,14 @@ def get_move_id(move_name):
 
 # Returns the gender symbol of a pokemon:
 def get_gender_sym(gender):  # TODO - support other languages
-    gender = gender.lower()
+    gender = str(gender).lower()
     if gender == '?':
         return '?'
-    if gender == 1 or gender == 'male':
+    if gender == '1' or gender == 'male':
         return u'\u2642'  # male symbol
-    elif gender == 2 or gender == 'female':
+    elif gender == '2' or gender == 'female':
         return u'\u2640'  # female symbol
-    elif gender == 3 or gender == 'neutral':
+    elif gender == '3' or gender == 'neutral':
         return u'\u26b2'  # neutral
     else:
         raise ValueError("Unable to interpret `{}` as a supported "
@@ -72,8 +72,19 @@ def get_gender_sym(gender):  # TODO - support other languages
 # Returns the (appraisal) size of a pokemon:
 def validate_pokemon_size(size_name):
     size = size_name.lower()
-    if size in {'tiny', 'small', 'normal', 'large', 'big'}:
+    if size in {u'tiny', u'small', u'normal', u'large', u'big'}:
         return size
     else:
         raise ValueError("Unable to interpret `{}` as a supported "
                          " size name.".format(size_name))
+
+
+# Returns the gender symbol of a pokemon:
+def get_pokemon_gender(gender):
+    if gender == 1:
+        return u'\u2642'  # male symbol
+    elif gender == 2:
+        return u'\u2640'  # female symbol
+    elif gender == 3:
+        return u'\u26b2'  # neutral
+    return '?'  # catch all

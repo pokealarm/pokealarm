@@ -22,10 +22,10 @@ import sys
 # 3rd Party Imports
 from flask import Flask, request, abort
 # Local Imports
+import PokeAlarm.Events as Events
 from PokeAlarm import config
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
-from PokeAlarm.WebhookStructs import RocketMap
 from PokeAlarm.Utils import get_path, parse_unicode
 
 # Reinforce UTF-8 as default
@@ -71,13 +71,13 @@ def manage_webhook_data(queue):
             log.warning("Queue length is at {}... this may be causing a delay"
                         + " in notifications.".format(queue.qsize()))
         data = queue.get(block=True)
-        obj = RocketMap.make_object(data)
+        obj = Events.event_factory(data)
         if obj is not None:
             for name, mgr in managers.iteritems():
                 mgr.update(obj)
-                log.debug("Distributed to {}.".format(name))
-            log.debug("Finished distributing object with id "
-                      + "{}".format(obj['id']))
+                log.debug("Distributing event {} to manager {}.".format(
+                    obj.id, name))
+            log.debug("Finished distributing event: {}".format(obj.id))
         queue.task_done()
 
 

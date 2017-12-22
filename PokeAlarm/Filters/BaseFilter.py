@@ -1,8 +1,11 @@
 # Standard Library Imports
 import logging
+import json
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
+
+log = logging.getLogger('Filter')
 
 
 class BaseFilter(object):
@@ -12,7 +15,7 @@ class BaseFilter(object):
         """ Initializes base parameters for a filter. """
 
         # Logger for rejecting items
-        self._log = logging.getLogger(name)
+        self._name = name
 
         # Dict representation for the filter
         self._settings = {}
@@ -26,6 +29,9 @@ class BaseFilter(object):
     def to_dict(self):
         """ Create a dict representation of this Event. """
         raise NotImplementedError("This is an abstract method.")
+
+    def to_string(self):
+        return json.dumps(self.to_dict(), indent=4, sort_keys=True)
 
     def check_event(self, event):
         missing = False  # Is the event missing needed info?
@@ -43,7 +49,7 @@ class BaseFilter(object):
 
     def reject(self, event, reason):
         """ Log the reason for rejecting the Event. """
-        self._log.info("{} rejected: {}", event.name, reason)
+        log.info("[%10s] %s rejected: %s", self._name, event.name, reason)
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """ Evaluates a parameter and generate a check if needed. """
@@ -51,16 +57,9 @@ class BaseFilter(object):
             return None  # limit not set
 
         # Create a function to compare the event vs the limit
-        def check(f, e):  # filter.check(event)
-            value = getattr(e, event_attribute)  # e.event_attribute
-            if Unknown.is_(value):
-                return Unknown.TINY  # Cannot check - missing attribute
-            result = eval_func(limit, value)  # compare value to limit
-            if result is False:
-                f.reject(  # Log rejection
-                    e, "{} incorrect ({} to {})".format(
-                        event_attribute, value, limit))
-            return result
+        # TODO: This can be a closure if not pickled
+        check = CheckFunction(limit, eval_func, event_attribute)
+
         # Add check function to our list
         self._check_list.append(check)
         return limit
@@ -97,3 +96,41 @@ class BaseFilter(object):
             # Value type should throw the correct error
             allowed.add(value_type(value))
         return allowed
+
+    @staticmethod
+    def parse_as_dict(key_type, value_type, param_name, data):
+        """ Parse and convert a dict of values into a specific types."""
+        values = data.pop(param_name, {})
+        if not isinstance(values, dict):
+            raise ValueError(
+                'The "{0}" parameter must formatted as a dict containing '
+                'key-value pairs. Example: "{0}": '
+                '{{ "key1": "value1", "key2": "value2" }}'.format(param_name))
+        out = {}
+        for k, v in values.iteritems():
+            try:
+                out[key_type(k)] = value_type(v)
+            except Exception:
+                raise ValueError(
+                    'There was an error while parsing \'"{}": "{}"\' in '
+                    'parameter name "{}"'.format(k, v, param_name))
+        return out
+
+
+class CheckFunction(object):
+    """ Function used to check if an event passes or not. """
+
+    def __init__(self, limit, eval_func, attr_name):
+        self._limit = limit
+        self._eval_func = eval_func
+        self._attr_name = attr_name
+
+    def __call__(self, filtr, event):
+        value = getattr(event, self._attr_name)  # event.event_attr
+        if Unknown.is_(value):
+            return Unknown.TINY  # Cannot check - missing attribute
+        result = self._eval_func(self._limit, value)  # compare value to limit
+        if result is False:  # Log rejection
+            filtr.reject(event, "{} incorrect ({} to {})".format(
+                self._attr_name, value, self._limit))
+        return result

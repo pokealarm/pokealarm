@@ -24,7 +24,7 @@ replace = Alarm.replace
 class PushbulletAlarm(Alarm):
     _defaults = {
         'pokemon': {
-            'title': "A wild <pkmn> has appeared!",
+            'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
@@ -39,14 +39,15 @@ class PushbulletAlarm(Alarm):
             'body': "It is now controlled by <new_team>."
         },
         'egg': {
-            'title': "A level <raid_level> raid is incoming!",
+            'title': "A level <egg_lvl> raid is incoming!",
             'url': "<gmaps>",
-            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
+            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
-            'title': "A Raid is available against <pkmn>!",
+            'title': "A Raid is available against <mon_name>!",
             'url': "<gmaps>",
-            'body': "The raid is available until <24h_time> (<time_left>)."
+            'body': "The raid is available until <24h_raid_end>"
+                    " (<raid_time_left>)."
         }
     }
 

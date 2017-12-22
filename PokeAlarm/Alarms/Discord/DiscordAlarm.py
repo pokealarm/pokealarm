@@ -24,13 +24,13 @@ class DiscordAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'username': "<pkmn>",
+            'username': "<mon_name>",
             'content': "",
             'icon_url': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
+                "monsters/<mon_id_3>_<form_id_3_or_empty>.png"),
             'avatar_url': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'title': "A wild <pkmn> has appeared!",
+                "monsters/<mon_id_3>_<form_id_3_or_empty>.png"),
+            'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
@@ -55,22 +55,22 @@ class DiscordAlarm(Alarm):
         'egg': {
             'username': "Egg",
             'content': "",
-            'icon_url': get_image_url("eggs/<raid_level>.png"),
-            'avatar_url': get_image_url("eggs/<raid_level>.png"),
+            'icon_url': get_image_url("eggs/<egg_lvl>.png"),
+            'avatar_url': get_image_url("eggs/<egg_lvl>.png"),
             'title': "Raid is incoming!",
             'url': "<gmaps>",
-            'body': "A level <raid_level> raid will hatch at "
-                    + "<begin_24h_time> (<begin_time_left>)."
+            'body': "A level <egg_lvl> raid will hatch at "
+                    "<24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
             'username': "Raid",
             'content': "",
-            'icon_url': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'avatar_url': get_image_url("eggs/<raid_level>.png"),
-            'title': "Level <raid_level> Raid is available against <pkmn>!",
+            'icon_url': get_image_url("monsters/<mon_id_3>_000.png"),
+            'avatar_url': get_image_url("monsters/<mon_id_3>_000.png"),
+            'title': "Level <raid_lvl> Raid is available against <mon_name>!",
             'url': "<gmaps>",
-            'body': "The raid is available until <24h_time> (<time_left>)."
+            'body': "The raid is available until "
+                    "<24h_raid_end> (<raid_time_left>)."
         }
     }
 

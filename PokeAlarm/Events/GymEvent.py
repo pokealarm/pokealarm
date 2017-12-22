@@ -32,14 +32,17 @@ class GymEvent(BaseEvent):
             str, data.get('name'), Unknown.REGULAR).strip()
         self.gym_description = check_for_none(
             str, data.get('description'), Unknown.REGULAR).strip()
-        self.gym_image_url = check_for_none(
+        self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
 
         self.name = self.gym_id
+        self.geofence = Unknown.REGULAR
+        self.custom_dts = {}
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
-        return {
+        dts = self.custom_dts.copy()
+        dts.update({
             # Identification
             'gym_id': self.gym_id,
 
@@ -48,10 +51,13 @@ class GymEvent(BaseEvent):
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
-            'distance': get_dist_as_str(self.distance),
+            'distance': (
+                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
+                else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'geofence': self.geofence,
 
             # Team Info
             'old_team': locale.get_team_name(self.old_team_id),
@@ -64,5 +70,6 @@ class GymEvent(BaseEvent):
             # Details
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
-            'gym_image_url': self.gym_image_url,
-        }
+            'gym_image': self.gym_image,
+        })
+        return dts

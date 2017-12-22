@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+import time
 # 3rd Party Imports
 # Local Imports
 
@@ -10,6 +11,12 @@ class BaseEvent(object):
     def __init__(self, kind):
         """ Initializes base parameters for an event. """
         self._log = logging.getLogger(kind)
+
+        # Owner of event (set when passed to manager)
+        self._mgr = None
+
+        # Create an id for this event to be recognized as
+        self.id = time.time()
 
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """

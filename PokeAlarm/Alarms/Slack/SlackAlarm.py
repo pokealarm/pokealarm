@@ -26,10 +26,10 @@ class SlackAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'username': "<pkmn>",
+            'username': "<mon_name>",
             'icon_url': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'title': "A wild <pkmn> has appeared!",
+                "monsters/<mon_id_3>_<form_id_3_or_empty>.png"),
+            'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
@@ -49,18 +49,19 @@ class SlackAlarm(Alarm):
         },
         'egg': {
             'username': "Egg",
-            'icon_url': get_image_url("eggs/<raid_level>.png"),
-            'title': "A level <raid_level> raid is incoming!",
+            'icon_url': get_image_url("eggs/<egg_lvl>.png"),
+            'title': "A level <egg_lvl> raid is incoming!",
             'url': "<gmaps>",
-            'body': "The egg will hatch <begin_24h_time> (<begin_time_left>)."
+            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)"
         },
         'raid': {
-            'username': "<pkmn> Raid",
+            'username': "<mon_name> Raid",
             'icon_url': get_image_url(
-                "monsters/<pkmn_id_3>_<form_id_or_empty>.png"),
-            'title': "A Raid is available against <pkmn>!",
+                "monsters/<mon_id_3>_000.png"),
+            'title': "A Raid is available against <mon_name>!",
             'url': "<gmaps>",
-            'body': "The raid is available until <24h_time> (<time_left>)."
+            'body': "The raid is available until <24h_raid_end> "
+                    "(<raid_time_left>)."
         }
     }
 

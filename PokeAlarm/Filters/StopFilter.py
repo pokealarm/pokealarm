@@ -15,10 +15,17 @@ class StopFilter(BaseFilter):
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
             event_attribute='distance', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'min_dist', data))
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
             event_attribute='distance', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_dist', data))
+            limit=BaseFilter.parse_as_type(float, 'max_dist', data))
+
+        # Geofences
+        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+
+        # Custom DTS
+        self.custom_dts = BaseFilter.parse_as_dict(
+            str, str, 'custom_dts', data)
 
         # Missing Info
         self.missing_info = BaseFilter.parse_as_type(
@@ -38,6 +45,10 @@ class StopFilter(BaseFilter):
             settings['min_dist'] = self.min_dist
         if self.max_dist is not None:
             settings['max_dist'] = self.max_dist
+
+        # Geofences
+        if self.geofences is not None:
+            settings['geofences'] = self.geofences
 
         # Missing Info
         if self.missing_info is not None:

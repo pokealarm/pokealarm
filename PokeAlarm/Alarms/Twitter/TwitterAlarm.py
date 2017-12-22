@@ -26,24 +26,24 @@ class TwitterAlarm(Alarm):
 
     _defaults = {
         'pokemon': {
-            'status': "A wild <pkmn> has appeared!"
-                      + " Available until <24h_time> (<time_left>). <gmaps>"
+            'status': "A wild <mon_name> has appeared! "
+                      "Available until <24h_time> (<time_left>). <gmaps>"
         },
         'pokestop': {
             'status': "Someone has placed a lure on a Pokestop! "
-                      + "Lure will expire at <24h_time> (<time_left>). <gmaps>"
+                      "Lure will expire at <24h_time> (<time_left>). <gmaps>"
         },
         'gym': {
             'status': "A Team <old_team> gym has fallen! "
-                      + "It is now controlled by <new_team>. <gmaps>"
+                      "It is now controlled by <new_team>. <gmaps>"
         },
         'egg': {
-            'status': "lvl <raid_level> raid! Hatches at <begin_24h_time>"
-                      + "(<begin_time_left>). <gmaps>"
+            'status': "lvl <raid_level> raid! Hatches at "
+                      "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
         },
         'raid': {
-            'status': "Raid on <pkmn>! Available until <24h_time>"
-                      + " (<time_left>). <gmaps>"
+            'status': "Raid on <mon_name>! Available until <24h_raid_end> "
+                      "(<raid_time_left>). <gmaps>"
         }
     }
 
