@@ -101,7 +101,7 @@ class RaidEvent(BaseEvent):
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
             # Charge Move
-            'charge_move': locale.get_move_name(self.quick_id),
+            'charge_move': locale.get_move_name(self.charge_id),
             'charge_id': self.charge_id,
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
