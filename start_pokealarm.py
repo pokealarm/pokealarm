@@ -151,7 +151,7 @@ def parse_settings(root_path):
         default=[None], help='Location, can be an address or coordinates')
     parser.add_argument(
         '-L', '--locale', type=parse_unicode, action='append', default=['en'],
-        choices=['de', 'en', 'es', 'fr', 'it', 'ko', 'zh_hk'],
+        choices=['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'zh_hk'],
         help='Locale for Pokemon and Move names: default en," '
              '+ " check locale folder for more options')
     parser.add_argument(
