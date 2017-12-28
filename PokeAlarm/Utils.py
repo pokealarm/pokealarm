@@ -211,7 +211,46 @@ def get_base_stats(pokemon_id):
             }
 
     return get_base_stats.info.get(pokemon_id)
-
+    
+# Returns the base type1 for a pokemon
+def get_base_types(pokemon_id):
+    if not hasattr(get_base_types, 'info'):
+        get_base_types.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_base_types.info[int(id_)] = {
+                "type1": j[id_].get('type1'),
+                "type2": j[id_].get('type2')
+            }
+    return get_base_types.info.get(pokemon_id)
+    
+def is_raid_boss_weather_boosted(pokemon_id, weather_id):
+    types = get_base_types(pokemon_id)
+    
+    type1 = types['type1']
+    type2 = types['type2']
+    
+    if not hasattr(is_raid_boss_weather_boosted, 'info'):
+        is_raid_boss_weather_boosted.info = {}
+        file_ = get_path('data/weather_boosts.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for type_ in j:
+            is_raid_boss_weather_boosted.info[type_] = j[type_]
+            
+    type1_weather = is_raid_boss_weather_boosted.info["{}".format(type1)]
+    
+    if type1_weather == weather_id:
+        return True
+        
+    if type2 != None:
+        type2_weather = is_raid_boss_weather_boosted.info["{}".format(type2)]
+        if type2_weather == weather_id:
+            return True
+        else:
+            return False     
 
 # Returns a cp range for a certain level of a pokemon when hatched or caught in a raid
 def get_pokemon_cp_range(pokemon_id, level):

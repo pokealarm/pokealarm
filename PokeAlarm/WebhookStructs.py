@@ -5,7 +5,7 @@ import traceback
 # 3rd Party Imports
 # Local Imports
 from Utils import get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,\
-    get_move_energy, get_pokemon_gender, get_pokemon_size, get_applemaps_link
+    get_move_energy, get_pokemon_gender, get_pokemon_size, get_applemaps_link, is_raid_boss_weather_boosted
 
 log = logging.getLogger('WebhookStructs')
 
@@ -213,7 +213,15 @@ class RocketMap:
 
         quick_id = check_for_none(int, data.get('move_1'), '?')
         charge_id = check_for_none(int, data.get('move_2'), '?')
-
+        weather_id = check_for_none(int, data.get('weather'), '?')
+        pokemon_id = check_for_none(int, data.get('pokemon_id'), 0)
+        
+        boss_level = 20
+        boosted_weather = 0
+        if is_raid_boss_weather_boosted(pokemon_id, weather_id):
+            boss_level = 25
+            boosted_weather = weather_id
+        
         raid_end = None
         raid_begin = None
 
@@ -237,7 +245,7 @@ class RocketMap:
         raid = {
             'type': 'raid',
             'id': id_,
-            'pkmn_id': check_for_none(int, data.get('pokemon_id'), 0),
+            'pkmn_id': pokemon_id,
             'cp': check_for_none(int, data.get('cp'), '?'),
             'quick_id': quick_id,
             'quick_damage': get_move_damage(quick_id),
@@ -259,7 +267,9 @@ class RocketMap:
             "gym_url": data.get('gym_url'),
             "gym_description": data.get('gym_description'),
             'lat_5': "{:.5f}".format(float(data['latitude'])),
-            'lng_5': "{:.5f}".format(float(data['longitude']))
+            'lng_5': "{:.5f}".format(float(data['longitude'])),
+            'weather_id': boosted_weather,
+            'level': boss_level
        }
 
         raid['gmaps'] = get_gmaps_link(raid['lat'], raid['lng'])

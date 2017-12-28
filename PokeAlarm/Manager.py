@@ -573,8 +573,6 @@ class Manager(object):
         # Check the time remaining
         seconds_left = (pkmn['disappear_time'] - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            if self.__quiet is False:
-                log.info("{} ignored: Only {} seconds remaining.".format(name, seconds_left))
             return
 
         # Check that the filter is even set
@@ -1018,10 +1016,12 @@ class Manager(object):
         team = raid['team']  
         form_id = raid_pkmn['form_id']
         form = self.__locale.get_form_name(pkmn_id, form_id) 
-        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, 20)  
+        level = raid['level']  
+        min_cp, max_cp = get_pokemon_cp_range(pkmn_id, level)  
         team = raid['team']
         team_name = self.__locale.get_team_name(team)         
         gym_name = gym_info['name']
+        weather_id = raid['weather_id']  
         
         raid.update({
             'pkmn': name,
@@ -1045,7 +1045,8 @@ class Manager(object):
             'team_id': team,
             'team': team_name,
             'min_cp': min_cp,
-            'max_cp': max_cp
+            'max_cp': max_cp,
+            'weather': self.__locale.get_weather_name(weather_id)
         })
         
         if self.__quiet is False:
