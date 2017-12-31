@@ -90,7 +90,7 @@ class RaidEvent(BaseEvent):
             'raid_lvl': self.raid_lvl,
             'mon_name': locale.get_pokemon_name(self.mon_id),
             'mon_id': self.mon_id,
-            'mon_id_3': "{:03}".format(self.mon_id),
+            'mon_id_3': str(self.mon_id).rjust(3, '0'),
             # TODO: Form?
 
             # Quick Move

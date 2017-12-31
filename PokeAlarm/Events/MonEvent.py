@@ -100,7 +100,7 @@ class MonEvent(BaseEvent):
             'encounter_id': self.enc_id,
             'mon_name': locale.get_pokemon_name(self.monster_id),
             'mon_id': self.monster_id,
-            'mon_id_3': "{:03}".format(self.monster_id),
+            'mon_id_3': str(self.monster_id).rjust(3, '0'),
 
             # Time Remaining
             'time_left': time[0],
@@ -145,7 +145,7 @@ class MonEvent(BaseEvent):
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
-            'form_id_3': "{:03d}".format(self.form_id),
+            'form_id_3': str(self.form_id).rjust(3, '0'),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_move_id),
