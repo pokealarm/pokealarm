@@ -31,9 +31,8 @@ class RaidEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
 
         # Monster Info
-        self.raid_lvl = check_for_none(int, data.get('level'), Unknown.TINY)
-        self.mon_id = check_for_none(
-            int, data.get('pokemon_id'), Unknown.TINY)
+        self.raid_lvl = int(data['level'])
+        self.mon_id = int(data['pokemon_id'])
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
         self.quick_damage = get_move_damage(self.quick_id)
