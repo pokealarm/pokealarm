@@ -170,7 +170,7 @@ class DiscordAlarm(Alarm):
                     'url': replace(alert['map'], coords)
                 }
         args = {
-            'url': alert['webhook_url'],
+            'url': replace(alert['webhook_url'], info),
             'payload': payload
         }
         try_sending(log, self.connect,
