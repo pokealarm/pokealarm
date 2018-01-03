@@ -31,7 +31,7 @@ class TestEggFilter(unittest.TestCase):
         # Test failing events
         for e in [fail1, fail2]:
             self.assertFalse(egg_filter.check_event(e))
-			
+
     def test_egg_dist(self):
         # Create the filters
         settings = {"min_dist": 200, "max_dist": 500}
@@ -96,6 +96,7 @@ class TestEggFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(egg_filter.check_event(e))
 
+
 # Create a generic egg, overriding with an specific values
 def generate_egg(values):
     egg = {
@@ -111,6 +112,7 @@ def generate_egg(values):
     }
     egg.update(values)
     return egg
-	
+
+
 if __name__ == '__main__':
     unittest.main()

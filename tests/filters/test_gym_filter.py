@@ -32,7 +32,7 @@ class TestGymFilter(unittest.TestCase):
         # Test failing events
         for e in [fail1, fail2, fail3]:
             self.assertFalse(gym_filter.check_event(e))
-			
+
     def test_gym_team(self):
         # Create the filters
         settings = {"new_teams": [1, "2", "Instinct"]}
@@ -52,7 +52,8 @@ class TestGymFilter(unittest.TestCase):
         # Test failing events
         for e in [fail1]:
             self.assertFalse(gym_filter.check_event(e))		
-				
+
+			
 # Create a generic gym, overriding with an specific values
 def generate_generic_gym(values):
     gym = {
