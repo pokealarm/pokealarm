@@ -10,7 +10,7 @@ from PokeAlarm.Utils import get_path
 # (use all locales for flexibility)
 def get_team_id(team_name):
     try:
-        name = team_name.lower()
+        name = str(team_name).lower()
         if not hasattr(get_team_id, 'ids'):
             get_team_id.ids = {}
             files = glob(get_path('locales/*.json'))
