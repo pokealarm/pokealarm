@@ -4,7 +4,14 @@
     "1": "Blanche", 
     "2": "Candela", 
     "3": "Spark"
-  }, 
+  },
+   "sizes": {
+	"0": "winzig",
+	"1": "klein",
+	"2": "üblich",
+	"3": "groß",
+	"4": "riesig"
+   }, 
   "moves": {
     "100": "Kreuzschere", 
     "101": "Nitroladung", 
