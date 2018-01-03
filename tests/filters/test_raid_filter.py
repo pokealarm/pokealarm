@@ -140,6 +140,7 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(raid_filter.check_event(e))
 
+
 # Create a generic raid, overriding with an specific values
 def generate_raid(values):
     raid = {
