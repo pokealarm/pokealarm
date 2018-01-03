@@ -43,6 +43,13 @@
     "2": "Candela",
     "3": "Spark"
   },
+  "sizes": {
+    "0": "tiny",
+    "1": "small",
+    "2": "normal",
+    "3": "large",
+    "4": "big"
+  },
   "moves": {
     "13": "Wrap",
     "14": "Hyper Beam",

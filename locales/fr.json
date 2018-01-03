@@ -4,6 +4,13 @@
     "1": "Blanche", 
     "2": "Candela", 
     "3": "Spark"
+  },
+  "sizes": {
+    "0": "minuscule",
+    "1": "petite",
+    "2": "normale",
+    "3": "grand",
+    "4": "énorme"
   }, 
   "moves": {
     "100": "Plaie-Croix", 

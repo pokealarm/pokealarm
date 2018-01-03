@@ -252,15 +252,43 @@ def size_ratio(pokemon_id, height, weight):
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'tiny'
+        get_size_locale('0')
     elif size <= 1.75:
-        return 'small'
+        get_size_locale('1')
     elif size < 2.25:
-        return 'normal'
+        get_size_locale('2')
     elif size <= 2.5:
-        return 'large'
+        get_size_locale('3')
     else:
-        return 'big'
+        get_size_locale('4')
+
+
+# Convert the size value into a verbal response based on locale:
+def get_size_locale(size):
+    try:
+        if not hasattr(get_size_locale, 'ids'):
+            get_size_locale.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['sizes']
+                    for id_ in j:
+                        sz = j[id_]
+                        get_size_locale.ids[sz] = int(id_)
+        if size in get_size_locale.ids:
+            return get_size_locale.ids[size]
+        else:
+            if size = 0:
+                return tiny
+            elif size = 1:
+                return small
+            elif size = 2:
+                return normal
+            elif size = 3:
+                return large
+            else:
+                return big
 
 
 # Returns the gender symbol of a pokemon:
