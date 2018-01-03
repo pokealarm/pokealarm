@@ -51,9 +51,9 @@ class TestGymFilter(unittest.TestCase):
 
         # Test failing events
         for e in [fail1]:
-            self.assertFalse(gym_filter.check_event(e))		
+            self.assertFalse(gym_filter.check_event(e))
 
-			
+
 # Create a generic gym, overriding with an specific values
 def generate_generic_gym(values):
     gym = {
