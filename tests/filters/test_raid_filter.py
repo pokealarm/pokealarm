@@ -161,5 +161,6 @@ def generate_raid(values):
     raid.update(values)
     return raid
 
+
 if __name__ == '__main__':
     unittest.main()
