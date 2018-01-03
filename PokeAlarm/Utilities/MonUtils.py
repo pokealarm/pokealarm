@@ -33,7 +33,7 @@ def get_monster_id(pokemon_name):
 # Returns the id corresponding with the move (use all locales for flexibility)
 def get_move_id(move_name):
     try:
-        name = move_name.lower()
+        name = str(move_name).lower()
         if not hasattr(get_move_id, 'ids'):
             get_move_id.ids = {}
             files = glob(get_path('locales/*.json'))
