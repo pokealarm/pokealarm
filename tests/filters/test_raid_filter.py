@@ -79,20 +79,20 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_raid_lvl(self):
         # Create the filters
-        settings = {"min_raid_lvl": 3, "max_raid_lvl": 5}
+        settings = {"min_raid_lvl": 2, "max_raid_lvl": 4}
         raid_filter = Filters.RaidFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.RaidEvent(generate_raid({"level": 3}))
-        pass2 = Events.RaidEvent(generate_raid({"level": 4}))
-        pass3 = Events.RaidEvent(generate_raid({"level": 5}))
+        pass1 = Events.RaidEvent(generate_raid({"level": 2}))
+        pass2 = Events.RaidEvent(generate_raid({"level": 3}))
+        pass3 = Events.RaidEvent(generate_raid({"level": 4}))
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(raid_filter.check_event(e))
 
         # Generate events that should fail
         fail1 = Events.RaidEvent(generate_raid({"level": 1}))
-        fail2 = Events.RaidEvent(generate_raid({"level": 2}))
+        fail2 = Events.RaidEvent(generate_raid({"level": 5}))
 
         # Test failing events
         for e in [fail1, fail2]:
@@ -140,13 +140,36 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_missing_info(self):
+        # Create the filters
+        settings = {"missing_info": True}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.RaidEvent(generate_raid({}))
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(raid_filter.check_event(e))
+
+
+    def test_custom_dts(self):
+        # Create the filters
+        settings = {"custom_dts": {"key1": "pass1"}}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.RaidEvent(generate_raid({}))
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(raid_filter.check_event(e))
+
 
 # Create a generic raid, overriding with an specific values
 def generate_raid(values):
     raid = {
         "gym_id": "OWNmOTFmMmM0YTY3NGQwYjg0Y2I1N2JlZjU4OWRkMTYuMTY=",
         "url": "???",
-        "name": "unknown",
+        "name": "Unknown",
         "description": "???",
         "pokemon_id": 150,
         "cp": 12345,
