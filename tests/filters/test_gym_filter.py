@@ -55,11 +55,11 @@ class TestGymFilter(unittest.TestCase):
 
     def test_missing_info(self):
         # Create the filters
-        settings = {"missing_info": True}
+        settings = {"max_dist": "inf", "is_missing_info": True}
         gym_filter = Filters.GymFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.GymEvent(generate_gym({}))
+        pass1 = Events.GymEvent(generate_gym({"distance": "Unknown"}))
         # Test passing events
         for e in [pass1]:
             self.assertTrue(gym_filter.check_event(e))

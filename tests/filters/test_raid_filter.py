@@ -142,11 +142,11 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_missing_info(self):
         # Create the filters
-        settings = {"missing_info": True}
+        settings = {"max_dist": "inf", "is_missing_info": True}
         raid_filter = Filters.RaidFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.RaidEvent(generate_raid({}))
+        pass1 = Events.RaidEvent(generate_raid({"distance": "Unknown"}))
         # Test passing events
         for e in [pass1]:
             self.assertTrue(raid_filter.check_event(e))
