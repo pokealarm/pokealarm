@@ -10,6 +10,7 @@ import sys
 # 3rd Party Imports
 # Local Imports
 from . import config
+from LSP import gSt
 
 log = logging.getLogger('Utils')
 
@@ -430,5 +431,17 @@ def get_time_as_str(t, timezone=None):
 # Return the default url for images and stuff
 def get_image_url(image):
     return "https://raw.githubusercontent.com/not4profit/images/master/" + image
+    
+def get_station(lat, lng, use):
+    
+    station = ''
+    if use:        
+        point = []
+        point.append(lat)
+        point.append(lng)
+        actualStation = gSt(point)
+        if actualStation is not None:
+            station = "Nearest Station: " + actualStation
+    return station
 
 ########################################################################################################################

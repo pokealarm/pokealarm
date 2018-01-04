@@ -18,7 +18,7 @@ from Filters import load_pokemon_section, load_pokestop_section, load_gym_sectio
     load_raid_section
 from Locale import Locale
 from Utils import get_cardinal_dir, get_dist_as_str, get_earth_dist, get_path, get_time_as_str, \
-    require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range
+    require_and_remove_key, parse_boolean, contains_arg, get_pokemon_cp_range, get_station
 from Geofence import load_geofence_file
 from LocationServices import LocationService
 
@@ -26,7 +26,7 @@ log = logging.getLogger('Manager')
 
 
 class Manager(object):
-    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, location, quiet, cache_type,
+    def __init__(self, name, google_key, locale, units, timezone, time_limit, max_attempts, stations, location, quiet, cache_type,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -77,6 +77,7 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__event = multiprocessing.Event()
         self.__process = None
+        self.__stations = bool(stations)
 
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
@@ -580,6 +581,8 @@ class Manager(object):
             return
 
         lat, lng = pkmn['lat'], pkmn['lng']
+        
+        station = get_station(lat, lng, self.__stations)                
         dist = get_earth_dist([lat, lng], self.__location)
         cp = pkmn['cp']
         level = pkmn['level']
@@ -638,7 +641,8 @@ class Manager(object):
 			'cpiv': cpiv,
             'form_id_or_empty': '' if form_id == '?' else '{:03}'.format(form_id),
             'form_or_empty': '' if form == 'unknown' else form,
-            'weather': self.__locale.get_weather_name(weather_id)
+            'weather': self.__locale.get_weather_name(weather_id),
+            'station': station
         })
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(self.__location, [lat, lng], pkmn)
@@ -881,6 +885,7 @@ class Manager(object):
 
         lat, lng = egg['lat'], egg['lng']
         dist = get_earth_dist([lat, lng], self.__location)
+        station = get_station(lat, lng, self.__stations) 
 
         # Check if raid is in geofences
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -920,7 +925,8 @@ class Manager(object):
             "dist": get_dist_as_str(dist),
             'dir': get_cardinal_dir([lat, lng], self.__location),
             'team_id': team,
-            'team': team_name
+            'team': team_name,
+            'station': station
         })
         
         if self.__quiet is False:
@@ -965,6 +971,7 @@ class Manager(object):
 
         lat, lng = raid['lat'], raid['lng']
         dist = get_earth_dist([lat, lng], self.__location)
+        station = get_station(lat, lng, self.__stations) 
 
         # Check if raid is in geofences
         raid['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -1046,7 +1053,8 @@ class Manager(object):
             'team': team_name,
             'min_cp': min_cp,
             'max_cp': max_cp,
-            'weather': self.__locale.get_weather_name(weather_id)
+            'weather': self.__locale.get_weather_name(weather_id),
+            'station': station
         })
         
         if self.__quiet is False:

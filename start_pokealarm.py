@@ -140,6 +140,8 @@ def parse_settings(root_path):
                         help='Maximum number of attempts an alarm makes to send a notification.')
     parser.add_argument('-tz', '--timezone', type=str, action='append', default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
+    parser.add_argument('-st', '--stations', type=str, default=['False'], action='append',
+                        help='Should stations be included in alarms.')               
 
     args = parser.parse_args()
 
@@ -156,7 +158,7 @@ def parse_settings(root_path):
 
     # Check to make sure that the same number of arguements are included
     for list_ in [args.key, args.filters, args.alarms, args.geofences, args.location,
-                  args.locale, args.units, args.cache_type, args.timelimit, args.max_attempts, args.timezone]:
+                  args.locale, args.units, args.cache_type, args.timelimit, args.max_attempts, args.timezone, args.stations]:
         if len(list_) > 1:  # Remove defaults from the list
             list_.pop(0)
         size = len(list_)
@@ -191,6 +193,7 @@ def parse_settings(root_path):
             timezone=args.timezone[m_ct] if len(args.timezone) > 1 else args.timezone[0],
             time_limit=args.timelimit[m_ct] if len(args.timelimit) > 1 else args.timelimit[0],
             max_attempts=args.max_attempts[m_ct] if len(args.max_attempts) > 1 else args.max_attempts[0],
+            stations=args.stations[m_ct] if len(args.stations) > 1 else args.stations[0],
             quiet=False,  # TODO: I'll totally document this some day. Promise.
             cache_type=args.cache_type[m_ct] if len(args.cache_type) > 1 else args.cache_type[0],
             location=args.location[m_ct] if len(args.location) > 1 else args.location[0],
