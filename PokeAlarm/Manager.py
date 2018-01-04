@@ -395,7 +395,6 @@ class Manager(object):
                     continue
             else:
                 if filt.ignore_missing is True:
-                    log.info("{} rejected: CP information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'cp' was not checked because it was missing.")
 
@@ -508,7 +507,7 @@ class Manager(object):
                     log.info("{} rejected: Size information was missing - (F #{})".format(name, filt_ct))
                     continue
                 log.debug("Pokemon 'size' was not checked because it was missing.")
-
+           
             # Check for a valid gender
             if gender != 'unknown':
                 if not filt.check_gender(gender):
@@ -604,6 +603,10 @@ class Manager(object):
         
         filters = self.__pokemon_settings['filters'][pkmn_id]
         passed = self.check_pokemon_filter(filters, pkmn, dist)
+        
+        if len(pkmn['badgequest']) > 0:
+            passed = True
+            
         # If we didn't pass any filters
         if not passed:
             return
@@ -622,8 +625,8 @@ class Manager(object):
         if form == 'unknown':
             form = ''
         else: 
-            form = " - " + form
-
+            form = " - " + form           
+            
         pkmn.update({
             'pkmn': name,
             'pkmn_id_3': '{:03}'.format(pkmn_id),

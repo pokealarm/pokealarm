@@ -441,7 +441,7 @@ def get_station(lat, lng, use):
         point.append(lng)
         actualStation = gSt(point)
         if actualStation is not None:
-            station = "Nearest Station: " + actualStation
+            station = "\nNearest Station: " + actualStation
     return station
 
 ########################################################################################################################

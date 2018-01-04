@@ -82,27 +82,24 @@ class RocketMap:
             'gender': get_pokemon_gender(check_for_none(int, data.get('gender'), '?')),
             'form_id': check_for_none(int, data.get('form'), '?'),
             'size': 'unknown',
-            'tiny_rat': '',
-            'big_karp': '',
             'gmaps': get_gmaps_link(lat, lng),
             'applemaps': get_applemaps_link(lat, lng),
-            'weather': weather_id
+            'weather': weather_id,
+            'badgequest': ''
         }
         if pkmn['atk'] != '?' or pkmn['def'] != '?' or pkmn['sta'] != '?':
             pkmn['iv'] = float(((pkmn['atk'] + pkmn['def'] + pkmn['sta']) * 100) / float(45))
         else:
             pkmn['atk'], pkmn['def'], pkmn['sta'] = '?', '?', '?'
-
+            
         if pkmn['height'] != 'unkn' or pkmn['weight'] != 'unkn':
             pkmn['size'] = get_pokemon_size(pkmn['pkmn_id'], pkmn['height'], pkmn['weight'])
-            pkmn['height'] = "{:.2f}".format(pkmn['height'])
-            pkmn['weight'] = "{:.2f}".format(pkmn['weight'])
+               
+        if pkmn['pkmn_id'] == 19 and pkmn['weight'] <= 2.41:
+            pkmn['badgequest'] = '\nTiny Rattata Found!'
 
-        if pkmn['pkmn_id'] == 19 and pkmn['size'] == 'tiny':
-            pkmn['tiny_rat'] = 'tiny'
-
-        if pkmn['pkmn_id'] == 129 and pkmn['size'] == 'big':
-            pkmn['big_karp'] = 'big'
+        if pkmn['pkmn_id'] == 129 and pkmn['weight'] >= 13.13:
+            pkmn['badgequest'] = '\nBig Magikarp Found!'
 
         # Todo: Remove this when monocle get's it's own standard
         if pkmn['form_id'] == 0:
