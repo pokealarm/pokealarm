@@ -24,7 +24,7 @@ class BaseFilter(object):
         self._check_list = []
 
         # Missing Info
-        self.missing_info = None
+        self.is_missing_info = None
 
     def to_dict(self):
         """ Create a dict representation of this Event. """
@@ -34,15 +34,16 @@ class BaseFilter(object):
         return json.dumps(self.to_dict(), indent=4, sort_keys=True)
 
     def check_event(self, event):
-        missing = False  # Is the event missing needed info?
+        missing = False  # Event is missing no info to start
         for check in self._check_list:
             result = check(self, event)
             if result is False:
                 return False
             elif Unknown.is_(result):
-                missing = True
+                missing = True  # Mark Event as missing info
         # Do a special check for is missing_info is set
-        if self.missing_info is not None and missing == self.missing_info:
+        if self.is_missing_info is not None \
+                and missing != self.is_missing_info:
             self.reject(event, "needed information was missing.")
             return False
         return True

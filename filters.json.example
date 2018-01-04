@@ -19,7 +19,7 @@
                 "sizes": [ "tiny", "small", "normal", "large", "big" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
-                "missing_info": false
+                "is_missing_info": false
             }
         }
     },
@@ -32,7 +32,7 @@
                 "min_dist": 0, "max_dist": "inf",
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "geofences": [ "Central Park" ],
-                "missing_info": false
+                "is_missing_info": false
             }
         }
     },
@@ -49,7 +49,7 @@
                 "gym_name_matches": [ ".*" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
-                "missing_info": false
+                "is_missing_info": false
             }
         }
     },
@@ -65,7 +65,7 @@
                 "gym_name_matches": [ ".*" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
-                "missing_info": false
+                "is_missing_info": false
             }
         }
     },
@@ -84,7 +84,7 @@
                 "gym_name_matches": [ ".*" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
-                "missing_info": false
+                "is_missing_info": false
             }
         }
     }

@@ -46,8 +46,8 @@ class GymFilter(BaseFilter):
             str, str, 'custom_dts', data)
 
         # Missing Info
-        self.missing_info = BaseFilter.parse_as_type(
-            bool, 'missing_info', data)
+        self.is_missing_info = BaseFilter.parse_as_type(
+            bool, 'is_missing_info', data)
 
         # Reject leftover parameters
         for key in data:
@@ -79,7 +79,7 @@ class GymFilter(BaseFilter):
             settings['geofences'] = self.geofences
 
         # Missing Info
-        if self.missing_info is not None:
-            settings['missing_info'] = self.missing_info
+        if self.is_missing_info is not None:
+            settings['missing_info'] = self.is_missing_info
 
         return settings
