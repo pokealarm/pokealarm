@@ -432,16 +432,15 @@ def get_time_as_str(t, timezone=None):
 def get_image_url(image):
     return "https://raw.githubusercontent.com/not4profit/images/master/" + image
     
-def get_station(lat, lng, use):
+def get_station(lat, lng):
     
     station = ''
-    if use:        
-        point = []
-        point.append(lat)
-        point.append(lng)
-        actualStation = gSt(point)
-        if actualStation is not None:
-            station = "\nNearest Station: " + actualStation
+    point = []
+    point.append(lat)
+    point.append(lng)
+    actualStation = gSt(point)
+    if actualStation is not None:
+        station = "\nNearest Station: " + actualStation
     return station
 
 ########################################################################################################################

@@ -77,8 +77,9 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__event = multiprocessing.Event()
         self.__process = None
-        self.__stations = bool(stations)
-
+        self.__stations = False
+        if stations == 'True':
+            self.__stations = True
         log.info("----------- Manager '{}' successfully created.".format(self.__name))
 
     ############################################## CALLED BY MAIN PROCESS ##############################################
@@ -581,7 +582,9 @@ class Manager(object):
 
         lat, lng = pkmn['lat'], pkmn['lng']
         
-        station = get_station(lat, lng, self.__stations)                
+        station = ''
+        if self.__stations:
+            station = get_station(lat, lng)     
         dist = get_earth_dist([lat, lng], self.__location)
         cp = pkmn['cp']
         level = pkmn['level']
@@ -888,7 +891,9 @@ class Manager(object):
 
         lat, lng = egg['lat'], egg['lng']
         dist = get_earth_dist([lat, lng], self.__location)
-        station = get_station(lat, lng, self.__stations) 
+        station = ''
+        if self.__stations:
+            station = get_station(lat, lng)    
 
         # Check if raid is in geofences
         egg['geofence'] = self.check_geofences('Raid', lat, lng)
@@ -974,7 +979,9 @@ class Manager(object):
 
         lat, lng = raid['lat'], raid['lng']
         dist = get_earth_dist([lat, lng], self.__location)
-        station = get_station(lat, lng, self.__stations) 
+        station = ''
+        if self.__stations:
+            station = get_station(lat, lng)    
 
         # Check if raid is in geofences
         raid['geofence'] = self.check_geofences('Raid', lat, lng)

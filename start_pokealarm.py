@@ -140,7 +140,7 @@ def parse_settings(root_path):
                         help='Maximum number of attempts an alarm makes to send a notification.')
     parser.add_argument('-tz', '--timezone', type=str, action='append', default=[None],
                         help='Timezone used for notifications.  Ex: "America/Los_Angeles"')
-    parser.add_argument('-st', '--stations', type=str, default=['False'], action='append',
+    parser.add_argument('-st', '--stations', type=str, default=[None], action='append',
                         help='Should stations be included in alarms.')               
 
     args = parser.parse_args()
@@ -182,6 +182,7 @@ def parse_settings(root_path):
             sys.exit(1)
 
     # Build the managers
+    log.info(args.stations[0])
     for m_ct in range(args.manager_count):
         # This needs to be changed a few times... because
         config['UNITS'] = args.units[m_ct] if len(args.units) > 1 else args.units[0]
