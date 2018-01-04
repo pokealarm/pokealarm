@@ -74,9 +74,20 @@ class TestEggFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(egg_filter.check_event(e))
 
-    def test_missing_info(self):
+    def test_missing_info1(self):
         # Create the filters
         settings = {"missing_info": True}
+        egg_filter = Filters.EggFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.EggEvent(generate_egg({}))
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(egg_filter.check_event(e))
+
+    def test_missing_info2(self):
+        # Create the filters
+        settings = {"missing_info": False}
         egg_filter = Filters.EggFilter('filter1', settings)
 
         # Generate events that should pass
