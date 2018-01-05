@@ -55,6 +55,90 @@ class TestGymFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(gym_filter.check_event(e))
 
+    def test_gym_team(self):
+        # Create the filters
+        settings = {"new_teams": [1, "2", "Instinct"]}
+        gym_filter = Filters.GymFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.GymEvent(generate_gym({"team": 1}))
+        pass2 = Events.GymEvent(generate_gym({"team": 2}))
+        pass3 = Events.GymEvent(generate_gym({"team": 3}))
+        # Test passing events
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(gym_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.GymEvent(generate_gym({"team": 0}))
+
+        # Test failing events
+        for e in [fail1]:
+            self.assertFalse(gym_filter.check_event(e))
+
+    def test_missing_info1(self):
+        # Create the filters
+        settings = {"max_dist": "inf", "is_missing_info": True}
+        gym_filter = Filters.GymFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.GymEvent(generate_gym({"dist": "Unknown"}))
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(gym_filter.check_event(e))
+
+    def test_missing_info2(self):
+        # Create the filters
+        settings = {"max_dist": "inf", "is_missing_info": False}
+        gym_filter = Filters.GymFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.GymEvent(generate_gym({}))
+        pass1.distance = 1000
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(gym_filter.check_event(e))
+
+    def test_egg_distance(self):
+        # Create the filters
+        settings = {"max_dist": "2000", "min_dist": "400"}
+        gym_filter = Filters.GymFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.GymEvent(generate_gym({}))
+        pass1.distance = 1000
+        pass2 = Events.GymEvent(generate_gym({}))
+        pass2.distance = 800
+        pass3 = Events.GymEvent(generate_gym({}))
+        pass3.distance = 600
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(gym_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.GymEvent(generate_gym({}))
+        fail1.distance = 3000
+        fail2 = Events.GymEvent(generate_gym({}))
+        fail2.distance = 300
+        fail3 = Events.GymEvent(generate_gym({}))
+        fail3.distance = 0
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(gym_filter.check_event(e))
+
+    def test_custom_dts(self):
+        # Create the filters
+        settings = {"custom_dts": {"key1": "pass1"}}
+        gym_filter = Filters.GymFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.GymEvent(generate_gym({}))
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(gym_filter.check_event(e))
+
 
 # Create a generic gym, overriding with an specific values
 def generate_gym(values):
