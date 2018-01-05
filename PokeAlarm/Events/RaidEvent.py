@@ -53,7 +53,10 @@ class RaidEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
-        self.current_team_id = Unknown.TINY  # Will set later
+
+        # Gym Team (this is only available from cache)
+        self.current_team_id = check_for_none(
+            int, data.get('team'), Unknown.TINY)
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
