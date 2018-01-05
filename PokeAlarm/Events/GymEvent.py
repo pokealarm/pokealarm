@@ -35,6 +35,14 @@ class GymEvent(BaseEvent):
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
 
+        # Gym Guards
+        self.slots_available = check_for_none(
+            int, data.get('slots_available'), Unknown.TINY)
+        self.guard_count = (
+            (6 - self.slots_available) 
+            if Unknown.is_not(self.slots_available)
+            else Unknown.TINY),
+
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
@@ -71,5 +79,9 @@ class GymEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
+
+			# Guards
+			'slots_available': self.slots_available,
+			'guard_count': self.guard_count,
         })
         return dts
