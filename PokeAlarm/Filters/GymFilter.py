@@ -38,11 +38,13 @@ class GymFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 re.compile, 'gym_name_matches', data))
 
-		# Slots Available
-        self.min_slots = self.evaluate_attribute(  # f.min_slots <= r.slots_available
+        # Slots Available
+        self.min_slots = self.evaluate_attribute(  
+            # f.min_slots <= r.slots_available
             event_attribute='slots_available', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(int, 'min_slots', data))
-        self.max_slots = self.evaluate_attribute(  # f.max_slots >= r.slots_available
+        self.max_slots = self.evaluate_attribute(
+            # f.max_slots >= r.slots_available
             event_attribute='slots_available', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_slots', data))
 

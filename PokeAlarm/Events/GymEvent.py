@@ -39,7 +39,7 @@ class GymEvent(BaseEvent):
         self.slots_available = check_for_none(
             int, data.get('slots_available'), Unknown.TINY)
         self.guard_count = (
-            (6 - self.slots_available) 
+            (6 - self.slots_available)
             if Unknown.is_not(self.slots_available)
             else Unknown.TINY),
 
@@ -80,8 +80,8 @@ class GymEvent(BaseEvent):
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
 
-			# Guards
-			'slots_available': self.slots_available,
-			'guard_count': self.guard_count,
+            # Guards
+            'slots_available': self.slots_available,
+            'guard_count': self.guard_count,
         })
         return dts
