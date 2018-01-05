@@ -33,6 +33,21 @@ class TestGymFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(gym_filter.check_event(e))
 
+    def test_slots_available(self):
+        settings = {"max_slots": 4, "min_slots": 2}
+        gym_filter = Filters.GymFilter('filter', settings)
+        pass1 = Events.GymEvent(generate_generic_gym({"slots_available": 2}))
+        pass2 = Events.GymEvent(generate_generic_gym({"slots_available": 3}))
+        pass3 = Events.GymEvent(generate_generic_gym({"slots_available": 4}))
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(gym_filter.check_event(e))
+
+        fail1 = Events.GymEvent(generate_generic_gym({"slots_available": 0}))
+        fail2 = Events.GymEvent(generate_generic_gym({"slots_available": 1}))
+        fail3 = Events.GymEvent(generate_generic_gym({"slots_available": 5}))
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(gym_filter.check_event(e))
+
 
 # Create a generic gym, overriding with an specific values
 def generate_generic_gym(values):
