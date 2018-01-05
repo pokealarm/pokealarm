@@ -134,7 +134,7 @@ class TestEggFilter(unittest.TestCase):
 
         # Generate events that should pass
         pass1 = Events.EggEvent(generate_egg({}))
-		
+
         # Test passing events
         for e in [pass1]:
             self.assertTrue(egg_filter.check_event(e))
