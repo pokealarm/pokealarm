@@ -140,17 +140,58 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(raid_filter.check_event(e))
 
-    def test_missing_info(self):
+    def test_missing_info1(self):
         # Create the filters
         settings = {"max_dist": "inf", "is_missing_info": True}
         raid_filter = Filters.RaidFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.RaidEvent(generate_raid({"distance": "Unknown"}))
+        pass1 = Events.RaidEvent(generate_raid({"dist": "Unknown"}))
         # Test passing events
         for e in [pass1]:
             self.assertTrue(raid_filter.check_event(e))
 
+    def test_missing_info2(self):
+        # Create the filters
+        settings = {"max_dist": "inf", "is_missing_info": False}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.RaidEvent(generate_raid({}))
+        pass1.distance = 1000
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(raid_filter.check_event(e))
+
+    def test_egg_distance(self):
+        # Create the filters
+        settings = {"max_dist": "2000", "min_dist": "400"}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.RaidEvent(generate_raid({}))
+        pass1.distance = 1000
+        pass2 = Events.RaidEvent(generate_raid({}))
+        pass2.distance = 800
+        pass3 = Events.RaidEvent(generate_raid({}))
+        pass3.distance = 600
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(raid_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.RaidEvent(generate_raid({}))
+        fail1.distance = 3000
+        fail2 = Events.RaidEvent(generate_raid({}))
+        fail2.distance = 300
+        fail3 = Events.RaidEvent(generate_raid({}))
+        fail3.distance = 0
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(raid_filter.check_event(e))
 
     def test_custom_dts(self):
         # Create the filters

@@ -80,7 +80,7 @@ class TestEggFilter(unittest.TestCase):
         egg_filter = Filters.EggFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.EggEvent(generate_egg({"distance": "Unknown"}))
+        pass1 = Events.EggEvent(generate_egg({"dist": "Unknown"}))
         # Test passing events
         for e in [pass1]:
             self.assertTrue(egg_filter.check_event(e))
@@ -91,10 +91,41 @@ class TestEggFilter(unittest.TestCase):
         egg_filter = Filters.EggFilter('filter1', settings)
 
         # Generate events that should pass
-        pass1 = Events.EggEvent(generate_egg({"distance": 1000}))
+        pass1 = Events.EggEvent(generate_egg({}))
+        pass1.distance = 1000
+
         # Test passing events
         for e in [pass1]:
             self.assertTrue(egg_filter.check_event(e))
+
+    def test_egg_distance(self):
+        # Create the filters
+        settings = {"max_dist": "2000", "min_dist": "400"}
+        egg_filter = Filters.EggFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.EggEvent(generate_egg({}))
+        pass1.distance = 1000
+        pass2 = Events.EggEvent(generate_egg({}))
+        pass2.distance = 800
+        pass3 = Events.EggEvent(generate_egg({}))
+        pass3.distance = 600
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(egg_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.EggEvent(generate_egg({}))
+        fail1.distance = 3000
+        fail2 = Events.EggEvent(generate_egg({}))
+        fail2.distance = 300
+        fail3 = Events.EggEvent(generate_egg({}))
+        fail3.distance = 0
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(egg_filter.check_event(e))
 
     def test_custom_dts(self):
         # Create the filters
@@ -103,6 +134,7 @@ class TestEggFilter(unittest.TestCase):
 
         # Generate events that should pass
         pass1 = Events.EggEvent(generate_egg({}))
+		
         # Test passing events
         for e in [pass1]:
             self.assertTrue(egg_filter.check_event(e))
