@@ -26,7 +26,10 @@ class TestStopFilter(unittest.TestCase):
             self.assertFalse(stop_filter2.check_event(stop_event))
 
     def test_custom_dts(self):
-        settings = {'custom_dts': {'key1': 'value1', 'I\'m a goofy': 'goober yeah!'}}
+        settings = {'custom_dts': {
+            'key1': 'value1',
+            'I\'m a goofy': 'goober yeah!'
+        }}
         stop_filter = Filters.StopFilter('custom_dts_filter', settings)
         self.assertTrue(stop_filter.check_event(create_event({})))
 
