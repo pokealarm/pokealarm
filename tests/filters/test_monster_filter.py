@@ -1,7 +1,6 @@
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
-from PokeAlarm.Utils import get_earth_dist
 
 
 class TestMonsterFilter(unittest.TestCase):
@@ -62,17 +61,17 @@ class TestMonsterFilter(unittest.TestCase):
         mon_filter = Filters.MonFilter('iv_filter', settings)
 
         # Generate events that pass based off forced filter
-        pass1 = create_event({ #test max
+        pass1 = create_event({  # test max
             "individual_attack": 15,
             "individual_defense": 15,
             "individual_stamina": 3
         })
-        pass2 = create_event({ #in between
+        pass2 = create_event({  # in between
             "individual_attack": 15,
             "individual_defense": 10,
             "individual_stamina": 2
         })
-        pass3 = create_event({ #test min
+        pass3 = create_event({  # test min
             "individual_attack": 10,
             "individual_defense": 8,
             "individual_stamina": 5
@@ -82,17 +81,17 @@ class TestMonsterFilter(unittest.TestCase):
             self.assertTrue(mon_filter.check_event(e))
 
         # Generate events that fail based off the forced filter
-        fail1 = create_event({  #test max
+        fail1 = create_event({  # test max
             "individual_attack": 12,
             "individual_defense": 11,
             "individual_stamina": 11
         })
-        fail2 = create_event({  #Extreme end
+        fail2 = create_event({  # Extreme end
             "individual_attack": 15,
             "individual_defense": 15,
             "individual_stamina": 15
         })
-        fail3 = create_event({  #test min
+        fail3 = create_event({  # test min
             "individual_attack": 10,
             "individual_defense": 8,
             "individual_stamina": 4
@@ -172,18 +171,36 @@ class TestMonsterFilter(unittest.TestCase):
 
     def test_moves(self):
         quick_settings = {"quick_moves": ["Vine Whip", "Tackle"]}
-        quick_mon_filter = Filters.MonFilter('quick_move_filter', quick_settings)
-        self.assertTrue(quick_mon_filter.check_event(create_event({'move_1': 221})))
-        self.assertTrue(quick_mon_filter.check_event(create_event({'move_1': 214})))
-        self.assertFalse(quick_mon_filter.check_event(create_event({'move_1': 1})))
-        self.assertFalse(quick_mon_filter.check_event(create_event({'move_1': 999})))
+        quick_mon_filter = Filters.MonFilter('quick_move_filter',
+                                             quick_settings)
+        self.assertTrue(quick_mon_filter.check_event(create_event({
+            'move_1': 221
+        })))
+        self.assertTrue(quick_mon_filter.check_event(create_event({
+            'move_1': 214
+        })))
+        self.assertFalse(quick_mon_filter.check_event(create_event({
+            'move_1': 1
+        })))
+        self.assertFalse(quick_mon_filter.check_event(create_event({
+            'move_1': 999
+        })))
 
         charge_settings = {"charge_moves": ["Sludge Bomb", "Seed Bomb"]}
-        charge_mon_filter = Filters.MonFilter('charge_move_filter', charge_settings)
-        self.assertTrue(charge_mon_filter.check_event(create_event({'move_2': 90})))
-        self.assertTrue(charge_mon_filter.check_event(create_event({'move_2': 59})))
-        self.assertFalse(charge_mon_filter.check_event(create_event({'move_2': 1})))
-        self.assertFalse(charge_mon_filter.check_event(create_event({'move_2': 999})))
+        charge_mon_filter = Filters.MonFilter('charge_move_filter',
+                                              charge_settings)
+        self.assertTrue(charge_mon_filter.check_event(create_event({
+            'move_2': 90
+        })))
+        self.assertTrue(charge_mon_filter.check_event(create_event({
+            'move_2': 59
+        })))
+        self.assertFalse(charge_mon_filter.check_event(create_event({
+            'move_2': 1
+        })))
+        self.assertFalse(charge_mon_filter.check_event(create_event({
+            'move_2': 999
+        })))
 
     def test_gender(self):
         settings = {'genders': ["male", "female"]}
@@ -195,22 +212,32 @@ class TestMonsterFilter(unittest.TestCase):
         # Assumes base height/weight of Bulbasaur
         settings = {'sizes': ["tiny", "small", "large"]}
         mon_filter = Filters.MonFilter('size_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({'height': 0.71, 'weight': 9})))
-        self.assertFalse(mon_filter.check_event(create_event({'height': 0.71, 'weight': 8})))
+        self.assertTrue(mon_filter.check_event(create_event({
+            'height': 0.71,
+            'weight': 9
+        })))
+        self.assertFalse(mon_filter.check_event(create_event({
+            'height': 0.71,
+            'weight': 8
+        })))
 
     def test_weight(self):
         settings = {'min_weight': 15, 'max_weight': 'inf'}
         mon_filter = Filters.MonFilter('weight_filter', settings)
         self.assertTrue(mon_filter.check_event(create_event({'weight': 15})))
         self.assertFalse(mon_filter.check_event(create_event({'weight': 14})))
-        self.assertTrue(mon_filter.check_event(create_event({'weight': 'inf'})))
+        self.assertTrue(mon_filter.check_event(create_event({
+            'weight': 'inf'
+        })))
 
     def test_height(self):
         settings = {'min_height': 15, 'max_height': 'inf'}
         mon_filter = Filters.MonFilter('height_filter', settings)
         self.assertTrue(mon_filter.check_event(create_event({'height': 15})))
         self.assertFalse(mon_filter.check_event(create_event({'height': 14})))
-        self.assertTrue(mon_filter.check_event(create_event({'height': 'inf'})))
+        self.assertTrue(mon_filter.check_event(create_event({
+            'height': 'inf'
+        })))
 
     def test_distance(self):
         mon_event = Events.MonEvent(generate_monster({}))
@@ -227,12 +254,20 @@ class TestMonsterFilter(unittest.TestCase):
             self.assertFalse(mon_filter2.check_event(mon_event))
 
     def test_custom_dts(self):
-        settings = {'custom_dts': {'key1': 'value1', 'I\'m a goofy': 'goober yeah!'}}
+        settings = {'custom_dts': {
+            'key1': 'value1',
+            'I\'m a goofy': 'goober yeah!'
+        }}
         mon_filter = Filters.MonFilter('custom_dts_filter', settings)
         self.assertTrue(mon_filter.check_event(create_event({})))
 
     def test_missing_info(self):
-        settings = {'is_missing_info': False, 'min_atk': 5, 'min_def': 5, 'max_sta': 14}
+        settings = {
+            'is_missing_info': False,
+            'min_atk': 5,
+            'min_def': 5,
+            'max_sta': 14
+        }
         mon_filter = Filters.MonFilter('missing_info_filter', settings)
         self.assertTrue(mon_filter.check_event(create_event({
             'individual_attack': 15,
