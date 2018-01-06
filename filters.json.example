@@ -46,7 +46,7 @@
                 "min_dist": 0, "max_dist": "inf",
                 "old_teams": [ "Valor", "Instinct", "Mystic" ],
                 "new_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_matches": [ ".*" ],
+                "gym_name_contains": [ ".*" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
@@ -62,7 +62,7 @@
                 "min_dist": 0, "max_dist": "inf",
                 "min_egg_lvl": 0, "max_egg_lvl": 40,
                 "current_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_matches": [ ".*" ],
+                "gym_name_contains": [ ".*" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
@@ -81,7 +81,7 @@
                 "quick_moves": [ "Vine Whip", "Tackle"],
                 "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
                 "current_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_matches": [ ".*" ],
+                "gym_name_contains": [ ".*" ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false

@@ -32,10 +32,10 @@ class EggFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_egg_lvl', data))
 
         # Gym name
-        self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
+        self.gym_name_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_matches', data))
+                re.compile, 'gym_name_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -76,8 +76,8 @@ class EggFilter(BaseFilter):
             settings['max_lvl'] = self.max_lvl
 
         # Gym Name
-        if self.gym_name_matches is not None:
-            settings['gym_name_matches'] = self.gym_name_matches
+        if self.gym_name_contains is not None:
+            settings['gym_name_matches'] = self.gym_name_contains
 
         # Geofences
         if self.geofences is not None:

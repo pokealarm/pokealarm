@@ -33,10 +33,10 @@ class GymFilter(BaseFilter):
                 GymUtils.get_team_id, 'new_teams', data))
 
         # Gym name
-        self.gym_name_matches = self.evaluate_attribute(  # f.gn matches g.gn
+        self.gym_name_contains = self.evaluate_attribute(  # f.gn matches g.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_matches', data))
+                re.compile, 'gym_name_contains', data))
 
         # Slots Available
         self.min_slots = self.evaluate_attribute(
@@ -81,8 +81,8 @@ class GymFilter(BaseFilter):
             settings['new_team'] = self.new_team
 
         # Gym Name
-        if self.gym_name_matches is not None:
-            settings['gym_name_matches'] = self.gym_name_matches
+        if self.gym_name_contains is not None:
+            settings['gym_name_matches'] = self.gym_name_contains
 
         # Geofences
         if self.geofences is not None:
