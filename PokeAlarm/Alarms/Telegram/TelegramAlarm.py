@@ -132,7 +132,7 @@ class TelegramAlarm(Alarm):
     def pokemon_alert(self, pokemon_info):
         if self.__pokemon['stickers']:
             self.send_alert(self.__pokemon, pokemon_info,
-                            sticker_list.get(str(pokemon_info['pkmn_id'])))
+                            sticker_list.get(str(pokemon_info['mon_id'])))
         else:
             self.send_alert(self.__pokemon, pokemon_info)
 
@@ -154,17 +154,17 @@ class TelegramAlarm(Alarm):
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
-        if self.__raid['stickers'] and raid_info['raid_level'] > 0:
+        if self.__raid['stickers'] and raid_info['raid_lvl'] > 0:
             self.send_alert(self.__egg, raid_info, sticker_list.get(
-                'raid_level_{}'.format(raid_info['raid_level'])))
+                'raid_level_{}'.format(raid_info['raid_lvl'])))
         else:
             self.send_alert(self.__egg, raid_info)
 
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
-        if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
+        if self.__raid['stickers'] and raid_info['mon_id'] > 0:
             self.send_alert(self.__raid, raid_info, sticker_list.get(
-                str(raid_info['pkmn_id'])))
+                str(raid_info['mon_id'])))
         else:
             self.send_alert(self.__raid, raid_info)
 
