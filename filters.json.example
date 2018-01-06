@@ -38,7 +38,7 @@
     },
     "gyms":{
         "enabled": false,
-        "ignore_neutral":"False",
+        "ignore_neutral": false,
         "defaults": {
         },
         "filters": {

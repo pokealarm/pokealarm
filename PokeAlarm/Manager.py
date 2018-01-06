@@ -569,21 +569,21 @@ class Manager(object):
         self.__cache.update_gym_info(
             gym.gym_id, gym.gym_name, gym.gym_description, gym.gym_image)
 
-        # Check if notifications are on
-        if self.__gyms_enabled is False:
-            log.debug("Gym ignored: gym notifications are disabled.")
-            return
-
-        # Get the old team
-        gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
-
         # Ignore changes to neutral
         if self.__ignore_neutral and gym.new_team_id == 0:
             log.debug("%s gym update skipped: new team was neutral")
             return
 
-        # Update the cache with the gyms info
+        # Get the old team and update new team
+        gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
         self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
+
+        # Check if notifications are on
+        if self.__gyms_enabled is False:
+            log.debug("Gym ignored: gym notifications are disabled.")
+            return
+
+        # Update the cache with the gyms info
         info = self.__cache.get_gym_info(gym.gym_id)
         gym.gym_name = info['name']
         gym.gym_description = info['description']
