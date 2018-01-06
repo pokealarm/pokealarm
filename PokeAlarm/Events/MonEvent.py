@@ -163,7 +163,7 @@ class MonEvent(BaseEvent):
             'charge_energy': self.charge_energy,
 
             # Cosmetic
-            'gender': MonUtils.get_gender_sym(self.gender),
+            'gender': self.gender,
             'height': self.height,
             'weight': self.weight,
             'size': self.size
