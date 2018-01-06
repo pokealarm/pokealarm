@@ -127,7 +127,7 @@ class Manager(object):
         defaults = section.pop('defaults', {})
         filter_set = {}
         for name, settings in section.pop('filters', {}).iteritems():
-            settings = dict(settings.items() + defaults.items())
+            settings = dict(defaults.items() + settings.items())
             try:
                 filter_set[name] = filter_type(name, settings)
                 log.debug(
