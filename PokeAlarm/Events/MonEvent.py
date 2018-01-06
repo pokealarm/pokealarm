@@ -126,7 +126,7 @@ class MonEvent(BaseEvent):
             'geofence': self.geofence,
 
             # Encounter Stats
-            'pkmn_lvl': self.mon_lvl,
+            'mon_lvl': self.mon_lvl,
             'cp': self.cp,
             # IVs
             'iv_0': (
