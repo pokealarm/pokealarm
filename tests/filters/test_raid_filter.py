@@ -100,21 +100,22 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_gym_names(self):
         # Create the filters
-        settings = {"gym_name_matches": ["pass.\Z"]}
+        settings = {"gym_name_contains": ["pass"]}
         raid_filter = Filters.RaidFilter('filter1', settings)
 
         # Generate events that should pass
         pass1 = Events.RaidEvent(generate_raid({"name": "pass1"}))
-        pass2 = Events.RaidEvent(generate_raid({"name": "pass2"}))
-        pass3 = Events.RaidEvent(generate_raid({"name": "pass3"}))
+        pass2 = Events.RaidEvent(generate_raid({"name": "2pass"}))
+        pass3 = Events.RaidEvent(generate_raid({"name": "3pass3"}))
+
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(raid_filter.check_event(e))
 
         # Generate events that should fail
         fail1 = Events.RaidEvent(generate_raid({"name": "fail1"}))
-        fail2 = Events.RaidEvent(generate_raid({"name": "failpass"}))
-        fail3 = Events.RaidEvent(generate_raid({"name": "passfail"}))
+        fail2 = Events.RaidEvent(generate_raid({"name": "failpas"}))
+        fail3 = Events.RaidEvent(generate_raid({"name": "pasfail"}))
 
         # Test failing events
         for e in [fail1, fail2, fail3]:

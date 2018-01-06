@@ -74,8 +74,7 @@ class MonEvent(BaseEvent):
         self.charge_energy = get_move_energy(self.charge_move_id)
 
         # Cosmetic
-        self.gender = MonUtils.get_gender_sym(
-            check_for_none(int, data.get('gender'), Unknown.TINY))
+        self.gender = check_for_none(int, data.get('gender'), Unknown.TINY)
 
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
@@ -163,7 +162,7 @@ class MonEvent(BaseEvent):
             'charge_energy': self.charge_energy,
 
             # Cosmetic
-            'gender': self.gender,
+            'gender': MonUtils.get_gender_sym(self.gender),
             'height': self.height,
             'weight': self.weight,
             'size': self.size
