@@ -181,7 +181,18 @@
     "94": "Ossoclava", 
     "95": "Battiterra", 
     "96": "Pantanobomba", 
-    "99": "Segnoraggio"
+    "99": "Segnoraggio",
+    "281": "Introforza",
+    "282": "Riduttore",
+    "283": "Cascata",
+    "284": "Surf",
+    "285": "Dragobolide",
+    "286": "Obbliderio",
+    "287": "Sbadiglio",
+    "288": "Psicoslancio",
+    "289": "Primopulsar",
+    "290": "Spade Telluriche",
+    "291": "Regalino"
   }, 
   "pokemon": {
     "1": "Bulbasaur", 
