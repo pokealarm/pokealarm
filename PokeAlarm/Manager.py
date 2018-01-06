@@ -128,13 +128,17 @@ class Manager(object):
         filter_set = {}
         for name, settings in section.pop('filters', {}).iteritems():
             settings = dict(settings.items() + defaults.items())
-            filter_set[name] = filter_type(name, settings)
-            log.debug(
-                "Filter '%s' set as the following: %s", name,
-                filter_set[name].to_dict())
+            try: 
+                filter_set[name] = filter_type(name, settings)
+                log.debug(
+                    "Filter '%s' set as the following: %s", name,
+                    filter_set[name].to_dict())
+            except Exception as e:
+                log.error("Encountered error inside filter named '%s'.", name)
+                raise e  # Pass the error up
         for key in section:  # Reject leftover parameters
-            raise ValueError("'{}' is not a recognized parameter for the"
-                             " '{}' section.".format(key, sect_name))
+            raise ValueError("'{}' is not a recognized parameter for the "
+                             "'{}' section.".format(key, sect_name))
         return filter_set
 
     # Load in a new filters file
@@ -150,17 +154,17 @@ class Manager(object):
             log.error("Encountered error while loading Filters:"
                       " {}: {}".format(type(e).__name__, e))
             log.error(
-                "PokeAlarm has encountered a 'ValueError' while loading the"
-                " Filters file. This typically means your file isn't in the"
-                "correct json format. Try loading your file contents into a"
-                " json validator.")
+                "PokeAlarm has encountered a 'ValueError' while loading the "
+                "Filters file. This typically means the file isn't in the "
+                "correct json format. Try loading the file contents into a "
+                "json validator.")
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             sys.exit(1)
         except IOError as e:
             log.error("Encountered error while loading Filters: "
                       "{}: {}".format(type(e).__name__, e))
-            log.error("PokeAlarm was unable to find a filters file"
-                      " at {}. Please check that this file exists "
+            log.error("PokeAlarm was unable to find a filters file "
+                      "at {}. Please check that this file exists "
                       "and that PA has read permissions.".format(file_path))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             sys.exit(1)
