@@ -14,4 +14,4 @@ install:
 
 script:
   - flake8 --statistics --show-source
-  - python -m unittests discover
+  - python -m unittest discover
