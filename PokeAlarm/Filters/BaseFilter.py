@@ -1,9 +1,15 @@
 # Standard Library Imports
 import logging
 import json
+import sys
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
+
+# ToDo: Find a better way
+# Reinforce UTF-8 as default
+reload(sys)
+sys.setdefaultencoding('UTF8')
 
 log = logging.getLogger('Filter')
 
