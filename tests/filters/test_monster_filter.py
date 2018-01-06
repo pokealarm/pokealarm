@@ -1,6 +1,12 @@
 import unittest
+import sys
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
+
+# ToDo: Find a better way
+# Reinforce UTF-8 as default
+reload(sys)
+sys.setdefaultencoding('UTF8')
 
 
 class TestMonsterFilter(unittest.TestCase):
