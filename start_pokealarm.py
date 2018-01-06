@@ -215,13 +215,17 @@ def parse_settings(root_path):
                       + "/List_of_tz_database_time_zones")
             sys.exit(1)
 
+    # Pad manager_name to match manager_count
+    while len(args.manager_name) < args.manager_count:
+        m_ct = len(args.manager_name)
+        args.manager_name.append("Manager_{}".format(m_ct))
+
     # Build the managers
     for m_ct in range(args.manager_count):
         # TODO: Fix this mess better next time
         config['UNITS'] = get_from_list(args.units, m_ct, args.units[0])
         m = Manager(
-            name=get_from_list(
-                args.manager_name, m_ct, "Manager_{}".format(m_ct)),
+            name=args.manager_name[m_ct],
             google_key=get_from_list(
                 args.key, m_ct, args.key[0]),
             locale=get_from_list(args.locale, m_ct, args.locale[0]),
