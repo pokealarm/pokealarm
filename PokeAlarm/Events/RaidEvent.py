@@ -6,7 +6,7 @@ from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
-    get_move_energy, get_dist_as_str
+    get_move_energy, get_dist_as_str, get_pokemon_cp_range
 
 
 class RaidEvent(BaseEvent):
@@ -66,6 +66,7 @@ class RaidEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         raid_end_time = get_time_as_str(self.raid_end)
         dts = self.custom_dts.copy()
+        cp_range = get_pokemon_cp_range(self.mon_id, 20)
         dts.update({
             # Identification
             'gym_id': self.gym_id,
@@ -109,6 +110,9 @@ class RaidEvent(BaseEvent):
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
             'charge_energy': self.charge_energy,
+            # Potential CP
+            'min_cp': cp_range[0],
+            'max_cp': cp_range[1],
 
             # Gym Details
             'gym_name': self.gym_name,
