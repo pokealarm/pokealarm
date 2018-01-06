@@ -212,14 +212,19 @@ class TestMonsterFilter(unittest.TestCase):
         self.assertFalse(mon_filter.check_event(create_event({'height': 14})))
         self.assertTrue(mon_filter.check_event(create_event({'height': 'inf'})))
 
-    # On hold until things are fixed
-    # def test_distance(self):
-        # mon_event = Events.MonEvent(generate_monster({}))
-        # latitude: 37.7876146, longitude: -122.390624
-        # mon_event.distance = get_earth_dist([mon_event.lat, mon_event.lng], [mon_event.lat, mon_event.lng])
-        # settings = {'distance': '5'}
-        # mon_filter = Filters.MonFilter('distance_filter', settings)
-        # self.assertTrue(mon_filter.check_event(mon_event))
+    def test_distance(self):
+        mon_event = Events.MonEvent(generate_monster({}))
+        settings = {'min_dist': '5', 'max_dist': '2000'}
+        mon_filter = Filters.MonFilter('distance_filter', settings)
+        for i in [1000, 5, 2000]:
+            mon_event.distance = i
+            self.assertTrue(mon_filter.check_event(mon_event))
+
+        settings2 = {'min_dist': '5', 'max_dist': 500}
+        mon_filter2 = Filters.MonFilter('distance_filter_2', settings2)
+        for i in [4, 501, 9999]:
+            mon_event.distance = i
+            self.assertFalse(mon_filter2.check_event(mon_event))
 
     def test_custom_dts(self):
         settings = {'custom_dts': {'key1': 'value1', 'I\'m a goofy': 'goober yeah!'}}
@@ -227,17 +232,13 @@ class TestMonsterFilter(unittest.TestCase):
         self.assertTrue(mon_filter.check_event(create_event({})))
 
     def test_missing_info(self):
-        settings = {'is_missing_info': False, 'min_atk': 5}
+        settings = {'is_missing_info': False, 'min_atk': 5, 'min_def': 5, 'max_sta': 14}
         mon_filter = Filters.MonFilter('missing_info_filter', settings)
         self.assertTrue(mon_filter.check_event(create_event({
             'individual_attack': 15,
             'individual_defense': 15,
-            'individual_stamina': 15,
-            "cp": 280,
-            "verified": "True",
-            "move_1": 1,
-            "move_2": 2,
-            "gender": 1
+            'individual_stamina': 14,
+            "cp": 280
         })))
         self.assertFalse(mon_filter.check_event(create_event({})))
 
