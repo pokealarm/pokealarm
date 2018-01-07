@@ -110,6 +110,7 @@ def set_init(webhook_type):
             "message": {
                 "gym_id": 0,
                 "gym_name": "unknown",
+                "team": 0,
                 "level": 5,
                 "latitude": 37.7876146,
                 "longitude": -122.390624
@@ -122,6 +123,7 @@ def set_init(webhook_type):
                 "gym_id": 0,
                 "gym_name": "unknown",
                 "pokemon_id": 150,
+                "team": 0,
                 "cp": 12345,
                 "move_1": 123,
                 "move_2": 123,
