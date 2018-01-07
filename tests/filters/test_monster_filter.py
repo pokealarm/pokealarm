@@ -285,7 +285,7 @@ class TestMonsterFilter(unittest.TestCase):
 
     def test_cp(self):
         settings = {'min_cp': 20, 'max_cp': 500}
-        mon_filter = Filters.MonFilter('height_filter', settings)
+        mon_filter = Filters.MonFilter('cp_filter', settings)
         for i in [20, 250, 500]:
             self.assertTrue(mon_filter.check_event(create_event({'cp': i})))
 

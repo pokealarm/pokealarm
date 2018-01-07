@@ -205,6 +205,16 @@ class TestRaidFilter(unittest.TestCase):
         for e in [pass1]:
             self.assertTrue(raid_filter.check_event(e))
 
+    def test_cp(self):
+        settings = {'min_cp': 5000, 'max_cp': 9000}
+        raid_filter = Filters.RaidFilter('cp_filter', settings)
+        for i in [5000, 8000, 9000]:
+            event = Events.RaidEvent(generate_raid({'cp': i}))
+            self.assertTrue(raid_filter.check_event(event))
+        for i in [4999, 9001, 999999]:
+            event = Events.RaidEvent(generate_raid({'cp': i}))
+            self.assertFalse(raid_filter.check_event(event))
+
 
 # Create a generic raid, overriding with an specific values
 def generate_raid(values):
