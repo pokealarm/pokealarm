@@ -35,6 +35,13 @@ class MonFilter(BaseFilter):
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= m.mon_lvl
             event_attribute='mon_lvl', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_lvl', data))
+        # Level
+        self.min_cp = self.evaluate_attribute(  # f.min_cp <= m.cp
+            event_attribute='cp', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_cp', data))
+        self.max_cp = self.evaluate_attribute(  # f.max_lvl >= m.mon_lvl
+            event_attribute='cp', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_cp', data))
         # Attack IV
         self.min_atk = self.evaluate_attribute(  # f.min_atk <= m.atk_iv
             event_attribute='atk_iv', eval_func=operator.le,
