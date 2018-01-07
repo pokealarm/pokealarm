@@ -33,6 +33,7 @@ class RaidEvent(BaseEvent):
         # Monster Info
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
+        self.cp = int(data['cp'])
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
         self.quick_damage = get_move_damage(self.quick_id)
@@ -110,7 +111,8 @@ class RaidEvent(BaseEvent):
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
             'charge_energy': self.charge_energy,
-            # Potential CP
+            # CP info
+            'cp': self.cp,
             'min_cp': cp_range[0],
             'max_cp': cp_range[1],
 
