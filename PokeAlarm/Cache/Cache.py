@@ -11,18 +11,18 @@ log = logging.getLogger('Cache')
 class Cache(object):
     """ Basic object for caching information.
 
-    This object caches and manages information in Memory. Information will be lost between run times if save has not
-    been implemented correctly.
+    This object caches and manages information in Memory. Information will
+    be lost between run times if save has not been implemented correctly.
     """
 
     _default_gym_info = {
         "name": "unknown",
         "description": "unknown",
-        "url":  get_image_url('icons/gym_0.png')
+        "url": get_image_url('icons/gym_0.png')
     }
 
     def __init__(self):
-        """ Initialize a new cache object, retrieving and previously saved results if possible. """
+        """ Initializes a new cache object for storing data between events. """
         self._pokemon_hist = {}
         self._pokestop_hist = {}
         self._gym_team = {}
@@ -61,7 +61,8 @@ class Cache(object):
     def update_gym_info(self, gym_id, name, desc, url):
         """ Updates the information about the gym. """
         if name != 'unknown':  # Don't update if the gym info is missing
-            self._gym_info[gym_id] = {"name": name, "description": desc, "url": url}
+            self._gym_info[gym_id] = {
+                "name": name, "description": desc, "url": url}
 
     def get_egg_expiration(self, gym_id):
         """ Returns the datetime that the egg expires. """
@@ -90,7 +91,9 @@ class Cache(object):
 
     def _clean_hist(self):
         """ Clean expired objects to free up memory. """
-        for hist in (self._pokemon_hist, self._pokestop_hist, self._egg_hist, self._raid_hist):
+        for hist in (
+                self._pokemon_hist, self._pokestop_hist, self._egg_hist,
+                self._raid_hist):
             old = []
             now = datetime.utcnow()
             for key, expiration in hist.iteritems():

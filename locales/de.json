@@ -181,7 +181,18 @@
     "94": "Knochenkeule", 
     "95": "Dampfwalze", 
     "96": "Schlammbombe", 
-    "99": "Ampelleuchte"
+    "99": "Ampelleuchte",
+    "281": "Kraftreserve",
+    "282": "Bodycheck",
+    "283": "Kaskade",
+    "284": "Surfer",
+    "285": "Draco Meteor",
+    "286": "Kismetwunsch",
+    "287": "G\u0344hner",
+    "288": "Psyschub",
+    "289": "Ursprungswoge",
+    "290": "Abgrundsklinge",
+    "291": "Geschenk"
   }, 
   "pokemon": {
     "1": "Bisasam", 
