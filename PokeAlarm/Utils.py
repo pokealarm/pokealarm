@@ -290,31 +290,18 @@ def get_base_types(pokemon_id):
 
 
 # Return a boolean for whether the raid boss will have it's catch CP boosted
-def is_raid_boss_weather_boosted(pokemon_id, weather_id):
-    types = get_base_types(pokemon_id)
-
-    type1 = types['type1']
-    type2 = types['type2']
-
+def is_raid_boss_weather_boosted(pokemon_id, weather_id):   
     if not hasattr(is_raid_boss_weather_boosted, 'info'):
         is_raid_boss_weather_boosted.info = {}
         file_ = get_path('data/weather_boosts.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
-        for type_ in j:
-            is_raid_boss_weather_boosted.info[type_] = j[type_]
+        for w_id in j:
+            is_raid_boss_weather_boosted.info[w_id] = j[w_id]          
 
-    type1_weather = is_raid_boss_weather_boosted.info["{}".format(type1)]
-
-    if type1_weather == weather_id:
-        return True
-
-    if type2 is not None:
-        type2_weather = is_raid_boss_weather_boosted.info["{}".format(type2)]
-        if type2_weather == weather_id:
-            return True
-        else:
-            return False
+    boosted_types = is_raid_boss_weather_boosted.info[weather_id]
+    types = get_base_types(pokemon_id)
+    return types['type1'] in boosted_types or types['type2'] in boosted_types
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
