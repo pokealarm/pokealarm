@@ -46,7 +46,7 @@ class Locale(object):
         leaders = info.get("leaders", {})
         for id_, val in default["leaders"].iteritems():
             self.__leader_names[int(id_)] = leaders.get(id_, val)
-            
+
         # Weather ID -> Name
         self.__weather_names = {}
         weather = info.get("weather", {})

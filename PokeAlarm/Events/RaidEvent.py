@@ -30,7 +30,8 @@ class RaidEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.weather_id = check_for_none(int, data.get('weather'), Unknown.REGULAR)
+        self.weather_id = check_for_none(
+            int, data.get('weather'), Unknown.REGULAR)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
