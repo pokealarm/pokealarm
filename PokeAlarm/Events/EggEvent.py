@@ -30,7 +30,7 @@ class EggEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.station = data['station']
+        self.station = ''
 
         # Egg Info
         self.egg_lvl = check_for_none(int, data.get('level'), 0)

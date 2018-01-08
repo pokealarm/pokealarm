@@ -38,7 +38,7 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.station = data['station']
+        self.station = ''
         self.weather_id = data['weather']
 
         # Encounter Stats
@@ -102,7 +102,7 @@ class MonEvent(BaseEvent):
             form = " - " + form 
         cpiv = ''
         if self.cp != Unknown.TINY:
-            cpiv = "IV: " + "{:.0f}".format(iv) + "% CP: " + str(cp) + " Level: " + str(level) + "\n" + quick_move + " / " + charge_move + "\nAtt: " + str(atk) + " Def: " + str(def_) + " Sta: " + str(sta) + "\n"
+            cpiv = "IV: " + "{:.0f}".format(self.iv) + "% CP: " + str(self.cp) + " Level: " + str(self.mon_lvl) + "\n" + locale.get_move_name(self.quick_move_id) + " / " + locale.get_move_name(self.charge_move_id) + "\nAtt: " + str(self.atk_iv) + " Def: " + str(self.def_iv) + " Sta: " + str(self.sta_iv) + "\n"
         dts = self.custom_dts.copy()
         dts.update({
             # Identification

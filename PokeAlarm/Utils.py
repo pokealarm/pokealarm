@@ -434,7 +434,7 @@ def get_time_as_str(t, timezone=None):
 
 
 # Return the default url for images and stuff
-def get_image_url(image):
+def get_image_url(suffix):
     return not_so_secret_url + suffix
     
 def get_station(lat, lng):

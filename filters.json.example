@@ -24,34 +24,10 @@
         }
     },
     "stops":{
-        "enabled": false,
-        "defaults": {
-        },
-        "filters": {
-            "filter-name" : {
-                "min_dist": 0, "max_dist": "inf",
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "geofences": [ "Central Park" ],
-                "is_missing_info": false
-            }
-        }
+        "enabled": false
     },
     "gyms":{
-        "enabled": false,
-        "ignore_neutral": false,
-        "defaults": {
-        },
-        "filters": {
-            "filter-name" : {
-                "min_dist": 0, "max_dist": "inf",
-                "old_teams": [ "Valor", "Instinct", "Mystic" ],
-                "new_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_contains": [ ".*" ],
-                "geofences": [ "Central Park" ],
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "is_missing_info": false
-            }
-        }
+        "enabled": false
     },
     "eggs":{
         "enabled": false,

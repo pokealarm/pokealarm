@@ -29,7 +29,7 @@ class RaidEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.station = data['station']
+        self.station = ''
         self.weather_id = data['weather']
 
         # Monster Info

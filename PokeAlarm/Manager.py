@@ -468,7 +468,6 @@ class Manager(object):
         self.__cache.update_pokemon_expiration(
             mon.enc_id, mon.disappear_time)
         
-        mon.station = ''
         if self.__stations:
             mon.station = get_station(mon.lat, mon.lng) 
             
@@ -677,7 +676,6 @@ class Manager(object):
             egg.distance = get_earth_dist(
                 [egg.lat, egg.lng], self.__location)
                 
-        egg.station = ''
         if self.__stations:
             egg.station = get_station(egg.lat, egg.lng) 
 
@@ -751,7 +749,6 @@ class Manager(object):
             raid.distance = get_earth_dist(
                 [raid.lat, raid.lng], self.__location)
                 
-        raid.station = ''
         if self.__stations:
             raid.station = get_station(raid.lat, raid.lng) 
 
@@ -788,19 +785,30 @@ class Manager(object):
     # Check to see if a notification is within the given range
     def check_geofences(self, f, e):
         """ Returns true if the event passes the filter's geofences. """
-        if self.geofences is None or f.geofences is None:  # No geofences set
+        if self.geofences is None:
             return True
-        for name in f.geofences:
-            gf = self.geofences.get(name)
-            if not gf:  # gf doesn't exist
-                log.error("Cannot check geofence %s: does not exist!", name)
-            elif gf.contains(e.lat, e.lng):  # e in gf
-                log.debug("{} is in geofence {}!".format(name, gf.get_name()))
-                e.geofence = name  # Set the geofence for dts
-                return True
-            else:  # e not in gf
-                log.debug("%s not in %s.", e.name, name)
+            
+        if f.geofences is None:  # No filter geofences set so just check whole geofence file
+            for geofenceName in self.geofences:
+                gf = self.geofences.get(geofenceName)
+                if gf.contains(e.lat, e.lng):
+                    log.debug("{} is in geofence {}!".format(e.name, geofenceName))
+                    e.geofence = geofenceName
+                    return True
+                else:
+                    log.debug("{} is not in geofence {}".format(e.name, geofenceName))
+        else:        
+            for filterName in f.geofences:
+                gf = self.geofences.get(filterName)
+                if not gf:  # gf doesn't exist
+                    log.error("Cannot check geofence %s: does not exist!", filterName)
+                elif gf.contains(e.lat, e.lng):  # e in gf
+                    log.debug("{} is in geofence {}!".format(e.name, gf.get_name()))
+                    e.geofence = filterName  # Set the geofence for dts
+                    return True
+                else:  # e not in gf
+                    log.debug("%s not in %s.", e.name, filterName)
         f.reject(e, "not in geofences")
-        return False
+        return False      
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
