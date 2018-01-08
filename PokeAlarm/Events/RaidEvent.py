@@ -6,7 +6,8 @@ from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
-    get_move_energy, get_dist_as_str, get_pokemon_cp_range
+    get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
+    is_raid_boss_weather_boosted
 
 
 class RaidEvent(BaseEvent):
@@ -29,6 +30,7 @@ class RaidEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.weather_id = check_for_none(int, data.get('weather'), Unknown.REGULAR)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
@@ -67,7 +69,14 @@ class RaidEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         raid_end_time = get_time_as_str(self.raid_end)
         dts = self.custom_dts.copy()
-        cp_range = get_pokemon_cp_range(self.mon_id, 20)
+
+        boss_level = 20
+        boosted_weather = 0
+        if is_raid_boss_weather_boosted(self.mon_id, self.weather_id):
+            boss_level = 25
+            boosted_weather = self.weather_id
+        cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
+
         dts.update({
             # Identification
             'gym_id': self.gym_id,
@@ -89,6 +98,7 @@ class RaidEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'weather': locale.get_weather_name(boosted_weather),
 
             # Raid Info
             'raid_lvl': self.raid_lvl,
