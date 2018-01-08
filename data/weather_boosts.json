@@ -1,20 +1,9 @@
 {
-  "fire": 1,
-  "grass": 1,
-  "ground": 1,
-  "normal": 3,
-  "rock": 3,
-  "fairy": 4,
-  "fighting": 4,
-  "poison": 4,
-  "water": 2,
-  "electric": 2,
-  "bug": 2,
-  "ice": 6,
-  "steel": 6,
-  "dark": 7,
-  "ghost": 7,
-  "dragon": 5,
-  "flying": 5,
-  "psychic": 5
+  "1": ["fire", "grass", "ground"],
+  "2": ["water", "electric", "bug"],
+  "3": ["normal", "rock"],
+  "4": ["fighting", "fairy", "poison"],
+  "5": ["dragon", "flying", "psychic"],
+  "6": ["ice", "steel"],
+  "7": ["dark", "ghost"]
 }

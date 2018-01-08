@@ -288,6 +288,7 @@ def get_base_types(pokemon_id):
                 }
     return get_base_types.info.get(pokemon_id)
 
+
 # Return a boolean for whether the raid boss will have it's catch CP boosted
 def is_raid_boss_weather_boosted(pokemon_id, weather_id):
     types = get_base_types(pokemon_id)
