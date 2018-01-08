@@ -1,0 +1,20 @@
+{
+  "fire": 1,
+  "grass": 1,
+  "ground": 1,
+  "normal": 3,
+  "rock": 3,
+  "fairy": 4,
+  "fighting": 4,
+  "poison": 4,
+  "water": 2,
+  "electric": 2,
+  "bug": 2,
+  "ice": 6,
+  "steel": 6,
+  "dark": 7,
+  "ghost": 7,
+  "dragon": 5,
+  "flying": 5,
+  "psychic": 5
+}

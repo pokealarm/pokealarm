@@ -38,6 +38,7 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.weather_id = check_for_none(int, data.get('weather'), Unknown.REGULAR)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -124,6 +125,7 @@ class MonEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'weather': locale.get_weather_name(self.weather_id),
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
