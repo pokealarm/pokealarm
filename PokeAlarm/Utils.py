@@ -297,7 +297,7 @@ def is_raid_boss_weather_boosted(pokemon_id, weather_id):
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for w_id in j:
-            is_raid_boss_weather_boosted.info[w_id] = j[w_id]          
+            is_raid_boss_weather_boosted.info[w_id] = j[w_id]         
 
     boosted_types = is_raid_boss_weather_boosted.info[weather_id]
     types = get_base_types(pokemon_id)
