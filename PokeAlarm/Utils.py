@@ -290,7 +290,7 @@ def get_base_types(pokemon_id):
 
 
 # Return a boolean for whether the raid boss will have it's catch CP boosted
-def is_raid_boss_weather_boosted(pokemon_id, weather_id):   
+def is_raid_boss_weather_boosted(pokemon_id, weather_id):
     if not hasattr(is_raid_boss_weather_boosted, 'info'):
         is_raid_boss_weather_boosted.info = {}
         file_ = get_path('data/weather_boosts.json')
