@@ -73,7 +73,7 @@ class MonEvent(BaseEvent):
         self.charge_duration = get_move_duration(self.quick_move_id)
         self.charge_energy = get_move_energy(self.charge_move_id)
 
-        self.weather_id = check_for_none(int, data.get('weather'), '?')
+        self.weather_id = check_for_none(int, data.get('weather'), 0)
 
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
@@ -128,7 +128,7 @@ class MonEvent(BaseEvent):
             'geofence': self.geofence,
 
             #weather
-            'weather': self.weather_id,
+            'weather': locale.get_weather_name(self.weather_id),
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
