@@ -67,9 +67,10 @@ def accept_webhook():
 # Thread used to distribute the data into various processes
 def manage_webhook_data(queue):
     while True:
-        if queue.qsize() > 300:
-            log.warning("Queue length is at {}... this may be causing a delay"
-                        + " in notifications.".format(queue.qsize()))
+        qsize = queue.qsize()
+        if qsize > 5000:
+            log.warning("Queue length is at %s... this may be causing "
+                        + "a significant delay in notifications.", qsize)
         data = queue.get(block=True)
         obj = Events.event_factory(data)
         if obj is not None:
