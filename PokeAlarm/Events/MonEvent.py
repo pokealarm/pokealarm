@@ -166,6 +166,14 @@ class MonEvent(BaseEvent):
             'gender': self.gender,
             'height': self.height,
             'weight': self.weight,
-            'size': self.size
+            'size': self.size,
+
+            # Misc
+            'big_karp': (
+                'big' if self.monster_id == 129 and Unknown.is_not(self.weight)
+                and self.weight >= 13.13 else ''),
+            'tiny_rat': (
+                'tiny' if self.monster_id == 19 and Unknown.is_not(self.weight)
+                and self.weight <= 2.41 else '')
         })
         return dts
