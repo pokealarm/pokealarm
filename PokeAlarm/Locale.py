@@ -35,6 +35,12 @@ class Locale(object):
         for id_, val in default["moves"].iteritems():
             self.__move_names[int(id_)] = moves.get(id_, val)
 
+        # Weather ID -> Name
+        self.__weather_names = {}
+        weather = info.get("weather", {})
+        for id_, val in default["weather"].iteritems():
+            self.__weather_names[int(id_)] = weather.get(id_, val)
+
         # Team ID -> Name
         self.__team_names = {}
         teams = info.get("teams", {})
@@ -77,3 +83,7 @@ class Locale(object):
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
         return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+
+    # Return the name of the weather with Weather ID
+    def get_weather_name(self, weather_id):
+        return self.__weather_names.get(weather_id, 'None')

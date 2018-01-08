@@ -73,6 +73,8 @@ class MonEvent(BaseEvent):
         self.charge_duration = get_move_duration(self.quick_move_id)
         self.charge_energy = get_move_energy(self.charge_move_id)
 
+        self.weather_id = check_for_none(int, data.get('weather'), '?')
+
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
@@ -124,6 +126,9 @@ class MonEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+
+            #weather
+            'weather': self.weather_id,
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
