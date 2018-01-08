@@ -666,7 +666,6 @@ class Manager(object):
 
         # Assigned cached info
         info = self.__cache.get_gym_info(egg.gym_id)
-        egg.current_team_id = self.__cache.get_gym_team(egg.gym_id)
         egg.gym_name = info['name']
         egg.gym_description = info['description']
         egg.gym_image = info['url']
@@ -739,7 +738,6 @@ class Manager(object):
 
         # Assigned cached info
         info = self.__cache.get_gym_info(raid.gym_id)
-        raid.current_team_id = self.__cache.get_gym_team(raid.gym_id)
         raid.gym_name = info['name']
         raid.gym_description = info['description']
         raid.gym_image = info['url']
