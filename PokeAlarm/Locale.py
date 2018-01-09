@@ -87,3 +87,4 @@ class Locale(object):
     # Return the name of the weather with Weather ID
     def get_weather_name(self, weather_id):
         return self.__weather_names.get(weather_id, 'None')
+    
