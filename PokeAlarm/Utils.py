@@ -299,7 +299,7 @@ def is_raid_boss_weather_boosted(pokemon_id, weather_id):
         for w_id in j:
             is_raid_boss_weather_boosted.info[w_id] = j[w_id]
 
-    boosted_types = is_raid_boss_weather_boosted.info[weather_id]
+    boosted_types = is_raid_boss_weather_boosted.info[str(weather_id)]
     types = get_base_types(pokemon_id)
     return types['type1'] in boosted_types or types['type2'] in boosted_types
 
