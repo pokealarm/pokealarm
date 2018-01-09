@@ -775,12 +775,16 @@ class Manager(object):
         """ Returns true if the event passes the filter's geofences. """
         if self.geofences is None or f.geofences is None:  # No geofences set
             return True
-        for name in f.geofences:
+        targets = f.geofences
+        if len(targets) == 1 and "all" in targets:
+            targets = self.geofences.iterkeys()
+        for name in targets:
             gf = self.geofences.get(name)
             if not gf:  # gf doesn't exist
                 log.error("Cannot check geofence %s: does not exist!", name)
             elif gf.contains(e.lat, e.lng):  # e in gf
-                log.debug("{} is in geofence {}!".format(name, gf.get_name()))
+                log.debug("{} is in geofence {}!".format(
+                    e.name, gf.get_name()))
                 e.geofence = name  # Set the geofence for dts
                 return True
             else:  # e not in gf
