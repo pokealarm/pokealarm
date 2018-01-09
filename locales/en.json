@@ -42,10 +42,10 @@
     "1": "Clear",
     "2": "Rain",
     "3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+    "4": "Cloudy",
+    "5": "Windy",
+    "6": "Snow",
+    "7": "Fog"
   },
   "leaders": {
     "0": "Professor Willow",

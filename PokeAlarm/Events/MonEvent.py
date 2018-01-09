@@ -130,7 +130,6 @@ class MonEvent(BaseEvent):
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
             'cp': self.cp,
-            'cpiv': cpiv,
             # IVs
             'iv_0': (
                 "{:.0f}".format(self.iv) if Unknown.is_not(self.iv)

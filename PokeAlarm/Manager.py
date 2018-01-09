@@ -22,7 +22,7 @@ from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg, get_station)
+                   parse_boolean, contains_arg)
 from . import config
 
 log = logging.getLogger('Manager')
@@ -30,8 +30,8 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, quiet, cache_type,
-                 filter_file, geofence_file, alarm_file, debug):
+                 max_attempts, location, quiet, cache_type, filter_file, 
+                 geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
         log.info("----------- Manager '{}' ".format(self.__name)
@@ -701,7 +701,6 @@ class Manager(object):
             thread.join()
 
     def process_raid(self, raid):
-
         # type: (Events.RaidEvent) -> None
         """ Process a raid event and notify alarms if it passes. """
 
@@ -772,9 +771,8 @@ class Manager(object):
     # Check to see if a notification is within the given range
     def check_geofences(self, f, e):
         """ Returns true if the event passes the filter's geofences. """
-        if self.geofences is None:
+        if self.geofences is None or f.geofences is None:  # No geofences set:
             return True
-
         targets = f.geofences
         if len(targets) == 1 and "all" in targets:
             targets = self.geofences.iterkeys()
@@ -789,7 +787,6 @@ class Manager(object):
                 return True
             else:  # e not in gf
                 log.debug("%s not in %s.", e.name, name)
-
         f.reject(e, "not in geofences")
         return False
 

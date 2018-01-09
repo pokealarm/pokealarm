@@ -8,7 +8,6 @@ import os
 import sys
 # 3rd Party Imports
 # Local Imports
-from LSP import gSt
 from PokeAlarm import not_so_secret_url
 from PokeAlarm import config
 

@@ -191,12 +191,10 @@ def parse_settings(root_path):
     # Check to make sure that the same number of arguments are included
     for arg in [args.key, args.filters, args.alarms, args.geofences,
                 args.location, args.locale, args.units, args.cache_type,
-                args.timelimit, args.max_attempts,
-                args.timezone]:
+                args.timelimit, args.max_attempts, args.timezone]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
-
         if size != 1 and size != args.manager_count:
             log.critical("Number of arguments must be either 1 for all "
                          + "managers or equal to Manager Count. Please "
