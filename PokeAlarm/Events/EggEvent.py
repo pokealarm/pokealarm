@@ -81,7 +81,7 @@ class EggEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
             'station': self.station,
-            
+
             # Egg info
             'egg_lvl': self.egg_lvl,
 

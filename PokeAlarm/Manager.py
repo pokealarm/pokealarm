@@ -30,8 +30,8 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, stations, location, quiet, cache_type, filter_file,
-                 geofence_file, alarm_file, debug):
+                 max_attempts, stations, location, quiet, cache_type,
+                 filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
         log.info("----------- Manager '{}' ".format(self.__name)
@@ -467,18 +467,18 @@ class Manager(object):
             return
         self.__cache.update_pokemon_expiration(
             mon.enc_id, mon.disappear_time)
-        
+
         if self.__stations:
-            mon.station = get_station(mon.lat, mon.lng) 
-            
+            mon.station = get_station(mon.lat, mon.lng)
+
         # Check the time remaining
         seconds_left = (mon.disappear_time
                         - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             log.debug("{} monster was skipped because only {} seconds remained"
                       "".format(mon.name, seconds_left))
-            return         
- 
+            return
+
         # Calculate distance
         if self.__location is not None:
             mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
@@ -674,9 +674,9 @@ class Manager(object):
         if self.__location is not None:
             egg.distance = get_earth_dist(
                 [egg.lat, egg.lng], self.__location)
-                
+
         if self.__stations:
-            egg.station = get_station(egg.lat, egg.lng) 
+            egg.station = get_station(egg.lat, egg.lng)
 
         # Check the Filters
         passed = True
@@ -728,7 +728,7 @@ class Manager(object):
                       "processed.".format(raid.name))
             return
         self.__cache.update_raid_expiration(raid.gym_id, raid.raid_end)
-        
+
         # Check the time remaining
         seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
@@ -746,9 +746,9 @@ class Manager(object):
         if self.__location is not None:
             raid.distance = get_earth_dist(
                 [raid.lat, raid.lng], self.__location)
-                
+
         if self.__stations:
-            raid.station = get_station(raid.lat, raid.lng) 
+            raid.station = get_station(raid.lat, raid.lng)
 
         # Check the Filters
         passed = True
@@ -769,7 +769,7 @@ class Manager(object):
 
         if self.__quiet is False:
             log.info(
-                "{} raid notification has been triggered!".format(raid.gym_name))
+                "{} raid notification triggered!".format(raid.gym_name))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -802,6 +802,6 @@ class Manager(object):
                 log.debug("%s not in %s.", e.name, name)
 
         f.reject(e, "not in geofences")
-        return False      
+        return False
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

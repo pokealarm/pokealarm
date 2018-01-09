@@ -127,6 +127,7 @@ def get_team_id(team_name):
                     get_team_id.ids[nm] = int(id_)
     return get_team_id.ids.get(name)
 
+
 # Returns the damage of a move when requesting
 def get_move_damage(move_id):
     if not hasattr(get_move_damage, 'info'):
@@ -214,46 +215,37 @@ def get_base_stats(pokemon_id):
             }
 
     return get_base_stats.info.get(pokemon_id)
-    
-# Returns the base type1 for a pokemon
+
+
+# Returns the types for a pokemon
 def get_base_types(pokemon_id):
     if not hasattr(get_base_types, 'info'):
         get_base_types.info = {}
         file_ = get_path('data/base_stats.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
-        for id_ in j:
-            get_base_types.info[int(id_)] = {
-                "type1": j[id_].get('type1'),
-                "type2": j[id_].get('type2')
-            }
+            for id_ in j:
+                get_base_types.info[int(id_)] = {
+                    "type1": j[id_].get('type1'),
+                    "type2": j[id_].get('type2')
+                }
     return get_base_types.info.get(pokemon_id)
-    
+
+
+# Return a boolean for whether the raid boss will have it's catch CP boosted
 def is_raid_boss_weather_boosted(pokemon_id, weather_id):
-    types = get_base_types(pokemon_id)
-    
-    type1 = types['type1']
-    type2 = types['type2']
-    
     if not hasattr(is_raid_boss_weather_boosted, 'info'):
         is_raid_boss_weather_boosted.info = {}
         file_ = get_path('data/weather_boosts.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
-        for type_ in j:
-            is_raid_boss_weather_boosted.info[type_] = j[type_]
-            
-    type1_weather = is_raid_boss_weather_boosted.info["{}".format(type1)]
-    
-    if type1_weather == weather_id:
-        return True
-        
-    if type2 != None:
-        type2_weather = is_raid_boss_weather_boosted.info["{}".format(type2)]
-        if type2_weather == weather_id:
-            return True
-        else:
-            return False     
+        for w_id in j:
+            is_raid_boss_weather_boosted.info[w_id] = j[w_id]
+
+    boosted_types = is_raid_boss_weather_boosted.info[str(weather_id)]
+    types = get_base_types(pokemon_id)
+    return types['type1'] in boosted_types or types['type2'] in boosted_types
+
 
 # Returns a cp range for a certain level of a pokemon caught in a raid
 def get_pokemon_cp_range(pokemon_id, level):
@@ -436,9 +428,10 @@ def get_time_as_str(t, timezone=None):
 # Return the default url for images and stuff
 def get_image_url(suffix):
     return not_so_secret_url + suffix
-    
+
+
 def get_station(lat, lng):
-    
+
     station = ''
     point = []
     point.append(lat)

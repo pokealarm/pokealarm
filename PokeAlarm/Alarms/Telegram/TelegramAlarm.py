@@ -112,7 +112,7 @@ class TelegramAlarm(Alarm):
             'stickers': parse_boolean(settings.pop(
                 'stickers', self.__stickers))
         }
-        
+
         reject_leftover_parameters(settings, "'Alert level in Telegram alarm.")
         return alert
 
@@ -135,53 +135,59 @@ class TelegramAlarm(Alarm):
     def pokemon_alert(self, pokemon_info):
         if self.__pokemon['active']:
             if self.__pokemon['stickers']:
-                self.send_alert(self.__pokemon, pokemon_info, sticker_list.get(str(pokemon_info['pkmn_id'])))
+                self.send_alert(
+                    self.__pokemon, pokemon_info, sticker_list.get(
+                        str(pokemon_info['pkmn_id'])))
             else:
                 self.send_alert(self.__pokemon, pokemon_info)
-        else: 
+        else:
             log.info("Notification not sent as disabled for Pokemon")
 
     # Trigger an alert based on Pokestop info
     def pokestop_alert(self, pokestop_info):
         if self.__pokestop['active']:
             if self.__pokestop['stickers']:
-                self.send_alert(self.__pokestop, pokestop_info, sticker_list.get('pokestop'))
+                self.send_alert(
+                    self.__pokestop, pokestop_info, sticker_list.get(
+                        'pokestop'))
             else:
                 self.send_alert(self.__pokestop, pokestop_info)
-        else: 
+        else:
             log.info("Notification not sent as disabled for Pokestops")
 
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
         if self.__gym['active']:
             if self.__gym['stickers']:
-                self.send_alert(self.__gym, gym_info, sticker_list.get("team{}".format(gym_info['new_team_id'])))
+                self.send_alert(self.__gym, gym_info, sticker_list.get(
+                    "team{}".format(gym_info['new_team_id'])))
             else:
                 self.send_alert(self.__gym, gym_info)
-        else: 
+        else:
             log.info("Notification not sent as disabled for Gyms")
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
-        
+
         if self.__egg['active']:
             if self.__raid['stickers'] and raid_info['egg_lvl'] > 0:
-            self.send_alert(self.__egg, raid_info, sticker_list.get(
-                'raid_level_{}'.format(raid_info['raid_lvl'])))
+                self.send_alert(self.__egg, raid_info, sticker_list.get(
+                    'raid_level_{}'.format(raid_info['raid_lvl'])))
+            else:
+                self.send_alert(self.__egg, raid_info)
         else:
-            self.send_alert(self.__egg, raid_info)
-        else: 
             log.info("Notification not sent as disabled for Raid Eggs")
 
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
-    
+
         if self.__raid['active']:
             if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
-                self.send_alert(self.__raid, raid_info, sticker_list.get(str(raid_info['pkmn_id'])))
+                self.send_alert(self.__raid, raid_info, sticker_list.get(
+                    str(raid_info['pkmn_id'])))
             else:
                 self.send_alert(self.__raid, raid_info)
-        else: 
+        else:
             log.info("Notification not sent as disabled for Raids")
 
     # Send a message to telegram

@@ -98,11 +98,18 @@ class MonEvent(BaseEvent):
         form = locale.get_form_name(self.monster_id, self.form_id)
         if form == 'unknown':
             form = ''
-        else: 
-            form = " - " + form 
+        else:
+            form = " - " + form
         cpiv = ''
         if self.cp != Unknown.TINY:
-            cpiv = "IV: " + "{:.0f}".format(self.iv) + "% CP: " + str(self.cp) + " Level: " + str(self.mon_lvl) + "\n" + locale.get_move_name(self.quick_move_id) + " / " + locale.get_move_name(self.charge_move_id) + "\nAtt: " + str(self.atk_iv) + " Def: " + str(self.def_iv) + " Sta: " + str(self.sta_iv) + "\n"
+            cpiv = "IV: " + "{:.0f}".format(self.iv)  \
+                + "% CP: " + str(self.cp) \
+                + " Level: " + str(self.mon_lvl) + "\n" \
+                + locale.get_move_name(self.quick_move_id) + " / " \
+                + locale.get_move_name(self.charge_move_id) \
+                + "\nAtt: " + str(self.atk_iv) \
+                + " Def: " + str(self.def_iv) \
+                + " Sta: " + str(self.sta_iv) + "\n"
         dts = self.custom_dts.copy()
         dts.update({
             # Identification

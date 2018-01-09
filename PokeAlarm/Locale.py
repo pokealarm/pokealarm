@@ -40,7 +40,7 @@ class Locale(object):
         teams = info.get("teams", {})
         for id_, val in default["teams"].iteritems():
             self.__team_names[int(id_)] = teams.get(id_, val)
-            
+
         # Weather ID -> Name
         self.__weather_names = {}
         weather = info.get("weather", {})
@@ -75,7 +75,7 @@ class Locale(object):
     # Returns the name of the team associated with the Team ID
     def get_team_name(self, team_id):
         return self.__team_names.get(team_id, 'unknown')
-        
+
     # Returns the name of the team associated with the Team ID
     def get_weather_name(self, weather_id):
         return self.__weather_names.get(weather_id, 'None')
