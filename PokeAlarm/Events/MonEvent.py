@@ -38,7 +38,6 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.station = ''
         self.weather_id = data['weather']
 
         # Encounter Stats
@@ -95,21 +94,7 @@ class MonEvent(BaseEvent):
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.disappear_time)
-        form = locale.get_form_name(self.monster_id, self.form_id)
-        if form == 'unknown':
-            form = ''
-        else:
-            form = " - " + form
-        cpiv = ''
-        if self.cp != Unknown.TINY:
-            cpiv = "IV: " + "{:.0f}".format(self.iv)  \
-                + "% CP: " + str(self.cp) \
-                + " Level: " + str(self.mon_lvl) + "\n" \
-                + locale.get_move_name(self.quick_move_id) + " / " \
-                + locale.get_move_name(self.charge_move_id) \
-                + "\nAtt: " + str(self.atk_iv) \
-                + " Def: " + str(self.def_iv) \
-                + " Sta: " + str(self.sta_iv) + "\n"
+        form_name = locale.get_form_name(self.monster_id, self.form_id)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -140,7 +125,6 @@ class MonEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
-            'station': self.station,
             'weather': locale.get_weather_name(self.weather_id),
 
             # Encounter Stats
@@ -161,7 +145,8 @@ class MonEvent(BaseEvent):
             'def': self.def_iv,
             'sta': self.sta_iv,
             # Form
-            'form': form,
+            'form': form_name,
+            'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
             'form_id_3': "{:03d}".format(self.form_id),
 

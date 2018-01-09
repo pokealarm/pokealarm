@@ -30,7 +30,6 @@ class RaidEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.station = ''
         self.weather_id = data['weather']
 
         # Monster Info
@@ -99,7 +98,6 @@ class RaidEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
-            'station': self.station,
             'weather': locale.get_weather_name(boosted_weather),
 
             # Raid Info

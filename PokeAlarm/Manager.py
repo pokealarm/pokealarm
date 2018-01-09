@@ -30,7 +30,7 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, stations, location, quiet, cache_type,
+                 max_attempts, location, quiet, cache_type,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -89,9 +89,7 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__event = multiprocessing.Event()
         self.__process = None
-        self.__stations = False
-        if stations == 'True':
-            self.__stations = True
+
         log.info("----------- Manager '{}' ".format(self.__name)
                  + " successfully created.")
 
@@ -468,9 +466,6 @@ class Manager(object):
         self.__cache.update_pokemon_expiration(
             mon.enc_id, mon.disappear_time)
 
-        if self.__stations:
-            mon.station = get_station(mon.lat, mon.lng)
-
         # Check the time remaining
         seconds_left = (mon.disappear_time
                         - datetime.utcnow()).total_seconds()
@@ -675,9 +670,6 @@ class Manager(object):
             egg.distance = get_earth_dist(
                 [egg.lat, egg.lng], self.__location)
 
-        if self.__stations:
-            egg.station = get_station(egg.lat, egg.lng)
-
         # Check the Filters
         passed = True
         for name, f in self.__egg_filters.iteritems():
@@ -746,9 +738,6 @@ class Manager(object):
         if self.__location is not None:
             raid.distance = get_earth_dist(
                 [raid.lat, raid.lng], self.__location)
-
-        if self.__stations:
-            raid.station = get_station(raid.lat, raid.lng)
 
         # Check the Filters
         passed = True

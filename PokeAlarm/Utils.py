@@ -430,15 +430,4 @@ def get_image_url(suffix):
     return not_so_secret_url + suffix
 
 
-def get_station(lat, lng):
-
-    station = ''
-    point = []
-    point.append(lat)
-    point.append(lng)
-    actualStation = gSt(point)
-    if actualStation is not None:
-        station = "\nNearest Station: " + actualStation
-    return station
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

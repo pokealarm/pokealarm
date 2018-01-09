@@ -174,9 +174,6 @@ def parse_settings(root_path):
     parser.add_argument(
         '-tz', '--timezone', type=str, action='append', default=[None],
         help='Timezone used for notifications. Ex: "America/Los_Angeles"')
-    parser.add_argument(
-        '-st', '--stations', type=str, default=[None], action='append',
-        help='Should stations be included in alarms.')
 
     args = parser.parse_args()
 
@@ -195,7 +192,7 @@ def parse_settings(root_path):
     for arg in [args.key, args.filters, args.alarms, args.geofences,
                 args.location, args.locale, args.units, args.cache_type,
                 args.timelimit, args.max_attempts,
-                args.timezone, args.stations]:
+                args.timezone]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -227,7 +224,6 @@ def parse_settings(root_path):
         args.manager_name.append("Manager_{}".format(m_ct))
 
     # Build the managers
-    log.info(args.stations[0])
     for m_ct in range(args.manager_count):
         # TODO: Fix this mess better next time
         config['UNITS'] = get_from_list(args.units, m_ct, args.units[0])
@@ -241,8 +237,6 @@ def parse_settings(root_path):
             time_limit=get_from_list(args.timelimit, m_ct, args.timelimit[0]),
             max_attempts=get_from_list(
                 args.max_attempts, m_ct, args.max_attempts[0]),
-            stations=get_from_list(
-                args.stations, m_ct, args.stations[0]),
             quiet=False,  # TODO: I'll totally document this some day. Promise.
             cache_type=get_from_list(
                 args.cache_type, m_ct, args.cache_type[0]),
