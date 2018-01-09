@@ -165,10 +165,11 @@ class TelegramAlarm(Alarm):
     def raid_egg_alert(self, raid_info):
         
         if self.__egg['active']:
-            if self.__egg['stickers'] and raid_info['raid_level'] > 0:
-                self.send_alert(self.__egg, raid_info, sticker_list.get('raid_level_{}'.format(raid_info['raid_level'])))
-            else:
-                self.send_alert(self.__egg, raid_info)
+            if self.__raid['stickers'] and raid_info['egg_lvl'] > 0:
+            self.send_alert(self.__egg, raid_info, sticker_list.get(
+                'raid_level_{}'.format(raid_info['raid_lvl'])))
+        else:
+            self.send_alert(self.__egg, raid_info)
         else: 
             log.info("Notification not sent as disabled for Raid Eggs")
 

@@ -785,27 +785,22 @@ class Manager(object):
         """ Returns true if the event passes the filter's geofences. """
         if self.geofences is None:
             return True
-            
-        if f.geofences is None:  # No filter geofences set so just check whole geofence file
-            for geofenceName in self.geofences:
-                gf = self.geofences.get(geofenceName)
-                if gf.contains(e.lat, e.lng):
-                    log.debug("{} is in geofence {}!".format(e.name, geofenceName))
-                    e.geofence = geofenceName
-                    return True
-                else:
-                    log.debug("{} is not in geofence {}".format(e.name, geofenceName))
-        else:        
-            for filterName in f.geofences:
-                gf = self.geofences.get(filterName)
-                if not gf:  # gf doesn't exist
-                    log.error("Cannot check geofence %s: does not exist!", filterName)
-                elif gf.contains(e.lat, e.lng):  # e in gf
-                    log.debug("{} is in geofence {}!".format(e.name, gf.get_name()))
-                    e.geofence = filterName  # Set the geofence for dts
-                    return True
-                else:  # e not in gf
-                    log.debug("%s not in %s.", e.name, filterName)
+
+        targets = f.geofences
+        if len(targets) == 1 and "all" in targets:
+            targets = self.geofences.iterkeys()
+        for name in targets:
+            gf = self.geofences.get(name)
+            if not gf:  # gf doesn't exist
+                log.error("Cannot check geofence %s: does not exist!", name)
+            elif gf.contains(e.lat, e.lng):  # e in gf
+                log.debug("{} is in geofence {}!".format(
+                    e.name, gf.get_name()))
+                e.geofence = name  # Set the geofence for dts
+                return True
+            else:  # e not in gf
+                log.debug("%s not in %s.", e.name, name)
+
         f.reject(e, "not in geofences")
         return False      
 
