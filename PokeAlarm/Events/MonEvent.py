@@ -127,7 +127,7 @@ class MonEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
 
-            #weather
+            # Weather
             'weather': locale.get_weather_name(self.weather_id),
 
             # Encounter Stats
