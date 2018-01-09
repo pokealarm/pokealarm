@@ -428,5 +428,4 @@ def get_time_as_str(t, timezone=None):
 def get_image_url(suffix):
     return not_so_secret_url + suffix
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

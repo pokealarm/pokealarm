@@ -30,7 +30,7 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, quiet, cache_type, filter_file, 
+                 max_attempts, location, quiet, cache_type, filter_file,
                  geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -771,7 +771,7 @@ class Manager(object):
     # Check to see if a notification is within the given range
     def check_geofences(self, f, e):
         """ Returns true if the event passes the filter's geofences. """
-        if self.geofences is None or f.geofences is None:  # No geofences set:
+        if self.geofences is None or f.geofences is None:  # No geofences set
             return True
         targets = f.geofences
         if len(targets) == 1 and "all" in targets:
