@@ -69,9 +69,9 @@ class Manager(object):
         self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
-        self.__mons_enabled, self.__mon_filters = True, {}
-        self.__stops_enabled, self.__stop_filters = True, {}
-        self.__gyms_enabled, self.__gym_filters = True, {}
+        self.__mons_enabled, self.__mon_filters = False, {}
+        self.__stops_enabled, self.__stop_filters = False, {}
+        self.__gyms_enabled, self.__gym_filters = False, {}
         self.__ignore_neutral = False
         self.__eggs_enabled, self.__egg_filters = False, {}
         self.__raids_enabled, self.__raid_filters = False, {}
@@ -173,21 +173,21 @@ class Manager(object):
             # Load Monsters Section
             log.info("Parsing 'monsters' section.")
             section = filters.pop('monsters', {})
-            self.__mons_enabled = bool(section.pop('enabled', True))
+            self.__mons_enabled = bool(section.pop('enabled', False))
             self.__mon_filters = self.load_filter_section(
                 section, 'monsters', Filters.MonFilter)
 
             # Load Stops Section
             log.info("Parsing 'stops' section.")
             section = filters.pop('stops', {})
-            self.__stops_enabled = bool(section.pop('enabled', True))
+            self.__stops_enabled = bool(section.pop('enabled', False))
             self.__stop_filters = self.load_filter_section(
                 section, 'stops', Filters.StopFilter)
 
             # Load Gyms Section
             log.info("Parsing 'gyms' section.")
             section = filters.pop('gyms', {})
-            self.__gyms_enabled = bool(section.pop('enabled', True))
+            self.__gyms_enabled = bool(section.pop('enabled', False))
             self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
             self.__gym_filters = self.load_filter_section(
                 section, 'gyms', Filters.GymFilter)
@@ -195,14 +195,14 @@ class Manager(object):
             # Load Eggs Section
             log.info("Parsing 'eggs' section.")
             section = filters.pop('eggs', {})
-            self.__eggs_enabled = bool(section.pop('enabled', True))
+            self.__eggs_enabled = bool(section.pop('enabled', False))
             self.__egg_filters = self.load_filter_section(
                 section, 'eggs', Filters.EggFilter)
 
             # Load Raids Section
             log.info("Parsing 'raids' section.")
             section = filters.pop('raids', {})
-            self.__raids_enabled = bool(section.pop('enabled', True))
+            self.__raids_enabled = bool(section.pop('enabled', False))
             self.__raid_filters = self.load_filter_section(
                 section, 'raids', Filters.RaidFilter)
 
