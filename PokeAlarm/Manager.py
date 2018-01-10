@@ -22,7 +22,7 @@ from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg)
+                   parse_boolean, contains_arg, get_cardinal_dir)
 from . import config
 
 log = logging.getLogger('Manager')
@@ -474,9 +474,12 @@ class Manager(object):
                       "".format(mon.name, seconds_left))
             return
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
-            mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
+            mon.distance = get_earth_dist(
+                [mon.lat, mon.lng], self.__location)
+            mon.direction = get_cardinal_dir(
+                [mon.lat, mon.lng], self.__location)
 
         # Check the Filters
         passed = False
@@ -531,9 +534,11 @@ class Manager(object):
                       "".format(stop.name, seconds_left))
             return
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
             stop.distance = get_earth_dist(
+                [stop.lat, stop.lng], self.__location)
+            stop.direction = get_cardinal_dir(
                 [stop.lat, stop.lng], self.__location)
 
         # Check the Filters
@@ -598,9 +603,12 @@ class Manager(object):
             log.debug("%s gym update skipped: no change detected", gym.gym_id)
             return
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
-            gym.distance = get_earth_dist([gym.lat, gym.lng], self.__location)
+            gym.distance = get_earth_dist(
+                [gym.lat, gym.lng], self.__location)
+            gym.direction = get_cardinal_dir(
+                [gym.lat, gym.lng], self.__location)
 
         # Check the Filters
         passed = True
@@ -666,9 +674,11 @@ class Manager(object):
         egg.gym_description = info['description']
         egg.gym_image = info['url']
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
             egg.distance = get_earth_dist(
+                [egg.lat, egg.lng], self.__location)
+            egg.direction = get_cardinal_dir(
                 [egg.lat, egg.lng], self.__location)
 
         # Check the Filters
@@ -735,9 +745,11 @@ class Manager(object):
         raid.gym_description = info['description']
         raid.gym_image = info['url']
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
             raid.distance = get_earth_dist(
+                [raid.lat, raid.lng], self.__location)
+            raid.direction = get_cardinal_dir(
                 [raid.lat, raid.lng], self.__location)
 
         # Check the Filters
