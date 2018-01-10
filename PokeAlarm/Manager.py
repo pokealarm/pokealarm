@@ -485,31 +485,31 @@ class Manager(object):
         passed = False
         for name, f in self.__mon_filters.iteritems():
             passed = f.check_event(mon) and self.check_geofences(f, mon)
-            if passed:  # Stop checking
+            if passed:
                 mon.custom_dts = f.custom_dts
-                break
+
+                # Generate the DTS for the event
+                dts = mon.generate_dts(self.__locale)
+
+                if self.__loc_service:
+                    self.__loc_service.add_optional_arguments(
+                        self.__location, [mon.lat, mon.lng], dts)
+
+                if self.__quiet is False:
+                    log.info("{} monster notification has been triggered!"
+                        .format(mon.name))
+
+                threads = []
+                # Spawn notifications in threads so they can work in background
+                for alarm in self.__alarms:
+                    threads.append(gevent.spawn(alarm.pokemon_alert, dts))
+                gevent.sleep(0)  # explict context yield
+
+                for thread in threads:
+                    thread.join()
+
         if not passed:  # Monster was rejected by all filters
             return
-
-        # Generate the DTS for the event
-        dts = mon.generate_dts(self.__locale)
-
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [mon.lat, mon.lng], dts)
-
-        if self.__quiet is False:
-            log.info("{} monster notification has been triggered!".format(
-                mon.name))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokemon_alert, dts))
-        gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
 
     def process_stop(self, stop):
         # type: (Events.StopEvent) -> None
@@ -545,30 +545,30 @@ class Manager(object):
         passed = True
         for name, f in self.__stop_filters.iteritems():
             passed = f.check_event(stop) and self.check_geofences(f, stop)
-            if passed:  # Stop checking
+            if passed: 
                 stop.custom_dts = f.custom_dts
-                break
-        if not passed:  # Stop was rejected by all filters
+
+                # Generate the DTS for the event
+                dts = stop.generate_dts(self.__locale)
+                if self.__loc_service:
+                    self.__loc_service.add_optional_arguments(
+                        self.__location, [stop.lat, stop.lng], dts)
+
+                if self.__quiet is False:
+                    log.info("Stop {} notification has been triggered!".format(
+                        stop.name))
+
+                threads = []
+                # Spawn notifications in threads so they can work in background
+                for alarm in self.__alarms:
+                    threads.append(gevent.spawn(alarm.pokestop_alert, dts))
+                gevent.sleep(0)  # explict context yield
+
+                for thread in threads:
+                    thread.join()
+
+        if not passed:
             return
-
-        # Generate the DTS for the event
-        dts = stop.generate_dts(self.__locale)
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [stop.lat, stop.lng], dts)
-
-        if self.__quiet is False:
-            log.info("Stop {} notification has been triggered!".format(
-                stop.name))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokestop_alert, dts))
-        gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
 
     def process_gym(self, gym):
         # type: (Events.GymEvent) -> None
@@ -616,29 +616,31 @@ class Manager(object):
             passed = f.check_event(gym) and self.check_geofences(f, gym)
             if passed:  # Stop checking
                 gym.custom_dts = f.custom_dts
-                break
+
+                # Generate the DTS for the event
+                dts = gym.generate_dts(self.__locale)
+                #update gym info
+                dts.update(self.__cache.get_gym_info(gym.gym_id))
+                if self.__loc_service:
+                    self.__loc_service.add_optional_arguments(
+                        self.__location, [gym.lat, gym.lng], dts)
+
+                if self.__quiet is False:
+                    log.info(
+                        "{} gym notification has been triggered!"
+                        .format(gym.name))
+
+                threads = []
+                # Spawn notifications in threads so they can work in background
+                for alarm in self.__alarms:
+                    threads.append(gevent.spawn(alarm.gym_alert, dts))
+                gevent.sleep(0)  # explict context yield
+
+                for thread in threads:
+                    thread.join()
+
         if not passed:  # Gym was rejected by all filters
             return
-
-        # Generate the DTS for the event
-        dts = gym.generate_dts(self.__locale)
-        dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [gym.lat, gym.lng], dts)
-
-        if self.__quiet is False:
-            log.info(
-                "{} gym notification has been triggered!".format(gym.name))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.gym_alert, dts))
-        gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
 
     def process_egg(self, egg):
         # type: (Events.EggEvent) -> None
@@ -687,29 +689,30 @@ class Manager(object):
             passed = f.check_event(egg) and self.check_geofences(f, egg)
             if passed:  # Stop checking
                 egg.custom_dts = f.custom_dts
-                break
+
+                # Generate the DTS for the event
+                dts = egg.generate_dts(self.__locale)
+                # update gym info
+                dts.update(self.__cache.get_gym_info(egg.gym_id))
+                if self.__loc_service:
+                    self.__loc_service.add_optional_arguments(
+                        self.__location, [egg.lat, egg.lng], dts)
+
+                if self.__quiet is False:
+                    log.info("{} egg notification has been triggered!"
+                        .format(egg.name))
+
+                threads = []
+                # Spawn notifications in threads so they can work in background
+                for alarm in self.__alarms:
+                    threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
+                gevent.sleep(0)  # explict context yield
+
+                for thread in threads:
+                    thread.join()
+
         if not passed:  # Egg was rejected by all filters
             return
-
-        # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale)
-        dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [egg.lat, egg.lng], dts)
-
-        if self.__quiet is False:
-            log.info(
-                "{} egg notification has been triggered!".format(egg.name))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
-        gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
 
     def process_raid(self, raid):
         # type: (Events.RaidEvent) -> None
@@ -758,29 +761,30 @@ class Manager(object):
             passed = f.check_event(raid) and self.check_geofences(f, raid)
             if passed:  # Stop checking
                 raid.custom_dts = f.custom_dts
-                break
+
+                # Generate the DTS for the event
+                dts = raid.generate_dts(self.__locale)
+                # update gym info
+                dts.update(self.__cache.get_gym_info(raid.gym_id))
+                if self.__loc_service:
+                    self.__loc_service.add_optional_arguments(
+                        self.__location, [raid.lat, raid.lng], dts)
+
+                if self.__quiet is False:
+                    log.info("{} raid notification has been triggered!"
+                        .format(raid.name))
+
+                threads = []
+                # Spawn notifications in threads so they can work in background
+                for alarm in self.__alarms:
+                    threads.append(gevent.spawn(alarm.raid_alert, dts))
+                gevent.sleep(0)  # explict context yield
+
+                for thread in threads:
+                    thread.join()
+
         if not passed:  # Raid was rejected by all filters
             return
-
-        # Generate the DTS for the event
-        dts = raid.generate_dts(self.__locale)
-        dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [raid.lat, raid.lng], dts)
-
-        if self.__quiet is False:
-            log.info(
-                "{} raid notification has been triggered!".format(raid.name))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_alert, dts))
-        gevent.sleep(0)  # explict context yield
-
-        for thread in threads:
-            thread.join()
 
     # Check to see if a notification is within the given range
     def check_geofences(self, f, e):
