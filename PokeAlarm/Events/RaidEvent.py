@@ -18,7 +18,7 @@ class RaidEvent(BaseEvent):
         check_for_none = BaseEvent.check_for_none
 
         # Identification
-        self.gym_id = data.get('gym_id')
+        self.gym_id = data.get('gym_id', data.get('id'))
 
         # Time Remaining
         self.raid_end = datetime.utcfromtimestamp(
