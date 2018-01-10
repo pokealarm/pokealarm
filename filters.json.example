@@ -63,6 +63,8 @@
                 "min_egg_lvl": 0, "max_egg_lvl": 5,
                 "current_teams": [ "Valor", "Instinct", "Mystic" ],
                 "gym_name_contains": [ ".*" ],
+                "gym_park_contains": [ "^(?!.*None)" ],
+                "gym_sponsor_index_contains": ["^(?!.*0)"],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
@@ -83,6 +85,8 @@
                 "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
                 "current_teams": [ "Valor", "Instinct", "Mystic" ],
                 "gym_name_contains": [ ".*" ],
+                "gym_park_contains": [ "^(?!.*None)" ],
+                "gym_sponsor_index_contains": ["^(?!.*0)"],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
