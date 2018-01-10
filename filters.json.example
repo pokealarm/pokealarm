@@ -47,6 +47,7 @@
                 "old_teams": [ "Valor", "Instinct", "Mystic" ],
                 "new_teams": [ "Valor", "Instinct", "Mystic" ],
                 "gym_name_contains": [ ".*" ],
+                "min_slots": 0, "max_slots": 6,
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
