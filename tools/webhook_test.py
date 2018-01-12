@@ -109,10 +109,13 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
-                "gym_name": "unknown",
+                "name": "Test gym",
+                "team": 1,
+                "park": None,
+                "sponsor": 4,
                 "level": 5,
                 "latitude": 37.7876146,
-                "longitude": -122.390624
+                "longitude": -122.390624,
             }
         }
     elif webhook_type == whtypes["5"]:
@@ -120,7 +123,11 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
-                "gym_name": "unknown",
+                "name": "Test gym",
+                "team": 1,
+                "park": "Test park",
+                "sponsor": 4,
+                "weather": 5,
                 "pokemon_id": 150,
                 "cp": 12345,
                 "move_1": 123,
@@ -274,10 +281,10 @@ if type == 0:
 payload = set_init(type)
 
 print "What is the URL of where you would like to send the webhook? " \
-      + "(default: http://127.0.0.1:4000)\n>",
+      + "(default: http://127.0.0.1:4022)\n>",
 url = raw_input()
 if url == '' or url.isspace():
-    url = "http://127.0.0.1:4000"
+    url = "http://127.0.0.1:4022"
     print "Assuming " + url + " as webhook URL"
 
 print "Does location matter or do you use geofences? (Y/N)\n>",
