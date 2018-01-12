@@ -38,6 +38,7 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.station = ''
         self.weather_id = data['weather']
 
         # Encounter Stats
@@ -94,7 +95,21 @@ class MonEvent(BaseEvent):
     def generate_dts(self, locale):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.disappear_time)
-        form_name = locale.get_form_name(self.monster_id, self.form_id)
+        form = locale.get_form_name(self.monster_id, self.form_id)
+        if form == 'unknown':
+            form = ''
+        else:
+            form = " - " + form
+        cpiv = ''
+        if self.cp != Unknown.TINY:
+            cpiv = "IV: " + "{:.0f}".format(self.iv)  \
+                + "% CP: " + str(self.cp) \
+                + " Level: " + str(self.mon_lvl) + "\n" \
+                + locale.get_move_name(self.quick_move_id) + " / " \
+                + locale.get_move_name(self.charge_move_id) \
+                + "\nAtt: " + str(self.atk_iv) \
+                + " Def: " + str(self.def_iv) \
+                + " Sta: " + str(self.sta_iv) + "\n"
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -125,11 +140,13 @@ class MonEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'station': self.station,
             'weather': locale.get_weather_name(self.weather_id),
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
             'cp': self.cp,
+            'cpiv': cpiv,
             # IVs
             'iv_0': (
                 "{:.0f}".format(self.iv) if Unknown.is_not(self.iv)
@@ -144,8 +161,7 @@ class MonEvent(BaseEvent):
             'def': self.def_iv,
             'sta': self.sta_iv,
             # Form
-            'form': form_name,
-            'form_or_empty': Unknown.or_empty(form_name),
+            'form': form,
             'form_id': self.form_id,
             'form_id_3': "{:03d}".format(self.form_id),
 
@@ -172,10 +188,10 @@ class MonEvent(BaseEvent):
 
             # Misc
             'big_karp': (
-                'A big Magikarp has been found!' if self.monster_id == 129 and Unknown.is_not(self.weight)
+                '\nA big Magikarp has been found!' if self.monster_id == 129 and Unknown.is_not(self.weight)
                 and self.weight >= 13.13 else ''),
             'tiny_rat': (
-                'A tiny Rattata has been found!' if self.monster_id == 19 and Unknown.is_not(self.weight)
+                '\nA tiny Rattata has been found!' if self.monster_id == 19 and Unknown.is_not(self.weight)
                 and self.weight <= 2.41 else '')
         })
         return dts

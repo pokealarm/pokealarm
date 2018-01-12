@@ -10,6 +10,7 @@ import sys
 # Local Imports
 from PokeAlarm import not_so_secret_url
 from PokeAlarm import config
+from LSP import gSt
 
 log = logging.getLogger('Utils')
 
@@ -427,5 +428,16 @@ def get_time_as_str(t, timezone=None):
 # Return the default url for images and stuff
 def get_image_url(suffix):
     return not_so_secret_url + suffix
+
+def get_station(lat, lng):
+
+    station = ''
+    point = []
+    point.append(lat)
+    point.append(lng)
+    actualStation = gSt(point)
+    if actualStation is not None:
+        station = "\nNearest Station: " + actualStation
+    return station
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

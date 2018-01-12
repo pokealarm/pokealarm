@@ -22,7 +22,7 @@ from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg)
+                   parse_boolean, contains_arg, get_station)
 from . import config
 
 log = logging.getLogger('Manager')
@@ -30,8 +30,8 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, quiet, cache_type, filter_file,
-                 geofence_file, alarm_file, debug):
+                 max_attempts, stations, location, quiet, cache_type,
+                 filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
         log.info("----------- Manager '{}' ".format(self.__name)
@@ -89,6 +89,10 @@ class Manager(object):
         self.__queue = multiprocessing.Queue()
         self.__event = multiprocessing.Event()
         self.__process = None
+
+        self.__stations = False
+        if stations == 'True':
+            self.__stations = True
 
         log.info("----------- Manager '{}' ".format(self.__name)
                  + " successfully created.")
@@ -478,6 +482,9 @@ class Manager(object):
         if self.__location is not None:
             mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
 
+        if self.__stations:
+            mon.station = get_station(mon.lat, mon.lng)       
+ 
         # Check the Filters
         passed = False
         for name, f in self.__mon_filters.iteritems():
@@ -669,6 +676,9 @@ class Manager(object):
         if self.__location is not None:
             egg.distance = get_earth_dist(
                 [egg.lat, egg.lng], self.__location)
+  
+        if self.__stations:
+            egg.station = get_station(egg.lat, egg.lng)
 
         # Check the Filters
         passed = True
@@ -737,6 +747,9 @@ class Manager(object):
         if self.__location is not None:
             raid.distance = get_earth_dist(
                 [raid.lat, raid.lng], self.__location)
+
+        if self.__stations:
+            raid.station = get_station(raid.lat, raid.lng)
 
         # Check the Filters
         passed = True

@@ -30,6 +30,7 @@ class EggEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.station = ''
 
         # Egg Info
         self.egg_lvl = check_for_none(int, data.get('level'), 0)
@@ -83,6 +84,7 @@ class EggEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'station': self.station,
 
             # Egg info
             'egg_lvl': self.egg_lvl,
