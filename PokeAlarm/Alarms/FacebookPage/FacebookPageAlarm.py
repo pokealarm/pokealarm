@@ -105,7 +105,7 @@ class FacebookPageAlarm(Alarm):
     def connect(self):
         self.__client = facebook.GraphAPI(self.__page_access_token)
 
-    # Sends a start up message on Telegram
+    # Sends a start up message on Facebook
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
