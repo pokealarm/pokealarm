@@ -172,6 +172,3 @@ texinfo_documents = [
      author, 'PokeAlarm', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
