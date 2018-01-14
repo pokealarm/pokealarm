@@ -80,7 +80,7 @@ class TwilioAlarm(Alarm):
 
         log.info("Twilio Alarm has been created!")
 
-    # (Re)establishes Telegram connection
+    # (Re)establishes Twilio connection
     def connect(self):
         self.__client = TwilioRestClient(self.__account_sid, self.__auth_token)
 
