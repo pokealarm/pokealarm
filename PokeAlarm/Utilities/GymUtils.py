@@ -32,8 +32,14 @@ def get_team_id(team_name):
 
 # Returns true if the string matches any given RE objects
 def match_regex_dict(reg_exs, name):
+<<<<<<< HEAD
     name = str(name)
     for reg_ex in reg_exs:
         if reg_ex.search(name):
+=======
+    name = str(name).lower()
+    for reg_ex in reg_exs:
+        if reg_ex.match(name):
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
             return True
     return False

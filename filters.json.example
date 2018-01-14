@@ -9,7 +9,11 @@
                 "min_dist": 0, "max_dist": "inf",
                 "min_lvl": 0, "max_lvl": 40, "min_atk": 0, "max_atk": 15,
                 "min_def": 0, "max_def": 15, "min_sta": 0, "max_sta": 15,
+<<<<<<< HEAD
                 "min_iv": 0.0, "max_iv": 100, "min_cp": 0, "max_cp": 10000,
+=======
+                "min_iv": 0.0, "max_iv": 100,
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
                 "form_ids": [ 0 ],
                 "quick_moves": [ "Vine Whip", "Tackle"],
                 "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
@@ -38,7 +42,11 @@
     },
     "gyms":{
         "enabled": false,
+<<<<<<< HEAD
         "ignore_neutral": false,
+=======
+        "ignore_neutral":"False",
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         "defaults": {
         },
         "filters": {
@@ -46,7 +54,11 @@
                 "min_dist": 0, "max_dist": "inf",
                 "old_teams": [ "Valor", "Instinct", "Mystic" ],
                 "new_teams": [ "Valor", "Instinct", "Mystic" ],
+<<<<<<< HEAD
                 "gym_name_contains": [ ".*" ],
+=======
+                "gym_name_matches": [ ".*" ],
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
@@ -60,9 +72,15 @@
         "filters": {
             "filter-name" : {
                 "min_dist": 0, "max_dist": "inf",
+<<<<<<< HEAD
                 "min_egg_lvl": 0, "max_egg_lvl": 5,
                 "current_teams": [ "Valor", "Instinct", "Mystic" ],
                 "gym_name_contains": [ ".*" ],
+=======
+                "min_egg_lvl": 0, "max_egg_lvl": 40,
+                "current_teams": [ "Valor", "Instinct", "Mystic" ],
+                "gym_name_matches": [ ".*" ],
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
@@ -78,11 +96,18 @@
                 "monsters": [ 1, 2, 3 ],
                 "min_dist": 0, "max_dist": "inf",
                 "min_raid_lvl": 0, "max_raid_lvl": 5,
+<<<<<<< HEAD
                 "min_cp": 0, "max_cp": 100000,
                 "quick_moves": [ "Vine Whip", "Tackle"],
                 "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
                 "current_teams": [ "Valor", "Instinct", "Mystic" ],
                 "gym_name_contains": [ ".*" ],
+=======
+                "quick_moves": [ "Vine Whip", "Tackle"],
+                "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
+                "current_teams": [ "Valor", "Instinct", "Mystic" ],
+                "gym_name_matches": [ ".*" ],
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false

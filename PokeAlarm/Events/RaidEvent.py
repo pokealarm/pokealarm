@@ -6,7 +6,11 @@ from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
+<<<<<<< HEAD
     get_move_energy, get_dist_as_str, get_pokemon_cp_range
+=======
+    get_move_energy, get_dist_as_str
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
 
 class RaidEvent(BaseEvent):
@@ -33,7 +37,10 @@ class RaidEvent(BaseEvent):
         # Monster Info
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
+<<<<<<< HEAD
         self.cp = int(data['cp'])
+=======
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
         self.quick_damage = get_move_damage(self.quick_id)
@@ -67,7 +74,10 @@ class RaidEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         raid_end_time = get_time_as_str(self.raid_end)
         dts = self.custom_dts.copy()
+<<<<<<< HEAD
         cp_range = get_pokemon_cp_range(self.mon_id, 20)
+=======
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         dts.update({
             # Identification
             'gym_id': self.gym_id,
@@ -111,10 +121,13 @@ class RaidEvent(BaseEvent):
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
             'charge_energy': self.charge_energy,
+<<<<<<< HEAD
             # CP info
             'cp': self.cp,
             'min_cp': cp_range[0],
             'max_cp': cp_range[1],
+=======
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
             # Gym Details
             'gym_name': self.gym_name,
