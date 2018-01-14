@@ -7,6 +7,7 @@ import telepot
 # Local Imports
 from PokeAlarm.Alarms import Alarm
 from Stickers import sticker_list
+from TelegramConfiguratorBot import ConfiguratorBot
 from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
     reject_leftover_parameters
 
@@ -79,6 +80,9 @@ class TelegramAlarm(Alarm):
             settings.pop('egg', {}), self._defaults['egg'])
         self.__raid = self.create_alert_settings(
             settings.pop('raid', {}), self._defaults['raid'])
+
+        # Initialized Telegram Filters Configurator Bot
+        cb = ConfiguratorBot(self.__bot_token, log)
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Telegram alarm.")
