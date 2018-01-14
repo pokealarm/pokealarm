@@ -82,10 +82,10 @@ class MonEvent(BaseEvent):
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):
-            self.size = get_pokemon_size(
+            self.size_id = get_pokemon_size(
                 self.monster_id, self.height, self.weight)
         else:
-            self.size = Unknown.SMALL
+            self.size_id = Unknown.SMALL
 
         # Correct this later
         self.name = self.monster_id
@@ -133,11 +133,7 @@ class MonEvent(BaseEvent):
             'weather_emoji': get_weather_emoji(self.weather_id),
 
             # Encounter Stats
-<<<<<<< HEAD
             'mon_lvl': self.mon_lvl,
-=======
-            'pkmn_lvl': self.mon_lvl,
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
             'cp': self.cp,
             # IVs
             'iv_0': (
@@ -165,6 +161,7 @@ class MonEvent(BaseEvent):
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
+			
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_move_id),
             'charge_id': self.charge_move_id,
@@ -177,8 +174,7 @@ class MonEvent(BaseEvent):
             'gender': self.gender,
             'height': self.height,
             'weight': self.weight,
-<<<<<<< HEAD
-            'size': self.size,
+            'size': locale.get_size_name(self.size_id),
 
             # Misc
             'big_karp': (
@@ -187,8 +183,5 @@ class MonEvent(BaseEvent):
             'tiny_rat': (
                 'tiny' if self.monster_id == 19 and Unknown.is_not(self.weight)
                 and self.weight <= 2.41 else '')
-=======
-            'size': self.size
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         })
         return dts
