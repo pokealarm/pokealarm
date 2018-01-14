@@ -126,7 +126,11 @@ class MonEvent(BaseEvent):
             'geofence': self.geofence,
 
             # Encounter Stats
+<<<<<<< HEAD
             'mon_lvl': self.mon_lvl,
+=======
+            'pkmn_lvl': self.mon_lvl,
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
             'cp': self.cp,
             # IVs
             'iv_0': (
@@ -166,6 +170,7 @@ class MonEvent(BaseEvent):
             'gender': self.gender,
             'height': self.height,
             'weight': self.weight,
+<<<<<<< HEAD
             'size': self.size,
 
             # Misc
@@ -175,5 +180,8 @@ class MonEvent(BaseEvent):
             'tiny_rat': (
                 'tiny' if self.monster_id == 19 and Unknown.is_not(self.weight)
                 and self.weight <= 2.41 else '')
+=======
+            'size': self.size
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         })
         return dts

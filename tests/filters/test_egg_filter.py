@@ -34,6 +34,7 @@ class TestEggFilter(unittest.TestCase):
 
     def test_gym_names(self):
         # Create the filters
+<<<<<<< HEAD
         settings = {"gym_name_contains": ["pass"]}
         egg_filter = Filters.EggFilter('filter1', settings)
 
@@ -42,14 +43,28 @@ class TestEggFilter(unittest.TestCase):
         pass1 = Events.EggEvent(generate_egg({"name": "pass1"}))
         pass2 = Events.EggEvent(generate_egg({"name": "2pass"}))
         pass3 = Events.EggEvent(generate_egg({"name": "3pass3"}))
+=======
+        settings = {"gym_name_matches": ["pass.\Z"]}
+        egg_filter = Filters.EggFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.EggEvent(generate_egg({"name": "pass1"}))
+        pass2 = Events.EggEvent(generate_egg({"name": "pass2"}))
+        pass3 = Events.EggEvent(generate_egg({"name": "pass3"}))
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(egg_filter.check_event(e))
 
         # Generate events that should fail
         fail1 = Events.EggEvent(generate_egg({"name": "fail1"}))
+<<<<<<< HEAD
         fail2 = Events.EggEvent(generate_egg({"name": "failpas"}))
         fail3 = Events.EggEvent(generate_egg({"name": "pasfail"}))
+=======
+        fail2 = Events.EggEvent(generate_egg({"name": "failpass"}))
+        fail3 = Events.EggEvent(generate_egg({"name": "passfail"}))
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Test failing events
         for e in [fail1, fail2, fail3]:
