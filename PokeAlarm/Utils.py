@@ -252,15 +252,15 @@ def size_ratio(pokemon_id, height, weight):
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        get_size_locale('0')
+        size_id = 0
     elif size <= 1.75:
-        get_size_locale('1')
+        size_id = 1
     elif size < 2.25:
-        get_size_locale('2')
+        size_id = 2
     elif size <= 2.5:
-        get_size_locale('3')
+        size_id = 3
     else:
-        get_size_locale('4')
+        size_id = 4
 
 
 # Convert the size value into a verbal response based on locale:

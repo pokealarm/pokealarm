@@ -47,6 +47,12 @@ class Locale(object):
         for id_, val in default["leaders"].iteritems():
             self.__leader_names[int(id_)] = leaders.get(id_, val)
 
+        # Size Value -> Size Name
+        self.__size_names = {}
+        sizes = info.get("sizes", {})
+        for id_, val in default["sizes"].iteritems():
+            self.__size_names[int(id_)] = sizes.get(id_, val)
+
         # Pokemon ID -> { Form ID -> Form Name)
         self.__form_names = {}
         all_forms = info.get("forms", {})
@@ -73,6 +79,10 @@ class Locale(object):
     # Returns the name of the team ledaer associated with the Team ID
     def get_leader_name(self, team_id):
         return self.__leader_names.get(team_id, 'unknown')
+
+    # Returns the size of the Pokemon based on the Calculated Size Value
+    def get_size_name(self, size_id):
+        return self.__size_names.get(size_id, 'unknown')
 
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
