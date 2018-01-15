@@ -483,8 +483,8 @@ class Manager(object):
             mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
 
         if self.__stations:
-            mon.station = get_station(mon.lat, mon.lng)       
- 
+            mon.station = get_station(mon.lat, mon.lng)
+
         # Check the Filters
         passed = False
         for name, f in self.__mon_filters.iteritems():
@@ -676,7 +676,7 @@ class Manager(object):
         if self.__location is not None:
             egg.distance = get_earth_dist(
                 [egg.lat, egg.lng], self.__location)
-  
+
         if self.__stations:
             egg.station = get_station(egg.lat, egg.lng)
 
