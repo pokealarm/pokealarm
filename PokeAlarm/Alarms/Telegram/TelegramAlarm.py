@@ -116,14 +116,14 @@ class TelegramAlarm(Alarm):
     # Send Alert to Telegram
     def send_alert(self, alert, info, sticker_id=None):
         if sticker_id:
-            self.send_sticker(alert['chat_id'], sticker_id)
+            self.send_sticker(replace(alert['chat_id'], info), sticker_id)
 
         if alert['venue']:
             self.send_venue(alert, info)
         else:
             text = '<b>' + replace(alert['title'], info)\
                    + '</b> \n' + replace(alert['body'], info)
-            self.send_message(alert['chat_id'], text)
+            self.send_message(replace(alert['chat_id'], info), text)
 
         if alert['location']:
             self.send_location(alert, info)
@@ -193,7 +193,7 @@ class TelegramAlarm(Alarm):
     # Send a venue message to telegram
     def send_venue(self, alert, info):
         args = {
-            'chat_id': alert['chat_id'],
+            'chat_id': replace(alert['chat_id'], info),
             'latitude': info['lat'],
             'longitude': info['lng'],
             'title': replace(alert['title'], info),
@@ -206,7 +206,7 @@ class TelegramAlarm(Alarm):
     # Send a location message to telegram
     def send_location(self, alert, info):
         args = {
-            'chat_id': alert['chat_id'],
+            'chat_id': replace(alert['chat_id'], info),
             'latitude': info['lat'],
             'longitude': info['lng'],
             'disable_notification': "{}".format(
