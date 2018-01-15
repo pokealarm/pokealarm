@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+import requests
 
 # 3rd Party Imports
 import telepot
@@ -214,3 +215,76 @@ class TelegramAlarm(Alarm):
         }
         try_sending(log, self.connect, "Telegram (location)",
                     self.__client.sendLocation, args)
+
+    def send_sticker_new(self, bot_token, chat_id, sticker_id, max_attempts):
+        args = {
+            'url':
+                "https://api.telegram.org/bot%s/sendSticker".format(bot_token),
+            'payload': {
+                'chat_id': chat_id,
+                'sticker_id': sticker_id,
+                'disable_notification': False
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (STKR)", self.send_webhook, args,
+            max_attempts)
+
+    def send_message_new(self, bot_token, chat_id, message, max_attempts):
+        args = {
+            'url':
+                "https://api.telegram.org/bot%s/sendMessage".format(bot_token),
+            'payload': {
+                'chat_id': chat_id,
+                'text': message,
+                'parse_mode': 'markdown',
+                'disable_web_page_preview': False,
+                'disable_notification': False
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (MSG)", self.send_webhook, args, 
+            max_attempts)
+
+    def send_location_new(self, bot_token, chat_id, lat, lng, max_attempts):
+        args = {
+            'url': "https://api.telegram.org/bot%s/sendLocation".format(
+                    bot_token),
+            'payload': {
+                'chat_id': chat_id,
+                'latitude': lat,
+                'longitude': lng,
+                'disable_notification': True
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (LOC)", self.send_webhook, args,
+            max_attempts)
+
+    def send_venue_new(self, bot_token, chat_id, lat, lng, max_attempts):
+        args = {
+            'url': "https://api.telegram.org/bot%s/sendVenue".format(
+                bot_token),
+            'payload': {
+                'chat_id': chat_id,
+                'latitude': lat,
+                'longitude': lng,
+                'disable_notification': False
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (VEN)", self.send_webhook, args,
+            max_attempts)
+
+    # Send a payload to the webhook url
+    def send_webhook(self, url, payload):
+        log.debug(payload)
+        resp = requests.post(url, json=payload, timeout=5)
+        if resp.ok is True:
+            log.debug("Notification successful (returned {})".format(
+                resp.status_code))
+        else:
+            log.debug("Telegram response was {}".format(resp.content))
+            raise requests.exceptions.RequestException(
+                "Response received {}, webhook not accepted.".format(
+                    resp.status_code))
