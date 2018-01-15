@@ -53,12 +53,6 @@ class Locale(object):
         for id_, val in default["leaders"].iteritems():
             self.__leader_names[int(id_)] = leaders.get(id_, val)
 
-        # Weather ID -> Name
-        self.__weather_names = {}
-        weather = info.get("weather", {})
-        for id_, val in default["weather"].iteritems():
-            self.__weather_names[int(id_)] = weather.get(id_, val)
-
         # Pokemon ID -> { Form ID -> Form Name)
         self.__form_names = {}
         all_forms = info.get("forms", {})
