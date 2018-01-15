@@ -497,7 +497,7 @@ class Manager(object):
 
                 if self.__quiet is False:
                     log.info("{} monster notification has been triggered!"
-                        .format(mon.name))
+                             .format(mon.name))
 
                 threads = []
                 # Spawn notifications in threads so they can work in background
@@ -545,7 +545,7 @@ class Manager(object):
         passed = True
         for name, f in self.__stop_filters.iteritems():
             passed = f.check_event(stop) and self.check_geofences(f, stop)
-            if passed: 
+            if passed:
                 stop.custom_dts = f.custom_dts
 
                 # Generate the DTS for the event
@@ -619,7 +619,7 @@ class Manager(object):
 
                 # Generate the DTS for the event
                 dts = gym.generate_dts(self.__locale)
-                #update gym info
+                # update gym info
                 dts.update(self.__cache.get_gym_info(gym.gym_id))
                 if self.__loc_service:
                     self.__loc_service.add_optional_arguments(
@@ -700,7 +700,7 @@ class Manager(object):
 
                 if self.__quiet is False:
                     log.info("{} egg notification has been triggered!"
-                        .format(egg.name))
+                             .format(egg.name))
 
                 threads = []
                 # Spawn notifications in threads so they can work in background
@@ -772,7 +772,7 @@ class Manager(object):
 
                 if self.__quiet is False:
                     log.info("{} raid notification has been triggered!"
-                        .format(raid.name))
+                             .format(raid.name))
 
                 threads = []
                 # Spawn notifications in threads so they can work in background
