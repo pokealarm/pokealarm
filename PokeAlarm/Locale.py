@@ -90,10 +90,6 @@ class Locale(object):
     def get_leader_name(self, team_id):
         return self.__leader_names.get(team_id, 'unknown')
 
-    # Returns the name of the weather associated with the given ID
-    def get_weather_name(self, weather_id):
-        return self.__weather_names.get(weather_id, 'None')
-
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
         return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')

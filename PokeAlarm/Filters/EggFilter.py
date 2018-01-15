@@ -38,7 +38,7 @@ class EggFilter(BaseFilter):
                 re.compile, 'gym_name_contains', data))
 
         # Gym sponsor
-        self.gym_sponsor_index_contains = self.evaluate_attribute(  # f.gsi matches e.gsi
+        self.gym_sponsor_index_contains = self.evaluate_attribute(
             event_attribute='gym_sponsor', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 re.compile, 'gym_sponsor_index_contains', data))
