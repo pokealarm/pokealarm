@@ -304,6 +304,48 @@ def get_pokemon_gender(gender):
     return '?'  # catch all
 
 
+# Returns the types for a pokemon
+def get_base_types(pokemon_id):
+    if not hasattr(get_base_types, 'info'):
+        get_base_types.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+            for id_ in j:
+                get_base_types.info[int(id_)] = {
+                    "type1": j[id_].get('type1'),
+                    "type2": j[id_].get('type2')
+                }
+    return get_base_types.info.get(pokemon_id)
+
+
+# Return a boolean for whether the raid boss will have it's catch CP boosted
+def is_raid_boss_weather_boosted(pokemon_id, weather_id):
+    if not hasattr(is_raid_boss_weather_boosted, 'info'):
+        is_raid_boss_weather_boosted.info = {}
+        file_ = get_path('data/weather_boosts.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            is_raid_boss_weather_boosted.info[w_id] = j[w_id]
+
+    boosted_types = is_raid_boss_weather_boosted.info[str(weather_id)]
+    types = get_base_types(pokemon_id)
+    return types['type1'] in boosted_types or types['type2'] in boosted_types
+
+
+def get_weather_emoji(weather_id):
+    return {
+        1: '<:sunny:394513855205736448>',
+        2: '<:cloud_rain:394513988215635980>',
+        3: '<:partly_sunny:394514097477124096>',
+        4: '<:cloud:394514210513616896>',
+        5: '<:wind_blowing_face:394514294668263435>',
+        6: '<:snowman:394514420610498560>',
+        7: '<:foggy:394514537916661760>',
+    }.get(weather_id, '?')
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
