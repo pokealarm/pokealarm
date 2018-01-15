@@ -206,26 +206,24 @@ class TelegramAlarm(Alarm):
     def raid_alert(self, raid_dts):
         self.generic_alert(self._raid_alert, raid_dts)
 
-    def send_sticker(self, bot_token, chat_id, sticker_url,
+    def send_sticker(self, token, chat_id, sticker_url,
                      max_attempts=3, notify=False):
         args = {
-            'url':
-                "https://api.telegram.org/bot{}/sendSticker".format(bot_token),
+            'url': "https://api.telegram.org/bot{}/sendSticker".format(token),
             'payload': {
                 'chat_id': chat_id,
                 'sticker': sticker_url,
                 'disable_notification': not notify
-                }
+            }
         }
         try_sending(
             log, self.connect, "Telegram (STKR)", self.send_webhook, args,
             max_attempts)
 
-    def send_message(self, bot_token, chat_id, message,
+    def send_message(self, token, chat_id, message,
                      max_attempts=3, notify=True):
         args = {
-            'url':
-                "https://api.telegram.org/bot{}/sendMessage".format(bot_token),
+            'url': "https://api.telegram.org/bot{}/sendMessage".format(token),
             'payload': {
                 'chat_id': chat_id,
                 'text': message,
@@ -238,11 +236,10 @@ class TelegramAlarm(Alarm):
             log, self.connect, "Telegram (MSG)", self.send_webhook, args,
             max_attempts)
 
-    def send_location(self, bot_token, chat_id, lat, lng,
+    def send_location(self, token, chat_id, lat, lng,
                       max_attempts=3, notify=False):
         args = {
-            'url': "https://api.telegram.org/bot{}/sendLocation".format(
-                bot_token),
+            'url': "https://api.telegram.org/bot{}/sendLocation".format(token),
             'payload': {
                 'chat_id': chat_id,
                 'latitude': lat,
@@ -254,10 +251,10 @@ class TelegramAlarm(Alarm):
             log, self.connect, "Telegram (LOC)", self.send_webhook, args,
             max_attempts)
 
-    def send_venue(self, bot_token, chat_id, lat, lng, max_attempts):
+    def send_venue(self, token, chat_id, lat, lng, max_attempts):
         args = {
             'url': "https://api.telegram.org/bot{}/sendVenue".format(
-                bot_token),
+                token),
             'payload': {
                 'chat_id': chat_id,
                 'latitude': lat,
