@@ -7,7 +7,7 @@ from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
     get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
-    is_raid_boss_weather_boosted
+    is_raid_boss_weather_boosted, get_weather_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -31,7 +31,7 @@ class RaidEvent(BaseEvent):
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
         self.weather_id = check_for_none(
-            int, data.get('weather'), Unknown.REGULAR)
+            int, data.get('weather'), Unknown.TINY)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
@@ -99,7 +99,9 @@ class RaidEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'weather_id': self.weather_id,
             'weather': locale.get_weather_name(boosted_weather),
+            'weather_emoji': get_weather_emoji(self.weather_id),
 
             # Raid Info
             'raid_lvl': self.raid_lvl,

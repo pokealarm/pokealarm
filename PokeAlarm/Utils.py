@@ -304,6 +304,18 @@ def is_raid_boss_weather_boosted(pokemon_id, weather_id):
     return types['type1'] in boosted_types or types['type2'] in boosted_types
 
 
+def get_weather_emoji(weather_id):
+    return {
+        1: '<:sunny:394513855205736448>',
+        2: '<:cloud_rain:394513988215635980>',
+        3: '<:partly_sunny:394514097477124096>',
+        4: '<:cloud:394514210513616896>',
+        5: '<:wind_blowing_face:394514294668263435>',
+        6: '<:snowman:394514420610498560>',
+        7: '<:foggy:394514537916661760>',
+    }.get(weather_id, '?')
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
