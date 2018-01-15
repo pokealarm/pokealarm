@@ -9,7 +9,7 @@ import telepot
 from PokeAlarm.Alarms import Alarm
 from Stickers import sticker_list
 from PokeAlarm.Utilities import GenUtils as utils
-from PokeAlarm.Utils import require_and_remove_key
+from PokeAlarm.Utils import require_and_remove_key, get_image_url
 
 log = logging.getLogger('Telegram')
 
@@ -34,11 +34,17 @@ class TelegramAlarm(Alarm):
             default.update(alert_defaults)
             settings = Alarm.pop_type(data, kind, dict, {})
 
-            self.stickers = Alarm.pop_type(
-                settings, 'stickers', utils.parse_bool, default['stickers'])
-            self.stickers_notify = Alarm.pop_type(
-                settings, 'stickers_notify', utils.parse_bool,
-                default['stickers_notify'])
+            self.bot_token = Alarm.pop_type(
+                settings, 'bot_token', unicode, default['bot_token'])
+            self.chat_id = Alarm.pop_type(
+                settings, 'chat_id', unicode, default['chat_id'])
+            self.sticker = Alarm.pop_type(
+                settings, 'sticker', utils.parse_bool, default['sticker'])
+            self.sticker_url = Alarm.pop_type(
+                settings, 'sticker_url', unicode, default['sticker_url'])
+            self.sticker_notify = Alarm.pop_type(
+                settings, 'sticker_notify', utils.parse_bool,
+                default['sticker_notify'])
             self.message = Alarm.pop_type(
                 settings, 'message', unicode, default['message'])
             self.message_notify = Alarm.pop_type(
@@ -54,6 +60,8 @@ class TelegramAlarm(Alarm):
             self.map_notification = Alarm.pop_type(
                 settings, 'map_notify', utils.parse_bool,
                 default['map_notify'])
+            self.max_attempts = Alarm.pop_type(
+                settings, 'max_attempts', int, default['max_attempts'])
 
             # Reject leftover parameters
             for key in settings:
@@ -63,26 +71,32 @@ class TelegramAlarm(Alarm):
 
     _defaults = {  # No touchy!!! Edit alarms.json!
         'monsters': {
-            'message': "__**A wild <mon_name> has appeared!**__\n"
-                       "Available until <24h_time> (<time_left>)."
+            'message': "*A wild <mon_name> has appeared!*\n"
+                       "Available until <24h_time> (<time_left>).",
+            'sticker_url': get_image_url(
+                "monsters/<mon_id_3>_<form_id_3>.webp")
         },
         'stops': {
-            'message': "__**Someone has placed a lure on a Pokestop!**__\n"
-                       "Lure will expire at <24h_time> (<time_left>)."
+            'message': "*Someone has placed a lure on a Pokestop!*\n"
+                       "Lure will expire at <24h_time> (<time_left>).",
+            'sticker_url': get_image_url("stop/ready.webp")
         },
         'gyms': {
-            'message': "__**A Team <old_team> gym has fallen!**__\n"
-                       "It is now controlled by <new_team>."
+            'message': "*A Team <old_team> gym has fallen!*\n"
+                       "It is now controlled by <new_team>.",
+            'sticker_url': get_image_url("gyms/<new_team_id>.webp"),
         },
         'eggs': {
-            'message': "__**A level <egg_lvl> raid is incoming!**__\n"
+            'message': "*A level <egg_lvl> raid is incoming!*\n"
                        "The egg will hatch <24h_hatch_time> "
-                       "(<hatch_time_left>)."
+                       "(<hatch_time_left>).",
+            'sticker_url': get_image_url("eggs/<egg_lvl>.webp")
         },
         'raids': {
-            'message': "__**A raid is available against <mon_name>!**__\n"
+            'message': "*A raid is available against <mon_name>!*\n"
                        "The raid is available until <24h_raid_end> "
-                       "(<raid_time_left>)."
+                       "(<raid_time_left>).",
+            'sticker_url': get_image_url("monsters/<mon_id_3>_000.webp")
         }
     }
 
@@ -101,10 +115,10 @@ class TelegramAlarm(Alarm):
         alert_defaults = {
             'bot_token': self._bot_token,
             'chat_id': self._chat_id,
-            'stickers': self.pop_type(
-                settings, 'stickers', utils.parse_bool, True),
-            'stickers_notify': self.pop_type(
-                settings, 'stickers_notify', utils.parse_bool, False),
+            'sticker': self.pop_type(
+                settings, 'sticker', utils.parse_bool, True),
+            'sticker_notify': self.pop_type(
+                settings, 'sticker_notify', utils.parse_bool, False),
             'message_notify': self.pop_type(
                 settings, 'message_notify', utils.parse_bool, True),
             'venue': self.pop_type(
@@ -112,11 +126,11 @@ class TelegramAlarm(Alarm):
             'venue_notify': self.pop_type(
                 settings, 'venue_notify', utils.parse_bool, True),
             'map': self.pop_type(
-                settings, 'map', utils.parse_bool, False),
+                settings, 'map', utils.parse_bool, True),
             'map_notify': self.pop_type(
                 settings, 'map_notify', utils.parse_bool, False),
-            'max_retries': self.pop_type(
-                settings, 'max_retries', int, 3),
+            'max_attempts': self.pop_type(
+                settings, 'max_attempts', int, 3),
         }
 
         # Alert Settings
@@ -164,45 +178,49 @@ class TelegramAlarm(Alarm):
         if alert['location']:
             self.send_location(alert, info)
 
+    def generic_alert(self, alert, dts):
+        bot_token = replace(alert.bot_token, dts)
+        chat_id = replace(alert.chat_id, dts)
+        message = replace(alert.message, dts)
+        lat, lng = dts['lat'], dts['lng']
+        max_attempts = alert.max_attempts
+        sticker_url = replace(alert.sticker_url, dts)
+        log.debug(sticker_url)
+        # Send Sticker
+        if alert.sticker and sticker_url is not None:
+            self.send_sticker_new(bot_token, chat_id, sticker_url, max_attempts)
+
+        # Send Venue
+        if alert.venue:
+            self.send_venue_new(bot_token, chat_id, lat, lng, max_attempts)
+            return  # Don't send message or map
+
+        # Send Message
+        self.send_message_new(bot_token, chat_id, replace(message, dts))
+
+        # Send Map
+        if alert.map:
+            self.send_location_new(bot_token, chat_id, lat, lng, max_attempts)
+
     # Trigger an alert based on Pokemon info
-    def pokemon_alert(self, pokemon_info):
-        if self._mon_alert['stickers']:
-            self.send_alert(self._mon_alert, pokemon_info,
-                            sticker_list.get(str(pokemon_info['mon_id'])))
-        else:
-            self.send_alert(self._mon_alert, pokemon_info)
+    def pokemon_alert(self, mon_dts):
+        self.generic_alert(self._mon_alert, mon_dts)
 
     # Trigger an alert based on Pokestop info
-    def pokestop_alert(self, pokestop_info):
-        if self._stop_alert['stickers']:
-            self.send_alert(self._stop_alert, pokestop_info,
-                            sticker_list.get('pokestop'))
-        else:
-            self.send_alert(self._stop_alert, pokestop_info)
+    def pokestop_alert(self, stop_dts):
+        self.generic_alert(self._stop_alert, stop_dts)
 
     # Trigger an alert based on Pokestop info
-    def gym_alert(self, gym_info):
-        if self._gym_alert['stickers']:
-            self.send_alert(self._gym_alert, gym_info, sticker_list.get(
-                "team{}".format(gym_info['new_team_id'])))
-        else:
-            self.send_alert(self._gym_alert, gym_info)
+    def gym_alert(self, gym_dts):
+        self.generic_alert(self._gym_alert, gym_dts)
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
-    def raid_egg_alert(self, raid_info):
-        if self._raid_alert['stickers'] and raid_info['egg_lvl'] > 0:
-            self.send_alert(self._egg_alert, raid_info, sticker_list.get(
-                'raid_level_{}'.format(raid_info['egg_lvl'])))
-        else:
-            self.send_alert(self._egg_alert, raid_info)
+    def raid_egg_alert(self, egg_dts):
+        self.generic_alert(self._egg_alert, egg_dts)
 
     # Trigger an alert based on Raid info
-    def raid_alert(self, raid_info):
-        if self._raid_alert['stickers'] and raid_info['mon_id'] > 0:
-            self.send_alert(self._raid_alert, raid_info, sticker_list.get(
-                str(raid_info['mon_id'])))
-        else:
-            self.send_alert(self._raid_alert, raid_info)
+    def raid_alert(self, raid_dts):
+        self.generic_alert(self._raid_alert, raid_dts)
 
     # Send a message to telegram
     def send_message(self, chat_id, text):
@@ -220,7 +238,7 @@ class TelegramAlarm(Alarm):
     def send_sticker(self, chat_id, sticker_id):
         args = {
             'chat_id': chat_id,
-            'sticker': unicode(sticker_id),
+            'sticker': sticker_id,
             'disable_notification': 'True'
         }
         try_sending(log, self.connect, 'Telegram (sticker)',
@@ -251,37 +269,40 @@ class TelegramAlarm(Alarm):
         try_sending(log, self.connect, "Telegram (location)",
                     self.__client.sendLocation, args)
 
-    def send_sticker_new(self, bot_token, chat_id, sticker_id, max_attempts):
+    def send_sticker_new(self, bot_token, chat_id, sticker_url,
+                         max_attempts=3, notify=False):
         args = {
             'url':
                 "https://api.telegram.org/bot{}/sendSticker".format(bot_token),
             'payload': {
                 'chat_id': chat_id,
-                'sticker_id': sticker_id,
-                'disable_notification': False
+                'sticker': sticker_url,
+                'disable_notification': not notify
             }
         }
         try_sending(
             log, self.connect, "Telegram (STKR)", self.send_webhook, args,
             max_attempts)
 
-    def send_message_new(self, bot_token, chat_id, message, max_attempts=3):
+    def send_message_new(self, bot_token, chat_id, message,
+                         max_attempts=3, notify=True):
         args = {
             'url':
                 "https://api.telegram.org/bot{}/sendMessage".format(bot_token),
             'payload': {
                 'chat_id': chat_id,
                 'text': message,
-                'parse_mode': 'markdown',
+                'parse_mode': 'Markdown',
                 'disable_web_page_preview': False,
-                'disable_notification': False
+                'disable_notification': not notify
             }
         }
         try_sending(
             log, self.connect, "Telegram (MSG)", self.send_webhook, args, 
             max_attempts)
 
-    def send_location_new(self, bot_token, chat_id, lat, lng, max_attempts):
+    def send_location_new(self, bot_token, chat_id, lat, lng,
+                          max_attempts=3, notify=False):
         args = {
             'url': "https://api.telegram.org/bot{}/sendLocation".format(
                     bot_token),
@@ -289,7 +310,7 @@ class TelegramAlarm(Alarm):
                 'chat_id': chat_id,
                 'latitude': lat,
                 'longitude': lng,
-                'disable_notification': True
+                'disable_notification': not notify
             }
         }
         try_sending(
