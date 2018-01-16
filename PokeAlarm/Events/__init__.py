@@ -7,6 +7,7 @@ from StopEvent import StopEvent
 from GymEvent import GymEvent
 from EggEvent import EggEvent
 from RaidEvent import RaidEvent
+from WeatherEvent import WeatherEvent
 
 log = logging.getLogger('Events')
 
@@ -28,6 +29,8 @@ def event_factory(data):
         elif kind == 'raid' and message.get('pokemon_id'):
             # RM/M send Monster ID in raids
             return RaidEvent(message)
+        elif kind == 'weather':
+            return WeatherEvent(message)
         elif kind in ['captcha', 'scheduler']:
             log.debug(
                 "{} data ignored - unsupported webhook type.".format(kind))

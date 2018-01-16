@@ -40,12 +40,12 @@
   "weather": {
 	"0": "None",
 	"1": "Clear",
-	"2": "Rain",
+	"2": "Rainy",
 	"3": "Partly Cloudy",
 	"4": "Cloudy",
 	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"6": "Snowy",
+	"7": "Foggy"
   },
   "leaders": {
     "0": "Professor Willow",

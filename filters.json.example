@@ -92,5 +92,17 @@
                 "is_missing_info": false
             }
         }
+    },
+    "weather":{
+        "enabled": false,
+        "defaults": {
+        },
+        "filters": {
+            "filter-name" : {
+                "geofences": [ "Central Park" ],
+                "custom_dts": { "key1": "value1", "key2": "value2" },
+                "is_missing_info": false
+            }
+        }
     }
 }

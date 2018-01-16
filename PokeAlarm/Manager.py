@@ -75,6 +75,7 @@ class Manager(object):
         self.__ignore_neutral = False
         self.__eggs_enabled, self.__egg_filters = False, {}
         self.__raids_enabled, self.__raid_filters = False, {}
+        self.__weather_enabled, self.__weather_filters = False, {}
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -205,6 +206,13 @@ class Manager(object):
             self.__raids_enabled = bool(section.pop('enabled', True))
             self.__raid_filters = self.load_filter_section(
                 section, 'raids', Filters.RaidFilter)
+
+            # Load Weather Section
+            log.info("Parsing 'weather' section.")
+            section = filters.pop('weather', {})
+            self.__weather_enabled = bool(section.pop('enabled', True))
+            self.__weather_filters = self.load_filter_section(
+                section, 'weather', Filters.WeatherFilter)
 
             return  # exit function
 
@@ -390,6 +398,8 @@ class Manager(object):
                     self.process_egg(event)
                 elif kind == Events.RaidEvent:
                     self.process_raid(event)
+                elif kind == Events.WeatherEvent:
+                    self.process_weather(event)
                 else:
                     log.error("!!! Manager does not support "
                               + "{} events!".format(kind))
@@ -768,6 +778,41 @@ class Manager(object):
         for thread in threads:
             thread.join()
 
+    def process_weather(self, weather):
+        # type: (Events.WeatherEvent) -> None
+        """ Process a weather event and notify alarms if it passes. """
+
+        # Make sure that weather is enabled
+        if self.__weather_enabled is False:
+            log.debug("Weather ignored: weather notifications are disabled.")
+            return
+
+        # Check the Filters
+        passed = True
+        for name, f in self.__weather_filters.iteritems():
+            passed = f.check_event(weather) and self.check_weather_geofences(f, weather)
+            if passed:  # Stop checking
+                weather.custom_dts = f.custom_dts
+                break
+        if not passed:  # Weather was rejected by all filters
+            return
+
+        # Generate the DTS for the event
+        dts = weather.generate_dts(self.__locale)
+
+        if self.__quiet is False:
+            log.info(
+                "{} weather notification triggered!".format(weather.weather_cell_id))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for alarm in self.__alarms:
+            threads.append(gevent.spawn(alarm.weather_alert, dts))
+        gevent.sleep(0)  # explict context yield
+
+        for thread in threads:
+            thread.join()
+
     # Check to see if a notification is within the given range
     def check_geofences(self, f, e):
         """ Returns true if the event passes the filter's geofences. """
@@ -790,4 +835,25 @@ class Manager(object):
         f.reject(e, "not in geofences")
         return False
 
+# Check to see if a weather notification s2 cell overlaps with a given range (geofence)
+    def check_weather_geofences(self, f, weather):
+        """ Returns true if the event passes the filter's geofences. """
+        if self.geofences is None or f.geofences is None:  # No geofences set
+            return True
+        targets = f.geofences
+        if len(targets) == 1 and "all" in targets:
+            targets = self.geofences.iterkeys()
+        for name in targets:
+            gf = self.geofences.get(name)
+            if not gf:  # gf doesn't exist
+                log.error("Cannot check geofence %s: does not exist!", name)
+            elif gf.check_overlap(weather):  # weather cell overlaps gf
+                log.debug("{} is in geofence {}!".format(
+                    weather.weather_cell_id, gf.get_name()))
+                weather.geofence = name  # Set the geofence for dts
+                return True
+            else:  # weather not in gf
+                log.debug("%s not in %s.", weather.weather_cell_id, name)
+        f.reject(weather, "not in geofences")
+        return False
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

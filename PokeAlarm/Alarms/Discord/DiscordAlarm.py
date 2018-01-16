@@ -7,7 +7,8 @@ import requests
 # Local Imports
 from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
-    reject_leftover_parameters, require_and_remove_key, get_image_url
+    reject_leftover_parameters, require_and_remove_key, get_image_url, \
+    get_static_weather_map_url
 
 log = logging.getLogger('Discord')
 try_sending = Alarm.try_sending
@@ -71,6 +72,15 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "The raid is available until "
                     "<24h_raid_end> (<raid_time_left>)."
+        },
+        'weather': {
+            'username': "Weather",
+            'content': "",
+            'icon_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
+            'avatar_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
+            'title': "Weather Change",
+            'url': None,
+            'body': "At <12h_time_weather_changed>, weather in <geofence> became <weather>",
         }
     }
 
@@ -92,15 +102,17 @@ class DiscordAlarm(Alarm):
 
         # Set Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
+            settings.pop('pokemon', {}), self._defaults['pokemon'],'pokemon')
         self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
+            settings.pop('pokestop', {}), self._defaults['pokestop'],'pokestop')
         self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'])
+            settings.pop('gym', {}), self._defaults['gym'],'gym')
         self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
+            settings.pop('egg', {}), self._defaults['egg'],'egg')
         self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+            settings.pop('raid', {}), self._defaults['raid'],'raid')
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'],'weather')
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -126,7 +138,13 @@ class DiscordAlarm(Alarm):
             log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
-    def create_alert_settings(self, settings, default):
+    def create_alert_settings(self, settings, default, kind):
+        if kind == 'weather':
+            static_map = get_static_weather_map_url(
+                        settings.pop('map', self.__map), self.__static_map_key)
+        else:
+            static_map = get_static_map_url(
+                        settings.pop('map', self.__map), self.__static_map_key)
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
@@ -138,8 +156,7 @@ class DiscordAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': get_static_map_url(
-                settings.pop('map', self.__map), self.__static_map_key)
+            'map': static_map
         }
 
         reject_leftover_parameters(settings, "'Alert level in Discord alarm.")
@@ -162,10 +179,22 @@ class DiscordAlarm(Alarm):
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
             }]
             if alert['map'] is not None:
-                coords = {
-                    'lat': info['lat'],
-                    'lng': info['lng']
-                }
+                try:
+                    coords = {
+                        'lat1': info['lat1'],
+                        'lng1': info['lng1'],
+                        'lat2': info['lat2'],
+                        'lng2': info['lng2'],
+                        'lat3': info['lat3'],
+                        'lng3': info['lng3'],
+                        'lat4': info['lat4'],
+                        'lng4': info['lng4']
+                    }
+                except KeyError:
+                    coords = {
+                        'lat': info['lat'],
+                        'lng': info['lng']
+                    }
                 payload['embeds'][0]['image'] = {
                     'url': replace(alert['map'], coords)
                 }
@@ -197,6 +226,10 @@ class DiscordAlarm(Alarm):
 
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
+
+    def weather_alert(self, weather_info):
+        log.debug("Weather notification triggered.")
+        self.send_alert(self.__weather, weather_info)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):
