@@ -38,7 +38,8 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.weather_id = 7
+        sself.weather_id = check_for_none(
+           int, data.get('weather'), 0)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
