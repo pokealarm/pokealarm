@@ -40,7 +40,7 @@ class MonEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.station = ''
         self.weather_id = check_for_none(
-            int, data.get('weather'), Unknown.TINY)
+            int, data.get('weather'), 0)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -111,6 +111,8 @@ class MonEvent(BaseEvent):
                 + "\nAtt: " + str(self.atk_iv) \
                 + " Def: " + str(self.def_iv) \
                 + " Sta: " + str(self.sta_iv) + "\n"
+
+        weather_name = locale.get_weather_name(self.weather_id)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -143,7 +145,8 @@ class MonEvent(BaseEvent):
             'geofence': self.geofence,
             'station': self.station,
             'weather_id': self.weather_id,
-            'weather': locale.get_weather_name(self.weather_id),
+            'weather': weather_name,
+            'weather_or_empty': Unknown.or_empty(weather_name),
             'weather_emoji': get_weather_emoji(self.weather_id),
 
             # Encounter Stats
