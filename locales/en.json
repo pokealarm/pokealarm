@@ -40,7 +40,7 @@
   "weather": {
 	"0": "None",
 	"1": "Clear",
-	"2": "Rain",
+	"2": "Rainy",
 	"3": "Partly Cloudy",
 	"4": "Cloudy",
 	"5": "Windy",
