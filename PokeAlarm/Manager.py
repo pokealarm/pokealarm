@@ -509,8 +509,8 @@ class Manager(object):
                 self.__location, [mon.lat, mon.lng], dts)
 
         if self.__quiet is False:
-            log.info("{} monster notification has been triggered!".format(
-                mon.name))
+            log.info("{} monster notification has been triggered to {}!".format(
+                mon.name, mon.geofence))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -711,8 +711,8 @@ class Manager(object):
                 self.__location, [egg.lat, egg.lng], dts)
 
         if self.__quiet is False:
-            log.info(
-                "{} egg notification has been triggered!".format(egg.gym_name))
+            log.info("{} egg notification has been triggered to {}!".format(
+                egg.gym_name, egg.geofence))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -784,8 +784,8 @@ class Manager(object):
                 self.__location, [raid.lat, raid.lng], dts)
 
         if self.__quiet is False:
-            log.info(
-                "{} raid notification triggered!".format(raid.gym_name))
+            log.info("{} raid notification triggered to {}!".format(
+                raid.gym_name, raid.geofence))
 
         threads = []
         # Spawn notifications in threads so they can work in background
