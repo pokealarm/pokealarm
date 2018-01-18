@@ -1,6 +1,7 @@
 # Standard Library Imports
 import logging
 import requests
+from collections import namedtuple
 
 # 3rd Party Imports
 
@@ -24,48 +25,10 @@ replace = Alarm.replace
 
 class TelegramAlarm(Alarm):
 
-    class Alert(object):
-        """ Class that defines the settings for each alert."""
-
-        def __init__(self, kind, data, alert_defaults):
-            default = TelegramAlarm._defaults[kind]
-            default.update(alert_defaults)
-            settings = Alarm.pop_type(data, kind, dict, {})
-
-            self.bot_token = Alarm.pop_type(
-                settings, 'bot_token', unicode, default['bot_token'])
-            self.chat_id = Alarm.pop_type(
-                settings, 'chat_id', unicode, default['chat_id'])
-            self.sticker = Alarm.pop_type(
-                settings, 'sticker', utils.parse_bool, default['sticker'])
-            self.sticker_url = Alarm.pop_type(
-                settings, 'sticker_url', unicode, default['sticker_url'])
-            self.sticker_notify = Alarm.pop_type(
-                settings, 'sticker_notify', utils.parse_bool,
-                default['sticker_notify'])
-            self.message = Alarm.pop_type(
-                settings, 'message', unicode, default['message'])
-            self.message_notify = Alarm.pop_type(
-                settings, 'message_notify', utils.parse_bool,
-                default['message_notify'])
-            self.venue = Alarm.pop_type(
-                settings, 'venue', utils.parse_bool, default['venue'])
-            self.venue_notify = Alarm.pop_type(
-                settings, 'venue_notify', utils.parse_bool,
-                default['venue_notify'])
-            self.map = Alarm.pop_type(
-                settings, 'map', utils.parse_bool, default['map'])
-            self.map_notification = Alarm.pop_type(
-                settings, 'map_notify', utils.parse_bool,
-                default['map_notify'])
-            self.max_attempts = Alarm.pop_type(
-                settings, 'max_attempts', int, default['max_attempts'])
-
-            # Reject leftover parameters
-            for key in settings:
-                raise ValueError(
-                    "'{}' is not a recognized parameter for the Alert"
-                    " level in a Telegram Alarm".format(key))
+    Alert = namedtuple(
+        "Alert", ['bot_token', 'chat_id', 'sticker', 'sticker_url',
+                  'sticker_notify', 'message', 'message_notify', 'venue',
+                  'venue_notify', 'map', 'map_notify', 'max_attempts'])
 
     _defaults = {  # No touchy!!! Edit alarms.json!
         'monsters': {
@@ -132,15 +95,15 @@ class TelegramAlarm(Alarm):
         }
 
         # Alert Settings
-        self._mon_alert = TelegramAlarm.Alert(
+        self._mon_alert = self.create_alert_settings(
             'monsters', settings, alert_defaults)
-        self._stop_alert = TelegramAlarm.Alert(
+        self._stop_alert = self.create_alert_settings(
             'stops', settings, alert_defaults)
-        self._gym_alert = TelegramAlarm.Alert(
+        self._gym_alert = self.create_alert_settings(
             'gyms', settings, alert_defaults)
-        self._egg_alert = TelegramAlarm.Alert(
+        self._egg_alert = self.create_alert_settings(
             'eggs', settings, alert_defaults)
-        self._raid_alert = TelegramAlarm.Alert(
+        self._raid_alert = self.create_alert_settings(
             'raids', settings, alert_defaults)
 
         # Reject leftover parameters
@@ -153,6 +116,51 @@ class TelegramAlarm(Alarm):
     # (Re)establishes Telegram connection
     def connect(self):
         pass
+
+    # Set the appropriate settings for each alert
+    def create_alert_settings(self, kind, settings, alert_defaults):
+        default = TelegramAlarm._defaults[kind]
+        default.update(alert_defaults)
+        settings = Alarm.pop_type(settings, kind, dict, {})
+
+        alert = TelegramAlarm.Alert(
+            bot_token=Alarm.pop_type(
+                settings, 'bot_token', unicode, default['bot_token']),
+            chat_id=Alarm.pop_type(
+                settings, 'chat_id', unicode, default['chat_id']),
+            sticker=Alarm.pop_type(
+                settings, 'sticker', utils.parse_bool, default['sticker']),
+            sticker_url=Alarm.pop_type(
+                settings, 'sticker_url', unicode, default['sticker_url']),
+            sticker_notify=Alarm.pop_type(
+                settings, 'sticker_notify', utils.parse_bool,
+                default['sticker_notify']),
+            message = Alarm.pop_type(
+                settings, 'message', unicode, default['message']),
+            message_notify=Alarm.pop_type(
+                settings, 'message_notify', utils.parse_bool,
+                default['message_notify']),
+            venue=Alarm.pop_type(
+                settings, 'venue', utils.parse_bool, default['venue']),
+            venue_notify=Alarm.pop_type(
+                settings, 'venue_notify', utils.parse_bool,
+                default['venue_notify']),
+            map=Alarm.pop_type(
+                settings, 'map', utils.parse_bool, default['map']),
+            map_notify=Alarm.pop_type(
+                settings, 'map_notify', utils.parse_bool,
+                default['map_notify']),
+            max_attempts=Alarm.pop_type(
+                settings, 'max_attempts', int, default['max_attempts'])
+        )
+
+        # Reject leftover parameters
+        for key in settings:
+            raise ValueError(
+                "'{}' is not a recognized parameter for the Alert"
+                " level in a Telegram Alarm".format(key))
+
+        return alert
 
     # Sends a start up message on Telegram
     def startup_message(self):
