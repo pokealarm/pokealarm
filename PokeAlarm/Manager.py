@@ -109,7 +109,7 @@ class Manager(object):
         self.__event.set()
 
     def join(self):
-        self.__process.join()
+        self.__process.join(timeout=20)
         if not self.__process.ready():
             log.warning("Manager {} could not be stopped in time!"
                         " Forcing process to stop.".format(self.__name))
