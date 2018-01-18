@@ -12,15 +12,15 @@ logging.basicConfig(
            + '[%(levelname)8.8s] %(message)s', level=logging.INFO)
 
 # Standard Library Imports
-import configargparse
-from gevent import wsgi, spawn, signal, pool
-import pytz
-import Queue
+
 import json
 import os
 import sys
 # 3rd Party Imports
+import configargparse
+from gevent import wsgi, spawn, signal, pool, queue
 from flask import Flask, request, abort
+import pytz
 # Local Imports
 import PokeAlarm.Events as Events
 from PokeAlarm import config
@@ -38,8 +38,9 @@ log = logging.getLogger('Server')
 
 # Global Variables
 app = Flask(__name__)
-data_queue = Queue.Queue()
+data_queue = queue.Queue()
 managers = {}
+server = None
 
 
 @app.route('/', methods=['GET'])
@@ -79,7 +80,6 @@ def manage_webhook_data(queue):
                 log.debug("Distributing event {} to manager {}.".format(
                     obj.id, name))
             log.debug("Finished distributing event: {}".format(obj.id))
-        queue.task_done()
 
 
 # Configure and run PokeAlarm
@@ -101,6 +101,7 @@ def start_server():
     log.info("PokeAlarm is listening for webhooks on: http://{}:{}".format(
         config['HOST'], config['PORT']))
     threads = pool.Pool(config['CONCURRENCY'])
+    global server
     server = wsgi.WSGIServer(
         (config['HOST'], config['PORT']), app, log=logging.getLogger('pywsgi'),
         spawn=threads)
@@ -274,6 +275,7 @@ def get_from_list(arg, i, default):
 
 def exit_gracefully():
     log.info("PokeAlarm is closing down!")
+    server.stop()
     for m_name in managers:
         managers[m_name].stop()
     for m_name in managers:
