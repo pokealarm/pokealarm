@@ -338,8 +338,8 @@ def get_cardinal_dir(pt_a, pt_b=None):
 
 
 # Return the distance formatted correctly
-def get_dist_as_str(dist):
-    if config['UNITS'] == 'imperial':
+def get_dist_as_str(dist, units):
+    if units == 'imperial':
         if dist > 1760:  # yards per mile
             return "{:.1f}mi".format(dist / 1760.0)
         else:
@@ -352,7 +352,7 @@ def get_dist_as_str(dist):
 
 
 # Returns an integer representing the distance between A and B
-def get_earth_dist(pt_a, pt_b=None):
+def get_earth_dist(pt_a, pt_b=None, units='imperial'):
     if type(pt_a) is str or pt_b is None:
         return 'unkn'  # No location set
     log.debug("Calculating distance from {} to {}".format(pt_a, pt_b))
@@ -366,7 +366,7 @@ def get_earth_dist(pt_a, pt_b=None):
         cos(lat_b) * sin(lng_delta / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     radius = 6373000  # radius of earth in meters
-    if config['UNITS'] == 'imperial':
+    if units == 'imperial':
         radius = 6975175  # radius of earth in yards
     dist = c * radius
     return dist

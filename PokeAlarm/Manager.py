@@ -484,7 +484,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = mon.generate_dts(self.__locale, self.__timezone)
+        dts = mon.generate_dts(self.__locale, self.__timezone, self.__units)
 
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -544,7 +544,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = stop.generate_dts(self.__locale, self.__timezone)
+        dts = stop.generate_dts(self.__locale, self.__timezone, self.__units)
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [stop.lat, stop.lng], dts)
@@ -613,7 +613,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = gym.generate_dts(self.__locale, self.__timezone)
+        dts = gym.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -684,7 +684,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale, self.__timezone)
+        dts = egg.generate_dts(self.__locale, self.__timezone, units)
         dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -755,7 +755,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = raid.generate_dts(self.__locale, self.__timezone)
+        dts = raid.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(

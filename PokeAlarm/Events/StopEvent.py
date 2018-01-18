@@ -34,7 +34,7 @@ class StopEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
-    def generate_dts(self, locale, timezone):
+    def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration)
         dts = self.custom_dts.copy()
@@ -53,8 +53,8 @@ class StopEvent(BaseEvent):
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lat),
             'distance': (
-                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
-                else Unknown.SMALL),
+                get_dist_as_str(self.distance, units)
+                if Unknown.is_not(self.distance) else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
