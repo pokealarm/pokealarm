@@ -47,7 +47,7 @@ class GymEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
-    def generate_dts(self, locale):
+    def generate_dts(self, locale, timezone):
         """ Return a dict with all the DTS for this event. """
         dts = self.custom_dts.copy()
         dts.update({

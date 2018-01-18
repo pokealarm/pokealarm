@@ -63,9 +63,9 @@ class RaidEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
-    def generate_dts(self, locale):
+    def generate_dts(self, locale, timezone):
         """ Return a dict with all the DTS for this event. """
-        raid_end_time = get_time_as_str(self.raid_end)
+        raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
         cp_range = get_pokemon_cp_range(self.mon_id, 20)
         dts.update({

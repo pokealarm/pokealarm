@@ -18,7 +18,7 @@ class BaseEvent(object):
         # Create an id for this event to be recognized as
         self.id = time.time()
 
-    def generate_dts(self, locale):
+    def generate_dts(self, locale, timezone):
         """ Return a dict with all the DTS for this event. """
         raise NotImplementedError("This is an abstract method.")
 

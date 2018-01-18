@@ -331,9 +331,6 @@ class Manager(object):
     def setup_in_process(self):
 
         # Update config
-        config['TIMEZONE'] = self.__timezone
-        config['API_KEY'] = self.__google_key
-        config['UNITS'] = self.__units
         config['DEBUG'] = self.__debug
         config['ROOT_PATH'] = os.path.abspath(
             "{}/..".format(os.path.dirname(__file__)))
@@ -487,7 +484,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = mon.generate_dts(self.__locale)
+        dts = mon.generate_dts(self.__locale, self.__timezone)
 
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -547,7 +544,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = stop.generate_dts(self.__locale)
+        dts = stop.generate_dts(self.__locale, self.__timezone)
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [stop.lat, stop.lng], dts)
@@ -616,7 +613,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = gym.generate_dts(self.__locale)
+        dts = gym.generate_dts(self.__locale, self.__timezone)
         dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -687,7 +684,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale)
+        dts = egg.generate_dts(self.__locale, self.__timezone)
         dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -758,7 +755,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = raid.generate_dts(self.__locale)
+        dts = raid.generate_dts(self.__locale, self.__timezone)
         dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(

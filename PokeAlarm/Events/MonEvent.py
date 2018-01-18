@@ -90,9 +90,9 @@ class MonEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
-    def generate_dts(self, locale):
+    def generate_dts(self, locale, timezone):
         """ Return a dict with all the DTS for this event. """
-        time = get_time_as_str(self.disappear_time)
+        time = get_time_as_str(self.disappear_time, timezone)
         form_name = locale.get_form_name(self.monster_id, self.form_id)
         dts = self.custom_dts.copy()
         dts.update({
