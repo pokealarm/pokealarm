@@ -137,7 +137,7 @@ class TelegramAlarm(Alarm):
             if self.__pokemon['stickers']:
                 self.send_alert(
                     self.__pokemon, pokemon_info, sticker_list.get(
-                        str(pokemon_info['pkmn_id'])))
+                        str(pokemon_info['mon_id'])))
             else:
                 self.send_alert(self.__pokemon, pokemon_info)
         else:
@@ -182,9 +182,9 @@ class TelegramAlarm(Alarm):
     def raid_alert(self, raid_info):
 
         if self.__raid['active']:
-            if self.__raid['stickers'] and raid_info['pkmn_id'] > 0:
+            if self.__raid['stickers'] and raid_info['mon_id'] > 0:
                 self.send_alert(self.__raid, raid_info, sticker_list.get(
-                    str(raid_info['pkmn_id'])))
+                    str(raid_info['mon_id'])))
             else:
                 self.send_alert(self.__raid, raid_info)
         else:
