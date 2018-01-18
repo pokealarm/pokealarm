@@ -283,7 +283,7 @@ class TelegramAlarm(Alarm):
     def send_webhook(self, url, payload):
         log.debug(url)
         log.debug(payload)
-        resp = requests.post(url, json=payload, timeout=5)
+        resp = requests.post(url, json=payload, timeout=30)
         if resp.ok is True:
             log.debug("Notification successful (returned {})".format(
                 resp.status_code))
