@@ -172,7 +172,7 @@ class TelegramAlarm(Alarm):
         if self.__egg['active']:
             if self.__raid['stickers'] and raid_info['egg_lvl'] > 0:
                 self.send_alert(self.__egg, raid_info, sticker_list.get(
-                    'raid_level_{}'.format(raid_info['raid_lvl'])))
+                    'raid_level_{}'.format(raid_info['egg_lvl'])))
             else:
                 self.send_alert(self.__egg, raid_info)
         else:
