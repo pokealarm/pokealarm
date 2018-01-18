@@ -135,7 +135,7 @@ class TelegramAlarm(Alarm):
             sticker_notify=Alarm.pop_type(
                 settings, 'sticker_notify', utils.parse_bool,
                 default['sticker_notify']),
-            message = Alarm.pop_type(
+            message=Alarm.pop_type(
                 settings, 'message', unicode, default['message']),
             message_notify=Alarm.pop_type(
                 settings, 'message_notify', utils.parse_bool,
@@ -237,8 +237,7 @@ class TelegramAlarm(Alarm):
                 'chat_id': chat_id,
                 'text': message,
                 'parse_mode': 'Markdown',
-                'disable_web_page_preview': True
-                ,
+                'disable_web_page_preview': True,
                 'disable_notification': not notify
             }
         }
