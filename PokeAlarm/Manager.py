@@ -684,7 +684,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale, self.__timezone, units)
+        dts = egg.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
