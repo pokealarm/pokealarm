@@ -31,7 +31,7 @@ class FacebookPageAlarm(Alarm):
                 "monsters/<mon_id_3>_<form_id_3>.png"),
             'link': "<gmaps>",
             'name': "<mon_name>",
-            'description': "Available until <24h_time> (<time_left>)",
+            'description': "Available until <24h_time> (<time_left>).",
             'caption': None
         },
         'pokestop': {
@@ -39,7 +39,7 @@ class FacebookPageAlarm(Alarm):
             'image': get_image_url("stop/ready.png"),
             'link': "<gmaps>",
             'name': "Lured Pokestop",
-            'description': "Lure will expire at <24h_time> (<time_left>)",
+            'description': "Lure will expire at <24h_time> (<time_left>).",
             'caption': None
         },
         'gym': {
@@ -47,20 +47,20 @@ class FacebookPageAlarm(Alarm):
             'image': get_image_url("gyms/<new_team_id>.png"),
             'link': "<gmaps>",
             'name': "<old_team> gym fallen",
-            'description': "It is now controlled by <new_team>",
+            'description': "It is now controlled by <new_team>.",
             'caption': None
         },
         'egg': {
-            'message': "A level <egg_level> raid is upcoming!",
-            'image': get_image_url("eggs/<egg_level>.png"),
+            'message': "A level <egg_lvl> raid is upcoming!",
+            'image': get_image_url("eggs/<egg_lvl>.png"),
             'link': "<gmaps>",
             'name': 'Egg',
-            'description': "A level <egg_level> raid will hatch at "
+            'description': "A level <egg_lvl> raid will hatch at "
                            "<24h_hatch_time> (<hatch_time_left>).",
             'caption': None
         },
         'raid': {
-            'message': "A Raid is available against <mon_name>!",
+            'message': "Level <raid_lvl> raid available against <mon_name>!",
             'image': get_image_url(
                 "monsters/<mon_id_3>_000.png"),
             'link': "<gmaps>",
@@ -105,7 +105,7 @@ class FacebookPageAlarm(Alarm):
     def connect(self):
         self.__client = facebook.GraphAPI(self.__page_access_token)
 
-    # Sends a start up message on Telegram
+    # Sends a start up message on Facebook
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())

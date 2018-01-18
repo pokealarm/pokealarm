@@ -70,9 +70,9 @@ class RaidEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
-    def generate_dts(self, locale):
+    def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
-        raid_end_time = get_time_as_str(self.raid_end)
+        raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
         boss_level = 20
@@ -100,8 +100,8 @@ class RaidEvent(BaseEvent):
             'lat_5': "{:.5f}".format(self.lat),
             'lng_5': "{:.5f}".format(self.lng),
             'distance': (
-                get_dist_as_str(self.distance) if Unknown.is_not(self.distance)
-                else Unknown.SMALL),
+                get_dist_as_str(self.distance, units)
+                if Unknown.is_not(self.distance) else Unknown.SMALL),
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),

@@ -33,15 +33,15 @@ class TwilioAlarm(Alarm):
                        "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
-            'message': "A Team <old_team> gym has fallen!"
-                       "It is now controlled by <new_team>. <gmaps>"
+            'message': "A Team <old_team> gym has fallen! <gmaps>"
+                       "It is now controlled by <new_team>."
         },
         'egg': {
-            'message': "A level <egg_lvl> raid is incoming! <gmap>"
+            'message': "A level <egg_lvl> raid is incoming! <gmaps>"
                        "Egg hatches <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
-            'message': "A raid on <mon_name> is available! <gmap>"
+            'message': "Level <raid_lvl> raid against <mon_name>! <gmaps>"
                        " Available until <24h_raid_end> (<raid_time_left>)."
         }
     }
@@ -80,7 +80,7 @@ class TwilioAlarm(Alarm):
 
         log.info("Twilio Alarm has been created!")
 
-    # (Re)establishes Telegram connection
+    # (Re)establishes Twilio connection
     def connect(self):
         self.__client = TwilioRestClient(self.__account_sid, self.__auth_token)
 

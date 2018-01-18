@@ -44,7 +44,7 @@ class TelegramAlarm(Alarm):
             'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
-            'title': "A raid is available against <pkmn>!",
+            'title': "A raid is available against <mon_name>!",
             'body': "The raid is available until <24h_raid_end> "
                     "(<raid_time_left>)."
         }
@@ -175,6 +175,9 @@ class TelegramAlarm(Alarm):
                     'raid_level_{}'.format(raid_info['egg_lvl'])))
             else:
                 self.send_alert(self.__egg, raid_info)
+        if self.__raid['stickers'] and raid_info['egg_lvl'] > 0:
+            self.send_alert(self.__egg, raid_info, sticker_list.get(
+                'raid_level_{}'.format(raid_info['egg_lvl'])))
         else:
             log.info("Notification not sent as disabled for Raid Eggs")
 

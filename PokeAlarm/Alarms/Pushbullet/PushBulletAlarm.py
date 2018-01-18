@@ -44,7 +44,7 @@ class PushbulletAlarm(Alarm):
             'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
         },
         'raid': {
-            'title': "A Raid is available against <mon_name>!",
+            'title': "Level <raid_lvl> raid is available against <mon_name>!",
             'url': "<gmaps>",
             'body': "The raid is available until <24h_raid_end>"
                     " (<raid_time_left>)."
