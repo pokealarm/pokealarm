@@ -50,6 +50,7 @@ class BaseFilter(object):
 
     def reject(self, event, reason):
         """ Log the reason for rejecting the Event. """
+        log.debug("[%10s] %s rejected: %s", self._name, event.name, reason)
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """ Evaluates a parameter and generate a check if needed. """
