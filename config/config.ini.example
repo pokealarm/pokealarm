@@ -8,6 +8,7 @@
 #debug											# Enables debugging mode
 #host:											# Address to listen on (default 127.0.0.1)
 #port:											# Port to listen on (default: 4000)
+#concurrency: 200                                # Maximum concurrent connections for the webserver(default: 200)
 #manager_count: 1								# Number of Managers to run. (default: 1)
 
 # Manager-Specific Settings

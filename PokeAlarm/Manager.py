@@ -1,17 +1,16 @@
 # Standard Library Imports
-import Queue
 import json
 import logging
-import multiprocessing
 import os
 import re
 import sys
 import traceback
 from datetime import datetime, timedelta
 
-import gevent
 # 3rd Party Imports
-import gipc
+import gevent
+from gevent.queue import Queue
+from gevent.event import Event
 
 # Local Imports
 import Alarms
@@ -22,7 +21,8 @@ from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg, get_station)
+                   parse_boolean, contains_arg, get_cardinal_dir, get_station)
+
 from . import config
 
 log = logging.getLogger('Manager')
@@ -69,9 +69,9 @@ class Manager(object):
         self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
-        self.__mons_enabled, self.__mon_filters = True, {}
-        self.__stops_enabled, self.__stop_filters = True, {}
-        self.__gyms_enabled, self.__gym_filters = True, {}
+        self.__mons_enabled, self.__mon_filters = False, {}
+        self.__stops_enabled, self.__stop_filters = False, {}
+        self.__gyms_enabled, self.__gym_filters = False, {}
         self.__ignore_neutral = False
         self.__eggs_enabled, self.__egg_filters = False, {}
         self.__raids_enabled, self.__raid_filters = False, {}
@@ -87,8 +87,8 @@ class Manager(object):
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
 
         # Initialize the queue and start the process
-        self.__queue = multiprocessing.Queue()
-        self.__event = multiprocessing.Event()
+        self.__queue = Queue()
+        self.__event = Event()
         self.__process = None
 
         self.__stations = False
@@ -115,11 +115,11 @@ class Manager(object):
         self.__event.set()
 
     def join(self):
-        self.__process.join(timeout=10)
-        if self.__process.is_alive():
+        self.__process.join(timeout=20)
+        if not self.__process.ready():
             log.warning("Manager {} could not be stopped in time!"
-                        + " Forcing process to stop.")
-            self.__process.terminate()
+                        " Forcing process to stop.".format(self.__name))
+            self.__process.kill(timeout=2, block=True)  # Force stop
         else:
             log.info("Manager {} successfully stopped!".format(self.__name))
 
@@ -178,21 +178,21 @@ class Manager(object):
             # Load Monsters Section
             log.info("Parsing 'monsters' section.")
             section = filters.pop('monsters', {})
-            self.__mons_enabled = bool(section.pop('enabled', True))
+            self.__mons_enabled = bool(section.pop('enabled', False))
             self.__mon_filters = self.load_filter_section(
                 section, 'monsters', Filters.MonFilter)
 
             # Load Stops Section
             log.info("Parsing 'stops' section.")
             section = filters.pop('stops', {})
-            self.__stops_enabled = bool(section.pop('enabled', True))
+            self.__stops_enabled = bool(section.pop('enabled', False))
             self.__stop_filters = self.load_filter_section(
                 section, 'stops', Filters.StopFilter)
 
             # Load Gyms Section
             log.info("Parsing 'gyms' section.")
             section = filters.pop('gyms', {})
-            self.__gyms_enabled = bool(section.pop('enabled', True))
+            self.__gyms_enabled = bool(section.pop('enabled', False))
             self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
             self.__gym_filters = self.load_filter_section(
                 section, 'gyms', Filters.GymFilter)
@@ -200,14 +200,14 @@ class Manager(object):
             # Load Eggs Section
             log.info("Parsing 'eggs' section.")
             section = filters.pop('eggs', {})
-            self.__eggs_enabled = bool(section.pop('enabled', True))
+            self.__eggs_enabled = bool(section.pop('enabled', False))
             self.__egg_filters = self.load_filter_section(
                 section, 'eggs', Filters.EggFilter)
 
             # Load Raids Section
             log.info("Parsing 'raids' section.")
             section = filters.pop('raids', {})
-            self.__raids_enabled = bool(section.pop('enabled', True))
+            self.__raids_enabled = bool(section.pop('enabled', False))
             self.__raid_filters = self.load_filter_section(
                 section, 'raids', Filters.RaidFilter)
 
@@ -339,18 +339,11 @@ class Manager(object):
 
     # Start it up
     def start(self):
-        self.__process = gipc.start_process(
-            target=self.run, args=(), name=self.__name)
+        self.__process = gevent.spawn(self.run)
 
     def setup_in_process(self):
-        # Set up signal handlers for graceful exit
-        gevent.signal(gevent.signal.SIGINT, self.stop)
-        gevent.signal(gevent.signal.SIGTERM, self.stop)
 
         # Update config
-        config['TIMEZONE'] = self.__timezone
-        config['API_KEY'] = self.__google_key
-        config['UNITS'] = self.__units
         config['DEBUG'] = self.__debug
         config['ROOT_PATH'] = os.path.abspath(
             "{}/..".format(os.path.dirname(__file__)))
@@ -381,7 +374,7 @@ class Manager(object):
 
             try:  # Get next object to process
                 event = self.__queue.get(block=True, timeout=5)
-            except Queue.Empty:
+            except gevent.queue.Empty:
                 # Check if the process should exit process
                 if self.__event.is_set():
                     break
@@ -416,7 +409,7 @@ class Manager(object):
             gevent.sleep(0)
         # Save cache and exit
         self.__cache.clean_and_save()
-        exit(0)
+        raise gevent.GreenletExit()
 
     # Set the location of the Manager
     def set_location(self, location):
@@ -488,9 +481,12 @@ class Manager(object):
                       "".format(mon.name, seconds_left))
             return
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
-            mon.distance = get_earth_dist([mon.lat, mon.lng], self.__location)
+            mon.distance = get_earth_dist(
+                [mon.lat, mon.lng], self.__location)
+            mon.direction = get_cardinal_dir(
+                [mon.lat, mon.lng], self.__location)
 
         if self.__stations:
             mon.station = get_station(mon.lat, mon.lng)
@@ -506,7 +502,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = mon.generate_dts(self.__locale)
+        dts = mon.generate_dts(self.__locale, self.__timezone, self.__units)
 
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -548,9 +544,11 @@ class Manager(object):
                       "".format(stop.name, seconds_left))
             return
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
             stop.distance = get_earth_dist(
+                [stop.lat, stop.lng], self.__location)
+            stop.direction = get_cardinal_dir(
                 [stop.lat, stop.lng], self.__location)
 
         # Check the Filters
@@ -564,7 +562,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = stop.generate_dts(self.__locale)
+        dts = stop.generate_dts(self.__locale, self.__timezone, self.__units)
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [stop.lat, stop.lng], dts)
@@ -615,9 +613,12 @@ class Manager(object):
             log.debug("%s gym update skipped: no change detected", gym.gym_id)
             return
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
-            gym.distance = get_earth_dist([gym.lat, gym.lng], self.__location)
+            gym.distance = get_earth_dist(
+                [gym.lat, gym.lng], self.__location)
+            gym.direction = get_cardinal_dir(
+                [gym.lat, gym.lng], self.__location)
 
         # Check the Filters
         passed = True
@@ -630,7 +631,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = gym.generate_dts(self.__locale)
+        dts = gym.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -682,9 +683,11 @@ class Manager(object):
         egg.gym_description = info['description']
         egg.gym_image = info['url']
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
             egg.distance = get_earth_dist(
+                [egg.lat, egg.lng], self.__location)
+            egg.direction = get_cardinal_dir(
                 [egg.lat, egg.lng], self.__location)
 
         if self.__stations:
@@ -701,7 +704,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale)
+        dts = egg.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -753,9 +756,11 @@ class Manager(object):
         raid.gym_description = info['description']
         raid.gym_image = info['url']
 
-        # Calculate distance
+        # Calculate distance and direction
         if self.__location is not None:
             raid.distance = get_earth_dist(
+                [raid.lat, raid.lng], self.__location)
+            raid.direction = get_cardinal_dir(
                 [raid.lat, raid.lng], self.__location)
 
         if self.__stations:
@@ -772,7 +777,7 @@ class Manager(object):
             return
 
         # Generate the DTS for the event
-        dts = raid.generate_dts(self.__locale)
+        dts = raid.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
