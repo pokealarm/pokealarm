@@ -1,17 +1,16 @@
 # Standard Library Imports
-import Queue
 import json
 import logging
-import multiprocessing
 import os
 import re
 import sys
 import traceback
 from datetime import datetime, timedelta
 
-import gevent
 # 3rd Party Imports
-import gipc
+import gevent
+from gevent.queue import Queue
+from gevent.event import Event
 
 # Local Imports
 import Alarms
@@ -86,8 +85,8 @@ class Manager(object):
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
 
         # Initialize the queue and start the process
-        self.__queue = multiprocessing.Queue()
-        self.__event = multiprocessing.Event()
+        self.__queue = Queue()
+        self.__event = Event()
         self.__process = None
 
         log.info("----------- Manager '{}' ".format(self.__name)
@@ -110,11 +109,11 @@ class Manager(object):
         self.__event.set()
 
     def join(self):
-        self.__process.join(timeout=10)
-        if self.__process.is_alive():
+        self.__process.join()
+        if not self.__process.ready():
             log.warning("Manager {} could not be stopped in time!"
-                        + " Forcing process to stop.")
-            self.__process.terminate()
+                        " Forcing process to stop.".format(self.__name))
+            self.__process.kill(timeout=2, block=True)  # Force stop
         else:
             log.info("Manager {} successfully stopped!".format(self.__name))
 
@@ -327,13 +326,9 @@ class Manager(object):
 
     # Start it up
     def start(self):
-        self.__process = gipc.start_process(
-            target=self.run, args=(), name=self.__name)
+        self.__process = gevent.spawn(self.run)
 
     def setup_in_process(self):
-        # Set up signal handlers for graceful exit
-        gevent.signal(gevent.signal.SIGINT, self.stop)
-        gevent.signal(gevent.signal.SIGTERM, self.stop)
 
         # Update config
         config['TIMEZONE'] = self.__timezone
@@ -369,7 +364,7 @@ class Manager(object):
 
             try:  # Get next object to process
                 event = self.__queue.get(block=True, timeout=5)
-            except Queue.Empty:
+            except gevent.queue.Empty:
                 # Check if the process should exit process
                 if self.__event.is_set():
                     break
@@ -402,7 +397,7 @@ class Manager(object):
             gevent.sleep(0)
         # Save cache and exit
         self.__cache.clean_and_save()
-        exit(0)
+        raise gevent.GreenletExit()
 
     # Set the location of the Manager
     def set_location(self, location):

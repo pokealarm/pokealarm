@@ -12,15 +12,15 @@ logging.basicConfig(
            + '[%(levelname)8.8s] %(message)s', level=logging.INFO)
 
 # Standard Library Imports
-import configargparse
-from gevent import wsgi, spawn, signal, pool
-import pytz
-import Queue
+
 import json
 import os
 import sys
 # 3rd Party Imports
+import configargparse
+from gevent import wsgi, spawn, signal, pool, queue
 from flask import Flask, request, abort
+import pytz
 # Local Imports
 import PokeAlarm.Events as Events
 from PokeAlarm import config
@@ -38,7 +38,7 @@ log = logging.getLogger('Server')
 
 # Global Variables
 app = Flask(__name__)
-data_queue = Queue.Queue()
+data_queue = queue.Queue()
 managers = {}
 
 
@@ -79,7 +79,6 @@ def manage_webhook_data(queue):
                 log.debug("Distributing event {} to manager {}.".format(
                     obj.id, name))
             log.debug("Finished distributing event: {}".format(obj.id))
-        queue.task_done()
 
 
 # Configure and run PokeAlarm
