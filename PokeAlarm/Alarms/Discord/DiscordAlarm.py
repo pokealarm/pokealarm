@@ -78,9 +78,9 @@ class DiscordAlarm(Alarm):
             'content': "",
             'icon_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
             'avatar_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
-            'title': "Weather Change Alert!",
+            'title': "Weather Change",
             'url': None,
-            'body': "\nIn <manager>, at <24h_time_weather_changed>. \n\nAffected areas are:\n\n<geofence>",
+            'body': "At <12h_time_weather_changed>, weather in <geofence> became <weather>",
         }
     }
 
