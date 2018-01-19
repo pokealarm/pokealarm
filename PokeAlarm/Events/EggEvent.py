@@ -56,7 +56,7 @@ class EggEvent(BaseEvent):
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
-        hatch_time = get_time_as_str(self.hatch_time)
+        hatch_time = get_time_as_str(self.hatch_time, timezone)
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
         dts.update({
