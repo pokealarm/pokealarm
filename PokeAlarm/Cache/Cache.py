@@ -89,6 +89,14 @@ class Cache(object):
         """ Updates the datetime that the raid expires. """
         self._weather_hist[cell_id] = weather_id        
 
+    def get_cell_weather(self, weather_cell_id):
+        """ Returns the datetime that the egg expires. """
+        return self._weather_hist.get(weather_cell_id)
+
+    def update_cell_weather(self, weather_cell_id, condition):
+        """ Update the current weather in an S2 cell. """
+        self._weather_hist[weather_cell_id] = condition
+
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
         self._clean_hist()

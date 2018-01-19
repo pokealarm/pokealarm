@@ -4,10 +4,8 @@ from datetime import datetime
 # Local Imports
 from PokeAlarm import Unknown
 from . import BaseEvent
-from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
-    get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
-    is_raid_boss_weather_boosted
+from PokeAlarm.Utils import get_time_as_str 
+   
 
 class WeatherEvent(BaseEvent):
     """ Event representing the change occurred in Weather """
@@ -18,21 +16,15 @@ class WeatherEvent(BaseEvent):
         check_for_none = BaseEvent.check_for_none
 
         # Identification
-        self.weather_cell_id = data.get('cell_id')
+        self.alert_type = 'weather'
+        self.weather_cell_id = data.get('s2_cell_id')
 
         #Time of weather change
         self.time_changed = datetime.utcfromtimestamp(
             data.get('time_changed'))
 
         #S2 Cell vertices coordinates
-        self.lat1 = float(data['lat1'])
-        self.lng1 = float(data['lng1'])
-        self.lat2 = float(data['lat2'])
-        self.lng2 = float(data['lng2'])
-        self.lat3 = float(data['lat3'])
-        self.lng3 = float(data['lng3'])
-        self.lat4 = float(data['lat4'])
-        self.lng4 = float(data['lng4'])
+        self.coords = data.get('coords')
 
         #Weather conditions
         self.condition = check_for_none(
@@ -54,6 +46,7 @@ class WeatherEvent(BaseEvent):
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
+            'alert_type': self.alert_type,
             'weather_cell_id': self.weather_cell_id,
 
             # Time Remaining
@@ -61,14 +54,7 @@ class WeatherEvent(BaseEvent):
             '24h_time_weather_changed': time_changed[2],
 
             # Location
-            'lat1': self.lat1,
-            'lng1': self.lng1,
-            'lat2': self.lat2,
-            'lng2': self.lng2,
-            'lat3': self.lat3,
-            'lng3': self.lng3,
-            'lat4': self.lat4,
-            'lng4': self.lng4,
+            'coords': self.coords,
 
             'geofence': self.geofence,
 

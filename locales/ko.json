@@ -868,5 +868,15 @@
     "1": "\ubbf8\uc2a4\ud2f1(\ube14\ub8e8)", 
     "2": "\ubc1c\ub85c(\ub808\ub4dc)", 
     "3": "\uc778\uc2a4\ud305\ud2b8(\uc610\ub85c\uc6b0)"
+  },
+  "weather": {
+	"0": "None",
+	"1": "Clear",
+	"2": "Rain",
+	"3": "Partly Cloudy",
+	"4": "Cloudy",
+	"5": "Windy",
+	"6": "Snow",
+	"7": "Fog"
   }
 }
