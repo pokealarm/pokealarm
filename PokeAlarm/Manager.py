@@ -126,7 +126,6 @@ class Manager(object):
         defaults = section.pop('defaults', {})
         filter_set = {}
         for name, settings in section.pop('filters', {}).iteritems():
-<<<<<<< HEAD
             settings = dict(defaults.items() + settings.items())
             try:
                 filter_set[name] = filter_type(name, settings)
@@ -139,16 +138,6 @@ class Manager(object):
         for key in section:  # Reject leftover parameters
             raise ValueError("'{}' is not a recognized parameter for the "
                              "'{}' section.".format(key, sect_name))
-=======
-            settings = dict(settings.items() + defaults.items())
-            filter_set[name] = filter_type(name, settings)
-            log.debug(
-                "Filter '%s' set as the following: %s", name,
-                filter_set[name].to_dict())
-        for key in section:  # Reject leftover parameters
-            raise ValueError("'{}' is not a recognized parameter for the"
-                             " '{}' section.".format(key, sect_name))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         return filter_set
 
     # Load in a new filters file
@@ -164,29 +153,17 @@ class Manager(object):
             log.error("Encountered error while loading Filters:"
                       " {}: {}".format(type(e).__name__, e))
             log.error(
-<<<<<<< HEAD
                 "PokeAlarm has encountered a 'ValueError' while loading the "
                 "Filters file. This typically means the file isn't in the "
                 "correct json format. Try loading the file contents into a "
                 "json validator.")
-=======
-                "PokeAlarm has encountered a 'ValueError' while loading the"
-                " Filters file. This typically means your file isn't in the"
-                "correct json format. Try loading your file contents into a"
-                " json validator.")
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             sys.exit(1)
         except IOError as e:
             log.error("Encountered error while loading Filters: "
                       "{}: {}".format(type(e).__name__, e))
-<<<<<<< HEAD
             log.error("PokeAlarm was unable to find a filters file "
                       "at {}. Please check that this file exists "
-=======
-            log.error("PokeAlarm was unable to find a filters file"
-                      " at {}. Please check that this file exists "
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
                       "and that PA has read permissions.".format(file_path))
             log.debug("Stack trace: \n {}".format(traceback.format_exc()))
             sys.exit(1)
@@ -592,7 +569,6 @@ class Manager(object):
         # Update Gym details (if they exist)
         self.__cache.update_gym_info(
             gym.gym_id, gym.gym_name, gym.gym_description, gym.gym_image)
-<<<<<<< HEAD
 
         # Ignore changes to neutral
         if self.__ignore_neutral and gym.new_team_id == 0:
@@ -602,30 +578,13 @@ class Manager(object):
         # Get the old team and update new team
         gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
         self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
-=======
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Check if notifications are on
         if self.__gyms_enabled is False:
             log.debug("Gym ignored: gym notifications are disabled.")
-<<<<<<< HEAD
             return
 
         # Update the cache with the gyms info
-=======
-            return
-
-        # Get the old team
-        gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
-
-        # Ignore changes to neutral
-        if self.__ignore_neutral and gym.new_team_id == 0:
-            log.debug("%s gym update skipped: new team was neutral")
-            return
-
-        # Update the cache with the gyms info
-        self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         info = self.__cache.get_gym_info(gym.gym_id)
         gym.gym_name = info['name']
         gym.gym_description = info['description']
@@ -820,24 +779,16 @@ class Manager(object):
         """ Returns true if the event passes the filter's geofences. """
         if self.geofences is None or f.geofences is None:  # No geofences set
             return True
-<<<<<<< HEAD
         targets = f.geofences
         if len(targets) == 1 and "all" in targets:
             targets = self.geofences.iterkeys()
         for name in targets:
-=======
-        for name in f.geofences:
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
             gf = self.geofences.get(name)
             if not gf:  # gf doesn't exist
                 log.error("Cannot check geofence %s: does not exist!", name)
             elif gf.contains(e.lat, e.lng):  # e in gf
-<<<<<<< HEAD
                 log.debug("{} is in geofence {}!".format(
                     e.name, gf.get_name()))
-=======
-                log.debug("{} is in geofence {}!".format(name, gf.get_name()))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
                 e.geofence = name  # Set the geofence for dts
                 return True
             else:  # e not in gf
