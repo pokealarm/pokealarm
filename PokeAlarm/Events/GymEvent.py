@@ -42,6 +42,7 @@ class GymEvent(BaseEvent):
             (6 - self.slots_available)
             if Unknown.is_not(self.slots_available)
             else Unknown.TINY)
+
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
