@@ -6,11 +6,11 @@
     "3": "Spark"
   },
   "sizes": {
-    "0": "minuscule",
-    "1": "petite",
-    "2": "normale",
-    "3": "grand",
-    "4": "énorme"
+    "1": "minuscule",
+    "2": "petite",
+    "3": "normale",
+    "4": "grand",
+    "5": "énorme"
   }, 
   "moves": {
     "13": "Ligotage",
