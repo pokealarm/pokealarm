@@ -61,6 +61,7 @@ class TestMonsterFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(mon_filter.check_event(e))
 
+<<<<<<< HEAD
     def test_iv(self):
         # Create filter that forces settings
         settings = {"min_iv": 50, "max_iv": 75}
@@ -292,6 +293,7 @@ class TestMonsterFilter(unittest.TestCase):
         for i in [19, 501, 9999]:
             self.assertFalse(mon_filter.check_event(create_event({'cp': i})))
 
+<<<<<<< HEAD
     def test_weather(self):
         settings = {'weather': [1, "windy"]}
         mon_filter = Filters.MonFilter('weather_filter', settings)
@@ -305,6 +307,10 @@ class TestMonsterFilter(unittest.TestCase):
                 'weather': i
             })))
 
+=======
+=======
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
+>>>>>>> d89f8b3454767e0dc71fa9588b1cc0fdde5e55ae
 
 # Create a generic monster, overriding with an specific values
 def generate_monster(values):
@@ -339,10 +345,13 @@ def generate_monster(values):
     return mon
 
 
+<<<<<<< HEAD
 # Create the event and change default values
 def create_event(items_to_change):
     return Events.MonEvent(generate_monster(items_to_change))
 
 
+=======
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 if __name__ == '__main__':
     unittest.main()

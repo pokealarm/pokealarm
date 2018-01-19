@@ -68,10 +68,16 @@ def accept_webhook():
 # Thread used to distribute the data into various processes
 def manage_webhook_data(queue):
     while True:
+<<<<<<< HEAD
         qsize = queue.qsize()
         if qsize > 5000:
             log.warning("Queue length is at %s... this may be causing "
                         + "a significant delay in notifications.", qsize)
+=======
+        if queue.qsize() > 300:
+            log.warning("Queue length is at {}... this may be causing a delay"
+                        + " in notifications.".format(queue.qsize()))
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         data = queue.get(block=True)
         obj = Events.event_factory(data)
         if obj is not None:
@@ -233,7 +239,12 @@ def parse_settings(root_path):
         # TODO: Fix this mess better next time
         config['UNITS'] = get_from_list(args.units, m_ct, args.units[0])
         m = Manager(
+<<<<<<< HEAD
             name=args.manager_name[m_ct],
+=======
+            name=get_from_list(
+                args.manager_name, m_ct, "Manager_{}".format(m_ct)),
+>>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
             google_key=get_from_list(
                 args.key, m_ct, args.key[0]),
             locale=get_from_list(args.locale, m_ct, args.locale[0]),
