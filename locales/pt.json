@@ -954,5 +954,15 @@
     "1": "M\u00edstico", 
     "2": "Valentia", 
     "3": "Instinto"
+  },
+  "weather": {
+	"0": "None",
+	"1": "Clear",
+	"2": "Rain",
+	"3": "Partly Cloudy",
+	"4": "Cloudy",
+	"5": "Windy",
+	"6": "Snow",
+	"7": "Fog"
   }
 }
