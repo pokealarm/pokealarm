@@ -5,6 +5,13 @@
     "2": "Candela (\u574e\u8fea)",
     "3": "Spark (\u53f2\u5e15)"
   },
+  "sizes": {
+    "1": "\u5c0f",
+    "2": "\u77ed",
+    "3": "\u6b63\u5e38",
+    "4": "\u5927",
+    "5": "\u5de8\u5927"
+  },
   "moves": {
     "13": "Wrap (\u7dca\u675f)",
     "14": "Hyper Beam (\u7834\u58de\u5149\u7dda)",

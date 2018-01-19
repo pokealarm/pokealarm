@@ -249,19 +249,19 @@ def size_ratio(pokemon_id, height, weight):
     return height_ratio + weight_ratio
 
 
-# Returns the (appraisal) size of a pokemon:
+# Returns the appraised size_id of a pokemon
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'tiny'
+        return 1
     elif size <= 1.75:
-        return 'small'
-    elif size < 2.25:
-        return 'normal'
+        return 2
+    elif size <= 2.25:
+        return 3
     elif size <= 2.5:
-        return 'large'
+        return 4
     else:
-        return 'big'
+        return 5
 
 
 # Returns the gender symbol of a pokemon:

@@ -216,7 +216,7 @@ class TestMonsterFilter(unittest.TestCase):
 
     def test_size(self):
         # Assumes base height/weight of Bulbasaur
-        settings = {'sizes': ["tiny", "small", "large"]}
+        settings = {'sizes': ["1", "small", "4"]}
         mon_filter = Filters.MonFilter('size_filter', settings)
         self.assertTrue(mon_filter.check_event(create_event({
             'height': 0.71,
@@ -225,6 +225,10 @@ class TestMonsterFilter(unittest.TestCase):
         self.assertFalse(mon_filter.check_event(create_event({
             'height': 0.71,
             'weight': 8
+        })))
+        self.assertFalse(mon_filter.check_event(create_event({
+            'height': 0.71,
+            'weight': 12
         })))
 
     def test_weight(self):

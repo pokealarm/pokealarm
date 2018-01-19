@@ -4,6 +4,13 @@
     "1": "Blanche", 
     "2": "Candela", 
     "3": "Spark"
+  },
+  "sizes": {
+    "1": "minuscolo",
+    "2": "piccolo",
+    "3": "normale",
+    "4": "grande",
+    "5": "enorme"
   }, 
   "moves": {
     "100": "Forbice X", 

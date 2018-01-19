@@ -108,10 +108,10 @@ class MonFilter(BaseFilter):
             event_attribute='weight', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_weight', data))
         # Size
-        self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
-            event_attribute='size', eval_func=operator.contains,
+        self.sizes = self.evaluate_attribute(  # f.sizes in m.size_id
+            event_attribute='size_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                MonUtils.validate_pokemon_size, 'sizes', data))
+                MonUtils.get_size_id, 'sizes', data))
 
         # Weather
         self.weather_ids = self.evaluate_attribute(

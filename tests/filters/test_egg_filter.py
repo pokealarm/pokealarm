@@ -42,6 +42,7 @@ class TestEggFilter(unittest.TestCase):
         pass1 = Events.EggEvent(generate_egg({"name": "pass1"}))
         pass2 = Events.EggEvent(generate_egg({"name": "2pass"}))
         pass3 = Events.EggEvent(generate_egg({"name": "3pass3"}))
+
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(egg_filter.check_event(e))
