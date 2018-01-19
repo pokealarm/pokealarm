@@ -83,6 +83,7 @@ def get_size_id(size_name):
                     for id_ in j:
                         nm = j[id_].lower()
                         get_size_id.ids[nm] = int(id_)
+        print get_size_id.ids
         if name in get_size_id.ids:
             return get_size_id.ids[name]
         else:
