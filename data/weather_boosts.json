@@ -1,0 +1,9 @@
+{
+  "1": ["fire", "grass", "ground"],
+  "2": ["water", "electric", "bug"],
+  "3": ["normal", "rock"],
+  "4": ["fighting", "fairy", "poison"],
+  "5": ["dragon", "flying", "psychic"],
+  "6": ["ice", "steel"],
+  "7": ["dark", "ghost"]
+}

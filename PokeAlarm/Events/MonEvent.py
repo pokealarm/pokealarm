@@ -7,7 +7,7 @@ from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
     get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
-    get_dist_as_str)
+    get_dist_as_str, get_weather_emoji)
 from . import BaseEvent
 
 
@@ -38,6 +38,8 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.weather_id = check_for_none(
+            int, data.get('weather'), Unknown.TINY)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -94,6 +96,7 @@ class MonEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.disappear_time, timezone)
         form_name = locale.get_form_name(self.monster_id, self.form_id)
+        weather_name = locale.get_weather_name(self.weather_id)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -124,6 +127,10 @@ class MonEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'weather_id': self.weather_id,
+            'weather': weather_name,
+            'weather_or_empty': Unknown.or_empty(weather_name),
+            'weather_emoji': get_weather_emoji(self.weather_id),
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,

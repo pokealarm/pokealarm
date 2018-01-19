@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Standard Library Imports
 from datetime import datetime, timedelta
 from glob import glob
@@ -274,6 +275,48 @@ def get_pokemon_gender(gender):
     return '?'  # catch all
 
 
+# Returns the types for a pokemon
+def get_base_types(pokemon_id):
+    if not hasattr(get_base_types, 'info'):
+        get_base_types.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+            for id_ in j:
+                get_base_types.info[int(id_)] = {
+                    "type1": j[id_].get('type1'),
+                    "type2": j[id_].get('type2')
+                }
+    return get_base_types.info.get(pokemon_id)
+
+
+# Return a boolean for whether the raid boss will have it's catch CP boosted
+def is_weather_boosted(pokemon_id, weather_id):
+    if not hasattr(is_weather_boosted, 'info'):
+        is_weather_boosted.info = {}
+        file_ = get_path('data/weather_boosts.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            is_weather_boosted.info[w_id] = j[w_id]
+
+    boosted_types = is_weather_boosted.info[str(weather_id)]
+    types = get_base_types(pokemon_id)
+    return types['type1'] in boosted_types or types['type2'] in boosted_types
+
+
+def get_weather_emoji(weather_id):
+    return {
+        1: u'☀️',
+        2: u'☔️',
+        3: u'⛅',
+        4: u'☁️',
+        5: u'💨',
+        6: u'⛄️',
+        7: u'🌁',
+    }.get(weather_id, '')
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -397,5 +440,29 @@ def get_time_as_str(t, timezone=None):
 # Return the default url for images and stuff
 def get_image_url(suffix):
     return not_so_secret_url + suffix
+
+
+# Returns the id corresponding with the weather
+# (use all locales for flexibility)
+def get_weather_id(weather_name):
+    try:
+        name = unicode(weather_name).lower()
+        if not hasattr(get_weather_id, 'ids'):
+            get_weather_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['weather']
+                    for id_ in j:
+                        nm = j[id_].lower()
+                        get_weather_id.ids[nm] = int(id_)
+        if name in get_weather_id.ids:
+            return get_weather_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except ValueError:
+        raise ValueError("Unable to interpret `{}` as a valid "
+                         " weather name or id.".format(weather_name))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
