@@ -29,6 +29,7 @@ class Cache(object):
         self._gym_info = {}
         self._egg_hist = {}
         self._raid_hist = {}
+        self._weather_hist = {}
 
     def get_pokemon_expiration(self, pkmn_id):
         """ Get the datetime that the pokemon expires."""
@@ -78,7 +79,15 @@ class Cache(object):
 
     def update_raid_expiration(self, gym_id, expiration):
         """ Updates the datetime that the raid expires. """
-        self._raid_hist[gym_id] = expiration
+        self._raid_hist[gym_id] = expiration        
+        
+    def get_weather_type(self, cell_id):
+        """ Returns the datetime that the raid expires. """
+        return self._weather_hist.get(cell_id)
+
+    def update_weather_type(self, cell_id, weather_id):
+        """ Updates the datetime that the raid expires. """
+        self._weather_hist[cell_id] = weather_id        
 
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
