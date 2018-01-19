@@ -69,6 +69,29 @@ def get_gender_sym(gender):  # TODO - support other languages
                          " gender name or id.".format(gender))
 
 
+# Returns the id corresponding with the move (use all locales for flexibility)
+def get_size_id(size_name):
+    try:
+        name = str(size_name).lower()
+        if not hasattr(get_size_id, 'sizes'):
+            get_size_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['sizes']
+                    for id_ in j:
+                        nm = j[id_].lower()
+                        get_size_id.ids[nm] = int(id_)
+        if name in get_size_id.ids:
+            return get_size_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except Exception:
+        raise ValueError("Unable to interpret `{}` as a valid"
+                         " size name or id.".format(size_name))
+
+
 # Returns the (appraisal) size of a pokemon:
 def validate_pokemon_size(size_name):
     size = size_name.lower()

@@ -6,11 +6,11 @@
     "3": "Spark"
   },
    "sizes": {
-	"0": "winzig",
-	"1": "klein",
-	"2": "üblich",
-	"3": "groß",
-	"4": "riesig"
+	"1": "winzig",
+	"2": "klein",
+	"3": "üblich",
+	"4": "groß",
+	"5": "riesig"
    }, 
   "moves": {
     "100": "Kreuzschere", 

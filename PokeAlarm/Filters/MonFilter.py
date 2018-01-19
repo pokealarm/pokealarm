@@ -108,9 +108,9 @@ class MonFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(float, 'max_weight', data))
         # Size
         self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
-            event_attribute='size', eval_func=operator.contains,
+            event_attribute='size_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                MonUtils.validate_pokemon_size, 'sizes', data))
+                MonUtils.get_size_id, 'sizes', data))
 
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)

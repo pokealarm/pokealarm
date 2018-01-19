@@ -44,11 +44,11 @@
     "3": "Spark"
   },
   "sizes": {
-    "0": "tiny",
-    "1": "small",
-    "2": "normal",
-    "3": "large",
-    "4": "big"
+    "1": "tiny",
+    "2": "small",
+    "3": "normal",
+    "4": "large",
+    "5": "big"
   },
   "moves": {
     "13": "Wrap",

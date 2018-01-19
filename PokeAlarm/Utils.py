@@ -252,15 +252,15 @@ def size_ratio(pokemon_id, height, weight):
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 0
-    elif size <= 1.75:
         return 1
-    elif size <= 2.25:
+    elif size <= 1.75:
         return 2
-    elif size <= 2.5:
+    elif size <= 2.25:
         return 3
-    else:
+    elif size <= 2.5:
         return 4
+    else:
+        return 5
 
 
 # Returns the gender symbol of a pokemon:

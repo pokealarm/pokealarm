@@ -6,11 +6,11 @@
     "3": "Spark"
   },
   "sizes": {
-    "0": "diminuto",
-    "1": "chico",
-    "2": "normal",
-    "3": "grande",
-    "4": "muy grande"
+    "1": "diminuto",
+    "2": "chico",
+    "3": "normal",
+    "4": "grande",
+    "5": "muy grande"
   },
   "moves": {
     "13": "Constricci\u00f3n",
