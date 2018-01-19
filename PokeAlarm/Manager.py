@@ -792,13 +792,6 @@ class Manager(object):
             return
         
         # Skip if previously processed
-        if self.__cache.get_weather_type(weather.weather_cell_id) == weather.condition:
-            log.debug("Weather for cell {} was skipped because it was previously "
-                      "processed.".format(weather.weather_cell_id))
-            return
-        self.__cache.update_weather_type(weather.weather_cell_id, weather.condition)
-
-        # Skip if previously processed
         if self.__cache.get_cell_weather(weather.weather_cell_id) == weather.condition:
             log.debug("Weather alert for cell {} was skipped because it was already "
                       "{} weather.".format(weather.weather_cell_id,weather.condition))

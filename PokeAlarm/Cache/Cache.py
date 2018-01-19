@@ -79,18 +79,10 @@ class Cache(object):
 
     def update_raid_expiration(self, gym_id, expiration):
         """ Updates the datetime that the raid expires. """
-        self._raid_hist[gym_id] = expiration        
-        
-    def get_weather_type(self, cell_id):
-        """ Returns the datetime that the raid expires. """
-        return self._weather_hist.get(cell_id)
-
-    def update_weather_type(self, cell_id, weather_id):
-        """ Updates the datetime that the raid expires. """
-        self._weather_hist[cell_id] = weather_id        
+        self._raid_hist[gym_id] = expiration             
 
     def get_cell_weather(self, weather_cell_id):
-        """ Returns the datetime that the egg expires. """
+        """ Returns the weather for the S2 cell. """
         return self._weather_hist.get(weather_cell_id)
 
     def update_cell_weather(self, weather_cell_id, condition):
