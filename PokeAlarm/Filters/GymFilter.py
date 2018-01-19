@@ -33,7 +33,6 @@ class GymFilter(BaseFilter):
                 GymUtils.get_team_id, 'new_teams', data))
 
         # Gym name
-<<<<<<< HEAD
         self.gym_name_contains = self.evaluate_attribute(  # f.gn matches g.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
@@ -48,12 +47,6 @@ class GymFilter(BaseFilter):
             # f.max_slots >= r.slots_available
             event_attribute='slots_available', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_slots', data))
-=======
-        self.gym_name_matches = self.evaluate_attribute(  # f.gn matches g.gn
-            event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
-            limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_matches', data))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
@@ -88,13 +81,8 @@ class GymFilter(BaseFilter):
             settings['new_team'] = self.new_team
 
         # Gym Name
-<<<<<<< HEAD
         if self.gym_name_contains is not None:
             settings['gym_name_matches'] = self.gym_name_contains
-=======
-        if self.gym_name_matches is not None:
-            settings['gym_name_matches'] = self.gym_name_matches
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Geofences
         if self.geofences is not None:

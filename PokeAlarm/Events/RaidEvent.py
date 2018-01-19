@@ -6,8 +6,12 @@ from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
+<<<<<<< HEAD
     get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
     is_weather_boosted, get_weather_emoji
+=======
+    get_move_energy, get_dist_as_str, get_pokemon_cp_range
+>>>>>>> de0ccb2... Implemented Size by Name in Locale
 
 
 class RaidEvent(BaseEvent):
@@ -70,6 +74,7 @@ class RaidEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
+<<<<<<< HEAD
 
         boss_level = 20
         if Unknown.is_not(self.weather_id) \
@@ -78,6 +83,9 @@ class RaidEvent(BaseEvent):
         weather_name = locale.get_weather_name(self.weather_id)
         cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
 
+=======
+        cp_range = get_pokemon_cp_range(self.mon_id, 20)
+>>>>>>> de0ccb2... Implemented Size by Name in Locale
         dts.update({
             # Identification
             'gym_id': self.gym_id,
