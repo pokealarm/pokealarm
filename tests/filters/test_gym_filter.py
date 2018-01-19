@@ -20,7 +20,6 @@ class TestGymFilter(unittest.TestCase):
         pass1 = Events.GymEvent(generate_gym({"name": "pass1"}))
         pass2 = Events.GymEvent(generate_gym({"name": "2pass"}))
         pass3 = Events.GymEvent(generate_gym({"name": "3pass3"}))
-		
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(gym_filter.check_event(e))

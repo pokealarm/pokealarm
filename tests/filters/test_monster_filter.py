@@ -61,7 +61,6 @@ class TestMonsterFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(mon_filter.check_event(e))
 
-
     def test_iv(self):
         # Create filter that forces settings
         settings = {"min_iv": 50, "max_iv": 75}

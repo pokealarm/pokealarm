@@ -161,7 +161,7 @@ class MonEvent(BaseEvent):
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
-			
+
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_move_id),
             'charge_id': self.charge_move_id,
