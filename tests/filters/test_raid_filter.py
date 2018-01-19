@@ -100,36 +100,21 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_gym_names(self):
         # Create the filters
-<<<<<<< HEAD
         settings = {"gym_name_contains": ["pass"]}
-=======
-        settings = {"gym_name_matches": ["pass.\Z"]}
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         raid_filter = Filters.RaidFilter('filter1', settings)
 
         # Generate events that should pass
         pass1 = Events.RaidEvent(generate_raid({"name": "pass1"}))
-<<<<<<< HEAD
         pass2 = Events.RaidEvent(generate_raid({"name": "2pass"}))
         pass3 = Events.RaidEvent(generate_raid({"name": "3pass3"}))
-
-=======
-        pass2 = Events.RaidEvent(generate_raid({"name": "pass2"}))
-        pass3 = Events.RaidEvent(generate_raid({"name": "pass3"}))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(raid_filter.check_event(e))
 
         # Generate events that should fail
         fail1 = Events.RaidEvent(generate_raid({"name": "fail1"}))
-<<<<<<< HEAD
         fail2 = Events.RaidEvent(generate_raid({"name": "failpas"}))
         fail3 = Events.RaidEvent(generate_raid({"name": "pasfail"}))
-=======
-        fail2 = Events.RaidEvent(generate_raid({"name": "failpass"}))
-        fail3 = Events.RaidEvent(generate_raid({"name": "passfail"}))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Test failing events
         for e in [fail1, fail2, fail3]:
@@ -219,7 +204,6 @@ class TestRaidFilter(unittest.TestCase):
         for e in [pass1]:
             self.assertTrue(raid_filter.check_event(e))
 
-<<<<<<< HEAD
     def test_cp(self):
         settings = {'min_cp': 5000, 'max_cp': 9000}
         raid_filter = Filters.RaidFilter('cp_filter', settings)
@@ -230,8 +214,6 @@ class TestRaidFilter(unittest.TestCase):
             event = Events.RaidEvent(generate_raid({'cp': i}))
             self.assertFalse(raid_filter.check_event(event))
 
-=======
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
 # Create a generic raid, overriding with an specific values
 def generate_raid(values):

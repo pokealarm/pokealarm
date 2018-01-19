@@ -47,7 +47,7 @@ class Locale(object):
         for id_, val in default["leaders"].iteritems():
             self.__leader_names[int(id_)] = leaders.get(id_, val)
 
-        # Size Value -> Size Name
+        # Size ID -> Size Name
         self.__size_names = {}
         sizes = info.get("sizes", {})
         for id_, val in default["sizes"].iteritems():

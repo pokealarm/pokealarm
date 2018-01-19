@@ -37,7 +37,6 @@ class RaidFilter(BaseFilter):
             event_attribute='raid_lvl', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_raid_lvl', data))
 
-<<<<<<< HEAD
         # CP
         self.min_cp = self.evaluate_attribute(  # f.min_cp <= r.cp
             event_attribute='cp', eval_func=operator.le,
@@ -46,8 +45,6 @@ class RaidFilter(BaseFilter):
             event_attribute='cp', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_cp', data))
 
-=======
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         # Quick Move
         self.quick_moves = self.evaluate_attribute(  # f.q_ms contains r.q_m
             event_attribute='quick_id', eval_func=operator.contains,
@@ -60,17 +57,10 @@ class RaidFilter(BaseFilter):
                 MonUtils.get_move_id, 'charge_moves', data))
 
         # Gym name
-<<<<<<< HEAD
         self.gym_name_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 re.compile, 'gym_name_contains', data))
-=======
-        self.gym_name_matches = self.evaluate_attribute(  # f.gn matches e.gn
-            event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
-            limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_matches', data))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -114,13 +104,8 @@ class RaidFilter(BaseFilter):
             settings['max_lvl'] = self.max_lvl
 
         # Gym Name
-<<<<<<< HEAD
         if self.gym_name_contains is not None:
             settings['gym_name_matches'] = self.gym_name_contains
-=======
-        if self.gym_name_matches is not None:
-            settings['gym_name_matches'] = self.gym_name_matches
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Geofences
         if self.geofences is not None:

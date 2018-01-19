@@ -13,29 +13,20 @@ class TestGymFilter(unittest.TestCase):
 
     def test_gym_names(self):
         # Create the filters
-<<<<<<< HEAD
         settings = {"gym_name_contains": ["pass"]}
-=======
-        settings = {"gym_name_matches": ["pass.\Z"]}
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
         gym_filter = Filters.GymFilter('filter1', settings)
 
         # Generate events that should pass
         pass1 = Events.GymEvent(generate_gym({"name": "pass1"}))
-<<<<<<< HEAD
         pass2 = Events.GymEvent(generate_gym({"name": "2pass"}))
         pass3 = Events.GymEvent(generate_gym({"name": "3pass3"}))
-=======
-        pass2 = Events.GymEvent(generate_gym({"name": "pass2"}))
-        pass3 = Events.GymEvent(generate_gym({"name": "pass3"}))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
+		
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(gym_filter.check_event(e))
 
         # Generate events that should fail
         fail1 = Events.GymEvent(generate_gym({"name": "fail1"}))
-<<<<<<< HEAD
         fail2 = Events.GymEvent(generate_gym({"name": "failpas"}))
         fail3 = Events.GymEvent(generate_gym({"name": "pasfail"}))
 
@@ -60,10 +51,6 @@ class TestGymFilter(unittest.TestCase):
         fail1 = Events.GymEvent(generate_gym({"slots_available": 0}))
         fail2 = Events.GymEvent(generate_gym({"slots_available": 1}))
         fail3 = Events.GymEvent(generate_gym({"slots_available": 5}))
-=======
-        fail2 = Events.GymEvent(generate_gym({"name": "failpass"}))
-        fail3 = Events.GymEvent(generate_gym({"name": "passfail"}))
->>>>>>> f93f49fde6df6f2f9398d44e52a545a3dc6f2921
 
         # Test failing events
         for e in [fail1, fail2, fail3]:
