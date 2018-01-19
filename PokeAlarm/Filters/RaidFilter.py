@@ -69,11 +69,10 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 GymUtils.get_team_id, 'current_teams', data))
 
-        # Monster ID - f.mon_ids in r.mon_id
-        self.weather_ids = self.evaluate_attribute(  #
+        # Weather
+        self.weather_ids = self.evaluate_attribute(  # f.w_ids contains m.w_id
             event_attribute='weather_id', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(
-                get_weather_id, 'weather', data))
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
@@ -110,6 +109,10 @@ class RaidFilter(BaseFilter):
         if self.max_lvl is not None:
             settings['max_lvl'] = self.max_lvl
 
+        # Weather
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
+
         # Gym Name
         if self.gym_name_contains is not None:
             settings['gym_name_matches'] = self.gym_name_contains
@@ -121,9 +124,5 @@ class RaidFilter(BaseFilter):
         # Missing Info
         if self.is_missing_info is not None:
             settings['missing_info'] = self.is_missing_info
-
-        # Weather
-        if self.weather_ids is not None:
-            settings['weather_ids'] = self.weather_ids
 
         return settings

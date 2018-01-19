@@ -113,6 +113,11 @@ class MonFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 MonUtils.validate_pokemon_size, 'sizes', data))
 
+        # Weather
+        self.weather_ids = self.evaluate_attribute(
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
+
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
 
@@ -123,12 +128,6 @@ class MonFilter(BaseFilter):
         # Missing Info
         self.is_missing_info = BaseFilter.parse_as_type(
             bool, 'is_missing_info', data)
-
-        # Weather
-        self.weather_ids = self.evaluate_attribute(
-            event_attribute='weather_id', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(
-                get_weather_id, 'weather', data))
 
         # Reject leftover parameters
         for key in data:
@@ -201,6 +200,10 @@ class MonFilter(BaseFilter):
         if self.sizes is not None:
             settings['sizes'] = self.sizes
 
+        # Weather
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
+
         # Geofences
         if self.geofences is not None:
             settings['geofences'] = self.geofences
@@ -208,8 +211,5 @@ class MonFilter(BaseFilter):
         # Missing Info
         if self.is_missing_info is not None:
             settings['missing_info'] = self.is_missing_info
-
-        if self.weather_ids is not None:
-            settings['weather_ids'] = self.weather_ids
 
         return settings
