@@ -33,7 +33,7 @@ class Manager(object):
                  max_attempts, stations, location, quiet, cache_type,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
-        self.__name = str(name)
+        self.__name = str(name).lower()
         log.info("----------- Manager '{}' ".format(self.__name)
                  + " is being created.")
         self.__debug = debug
@@ -823,8 +823,7 @@ class Manager(object):
         if not passed:  # Weather was rejected by all filters
             return
 
-        # Generate the DTS for the event
-        weather.manager = self.__name        
+        # Generate the DTS for the event     
         dts = weather.generate_dts(self.__locale)
 
         if self.__quiet is False:

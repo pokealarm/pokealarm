@@ -37,7 +37,7 @@ class WeatherEvent(BaseEvent):
             int, data.get('day'), Unknown.SMALL)
 
         self.name = self.weather_cell_id
-        self.manager = ''
+        self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
     def generate_dts(self, locale):
@@ -55,10 +55,8 @@ class WeatherEvent(BaseEvent):
 
             # Location
             'coords': self.coords,
-
             'geofence': self.geofence,
-            'manager': self.manager,
-            
+
             # Weather info
             'condition': self.condition,
             'weather': locale.get_weather_name(self.condition),
