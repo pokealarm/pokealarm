@@ -4,6 +4,7 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
+from PokeAlarm.Utils import get_weather_id
 
 
 class MonFilter(BaseFilter):
@@ -123,6 +124,12 @@ class MonFilter(BaseFilter):
         self.is_missing_info = BaseFilter.parse_as_type(
             bool, 'is_missing_info', data)
 
+        # Weather
+        self.weather_ids = self.evaluate_attribute(
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                get_weather_id, 'weather', data))
+
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
@@ -201,5 +208,8 @@ class MonFilter(BaseFilter):
         # Missing Info
         if self.is_missing_info is not None:
             settings['missing_info'] = self.is_missing_info
+
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
 
         return settings

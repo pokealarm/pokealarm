@@ -292,6 +292,19 @@ class TestMonsterFilter(unittest.TestCase):
         for i in [19, 501, 9999]:
             self.assertFalse(mon_filter.check_event(create_event({'cp': i})))
 
+    def test_weather(self):
+        settings = {'weather': [1, "windy"]}
+        mon_filter = Filters.MonFilter('weather_filter', settings)
+        for i in [1, 5]:
+            self.assertTrue(mon_filter.check_event(create_event({
+                'weather': i
+            })))
+
+        for i in [0, 2, 8]:
+            self.assertFalse(mon_filter.check_event(create_event({
+                'weather': i
+            })))
+
 
 # Create a generic monster, overriding with an specific values
 def generate_monster(values):

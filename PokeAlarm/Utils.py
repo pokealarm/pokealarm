@@ -441,4 +441,28 @@ def get_time_as_str(t, timezone=None):
 def get_image_url(suffix):
     return not_so_secret_url + suffix
 
+
+# Returns the id corresponding with the weather
+# (use all locales for flexibility)
+def get_weather_id(weather_name):
+    try:
+        name = unicode(weather_name).lower()
+        if not hasattr(get_weather_id, 'ids'):
+            get_weather_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['weather']
+                    for id_ in j:
+                        nm = j[id_].lower()
+                        get_weather_id.ids[nm] = int(id_)
+        if name in get_weather_id.ids:
+            return get_weather_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except ValueError:
+        raise ValueError("Unable to interpret `{}` as a valid "
+                         " weather name or id.".format(weather_name))
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

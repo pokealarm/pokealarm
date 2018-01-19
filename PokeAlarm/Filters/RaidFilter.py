@@ -6,6 +6,7 @@ import re
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
+from PokeAlarm.Utils import get_weather_id
 
 
 class RaidFilter(BaseFilter):
@@ -68,6 +69,12 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 GymUtils.get_team_id, 'current_teams', data))
 
+        # Monster ID - f.mon_ids in r.mon_id
+        self.weather_ids = self.evaluate_attribute(  #
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                get_weather_id, 'weather', data))
+
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
 
@@ -114,5 +121,9 @@ class RaidFilter(BaseFilter):
         # Missing Info
         if self.is_missing_info is not None:
             settings['missing_info'] = self.is_missing_info
+
+        # Weather
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
 
         return settings

@@ -921,5 +921,15 @@
     "1": "Mystic (\u53e1\u667a)",
     "2": "Valor (\u6b66\u52c7)",
     "3": "Instinct (\u9748\u7280)"
+  },
+  "weather": {
+	"0": "None",
+	"1": "Clear",
+	"2": "Rain",
+	"3": "Partly Cloudy",
+	"4": "Cloudy",
+	"5": "Windy",
+	"6": "Snow",
+	"7": "Fog"
   }
 }
