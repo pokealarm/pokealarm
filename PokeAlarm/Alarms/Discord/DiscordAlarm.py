@@ -179,18 +179,18 @@ class DiscordAlarm(Alarm):
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
             }]
             if alert['map'] is not None:
-                try:
-                    coords = {
-                        'lat1': info['lat1'],
-                        'lng1': info['lng1'],
-                        'lat2': info['lat2'],
-                        'lng2': info['lng2'],
-                        'lat3': info['lat3'],
-                        'lng3': info['lng3'],
-                        'lat4': info['lat4'],
-                        'lng4': info['lng4']
+                if info.get('alert_type') == 'weather':
+                    coords = { 
+                        'lat1': info['coords'][0][0],
+                        'lng1': info['coords'][0][1],
+                        'lat2': info['coords'][1][0],
+                        'lng2': info['coords'][1][1],
+                        'lat3': info['coords'][2][0],
+                        'lng3': info['coords'][2][1],
+                        'lat4': info['coords'][3][0],
+                        'lng4': info['coords'][3][1],
                     }
-                except KeyError:
+                else:
                     coords = {
                         'lat': info['lat'],
                         'lng': info['lng']

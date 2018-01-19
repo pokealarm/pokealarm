@@ -99,4 +99,4 @@ class Geofence(object):
 
     # Checks to see if two regions overlap
     def check_overlap(self, weather):
-        return Polygon(self.__points).intersects(Polygon([(weather.lat1,weather.lng1),(weather.lat2,weather.lng2),(weather.lat3,weather.lng3),(weather.lat4,weather.lng4)]))
+        return Polygon(self.__points).intersects(Polygon(weather.coords))
