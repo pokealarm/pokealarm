@@ -804,6 +804,13 @@ class Manager(object):
         if self.__weather_enabled is False:
             log.debug("Weather ignored: weather notifications are disabled.")
             return
+        
+        # Skip if previously processed
+        if self.__cache.get_cell_weather(weather.weather_cell_id) == weather.condition:
+            log.debug("Weather alert for cell {} was skipped because it was already "
+                      "{} weather.".format(weather.weather_cell_id,weather.condition))
+            return
+        self.__cache.update_cell_weather(weather.weather_cell_id,weather.condition)
 
         # Check the Filters
         passed = True

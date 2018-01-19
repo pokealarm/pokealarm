@@ -40,7 +40,7 @@ class MonEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.station = ''
         self.weather_id = check_for_none(
-            int, data.get('weather'), 0)
+            int, data.get('weather'), Unknown.TINY)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(

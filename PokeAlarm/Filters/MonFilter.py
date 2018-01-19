@@ -4,6 +4,7 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
+from PokeAlarm.Utils import get_weather_id
 
 
 class MonFilter(BaseFilter):
@@ -112,6 +113,11 @@ class MonFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 MonUtils.validate_pokemon_size, 'sizes', data))
 
+        # Weather
+        self.weather_ids = self.evaluate_attribute(
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
+
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
 
@@ -193,6 +199,10 @@ class MonFilter(BaseFilter):
         # Size
         if self.sizes is not None:
             settings['sizes'] = self.sizes
+
+        # Weather
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
 
         # Geofences
         if self.geofences is not None:
