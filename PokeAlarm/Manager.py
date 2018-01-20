@@ -220,17 +220,17 @@ class Manager(object):
         try:
             with open(file_path, 'r') as f:
                 alarm_settings = json.load(f)
-            if type(alarm_settings) is not list:
-                log.critical("Alarms file must be a list of Alarms objects "
-                             + "- [ {...}, {...}, ... {...} ]")
+            if type(alarm_settings) is not dict:
+                log.critical("Alarms file must be an object of Alarms objects "
+                             + "- { 'alarm1': {...}, ... 'alarm5': {...} }")
                 sys.exit(1)
-            self.__alarms = []
-            for alarm in alarm_settings:
+            self.__alarms = {}
+            for name, alarm in alarm_settings.iteritems():
                 if parse_boolean(require_and_remove_key(
                         'active', alarm, "Alarm objects in file.")) is True:
                     self.set_optional_args(str(alarm))
-                    self.__alarms.append(Alarms.alarm_factory(
-                        alarm, max_attempts, self.__google_key))
+                    self.__alarms[name] = Alarms.alarm_factory(
+                        alarm, max_attempts, self.__google_key)
                 else:
                     log.debug("Alarm not activated: {}".format(alarm['type'])
                               + " because value not set to \"True\"")
@@ -344,7 +344,7 @@ class Manager(object):
             logging.getLogger().setLevel(logging.DEBUG)
 
         # Conect the alarms and send the start up message
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             alarm.connect()
             alarm.startup_message()
 
@@ -497,7 +497,7 @@ class Manager(object):
 
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             threads.append(gevent.spawn(alarm.pokemon_alert, dts))
         gevent.sleep(0)  # explict context yield
 
@@ -556,7 +556,7 @@ class Manager(object):
 
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             threads.append(gevent.spawn(alarm.pokestop_alert, dts))
         gevent.sleep(0)  # explict context yield
 
@@ -626,7 +626,7 @@ class Manager(object):
 
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             threads.append(gevent.spawn(alarm.gym_alert, dts))
         gevent.sleep(0)  # explict context yield
 
@@ -697,7 +697,7 @@ class Manager(object):
 
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
         gevent.sleep(0)  # explict context yield
 
@@ -768,7 +768,7 @@ class Manager(object):
 
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             threads.append(gevent.spawn(alarm.raid_alert, dts))
         gevent.sleep(0)  # explict context yield
 
