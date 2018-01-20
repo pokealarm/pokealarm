@@ -5,6 +5,7 @@ import os
 import re
 import sys
 import traceback
+from collections import OrderedDict
 from datetime import datetime, timedelta
 
 # 3rd Party Imports
@@ -145,7 +146,7 @@ class Manager(object):
         try:
             log.info("Loading Filters from file at {}".format(file_path))
             with open(file_path, 'r') as f:
-                filters = json.load(f)
+                filters = json.load(f, object_pairs_hook=OrderedDict)
             if type(filters) is not dict:
                 log.critical("Filters file's must be a JSON object:"
                              " { \"monsters\":{...},... }")
