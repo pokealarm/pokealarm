@@ -1,6 +1,5 @@
 # Standard Library Imports
 import operator
-import re
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
@@ -35,7 +34,7 @@ class EggFilter(BaseFilter):
         self.gym_name_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_contains', data))
+                GymUtils.create_regex, 'gym_name_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
