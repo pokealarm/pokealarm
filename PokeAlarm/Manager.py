@@ -147,9 +147,10 @@ class Manager(object):
             log.info("Loading Filters from file at {}".format(file_path))
             with open(file_path, 'r') as f:
                 filters = json.load(f, object_pairs_hook=OrderedDict)
-            if type(filters) is not dict:
-                log.critical("Filters file's must be a JSON object:"
+            if type(filters) is not OrderedDict:
+                log.critical("Filters files must be a JSON object:"
                              " { \"monsters\":{...},... }")
+                raise ValueError("Filter file did not contain a dict.")
         except ValueError as e:
             log.error("Encountered error while loading Filters:"
                       " {}: {}".format(type(e).__name__, e))
