@@ -28,14 +28,6 @@ class MonFilter(BaseFilter):
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
-        # Time Left
-        self.min_time_left = self.evaluate_attribute( # f.min_time_left <= r.spawn_time_left
-            event_attribute='spawn_time_left', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
-        self.max_time_left = self.evaluate_attribute( # f.max_time_left >= r.spawn_time_left
-            event_attribute='spawn_time_left', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
-
         # Encounter Stats
         # Level
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= m.mon_lvl

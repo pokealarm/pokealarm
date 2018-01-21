@@ -5,7 +5,7 @@ import operator
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
-from PokeAlarm.Utils import get_weather_id, get_time_as_str
+from PokeAlarm.Utils import get_weather_id
 
 
 class RaidFilter(BaseFilter):
@@ -29,21 +29,13 @@ class RaidFilter(BaseFilter):
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
-        # Time Left
-        self.min_time_left = self.evaluate_attribute( # f.min_time_left <= r.raid_time_left
-            event_attribute='raid_time_left', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
-        self.max_time_left = self.evaluate_attribute( # f.max_time_left >= r.raid_time_left
-            event_attribute='raid_time_left', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
-
-		# Monster Info
+        # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
             event_attribute='raid_lvl', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(float, 'min_raid_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'min_raid_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= r.mon_lvl
             event_attribute='raid_lvl', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(float, 'max_raid_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'max_raid_lvl', data))
 
         # CP
         self.min_cp = self.evaluate_attribute(  # f.min_cp <= r.cp

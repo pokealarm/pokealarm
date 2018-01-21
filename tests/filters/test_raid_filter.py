@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-import time
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
@@ -214,25 +212,6 @@ class TestRaidFilter(unittest.TestCase):
             self.assertTrue(raid_filter.check_event(event))
         for i in [4999, 9001, 999999]:
             event = Events.RaidEvent(generate_raid({'cp': i}))
-            self.assertFalse(raid_filter.check_event(event))
-
-    def test_time_left(self):
-        # Create the filters
-        settings = {'min_time_left': 1000, 'max_time_left': 8000}
-        raid_filter = Filters.RaidFilter('time_filter', settings)
-
-        # Test events that should pass
-        for s in [2000, 4000, 6000]:
-            d = (datetime.now() + timedelta(seconds=s))
-            t = time.mktime(d.timetuple())
-            event = Events.RaidEvent(generate_raid({"end": t}))
-            self.assertTrue(raid_filter.check_event(event))
-
-        # Test events that should fail
-        for s in [200, 999, 8001]:
-            d = (datetime.now() + timedelta(seconds=s))
-            t = time.mktime(d.timetuple())
-            event = Events.RaidEvent(generate_raid({"end": t}))
             self.assertFalse(raid_filter.check_event(event))
 
 
