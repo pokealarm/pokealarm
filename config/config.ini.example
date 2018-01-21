@@ -14,8 +14,9 @@
 # Manager-Specific Settings
 #manager_name: manager_0                        # Name of the Manager in the logs. Default(manager_0).
 #key:                                           # Google Maps API Key to use
-#filters:										# File containing filter rules (default: filters.json)
-#alarms: 										# File containing alarm rules (default: alarms.json)
+#filters:										# File containing filter settings (default: filters.json)
+#alarms: 										# File containing alarm settings (default: alarms.json)
+#rules: 										# File containing rules settings (default: None)
 #geofence:										# File containing geofence(s) used to filter (default: None)
 #location:										# Location for the manager. 'Name' or 'lat lng' (default: None)
 #locale:										# Language to be used to translate names (default: en)

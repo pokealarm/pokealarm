@@ -153,7 +153,7 @@ def parse_settings(root_path):
     parser.add_argument(
         '-r', '--rules', type=parse_unicode, action='append',
         default=[None],
-        help='Alarms configuration file. default: alarms.json')
+        help='Rules configuration file. default: None')
     parser.add_argument(
         '-gf', '--geofences', type=parse_unicode,
         action='append', default=[None],

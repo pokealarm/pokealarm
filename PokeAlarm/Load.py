@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 
 def parse_rules_file(manager, filename):
-    if filename is None:  # No Rules
+    if str(filename).lower() == 'none':  # No Rules
         return
     filepath = utils.get_path(filename)
     rules = OrderedDict()
