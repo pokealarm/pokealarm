@@ -437,6 +437,14 @@ def get_time_as_str(t, timezone=None):
     return time_left, time_12, time_24
 
 
+# Return the time in seconds
+def get_time_in_seconds(t, timezone=None):
+    if timezone is None:
+		timezone = config.get("TIMEZONE")
+    seconds = (t - datetime.utcnow()).total_seconds()
+    return seconds
+
+
 # Return the default url for images and stuff
 def get_image_url(suffix):
     return not_so_secret_url + suffix
