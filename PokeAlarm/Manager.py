@@ -574,8 +574,8 @@ class Manager(object):
                 mon.custom_dts = f.custom_dts
                 if self.__quiet is False:
                     log.info("{} monster notification"
-                             " has been triggered in rule '{}'!".format(
-                                mon.name, r_name))
+                             " has been triggered in rule '{}'!"
+                             "".format(mon.name, r_name))
                 self._trigger_mon(mon, rule.alarm_names)
                 break  # Next rule
 
@@ -644,8 +644,8 @@ class Manager(object):
                 stop.custom_dts = f.custom_dts
                 if self.__quiet is False:
                     log.info("{} stop notification"
-                             " has been triggered in rule '{}'!".format(
-                                stop.name, r_name))
+                             " has been triggered in rule '{}'!"
+                             "".format(stop.name, r_name))
                 self._trigger_stop(stop, rule.alarm_names)
                 break  # Next rule
 
@@ -724,8 +724,8 @@ class Manager(object):
                 gym.custom_dts = f.custom_dts
                 if self.__quiet is False:
                     log.info("{} gym notification"
-                             " has been triggered in rule '{}'!".format(
-                                gym.name, r_name))
+                             " has been triggered in rule '{}'!"
+                             "".format(gym.name, r_name))
                 self._trigger_gym(gym, rule.alarm_names)
                 break  # Next rule
 
@@ -806,8 +806,8 @@ class Manager(object):
                 egg.custom_dts = f.custom_dts
                 if self.__quiet is False:
                     log.info("{} egg notification"
-                             " has been triggered in rule '{}'!".format(
-                                egg.name, r_name))
+                             " has been triggered in rule '{}'!"
+                             "".format(egg.name, r_name))
                 self._trigger_egg(egg, rule.alarm_names)
                 break  # Next rule
 
@@ -888,8 +888,8 @@ class Manager(object):
                 raid.custom_dts = f.custom_dts
                 if self.__quiet is False:
                     log.info("{} raid notification"
-                             " has been triggered in rule '{}'!".format(
-                                raid.name, r_name))
+                             " has been triggered in rule '{}'!"
+                             "".format(raid.name, r_name))
                 self._trigger_raid(raid, rule.alarm_names)
                 break  # Next rule
 
