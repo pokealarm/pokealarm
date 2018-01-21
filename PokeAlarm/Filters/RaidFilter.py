@@ -42,10 +42,10 @@ class RaidFilter(BaseFilter):
         # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
             event_attribute='raid_lvl', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(float, 'min_raid_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'min_raid_lvl', data))
         self.max_lvl = self.evaluate_attribute(  # f.max_lvl >= r.mon_lvl
             event_attribute='raid_lvl', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(float, 'max_raid_lvl', data))
+            limit=BaseFilter.parse_as_type(int, 'max_raid_lvl', data))
 
         # CP
         self.min_cp = self.evaluate_attribute(  # f.min_cp <= r.cp

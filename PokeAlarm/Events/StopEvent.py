@@ -5,7 +5,7 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_dist_as_str
+    get_time_as_str, get_time_in_seconds, get_dist_as_str
 
 
 class StopEvent(BaseEvent):
@@ -20,6 +20,7 @@ class StopEvent(BaseEvent):
 
         # Time left
         self.expiration = datetime.utcfromtimestamp(data['lure_expiration'])
+        self.lure_time_left = get_time_in_seconds(self.expiration)
 
         # Location
         self.lat = float(data['latitude'])
