@@ -35,29 +35,30 @@ class TelegramAlarm(Alarm):
             'message': "*A wild <mon_name> has appeared!*\n"
                        "Available until <24h_time> (<time_left>).",
             'sticker_url': get_image_url(
-                "monsters/<mon_id_3>_<form_id_3>.webp")
+                "telegram/monsters/<mon_id_3>_<form_id_3>.webp")
         },
         'stops': {
             'message': "*Someone has placed a lure on a Pokestop!*\n"
                        "Lure will expire at <24h_time> (<time_left>).",
-            'sticker_url': get_image_url("stop/ready.webp")
+            'sticker_url': get_image_url("telegram/stop/ready.webp")
         },
         'gyms': {
             'message': "*A Team <old_team> gym has fallen!*\n"
                        "It is now controlled by <new_team>.",
-            'sticker_url': get_image_url("gyms/<new_team_id>.webp"),
+            'sticker_url': get_image_url("telegram/gyms/<new_team_id>.webp"),
         },
         'eggs': {
             'message': "*A level <egg_lvl> raid is incoming!*\n"
                        "The egg will hatch <24h_hatch_time> "
                        "(<hatch_time_left>).",
-            'sticker_url': get_image_url("eggs/<egg_lvl>.webp")
+            'sticker_url': get_image_url("telegram/eggs/<egg_lvl>.webp")
         },
         'raids': {
             'message': "*A raid is available against <mon_name>!*\n"
                        "The raid is available until <24h_raid_end> "
                        "(<raid_time_left>).",
-            'sticker_url': get_image_url("monsters/<mon_id_3>_000.webp")
+            'sticker_url':
+                get_image_url("telegram/monsters/<mon_id_3>_000.webp")
         }
     }
 
