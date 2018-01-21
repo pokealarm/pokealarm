@@ -5,7 +5,7 @@ import operator
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
-from PokeAlarm.Utils import get_weather_id, get_time_as_str
+from PokeAlarm.Utils import get_weather_id
 
 
 class RaidFilter(BaseFilter):
@@ -30,14 +30,16 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Time Left
-        self.min_time_left = self.evaluate_attribute( # f.min_time_left <= r.raid_time_left
+        self.min_time_left = self.evaluate_attribute(
+            # f.min_time_left <= r.raid_time_left
             event_attribute='raid_time_left', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
-        self.max_time_left = self.evaluate_attribute( # f.max_time_left >= r.raid_time_left
+        self.max_time_left = self.evaluate_attribute(
+            # f.max_time_left >= r.raid_time_left
             event_attribute='raid_time_left', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
-		# Monster Info
+        # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
             event_attribute='raid_lvl', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(float, 'min_raid_lvl', data))

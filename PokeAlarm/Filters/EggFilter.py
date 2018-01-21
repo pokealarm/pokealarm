@@ -4,7 +4,6 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import GymUtils as GymUtils
-from PokeAlarm.Utils import get_time_as_str
 
 
 class EggFilter(BaseFilter):
@@ -23,12 +22,12 @@ class EggFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Time Left
-        self.min_time_to_hatch = self.evaluate_attribute( 
+        self.min_time_to_hatch = self.evaluate_attribute(
             # f.min_time_to_hatch <= r.hatch_time_left
             event_attribute='hatch_time_left', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(int, 'min_time_to_hatch', data))
-        self.max_time_to_hatch = self.evaluate_attribute( 
-			# f.max_time_to_hatch >= r.hatch_time_left
+        self.max_time_to_hatch = self.evaluate_attribute(
+            # f.max_time_to_hatch >= r.hatch_time_left
             event_attribute='hatch_time_left', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_time_to_hatch', data))
 

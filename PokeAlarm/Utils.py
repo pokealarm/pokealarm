@@ -440,7 +440,7 @@ def get_time_as_str(t, timezone=None):
 # Return the time in seconds
 def get_time_in_seconds(t, timezone=None):
     if timezone is None:
-		timezone = config.get("TIMEZONE")
+        timezone = config.get("TIMEZONE")
     seconds = (t - datetime.utcnow()).total_seconds()
     return seconds
 
