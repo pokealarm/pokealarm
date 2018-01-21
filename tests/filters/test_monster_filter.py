@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+import time
 import unittest
 import sys
 import PokeAlarm.Filters as Filters
@@ -308,6 +310,25 @@ class TestMonsterFilter(unittest.TestCase):
             self.assertFalse(mon_filter.check_event(create_event({
                 'weather': i
             })))
+
+    def test_time_left(self):
+        # Create the filters
+        settings = {'min_time_left': 1000, 'max_time_left': 8000}
+        mon_filter = Filters.MonFilter('time_filter', settings)
+
+        # Test events that should pass
+        for s in [2000, 4000, 6000]:
+            d = (datetime.now() + timedelta(seconds=s))
+            t = time.mktime(d.timetuple())
+            event = Events.MonEvent(generate_monster({"disappear_time": t}))
+            self.assertTrue(mon_filter.check_event(event))
+
+        # Test events that should fail
+        for s in [200, 999, 8001]:
+            d = (datetime.now() + timedelta(seconds=s))
+            t = time.mktime(d.timetuple())
+            event = Events.MonEvent(generate_monster({"disappear_time": t}))
+            self.assertFalse(mon_filter.check_event(event))
 
 
 # Create a generic monster, overriding with an specific values
