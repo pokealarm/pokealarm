@@ -7,7 +7,7 @@ from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
     get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
-    is_weather_boosted, get_weather_emoji
+    is_weather_boosted, get_pokemon_type, get_weather_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -37,12 +37,16 @@ class RaidEvent(BaseEvent):
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
         self.cp = int(data['cp'])
+        self.type1 = str(get_pokemon_type('pokemon_id')[0])
+        self.type2 = str(get_pokemon_type('pokemon_id')[1])
+
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
         self.quick_damage = get_move_damage(self.quick_id)
         self.quick_dps = get_move_dps(self.quick_id)
         self.quick_duration = get_move_duration(self.quick_id)
         self.quick_energy = get_move_energy(self.quick_id)
+
         # Charge Move
         self.charge_id = check_for_none(int, data.get('move_2'), Unknown.TINY)
         self.charge_damage = get_move_damage(self.charge_id)
@@ -86,6 +90,11 @@ class RaidEvent(BaseEvent):
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
+            # Type
+            'type1': self.type1,
+            'type2': self.type2,
+            'types': self.type1 + "/" + self.type2,
+
             # Location
             'lat': self.lat,
             'lng': self.lng,
@@ -117,6 +126,7 @@ class RaidEvent(BaseEvent):
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
+
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_id),
             'charge_id': self.charge_id,
@@ -124,6 +134,7 @@ class RaidEvent(BaseEvent):
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
             'charge_energy': self.charge_energy,
+
             # CP info
             'cp': self.cp,
             'min_cp': cp_range[0],

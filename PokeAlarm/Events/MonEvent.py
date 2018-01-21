@@ -7,7 +7,7 @@ from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
     get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
-    get_dist_as_str, get_weather_emoji)
+    get_dist_as_str, get_pokemon_type, get_weather_emoji)
 from . import BaseEvent
 
 
