@@ -1,6 +1,7 @@
 # Standard Library Imports
 from glob import glob
 import json
+import re
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_path
@@ -30,9 +31,14 @@ def get_team_id(team_name):
                          " team name or id.".format(team_name))
 
 
+# Create case insensitive match
+def create_regex(pattern):
+    return re.compile(unicode(pattern), re.I)
+
+
 # Returns true if the string matches any given RE objects
 def match_regex_dict(reg_exs, name):
-    name = str(name)
+    name = unicode(name)
     for reg_ex in reg_exs:
         if reg_ex.search(name):
             return True

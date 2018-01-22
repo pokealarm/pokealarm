@@ -4,6 +4,13 @@
     "1": "Blanche", 
     "2": "Candela", 
     "3": "Spark"
+  },
+  "sizes": {
+    "1": "min\u00FAsculo",
+    "2": "pequeno",
+    "3": "normal",
+    "4": "grande",
+    "5": "enorme"
   }, 
   "moves": {
     "1": "Trovoada de Choques",

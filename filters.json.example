@@ -17,6 +17,7 @@
                 "min_height": 0, "max_height": "inf",
                 "min_weight": 0, "max_weight": "inf",
                 "sizes": [ "tiny", "small", "normal", "large", "big" ],
+                "weather": [ "Clear", 2 ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
@@ -88,6 +89,7 @@
                 "gym_name_contains": [ ".*" ],
                 "gym_park_contains": [ "^(?!.*None)" ],
                 "gym_sponsor_index_contains": ["^(?!.*0)"],
+				"weather": [ "Clear", 2 ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false

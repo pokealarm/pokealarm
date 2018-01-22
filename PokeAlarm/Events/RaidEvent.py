@@ -5,9 +5,9 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
-    get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
-    is_weather_boosted, get_weather_emoji
+    get_time_as_str, get_seconds_remaining, get_move_damage, get_move_dps, \
+    get_move_duration, get_move_energy, get_dist_as_str, \
+    get_pokemon_cp_range, is_weather_boosted, get_weather_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -24,6 +24,7 @@ class RaidEvent(BaseEvent):
         # Time Remaining
         self.raid_end = datetime.utcfromtimestamp(
             data.get('end') or data.get('raid_end'))  # RM or Monocle
+        self.time_left = get_seconds_remaining(self.raid_end)
 
         # Location
         self.lat = float(data['latitude'])
@@ -32,7 +33,7 @@ class RaidEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.station = ''
         self.weather_id = check_for_none(
-            int, data.get('weather'), 0)
+            int, data.get('weather'), Unknown.TINY)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
@@ -76,14 +77,20 @@ class RaidEvent(BaseEvent):
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
+        exraid = self.gym_park
+        if exraid == 'unknown':
+            exraid = ''
+        else:
+            exraid = "\n*Potential EX Raid (" + exraid + ")*"
+
         boss_level = 20
         boosted_weather = 0
         if Unknown.is_not(self.weather_id) \
                 and is_weather_boosted(self.mon_id, self.weather_id):
             boss_level = 25
             boosted_weather = self.weather_id
-
-        weather_name = locale.get_weather_name(boosted_weather)
+        weather_name = locale.get_weather_name(self.weather_id)
+        boosted_weather_name = locale.get_weather_name(boosted_weather)
         cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
 
         dts.update({
@@ -108,10 +115,14 @@ class RaidEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
             'station': self.station,
-            'weather_id': boosted_weather,
+            'weather_id': self.weather_id,
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
-            'weather_emoji': get_weather_emoji(boosted_weather),
+            'weather_emoji': get_weather_emoji(self.weather_id),
+            'boosted_weather_id': boosted_weather,
+            'boosted_weather': boosted_weather_name,
+            'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
+            'boosted_weather_emoji': get_weather_emoji(boosted_weather),
 
             # Raid Info
             'raid_lvl': self.raid_lvl,

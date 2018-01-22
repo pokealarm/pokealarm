@@ -250,19 +250,19 @@ def size_ratio(pokemon_id, height, weight):
     return height_ratio + weight_ratio
 
 
-# Returns the (appraisal) size of a pokemon:
+# Returns the appraised size_id of a pokemon
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'tiny'
+        return 1
     elif size <= 1.75:
-        return 'small'
-    elif size < 2.25:
-        return 'normal'
+        return 2
+    elif size <= 2.25:
+        return 3
     elif size <= 2.5:
-        return 'large'
+        return 4
     else:
-        return 'big'
+        return 5
 
 
 # Returns the gender symbol of a pokemon:
@@ -461,6 +461,14 @@ def get_time_as_str(t, timezone=None):
     # Disappear time in 24h format including seconds, eg "14:30:16"
     time_24 = disappear_time.strftime("%H:%M:%S")
     return time_left, time_12, time_24
+
+
+# Return the time in seconds
+def get_seconds_remaining(t, timezone=None):
+    if timezone is None:
+        timezone = config.get("TIMEZONE")
+    seconds = (t - datetime.utcnow()).total_seconds()
+    return seconds
 
 
 # Return the default url for images and stuff

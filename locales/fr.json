@@ -5,6 +5,13 @@
     "2": "Candela",
     "3": "Spark"
   },
+  "sizes": {
+    "1": "minuscule",
+    "2": "petite",
+    "3": "normale",
+    "4": "grand",
+    "5": "\u00E9norme"
+  }, 
   "moves": {
     "13": "Ligotage",
     "14": "Ultralaser",

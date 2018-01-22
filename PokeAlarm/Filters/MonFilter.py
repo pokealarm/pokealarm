@@ -28,6 +28,16 @@ class MonFilter(BaseFilter):
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
+        # Time Left
+        self.min_time_left = self.evaluate_attribute(
+            # f.min_time_left <= r.time_left
+            event_attribute='time_left', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
+        self.max_time_left = self.evaluate_attribute(
+            # f.max_time_left >= r.time_left
+            event_attribute='time_left', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
+
         # Encounter Stats
         # Level
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= m.mon_lvl
@@ -108,10 +118,15 @@ class MonFilter(BaseFilter):
             event_attribute='weight', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_weight', data))
         # Size
-        self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
-            event_attribute='size', eval_func=operator.contains,
+        self.sizes = self.evaluate_attribute(  # f.sizes in m.size_id
+            event_attribute='size_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                MonUtils.validate_pokemon_size, 'sizes', data))
+                MonUtils.get_size_id, 'sizes', data))
+
+        # Weather
+        self.weather_ids = self.evaluate_attribute(
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Weather
         self.weather_ids = self.evaluate_attribute(
