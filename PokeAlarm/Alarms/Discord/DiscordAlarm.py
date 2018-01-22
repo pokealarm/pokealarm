@@ -84,7 +84,7 @@ class DiscordAlarm(Alarm):
                           "assets/weather_<condition>_day.png",
             'title': "Weather Change Alert!",
             'url': None,
-            'body': "At <24h_time_weather_changed>. \n\nCell reference: "
+            'body': "At <24h_time_weather_changed>, weather became <weather>.\nCell reference: "
                     "<weather_cell_id>\nAffected areas are:\n\n<geofence>",
         }
     }
