@@ -471,4 +471,12 @@ def get_weather_id(weather_name):
         raise ValueError("Unable to interpret `{}` as a valid "
                          " weather name or id.".format(weather_name))
 
+
+# Returns true if any item is in the provided list
+def match_items_in_array(list, items):
+    for obj in list:
+        if obj in items:
+            return True
+    return False
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

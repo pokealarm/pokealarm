@@ -310,7 +310,7 @@ class TestMonsterFilter(unittest.TestCase):
             })))
 
     def test_types(self):
-        settings = {'types': [2, 9]}
+        settings = {'types': ["flying", 9]}
         mon_filter = Filters.MonFilter('type_filter', settings)
         for i in [4, 6, 249]:
             self.assertTrue(mon_filter.check_event(
