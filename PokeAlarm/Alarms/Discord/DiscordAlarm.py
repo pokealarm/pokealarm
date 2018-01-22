@@ -76,11 +76,16 @@ class DiscordAlarm(Alarm):
         'weather': {
             'username': "Weather",
             'content': "",
-            'icon_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
-            'avatar_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
+            'icon_url': "https://raw.githubusercontent.com/ZeChrales/"
+                        "monocle-icons/larger-outlined/assets/"
+                        "weather_<condition>_day.png",
+            'avatar_url': "https://raw.githubusercontent.com/ZeChrales/"
+                          "monocle-icons/larger-outlined/"
+                          "assets/weather_<condition>_day.png",
             'title': "Weather Change Alert!",
             'url': None,
-            'body': "At <24h_time_weather_changed>. \n\nCell reference: <weather_cell_id>\nAffected areas are:\n\n<geofence>",
+            'body': "At <24h_time_weather_changed>. \n\nCell reference: "
+                    "<weather_cell_id>\nAffected areas are:\n\n<geofence>",
         }
     }
 
@@ -102,17 +107,18 @@ class DiscordAlarm(Alarm):
 
         # Set Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'],'pokemon')
+            settings.pop('pokemon', {}), self._defaults['pokemon'], 'pokemon')
         self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'],'pokestop')
+            settings.pop('pokestop', {}),
+            self._defaults['pokestop'], 'pokestop')
         self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'],'gym')
+            settings.pop('gym', {}), self._defaults['gym'], 'gym')
         self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'],'egg')
+            settings.pop('egg', {}), self._defaults['egg'], 'egg')
         self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'],'raid')
+            settings.pop('raid', {}), self._defaults['raid'], 'raid')
         self.__weather = self.create_alert_settings(
-            settings.pop('weather', {}), self._defaults['weather'],'weather')
+            settings.pop('weather', {}), self._defaults['weather'], 'weather')
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -141,10 +147,10 @@ class DiscordAlarm(Alarm):
     def create_alert_settings(self, settings, default, kind):
         if kind == 'weather':
             static_map = get_static_weather_map_url(
-                        settings.pop('map', self.__map), self.__static_map_key)
+                settings.pop('map', self.__map), self.__static_map_key)
         else:
             static_map = get_static_map_url(
-                        settings.pop('map', self.__map), self.__static_map_key)
+                settings.pop('map', self.__map), self.__static_map_key)
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
@@ -180,7 +186,7 @@ class DiscordAlarm(Alarm):
             }]
             if alert['map'] is not None:
                 if info.get('alert_type') == 'weather':
-                    coords = { 
+                    coords = {
                         'lat1': info['coords'][0][0],
                         'lng1': info['coords'][0][1],
                         'lat2': info['coords'][1][0],

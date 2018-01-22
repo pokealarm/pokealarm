@@ -509,8 +509,8 @@ class Manager(object):
                 self.__location, [mon.lat, mon.lng], dts)
 
         if self.__quiet is False:
-            log.info("{} monster notification has been triggered to {}!".format(
-                mon.name, mon.geofence))
+            log.info("{} monster notification has "
+                     "been triggered to {}!".format(mon.name, mon.geofence))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -804,31 +804,35 @@ class Manager(object):
         if self.__weather_enabled is False:
             log.debug("Weather ignored: weather notifications are disabled.")
             return
-        
+
         # Skip if previously processed
-        if self.__cache.get_cell_weather(weather.weather_cell_id) == weather.condition:
-            log.debug("Weather alert for cell {} was skipped because it was already "
-                      "{} weather.".format(weather.weather_cell_id,weather.condition))
+        if self.__cache.get_cell_weather(
+                weather.weather_cell_id) == weather.condition:
+            log.debug("Weather alert for cell {} was skipped because"
+                      "it was already {} weather.".format(
+                          weather.weather_cell_id, weather.condition))
             return
-        self.__cache.update_cell_weather(weather.weather_cell_id,weather.condition)
+        self.__cache.update_cell_weather(
+            weather.weather_cell_id, weather.condition)
 
         weather.geofence = ''
         # Check the Filters
         passed = True
         for name, f in self.__weather_filters.iteritems():
-            passed = f.check_event(weather) and self.check_weather_geofences(f, weather)
+            passed = f.check_event(weather) and \
+                self.check_weather_geofences(f, weather)
             if passed:  # Stop checking
                 weather.custom_dts = f.custom_dts
                 break
         if not passed:  # Weather was rejected by all filters
             return
 
-        # Generate the DTS for the event     
+        # Generate the DTS for the event
         dts = weather.generate_dts(self.__locale)
 
         if self.__quiet is False:
-            log.info(
-                "{} weather notification triggered!".format(weather.weather_cell_id))
+            log.info("{} weather notification triggered!".format(
+                weather.weather_cell_id))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -861,7 +865,8 @@ class Manager(object):
         f.reject(e, "not in geofences")
         return False
 
-# Check to see if a weather notification s2 cell overlaps with a given range (geofence)
+# Check to see if a weather notification s2
+# cell overlaps with a given range (geofence)
     def check_weather_geofences(self, f, weather):
         """ Returns true if the event passes the filter's geofences. """
         geofencesFound = False

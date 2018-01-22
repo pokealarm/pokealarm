@@ -149,8 +149,7 @@ def set_init(webhook_type):
                 "move_2": 123,
                 "level": 5,
                 "latitude": 37.7876146,
-                "longitude": -122.390624,
-                "weather": 0
+                "longitude": -122.390624
             }
         }
 

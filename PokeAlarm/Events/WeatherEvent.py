@@ -4,8 +4,8 @@ from datetime import datetime
 # Local Imports
 from PokeAlarm import Unknown
 from . import BaseEvent
-from PokeAlarm.Utils import get_time_as_str 
-   
+from PokeAlarm.Utils import get_time_as_str
+
 
 class WeatherEvent(BaseEvent):
     """ Event representing the change occurred in Weather """
@@ -19,14 +19,14 @@ class WeatherEvent(BaseEvent):
         self.alert_type = 'weather'
         self.weather_cell_id = data.get('s2_cell_id')
 
-        #Time of weather change
+        # Time of weather change
         self.time_changed = datetime.utcfromtimestamp(
             data.get('time_changed'))
 
-        #S2 Cell vertices coordinates
+        # S2 Cell vertices coordinates
         self.coords = data.get('coords')
 
-        #Weather conditions
+        # Weather conditions
         self.condition = check_for_none(
             int, data.get('condition'), Unknown.SMALL)
         self.alert_severity = check_for_none(

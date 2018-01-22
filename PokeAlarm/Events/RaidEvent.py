@@ -83,7 +83,7 @@ class RaidEvent(BaseEvent):
             boss_level = 25
             boosted_weather = self.weather_id
 
-        weather_name = locale.get_weather_name(boosted_weather)         
+        weather_name = locale.get_weather_name(boosted_weather)
         cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
 
         dts.update({
