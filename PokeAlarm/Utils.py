@@ -291,12 +291,9 @@ def get_base_types(pokemon_id):
 
 
 # Returns the types for a pokemon
-def get_pokemon_type(pokemon_id):
+def get_mon_type(pokemon_id):
     types = get_base_types(pokemon_id)
-    type1 = str(types['type1'])
-    type2 = str(types['type2'])
-
-    return type1, type2
+    return types['type1'], types['type2']
 
 
 # Return a boolean for whether the raid boss will have it's catch CP boosted

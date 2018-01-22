@@ -11,7 +11,27 @@
     "3": "normal",
     "4": "grande",
     "5": "enorme"
-  }, 
+  },
+  "types": {
+    "0": "Normal",
+    "1": "Lutar",
+    "2": "Voando",
+    "3": "Veneno",
+    "4": "Terra",
+    "5": "Rocha",
+    "6": "Bicho",
+    "7": "Fantasma",
+    "8": "Aço",
+    "9": "Fogo",
+    "10": "Água",
+    "11": "Grama",
+    "12": "Elétrico",
+    "13": "Psíquico",
+    "14": "Gelo",
+    "15": "Dragão",
+    "16": "Fada",
+    "17": "Escuro"
+  },
   "moves": {
     "1": "Trovoada de Choques",
     "2": "Ataque R\u00e1pido",

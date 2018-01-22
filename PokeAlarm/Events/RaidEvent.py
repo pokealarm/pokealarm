@@ -7,7 +7,7 @@ from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
     get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
-    is_weather_boosted, get_pokemon_type, get_weather_emoji
+    is_weather_boosted, get_mon_type, get_weather_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -37,8 +37,10 @@ class RaidEvent(BaseEvent):
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
         self.cp = int(data['cp'])
-        self.type1 = str(get_pokemon_type('pokemon_id')[0])
-        self.type2 = str(get_pokemon_type('pokemon_id')[1])
+        self.type1_id = check_for_none(
+            int, get_mon_type(self.mon_id)[0], Unknown.TINY)
+        self.type2_id = check_for_none(
+            int, get_mon_type(self.mon_id)[1], Unknown.TINY)
 
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
@@ -80,6 +82,10 @@ class RaidEvent(BaseEvent):
                 and is_weather_boosted(self.mon_id, self.weather_id):
             boss_level = 25
         weather_name = locale.get_weather_name(self.weather_id)
+        type1_name = locale.get_type_name(self.type1_id)
+        type2_name = locale.get_type_name(self.type2_id)
+        types = "{}/{}".format(type1_name, type2_name) \
+            if Unknown.is_not(type2_name) else type1_name
         cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
         dts.update({
             # Identification
@@ -91,9 +97,11 @@ class RaidEvent(BaseEvent):
             '24h_raid_end': raid_end_time[2],
 
             # Type
-            'type1': self.type1,
-            'type2': self.type2,
-            'types': self.type1 + "/" + self.type2,
+            'type1': type1_name,
+            'type1_or_empty': Unknown.or_empty(type1_name),
+            'type2': type2_name,
+            'type2_or_empty': Unknown.or_empty(type2_name),
+            'types': types,
 
             # Location
             'lat': self.lat,

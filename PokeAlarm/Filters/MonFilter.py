@@ -112,6 +112,11 @@ class MonFilter(BaseFilter):
             event_attribute='size_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_size_id, 'sizes', data))
+        # Type
+        self.types = self.evaluate_attribute(  # f.type in m.type_id
+            event_attribute='type_ids', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_type_id, 'types', data))
 
         # Weather
         self.weather_ids = self.evaluate_attribute(
@@ -199,6 +204,9 @@ class MonFilter(BaseFilter):
         # Size
         if self.sizes is not None:
             settings['sizes'] = self.sizes
+        # Type
+        if self.types is not None:
+            settings['types'] = self.types
 
         # Weather
         if self.weather_ids is not None:

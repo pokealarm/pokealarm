@@ -12,6 +12,26 @@
     "4": "grande",
     "5": "enorme"
   },
+  "types": {
+    "0": "Normal",
+    "1": "Lucha",
+    "2": "Volador",
+    "3": "Veneno",
+    "4": "Tierra",
+    "5": "Roca",
+    "6": "Bicho",
+    "7": "Fantasma",
+    "8": "Acero",
+    "9": "Fuego",
+    "10": "Agua",
+    "11": "Planta",
+    "12": "Eléctrico",
+    "13": "Psíquico",
+    "14": "Hielo",
+    "15": "Dragón",
+    "16": "Hada",
+    "17": "Siniestro"
+  },
   "moves": {
     "13": "Constricci\u00f3n",
     "14": "Hiperrayo",
