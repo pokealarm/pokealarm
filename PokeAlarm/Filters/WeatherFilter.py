@@ -1,10 +1,7 @@
 # Standard Library Imports
-import operator
-import re
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
-from PokeAlarm.Utilities import GymUtils as GymUtils
 
 
 class WeatherFilter(BaseFilter):

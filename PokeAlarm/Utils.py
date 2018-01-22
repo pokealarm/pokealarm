@@ -361,7 +361,8 @@ def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
     return map_
 
 
-def get_static_weather_map_url(settings, api_key=None):  # TODO: optimize formatting
+# TODO: optimize formatting
+def get_static_weather_map_url(settings, api_key=None):
     if not parse_boolean(settings.get('enabled', 'True')):
         return None
     width = settings.get('width', '400')
@@ -372,10 +373,13 @@ def get_static_weather_map_url(settings, api_key=None):  # TODO: optimize format
     query_size = 'size={}x{}'.format(width, height)
     query_zoom = 'zoom={}'.format(zoom)
     query_maptype = 'maptype={}'.format(maptype)
-    query_path = 'path=fillcolor:0xFFFF0033|weight:5|<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,<lng3>|<lat4>,<lng4>|<lat1>,<lng1>'
+    query_path = "path=fillcolor:0xFFFF0033|weight:5|"
+    "<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,"
+    "<lng3>|<lat4>,<lng4>|<lat1>,<lng1>"
 
     map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
-            query_maptype + '&' + query_size + '&' + query_zoom + '&' + query_path)
+            query_maptype + '&' + query_size +
+            '&' + query_zoom + '&' + query_path)
 
     if api_key is not None:
         map_ += ('&key=%s' % api_key)
