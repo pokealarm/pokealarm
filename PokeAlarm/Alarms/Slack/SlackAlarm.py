@@ -28,28 +28,28 @@ class SlackAlarm(Alarm):
         'pokemon': {
             'username': "<mon_name>",
             'icon_url': get_image_url(
-                "monsters/<mon_id_3>_<form_id_3>.png"),
+                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
         'pokestop': {
             'username': "Pokestop",
-            'icon_url': get_image_url("stop/ready.png"),
+            'icon_url': get_image_url("regular/stop/ready.png"),
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
         'gym': {
             'username': "<new_team> Gym Alerts",
-            'icon_url': get_image_url("gyms/<new_team_id>.png"),
+            'icon_url': get_image_url("regular/gyms/<new_team_id>.png"),
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
         },
         'egg': {
             'username': "Egg",
-            'icon_url': get_image_url("eggs/<egg_lvl>.png"),
+            'icon_url': get_image_url("regular/eggs/<egg_lvl>.png"),
             'title': "A level <egg_lvl> raid is incoming!",
             'url': "<gmaps>",
             'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
@@ -57,7 +57,7 @@ class SlackAlarm(Alarm):
         'raid': {
             'username': "<mon_name> Raid",
             'icon_url': get_image_url(
-                "monsters/<mon_id_3>_000.png"),
+                "regular/monsters/<mon_id_3>_000.png"),
             'title': "Level <raid_lvl> raid is available against <mon_name>!",
             'url': "<gmaps>",
             'body': "The raid is available until <24h_raid_end> "

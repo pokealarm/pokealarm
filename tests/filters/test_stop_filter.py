@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+import time
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
@@ -43,6 +45,25 @@ class TestStopFilter(unittest.TestCase):
             self.assertTrue(stop_filter.check_event(stop_event))
         stop_event.distance = 'Unknown'
         self.assertFalse(stop_filter.check_event(stop_event))
+
+    def test_time_left(self):
+        # Create the filters
+        settings = {'min_time_left': 1000, 'max_time_left': 8000}
+        stop_filter = Filters.StopFilter('time_filter', settings)
+
+        # Test events that should pass
+        for s in [2000, 4000, 6000]:
+            d = (datetime.now() + timedelta(seconds=s))
+            t = time.mktime(d.timetuple())
+            event = Events.StopEvent(generate_stop({"lure_expiration": t}))
+            self.assertTrue(stop_filter.check_event(event))
+
+        # Test events that should fail
+        for s in [200, 999, 8001]:
+            d = (datetime.now() + timedelta(seconds=s))
+            t = time.mktime(d.timetuple())
+            event = Events.StopEvent(generate_stop({"lure_expiration": t}))
+            self.assertFalse(stop_filter.check_event(event))
 
 
 # Create a generic stop, overriding with an specific values
