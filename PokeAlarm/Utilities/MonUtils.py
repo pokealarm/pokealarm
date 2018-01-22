@@ -92,14 +92,27 @@ def get_size_id(size_name):
                          " size name or id.".format(size_name))
 
 
-# Returns the (appraisal) size of a pokemon:
-def validate_pokemon_size(size_name):
-    size = size_name.lower()
-    if size in {u'tiny', u'small', u'normal', u'large', u'big'}:
-        return size
-    else:
-        raise ValueError("Unable to interpret `{}` as a supported "
-                         " size name.".format(size_name))
+# Returns the id corresponding with the type (use all locales for flexibility)
+def get_type_id(type_name):
+    try:
+        name = str(type_name).lower()
+        if not hasattr(get_type_id, 'types'):
+            get_type_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['types']
+                    for id_ in j:
+                        nm = j[id_].lower()
+                        get_type_id.ids[nm] = int(id_)
+        if name in get_type_id.ids:
+            return get_type_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except Exception:
+        raise ValueError("Unable to interpret `{}` as a valid"
+                         " type name or id.".format(type_name))
 
 
 # Returns the gender symbol of a pokemon:

@@ -59,6 +59,12 @@ class Locale(object):
         for id_, val in default["sizes"].iteritems():
             self.__size_names[int(id_)] = sizes.get(id_, val)
 
+        # Type ID -> Type Name
+        self.__type_names = {}
+        types = info.get("types", {})
+        for id_, val in default["types"].iteritems():
+            self.__type_names[int(id_)] = types.get(id_, val)
+
         # Pokemon ID -> { Form ID -> Form Name)
         self.__form_names = {}
         all_forms = info.get("forms", {})
@@ -93,6 +99,10 @@ class Locale(object):
     # Returns the size of the Pokemon based on the Calculated Size Value
     def get_size_name(self, size_id):
         return self.__size_names.get(size_id, 'unknown')
+
+    # Returns the name of the type associated with the Type ID
+    def get_type_name(self, type_id):
+        return self.__type_names.get(type_id, 'unknown')
 
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
