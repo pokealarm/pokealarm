@@ -5,9 +5,9 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_move_damage, get_move_dps, get_move_duration, \
-    get_move_energy, get_dist_as_str, get_pokemon_cp_range, \
-    is_weather_boosted, get_weather_emoji
+    get_time_as_str, get_seconds_remaining, get_move_damage, get_move_dps, \
+    get_move_duration, get_move_energy, get_dist_as_str, \
+    get_pokemon_cp_range, is_weather_boosted, get_weather_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -24,6 +24,7 @@ class RaidEvent(BaseEvent):
         # Time Remaining
         self.raid_end = datetime.utcfromtimestamp(
             data.get('end') or data.get('raid_end'))  # RM or Monocle
+        self.time_left = get_seconds_remaining(self.raid_end)
 
         # Location
         self.lat = float(data['latitude'])
