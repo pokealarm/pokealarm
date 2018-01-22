@@ -2,8 +2,8 @@
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from PokeAlarm.Utils import get_time_as_str, get_gmaps_link, \
-    get_applemaps_link, get_dist_as_str
+from PokeAlarm.Utils import get_time_as_str, get_seconds_remaining, \
+    get_gmaps_link, get_applemaps_link, get_dist_as_str
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -22,6 +22,7 @@ class EggEvent(BaseEvent):
         # Time Remaining
         self.hatch_time = datetime.utcfromtimestamp(
             data.get('start') or data.get('raid_begin'))  # RM or Monocle
+        self.time_left = get_seconds_remaining(self.hatch_time)
         self.raid_end = datetime.utcfromtimestamp(
             data.get('end') or data.get('raid_end'))  # RM or Monocle
 
