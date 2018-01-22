@@ -22,14 +22,14 @@ class EggFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Time Left
-        self.min_time_to_hatch = self.evaluate_attribute(
-            # f.min_time_to_hatch <= r.hatch_time_left
-            event_attribute='hatch_time_left', eval_func=operator.le,
-            limit=BaseFilter.parse_as_type(int, 'min_time_to_hatch', data))
-        self.max_time_to_hatch = self.evaluate_attribute(
-            # f.max_time_to_hatch >= r.hatch_time_left
-            event_attribute='hatch_time_left', eval_func=operator.ge,
-            limit=BaseFilter.parse_as_type(int, 'max_time_to_hatch', data))
+        self.min_time_left = self.evaluate_attribute(
+            # f.min_time_left <= r.time_left
+            event_attribute='time_left', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
+        self.max_time_left = self.evaluate_attribute(
+            # f.max_time_left >= r.time_left
+            event_attribute='time_left', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Egg Level
         # Level

@@ -22,12 +22,12 @@ class StopFilter(BaseFilter):
 
         # Time Left
         self.min_time_left = self.evaluate_attribute(
-            # f.min_time_left <= r.lure_time_left
-            event_attribute='lure_time_left', eval_func=operator.le,
+            # f.min_time_left <= r.time_left
+            event_attribute='time_left', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
         self.max_time_left = self.evaluate_attribute(
-            # f.max_time_left >= r.lure_time_left
-            event_attribute='lure_time_left', eval_func=operator.ge,
+            # f.max_time_left >= r.time_left
+            event_attribute='time_left', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Geofences

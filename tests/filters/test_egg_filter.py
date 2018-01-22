@@ -145,7 +145,7 @@ class TestEggFilter(unittest.TestCase):
 
     def test_time_left(self):
         # Create the filters
-        settings = {'min_time_to_hatch': 1000, 'max_time_to_hatch': 8000}
+        settings = {'min_time_left': 1000, 'max_time_left': 8000}
         egg_filter = Filters.EggFilter('time_filter', settings)
 
         # Test events that should pass
