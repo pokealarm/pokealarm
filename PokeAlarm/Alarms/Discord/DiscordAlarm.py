@@ -80,7 +80,7 @@ class DiscordAlarm(Alarm):
             'avatar_url': "https://raw.githubusercontent.com/ZeChrales/monocle-icons/larger-outlined/assets/weather_<condition>_day.png",
             'title': "Weather Change Alert!",
             'url': None,
-            'body': "At <24h_time_weather_changed>. \n\nAffected areas are:\n\n<geofence>",
+            'body': "At <24h_time_weather_changed>. \n\nCell reference: <weather_cell_id>\nAffected areas are:\n\n<geofence>",
         }
     }
 

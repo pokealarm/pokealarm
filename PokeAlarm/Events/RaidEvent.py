@@ -32,7 +32,7 @@ class RaidEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.station = ''
         self.weather_id = check_for_none(
-            int, data.get('weather'), Unknown.TINY)
+            int, data.get('weather'), 0)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
