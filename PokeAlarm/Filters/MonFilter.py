@@ -209,9 +209,6 @@ class MonFilter(BaseFilter):
         # Size
         if self.sizes is not None:
             settings['sizes'] = self.sizes
-        # Type
-        if self.types is not None:
-            settings['types'] = self.types
 
         # Weather
         if self.weather_ids is not None:

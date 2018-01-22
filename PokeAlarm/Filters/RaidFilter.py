@@ -118,10 +118,6 @@ class RaidFilter(BaseFilter):
         if self.max_lvl is not None:
             settings['max_lvl'] = self.max_lvl
 
-        # Type
-        if self.types is not None:
-            settings['types'] = self.types
-
         # Weather
         if self.weather_ids is not None:
             settings['weather_ids'] = self.weather_ids
