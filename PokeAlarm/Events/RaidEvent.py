@@ -155,7 +155,7 @@ class RaidEvent(BaseEvent):
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
             'gym_sponsor': self.gym_sponsor,
-            'gym_park': self.gym_park,
+            'gym_park': exraid,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)
