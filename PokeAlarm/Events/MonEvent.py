@@ -7,7 +7,7 @@ from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
     get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
-    get_dist_as_str, get_mon_type, get_weather_emoji)
+    get_dist_as_str, get_base_types, get_weather_emoji)
 from . import BaseEvent
 
 
@@ -86,11 +86,7 @@ class MonEvent(BaseEvent):
                 self.monster_id, self.height, self.weight)
         else:
             self.size_id = Unknown.SMALL
-        self.type1_id = check_for_none(
-            int, get_mon_type(self.monster_id)[0], Unknown.TINY)
-        self.type2_id = check_for_none(
-            int, get_mon_type(self.monster_id)[1], Unknown.TINY)
-        self.type_ids = get_mon_type(self.monster_id)
+        self.types = get_base_types(self.monster_id)
 
         # Correct this later
         self.name = self.monster_id
@@ -102,10 +98,8 @@ class MonEvent(BaseEvent):
         time = get_time_as_str(self.disappear_time, timezone)
         form_name = locale.get_form_name(self.monster_id, self.form_id)
         weather_name = locale.get_weather_name(self.weather_id)
-        type1_name = locale.get_type_name(self.type1_id)
-        type2_name = locale.get_type_name(self.type2_id)
-        types = "{}/{}".format(type1_name, type2_name) \
-            if Unknown.is_not(type2_name) else type1_name
+        type1 = locale.get_type_name(self.types[0])
+        type2 = locale.get_type_name(self.types[1])
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -160,11 +154,13 @@ class MonEvent(BaseEvent):
             'sta': self.sta_iv,
 
             # Type
-            'type1': type1_name,
-            'type1_or_empty': Unknown.or_empty(type1_name),
-            'type2': type2_name,
-            'type2_or_empty': Unknown.or_empty(type2_name),
-            'types': types,
+            'type1': type1,
+            'type1_or_empty': Unknown.or_empty(type1),
+            'type2': type2,
+            'type2_or_empty': Unknown.or_empty(type2),
+            'types': (
+                "{}/{}".format(type1, type2)
+                if Unknown.is_not(type2) else type1),
 
             # Form
             'form': form_name,

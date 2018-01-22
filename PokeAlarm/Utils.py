@@ -283,10 +283,10 @@ def get_base_types(pokemon_id):
         with open(file_, 'r') as f:
             j = json.loads(f.read())
             for id_ in j:
-                get_base_types.info[int(id_)] = {
-                    "type1": j[id_].get('type1'),
-                    "type2": j[id_].get('type2')
-                }
+                get_base_types.info[int(id_)] = [
+                    j[id_].get('type1'),
+                    j[id_].get('type2')
+                ]
     return get_base_types.info.get(pokemon_id)
 
 
@@ -308,7 +308,7 @@ def is_weather_boosted(pokemon_id, weather_id):
 
     boosted_types = is_weather_boosted.info[str(weather_id)]
     types = get_base_types(pokemon_id)
-    return types['type1'] in boosted_types or types['type2'] in boosted_types
+    return types[0] in boosted_types or types[1] in boosted_types
 
 
 def get_weather_emoji(weather_id):

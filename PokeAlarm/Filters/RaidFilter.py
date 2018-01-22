@@ -37,12 +37,6 @@ class RaidFilter(BaseFilter):
             event_attribute='raid_lvl', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_raid_lvl', data))
 
-        # Monster Type
-        self.types = self.evaluate_attribute(  # f.type in m.type_id
-            event_attribute='type_ids', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(
-                MonUtils.get_type_id, 'types', data))
-
         # CP
         self.min_cp = self.evaluate_attribute(  # f.min_cp <= r.cp
             event_attribute='cp', eval_func=operator.le,
