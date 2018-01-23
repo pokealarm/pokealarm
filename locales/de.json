@@ -12,6 +12,26 @@
 	"4": "gro\u00DF",
 	"5": "riesig"
   },
+  "types": {
+    "0": "Normal",
+    "1": "K\u00E4mpfen",
+    "2": "Fliegen",
+    "3": "Gift",
+    "4": "Boden",
+    "5": "Fels",
+    "6": "Fehler",
+    "7": "Geist",
+    "8": "Stahl",
+    "9": "Feuer",
+    "10": "Wasser",
+    "11": "Gras",
+    "12": "Elektrisch",
+    "13": "Psychisch",
+    "14": "Eis",
+    "15": "Drache",
+    "16": "Fee",
+    "17": "Dunkel"
+  },
   "moves": {
     "100": "Kreuzschere", 
     "101": "Nitroladung", 

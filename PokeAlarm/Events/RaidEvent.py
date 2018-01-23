@@ -5,9 +5,10 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_seconds_remaining, get_move_damage, get_move_dps, \
-    get_move_duration, get_move_energy, get_dist_as_str, \
-    get_pokemon_cp_range, is_weather_boosted, get_weather_emoji
+    get_time_as_str, get_move_damage, get_move_dps, \
+    get_move_duration, get_move_energy, get_seconds_remaining, \
+    get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
+    get_base_types, get_weather_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -39,12 +40,15 @@ class RaidEvent(BaseEvent):
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
         self.cp = int(data['cp'])
+        self.types = get_base_types(self.mon_id)
+
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
         self.quick_damage = get_move_damage(self.quick_id)
         self.quick_dps = get_move_dps(self.quick_id)
         self.quick_duration = get_move_duration(self.quick_id)
         self.quick_energy = get_move_energy(self.quick_id)
+
         # Charge Move
         self.charge_id = check_for_none(int, data.get('move_2'), Unknown.TINY)
         self.charge_damage = get_move_damage(self.charge_id)
@@ -89,8 +93,13 @@ class RaidEvent(BaseEvent):
                 and is_weather_boosted(self.mon_id, self.weather_id):
             boss_level = 25
             boosted_weather = self.weather_id
-        weather_name = locale.get_weather_name(self.weather_id)
+
         boosted_weather_name = locale.get_weather_name(boosted_weather)
+        weather_name = locale.get_weather_name(self.weather_id)
+
+        type1 = locale.get_type_name(self.types[0])
+        type2 = locale.get_type_name(self.types[1])
+
         cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
 
         dts.update({
@@ -101,6 +110,15 @@ class RaidEvent(BaseEvent):
             'raid_time_left': raid_end_time[0],
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
+
+            # Type
+            'type1': type1,
+            'type1_or_empty': Unknown.or_empty(type1),
+            'type2': type2,
+            'type2_or_empty': Unknown.or_empty(type2),
+            'types': (
+                "{}/{}".format(type1, type2)
+                if Unknown.is_not(type2) else type1),
 
             # Location
             'lat': self.lat,
@@ -138,6 +156,7 @@ class RaidEvent(BaseEvent):
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
+
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_id),
             'charge_id': self.charge_id,
@@ -145,6 +164,7 @@ class RaidEvent(BaseEvent):
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
             'charge_energy': self.charge_energy,
+
             # CP info
             'cp': self.cp,
             'min_cp': cp_range[0],

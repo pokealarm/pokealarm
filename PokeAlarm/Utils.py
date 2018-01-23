@@ -284,11 +284,17 @@ def get_base_types(pokemon_id):
         with open(file_, 'r') as f:
             j = json.loads(f.read())
             for id_ in j:
-                get_base_types.info[int(id_)] = {
-                    "type1": j[id_].get('type1'),
-                    "type2": j[id_].get('type2')
-                }
+                get_base_types.info[int(id_)] = [
+                    j[id_].get('type1'),
+                    j[id_].get('type2')
+                ]
     return get_base_types.info.get(pokemon_id)
+
+
+# Returns the types for a pokemon
+def get_mon_type(pokemon_id):
+    types = get_base_types(pokemon_id)
+    return types['type1'], types['type2']
 
 
 # Return a boolean for whether the raid boss will have it's catch CP boosted
@@ -303,7 +309,7 @@ def is_weather_boosted(pokemon_id, weather_id):
 
     boosted_types = is_weather_boosted.info[str(weather_id)]
     types = get_base_types(pokemon_id)
-    return types['type1'] in boosted_types or types['type2'] in boosted_types
+    return types[0] in boosted_types or types[1] in boosted_types
 
 
 def get_weather_emoji(weather_id):
@@ -374,13 +380,13 @@ def get_static_weather_map_url(settings, api_key=None):
     query_size = 'size={}x{}'.format(width, height)
     query_zoom = 'zoom={}'.format(zoom)
     query_maptype = 'maptype={}'.format(maptype)
-    query_path = "path=fillcolor:0xFFFF0033|weight:5|"
-    "<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,"
-    "<lng3>|<lat4>,<lng4>|<lat1>,<lng1>"
+    query_path = 'path=fillcolor:0xFFFF0033|weight:5|' \
+    '<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,<lng3>' \
+    '|<lat4>,<lng4>|<lat1>,<lng1>'
 
     map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
-            query_maptype + '&' + query_size + '&'
-            + query_zoom + '&' + query_path)
+            query_maptype + '&' + query_size + 
+            '&' + query_zoom + '&' + query_path)
 
     if api_key is not None:
         map_ += ('&key=%s' % api_key)
@@ -511,5 +517,12 @@ def get_weather_id(weather_name):
         raise ValueError("Unable to interpret `{}` as a valid "
                          " weather name or id.".format(weather_name))
 
+
+# Returns true if any item is in the provided list
+def match_items_in_array(list, items):
+    for obj in list:
+        if obj in items:
+            return True
+    return False
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
