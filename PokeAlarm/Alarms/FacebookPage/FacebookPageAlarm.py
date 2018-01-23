@@ -28,7 +28,7 @@ class FacebookPageAlarm(Alarm):
         'pokemon': {
             'message': "A wild <mon_name> has appeared!",
             'image': get_image_url(
-                "monsters/<mon_id_3>_<form_id_3>.png"),
+                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'link': "<gmaps>",
             'name': "<mon_name>",
             'description': "Available until <24h_time> (<time_left>).",
@@ -36,7 +36,7 @@ class FacebookPageAlarm(Alarm):
         },
         'pokestop': {
             'message': "Someone has placed a lure on a Pokestop!",
-            'image': get_image_url("stop/ready.png"),
+            'image': get_image_url("regular/stop/ready.png"),
             'link': "<gmaps>",
             'name': "Lured Pokestop",
             'description': "Lure will expire at <24h_time> (<time_left>).",
@@ -44,7 +44,7 @@ class FacebookPageAlarm(Alarm):
         },
         'gym': {
             'message': "A Team <old_team> gym has fallen!",
-            'image': get_image_url("gyms/<new_team_id>.png"),
+            'image': get_image_url("regular/gyms/<new_team_id>.png"),
             'link': "<gmaps>",
             'name': "<old_team> gym fallen",
             'description': "It is now controlled by <new_team>.",
@@ -52,7 +52,7 @@ class FacebookPageAlarm(Alarm):
         },
         'egg': {
             'message': "A level <egg_lvl> raid is upcoming!",
-            'image': get_image_url("eggs/<egg_lvl>.png"),
+            'image': get_image_url("regular/eggs/<egg_lvl>.png"),
             'link': "<gmaps>",
             'name': 'Egg',
             'description': "A level <egg_lvl> raid will hatch at "
@@ -62,7 +62,7 @@ class FacebookPageAlarm(Alarm):
         'raid': {
             'message': "Level <raid_lvl> raid available against <mon_name>!",
             'image': get_image_url(
-                "monsters/<mon_id_3>_000.png"),
+                "regular/monsters/<mon_id_3>_000.png"),
             'link': "<gmaps>",
             'name': 'Raid',
             'description':

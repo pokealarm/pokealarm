@@ -7,7 +7,7 @@ from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
     get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
-    get_dist_as_str, get_weather_emoji)
+    get_seconds_remaining, get_base_types, get_dist_as_str, get_weather_emoji)
 from . import BaseEvent
 
 
@@ -25,6 +25,7 @@ class MonEvent(BaseEvent):
 
         # Time Left
         self.disappear_time = datetime.utcfromtimestamp(data['disappear_time'])
+        self.time_left = get_seconds_remaining(self.disappear_time)
 
         # Spawn Data
         self.spawn_start = check_for_none(
@@ -40,6 +41,8 @@ class MonEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
+        self.boosted_weather_id = check_for_none(
+            int, data.get('boosted_weather'), 0)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -82,10 +85,11 @@ class MonEvent(BaseEvent):
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):
-            self.size = get_pokemon_size(
+            self.size_id = get_pokemon_size(
                 self.monster_id, self.height, self.weight)
         else:
-            self.size = Unknown.SMALL
+            self.size_id = Unknown.SMALL
+        self.types = get_base_types(self.monster_id)
 
         # Correct this later
         self.name = self.monster_id
@@ -97,6 +101,11 @@ class MonEvent(BaseEvent):
         time = get_time_as_str(self.disappear_time, timezone)
         form_name = locale.get_form_name(self.monster_id, self.form_id)
         weather_name = locale.get_weather_name(self.weather_id)
+        boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
+
+        type1 = locale.get_type_name(self.types[0])
+        type2 = locale.get_type_name(self.types[1])
+
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -131,10 +140,16 @@ class MonEvent(BaseEvent):
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
             'weather_emoji': get_weather_emoji(self.weather_id),
+            'boosted_weather_id': self.boosted_weather_id,
+            'boosted_weather': boosted_weather_name,
+            'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
+            'boosted_weather_emoji':
+                get_weather_emoji(self.boosted_weather_id),
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
             'cp': self.cp,
+
             # IVs
             'iv_0': (
                 "{:.0f}".format(self.iv) if Unknown.is_not(self.iv)
@@ -148,6 +163,16 @@ class MonEvent(BaseEvent):
             'atk': self.atk_iv,
             'def': self.def_iv,
             'sta': self.sta_iv,
+
+            # Type
+            'type1': type1,
+            'type1_or_empty': Unknown.or_empty(type1),
+            'type2': type2,
+            'type2_or_empty': Unknown.or_empty(type2),
+            'types': (
+                "{}/{}".format(type1, type2)
+                if Unknown.is_not(type2) else type1),
+
             # Form
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
@@ -161,6 +186,7 @@ class MonEvent(BaseEvent):
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
+
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_move_id),
             'charge_id': self.charge_move_id,
@@ -173,7 +199,7 @@ class MonEvent(BaseEvent):
             'gender': self.gender,
             'height': self.height,
             'weight': self.weight,
-            'size': self.size,
+            'size': locale.get_size_name(self.size_id),
 
             # Misc
             'big_karp': (

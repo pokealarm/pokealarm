@@ -30,6 +30,16 @@ class RaidFilter(BaseFilter):
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
+        # Time Left
+        self.min_time_left = self.evaluate_attribute(
+            # f.min_time_left <= r.time_left
+            event_attribute='time_left', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
+        self.max_time_left = self.evaluate_attribute(
+            # f.max_time_left >= r.time_left
+            event_attribute='time_left', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
+
         # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
             event_attribute='raid_lvl', eval_func=operator.le,
@@ -61,7 +71,7 @@ class RaidFilter(BaseFilter):
         self.gym_name_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_contains', data))
+                GymUtils.create_regex, 'gym_name_contains', data))
 
         # Gym sponsor
         self.gym_sponsor_index_contains = self.evaluate_attribute(

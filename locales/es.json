@@ -5,6 +5,33 @@
     "2": "Candela",
     "3": "Spark"
   },
+  "sizes": {
+    "1": "diminuto",
+    "2": "peque\u00F1o",
+    "3": "normal",
+    "4": "grande",
+    "5": "enorme"
+  },
+  "types": {
+    "0": "Normal",
+    "1": "Lucha",
+    "2": "Volador",
+    "3": "Veneno",
+    "4": "Tierra",
+    "5": "Roca",
+    "6": "Bicho",
+    "7": "Fantasma",
+    "8": "Acero",
+    "9": "Fuego",
+    "10": "Agua",
+    "11": "Planta",
+    "12": "El\u00E9ctrico",
+    "13": "Ps\u00EDquico",
+    "14": "Hielo",
+    "15": "Drag\u00F3n",
+    "16": "Hada",
+    "17": "Siniestro"
+  },
   "moves": {
     "13": "Constricci\u00f3n",
     "14": "Hiperrayo",
@@ -858,7 +885,7 @@
     "666": "Vivillon",
     "667": "Litleo",
     "668": "Pyroar",
-    "669": "Flabébé",
+    "669": "Flab\u00E9b\u00E9",
     "670": "Floette",
     "671": "Florges",
     "672": "Skiddo",
@@ -919,13 +946,13 @@
     "3": "Instinto"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+    "0": "None",
+    "1": "Despejado",
+    "2": "Lluvioso",
+    "3": "Parcialmente nublado",
+    "4": "Nublado",
+    "5": "Viento",
+    "6": "Nieve",
+    "7": "Niebla"
   }
 }

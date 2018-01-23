@@ -249,19 +249,19 @@ def size_ratio(pokemon_id, height, weight):
     return height_ratio + weight_ratio
 
 
-# Returns the (appraisal) size of a pokemon:
+# Returns the appraised size_id of a pokemon
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'tiny'
+        return 1
     elif size <= 1.75:
-        return 'small'
-    elif size < 2.25:
-        return 'normal'
+        return 2
+    elif size <= 2.25:
+        return 3
     elif size <= 2.5:
-        return 'large'
+        return 4
     else:
-        return 'big'
+        return 5
 
 
 # Returns the gender symbol of a pokemon:
@@ -283,11 +283,17 @@ def get_base_types(pokemon_id):
         with open(file_, 'r') as f:
             j = json.loads(f.read())
             for id_ in j:
-                get_base_types.info[int(id_)] = {
-                    "type1": j[id_].get('type1'),
-                    "type2": j[id_].get('type2')
-                }
+                get_base_types.info[int(id_)] = [
+                    j[id_].get('type1'),
+                    j[id_].get('type2')
+                ]
     return get_base_types.info.get(pokemon_id)
+
+
+# Returns the types for a pokemon
+def get_mon_type(pokemon_id):
+    types = get_base_types(pokemon_id)
+    return types['type1'], types['type2']
 
 
 # Return a boolean for whether the raid boss will have it's catch CP boosted
@@ -302,7 +308,7 @@ def is_weather_boosted(pokemon_id, weather_id):
 
     boosted_types = is_weather_boosted.info[str(weather_id)]
     types = get_base_types(pokemon_id)
-    return types['type1'] in boosted_types or types['type2'] in boosted_types
+    return types[0] in boosted_types or types[1] in boosted_types
 
 
 def get_weather_emoji(weather_id):
@@ -462,6 +468,14 @@ def get_time_as_str(t, timezone=None):
     return time_left, time_12, time_24
 
 
+# Return the time in seconds
+def get_seconds_remaining(t, timezone=None):
+    if timezone is None:
+        timezone = config.get("TIMEZONE")
+    seconds = (t - datetime.utcnow()).total_seconds()
+    return seconds
+
+
 # Return the default url for images and stuff
 def get_image_url(suffix):
     return not_so_secret_url + suffix
@@ -489,5 +503,14 @@ def get_weather_id(weather_name):
     except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
                          " weather name or id.".format(weather_name))
+
+
+# Returns true if any item is in the provided list
+def match_items_in_array(list, items):
+    for obj in list:
+        if obj in items:
+            return True
+    return False
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

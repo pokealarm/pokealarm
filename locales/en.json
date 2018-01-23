@@ -40,18 +40,45 @@
   "weather": {
 	"0": "None",
 	"1": "Clear",
-	"2": "Rainy",
+	"2": "Rain",
 	"3": "Partly Cloudy",
 	"4": "Cloudy",
 	"5": "Windy",
-	"6": "Snowy",
-	"7": "Foggy"
+	"6": "Snow",
+	"7": "Fog"
   },
   "leaders": {
     "0": "Professor Willow",
     "1": "Blanche",
     "2": "Candela",
     "3": "Spark"
+  },
+  "sizes": {
+    "1": "tiny",
+    "2": "small",
+    "3": "normal",
+    "4": "large",
+    "5": "big"
+  },
+  "types": {
+    "0": "Normal",
+    "1": "Fighting",
+    "2": "Flying",
+    "3": "Poison",
+    "4": "Ground",
+    "5": "Rock",
+    "6": "Bug",
+    "7": "Ghost",
+    "8": "Steel",
+    "9": "Fire",
+    "10": "Water",
+    "11": "Grass",
+    "12": "Electric",
+    "13": "Psychic",
+    "14": "Ice",
+    "15": "Dragon",
+    "16": "Fairy",
+    "17": "Dark"
   },
   "moves": {
     "13": "Wrap",
@@ -910,7 +937,7 @@
     "666": "Vivillon",
     "667": "Litleo",
     "668": "Pyroar",
-    "669": "Flabébé",
+    "669": "Flab\u00E9b\u00E9",
     "670": "Floette",
     "671": "Florges",
     "672": "Skiddo",
