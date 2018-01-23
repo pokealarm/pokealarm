@@ -109,7 +109,7 @@ class RaidEvent(BaseEvent):
                 "{}/{}".format(type1, type2)
                 if Unknown.is_not(type2) else type1),
             'types_emoji': (
-                "{}/{}".format(
+                "{}{}".format(
                     get_type_emoji(self.types[0]),
                     get_type_emoji(self.types[1]))
                 if Unknown.is_not(type2) else get_type_emoji(self.types[0])),

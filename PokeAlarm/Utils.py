@@ -342,7 +342,7 @@ def get_type_emoji(type_id):
         14: u'❄',
         15: u'🐲',
         16: u'💫',
-        17: u'✴'
+        17: u'🌑'
     }.get(type_id, '')
 
 
