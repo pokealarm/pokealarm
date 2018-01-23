@@ -204,7 +204,7 @@ class Manager(object):
 
     # Add new Raid Rule
     def add_raid_rule(self, name, filters, alarms):
-        if name in self.__egg_rules:
+        if name in self.__raid_rules:
             raise ValueError("Unable to add Rule: Raid Rule with the name "
                              "{} already exists!".format(name))
 
