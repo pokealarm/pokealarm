@@ -5,9 +5,11 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import (
-    get_gmaps_link, get_move_damage, get_move_dps, get_move_duration,
-    get_move_energy, get_pokemon_size, get_applemaps_link, get_time_as_str,
-    get_seconds_remaining, get_base_types, get_dist_as_str, get_weather_emoji)
+    get_gmaps_link, get_move_damage, get_move_dps,
+    get_move_duration, get_move_energy, get_pokemon_size,
+    get_applemaps_link, get_time_as_str, get_seconds_remaining,
+    get_base_types, get_dist_as_str, get_weather_emoji,
+    get_type_emoji)
 from . import BaseEvent
 
 
@@ -167,11 +169,18 @@ class MonEvent(BaseEvent):
             # Type
             'type1': type1,
             'type1_or_empty': Unknown.or_empty(type1),
+            'type1_emoji': Unknown.or_empty(get_type_emoji(self.types[0])),
             'type2': type2,
             'type2_or_empty': Unknown.or_empty(type2),
+            'type2_emoji': Unknown.or_empty(get_type_emoji(self.types[2])),
             'types': (
                 "{}/{}".format(type1, type2)
                 if Unknown.is_not(type2) else type1),
+            'types_emoji': (
+                "{}/{}".format(
+                    get_type_emoji(self.types[0]),
+                    get_type_emoji(self.types[2]))
+                if Unknown.is_not(type2) else get_type_emoji(self.types[0])),
 
             # Form
             'form': form_name,
