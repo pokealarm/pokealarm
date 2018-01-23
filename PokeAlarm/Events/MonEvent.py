@@ -41,6 +41,8 @@ class MonEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
+        self.boosted_weather_id = check_for_none(
+            int, data.get('boosted_weather'), 0)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -99,8 +101,11 @@ class MonEvent(BaseEvent):
         time = get_time_as_str(self.disappear_time, timezone)
         form_name = locale.get_form_name(self.monster_id, self.form_id)
         weather_name = locale.get_weather_name(self.weather_id)
+        boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
+
         type1 = locale.get_type_name(self.types[0])
         type2 = locale.get_type_name(self.types[1])
+
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -135,6 +140,11 @@ class MonEvent(BaseEvent):
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
             'weather_emoji': get_weather_emoji(self.weather_id),
+            'boosted_weather_id': self.boosted_weather_id,
+            'boosted_weather': boosted_weather_name,
+            'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
+            'boosted_weather_emoji':
+                get_weather_emoji(self.boosted_weather_id),
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,

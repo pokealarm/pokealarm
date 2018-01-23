@@ -77,12 +77,17 @@ class RaidEvent(BaseEvent):
         dts = self.custom_dts.copy()
 
         boss_level = 20
+        boosted_weather = 0
         if Unknown.is_not(self.weather_id) \
                 and is_weather_boosted(self.mon_id, self.weather_id):
             boss_level = 25
+            boosted_weather = self.weather_id
+        boosted_weather_name = locale.get_weather_name(boosted_weather)
         weather_name = locale.get_weather_name(self.weather_id)
+
         type1 = locale.get_type_name(self.types[0])
         type2 = locale.get_type_name(self.types[1])
+
         cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
         dts.update({
             # Identification
@@ -118,6 +123,10 @@ class RaidEvent(BaseEvent):
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
             'weather_emoji': get_weather_emoji(self.weather_id),
+            'boosted_weather_id': boosted_weather,
+            'boosted_weather': boosted_weather_name,
+            'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
+            'boosted_weather_emoji': get_weather_emoji(boosted_weather),
 
             # Raid Info
             'raid_lvl': self.raid_lvl,
