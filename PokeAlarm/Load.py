@@ -9,7 +9,7 @@ from collections import OrderedDict
 import Utils as utils
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('LoadConfig')
 
 
 def parse_rules_file(manager, filename):
@@ -48,6 +48,11 @@ def parse_rules_file(manager, filename):
         log.debug("Parsing 'raids' section.")
         load_rules_section(manager.add_raid_rule, rules.pop('raids', {}))
 
+        for key in rules:
+            raise ValueError("Unknown Event type '{}'. Rules must be defined "
+                             "under the correct event type. See "
+                             "example in rules.json.example.".format(key))
+
     except Exception as e:
         log.error("Encountered error while parsing Rules. "
                   "This is because of a mistake in your Rules file.")
@@ -58,9 +63,13 @@ def parse_rules_file(manager, filename):
 
 def load_rules_section(set_rule, rules):
     for name, settings in rules.iteritems():
-        if 'filters' not in settings or 'alarms' not in settings:
-            raise ValueError("{} rule must have filters or "
-                             "alarms section!".format(name))
+        if 'filters' not in settings:
+            raise ValueError("{} rule is missing "
+                             "a `filters` section.".format(name))
+        if 'alarms' not in settings:
+            raise ValueError("{} rule is missing "
+                             "an `alarms` section.".format(name))
+
         filters = settings.pop('filters')
         alarms = settings.pop('alarms')
         set_rule(name, filters, alarms)

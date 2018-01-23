@@ -205,12 +205,12 @@ class Manager(object):
     # Add new Raid Rule
     def add_raid_rule(self, name, filters, alarms):
         if name in self.__egg_rules:
-            raise ValueError("Unable to add Rule: Stop Rule with the name "
+            raise ValueError("Unable to add Rule: Raid Rule with the name "
                              "{} already exists!".format(name))
 
         for filt in filters:
             if filt not in self.__raid_filters:
-                raise ValueError("Unable to create Rule: No Stop Filter "
+                raise ValueError("Unable to create Rule: No Raid Filter "
                                  "named {}!".format(filt))
 
         for alarm in alarms:
