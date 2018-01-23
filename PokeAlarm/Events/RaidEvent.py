@@ -104,14 +104,14 @@ class RaidEvent(BaseEvent):
             'type1_emoji': Unknown.or_empty(get_type_emoji(self.types[0])),
             'type2': type2,
             'type2_or_empty': Unknown.or_empty(type2),
-            'type2_emoji': Unknown.or_empty(get_type_emoji(self.types[2])),
+            'type2_emoji': Unknown.or_empty(get_type_emoji(self.types[1])),
             'types': (
                 "{}/{}".format(type1, type2)
                 if Unknown.is_not(type2) else type1),
             'types_emoji': (
                 "{}/{}".format(
                     get_type_emoji(self.types[0]),
-                    get_type_emoji(self.types[2]))
+                    get_type_emoji(self.types[1]))
                 if Unknown.is_not(type2) else get_type_emoji(self.types[0])),
 
             # Location
