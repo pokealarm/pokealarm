@@ -23,7 +23,7 @@ replace = Alarm.replace
 class DiscordAlarm(Alarm):
 
     _defaults = {
-        'pokemon': {
+        'monsters': {
             'username': "<mon_name>",
             'content': "",
             'icon_url': get_image_url(
@@ -34,7 +34,7 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
-        'pokestop': {
+        'stops': {
             'username': "Pokestop",
             'content': "",
             'icon_url': get_image_url("regular/stop/ready.png"),
@@ -43,7 +43,7 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
-        'gym': {
+        'gyms': {
             'username': "<new_team> Gym Alerts",
             'content': "",
             'icon_url': get_image_url("regular/gyms/<new_team_id>.png"),
@@ -52,7 +52,7 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
         },
-        'egg': {
+        'eggs': {
             'username': "Egg",
             'content': "",
             'icon_url': get_image_url("regular/eggs/<egg_lvl>.png"),
@@ -62,7 +62,7 @@ class DiscordAlarm(Alarm):
             'body': "A level <egg_lvl> raid will hatch at "
                     "<24h_hatch_time> (<hatch_time_left>)."
         },
-        'raid': {
+        'raids': {
             'username': "Raid",
             'content': "",
             'icon_url': get_image_url("regular/monsters/<mon_id_3>_000.png"),
@@ -91,16 +91,16 @@ class DiscordAlarm(Alarm):
         self.__static_map_key = static_map_key
 
         # Set Alert Parameters
-        self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+        self.__monsters = self.create_alert_settings(
+            settings.pop('monsters', {}), self._defaults['monsters'])
+        self.__stops = self.create_alert_settings(
+            settings.pop('stops', {}), self._defaults['stops'])
+        self.__gyms = self.create_alert_settings(
+            settings.pop('gyms', {}), self._defaults['gyms'])
+        self.__eggs = self.create_alert_settings(
+            settings.pop('eggs', {}), self._defaults['eggs'])
+        self.__raids = self.create_alert_settings(
+            settings.pop('raids', {}), self._defaults['raids'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -179,24 +179,24 @@ class DiscordAlarm(Alarm):
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
         log.debug("Pokemon notification triggered.")
-        self.send_alert(self.__pokemon, pokemon_info)
+        self.send_alert(self.__monsters, pokemon_info)
 
     # Trigger an alert based on Pokestop info
     def pokestop_alert(self, pokestop_info):
         log.debug("Pokestop notification triggered.")
-        self.send_alert(self.__pokestop, pokestop_info)
+        self.send_alert(self.__stops, pokestop_info)
 
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
         log.debug("Gym notification triggered.")
-        self.send_alert(self.__gym, gym_info)
+        self.send_alert(self.__gyms, gym_info)
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
-        self.send_alert(self.__egg, raid_info)
+        self.send_alert(self.__eggs, raid_info)
 
     def raid_alert(self, raid_info):
-        self.send_alert(self.__raid, raid_info)
+        self.send_alert(self.__raids, raid_info)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):

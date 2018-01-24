@@ -25,23 +25,23 @@ replace = Alarm.replace
 class TwitterAlarm(Alarm):
 
     _defaults = {
-        'pokemon': {
+        'monsters': {
             'status': "A wild <mon_name> has appeared! "
                       "Available until <24h_time> (<time_left>). <gmaps>"
         },
-        'pokestop': {
+        'stops': {
             'status': "Someone has placed a lure on a Pokestop! "
                       "Lure will expire at <24h_time> (<time_left>). <gmaps>"
         },
-        'gym': {
+        'gyms': {
             'status': "A Team <old_team> gym has fallen! "
                       "It is now controlled by <new_team>. <gmaps>"
         },
-        'egg': {
+        'eggs': {
             'status': "Level <egg_lvl> raid incoming! Hatches at "
                       "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
         },
-        'raid': {
+        'raids': {
             'status': "Raid <raid_lvl> against <mon_name>! Available until "
                       "<24h_raid_end> (<raid_time_left>). <gmaps>"
         }
@@ -66,15 +66,15 @@ class TwitterAlarm(Alarm):
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
+            settings.pop('monsters', {}), self._defaults['monsters'])
         self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
+            settings.pop('stops', {}), self._defaults['stops'])
         self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'])
+            settings.pop('gyms', {}), self._defaults['gyms'])
         self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
+            settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+            settings.pop('raids', {}), self._defaults['raids'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
