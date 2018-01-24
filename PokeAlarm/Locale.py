@@ -76,6 +76,8 @@ class Locale(object):
                     form_id, form_name)
         log.debug("Loaded '{}' locale successfully!".format(language))
 
+        self.__boosted_text = info.get('boosted', '')
+
     # Returns the name of the Pokemon associated with the given ID
     def get_pokemon_name(self, pokemon_id):
         return self.__pokemon_names.get(pokemon_id, 'unknown')
@@ -107,3 +109,6 @@ class Locale(object):
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
         return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+
+    def get_boosted_text(self):
+        return self.__boosted_text

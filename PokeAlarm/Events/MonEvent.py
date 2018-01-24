@@ -9,7 +9,7 @@ from PokeAlarm.Utils import (
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_time_as_str, get_seconds_remaining,
     get_base_types, get_dist_as_str, get_weather_emoji,
-    get_type_emoji)
+    get_type_emoji, is_weather_boosted)
 from . import BaseEvent
 
 
@@ -138,6 +138,8 @@ class MonEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+
+            # Weather
             'weather_id': self.weather_id,
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
@@ -147,6 +149,8 @@ class MonEvent(BaseEvent):
             'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
             'boosted_weather_emoji':
                 get_weather_emoji(self.boosted_weather_id),
+            'is_weather_boosted': locale.get_boosted_text() if
+            is_weather_boosted(self.monster_id, self.weather_id) else '',
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
