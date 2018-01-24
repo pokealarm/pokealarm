@@ -960,5 +960,7 @@
 	"6": "La neve",
 	"7": "Nebbia"
   },
-  "boosted": "potenziato"
+  "misc": {
+    "boosted": "potenziato"
+  }
 }

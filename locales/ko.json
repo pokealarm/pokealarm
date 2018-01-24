@@ -906,5 +906,7 @@
 	"6": "\ub208",
 	"7": "\uc548\uac1c"
   },
-  "boosted": "\uBD80\uC591 \uB41C"
+  "misc": {
+    "boosted": "\uBD80\uC591 \uB41C"
+  }
 }

@@ -959,5 +959,7 @@
 	"6": "\u96ea",
 	"7": "\u591a\u96fe\u8def\u6bb5"
   },
-  "boosted": "\u63D0\u632F"
+  "misc": {
+    "boosted": "\u63D0\u632F"
+  }
 }

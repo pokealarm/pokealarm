@@ -955,5 +955,7 @@
     "6": "Nieve",
     "7": "Niebla"
   },
-  "boosted": "potenciado"
+  "misc": {
+    "boosted": "potenciado"
+  }
 }

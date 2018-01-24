@@ -992,5 +992,7 @@
 	"6": "Neve",
 	"7": "Névoa"
   },
-  "boosted": "impulsionado"
+  "misc": {
+    "boosted": "impulsionado"
+  }
 }
