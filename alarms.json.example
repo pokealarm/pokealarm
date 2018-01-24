@@ -1,45 +1,45 @@
-[
-  {
-    "active": "False",
+{
+  "discord_alarm": {
+    "active": false,
     "type": "discord",
     "webhook_url": "YOUR_WEBHOOK_URL"
   },
-  {
-    "active": "False",
+  "facebook_alarm": {
+    "active": false,
     "type": "facebook_page",
     "page_access_token": "YOUR_PAGE_ACCESS_TOKEN"
   },
-  {
-    "active": "False",
+  "pushbullet_alarm"{
+    "active": false,
     "type": "pushbullet",
     "api_key": "YOUR_API_KEY"
   },
-  {
-    "active": "False",
+  "slack_alarm"{
+    "active": false,
     "channel":"general",
     "type": "slack",
     "api_key": "YOUR_API_KEY"
   },
-  {
-    "active": "False",
+  "telegram_alarm": {
+    "active": false,
     "type": "telegram",
     "bot_token": "YOUR_BOT_TOKEN",
     "chat_id": "YOUR_CHAT_ID"
   },
-  {
-    "active": "False",
+  "twilio_alarm": {
+    "active": false,
     "type": "twilio",
     "account_sid": "YOUR_API_KEY",
     "auth_token": "YOUR_AUTH_TOKEN",
     "from_number": "YOUR_FROM_NUM",
     "to_number": "YOUR_TO_NUM"
   },
-  {
-    "active": "False",
+  "twitter_alarm": {
+    "active": false,
     "type": "twitter",
     "access_token": "YOUR_ACCESS_TOKEN",
     "access_secret": "YOUR_ACCESS_SECRET",
     "consumer_key": "YOUR_CONSUMER_KEY",
     "consumer_secret": "YOUR_CONSUMER_SECRET"
   }
-]
+}
