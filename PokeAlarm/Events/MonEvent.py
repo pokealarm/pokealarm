@@ -150,7 +150,8 @@ class MonEvent(BaseEvent):
             'boosted_weather_emoji':
                 get_weather_emoji(self.boosted_weather_id),
             'boosted_or_empty': locale.get_boosted_text() if \
-            self.boosted_weather_id != 0 else '',
+                Unknown.is_not(self.boosted_weather_id) and
+                self.boosted_weather_id != 0 else '',
 
             # Encounter Stats
             'mon_lvl': self.mon_lvl,

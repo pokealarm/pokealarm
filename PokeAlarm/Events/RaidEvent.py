@@ -135,7 +135,7 @@ class RaidEvent(BaseEvent):
             'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
             'boosted_weather_emoji': get_weather_emoji(boosted_weather),
             'boosted_or_empty': locale.get_boosted_text() if \
-            boosted_weather != 0 else '',
+            Unknown.is_not(boosted_weather) and boosted_weather != 0 else '',
 
             # Raid Info
             'raid_lvl': self.raid_lvl,
