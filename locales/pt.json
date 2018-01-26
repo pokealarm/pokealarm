@@ -983,13 +983,13 @@
     "3": "Instinto"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "Nenhum",
+	"1": "Claro",
+	"2": "Chuva",
+	"3": "Parcialmente nublado",
+	"4": "Nublado",
+	"5": "Ventoso",
+	"6": "Neve",
+	"7": "Névoa"
   }
 }

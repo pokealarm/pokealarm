@@ -897,13 +897,13 @@
     "3": "\uc778\uc2a4\ud305\ud2b8(\uc610\ub85c\uc6b0)"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "\uc5c6\uc74c",
+	"1": "\uba85\ud655\ud55c",
+	"2": "\ube44",
+	"3": "\uc57d\uac04 \ud750\ub9bc",
+	"4": "\ud750\ub9b0",
+	"5": "\uae5c\uc9dd \ub180\ub780",
+	"6": "\ub208",
+	"7": "\uc548\uac1c"
   }
 }
