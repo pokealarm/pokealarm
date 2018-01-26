@@ -119,7 +119,7 @@ class TwitterAlarm(Alarm):
                     break  # Don't add the url
                 word_len = url_length  # URL's have a fixed length
             elif word_len >= limit:  # If the word doesn't fit
-                word_len = limit-1
+                word_len = limit - 1
                 word = word[:word_len]  # truncate it
             limit -= word_len + 1  # word + space
             msg += " " + word
