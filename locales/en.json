@@ -61,7 +61,6 @@
     "5": "big"
   },
   "types": {
-    "0": "None", 
     "1": "Normal",
     "2": "Fighting",
     "3": "Flying",
