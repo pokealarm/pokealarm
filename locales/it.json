@@ -951,13 +951,13 @@
     "3": "Istinto"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "Nessuna",
+	"1": "Chiaro",
+	"2": "Pioggia",
+	"3": "Parzialmente nuvoloso",
+	"4": "Nuvoloso",
+	"5": "Ventoso",
+	"6": "La neve",
+	"7": "Nebbia"
   }
 }
