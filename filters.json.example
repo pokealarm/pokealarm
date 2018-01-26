@@ -1,94 +1,71 @@
 {
     "monsters":{
-        "enabled": false,
-        "defaults": {
+        "enabled":false,
+        "defaults":{
         },
-        "filters": {
-            "filter-name": {
-                "monsters": [ 1, 2, 3 ],
-                "min_dist": 0, "max_dist": "inf",
-                "min_lvl": 0, "max_lvl": 40, "min_atk": 0, "max_atk": 15,
-                "min_def": 0, "max_def": 15, "min_sta": 0, "max_sta": 15,
-                "min_iv": 0.0, "max_iv": 100, "min_cp": 0, "max_cp": 10000,
-                "form_ids": [ 0 ],
-                "quick_moves": [ "Vine Whip", "Tackle"],
-                "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
-                "genders": [ "male", "female", "neutral"],
-                "min_height": 0, "max_height": "inf",
-                "min_weight": 0, "max_weight": "inf",
-                "sizes": [ "tiny", "small", "normal", "large", "big" ],
-                "weather": [ "Clear", 2 ],
-                "geofences": [ "Central Park" ],
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "is_missing_info": false
+        "filters":{
+            "filter_by_monsters_example":{
+                "monsters":["Bulbasaur","Charmander",7],
+            },
+            "filter_by_ivs_example":{
+                "min_atk": 0, "max_atk": 15,
+                "min_def": 0, "max_def": 15,
+                "min_sta": 0, "max_sta": 15,
+                "min_iv": 0.0, "max_iv": 100
+            },
+            "filter_by_moves_example":{
+                "monsters":["Bulbasaur"],
+                "quick_moves":["Vine Whip","Tackle"],
+                "charge_moves":["Sludge Bomb","Seed Bomb"]
             }
         }
     },
     "stops":{
-        "enabled": false,
-        "defaults": {
+        "enabled":false,
+        "defaults":{
         },
-        "filters": {
-            "filter-name" : {
-                "min_dist": 0, "max_dist": "inf",
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "geofences": [ "Central Park" ],
-                "is_missing_info": false
+        "filters":{
+            "filter_by_geofence_example":{
+                "geofences":["Central Park"]
             }
         }
     },
     "gyms":{
-        "enabled": false,
-        "ignore_neutral": false,
-        "defaults": {
+        "enabled":false,
+        "ignore_neutral":true,
+        "defaults":{
         },
-        "filters": {
-            "filter-name" : {
-                "min_dist": 0, "max_dist": "inf",
-                "old_teams": [ "Valor", "Instinct", "Mystic" ],
-                "new_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_contains": [ ".*" ],
-                "min_slots": 0, "max_slots": 6,
-                "geofences": [ "Central Park" ],
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "is_missing_info": false
+        "filters":{
+            "filter_by_teams_example":{
+                "old_teams":["Valor","Instinct","Mystic"],
+                "new_teams":["Valor","Instinct","Mystic"]
+            },
+            "gym_name_contains_regex_example":{
+                "gym_name_contains":[".*"]
             }
         }
     },
     "eggs":{
-        "enabled": false,
-        "defaults": {
+        "enabled":false,
+        "defaults":{
         },
-        "filters": {
-            "filter-name" : {
-                "min_dist": 0, "max_dist": "inf",
-                "min_egg_lvl": 0, "max_egg_lvl": 5,
-                "current_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_contains": [ ".*" ],
-                "geofences": [ "Central Park" ],
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "is_missing_info": false
+        "filters":{
+            "filter_by_lvl_example":{
+                "min_egg_lvl": 0, "max_egg_lvl": 5
             }
         }
     },
     "raids":{
-        "enabled": false,
-        "defaults": {
+        "enabled":false,
+        "defaults":{
         },
-        "filters": {
-            "filter-name" : {
-                "monsters": [ 1, 2, 3 ],
-                "min_dist": 0, "max_dist": "inf",
+        "filters":{
+            "filter_by_monster":{
+                "monsters":["Raikou","Entei","Suicune"]
+            },
+            "filter_raid_lvl_and_teams":{
                 "min_raid_lvl": 0, "max_raid_lvl": 5,
-                "min_cp": 0, "max_cp": 100000,
-                "quick_moves": [ "Vine Whip", "Tackle"],
-                "charge_moves": [ "Sludge Bomb", "Seed Bomb"],
-                "current_teams": [ "Valor", "Instinct", "Mystic" ],
-                "gym_name_contains": [ ".*" ],
-                "weather": [ "Clear", 2 ],
-                "geofences": [ "Central Park" ],
-                "custom_dts": { "key1": "value1", "key2": "value2" },
-                "is_missing_info": false
+                "current_teams":["Valor","Instinct","Mystic"]
             }
         }
     }

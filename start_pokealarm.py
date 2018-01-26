@@ -27,6 +27,7 @@ from PokeAlarm import config
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
 from PokeAlarm.Utils import get_path, parse_unicode
+from PokeAlarm.Load import parse_rules_file
 
 # Reinforce UTF-8 as default
 reload(sys)
@@ -150,6 +151,10 @@ def parse_settings(root_path):
         default=['alarms.json'],
         help='Alarms configuration file. default: alarms.json')
     parser.add_argument(
+        '-r', '--rules', type=parse_unicode, action='append',
+        default=[None],
+        help='Rules configuration file. default: None')
+    parser.add_argument(
         '-gf', '--geofences', type=parse_unicode,
         action='append', default=[None],
         help='Alarms configuration file. default: None')
@@ -196,9 +201,10 @@ def parse_settings(root_path):
     config['DEBUG'] = args.debug
 
     # Check to make sure that the same number of arguments are included
-    for arg in [args.key, args.filters, args.alarms, args.geofences,
-                args.location, args.locale, args.units, args.cache_type,
-                args.timelimit, args.max_attempts, args.timezone]:
+    for arg in [args.key, args.filters, args.alarms, args.rules,
+                args.geofences, args.location, args.locale, args.units,
+                args.cache_type, args.timelimit, args.max_attempts,
+                args.timezone]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -252,6 +258,7 @@ def parse_settings(root_path):
             alarm_file=get_from_list(args.alarms, m_ct, args.alarms[0]),
             debug=config['DEBUG']
         )
+        parse_rules_file(m, get_from_list(args.rules, m_ct, args.rules[0]))
         if m.get_name() not in managers:
             # Add the manager to the map
             managers[m.get_name()] = m

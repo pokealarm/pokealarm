@@ -25,7 +25,7 @@ replace = Alarm.replace
 class FacebookPageAlarm(Alarm):
 
     _defaults = {
-        'pokemon': {
+        'monsters': {
             'message': "A wild <mon_name> has appeared!",
             'image': get_image_url(
                 "regular/monsters/<mon_id_3>_<form_id_3>.png"),
@@ -34,7 +34,7 @@ class FacebookPageAlarm(Alarm):
             'description': "Available until <24h_time> (<time_left>).",
             'caption': None
         },
-        'pokestop': {
+        'stops': {
             'message': "Someone has placed a lure on a Pokestop!",
             'image': get_image_url("regular/stop/ready.png"),
             'link': "<gmaps>",
@@ -42,7 +42,7 @@ class FacebookPageAlarm(Alarm):
             'description': "Lure will expire at <24h_time> (<time_left>).",
             'caption': None
         },
-        'gym': {
+        'gyms': {
             'message': "A Team <old_team> gym has fallen!",
             'image': get_image_url("regular/gyms/<new_team_id>.png"),
             'link': "<gmaps>",
@@ -50,7 +50,7 @@ class FacebookPageAlarm(Alarm):
             'description': "It is now controlled by <new_team>.",
             'caption': None
         },
-        'egg': {
+        'eggs': {
             'message': "A level <egg_lvl> raid is upcoming!",
             'image': get_image_url("regular/eggs/<egg_lvl>.png"),
             'link': "<gmaps>",
@@ -59,7 +59,7 @@ class FacebookPageAlarm(Alarm):
                            "<24h_hatch_time> (<hatch_time_left>).",
             'caption': None
         },
-        'raid': {
+        'raids': {
             'message': "Level <raid_lvl> raid available against <mon_name>!",
             'image': get_image_url(
                 "regular/monsters/<mon_id_3>_000.png"),
@@ -84,16 +84,16 @@ class FacebookPageAlarm(Alarm):
             settings.pop('startup_message', "True"))
 
         # Set Alerts
-        self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+        self.__monsters = self.create_alert_settings(
+            settings.pop('monsters', {}), self._defaults['monsters'])
+        self.__stops = self.create_alert_settings(
+            settings.pop('stops', {}), self._defaults['stops'])
+        self.__gyms = self.create_alert_settings(
+            settings.pop('gyms', {}), self._defaults['gyms'])
+        self.__eggs = self.create_alert_settings(
+            settings.pop('eggs', {}), self._defaults['eggs'])
+        self.__raids = self.create_alert_settings(
+            settings.pop('raids', {}), self._defaults['raids'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -145,23 +145,23 @@ class FacebookPageAlarm(Alarm):
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
-        self.send_alert(self.__pokemon, pokemon_info)
+        self.send_alert(self.__monsters, pokemon_info)
 
     # Trigger an alert based on Pokestop info
     def pokestop_alert(self, pokestop_info):
-        self.send_alert(self.__pokestop, pokestop_info)
+        self.send_alert(self.__stops, pokestop_info)
 
     # Trigger an alert based on Gym info
     def gym_alert(self, gym_info):
-        self.send_alert(self.__gym, gym_info)
+        self.send_alert(self.__gyms, gym_info)
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
-        self.send_alert(self.__egg, raid_info)
+        self.send_alert(self.__eggs, raid_info)
 
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
-        self.send_alert(self.__raid, raid_info)
+        self.send_alert(self.__raids, raid_info)
 
     # Sends a wall post to Facebook
     def post_to_wall(self, message, attachment=None):
