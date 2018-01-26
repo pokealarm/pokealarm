@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+import re
 from datetime import datetime
 
 # 3rd Party Imports
@@ -13,6 +14,9 @@ from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
 log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
+url_regex = re.compile(
+    "(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]"
+    "@!\$&'\(\)\*\+,;=.]+", re.I)
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -105,17 +109,28 @@ class TwitterAlarm(Alarm):
         reject_leftover_parameters(settings, "'Alert level in Twitter alarm.")
         return alert
 
+    # Shortens the tweet down, calculating for urls being shortened
+    def shorten(self, message, limit=280, url_length=23):
+        msg = ""
+        for word in re.split(r'\s', message):
+            word_len = len(word)
+            if url_regex.match(word):  # If it's a url
+                if limit <= url_length:  # if the whole thing doesn't fit
+                    break  # Don't add the url
+                word_len = url_length  # URL's have a fixed length
+            elif word_len >= limit:  # If the word doesn't fit
+                word_len = limit-1
+                word = word[:word_len]  # truncate it
+            limit -= word_len + 1  # word + space
+            msg += " " + word
+        print msg
+        return msg[1:]  # Strip the space
+
     def send_alert(self, alert, info):
-            limit = 140
-            status = alert['status']
-            if status.endswith("<gmaps>"):
-                limit = 117  # Save 23 characters for the google maps
-                status = status[:-7]  # Truncate gmaps
-            status = replace(status[:limit], info)  # Truncate status
-            if limit == 117:
-                status += info['gmaps']  # Add in gmaps link
-            args = {"status": status}
-            try_sending(log, self.connect, "Twitter", self.send_tweet, args)
+        args = {
+            "status": self.shorten(replace(alert['status'], info))
+        }
+        try_sending(log, self.connect, "Twitter", self.send_tweet, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
