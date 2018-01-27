@@ -1,19 +1,20 @@
 # Standard Library Imports
 import logging
+import requests
+from collections import namedtuple
 
 # 3rd Party Imports
-import telepot
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
-from Stickers import sticker_list
-from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
-    reject_leftover_parameters
+from PokeAlarm.Utilities import GenUtils as utils
+from PokeAlarm.Utils import require_and_remove_key, get_image_url
 
 log = logging.getLogger('Telegram')
+
+# 2 lazy 2 type
 try_sending = Alarm.try_sending
 replace = Alarm.replace
-
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #             ONLY EDIT THIS FILE IF YOU KNOW WHAT YOU ARE DOING!
@@ -23,194 +24,271 @@ replace = Alarm.replace
 
 
 class TelegramAlarm(Alarm):
-    _defaults = {
-        'pokemon': {
-            # 'chat_id': If no default, required
-            'title': "A wild <mon_name> has appeared!",
-            'body': "Available until <24h_time> (<time_left>)."
+
+    Alert = namedtuple(
+        "Alert", ['bot_token', 'chat_id', 'sticker', 'sticker_url',
+                  'sticker_notify', 'message', 'message_notify', 'venue',
+                  'venue_notify', 'map', 'map_notify', 'max_attempts'])
+
+    _defaults = {  # No touchy!!! Edit alarms.json!
+        'monsters': {
+            'message': "*A wild <mon_name> has appeared!*\n"
+                       "Available until <24h_time> (<time_left>).",
+            'sticker_url': get_image_url(
+                "telegram/monsters/<mon_id_3>_<form_id_3>.webp")
         },
-        'pokestop': {
-            # 'chat_id': If no default, required
-            'title': "Someone has placed a lure on a Pokestop!",
-            'body': "Lure will expire at <24h_time> (<time_left>)."
+        'stops': {
+            'message': "*Someone has placed a lure on a Pokestop!*\n"
+                       "Lure will expire at <24h_time> (<time_left>).",
+            'sticker_url': get_image_url("telegram/stop/ready.webp")
         },
-        'gym': {
-            # 'chat_id': If no default, required
-            'title': "A Team <old_team> gym has fallen!",
-            'body': "It is now controlled by <new_team>."
+        'gyms': {
+            'message': "*A Team <old_team> gym has fallen!*\n"
+                       "It is now controlled by <new_team>.",
+            'sticker_url': get_image_url("telegram/gyms/<new_team_id>.webp"),
         },
-        'egg': {
-            'title': "A level <egg_lvl> raid is incoming!",
-            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
+        'eggs': {
+            'message': "*A level <egg_lvl> raid is incoming!*\n"
+                       "The egg will hatch <24h_hatch_time> "
+                       "(<hatch_time_left>).",
+            'sticker_url': get_image_url("telegram/eggs/<egg_lvl>.webp")
         },
-        'raid': {
-            'title': "A raid is available against <mon_name>!",
-            'body': "The raid is available until <24h_raid_end> "
-                    "(<raid_time_left>)."
+        'raids': {
+            'message': "*A raid is available against <mon_name>!*\n"
+                       "The raid is available until <24h_raid_end> "
+                       "(<raid_time_left>).",
+            'sticker_url':
+                get_image_url("telegram/monsters/<mon_id_3>_000.webp")
         }
     }
 
     # Gather settings and create alarm
     def __init__(self, settings):
         # Required Parameters
-        self.__bot_token = require_and_remove_key(
+        self._bot_token = require_and_remove_key(
             'bot_token', settings, "'Telegram' type alarms.")
-        self.__chat_id = require_and_remove_key(
+        self._chat_id = require_and_remove_key(
             'chat_id', settings, "'Telegram' type alarms.")
-        self.__client = None
 
-        # Optional Alarm Parameters
-        self.__venue = parse_boolean(settings.pop('venue', "False"))
-        self.__location = parse_boolean(settings.pop('location', "True"))
-        self.__stickers = parse_boolean(settings.pop('stickers', 'True'))
-        self.__disable_map_notification = parse_boolean(
-            settings.pop('disable_map_notification', "True"))
-        self.__startup_message = parse_boolean(
-            settings.pop('startup_message', "True"))
+        self._startup_message = self.pop_type(
+            settings, 'startup_message', utils.parse_bool, True)
 
         # Optional Alert Parameters
-        self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
-        self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
-        self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'])
-        self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
-        self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+        alert_defaults = {
+            'bot_token': self._bot_token,
+            'chat_id': self._chat_id,
+            'sticker': self.pop_type(
+                settings, 'sticker', utils.parse_bool, True),
+            'sticker_notify': self.pop_type(
+                settings, 'sticker_notify', utils.parse_bool, False),
+            'message_notify': self.pop_type(
+                settings, 'message_notify', utils.parse_bool, True),
+            'venue': self.pop_type(
+                settings, 'venue', utils.parse_bool, False),
+            'venue_notify': self.pop_type(
+                settings, 'venue_notify', utils.parse_bool, True),
+            'map': self.pop_type(
+                settings, 'map', utils.parse_bool, True),
+            'map_notify': self.pop_type(
+                settings, 'map_notify', utils.parse_bool, False),
+            'max_attempts': self.pop_type(
+                settings, 'max_attempts', int, 3),
+        }
 
-        #  Warn user about leftover parameters
-        reject_leftover_parameters(settings, "'Alarm level in Telegram alarm.")
+        # Alert Settings
+        self._mon_alert = self.create_alert_settings(
+            'monsters', settings, alert_defaults)
+        self._stop_alert = self.create_alert_settings(
+            'stops', settings, alert_defaults)
+        self._gym_alert = self.create_alert_settings(
+            'gyms', settings, alert_defaults)
+        self._egg_alert = self.create_alert_settings(
+            'eggs', settings, alert_defaults)
+        self._raid_alert = self.create_alert_settings(
+            'raids', settings, alert_defaults)
+
+        # Reject leftover parameters
+        for key in settings:
+            raise ValueError("'{}' is not a recognized parameter for the Alarm"
+                             " level in a Telegram Alarm".format(key))
 
         log.info("Telegram Alarm has been created!")
 
     # (Re)establishes Telegram connection
     def connect(self):
-        self.__client = telepot.Bot(self.__bot_token)
+        pass
+
+    # Set the appropriate settings for each alert
+    def create_alert_settings(self, kind, settings, alert_defaults):
+        default = TelegramAlarm._defaults[kind]
+        default.update(alert_defaults)
+        settings = Alarm.pop_type(settings, kind, dict, {})
+
+        alert = TelegramAlarm.Alert(
+            bot_token=Alarm.pop_type(
+                settings, 'bot_token', unicode, default['bot_token']),
+            chat_id=Alarm.pop_type(
+                settings, 'chat_id', unicode, default['chat_id']),
+            sticker=Alarm.pop_type(
+                settings, 'sticker', utils.parse_bool, default['sticker']),
+            sticker_url=Alarm.pop_type(
+                settings, 'sticker_url', unicode, default['sticker_url']),
+            sticker_notify=Alarm.pop_type(
+                settings, 'sticker_notify', utils.parse_bool,
+                default['sticker_notify']),
+            message=Alarm.pop_type(
+                settings, 'message', unicode, default['message']),
+            message_notify=Alarm.pop_type(
+                settings, 'message_notify', utils.parse_bool,
+                default['message_notify']),
+            venue=Alarm.pop_type(
+                settings, 'venue', utils.parse_bool, default['venue']),
+            venue_notify=Alarm.pop_type(
+                settings, 'venue_notify', utils.parse_bool,
+                default['venue_notify']),
+            map=Alarm.pop_type(
+                settings, 'map', utils.parse_bool, default['map']),
+            map_notify=Alarm.pop_type(
+                settings, 'map_notify', utils.parse_bool,
+                default['map_notify']),
+            max_attempts=Alarm.pop_type(
+                settings, 'max_attempts', int, default['max_attempts'])
+        )
+
+        # Reject leftover parameters
+        for key in settings:
+            raise ValueError(
+                "'{}' is not a recognized parameter for the Alert"
+                " level in a Telegram Alarm".format(key))
+
+        return alert
 
     # Sends a start up message on Telegram
     def startup_message(self):
-        if self.__startup_message:
-            self.send_message(self.__chat_id, "PokeAlarm activated!")
+        if self._startup_message:
+            self.send_message(
+                self._bot_token, self._chat_id, "PokeAlarm activated!")
             log.info("Startup message sent!")
 
-    # Set the appropriate settings for each alert
-    def create_alert_settings(self, settings, default):
-        alert = {
-            'chat_id': settings.pop('chat_id', self.__chat_id),
-            'title': settings.pop('title', default['title']),
-            'body': settings.pop('body', default['body']),
-            'venue': parse_boolean(settings.pop('venue', self.__venue)),
-            'location': parse_boolean(
-                settings.pop('location', self.__location)),
-            'disable_map_notification': parse_boolean(
-                settings.pop('disable_map_notification',
-                             self.__disable_map_notification)),
-            'stickers': parse_boolean(settings.pop(
-                'stickers', self.__stickers))
-        }
-        reject_leftover_parameters(settings, "'Alert level in Telegram alarm.")
-        return alert
+    # Generic Telegram Alert
+    def generic_alert(self, alert, dts):
+        bot_token = replace(alert.bot_token, dts)
+        chat_id = replace(alert.chat_id, dts)
+        message = replace(alert.message, dts)
+        lat, lng = dts['lat'], dts['lng']
+        max_attempts = alert.max_attempts
+        sticker_url = replace(alert.sticker_url, dts)
+        log.debug(sticker_url)
+        # Send Sticker
+        if alert.sticker and sticker_url is not None:
+            self.send_sticker(bot_token, chat_id, sticker_url, max_attempts)
 
-    # Send Alert to Telegram
-    def send_alert(self, alert, info, sticker_id=None):
-        if sticker_id:
-            self.send_sticker(alert['chat_id'], sticker_id)
+        # Send Venue
+        if alert.venue:
+            self.send_venue(
+                bot_token, chat_id, lat, lng, message, max_attempts)
+            return  # Don't send message or map
 
-        if alert['venue']:
-            self.send_venue(alert, info)
-        else:
-            text = '<b>' + replace(alert['title'], info)\
-                   + '</b> \n' + replace(alert['body'], info)
-            self.send_message(alert['chat_id'], text)
+        # Send Message
+        self.send_message(bot_token, chat_id, replace(message, dts))
 
-        if alert['location']:
-            self.send_location(alert, info)
+        # Send Map
+        if alert.map:
+            self.send_location(bot_token, chat_id, lat, lng, max_attempts)
 
     # Trigger an alert based on Pokemon info
-    def pokemon_alert(self, pokemon_info):
-        if self.__pokemon['stickers']:
-            self.send_alert(self.__pokemon, pokemon_info,
-                            sticker_list.get(str(pokemon_info['mon_id'])))
-        else:
-            self.send_alert(self.__pokemon, pokemon_info)
+    def pokemon_alert(self, mon_dts):
+        self.generic_alert(self._mon_alert, mon_dts)
 
     # Trigger an alert based on Pokestop info
-    def pokestop_alert(self, pokestop_info):
-        if self.__pokestop['stickers']:
-            self.send_alert(self.__pokestop, pokestop_info,
-                            sticker_list.get('pokestop'))
-        else:
-            self.send_alert(self.__pokestop, pokestop_info)
+    def pokestop_alert(self, stop_dts):
+        self.generic_alert(self._stop_alert, stop_dts)
 
     # Trigger an alert based on Pokestop info
-    def gym_alert(self, gym_info):
-        if self.__gym['stickers']:
-            self.send_alert(self.__gym, gym_info, sticker_list.get(
-                "team{}".format(gym_info['new_team_id'])))
-        else:
-            self.send_alert(self.__gym, gym_info)
+    def gym_alert(self, gym_dts):
+        self.generic_alert(self._gym_alert, gym_dts)
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
-    def raid_egg_alert(self, raid_info):
-        if self.__raid['stickers'] and raid_info['egg_lvl'] > 0:
-            self.send_alert(self.__egg, raid_info, sticker_list.get(
-                'raid_level_{}'.format(raid_info['egg_lvl'])))
-        else:
-            self.send_alert(self.__egg, raid_info)
+    def raid_egg_alert(self, egg_dts):
+        self.generic_alert(self._egg_alert, egg_dts)
 
     # Trigger an alert based on Raid info
-    def raid_alert(self, raid_info):
-        if self.__raid['stickers'] and raid_info['mon_id'] > 0:
-            self.send_alert(self.__raid, raid_info, sticker_list.get(
-                str(raid_info['mon_id'])))
+    def raid_alert(self, raid_dts):
+        self.generic_alert(self._raid_alert, raid_dts)
+
+    def send_sticker(self, token, chat_id, sticker_url,
+                     max_attempts=3, notify=False):
+        args = {
+            'url': "https://api.telegram.org/bot{}/sendSticker".format(token),
+            'payload': {
+                'chat_id': chat_id,
+                'sticker': sticker_url,
+                'disable_notification': not notify
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (STKR)", self.send_webhook, args,
+            max_attempts)
+
+    def send_message(self, token, chat_id, message,
+                     max_attempts=3, notify=True):
+        args = {
+            'url': "https://api.telegram.org/bot{}/sendMessage".format(token),
+            'payload': {
+                'chat_id': chat_id,
+                'text': message,
+                'parse_mode': 'Markdown',
+                'disable_web_page_preview': True,
+                'disable_notification': not notify
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (MSG)", self.send_webhook, args,
+            max_attempts)
+
+    def send_location(self, token, chat_id, lat, lng,
+                      max_attempts=3, notify=False):
+        args = {
+            'url': "https://api.telegram.org/bot{}/sendLocation".format(token),
+            'payload': {
+                'chat_id': chat_id,
+                'latitude': lat,
+                'longitude': lng,
+                'disable_notification': not notify
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (LOC)", self.send_webhook, args,
+            max_attempts)
+
+    def send_venue(self, token, chat_id, lat, lng, message, max_attempts):
+        msg = message.split('\n', 1)
+        args = {
+            'url': "https://api.telegram.org/bot{}/sendVenue".format(
+                token),
+            'payload': {
+                'chat_id': chat_id,
+                'latitude': lat,
+                'title': msg[0],
+                'address': msg[1] if len(msg) > 1 else '',
+                'longitude': lng,
+                'disable_notification': False
+            }
+        }
+        try_sending(
+            log, self.connect, "Telegram (VEN)", self.send_webhook, args,
+            max_attempts)
+
+    # Send a payload to the webhook url
+    def send_webhook(self, url, payload):
+        log.debug(url)
+        log.debug(payload)
+        resp = requests.post(url, json=payload, timeout=30)
+        if resp.ok is True:
+            log.debug("Notification successful (returned {})".format(
+                resp.status_code))
         else:
-            self.send_alert(self.__raid, raid_info)
-
-    # Send a message to telegram
-    def send_message(self, chat_id, text):
-        args = {
-            'chat_id': chat_id,
-            'text': text,
-            'disable_web_page_preview': 'False',
-            'disable_notification': 'False',
-            'parse_mode': 'HTML'
-        }
-        try_sending(log, self.connect,
-                    "Telegram", self.__client.sendMessage, args)
-
-    # Send a sticker to telegram
-    def send_sticker(self, chat_id, sticker_id):
-        args = {
-            'chat_id': chat_id,
-            'sticker': unicode(sticker_id),
-            'disable_notification': 'True'
-        }
-        try_sending(log, self.connect, 'Telegram (sticker)',
-                    self.__client.sendSticker, args)
-
-    # Send a venue message to telegram
-    def send_venue(self, alert, info):
-        args = {
-            'chat_id': alert['chat_id'],
-            'latitude': info['lat'],
-            'longitude': info['lng'],
-            'title': replace(alert['title'], info),
-            'address': replace(alert['body'], info),
-            'disable_notification': 'False'
-        }
-        try_sending(log, self.connect, "Telegram (venue)",
-                    self.__client.sendVenue, args)
-
-    # Send a location message to telegram
-    def send_location(self, alert, info):
-        args = {
-            'chat_id': alert['chat_id'],
-            'latitude': info['lat'],
-            'longitude': info['lng'],
-            'disable_notification': "{}".format(
-                alert['disable_map_notification'])
-        }
-        try_sending(log, self.connect, "Telegram (location)",
-                    self.__client.sendLocation, args)
+            log.debug("Telegram response was {}".format(resp.content))
+            raise requests.exceptions.RequestException(
+                "Response received {}, webhook not accepted.".format(
+                    resp.status_code))

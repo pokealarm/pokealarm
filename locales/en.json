@@ -37,11 +37,48 @@
     "2": "Valor",
     "3": "Instinct"
   },
+  "weather": {
+	"0": "None",
+	"1": "Clear",
+	"2": "Rain",
+	"3": "Partly Cloudy",
+	"4": "Cloudy",
+	"5": "Windy",
+	"6": "Snow",
+	"7": "Fog"
+  },
   "leaders": {
     "0": "Professor Willow",
     "1": "Blanche",
     "2": "Candela",
     "3": "Spark"
+  },
+  "sizes": {
+    "1": "tiny",
+    "2": "small",
+    "3": "normal",
+    "4": "large",
+    "5": "big"
+  },
+  "types": {
+    "1": "Normal",
+    "2": "Fighting",
+    "3": "Flying",
+    "4": "Poison",
+    "5": "Ground",
+    "6": "Rock",
+    "7": "Bug",
+    "8": "Ghost",
+    "9": "Steel",
+    "10": "Fire",
+    "11": "Water",
+    "12": "Grass",
+    "13": "Electric",
+    "14": "Psychic",
+    "15": "Ice",
+    "16": "Dragon",
+    "17": "Fairy",
+    "18": "Dark"
   },
   "moves": {
     "13": "Wrap",
@@ -900,7 +937,7 @@
     "666": "Vivillon",
     "667": "Litleo",
     "668": "Pyroar",
-    "669": "Flabébé",
+    "669": "Flab\u00E9b\u00E9",
     "670": "Floette",
     "671": "Florges",
     "672": "Skiddo",
@@ -953,5 +990,8 @@
     "719": "Diancie",
     "720": "Hoopa",
     "721": "Volcanion"
+  },
+  "misc": {
+    "boosted": "boosted"
   }
 }

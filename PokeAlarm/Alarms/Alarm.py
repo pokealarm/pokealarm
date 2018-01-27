@@ -71,6 +71,17 @@ class Alarm(object):
             s = s.replace("<{}>".format(key), str(pkinfo[key]))
         return s
 
+    @staticmethod
+    def pop_type(data, param_name, kind, default=None):
+        """ Pops a parameter as a certain type. """
+        try:
+            value = data.pop(param_name, default)
+            return kind(value)
+        except Exception:
+            raise ValueError(
+                'Unable to interpret the value "{}" as a valid {} '
+                'for parameter {}.", '.format(value, kind, param_name))
+
     # Attempts to send the alert multiple times
     @staticmethod
     def try_sending(log, reconnect, name, send_alert, args, max_attempts=3):

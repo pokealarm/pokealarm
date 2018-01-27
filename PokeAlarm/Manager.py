@@ -1,17 +1,17 @@
 # Standard Library Imports
-import Queue
 import json
 import logging
-import multiprocessing
 import os
 import re
 import sys
 import traceback
+from collections import OrderedDict, namedtuple
 from datetime import datetime, timedelta
 
-import gevent
 # 3rd Party Imports
-import gipc
+import gevent
+from gevent.queue import Queue
+from gevent.event import Event
 
 # Local Imports
 import Alarms
@@ -24,6 +24,7 @@ from LocationServices import location_service_factory
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
                    parse_boolean, contains_arg, get_cardinal_dir)
 from . import config
+Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
 log = logging.getLogger('Manager')
 
@@ -85,9 +86,16 @@ class Manager(object):
         self.__alarms = []
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
 
+        # Initialize Rules
+        self.__mon_rules = {}
+        self.__stop_rules = {}
+        self.__gym_rules = {}
+        self.__egg_rules = {}
+        self.__raid_rules = {}
+
         # Initialize the queue and start the process
-        self.__queue = multiprocessing.Queue()
-        self.__event = multiprocessing.Event()
+        self.__queue = Queue()
+        self.__event = Event()
         self.__process = None
 
         log.info("----------- Manager '{}' ".format(self.__name)
@@ -110,13 +118,107 @@ class Manager(object):
         self.__event.set()
 
     def join(self):
-        self.__process.join(timeout=10)
-        if self.__process.is_alive():
+        self.__process.join(timeout=20)
+        if not self.__process.ready():
             log.warning("Manager {} could not be stopped in time!"
-                        + " Forcing process to stop.")
-            self.__process.terminate()
+                        " Forcing process to stop.".format(self.__name))
+            self.__process.kill(timeout=2, block=True)  # Force stop
         else:
             log.info("Manager {} successfully stopped!".format(self.__name))
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONTROL API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Add new Monster Rule
+    def add_monster_rule(self, name, filters, alarms):
+        if name in self.__mon_rules:
+            raise ValueError("Unable to add Rule: Monster Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__mon_filters:
+                raise ValueError("Unable to create Rule: No Monster Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__mon_rules[name] = Rule(filters, alarms)
+
+    # Add new Stop Rule
+    def add_stop_rule(self, name, filters, alarms):
+        if name in self.__stop_rules:
+            raise ValueError("Unable to add Rule: Stop Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__stop_filters:
+                raise ValueError("Unable to create Rule: No Stop Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__stop_rules[name] = Rule(filters, alarms)
+
+    # Add new Gym Rule
+    def add_gym_rule(self, name, filters, alarms):
+        if name in self.__gym_rules:
+            raise ValueError("Unable to add Rule: Gym Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__gym_filters:
+                raise ValueError("Unable to create Rule: No Gym Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__gym_rules[name] = Rule(filters, alarms)
+
+    # Add new Egg Rule
+    def add_egg_rule(self, name, filters, alarms):
+        if name in self.__egg_rules:
+            raise ValueError("Unable to add Rule: Egg Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__egg_filters:
+                raise ValueError("Unable to create Rule: No Egg Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__egg_rules[name] = Rule(filters, alarms)
+
+    # Add new Raid Rule
+    def add_raid_rule(self, name, filters, alarms):
+        if name in self.__raid_rules:
+            raise ValueError("Unable to add Rule: Raid Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__raid_filters:
+                raise ValueError("Unable to create Rule: No Raid Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__raid_rules[name] = Rule(filters, alarms)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -146,10 +248,11 @@ class Manager(object):
         try:
             log.info("Loading Filters from file at {}".format(file_path))
             with open(file_path, 'r') as f:
-                filters = json.load(f)
-            if type(filters) is not dict:
-                log.critical("Filters file's must be a JSON object:"
+                filters = json.load(f, object_pairs_hook=OrderedDict)
+            if type(filters) is not OrderedDict:
+                log.critical("Filters files must be a JSON object:"
                              " { \"monsters\":{...},... }")
+                raise ValueError("Filter file did not contain a dict.")
         except ValueError as e:
             log.error("Encountered error while loading Filters:"
                       " {}: {}".format(type(e).__name__, e))
@@ -220,17 +323,17 @@ class Manager(object):
         try:
             with open(file_path, 'r') as f:
                 alarm_settings = json.load(f)
-            if type(alarm_settings) is not list:
-                log.critical("Alarms file must be a list of Alarms objects "
-                             + "- [ {...}, {...}, ... {...} ]")
+            if type(alarm_settings) is not dict:
+                log.critical("Alarms file must be an object of Alarms objects "
+                             + "- { 'alarm1': {...}, ... 'alarm5': {...} }")
                 sys.exit(1)
-            self.__alarms = []
-            for alarm in alarm_settings:
+            self.__alarms = {}
+            for name, alarm in alarm_settings.iteritems():
                 if parse_boolean(require_and_remove_key(
                         'active', alarm, "Alarm objects in file.")) is True:
                     self.set_optional_args(str(alarm))
-                    self.__alarms.append(Alarms.alarm_factory(
-                        alarm, max_attempts, self.__google_key))
+                    self.__alarms[name] = Alarms.alarm_factory(
+                        alarm, max_attempts, self.__google_key)
                 else:
                     log.debug("Alarm not activated: {}".format(alarm['type'])
                               + " because value not set to \"True\"")
@@ -327,18 +430,11 @@ class Manager(object):
 
     # Start it up
     def start(self):
-        self.__process = gipc.start_process(
-            target=self.run, args=(), name=self.__name)
+        self.__process = gevent.spawn(self.run)
 
     def setup_in_process(self):
-        # Set up signal handlers for graceful exit
-        gevent.signal(gevent.signal.SIGINT, self.stop)
-        gevent.signal(gevent.signal.SIGTERM, self.stop)
 
         # Update config
-        config['TIMEZONE'] = self.__timezone
-        config['API_KEY'] = self.__google_key
-        config['UNITS'] = self.__units
         config['DEBUG'] = self.__debug
         config['ROOT_PATH'] = os.path.abspath(
             "{}/..".format(os.path.dirname(__file__)))
@@ -351,7 +447,7 @@ class Manager(object):
             logging.getLogger().setLevel(logging.DEBUG)
 
         # Conect the alarms and send the start up message
-        for alarm in self.__alarms:
+        for alarm in self.__alarms.values():
             alarm.connect()
             alarm.startup_message()
 
@@ -369,7 +465,7 @@ class Manager(object):
 
             try:  # Get next object to process
                 event = self.__queue.get(block=True, timeout=5)
-            except Queue.Empty:
+            except gevent.queue.Empty:
                 # Check if the process should exit process
                 if self.__event.is_set():
                     break
@@ -402,7 +498,7 @@ class Manager(object):
             gevent.sleep(0)
         # Save cache and exit
         self.__cache.clean_and_save()
-        exit(0)
+        raise gevent.GreenletExit()
 
     # Set the location of the Manager
     def set_location(self, location):
@@ -426,24 +522,6 @@ class Manager(object):
         else:
             log.info("Location successfully set to '{},{}'.".format(
                 self.__location[0], self.__location[1]))
-
-    # Check if a raid filter will pass for given raid
-    def check_egg_filter(self, settings, egg):
-        level = egg['raid_level']
-
-        if level < settings['min_level']:
-            if self.__quiet is False:
-                log.info("Egg {} is less ({}) than min ({}) level, ignore"
-                         .format(egg['id'], level, settings['min_level']))
-            return False
-
-        if level > settings['max_level']:
-            if self.__quiet is False:
-                log.info("Egg {} is higher ({}) than max ({}) level, ignore"
-                         .format(egg['id'], level, settings['max_level']))
-            return False
-
-        return True
 
     # Process new Monster data and decide if a notification needs to be sent
     def process_monster(self, mon):
@@ -481,34 +559,44 @@ class Manager(object):
             mon.direction = get_cardinal_dir(
                 [mon.lat, mon.lng], self.__location)
 
-        # Check the Filters
-        passed = False
-        for name, f in self.__mon_filters.iteritems():
-            passed = f.check_event(mon) and self.check_geofences(f, mon)
-            if passed:  # Stop checking
+        # Check for Rules
+        rules = self.__mon_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__mon_filters.keys(), self.__alarms.keys())}
+
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__mon_filters.get(f_name)
+                passed = f.check_event(mon) and self.check_geofences(f, mon)
+                if not passed:
+                    continue  # go to next filter
                 mon.custom_dts = f.custom_dts
-                break
-        if not passed:  # Monster was rejected by all filters
-            return
+                if self.__quiet is False:
+                    log.info("{} monster notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(mon.name, r_name))
+                self._trigger_mon(mon, rule.alarm_names)
+                break  # Next rule
 
+    def _trigger_mon(self, mon, alarms):
         # Generate the DTS for the event
-        dts = mon.generate_dts(self.__locale)
-
+        dts = mon.generate_dts(self.__locale, self.__timezone, self.__units)
+        # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [mon.lat, mon.lng], dts)
 
-        if self.__quiet is False:
-            log.info("{} monster notification has been triggered!".format(
-                mon.name))
-
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokemon_alert, dts))
-        gevent.sleep(0)  # explict context yield
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.pokemon_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
 
-        for thread in threads:
+        for thread in threads:  # Wait for all alarms to finish
             thread.join()
 
     def process_stop(self, stop):
@@ -541,31 +629,42 @@ class Manager(object):
             stop.direction = get_cardinal_dir(
                 [stop.lat, stop.lng], self.__location)
 
-        # Check the Filters
-        passed = True
-        for name, f in self.__stop_filters.iteritems():
-            passed = f.check_event(stop) and self.check_geofences(f, stop)
-            if passed:  # Stop checking
-                stop.custom_dts = f.custom_dts
-                break
-        if not passed:  # Stop was rejected by all filters
-            return
+        # Check for Rules
+        rules = self.__stop_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__stop_filters.keys(), self.__alarms.keys())}
 
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__stop_filters.get(f_name)
+                passed = f.check_event(stop) and self.check_geofences(f, stop)
+                if not passed:
+                    continue  # go to next filter
+                stop.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} stop notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(stop.name, r_name))
+                self._trigger_stop(stop, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_stop(self, stop, alarms):
         # Generate the DTS for the event
-        dts = stop.generate_dts(self.__locale)
+        dts = stop.generate_dts(self.__locale, self.__timezone, self.__units)
+        # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [stop.lat, stop.lng], dts)
 
-        if self.__quiet is False:
-            log.info("Stop {} notification has been triggered!".format(
-                stop.name))
-
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.pokestop_alert, dts))
-        gevent.sleep(0)  # explict context yield
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.pokestop_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:
             thread.join()
@@ -610,34 +709,45 @@ class Manager(object):
             gym.direction = get_cardinal_dir(
                 [gym.lat, gym.lng], self.__location)
 
-        # Check the Filters
-        passed = True
-        for name, f in self.__gym_filters.iteritems():
-            passed = f.check_event(gym) and self.check_geofences(f, gym)
-            if passed:  # Stop checking
-                gym.custom_dts = f.custom_dts
-                break
-        if not passed:  # Gym was rejected by all filters
-            return
+        # Check for Rules
+        rules = self.__gym_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__gym_filters.keys(), self.__alarms.keys())}
 
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__gym_filters.get(f_name)
+                passed = f.check_event(gym) and self.check_geofences(f, gym)
+                if not passed:
+                    continue  # go to next filter
+                gym.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} gym notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(gym.name, r_name))
+                self._trigger_gym(gym, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_gym(self, gym, alarms):
         # Generate the DTS for the event
-        dts = gym.generate_dts(self.__locale)
+        dts = gym.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
+        # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [gym.lat, gym.lng], dts)
 
-        if self.__quiet is False:
-            log.info(
-                "{} gym notification has been triggered!".format(gym.name))
-
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.gym_alert, dts))
-        gevent.sleep(0)  # explict context yield
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.gym_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
 
-        for thread in threads:
+        for thread in threads:  # Wait for all alarms to finish
             thread.join()
 
     def process_egg(self, egg):
@@ -681,34 +791,45 @@ class Manager(object):
             egg.direction = get_cardinal_dir(
                 [egg.lat, egg.lng], self.__location)
 
-        # Check the Filters
-        passed = True
-        for name, f in self.__egg_filters.iteritems():
-            passed = f.check_event(egg) and self.check_geofences(f, egg)
-            if passed:  # Stop checking
-                egg.custom_dts = f.custom_dts
-                break
-        if not passed:  # Egg was rejected by all filters
-            return
+        # Check for Rules
+        rules = self.__egg_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__egg_filters.keys(), self.__alarms.keys())}
 
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__egg_filters.get(f_name)
+                passed = f.check_event(egg) and self.check_geofences(f, egg)
+                if not passed:
+                    continue  # go to next filter
+                egg.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} egg notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(egg.name, r_name))
+                self._trigger_egg(egg, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_egg(self, egg, alarms):
         # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale)
+        dts = egg.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
+        # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [egg.lat, egg.lng], dts)
 
-        if self.__quiet is False:
-            log.info(
-                "{} egg notification has been triggered!".format(egg.name))
-
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
-        gevent.sleep(0)  # explict context yield
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
 
-        for thread in threads:
+        for thread in threads:  # Wait for all alarms to finish
             thread.join()
 
     def process_raid(self, raid):
@@ -752,34 +873,45 @@ class Manager(object):
             raid.direction = get_cardinal_dir(
                 [raid.lat, raid.lng], self.__location)
 
-        # Check the Filters
-        passed = True
-        for name, f in self.__raid_filters.iteritems():
-            passed = f.check_event(raid) and self.check_geofences(f, raid)
-            if passed:  # Stop checking
-                raid.custom_dts = f.custom_dts
-                break
-        if not passed:  # Raid was rejected by all filters
-            return
+        # Check for Rules
+        rules = self.__raid_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__raid_filters.keys(), self.__alarms.keys())}
 
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__raid_filters.get(f_name)
+                passed = f.check_event(raid) and self.check_geofences(f, raid)
+                if not passed:
+                    continue  # go to next filter
+                raid.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} raid notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(raid.name, r_name))
+                self._trigger_raid(raid, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_raid(self, raid, alarms):
         # Generate the DTS for the event
-        dts = raid.generate_dts(self.__locale)
+        dts = raid.generate_dts(self.__locale, self.__timezone, self.__units)
         dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
+        # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
                 self.__location, [raid.lat, raid.lng], dts)
 
-        if self.__quiet is False:
-            log.info(
-                "{} raid notification has been triggered!".format(raid.name))
-
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.raid_alert, dts))
-        gevent.sleep(0)  # explict context yield
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.raid_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
 
-        for thread in threads:
+        for thread in threads:  # Wait for all alarms to finish
             thread.join()
 
     # Check to see if a notification is within the given range

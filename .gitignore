@@ -1,9 +1,22 @@
+# virtual env
 env
-*.pyc
-*.idea
+
+# pycharm
+.idea
+
+# sphinx
+_build
+
+# configuration files
 *.json
 *.ini
 *.txt
-cache/*.cache
 !data/*.json
 !locales/*.json
+
+# pa runtime files
+*.pyc
+cache/*.cache
+
+# OS files
+.DS_Store

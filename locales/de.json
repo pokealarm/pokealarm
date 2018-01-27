@@ -4,7 +4,34 @@
     "1": "Blanche", 
     "2": "Candela", 
     "3": "Spark"
-  }, 
+  },
+  "sizes": {
+	"1": "winzig",
+	"2": "klein",
+	"3": "\u00dcblich",
+	"4": "gro\u00DF",
+	"5": "riesig"
+  },
+  "types": {
+    "1": "Normal",
+    "2": "K\u00E4mpfen",
+    "3": "Fliegen",
+    "4": "Gift",
+    "5": "Boden",
+    "6": "Fels",
+    "7": "Fehler",
+    "8": "Geist",
+    "9": "Stahl",
+    "10": "Feuer",
+    "11": "Wasser",
+    "12": "Gras",
+    "13": "Elektrisch",
+    "14": "Psychisch",
+    "15": "Eis",
+    "16": "Drache",
+    "17": "Fee",
+    "18": "Dunkel"
+  },
   "moves": {
     "100": "Kreuzschere", 
     "101": "Nitroladung", 
@@ -922,5 +949,18 @@
     "1": "Weisheit", 
     "2": "Wagemut", 
     "3": "Intuition"
+  },
+  "weather": {
+	"0": "Keiner",
+	"1": "klar",
+	"2": "Regen",
+	"3": "Teilweise wolkig",
+	"4": "Bew\u00F6lkt",
+	"5": "Windig",
+	"6": "Schnee",
+	"7": "Nebel"
+  },
+  "misc": {
+    "boosted": "verstärktes"
   }
 }

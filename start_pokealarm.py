@@ -12,21 +12,22 @@ logging.basicConfig(
            + '[%(levelname)8.8s] %(message)s', level=logging.INFO)
 
 # Standard Library Imports
-import configargparse
-from gevent import wsgi, spawn, signal, pool
-import pytz
-import Queue
+
 import json
 import os
 import sys
 # 3rd Party Imports
+import configargparse
+from gevent import wsgi, spawn, signal, pool, queue
 from flask import Flask, request, abort
+import pytz
 # Local Imports
 import PokeAlarm.Events as Events
 from PokeAlarm import config
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
 from PokeAlarm.Utils import get_path, parse_unicode
+from PokeAlarm.Load import parse_rules_file
 
 # Reinforce UTF-8 as default
 reload(sys)
@@ -38,8 +39,9 @@ log = logging.getLogger('Server')
 
 # Global Variables
 app = Flask(__name__)
-data_queue = Queue.Queue()
+data_queue = queue.Queue()
 managers = {}
+server = None
 
 
 @app.route('/', methods=['GET'])
@@ -79,7 +81,6 @@ def manage_webhook_data(queue):
                 log.debug("Distributing event {} to manager {}.".format(
                     obj.id, name))
             log.debug("Finished distributing event: {}".format(obj.id))
-        queue.task_done()
 
 
 # Configure and run PokeAlarm
@@ -101,6 +102,7 @@ def start_server():
     log.info("PokeAlarm is listening for webhooks on: http://{}:{}".format(
         config['HOST'], config['PORT']))
     threads = pool.Pool(config['CONCURRENCY'])
+    global server
     server = wsgi.WSGIServer(
         (config['HOST'], config['PORT']), app, log=logging.getLogger('pywsgi'),
         spawn=threads)
@@ -149,6 +151,10 @@ def parse_settings(root_path):
         default=['alarms.json'],
         help='Alarms configuration file. default: alarms.json')
     parser.add_argument(
+        '-r', '--rules', type=parse_unicode, action='append',
+        default=[None],
+        help='Rules configuration file. default: None')
+    parser.add_argument(
         '-gf', '--geofences', type=parse_unicode,
         action='append', default=[None],
         help='Alarms configuration file. default: None')
@@ -195,9 +201,10 @@ def parse_settings(root_path):
     config['DEBUG'] = args.debug
 
     # Check to make sure that the same number of arguments are included
-    for arg in [args.key, args.filters, args.alarms, args.geofences,
-                args.location, args.locale, args.units, args.cache_type,
-                args.timelimit, args.max_attempts, args.timezone]:
+    for arg in [args.key, args.filters, args.alarms, args.rules,
+                args.geofences, args.location, args.locale, args.units,
+                args.cache_type, args.timelimit, args.max_attempts,
+                args.timezone]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -251,6 +258,7 @@ def parse_settings(root_path):
             alarm_file=get_from_list(args.alarms, m_ct, args.alarms[0]),
             debug=config['DEBUG']
         )
+        parse_rules_file(m, get_from_list(args.rules, m_ct, args.rules[0]))
         if m.get_name() not in managers:
             # Add the manager to the map
             managers[m.get_name()] = m
@@ -274,6 +282,7 @@ def get_from_list(arg, i, default):
 
 def exit_gracefully():
     log.info("PokeAlarm is closing down!")
+    server.stop()
     for m_name in managers:
         managers[m_name].stop()
     for m_name in managers:

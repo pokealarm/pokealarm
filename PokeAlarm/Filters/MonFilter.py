@@ -4,6 +4,7 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
+from PokeAlarm.Utils import get_weather_id
 
 
 class MonFilter(BaseFilter):
@@ -26,6 +27,16 @@ class MonFilter(BaseFilter):
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
+
+        # Time Left
+        self.min_time_left = self.evaluate_attribute(
+            # f.min_time_left <= r.time_left
+            event_attribute='time_left', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
+        self.max_time_left = self.evaluate_attribute(
+            # f.max_time_left >= r.time_left
+            event_attribute='time_left', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Encounter Stats
         # Level
@@ -107,10 +118,15 @@ class MonFilter(BaseFilter):
             event_attribute='weight', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_weight', data))
         # Size
-        self.sizes = self.evaluate_attribute(  # f.sizes contains m.size
-            event_attribute='size', eval_func=operator.contains,
+        self.sizes = self.evaluate_attribute(  # f.sizes in m.size_id
+            event_attribute='size_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                MonUtils.validate_pokemon_size, 'sizes', data))
+                MonUtils.get_size_id, 'sizes', data))
+
+        # Weather
+        self.weather_ids = self.evaluate_attribute(
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
@@ -193,6 +209,10 @@ class MonFilter(BaseFilter):
         # Size
         if self.sizes is not None:
             settings['sizes'] = self.sizes
+
+        # Weather
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
 
         # Geofences
         if self.geofences is not None:

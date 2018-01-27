@@ -4,7 +4,34 @@
     "1": "Blanche", 
     "2": "Candela", 
     "3": "Spark"
-  }, 
+  },
+  "sizes": {
+    "1": "minuscolo",
+    "2": "piccolo",
+    "3": "normale",
+    "4": "grande",
+    "5": "enorme"
+  },
+  "types": {
+    "1": "Normale",
+    "2": "Combattimento",
+    "3": "Volare",
+    "4": "Veleno",
+    "5": "Terra",
+    "6": "Rock",
+    "7": "Roccia",
+    "8": "Fantasma",
+    "9": "Acciaio",
+    "10": "Fuoco",
+    "11": "Acqua",
+    "12": "Erba",
+    "13": "Elettrico",
+    "14": "Psichico",
+    "15": "Ghiaccio",
+    "16": "Drago",
+    "17": "Fata",
+    "18": "Scuro"
+  },
   "moves": {
     "100": "Forbice X", 
     "101": "Nitrocarica", 
@@ -922,5 +949,18 @@
     "1": "Saggezza", 
     "2": "Coraggio", 
     "3": "Istinto"
+  },
+  "weather": {
+	"0": "Nessuna",
+	"1": "Chiaro",
+	"2": "Pioggia",
+	"3": "Parzialmente nuvoloso",
+	"4": "Nuvoloso",
+	"5": "Ventoso",
+	"6": "La neve",
+	"7": "Nebbia"
+  },
+  "misc": {
+    "boosted": "potenziato"
   }
 }

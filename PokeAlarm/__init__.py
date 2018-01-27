@@ -7,7 +7,7 @@ config = {
 }
 
 not_so_secret_url = binascii.unhexlify(
-    '68747470733a2f2f6d6f6e73746572696d616765732e746b2f76312e312f')
+    '68747470733a2f2f6d6f6e73746572696d616765732e746b2f76312e332f')
 
 
 class Unknown:
@@ -36,6 +36,6 @@ class Unknown:
         return True
 
     @classmethod
-    def or_empty(cls, val, default=''):
+    def or_empty(cls, val, default=EMPTY):
         """ Returns an default if unknown, else the original value. """
-        return cls.EMPTY if val in cls.__unknown_set else default
+        return val if val not in cls.__unknown_set else default

@@ -1,11 +1,11 @@
 # Standard Library Imports
 import operator
-import re
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
+from PokeAlarm.Utils import get_weather_id
 
 
 class RaidFilter(BaseFilter):
@@ -28,6 +28,16 @@ class RaidFilter(BaseFilter):
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= r.distance
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
+
+        # Time Left
+        self.min_time_left = self.evaluate_attribute(
+            # f.min_time_left <= r.time_left
+            event_attribute='time_left', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(int, 'min_time_left', data))
+        self.max_time_left = self.evaluate_attribute(
+            # f.max_time_left >= r.time_left
+            event_attribute='time_left', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Monster Info
         self.min_lvl = self.evaluate_attribute(  # f.min_lvl <= r.mon_lvl
@@ -60,13 +70,18 @@ class RaidFilter(BaseFilter):
         self.gym_name_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_name_contains', data))
+                GymUtils.create_regex, 'gym_name_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
             event_attribute='current_team_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 GymUtils.get_team_id, 'current_teams', data))
+
+        # Weather
+        self.weather_ids = self.evaluate_attribute(  # f.w_ids contains m.w_id
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
@@ -102,6 +117,10 @@ class RaidFilter(BaseFilter):
             settings['min_lvl'] = self.min_lvl
         if self.max_lvl is not None:
             settings['max_lvl'] = self.max_lvl
+
+        # Weather
+        if self.weather_ids is not None:
+            settings['weather_ids'] = self.weather_ids
 
         # Gym Name
         if self.gym_name_contains is not None:

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Standard Library Imports
 from datetime import datetime, timedelta
 from glob import glob
@@ -248,19 +249,19 @@ def size_ratio(pokemon_id, height, weight):
     return height_ratio + weight_ratio
 
 
-# Returns the (appraisal) size of a pokemon:
+# Returns the appraised size_id of a pokemon
 def get_pokemon_size(pokemon_id, height, weight):
     size = size_ratio(pokemon_id, height, weight)
     if size < 1.5:
-        return 'tiny'
+        return 1
     elif size <= 1.75:
-        return 'small'
-    elif size < 2.25:
-        return 'normal'
+        return 2
+    elif size <= 2.25:
+        return 3
     elif size <= 2.5:
-        return 'large'
+        return 4
     else:
-        return 'big'
+        return 5
 
 
 # Returns the gender symbol of a pokemon:
@@ -272,6 +273,77 @@ def get_pokemon_gender(gender):
     elif gender == 3:
         return u'\u26b2'  # neutral
     return '?'  # catch all
+
+
+# Returns the types for a pokemon
+def get_base_types(pokemon_id):
+    if not hasattr(get_base_types, 'info'):
+        get_base_types.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+            for id_ in j:
+                get_base_types.info[int(id_)] = [
+                    j[id_].get('type1'),
+                    j[id_].get('type2')
+                ]
+    return get_base_types.info.get(pokemon_id)
+
+
+# Returns the types for a pokemon
+def get_mon_type(pokemon_id):
+    types = get_base_types(pokemon_id)
+    return types['type1'], types['type2']
+
+
+# Return a boolean for whether the raid boss will have it's catch CP boosted
+def is_weather_boosted(pokemon_id, weather_id):
+    if not hasattr(is_weather_boosted, 'info'):
+        is_weather_boosted.info = {}
+        file_ = get_path('data/weather_boosts.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            is_weather_boosted.info[w_id] = j[w_id]
+
+    boosted_types = is_weather_boosted.info.get(str(weather_id), {})
+    types = get_base_types(pokemon_id)
+    return types[0] in boosted_types or types[1] in boosted_types
+
+
+def get_weather_emoji(weather_id):
+    return {
+        1: u'☀️',
+        2: u'☔️',
+        3: u'⛅',
+        4: u'☁️',
+        5: u'💨',
+        6: u'⛄️',
+        7: u'🌁',
+    }.get(weather_id, '')
+
+
+def get_type_emoji(type_id):
+    return {
+        1: u'⭕',
+        2: u'🥋',
+        3: u'🐦',
+        4: u'☠',
+        5: u'⛰️',
+        6: u'💎',
+        7: u'🐛',
+        8: u'👻',
+        9: u'⚙',
+        10: u'🔥',
+        11: u'💧',
+        12: u'🍃',
+        13: u'⚡',
+        14: u'🔮',
+        15: u'❄',
+        16: u'🐲',
+        17: u'💫',
+        18: u'🌑'
+    }.get(type_id, '')
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -338,8 +410,8 @@ def get_cardinal_dir(pt_a, pt_b=None):
 
 
 # Return the distance formatted correctly
-def get_dist_as_str(dist):
-    if config['UNITS'] == 'imperial':
+def get_dist_as_str(dist, units):
+    if units == 'imperial':
         if dist > 1760:  # yards per mile
             return "{:.1f}mi".format(dist / 1760.0)
         else:
@@ -352,7 +424,7 @@ def get_dist_as_str(dist):
 
 
 # Returns an integer representing the distance between A and B
-def get_earth_dist(pt_a, pt_b=None):
+def get_earth_dist(pt_a, pt_b=None, units='imperial'):
     if type(pt_a) is str or pt_b is None:
         return 'unkn'  # No location set
     log.debug("Calculating distance from {} to {}".format(pt_a, pt_b))
@@ -366,7 +438,7 @@ def get_earth_dist(pt_a, pt_b=None):
         cos(lat_b) * sin(lng_delta / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     radius = 6373000  # radius of earth in meters
-    if config['UNITS'] == 'imperial':
+    if units == 'imperial':
         radius = 6975175  # radius of earth in yards
     dist = c * radius
     return dist
@@ -394,8 +466,48 @@ def get_time_as_str(t, timezone=None):
     return time_left, time_12, time_24
 
 
+# Return the time in seconds
+def get_seconds_remaining(t, timezone=None):
+    if timezone is None:
+        timezone = config.get("TIMEZONE")
+    seconds = (t - datetime.utcnow()).total_seconds()
+    return seconds
+
+
 # Return the default url for images and stuff
 def get_image_url(suffix):
     return not_so_secret_url + suffix
+
+
+# Returns the id corresponding with the weather
+# (use all locales for flexibility)
+def get_weather_id(weather_name):
+    try:
+        name = unicode(weather_name).lower()
+        if not hasattr(get_weather_id, 'ids'):
+            get_weather_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['weather']
+                    for id_ in j:
+                        nm = j[id_].lower()
+                        get_weather_id.ids[nm] = int(id_)
+        if name in get_weather_id.ids:
+            return get_weather_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except ValueError:
+        raise ValueError("Unable to interpret `{}` as a valid "
+                         " weather name or id.".format(weather_name))
+
+
+# Returns true if any item is in the provided list
+def match_items_in_array(list, items):
+    for obj in list:
+        if obj in items:
+            return True
+    return False
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -26,8 +26,22 @@ teams = {
     "3": "Instinct"
 }
 
+weather = {
+    "0": "None",
+    "1": "Clear",
+    "2": "Rain",
+    "3": "Partly Cloudy",
+    "4": "Cloudy",
+    "5": "Windy",
+    "6": "Snow",
+    "7": "Fog"
+}
+
 teams_formatted = re.sub('[{}",]', '', json.dumps(
     teams, indent=4, sort_keys=True))
+
+weather_formatted = re.sub('[{}",]', '', json.dumps(
+    weather, indent=4, sort_keys=True))
 
 _cache = {}
 
@@ -73,7 +87,9 @@ def set_init(webhook_type):
                 "seconds_until_despawn": 1754,
                 "spawn_start": 2153,
                 "spawn_end": 3264,
-                "verified": False
+                "verified": False,
+                "weather": 0,
+                "boosted_weather": 0
             }
         }
     elif webhook_type == whtypes["2"]:
@@ -127,7 +143,8 @@ def set_init(webhook_type):
                 "move_2": 123,
                 "level": 5,
                 "latitude": 37.7876146,
-                "longitude": -122.390624
+                "longitude": -122.390624,
+                "weather": 0
             }
         }
 
@@ -344,6 +361,12 @@ if type == whtypes["1"]:
             print "Count towards big Magikarp medal?"
             if raw_input() in truthy:
                 payload["message"]["weight"] = 14.0
+    print "What type of weather? (put in a number)\n" + \
+          weather_formatted + "\n>",
+    int_or_default("weather")
+    print "Is this mon boosted by the weather? (y/n)\n",
+    if raw_input() in truthy:
+        payload["message"]["boosted_weather"] = payload["message"]["weather"]
 elif type == whtypes["3"]:
     gym_cache()
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",
@@ -366,6 +389,9 @@ elif type == whtypes["5"]:
         int_or_default("move_1")
         print "Id of move 2\n>",
         int_or_default("move_2")
+    print "What type of weather? (put in a number)\n" + \
+          weather_formatted + "\n>",
+    int_or_default("weather")
 
 reset_timers_and_encounters()
 
