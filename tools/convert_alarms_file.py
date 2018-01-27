@@ -72,5 +72,4 @@ if __name__ == '__main__':
         exit(1)
 
     print ("Conversion finished! If you are a telegram user, verify your"
-          "settings as some of them have inversed.")
-
+           "settings as some of them have inversed.")
