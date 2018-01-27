@@ -991,5 +991,8 @@
 	"5": "Ventoso",
 	"6": "Neve",
 	"7": "Névoa"
+  },
+  "misc": {
+    "boosted": "impulsionado"
   }
 }

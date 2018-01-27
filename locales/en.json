@@ -990,5 +990,8 @@
     "719": "Diancie",
     "720": "Hoopa",
     "721": "Volcanion"
+  },
+  "misc": {
+    "boosted": "boosted"
   }
 }
