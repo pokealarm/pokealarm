@@ -946,13 +946,16 @@
     "3": "Intuition"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "Aucun",
+	"1": "Clair",
+	"2": "Pluie",
+	"3": "Partiellement nuageux",
+	"4": "Nuageux",
+	"5": "Venteux",
+	"6": "Neige",
+	"7": "Brouillard"
+  },
+  "misc": {
+    "boosted": "boosté"
   }
 }
