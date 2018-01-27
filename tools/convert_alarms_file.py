@@ -10,7 +10,7 @@ def exchange(key):
         "pokestop": "stops",
         "gym": "gyms",
         "egg": "eggs",
-        "gym": "gyms",
+        "raid": "raids",
         "stickers": "sticker",
         "location": "map",
         "disable_map_notification": "map_notify",
