@@ -44,7 +44,7 @@ class MonEvent(BaseEvent):
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
         self.boosted_weather_id = check_for_none(
-            int, data.get('boosted_weather'), 0)
+            int, data.get('boosted_weather'), Unknown.TINY)
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -146,7 +146,9 @@ class MonEvent(BaseEvent):
             'weather_emoji': get_weather_emoji(self.weather_id),
             'boosted_weather_id': self.boosted_weather_id,
             'boosted_weather': boosted_weather_name,
-            'boosted_weather_or_empty': Unknown.or_empty(boosted_weather_name),
+            'boosted_weather_or_empty': (
+                '' if self.boosted_weather_id == 0
+                else Unknown.or_empty(boosted_weather_name)),
             'boosted_weather_emoji':
                 get_weather_emoji(self.boosted_weather_id),
             'boosted_or_empty': locale.get_boosted_text() if \
