@@ -97,7 +97,7 @@ class RaidFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
-                             " Egg filters".format(key))
+                             " Raid filters".format(key))
 
     def to_dict(self):
         """ Create a dict representation of this Filter. """
