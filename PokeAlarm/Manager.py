@@ -227,7 +227,7 @@ class Manager(object):
     @staticmethod
     def load_filter_section(section, sect_name, filter_type):
         defaults = section.pop('defaults', {})
-        filter_set = {}
+        filter_set = OrderedDict()
         for name, settings in section.pop('filters', {}).iteritems():
             settings = dict(defaults.items() + settings.items())
             try:
