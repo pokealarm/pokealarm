@@ -70,12 +70,12 @@ class Manager(object):
         self.__cache = cache_factory(cache_type, self.__name)
 
         # Load and Setup the Pokemon Filters
-        self.__mons_enabled, self.__mon_filters = False, {}
-        self.__stops_enabled, self.__stop_filters = False, {}
-        self.__gyms_enabled, self.__gym_filters = False, {}
+        self.__mons_enabled, self.__mon_filters = False, OrderedDict()
+        self.__stops_enabled, self.__stop_filters = False, OrderedDict()
+        self.__gyms_enabled, self.__gym_filters = False, OrderedDict()
         self.__ignore_neutral = False
-        self.__eggs_enabled, self.__egg_filters = False, {}
-        self.__raids_enabled, self.__raid_filters = False, {}
+        self.__eggs_enabled, self.__egg_filters = False, OrderedDict()
+        self.__raids_enabled, self.__raid_filters = False, OrderedDict()
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
