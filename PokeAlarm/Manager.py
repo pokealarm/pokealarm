@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import gevent
 from gevent.queue import Queue
 from gevent.event import Event
+import itertools
 
 # Local Imports
 import Alarms
@@ -38,15 +39,10 @@ class Manager(object):
         self.__debug = debug
 
         # Get the Google Maps API
-        self.__google_key = None
-        self.__loc_service = None
-        if str(google_key).lower() != 'none':
-            self.__google_key = google_key
-            self.__loc_service = location_service_factory(
-                "GoogleMaps", google_key, locale, units)
-        else:
-            log.warning("NO GOOGLE API KEY SET - Reverse Location and"
-                        + " Distance Matrix DTS will NOT be detected.")
+        self.__google_key = google_key
+        
+        self.__loc_service = location_service_factory(
+            "GoogleMaps", self.__google_key, locale, units)
 
         self.__locale = Locale(locale)  # Setup the language-specific stuff
         self.__units = units  # type of unit used for distances

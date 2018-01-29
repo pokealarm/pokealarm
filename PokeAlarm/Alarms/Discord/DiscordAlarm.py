@@ -3,7 +3,7 @@ import logging
 import requests
 
 # 3rd Party Imports
-
+import itertools
 # Local Imports
 from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
@@ -103,7 +103,7 @@ class DiscordAlarm(Alarm):
             settings.pop('disable_embed', "False"))
         self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})
-        self.__static_map_key = static_map_key
+        self.__static_map_key = itertools.cycle(static_map_key)
 
         # Set Alert Parameters
         self.__pokemon = self.create_alert_settings(
@@ -147,10 +147,10 @@ class DiscordAlarm(Alarm):
     def create_alert_settings(self, settings, default, kind):
         if kind == 'weather':
             static_map = get_static_weather_map_url(
-                settings.pop('map', self.__map), self.__static_map_key)
+                        settings.pop('map', self.__map))
         else:
             static_map = get_static_map_url(
-                settings.pop('map', self.__map), self.__static_map_key)
+                        settings.pop('map', self.__map))
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
@@ -186,7 +186,7 @@ class DiscordAlarm(Alarm):
             }]
             if alert['map'] is not None:
                 if info.get('alert_type') == 'weather':
-                    coords = {
+                    map_info = {
                         'lat1': info['coords'][0][0],
                         'lng1': info['coords'][0][1],
                         'lat2': info['coords'][1][0],
@@ -195,14 +195,16 @@ class DiscordAlarm(Alarm):
                         'lng3': info['coords'][2][1],
                         'lat4': info['coords'][3][0],
                         'lng4': info['coords'][3][1],
+                        'gkey': next(self.__static_map_key),
                     }
                 else:
-                    coords = {
+                    map_info = {
                         'lat': info['lat'],
-                        'lng': info['lng']
+                        'lng': info['lng'],
+                        'gkey': next(self.__static_map_key),
                     }
                 payload['embeds'][0]['image'] = {
-                    'url': replace(alert['map'], coords)
+                    'url': replace(alert['map'], map_info)
                 }
         args = {
             'url': replace(alert['webhook_url'], info),
