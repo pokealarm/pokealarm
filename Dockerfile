@@ -6,7 +6,7 @@
 # Change "RocketMap" to the name of your RocketMap docker
 # For newer versions of docker maybe you have to change --net to --network
 
-FROM python:2.7-alpine
+FROM python:2.7
 
 # Default port the webserver runs on
 EXPOSE 4000
@@ -18,14 +18,12 @@ WORKDIR /usr/src/app
 ENTRYPOINT ["python", "./start_pokealarm.py", "--host", "0.0.0.0"]
 
 # Install required system packages
-RUN apk add --no-cache ca-certificates
-RUN apk add --no-cache bash git openssh
+RUN apt-get update && apt-get install -y --no-install-recommends libgeos-dev
 
 COPY requirements.txt /usr/src/app/
 
-RUN apk add --no-cache build-base \
- && pip install --no-cache-dir -r requirements.txt \
- && apk del build-base
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy everything to the working directory (Python files, templates, config) in one go.
 COPY . /usr/src/app/
+
