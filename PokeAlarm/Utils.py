@@ -359,7 +359,8 @@ def get_static_map_url(settings):  # TODO: optimize formatting
 
     map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
             query_center + '&' + query_markers + '&' +
-            query_maptype + '&' + query_size + '&' + query_zoom + '&key=<gkey>')
+            query_maptype + '&' + query_size + '&' +
+            query_zoom + '&key=<gkey>')
 
     return map_
 
@@ -377,11 +378,11 @@ def get_static_weather_map_url(settings):
     query_zoom = 'zoom={}'.format(zoom)
     query_maptype = 'maptype={}'.format(maptype)
     query_path = 'path=fillcolor:0xFFFF0033|weight:5|' \
-    '<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,<lng3>' \
-    '|<lat4>,<lng4>|<lat1>,<lng1>'
+        '<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,<lng3>' \
+        '|<lat4>,<lng4>|<lat1>,<lng1>'
 
     map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
-            query_maptype + '&' + query_size + 
+            query_maptype + '&' + query_size +
             '&' + query_zoom + '&' + query_path + '&key=<gkey>')
 
     return map_

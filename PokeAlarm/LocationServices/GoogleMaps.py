@@ -47,7 +47,8 @@ class GoogleMaps(object):
     def get_location_from_name(self, location_name):
         try:
             result = googlemaps.Client(
-                key = next(self.__google_key), timeout=3, retry_timeout=5).geocode(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).geocode(
                     location_name, language=self.__locale)
             # Get the first (most likely) result
             loc = result[0]['geometry']['location']
@@ -82,7 +83,8 @@ class GoogleMaps(object):
         }
         try:
             result = googlemaps.Client(
-                key = next(self.__google_key), timeout=3, retry_timeout=5).reverse_geocode(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).reverse_geocode(
                     location, language=self.__locale)[0]
             loc = {}
             for item in result['address_components']:
@@ -132,7 +134,8 @@ class GoogleMaps(object):
         data = {'walk_dist': "unknown", 'walk_time': "unknown"}
         try:
             result = googlemaps.Client(
-                key = next(self.__google_key), timeout=3, retry_timeout=5).distance_matrix(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).distance_matrix(
                     origin, dest, mode='walking',
                     units=self.__units, language=self.__locale)
             result = result.get('rows')[0].get('elements')[0]
@@ -163,7 +166,8 @@ class GoogleMaps(object):
         data = {'bike_dist': "unknown", 'bike_time': "unknown"}
         try:
             result = googlemaps.Client(
-                key = next(self.__google_key), timeout=3, retry_timeout=5).distance_matrix(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).distance_matrix(
                     origin, dest, mode='bicycling',
                     units=self.__units, language=self.__locale)
             result = result.get('rows')[0].get('elements')[0]
@@ -194,7 +198,8 @@ class GoogleMaps(object):
         data = {'drive_dist': "unknown", 'drive_time': "unknown"}
         try:
             result = googlemaps.Client(
-                key = next(self.__google_key), timeout=3, retry_timeout=5).distance_matrix(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).distance_matrix(
                     origin, dest, mode='driving',
                     units=self.__units, language=self.__locale)
             result = result.get('rows')[0].get('elements')[0]

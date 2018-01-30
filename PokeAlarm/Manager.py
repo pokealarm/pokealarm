@@ -11,7 +11,6 @@ from datetime import datetime, timedelta
 import gevent
 from gevent.queue import Queue
 from gevent.event import Event
-import itertools
 
 # Local Imports
 import Alarms
@@ -40,7 +39,7 @@ class Manager(object):
 
         # Get the Google Maps API
         self.__google_key = google_key
-        
+
         self.__loc_service = location_service_factory(
             "GoogleMaps", self.__google_key, locale, units)
 

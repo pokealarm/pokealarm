@@ -147,10 +147,10 @@ class DiscordAlarm(Alarm):
     def create_alert_settings(self, settings, default, kind):
         if kind == 'weather':
             static_map = get_static_weather_map_url(
-                        settings.pop('map', self.__map))
+                settings.pop('map', self.__map))
         else:
             static_map = get_static_map_url(
-                        settings.pop('map', self.__map))
+                settings.pop('map', self.__map))
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
