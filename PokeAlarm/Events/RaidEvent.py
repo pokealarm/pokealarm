@@ -34,7 +34,7 @@ class RaidEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
         self.station = ''
         self.weather_id = check_for_none(
-            int, data.get('weather'), 0)
+            int, data.get('weather'), Unknown.TINY)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
@@ -81,6 +81,12 @@ class RaidEvent(BaseEvent):
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
+        exraid = self.gym_park
+        if exraid == 'unknown':
+            exraid = ''
+        else:
+            exraid = "\n*Potential EX Raid (" + exraid + ")*"
+
         boss_level = 20
         boosted_weather = 0
         if Unknown.is_not(self.weather_id) \
@@ -88,7 +94,7 @@ class RaidEvent(BaseEvent):
             boss_level = 25
             boosted_weather = self.weather_id
 
-            boosted_weather_name = locale.get_weather_name(boosted_weather)
+        boosted_weather_name = locale.get_weather_name(boosted_weather)
         weather_name = locale.get_weather_name(self.weather_id)
 
         type1 = locale.get_type_name(self.types[0])
@@ -127,7 +133,7 @@ class RaidEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
             'station': self.station,
-            'weather_id': boosted_weather,
+            'weather_id': self.weather_id,
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
             'weather_emoji': get_weather_emoji(self.weather_id),
@@ -169,7 +175,7 @@ class RaidEvent(BaseEvent):
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
             'gym_sponsor': self.gym_sponsor,
-            'gym_park': self.gym_park,
+            'gym_park': exraid,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)

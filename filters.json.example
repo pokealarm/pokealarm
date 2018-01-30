@@ -90,6 +90,7 @@
 				"weather": [ "Clear", 2 ],
                 "gym_park_contains": [ "^(?!.*None)" ],
                 "gym_sponsor_index_contains": ["^(?!.*0)"],
+				"weather": [ "Clear", 2 ],
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
