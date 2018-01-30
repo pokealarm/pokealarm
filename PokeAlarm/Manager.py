@@ -39,15 +39,10 @@ class Manager(object):
         self.__debug = debug
 
         # Get the Google Maps API
-        self.__google_key = None
-        self.__loc_service = None
-        if str(google_key).lower() != 'none':
-            self.__google_key = google_key
-            self.__loc_service = location_service_factory(
-                "GoogleMaps", google_key, locale, units)
-        else:
-            log.warning("NO GOOGLE API KEY SET - Reverse Location and"
-                        + " Distance Matrix DTS will NOT be detected.")
+        self.__google_key = google_key
+
+        self.__loc_service = location_service_factory(
+            "GoogleMaps", self.__google_key, locale, units)
 
         self.__locale = Locale(locale)  # Setup the language-specific stuff
         self.__units = units  # type of unit used for distances
@@ -808,8 +803,8 @@ class Manager(object):
         # Skip if previously processed
         if self.__cache.get_cell_weather(
                 weather.weather_cell_id) == weather.condition:
-            log.debug("Weather alert for cell {} was skipped because"
-                      "it was already {} weather.".format(
+            log.debug("Weather alert for cell {} was skipped "
+                      "because it was already {} weather.".format(
                           weather.weather_cell_id, weather.condition))
             return
         self.__cache.update_cell_weather(
@@ -865,8 +860,9 @@ class Manager(object):
         f.reject(e, "not in geofences")
         return False
 
-# Check to see if a weather notification s2
-# cell overlaps with a given range (geofence)
+
+# Check to see if a weather notification s2 cell
+# overlaps with a given range (geofence)
     def check_weather_geofences(self, f, weather):
         """ Returns true if the event passes the filter's geofences. """
         geofencesFound = False

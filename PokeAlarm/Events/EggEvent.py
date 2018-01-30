@@ -2,8 +2,8 @@
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from PokeAlarm.Utils import get_time_as_str, get_gmaps_link, \
-    get_applemaps_link, get_dist_as_str
+from PokeAlarm.Utils import get_time_as_str, get_seconds_remaining, \
+    get_gmaps_link, get_applemaps_link, get_dist_as_str, get_weather_emoji
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -22,6 +22,7 @@ class EggEvent(BaseEvent):
         # Time Remaining
         self.hatch_time = datetime.utcfromtimestamp(
             data.get('start') or data.get('raid_begin'))  # RM or Monocle
+        self.time_left = get_seconds_remaining(self.hatch_time)
         self.raid_end = datetime.utcfromtimestamp(
             data.get('end') or data.get('raid_end'))  # RM or Monocle
 
@@ -31,6 +32,8 @@ class EggEvent(BaseEvent):
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
         self.station = ''
+        self.weather_id = check_for_none(
+            int, data.get('weather'), Unknown.TINY)
 
         # Egg Info
         self.egg_lvl = check_for_none(int, data.get('level'), 0)
@@ -59,6 +62,7 @@ class EggEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         hatch_time = get_time_as_str(self.hatch_time, timezone)
         raid_end_time = get_time_as_str(self.raid_end, timezone)
+        weather_name = locale.get_weather_name(self.weather_id)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -85,6 +89,10 @@ class EggEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
             'station': self.station,
+            'weather_id': self.weather_id,
+            'weather': weather_name,
+            'weather_or_empty': Unknown.or_empty(weather_name),
+            'weather_emoji': get_weather_emoji(self.weather_id),
 
             # Egg info
             'egg_lvl': self.egg_lvl,

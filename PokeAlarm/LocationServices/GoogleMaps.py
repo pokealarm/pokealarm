@@ -3,6 +3,7 @@ import logging
 import traceback
 # 3rd Party Imports
 import googlemaps
+import itertools
 # Local Imports
 
 log = logging.getLogger('LocService')
@@ -13,11 +14,10 @@ class GoogleMaps(object):
 
     # Initialize the APIs
     def __init__(self, api_key, locale, units):
-        self.__client = googlemaps.Client(
-            key=api_key, timeout=3, retry_timeout=5)
 
         self.__locale = locale  # Language to use for Geocoding results
         self.__units = units  # imperial or metric
+        self.__google_key = itertools.cycle(api_key)
 
         # For Reverse Location API
         self.__reverse_location = False
@@ -46,8 +46,10 @@ class GoogleMaps(object):
     # Returns an array in the format [ Lat, Lng ], or exit if an error occurs.
     def get_location_from_name(self, location_name):
         try:
-            result = self.__client.geocode(
-                location_name, language=self.__locale)
+            result = googlemaps.Client(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).geocode(
+                    location_name, language=self.__locale)
             # Get the first (most likely) result
             loc = result[0]['geometry']['location']
             latitude, longitude = loc.get("lat"), loc.get("lng")
@@ -80,8 +82,10 @@ class GoogleMaps(object):
             'state': 'unknown', 'country': 'country'
         }
         try:
-            result = self.__client.reverse_geocode(
-                location, language=self.__locale)[0]
+            result = googlemaps.Client(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).reverse_geocode(
+                    location, language=self.__locale)[0]
             loc = {}
             for item in result['address_components']:
                 for category in item['types']:
@@ -129,9 +133,11 @@ class GoogleMaps(object):
             return self.__walk_data_history[key]
         data = {'walk_dist': "unknown", 'walk_time': "unknown"}
         try:
-            result = self.__client.distance_matrix(
-                origin, dest, mode='walking',
-                units=self.__units, language=self.__locale)
+            result = googlemaps.Client(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).distance_matrix(
+                    origin, dest, mode='walking',
+                    units=self.__units, language=self.__locale)
             result = result.get('rows')[0].get('elements')[0]
             data['walk_dist'] = result.get(
                 'distance').get('text').encode('utf-8')
@@ -159,9 +165,11 @@ class GoogleMaps(object):
             return self.__bike_data_history[key]
         data = {'bike_dist': "unknown", 'bike_time': "unknown"}
         try:
-            result = self.__client.distance_matrix(
-                origin, dest, mode='bicycling',
-                units=self.__units, language=self.__locale)
+            result = googlemaps.Client(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).distance_matrix(
+                    origin, dest, mode='bicycling',
+                    units=self.__units, language=self.__locale)
             result = result.get('rows')[0].get('elements')[0]
             data['bike_dist'] = result.get(
                 'distance').get('text').encode('utf-8')
@@ -189,9 +197,11 @@ class GoogleMaps(object):
             return self.__driving_data_history[key]
         data = {'drive_dist': "unknown", 'drive_time': "unknown"}
         try:
-            result = self.__client.distance_matrix(
-                origin, dest, mode='driving',
-                units=self.__units, language=self.__locale)
+            result = googlemaps.Client(
+                key=next(self.__google_key),
+                timeout=3, retry_timeout=5).distance_matrix(
+                    origin, dest, mode='driving',
+                    units=self.__units, language=self.__locale)
             result = result.get('rows')[0].get('elements')[0]
             data['drive_dist'] = result.get(
                 'distance').get('text').encode('utf-8')

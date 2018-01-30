@@ -41,17 +41,29 @@ class Locale(object):
         for id_, val in default["teams"].iteritems():
             self.__team_names[int(id_)] = teams.get(id_, val)
 
+        # Team ID -> Team Leaders
+        self.__leader_names = {}
+        leaders = info.get("leaders", {})
+        for id_, val in default["leaders"].iteritems():
+            self.__leader_names[int(id_)] = leaders.get(id_, val)
+
         # Weather ID -> Name
         self.__weather_names = {}
         weather = info.get("weather", {})
         for id_, val in default["weather"].iteritems():
             self.__weather_names[int(id_)] = weather.get(id_, val)
 
-        # Team ID -> Team Leaders
-        self.__leader_names = {}
-        leaders = info.get("leaders", {})
-        for id_, val in default["leaders"].iteritems():
-            self.__leader_names[int(id_)] = leaders.get(id_, val)
+        # Size ID -> Size Name
+        self.__size_names = {}
+        sizes = info.get("sizes", {})
+        for id_, val in default["sizes"].iteritems():
+            self.__size_names[int(id_)] = sizes.get(id_, val)
+
+        # Type ID -> Type Name
+        self.__type_names = {}
+        types = info.get("types", {})
+        for id_, val in default["types"].iteritems():
+            self.__type_names[int(id_)] = types.get(id_, val)
 
         # Pokemon ID -> { Form ID -> Form Name)
         self.__form_names = {}
@@ -83,6 +95,14 @@ class Locale(object):
     # Returns the name of the team ledaer associated with the Team ID
     def get_leader_name(self, team_id):
         return self.__leader_names.get(team_id, 'unknown')
+
+    # Returns the size of the Pokemon based on the Calculated Size Value
+    def get_size_name(self, size_id):
+        return self.__size_names.get(size_id, 'unknown')
+
+    # Returns the name of the type associated with the Type ID
+    def get_type_name(self, type_id):
+        return self.__type_names.get(type_id, 'unknown')
 
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):

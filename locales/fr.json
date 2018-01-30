@@ -5,6 +5,33 @@
     "2": "Candela",
     "3": "Spark"
   },
+  "sizes": {
+    "1": "minuscule",
+    "2": "petite",
+    "3": "normale",
+    "4": "grand",
+    "5": "\u00E9norme"
+  },
+  "types": {
+    "0": "Normal",
+    "1": "Combattre",
+    "2": "Voler",
+    "3": "Poison",
+    "4": "Terre",
+    "5": "Roche",
+    "6": "Insecte",
+    "7": "Fant\u00F4me",
+    "8": "Acier",
+    "9": "Feu",
+    "10": "Eau",
+    "11": "Herbe",
+    "12": "\u00E9lectrique",
+    "13": "Psychique",
+    "14": "Glace",
+    "15": "Dragon",
+    "16": "F\u00E9e",
+    "17": "Sombre"
+  },
   "moves": {
     "13": "Ligotage",
     "14": "Ultralaser",

@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+import time
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
@@ -42,6 +44,7 @@ class TestEggFilter(unittest.TestCase):
         pass1 = Events.EggEvent(generate_egg({"name": "pass1"}))
         pass2 = Events.EggEvent(generate_egg({"name": "2pass"}))
         pass3 = Events.EggEvent(generate_egg({"name": "3pass3"}))
+
         # Test passing events
         for e in [pass1, pass2, pass3]:
             self.assertTrue(egg_filter.check_event(e))
@@ -139,6 +142,25 @@ class TestEggFilter(unittest.TestCase):
         # Test passing events
         for e in [pass1]:
             self.assertTrue(egg_filter.check_event(e))
+
+    def test_time_left(self):
+        # Create the filters
+        settings = {'min_time_left': 1000, 'max_time_left': 8000}
+        egg_filter = Filters.EggFilter('time_filter', settings)
+
+        # Test events that should pass
+        for s in [2000, 4000, 6000]:
+            d = (datetime.now() + timedelta(seconds=s))
+            t = time.mktime(d.timetuple())
+            event = Events.EggEvent(generate_egg({"start": t}))
+            self.assertTrue(egg_filter.check_event(event))
+
+        # Test events that should fail
+        for s in [200, 999, 8001]:
+            d = (datetime.now() + timedelta(seconds=s))
+            t = time.mktime(d.timetuple())
+            event = Events.EggEvent(generate_egg({"start": t}))
+            self.assertFalse(egg_filter.check_event(event))
 
 
 # Create a generic egg, overriding with an specific values
