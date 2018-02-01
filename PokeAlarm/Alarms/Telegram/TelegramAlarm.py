@@ -238,7 +238,7 @@ class TelegramAlarm(Alarm):
                 'chat_id': chat_id,
                 'text': message,
                 'parse_mode': 'Markdown',
-                'disable_web_page_preview': True,
+                'disable_web_page_preview': False,
                 'disable_notification': not notify
             }
         }
