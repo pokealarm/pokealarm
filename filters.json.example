@@ -5,7 +5,7 @@
         },
         "filters":{
             "filter_by_monsters_example":{
-                "monsters":["Bulbasaur","Charmander",7],
+                "monsters":["Bulbasaur","Charmander",7]
             },
             "filter_by_ivs_example":{
                 "min_atk": 0, "max_atk": 15,
