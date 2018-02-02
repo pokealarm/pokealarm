@@ -307,7 +307,7 @@ def is_weather_boosted(pokemon_id, weather_id):
         for w_id in j:
             is_weather_boosted.info[w_id] = j[w_id]
 
-    boosted_types = is_weather_boosted.info[str(weather_id)]
+    boosted_types = is_weather_boosted.info.get(str(weather_id), {})
     types = get_base_types(pokemon_id)
     return types[0] in boosted_types or types[1] in boosted_types
 
@@ -322,6 +322,29 @@ def get_weather_emoji(weather_id):
         6: u'⛄️',
         7: u'🌁',
     }.get(weather_id, '')
+
+
+def get_type_emoji(type_id):
+    return {
+        1: u'⭕',
+        2: u'🥋',
+        3: u'🐦',
+        4: u'☠',
+        5: u'⛰️',
+        6: u'💎',
+        7: u'🐛',
+        8: u'👻',
+        9: u'⚙',
+        10: u'🔥',
+        11: u'💧',
+        12: u'🍃',
+        13: u'⚡',
+        14: u'🔮',
+        15: u'❄',
+        16: u'🐲',
+        17: u'💫',
+        18: u'🌑'
+    }.get(type_id, '')
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

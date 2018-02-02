@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+import re
 from datetime import datetime
 
 # 3rd Party Imports
@@ -13,6 +14,9 @@ from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
 log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
+url_regex = re.compile(
+    "(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]"
+    "@!\$&'\(\)\*\+,;=.]+", re.I)
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -25,23 +29,23 @@ replace = Alarm.replace
 class TwitterAlarm(Alarm):
 
     _defaults = {
-        'pokemon': {
+        'monsters': {
             'status': "A wild <mon_name> has appeared! "
                       "Available until <24h_time> (<time_left>). <gmaps>"
         },
-        'pokestop': {
+        'stops': {
             'status': "Someone has placed a lure on a Pokestop! "
                       "Lure will expire at <24h_time> (<time_left>). <gmaps>"
         },
-        'gym': {
+        'gyms': {
             'status': "A Team <old_team> gym has fallen! "
                       "It is now controlled by <new_team>. <gmaps>"
         },
-        'egg': {
+        'eggs': {
             'status': "Level <egg_lvl> raid incoming! Hatches at "
                       "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
         },
-        'raid': {
+        'raids': {
             'status': "Raid <raid_lvl> against <mon_name>! Available until "
                       "<24h_raid_end> (<raid_time_left>). <gmaps>"
         }
@@ -66,15 +70,15 @@ class TwitterAlarm(Alarm):
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
+            settings.pop('monsters', {}), self._defaults['monsters'])
         self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
+            settings.pop('stops', {}), self._defaults['stops'])
         self.__gym = self.create_alert_settings(
-            settings.pop('gym', {}), self._defaults['gym'])
+            settings.pop('gyms', {}), self._defaults['gyms'])
         self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
+            settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+            settings.pop('raids', {}), self._defaults['raids'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
@@ -105,17 +109,28 @@ class TwitterAlarm(Alarm):
         reject_leftover_parameters(settings, "'Alert level in Twitter alarm.")
         return alert
 
+    # Shortens the tweet down, calculating for urls being shortened
+    def shorten(self, message, limit=280, url_length=23):
+        msg = ""
+        for word in re.split(r'\s', message):
+            word_len = len(word)
+            if url_regex.match(word):  # If it's a url
+                if limit <= url_length:  # if the whole thing doesn't fit
+                    break  # Don't add the url
+                word_len = url_length  # URL's have a fixed length
+            elif word_len >= limit:  # If the word doesn't fit
+                word_len = limit - 1
+                word = word[:word_len]  # truncate it
+            limit -= word_len + 1  # word + space
+            msg += " " + word
+        print msg
+        return msg[1:]  # Strip the space
+
     def send_alert(self, alert, info):
-            limit = 140
-            status = alert['status']
-            if status.endswith("<gmaps>"):
-                limit = 117  # Save 23 characters for the google maps
-                status = status[:-7]  # Truncate gmaps
-            status = replace(status[:limit], info)  # Truncate status
-            if limit == 117:
-                status += info['gmaps']  # Add in gmaps link
-            args = {"status": status}
-            try_sending(log, self.connect, "Twitter", self.send_tweet, args)
+        args = {
+            "status": self.shorten(replace(alert['status'], info))
+        }
+        try_sending(log, self.connect, "Twitter", self.send_tweet, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):

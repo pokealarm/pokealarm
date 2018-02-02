@@ -13,24 +13,24 @@
     "5": "\u00E9norme"
   },
   "types": {
-    "0": "Normal",
-    "1": "Combattre",
-    "2": "Voler",
-    "3": "Poison",
-    "4": "Terre",
-    "5": "Roche",
-    "6": "Insecte",
-    "7": "Fant\u00F4me",
-    "8": "Acier",
-    "9": "Feu",
-    "10": "Eau",
-    "11": "Herbe",
-    "12": "\u00E9lectrique",
-    "13": "Psychique",
-    "14": "Glace",
-    "15": "Dragon",
-    "16": "F\u00E9e",
-    "17": "Sombre"
+    "1": "Normal",
+    "2": "Combattre",
+    "3": "Voler",
+    "4": "Poison",
+    "5": "Terre",
+    "6": "Roche",
+    "7": "Insecte",
+    "8": "Fant\u00F4me",
+    "9": "Acier",
+    "10": "Feu",
+    "11": "Eau",
+    "12": "Herbe",
+    "13": "\u00E9lectrique",
+    "14": "Psychique",
+    "15": "Glace",
+    "16": "Dragon",
+    "17": "F\u00E9e",
+    "18": "Sombre"
   },
   "moves": {
     "13": "Ligotage",
@@ -946,13 +946,16 @@
     "3": "Intuition"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "Aucun",
+	"1": "Clair",
+	"2": "Pluie",
+	"3": "Partiellement nuageux",
+	"4": "Nuageux",
+	"5": "Venteux",
+	"6": "Neige",
+	"7": "Brouillard"
+  },
+  "misc": {
+    "boosted": "boosté"
   }
 }

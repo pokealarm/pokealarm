@@ -76,6 +76,8 @@ class Locale(object):
                     form_id, form_name)
         log.debug("Loaded '{}' locale successfully!".format(language))
 
+        self.__misc = info.get('misc', {})
+
     # Returns the name of the Pokemon associated with the given ID
     def get_pokemon_name(self, pokemon_id):
         return self.__pokemon_names.get(pokemon_id, 'unknown')
@@ -88,13 +90,13 @@ class Locale(object):
     def get_team_name(self, team_id):
         return self.__team_names.get(team_id, 'unknown')
 
-    # Returns the name of the team associated with the Team ID
-    def get_weather_name(self, weather_id):
-        return self.__weather_names.get(weather_id, 'None')
-
     # Returns the name of the team ledaer associated with the Team ID
     def get_leader_name(self, team_id):
         return self.__leader_names.get(team_id, 'unknown')
+
+    # Returns the name of the weather associated with the given ID
+    def get_weather_name(self, weather_id):
+        return self.__weather_names.get(weather_id, 'unknown')
 
     # Returns the size of the Pokemon based on the Calculated Size Value
     def get_size_name(self, size_id):
@@ -107,3 +109,6 @@ class Locale(object):
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
         return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+
+    def get_boosted_text(self):
+        return self.__misc.get('boosted', '')

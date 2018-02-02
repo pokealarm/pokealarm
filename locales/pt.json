@@ -13,24 +13,24 @@
     "5": "enorme"
   },
   "types": {
-    "0": "Normal",
-    "1": "Lutar",
-    "2": "Voando",
-    "3": "Veneno",
-    "4": "Terra",
-    "5": "Rocha",
-    "6": "Bicho",
-    "7": "Fantasma",
-    "8": "A\u00E7o",
-    "9": "Fogo",
-    "10": "\u00C1gua",
-    "11": "Grama",
-    "12": "El\u00E9trico",
-    "13": "Ps\u00EDquico",
-    "14": "Gelo",
-    "15": "Drag\u00E3o",
-    "16": "Fada",
-    "17": "Escuro"
+    "1": "Normal",
+    "2": "Lutar",
+    "3": "Voando",
+    "4": "Veneno",
+    "5": "Terra",
+    "6": "Rocha",
+    "7": "Bicho",
+    "8": "Fantasma",
+    "9": "A\u00E7o",
+    "10": "Fogo",
+    "11": "\u00C1gua",
+    "12": "Grama",
+    "13": "El\u00E9trico",
+    "14": "Ps\u00EDquico",
+    "15": "Gelo",
+    "16": "Drag\u00E3o",
+    "17": "Fada",
+    "18": "Escuro"
   },
   "moves": {
     "1": "Trovoada de Choques",
@@ -983,13 +983,16 @@
     "3": "Instinto"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "Nenhum",
+	"1": "Claro",
+	"2": "Chuva",
+	"3": "Parcialmente nublado",
+	"4": "Nublado",
+	"5": "Ventoso",
+	"6": "Neve",
+	"7": "Névoa"
+  },
+  "misc": {
+    "boosted": "impulsionado"
   }
 }

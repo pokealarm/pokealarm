@@ -24,23 +24,23 @@ replace = Alarm.replace
 class TwilioAlarm(Alarm):
 
     _defaults = {
-        'pokemon': {
+        'monsters': {
             'message': "A wild <mon_name> has appeared! <gmaps> "
                        "Available until <24h_time> (<time_left>)."
         },
-        'pokestop': {
+        'stops': {
             'message': "Someone has placed a lure on a Pokestop! <gmaps>"
                        "Lure will expire at <24h_time> (<time_left>)."
         },
-        'gym': {
+        'gyms': {
             'message': "A Team <old_team> gym has fallen! <gmaps>"
                        "It is now controlled by <new_team>."
         },
-        'egg': {
+        'eggs': {
             'message': "A level <egg_lvl> raid is incoming! <gmaps>"
                        "Egg hatches <24h_hatch_time> (<hatch_time_left>)."
         },
-        'raid': {
+        'raids': {
             'message': "Level <raid_lvl> raid against <mon_name>! <gmaps>"
                        " Available until <24h_raid_end> (<raid_time_left>)."
         }
@@ -65,15 +65,15 @@ class TwilioAlarm(Alarm):
 
         # Optional Alert Parameters
         self.__pokemon = self.set_alert(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
+            settings.pop('monsters', {}), self._defaults['monsters'])
         self.__pokestop = self.set_alert(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
+            settings.pop('stops', {}), self._defaults['stops'])
         self.__gym = self.set_alert(
-            settings.pop('gyms', {}), self._defaults['gym'])
+            settings.pop('gyms', {}), self._defaults['gyms'])
         self.__egg = self.set_alert(
-            settings.pop('egg', {}), self._defaults['egg'])
+            settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.set_alert(
-            settings.pop('raid', {}), self._defaults['raid'])
+            settings.pop('raids', {}), self._defaults['raids'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")

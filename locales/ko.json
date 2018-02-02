@@ -13,24 +13,24 @@
     "5": "\uac70\ub300\ud55c"
   },
   "types": {
-    "0": "\ubcf4\ud1b5",
-    "1": "\ud30c\uc774\ud305",
-    "2": "\ud50c\ub77c\uc789",
-    "3": "\ub3c5",
-    "4": "\ubc14\ub2e5",
-    "5": "\ub85d",
-    "6": "\ubc84\uadf8",
-    "7": "\uc720\ub839",
-    "8": "\uc2a4\ud2f8",
-    "9": "\ubd88",
-    "10": "\ubb3c",
-    "11": "\uc794\ub514",
-    "12": "\uc804\uae30",
-    "13": "\uc2ec\ub839",
-    "14": "\uc5bc\uc74c",
-    "15": "\ub4dc\ub798\uace4",
-    "16": "\uc694\uc815",
-    "17": "\uc5b4\ub460"
+    "1": "\ubcf4\ud1b5",
+    "2": "\ud30c\uc774\ud305",
+    "3": "\ud50c\ub77c\uc789",
+    "4": "\ub3c5",
+    "5": "\ubc14\ub2e5",
+    "6": "\ub85d",
+    "7": "\ubc84\uadf8",
+    "8": "\uc720\ub839",
+    "9": "\uc2a4\ud2f8",
+    "10": "\ubd88",
+    "11": "\ubb3c",
+    "12": "\uc794\ub514",
+    "13": "\uc804\uae30",
+    "14": "\uc2ec\ub839",
+    "15": "\uc5bc\uc74c",
+    "16": "\ub4dc\ub798\uace4",
+    "17": "\uc694\uc815",
+    "18": "\uc5b4\ub460"
   },
   "moves": {
     "100": "\uc2dc\uc800\ud06c\ub85c\uc2a4", 
@@ -897,13 +897,16 @@
     "3": "\uc778\uc2a4\ud305\ud2b8(\uc610\ub85c\uc6b0)"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "\uc5c6\uc74c",
+	"1": "\uba85\ud655\ud55c",
+	"2": "\ube44",
+	"3": "\uc57d\uac04 \ud750\ub9bc",
+	"4": "\ud750\ub9b0",
+	"5": "\uae5c\uc9dd \ub180\ub780",
+	"6": "\ub208",
+	"7": "\uc548\uac1c"
+  },
+  "misc": {
+    "boosted": "\uBD80\uC591 \uB41C"
   }
 }
