@@ -43,11 +43,13 @@ PokeAlarm offers the following for Discord:
 
 The parameters below are required to enable the Discord alarm service:
 
+<!--table-->
 | Parameters     | Description                             |
 |----------------|-----------------------------------------|
 | `type`         | Must be `discord`                       |
 | `active`       | `true` for alarm to be active           |
 | `webhook_url`* | Your Webhook URL for a specific channel |
+<!--endtable-->
 
 **Note:** *In PokeAlarm version 3.1, `webhook_url` replaced `api_key`.*
 
@@ -74,13 +76,16 @@ optional parameters and how they are incorporated into a functional alarm layout
 
 These optional parameters are entered at the same level as `"type":"discord"`.
 
+<!--table-->
 | Parameters         | Description                                  |
 |--------------------|----------------------------------------------|
 | `startup_message`  | Confirmation post when PokeAlarm initialized |
+<!--endtable-->
 
 These optional parameters below are applicable to the `monsters`, `stops`,
 `gyms`, `eggs`, and `raids` sections of the JSON file.
 
+<!--table-->
 | Parameters       | Description                                  | Default                           |
 |------------------|----------------------------------------------|-----------------------------------|
 | `webhook_url`    | URL of specific channel name. Overrides `webhook_url` at Alarm level. Use to post only
@@ -92,6 +97,7 @@ These optional parameters below are applicable to the `monsters`, `stops`,
 | `url`            | Link to be added to notification text        | `<gmaps>`                         |
 | `body`           | Additional text to be added to the message   | `Available until <24h_time> (<time_left>).` |
 | `content`        | Text before the Discord embed                |                                   |
+<!--endtable-->
 
 *Note: Nidorans will be `nidoranf` or `nidoranm`, Farfetch'd will be
 `farfetchd`, and Mr. Mime will be `mrmime`.*
@@ -185,6 +191,7 @@ Below is an example of enabling the mini map for pokemon.
 	},
 ```
 
+<!--table-->
 | Parameters     | Description                           | Default     |
 |----------------|---------------------------------------|-------------|
 | `enabled`      | Turns the map on or off               | `true`      |
@@ -192,21 +199,32 @@ Below is an example of enabling the mini map for pokemon.
 | `height`       | Height of the map                     | `150` px    |
 | `maptype`      | Link to be added to notification text | `roadmap`   |
 | `zoom`         | Specifies the zoom of the map         | `15`        |
+<!--endtable-->
 
 ### Formatting alarms text
 
 Here is a basic guide to apply custom styles to alarm text:
 
+
++------------------------------------+----------------------------------+
 | Style                              | Example                          |
-|------------------------------------|----------------------------------|
+|====================================+==================================+
 | `*italics*`                        | *italics*                        |
++------------------------------------+----------------------------------+
 | `**bold**`                         | **bold**                         |
++------------------------------------+----------------------------------+
 | `***bold italics***`               | ***bold italics***               |
++------------------------------------+----------------------------------+
 | `__underline__`                    | __underline__                    |
++------------------------------------+----------------------------------+
 | `__*underline italics*__`          | __*underline italics*__          |
++------------------------------------+----------------------------------+
 | `__**underline bold**__`           | __**underline bold**__           |
++------------------------------------+----------------------------------+
 | `__***underline bold italics***__` | __***underline bold italics***__ |
++------------------------------------+----------------------------------+
 | `~~Strikethrough~~`                | ~~Strikethrough~~                |
++------------------------------------+----------------------------------+
 
 You can see other options in the official Discord information about formatting text [here](https://support.discordapp.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-).
 
