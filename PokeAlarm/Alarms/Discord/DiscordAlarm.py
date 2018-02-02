@@ -107,15 +107,15 @@ class DiscordAlarm(Alarm):
 
         # Set Alert Parameters
         self.__monsters = self.create_alert_settings(
-            settings.pop('monsters', {}), self._defaults['monsters'])
+            settings.pop('monsters', {}), self._defaults['monsters'], 'monsters')
         self.__stops = self.create_alert_settings(
-            settings.pop('stops', {}), self._defaults['stops'])
+            settings.pop('stops', {}), self._defaults['stops'], 'stops')
         self.__gyms = self.create_alert_settings(
-            settings.pop('gyms', {}), self._defaults['gyms'])
+            settings.pop('gyms', {}), self._defaults['gyms'], 'gyms')
         self.__eggs = self.create_alert_settings(
-            settings.pop('eggs', {}), self._defaults['eggs'])
+            settings.pop('eggs', {}), self._defaults['eggs'], 'eggs')
         self.__raids = self.create_alert_settings(
-            settings.pop('raids', {}), self._defaults['raids'])
+            settings.pop('raids', {}), self._defaults['raids'], 'raids')
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'], 'weather')
 
