@@ -1,30 +1,24 @@
 Filters
 ========
 
-## Overview
+.. contents:: Table of Contents
+   :depth: 1
+   :local:
 
-* [Prerequisites](#prerequisites)
-* [Introduction](#introduction)
-* [Filter Parameters](#filter-parameters)
-* [Defaults](#defaults)
-* [Advanced](#advanced)
-  * [Missing Info](#missing-info)
-  * [Geofence](#geofence)
-  * [Custom DTS](#custom-dts)
+Prerequisites
+-------------------------------------
 
-## Prerequisites
-This guide assumes:
+This guide assumes the following:
 
-1. You have a working scanner
-2. You are familiar with
-[JSON formatting](https://www.w3schools.com/js/js_json_intro.asp)
-3. You are using the latest version of PokeAlarm
++ You understand Events
++ You understand [JSON formatting](https://www.w3schools.com/js/js_json_intro.asp).
++ You are using the latest version of PokeAlarm.
 
-## Introduction
 
-**Filters** are used to determine which Events trigger notifications.
-When PA receives information about an event, it is compared to the
-filters defined in your `filters.json` configuration file.
+How Filters Work
+-------------------------------------
+
+A **Filter** determines which Events trigger notifications. When PA receives an Event, it goes through each Filter
 
 A `filters.json` file is composed of a single JSON object with five
 different subsections. Each section defines different settings for each
