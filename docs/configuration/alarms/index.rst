@@ -1,22 +1,16 @@
 Alarms
 =======
 
-## Overview
+.. contents:: :depth: 2
 
-* [Prerequisites](#prerequisites)
-* [Introduction](#introduction)
-* [Editing or Adding Alarms](#editing-or-adding-alarms)
-* [Customizing Alerts](#customizing-alerts)
-* [Example `alarms.json`](#example-alarmsjson)
-
-## Prerequisites
+### Prerequisites
 
 This guide assumes:
 
 1. You have a working RocketMap installation
 2. You are familiar with [JSON formatting](https://www.w3schools.com/js/js_json_intro.asp)
 
-## Introduction
+### Introduction
 
 In PokeAlarm, an "Alarm" is defined as a supported message service that sends
 a notification. Slack, Twitter, Telegram, each are considered message service.
@@ -41,7 +35,8 @@ The alarm configuration file follows the JSON format and has six sections:
 5. `eggs`
 6. `raids`
 
-## Editing or Adding Alarms
+### Editing or Adding Alarms
+
 To add, edit, or remove alarms, edit the `alarms.json` file. If you haven't
 created an `alarms.json` file before, you can make a copy of
 `alarms.json.example` and rename it to `alarms.json`. PokeAlarm uses
@@ -51,53 +46,52 @@ Alarms are represented as a list of JSON Objects, inside an array labeled
 alarms. Each alarm should be surrounded by curly brackets, and the space in
 between fields should have a comma. Your default `alarms.json` looks like this:
 
-```json
-{
-  "discord_alarm":{
-    "active":false,
-    "type":"discord",
-    "webhook_url":"YOUR_WEBHOOK_URL"
-  },
-  "facebook_alarm":{
-    "active":false,
-    "type":"facebook_page",
-    "page_access_token":"YOUR_PAGE_ACCESS_TOKEN"
-  },
-  "pushbullet_alarm":{
-    "active":false,
-    "type":"pushbullet",
-    "api_key":"YOUR_API_KEY"
-  },
-  "slack_alarm":{
-    "active":false,
-    "channel":"general",
-    "type":"slack",
-    "api_key":"YOUR_API_KEY"
-  },
-  "telegram_alarm":{
-    "active":false,
-    "type":"telegram",
-    "bot_token":"YOUR_BOT_TOKEN",
-    "chat_id":"YOUR_CHAT_ID"
-  },
-  "twilio_alarm":{
-    "active":false,
-    "type":"twilio",
-    "account_sid":"YOUR_API_KEY",
-    "auth_token":"YOUR_AUTH_TOKEN",
-    "from_number":"YOUR_FROM_NUM",
-    "to_number":"YOUR_TO_NUM"
-  },
-  "twitter_alarm":{
-    "active":false,
-    "type":"twitter",
-    "access_token":"YOUR_ACCESS_TOKEN",
-    "access_secret":"YOUR_ACCESS_SECRET",
-    "consumer_key":"YOUR_CONSUMER_KEY",
-    "consumer_secret":"YOUR_CONSUMER_SECRET"
+.. code-block:: json
+  {
+    "discord_alarm":{
+      "active":false,
+      "type":"discord",
+      "webhook_url":"YOUR_WEBHOOK_URL"
+    },
+    "facebook_alarm":{
+      "active":false,
+      "type":"facebook_page",
+      "page_access_token":"YOUR_PAGE_ACCESS_TOKEN"
+    },
+    "pushbullet_alarm":{
+      "active":false,
+      "type":"pushbullet",
+      "api_key":"YOUR_API_KEY"
+    },
+    "slack_alarm":{
+      "active":false,
+      "channel":"general",
+      "type":"slack",
+      "api_key":"YOUR_API_KEY"
+    },
+    "telegram_alarm":{
+      "active":false,
+      "type":"telegram",
+      "bot_token":"YOUR_BOT_TOKEN",
+      "chat_id":"YOUR_CHAT_ID"
+    },
+    "twilio_alarm":{
+      "active":false,
+      "type":"twilio",
+      "account_sid":"YOUR_API_KEY",
+      "auth_token":"YOUR_AUTH_TOKEN",
+      "from_number":"YOUR_FROM_NUM",
+      "to_number":"YOUR_TO_NUM"
+    },
+    "twitter_alarm":{
+      "active":false,
+      "type":"twitter",
+      "access_token":"YOUR_ACCESS_TOKEN",
+      "access_secret":"YOUR_ACCESS_SECRET",
+      "consumer_key":"YOUR_CONSUMER_KEY",
+      "consumer_secret":"YOUR_CONSUMER_SECRET"
+    }
   }
-}
-```
 
 Each alarm requires some sort of API key or URL so that PokeAlarm can gain
 permissions to post.  Visit the wiki page of the service you are setting up to
@@ -108,7 +102,7 @@ alarm do not affect the others (even if they are of the same type).
 
 If is perfectly valid to have any combination of services, including repeats.
 
-## Customizing Alerts
+### Customizing Alerts
 
 Most alarms have customizable fields for each alert that allow you to insert
 your own message. This allows your to override the standard message and provide
@@ -147,7 +141,7 @@ see the Dynamic Text Substitution wiki.
 For what service has what fields, please check the specific wiki page for
 that service.
 
-## Example `alarms.json`
+### Example `alarms.json`
 
 Below is a working alarm configuration for Discord and Slack:
 
