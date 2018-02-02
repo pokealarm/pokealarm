@@ -61,26 +61,6 @@
     "5": "big"
   },
   "types": {
-<<<<<<< HEAD
-    "0": "Normal",
-    "1": "Fighting",
-    "2": "Flying",
-    "3": "Poison",
-    "4": "Ground",
-    "5": "Rock",
-    "6": "Bug",
-    "7": "Ghost",
-    "8": "Steel",
-    "9": "Fire",
-    "10": "Water",
-    "11": "Grass",
-    "12": "Electric",
-    "13": "Psychic",
-    "14": "Ice",
-    "15": "Dragon",
-    "16": "Fairy",
-    "17": "Dark"
-=======
     "1": "Normal",
     "2": "Fighting",
     "3": "Flying",
@@ -99,7 +79,6 @@
     "16": "Dragon",
     "17": "Fairy",
     "18": "Dark"
->>>>>>> upstream/dev
   },
   "moves": {
     "13": "Wrap",
