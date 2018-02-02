@@ -822,7 +822,7 @@ class Manager(object):
                 if self.__quiet is False:
                     log.info("{} egg notification"
                              " has been triggered to {}!"
-                             "".format(egg.name, egg.geofence))
+                             "".format(egg.gym_name, egg.geofence))
                 self._trigger_egg(egg, rule.alarm_names)
                 break  # Next rule
 
@@ -906,7 +906,7 @@ class Manager(object):
                 if self.__quiet is False:
                     log.info("{} raid notification"
                              " has been triggered to {}!"
-                             "".format(raid.name, raid.geofence))
+                             "".format(raid.gym_name, raid.geofence))
                 self._trigger_raid(raid, rule.alarm_names)
                 break  # Next rule
 
@@ -951,31 +951,44 @@ class Manager(object):
             weather.weather_cell_id, weather.condition)
 
         weather.geofence = ''
-        # Check the Filters
-        passed = True
-        for name, f in self.__weather_filters.iteritems():
-            passed = f.check_event(weather) and \
-                self.check_weather_geofences(f, weather)
-            if passed:  # Stop checking
+
+        # Check for Rules
+        rules = self.__weather_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__weather_filters.keys(), self.__alarms.keys())}
+
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__weather_filters.get(f_name)
+                passed = f.check_event(weather) and \
+                    self.check_weather_geofences(f, weather)
+                if not passed:
+                    continue  # go to next filter
                 weather.custom_dts = f.custom_dts
-                break
-        if not passed:  # Weather was rejected by all filters
-            return
 
-        # Generate the DTS for the event
-        dts = weather.generate_dts(self.__locale)
+                if self.__quiet is False:
+                    log.info("{} weather notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(weather.weather_cell_id, r_name))
+                self._trigger_weather(weather, weather.alarm_names)
+                break  # Next rule
 
-        if self.__quiet is False:
-            log.info("{} weather notification triggered!".format(
-                weather.weather_cell_id))
+    def _trigger_weather(self, weather, alarms):
+
+        dts = weather.generate_dts(
+            self.__locale, self.__timezone, self.__units)
 
         threads = []
         # Spawn notifications in threads so they can work in background
-        for alarm in self.__alarms:
-            threads.append(gevent.spawn(alarm.weather_alert, dts))
-        gevent.sleep(0)  # explict context yield
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.weather_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
 
-        for thread in threads:
+        for thread in threads:  # Wait for all alarms to finish
             thread.join()
 
     # Check to see if a notification is within the given range

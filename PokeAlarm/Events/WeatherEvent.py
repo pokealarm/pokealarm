@@ -4,7 +4,7 @@ from datetime import datetime
 # Local Imports
 from PokeAlarm import Unknown
 from . import BaseEvent
-from PokeAlarm.Utils import get_time_as_str
+from PokeAlarm.Utils import get_time_as_str, get_weather_emoji
 
 
 class WeatherEvent(BaseEvent):
@@ -40,7 +40,7 @@ class WeatherEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
-    def generate_dts(self, locale):
+    def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         time_changed = get_time_as_str(self.time_changed)
         dts = self.custom_dts.copy()
@@ -60,6 +60,7 @@ class WeatherEvent(BaseEvent):
             # Weather info
             'condition': self.condition,
             'weather': locale.get_weather_name(self.condition),
+            'weather_emoji': get_weather_emoji(self.condition),
             'alert_severity': self.alert_severity,
             'warn': self.warn,
             'day': self.day
