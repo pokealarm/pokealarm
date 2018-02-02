@@ -128,11 +128,6 @@ class MonFilter(BaseFilter):
             event_attribute='weather_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
-        # Weather
-        self.weather_ids = self.evaluate_attribute(
-            event_attribute='weather_id', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
-
         # Geofences
         self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
 

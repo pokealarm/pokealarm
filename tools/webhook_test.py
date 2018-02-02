@@ -88,7 +88,8 @@ def set_init(webhook_type):
                 "spawn_start": 2153,
                 "spawn_end": 3264,
                 "verified": False,
-                "weather": 0
+                "weather": 0,
+                "boosted_weather": 0
             }
         }
     elif webhook_type == whtypes["2"]:
@@ -369,6 +370,9 @@ if type == whtypes["1"]:
     print "What type of weather? (put in a number)\n" + \
           weather_formatted + "\n>",
     int_or_default("weather")
+    print "Is this mon boosted by the weather? (y/n)\n",
+    if raw_input() in truthy:
+        payload["message"]["boosted_weather"] = payload["message"]["weather"]
 elif type == whtypes["3"]:
     gym_cache()
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",

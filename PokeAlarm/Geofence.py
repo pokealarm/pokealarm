@@ -3,9 +3,11 @@ import re
 import logging
 import sys
 import traceback
+from collections import OrderedDict
 # 3rd Party Imports
 from shapely.geometry import Polygon
 # Local Imports
+
 
 log = logging.getLogger('Geofence')
 
@@ -13,7 +15,7 @@ log = logging.getLogger('Geofence')
 # Load in a geofence file
 def load_geofence_file(file_path):
     try:
-        geofences = {}
+        geofences = OrderedDict()
         name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
         coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*"
                                  + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")

@@ -23,27 +23,27 @@ replace = Alarm.replace
 
 class PushbulletAlarm(Alarm):
     _defaults = {
-        'pokemon': {
+        'monsters': {
             'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
         },
-        'pokestop': {
+        'stops': {
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
         },
-        'gym': {
+        'gyms': {
             'title': "A Team <old_team> gym has fallen!",
             'url': "<gmaps>",
             'body': "It is now controlled by <new_team>."
         },
-        'egg': {
+        'eggs': {
             'title': "A level <egg_lvl> raid is incoming!",
             'url': "<gmaps>",
             'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
         },
-        'raid': {
+        'raids': {
             'title': "Level <raid_lvl> raid is available against <mon_name>!",
             'url': "<gmaps>",
             'body': "The raid is available until <24h_raid_end>"
@@ -66,15 +66,15 @@ class PushbulletAlarm(Alarm):
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('pokemon', {}), self._defaults['pokemon'])
+            settings.pop('monsters', {}), self._defaults['monsters'])
         self.__pokestop = self.create_alert_settings(
-            settings.pop('pokestop', {}), self._defaults['pokestop'])
+            settings.pop('stops', {}), self._defaults['stops'])
         self.__gym = self.create_alert_settings(
-            settings.pop('gyms', {}), self._defaults['gym'])
+            settings.pop('gyms', {}), self._defaults['gyms'])
         self.__egg = self.create_alert_settings(
-            settings.pop('egg', {}), self._defaults['egg'])
+            settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
-            settings.pop('raid', {}), self._defaults['raid'])
+            settings.pop('raids', {}), self._defaults['raids'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(

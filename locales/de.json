@@ -13,24 +13,24 @@
 	"5": "riesig"
   },
   "types": {
-    "0": "Normal",
-    "1": "K\u00E4mpfen",
-    "2": "Fliegen",
-    "3": "Gift",
-    "4": "Boden",
-    "5": "Fels",
-    "6": "Fehler",
-    "7": "Geist",
-    "8": "Stahl",
-    "9": "Feuer",
-    "10": "Wasser",
-    "11": "Gras",
-    "12": "Elektrisch",
-    "13": "Psychisch",
-    "14": "Eis",
-    "15": "Drache",
-    "16": "Fee",
-    "17": "Dunkel"
+    "1": "Normal",
+    "2": "Kampf",
+    "3": "Flug",
+    "4": "Gift",
+    "5": "Boden",
+    "6": "Stein",
+    "7": "K\u00E4fer",
+    "8": "Geist",
+    "9": "Stahl",
+    "10": "Feuer",
+    "11": "Wasser",
+    "12": "Pflanze",
+    "13": "Elektro",
+    "14": "Psycho",
+    "15": "Eis",
+    "16": "Drache",
+    "17": "Fee",
+    "18": "Unlicht"
   },
   "moves": {
     "100": "Kreuzschere", 
@@ -951,13 +951,16 @@
     "3": "Intuition"
   },
   "weather": {
-	"0": "None",
-	"1": "Clear",
-	"2": "Rain",
-	"3": "Partly Cloudy",
-	"4": "Cloudy",
-	"5": "Windy",
-	"6": "Snow",
-	"7": "Fog"
+	"0": "Keiner",
+	"1": "klar",
+	"2": "Regen",
+	"3": "Teilweise wolkig",
+	"4": "Bew\u00F6lkt",
+	"5": "Windig",
+	"6": "Schnee",
+	"7": "Nebel"
+  },
+  "misc": {
+    "boosted": "verstärktes"
   }
 }

@@ -61,6 +61,7 @@
     "5": "big"
   },
   "types": {
+<<<<<<< HEAD
     "0": "Normal",
     "1": "Fighting",
     "2": "Flying",
@@ -79,6 +80,26 @@
     "15": "Dragon",
     "16": "Fairy",
     "17": "Dark"
+=======
+    "1": "Normal",
+    "2": "Fighting",
+    "3": "Flying",
+    "4": "Poison",
+    "5": "Ground",
+    "6": "Rock",
+    "7": "Bug",
+    "8": "Ghost",
+    "9": "Steel",
+    "10": "Fire",
+    "11": "Water",
+    "12": "Grass",
+    "13": "Electric",
+    "14": "Psychic",
+    "15": "Ice",
+    "16": "Dragon",
+    "17": "Fairy",
+    "18": "Dark"
+>>>>>>> upstream/dev
   },
   "moves": {
     "13": "Wrap",
@@ -990,5 +1011,8 @@
     "719": "Diancie",
     "720": "Hoopa",
     "721": "Volcanion"
+  },
+  "misc": {
+    "boosted": "boosted"
   }
 }
