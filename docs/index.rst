@@ -18,7 +18,7 @@ know of any rare spawns or raids.
    :maxdepth: 1
    :caption: Getting Started:
 
-   getting-started/Installation
+   getting-started/installation
    getting-started/FAQ
 
 .. toctree::
