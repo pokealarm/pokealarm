@@ -32,14 +32,22 @@ class RaidEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.weather_id = check_for_none(
-            int, data.get('weather'), Unknown.TINY)
 
         # Monster Info
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
         self.cp = int(data['cp'])
         self.types = get_base_types(self.mon_id)
+        self.boss_level = 20
+
+        # Weather Info
+        self.weather_id = check_for_none(
+            int, data.get('weather'), Unknown.TINY)
+        self.boosted_weather_id = \
+            0 if Unknown.is_not(self.weather_id) else Unknown.TINY
+        if is_weather_boosted(self.mon_id, self.weather_id):
+            self.boosted_weather_id = self.weather_id
+            self.boss_level = 25
 
         # Quick Move
         self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
@@ -76,19 +84,13 @@ class RaidEvent(BaseEvent):
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
-        boss_level = 20
-        boosted_weather_id = \
-            0 if Unknown.is_not(self.weather_id) else Unknown.TINY,
-        if is_weather_boosted(self.mon_id, self.weather_id):
-            boss_level = 25
-            boosted_weather_id = self.weather_id
-        boosted_weather_name = locale.get_weather_name(boosted_weather_id)
+        boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
         weather_name = locale.get_weather_name(self.weather_id)
 
         type1 = locale.get_type_name(self.types[0])
         type2 = locale.get_type_name(self.types[1])
 
-        cp_range = get_pokemon_cp_range(self.mon_id, boss_level)
+        cp_range = get_pokemon_cp_range(self.mon_id, self.boss_level)
         dts.update({
             # Identification
             'gym_id': self.gym_id,
@@ -126,18 +128,21 @@ class RaidEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+
+            # Weather
             'weather_id': self.weather_id,
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),
             'weather_emoji': get_weather_emoji(self.weather_id),
-            'boosted_weather_id': boosted_weather_id,
+            'boosted_weather_id': self.boosted_weather_id,
             'boosted_weather': boosted_weather_name,
             'boosted_weather_or_empty': (
-                '' if boosted_weather_id == 0
+                '' if self.boosted_weather_id == 0
                 else Unknown.or_empty(boosted_weather_name)),
-            'boosted_weather_emoji': get_weather_emoji(boosted_weather_id),
+            'boosted_weather_emoji': get_weather_emoji(
+                self.boosted_weather_id),
             'boosted_or_empty':
-                locale.get_boosted_text() if boss_level == 25 else '',
+                locale.get_boosted_text() if self.boss_level == 25 else '',
 
             # Raid Info
             'raid_lvl': self.raid_lvl,
