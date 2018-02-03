@@ -9,7 +9,7 @@ Filters
 Prerequisites
 -------------------------------------
 
-This guide assumes the following:
+This pages assumes the following:
 
 + You understand how :doc:`../events/index` work.
 + You understand
@@ -20,9 +20,9 @@ This guide assumes the following:
 Introduction
 -------------------------------------
 
-A **Filter** is what PA uses to decide if it is worth of a notification or not.
-When PA receives a new Event, it is compared one by one against the Filters.
-When PA finds a matching Filter, it triggers a notification.
+A **Filter** object is what PA uses to decide if it is worth of a notification
+or not. When PA receives a new Event, it is compared one by one against the
+Filters. When PA finds a matching Filter, it triggers a notification.
 
 .. note:: By default, PA processes Filters in the order they are listed in the
          filters file and only triggers on the first match. You can override
@@ -37,10 +37,10 @@ There are 5 different types of Filters, each matching a category of Events:
    Stop-Filters
    Gym-Filters
    Egg-Filters
-   Stop-Filters
+   Raid-Filters
 
 
-Restrictions
+Creating a Filter
 -------------------------------------
 
 A Filter is represented as a *named* JSON Object containing several key-value

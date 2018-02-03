@@ -1,16 +1,47 @@
 Alarms
 =======
 
-.. contents:: :depth: 2
+.. contents:: Table of Contents
+   :depth: 2
+   :local:
 
-### Prerequisites
+Prerequisites
+-------------------------------------
 
-This guide assumes:
+This pages assumes the following:
 
-1. You have a working RocketMap installation
-2. You are familiar with [JSON formatting](https://www.w3schools.com/js/js_json_intro.asp)
++ You understand how :doc:`../events/index` and :doc:`../filters/index` work.
++ You understand what :ref:`DTS <events_dts>` are.
++ You understand
+  `JSON formatting <https://www.w3schools.com/js/js_json_intro.asp>`_.
++ You are using the latest version of PokeAlarm.
 
-### Introduction
+
+Introduction
+-------------------------------------
+
+An **Alarm** object describes where and how PA is going to send a notification
+once it has been properly triggered. When an Event passes a Filter, it is next
+sent to the Alarms. Each Alarm represents settings for exactly a notification to
+be sent: which service, what text,  what images, and more.
+
+.. note:: By default, PA will trigger every Alarm when an Event passes a Filter.
+          You can override this behavior by using the advanced
+          :doc:`../Rules-Overview` feature.
+
+There are several different types of Alarms, each representing a different
+service:
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   *
+
+.. note:: It is totally valid to have multiple Alarms with the same type - a
+          different Alarm could represent a different channel or a specialized
+          message instead of just a different service.
+
 
 In PokeAlarm, an "Alarm" is defined as a supported message service that sends
 a notification. Slack, Twitter, Telegram, each are considered message service.
