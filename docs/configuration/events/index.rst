@@ -23,7 +23,6 @@ for Events, each with different information:
 
 .. toctree::
    :maxdepth: 1
-   :glob:
 
    Monster-DTS
    Stop-DTS
@@ -41,7 +40,7 @@ surrounded with diamond brackets (`<` and `>`) and will by substituted with a
 value based on the Event in question. For example, a notification with the
 following text:
 
-.. code:: none
+.. code-block:: none
 
      A wild <mon_name> has appeared! It has <iv>% IVs!
 
@@ -58,7 +57,7 @@ Or, it could appear like this:
      A wild Pidgey has appeared! It has 55.6% IVs!
 
 The DTS that you can use vary by type of Event - make sure to check the page for
-each type to see what
+each type to which DTS can be used.
 
 
 Missing Information
