@@ -24,13 +24,13 @@ for Events, each with different information:
 .. toctree::
    :maxdepth: 1
 
-   Monster-DTS
+   monster-events
    Stop-DTS
    Gym-DTS
    Egg-DTS
    Stop-DTS
 
-
+.. _events_dts
 Dynamic Text Substitutions
 -------------------------------------
 

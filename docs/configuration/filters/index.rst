@@ -9,7 +9,7 @@ Filters
 Prerequisites
 -------------------------------------
 
-This guide assumes the following:
+This pages assumes the following:
 
 + You understand how :doc:`../events/index` work.
 + You understand
