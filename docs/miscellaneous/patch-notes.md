@@ -2,12 +2,12 @@
 
 ## Patch History
 
-* [Patch 3.6](#patch-36)
-* [Patch 3.5](#patch-35)
-* [Patch 3.4](#patch-34)
-* [Patch 3.3](#patch-33)
-* [Patch 3.2](#patch-32)
-* [Patch 3.1](#patch-31)
+* [Patch 3.6](#patch-3-6)
+* [Patch 3.5](#patch-3-5)
+* [Patch 3.4](#patch-3-4)
+* [Patch 3.3](#patch-3-3)
+* [Patch 3.2](#patch-3-2)
+* [Patch 3.1](#patch-3-1)
 
 ---
 
@@ -17,14 +17,13 @@ This patch contains several breaking changes - make sure to read
 carefully, back up your current configuration, and have some free time
 before attempting to upgrade.
 
-
 ### Rules (Optional)
 
 **New Feature** - The "Rules" feature will allow users to create rules
 that dictate which filters trigger which alarms. Rules are loaded via
 a file containing a json object, which has 5 sections similar to the
 Filters file. Each section is a key-value pair of "rule names" to "rules".
-Each rule can be described as a json object containing just two fields: 
+Each rule can be described as a json object containing just two fields:
 "filters" and "alarms". Each field is an array of strings corresponding to
 the name of a filter or alarm from a manager. Rules cannot be loaded if
 they do not match an existing filter or alarm.
@@ -42,6 +41,7 @@ or `rules: rules.json` in config.ini.
 
 Each rules file must be configured key-value objects and contain at least one
 or more of following rules sections:
+
 * `monsters`
 * `stops`
 * `gyms`
@@ -52,6 +52,7 @@ The inner section of each rule must be configured as a key-value object where
 the key is the rule's name, and the value is the rule's setting.
 
 Each rule can be described as follows:
+
 ```json
 "example_rule" : {
     "filters": [ "filter1", "filter2" ],
@@ -59,14 +60,12 @@ Each rule can be described as follows:
 }
 ```
 
-
-### Alarms 
+### Alarms
 
 **Breaking Changes** - To fully take advantage of the "Rules" feature, the
 "Alarms" feature was changed to require a key-value json object instead of
-a list. Alarms should now be a list of "name" -> "alarm settings". 
+a list. Alarms should now be a list of "name" -> "alarm settings".
 The alarms.json.example has been updated to match this.
-
 
 #### Changed Alert Sections
 
@@ -78,36 +77,35 @@ The Alert sections of alarms has been updated to match the event names:
 * `egg` -> `eggs`
 * `raid` -> `raids`
 
-
 #### Alerts Converter
 
 A new tool has been added to `tools/convert_alarms_file.py`, this tool is
 designed to convert Alerts files from 3.5 and prior to the 3.6 alert format.
 
 **Usage**:
+
 ```bash
 python convert_alarms_file.py /path/to/alarms.json
 ```
 
-
 #### Telegram Changes
 
 **Breaking Changes** - Telegram alarms have been reworked to resolve multiple
-issues and address Telegram API changes. 
+issues and address Telegram API changes.
 
-* **Content Changes** - Telegram now uses markdown instead of html to reduce 
+* **Content Changes** - Telegram now uses markdown instead of html to reduce
 conflicts caused by using invalid DTS fields. Existing alerts will have to be
 reconfigured to make this change.
-* The `venue` field does not support markdown or html coding
-* `title` and `body` have been merged into `message` to better represent how
-the Telegram API actually treats messages.  The old behavior can be mimiced
-by using the following example content: `*TITLE GOES HERE*\n BODY GOES HERE`
+  * The `venue` field does not support markdown or html coding
+  * `title` and `body` have been merged into `message` to better represent how
+  the Telegram API actually treats messages. The old behavior can be mimiced
+  by using the following example content: `*TITLE GOES HERE*\n BODY GOES HERE`
 * **Field Changes** - The following fields have been changed:
   * `bot_token`: Can now be set at an Alert level. DTS compatible.
   * `chat_id`: Now DTS compatible.
-  * `stickers` -> `sticker`: Set to "true" for sticker with message, 
+  * `stickers` -> `sticker`: Set to "true" for sticker with message,
  set to "false" for no sticker.
-  * `sticker_notify`: Whether or not sticker messages causes a notification. 
+  * `sticker_notify`: Whether or not sticker messages causes a notification.
   * `sticker_url`: Url to be used for the sticker. Must be .webp file.
   * `location` -> `map`: true for map after message, false for no map.
   * `map_notify`: Whether or not map messages causes a notification.
@@ -116,44 +114,41 @@ by using the following example content: `*TITLE GOES HERE*\n BODY GOES HERE`
   * `max_retries`: Max attempts to send for each message.
  (Telegram no longer uses the command line equivalent)
 
-
-### Filters 
+### Filters
 
 * Listed filters now evaluate in the order listed in the file.
-* The `"geofences" : [ "all" ]` shortcut now evaluates in the order that 
-the geofences are listed in the geofence file.
+* The `"geofences" : [ "all" ]` shortcut now evaluates in the order that the
+geofences are listed in the geofence file.
 * `gym_name_contains` is now case-insensitive.
 
 #### Time Based Filtering
 
 Filters now support filtering based on event timing.  This allows for
 greater control over event alerts than what was previously supported via the
-`timelimit` configuration option. 
+`timelimit` configuration option.
 
 * **New Filters**
-    * `min_time_left` - The minimum amount of time in seconds until the event
+  * `min_time_left` - The minimum amount of time in seconds until the event
 	* `max_time_left` - The maximum amount of time in seconds until the event
 * **Filter Events**
-    * **Monsters** - Filters based on time until monster despawns
+  * **Monsters** - Filters based on time until monster despawns
 	* **Stops** - Filters based on time until the lure ends
 	* **Raids** - Filters based on time until the raid ends
 	* **Eggs** - Filters based on time until the egg hatches
 
-
 ### Locale
 
-* Added multi-lingual support for the `Size` DTS & Filter setting. 
-
+* Added multi-lingual support for the `Size` DTS & Filter setting.
 
 ### Dynamic Text Substitutions
 
 * **Monsters & Raids**
-    * `size` - Changed to support locales
-    * `weather` - Outputs the current weather conditions in the alert
+  * `size` - Changed to support locales
+  * `weather` - Outputs the current weather conditions in the alert
 	* `weather_id` - Outputs the current weather condition id
 	* `weather_or_empty` - Same as `weather` or an empty value
 	* `weather_emoji` - Outputs a unicode emoji for the current weather
-    * `boosted_weather` - Outputs the weather conditions if boosted
+  * `boosted_weather` - Outputs the weather conditions if boosted
 	* `boosted_weather_id` - Outputs the boosted weather condition id
 	* `boosted_weather_or_empty` - `boosted_weather` or an empty value
 	* `boosted_weather_emoji` - Outputs an emoji for the boosted weather
@@ -164,33 +159,30 @@ greater control over event alerts than what was previously supported via the
 	* `type2` - Outputs the name of the Monster's Secondary Type or ?
 	* `type2_or_empty` - Same as `type2` or an empty value
 	* `type2_emoji` - Outputs an emoji for the Monster's Primary Type or Empty
-	* `types` - Outputs the Monster's Type formated as "type1/type2"
+	* `types` - Outputs the Monster's Type formatted as "type1/type2"
 	* `types_emoji` - Outputs an emoji for the Monster's Type(s) or Empty
 
 * **Eggs**
-    * `weather` - Outputs the current weather conditions in the alert
+  * `weather` - Outputs the current weather conditions in the alert
 	* `weather_id` - Outputs the current weather condition id
 	* `weather_or_empty` - Same as `weather` or an empty value
-	* `weather_emoji` - Outputs an emoji for the current weather conditions 
+	* `weather_emoji` - Outputs an emoji for the current weather conditions
 
-	
 ### Server Settings
 
 * **Performance Fixes** - Users should now see improved performance
   and less system resource usage overall.
 
-
 ### Bug Fixes
 
 * **Twitter Alarms**
-     * Maximum length has been extended to 280 characters to match Twitter
+  * Maximum length has been extended to 280 characters to match Twitter
 	 standards and settings
-	 * All URLs are now counted as 23 characters towards the overall
+	* All URLs are now counted as 23 characters towards the overall
 	 character limit detection. URLs that would cause the tweet to exceed
 	 280 characters will be dropped from the tweet.
-	 * DTS is now evaluated before the length of the status update is
+	* DTS is now evaluated before the length of the status update is
 	 calculated. This corrects issues with improper Twitter Status Truncation
-
 
 ---
 

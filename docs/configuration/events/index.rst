@@ -1,7 +1,8 @@
 Events
 =======
 
-.. contents:: Table of Contents
+.. contents::
+   :caption: Table of Contents
    :depth: 1
    :local:
 
@@ -12,13 +13,12 @@ This guide assumes the following:
 
 + You are using the latest version of PokeAlarm.
 
-
 Introduction
 -------------------------------------
 
-In PokeAlarm, an **Event** represents something of interest that has happened in
-the World. Events can be several different things - a new monster spawning, a
-gym changing teams, or a new raid appearing. There are 5 different categories
+In PokeAlarm, an **Event** represents something of interest that has happened
+in the World. Events can be several different things - a new monster spawning,
+a gym changing teams, or a new raid appearing. There are 5 different categories
 for Events, each with different information:
 
 .. toctree::
@@ -68,7 +68,7 @@ Missing Information
           :doc:`../filters/index` page for instructions.
 
 When PA doesn't have the correct information needed to correctly do a
-subsitution, it may replace it with one of the following:
+substitution, it may replace it with one of the following:
 
 + ?
 + ???
@@ -76,6 +76,6 @@ subsitution, it may replace it with one of the following:
 
 This can happen for a variety of reasons - but generally is because the scanner
 did not send the information needed in the webhook. PA does it's best to fill in
-the gaps by sharing and caching information between seperate webhooks (like gym
+the gaps by sharing and caching information between separate webhooks (like gym
 names or teams), but some info may require a settings update with your scanner
 (like IVs or CP).

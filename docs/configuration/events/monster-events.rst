@@ -1,10 +1,10 @@
 Monsters
 ===========
 
-.. contents:: Table of Contents
+.. contents::
+   :caption: Table of Contents
    :depth: 2
    :local:
-
 
 Prerequisites
 -------------------------------------
@@ -12,7 +12,7 @@ Prerequisites
 This pages assumes the following:
 
 1. You understand what :doc:`index` are.
-2. You understand how events_dts_ function.
+2. You understand how :ref:`events_dts` function.
 3. You are using the latest version of PokeAlarm.
 
 

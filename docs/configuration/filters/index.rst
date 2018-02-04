@@ -1,7 +1,8 @@
 Filters
 ========
 
-.. contents:: Table of Contents
+.. contents::
+   :caption: Table of Contents
    :depth: 2
    :local:
 
@@ -13,9 +14,8 @@ This pages assumes the following:
 
 + You understand how :doc:`../events/index` work.
 + You understand
-  `JSON formatting <https://www.w3schools.com/js/js_json_intro.asp>`_.
+  `JSON formatting <https://www.w3schools.com/js/js_json_intro.asp>`.
 + You are using the latest version of PokeAlarm.
-
 
 Introduction
 -------------------------------------
@@ -33,12 +33,11 @@ There are 5 different types of Filters, each matching a category of Events:
 .. toctree::
    :maxdepth: 1
 
-   Monster-Filters
+   Monster Filters <monster-filters>
    Stop-Filters
    Gym-Filters
    Egg-Filters
    Stop-Filters
-
 
 Restrictions
 -------------------------------------
@@ -81,17 +80,17 @@ Additional restrictions are added in the same way:
 Each type of Filter has different restrictions, so make sure to check each page
 carefully.
 
-
 Filters File
 -------------------------------------
 
 .. note::
 
-A *filters file* (often refereed to as 'filters.json') is a file containing then
-Filters that PA uses. By default, PA loads the Filter from the `filters.json`
-located in the base folder of the project. See the :doc:`../Server-Settings`
-page for instructions on specifying the file by a different name. This file
-must contain a single JSON object to load successfully:
+  A *filters file* (often refereed to as 'filters.json') is a file containing
+  then Filters that PA uses. By default, PA loads the Filter from the
+  `filters.json` located in the base folder of the project. See the
+  :doc:`../Server-Settings` page for instructions on specifying the file by
+  a different name. This file must contain a single JSON object to load
+  successfully:
 
 .. code-block:: json
 
@@ -137,21 +136,21 @@ configured as described above. Here is an example of just the monsters section:
 
 .. code-block:: json
 
-          "monsters": {
-              "enabled": true,
-              "defaults": {},
-              "filters": {
-                  "filter_by_monsters_example": {
-                      "monsters": ["Bulbasaur", "Charmander", 7]
+          "monsters":{
+              "enabled":true,
+              "defaults":{},
+              "filters":{
+                  "filter_by_monsters_example":{
+                      "monsters":["Bulbasaur","Charmander",7]
                   },
-                  "filter_by_ivs_example": {
+                  "filter_by_ivs_example":{
                       "min_atk": 0, "max_atk": 15,
                       "min_iv": 0.0, "max_iv": 100
                   },
-                  "filter_by_moves_example": {
-                      "monsters": ["Bulbasaur"],
-                      "quick_moves": ["Vine Whip", "Tackle"],
-                      "charge_moves": ["Sludge Bomb", "Seed Bomb"]
+                  "filter_by_moves_example":{
+                      "monsters":["Bulbasaur"],
+                      "quick_moves":["Vine Whip","Tackle"],
+                      "charge_moves":["Sludge Bomb","Seed Bomb"]
                   }
               }
           }

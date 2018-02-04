@@ -14,7 +14,7 @@ know of any rare spawns or raids.
 
 
 .. toctree::
-    :titlesonly:
+   :titlesonly:
    :maxdepth: 1
    :caption: Getting Started:
 
