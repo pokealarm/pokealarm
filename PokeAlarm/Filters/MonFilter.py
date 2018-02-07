@@ -23,10 +23,10 @@ class MonFilter(BaseFilter):
         # Exclude Monsters - f.ignore_monsters not in m.monster_id
         # Filter fails if match is found.
         self.exclude_monster_ids = self.evaluate_attribute(  #
-            event_attribute='monster_id', eval_func=operator.contains,
+            event_attribute='monster_id',
+            eval_func=lambda d, v: not operator.contains(d, v),
             limit=BaseFilter.parse_as_set(
-                MonUtils.get_monster_id, 'ignore_monsters', data),
-            inversed=True)
+                MonUtils.get_monster_id, 'ignore_monsters', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance

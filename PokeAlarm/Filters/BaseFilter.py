@@ -52,15 +52,14 @@ class BaseFilter(object):
         """ Log the reason for rejecting the Event. """
         log.info("[%10s] %s rejected: %s", self._name, event.name, reason)
 
-    def evaluate_attribute(self, limit, eval_func, event_attribute,
-                           inversed=False):
+    def evaluate_attribute(self, limit, eval_func, event_attribute):
         """ Evaluates a parameter and generate a check if needed. """
         if limit is None:
             return None  # limit not set
 
         # Create a function to compare the event vs the limit
         # TODO: This can be a closure if not pickled
-        check = CheckFunction(limit, eval_func, event_attribute, inversed)
+        check = CheckFunction(limit, eval_func, event_attribute)
 
         # Add check function to our list
         self._check_list.append(check)
@@ -122,20 +121,17 @@ class BaseFilter(object):
 class CheckFunction(object):
     """ Function used to check if an event passes or not. """
 
-    def __init__(self, limit, eval_func, attr_name, inversed):
+    def __init__(self, limit, eval_func, attr_name):
         self._limit = limit
         self._eval_func = eval_func
         self._attr_name = attr_name
-        # If True, evaluation result is inversed before returned.
-        self._is_inversed = inversed
 
     def __call__(self, filtr, event):
         value = getattr(event, self._attr_name)  # event.event_attr
         if Unknown.is_(value):
             return Unknown.TINY  # Cannot check - missing attribute
         result = self._eval_func(self._limit, value)  # compare value to limit
-        if self._is_inversed:
-            result = not result  # Inverse the evaluated result.
+
         if result is False:  # Log rejection
             filtr.reject(event, "{} incorrect ({} to {})".format(
                 self._attr_name, value, self._limit))
