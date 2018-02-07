@@ -34,6 +34,7 @@ Monster Filters can use the following parameters to filter Events:
 | Parameter     | Description                                       | Example   |
 | ------------- |-------------------------------------------------- |---------- |
 | monsters      | Array of allowed monsters, by id or name.         | `[ "Bulbasaur", "2", 3 ]`|
+| ignore_monsters | Array of ignored monsters, by id or name.         | `[ "Pidgey", "13", 14 ]`|
 | min_dist      | Min distance of event from set location in miles or meters (depending on settings). | `0.0` *|
 | max_dist      | Max distance of event from set location in miles or meters (depending on settings). | `1000.0` *|
 | min_time_left | Minimum time (in seconds) until monster despawns. | `1000`    |
