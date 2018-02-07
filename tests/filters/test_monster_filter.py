@@ -44,8 +44,7 @@ class TestMonsterFilter(unittest.TestCase):
     def test_ignore_monster_id(self):
         # Create the filters
         settings = {
-            "monsters": [1, "2", "Venusaur"],
-            "ignore_monsters": [4, "5", "Charizard"],
+            "ignore_monsters": [4, "5", "Charizard"]
         }
         mon_filter = Filters.MonFilter('filter1', settings)
 
