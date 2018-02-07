@@ -52,7 +52,8 @@ class BaseFilter(object):
         """ Log the reason for rejecting the Event. """
         log.info("[%10s] %s rejected: %s", self._name, event.name, reason)
 
-    def evaluate_attribute(self, limit, eval_func, event_attribute,inversed=False):
+    def evaluate_attribute(self, limit, eval_func, event_attribute,
+                           inversed=False):
         """ Evaluates a parameter and generate a check if needed. """
         if limit is None:
             return None  # limit not set
