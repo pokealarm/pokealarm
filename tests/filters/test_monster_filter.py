@@ -46,7 +46,7 @@ class TestMonsterFilter(unittest.TestCase):
         settings = {
             "monsters": [1, "2", "Venusaur"],
             "ignore_monsters": [4, "5", "Charizard"],
-                    }
+        }
         mon_filter = Filters.MonFilter('filter1', settings)
 
         # Generate events that should pass
