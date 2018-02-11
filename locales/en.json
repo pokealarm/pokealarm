@@ -35,6 +35,12 @@
       "30": "Sunny",
       "31": "Rainy",
       "32": "Snowy"
+    },
+    "386": {
+      "33": "Normal",
+      "34": "Attack",
+      "35": "Defense",
+      "36": "Speed"
     }
   },
   "teams": {
