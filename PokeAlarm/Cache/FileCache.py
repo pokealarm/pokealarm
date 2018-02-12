@@ -67,6 +67,7 @@ class FileCache(Cache):
             temp = self._file + ".new"
             with portalocker.Lock(temp, timeout=5, mode="wb+") as f:
                 pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
+                os.remove(self._file)  # Required for Windows
                 os.rename(temp, self._file)
             log.debug("Cache saved successfully.")
         except Exception as e:
