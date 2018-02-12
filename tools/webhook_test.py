@@ -126,6 +126,8 @@ def set_init(webhook_type):
             "message": {
                 "gym_id": 0,
                 "gym_name": "unknown",
+                "park": None,
+                "sponsor": 4,
                 "level": 5,
                 "latitude": 37.7876146,
                 "longitude": -122.390624
@@ -137,6 +139,8 @@ def set_init(webhook_type):
             "message": {
                 "gym_id": 0,
                 "gym_name": "unknown",
+                "park": "Test Park",
+                "sponsor": 4,
                 "pokemon_id": 150,
                 "cp": 12345,
                 "move_1": 123,

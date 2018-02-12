@@ -1,5 +1,6 @@
 # Standard Library Imports
 import operator
+import re
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
@@ -46,6 +47,18 @@ class EggFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_contains', data))
 
+        # Gym sponsor
+        self.gym_sponsor_index_contains = self.evaluate_attribute(
+            event_attribute='gym_sponsor', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                re.compile, 'gym_sponsor_index_contains', data))
+
+        # Gym park
+        self.gym_park_contains = self.evaluate_attribute(  # f.gp matches e.gp
+            event_attribute='gym_park', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                re.compile, 'gym_park_contains', data))
+
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
             event_attribute='current_team_id', eval_func=operator.contains,
@@ -87,6 +100,14 @@ class EggFilter(BaseFilter):
         # Gym Name
         if self.gym_name_contains is not None:
             settings['gym_name_matches'] = self.gym_name_contains
+
+        # Gym Sponsor
+        if self.gym_sponsor_index_contains is not None:
+            settings['gym_sponsor_matches'] = self.gym_sponsor_index_contains
+
+        # Gym Park
+        if self.gym_park_contains is not None:
+            settings['gym_park_matches'] = self.gym_park_contains
 
         # Geofences
         if self.geofences is not None:
