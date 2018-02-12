@@ -41,6 +41,30 @@ class TestMonsterFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(mon_filter.check_event(e))
 
+    def test_ignore_monster_id(self):
+        # Create the filters
+        settings = {
+            "ignore_monsters": [4, "5", "Charizard"]
+        }
+        mon_filter = Filters.MonFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.MonEvent(generate_monster({"pokemon_id": 1}))
+        pass2 = Events.MonEvent(generate_monster({"pokemon_id": 2}))
+        pass3 = Events.MonEvent(generate_monster({"pokemon_id": 3}))
+        # Test passing events
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(mon_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.MonEvent(generate_monster({"pokemon_id": 4}))
+        fail2 = Events.MonEvent(generate_monster({"pokemon_id": 5}))
+        fail3 = Events.MonEvent(generate_monster({"pokemon_id": 6}))
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(mon_filter.check_event(e))
+
     def test_lvl(self):
         # Create the filters
         settings = {"min_lvl": 5, "max_lvl": 10}

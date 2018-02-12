@@ -131,6 +131,7 @@ class CheckFunction(object):
         if Unknown.is_(value):
             return Unknown.TINY  # Cannot check - missing attribute
         result = self._eval_func(self._limit, value)  # compare value to limit
+
         if result is False:  # Log rejection
             filtr.reject(event, "{} incorrect ({} to {})".format(
                 self._attr_name, value, self._limit))
