@@ -1,5 +1,4 @@
 # Standard Library Imports
-import collections
 import logging
 import json
 # 3rd Party Imports
