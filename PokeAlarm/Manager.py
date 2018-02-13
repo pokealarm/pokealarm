@@ -227,10 +227,15 @@ class Manager(object):
     @staticmethod
     def load_filter_section(section, sect_name, filter_type):
         defaults = section.pop('defaults', {})
+        default_dts = defaults.pop('custom_dts', {})
         filter_set = OrderedDict()
         for name, settings in section.pop('filters', {}).iteritems():
             settings = dict(defaults.items() + settings.items())
             try:
+                local_dts = dict(default_dts.items()
+                                 + settings.pop('custom_dts', {}).items())
+                if len(local_dts) > 0:
+                    settings['custom_dts'] = local_dts
                 filter_set[name] = filter_type(name, settings)
                 log.debug(
                     "Filter '%s' set as the following: %s", name,
