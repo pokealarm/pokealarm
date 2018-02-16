@@ -367,8 +367,9 @@ class Manager(object):
     # Check for optional arguments and enable APIs as needed
     def set_optional_args(self, line):
         # Reverse Location
-        args = {'street', 'street_num', 'address', 'postal', 'neighborhood',
-                'sublocality', 'city', 'county', 'state', 'country'}
+        args = {'street', 'street_num', 'address', 'address_eu',
+                'postal', 'neighborhood', 'sublocality', 'city', 'county',
+                'state', 'country'}
         if contains_arg(line, args):
             if self.__loc_service is None:
                 log.critical("Reverse location DTS were detected but "
