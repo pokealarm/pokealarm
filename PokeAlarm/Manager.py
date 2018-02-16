@@ -21,6 +21,7 @@ from Cache import cache_factory
 from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
+from PokeAlarm import Unknown
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
                    parse_boolean, contains_arg, get_cardinal_dir)
 from . import config
@@ -542,13 +543,12 @@ class Manager(object):
         # Set the name for this event so we can log rejects better
         mon.name = self.__locale.get_pokemon_name(mon.monster_id)
 
-        # Skip if previously processed
-        if self.__cache.get_pokemon_expiration(mon.enc_id) is not None:
+        # Check if previously processed and update expiration
+        if self.__cache.monster_expiration(mon.enc_id) is not None:
             log.debug("{} monster was skipped because it was previously "
                       "processed.".format(mon.name))
             return
-        self.__cache.update_pokemon_expiration(
-            mon.enc_id, mon.disappear_time)
+        self.__cache.monster_expiration(mon.enc_id, mon.disappear_time)
 
         # Check the time remaining
         seconds_left = (mon.disappear_time
@@ -614,12 +614,12 @@ class Manager(object):
             log.debug("Stop ignored: stop notifications are disabled.")
             return
 
-        # Skip if previously processed
-        if self.__cache.get_pokestop_expiration(stop.stop_id) is not None:
+        # Check if previously processed and update expiration
+        if self.__cache.stop_expiration(stop.stop_id) is not None:
             log.debug("Stop {} was skipped because it was previously "
                       "processed.".format(stop.name))
             return
-        self.__cache.update_pokestop_expiration(stop.stop_id, stop.expiration)
+        self.__cache.stop_expiration(stop.stop_id, stop.expiration)
 
         # Check the time remaining
         seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()
@@ -680,28 +680,24 @@ class Manager(object):
         """ Process a gym event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            gym.gym_id, gym.gym_name, gym.gym_description, gym.gym_image)
+        gym.gym_name = self.__cache.gym_name(gym.gym_id, gym.gym_name)
+        gym.gym_description = self.__cache.gym_desc(
+            gym.gym_id, gym.gym_description)
+        gym.gym_image = self.__cache.gym_image(gym.gym_id, gym.gym_image)
 
         # Ignore changes to neutral
         if self.__ignore_neutral and gym.new_team_id == 0:
             log.debug("%s gym update skipped: new team was neutral")
             return
 
-        # Get the old team and update new team
-        gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
-        self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
+        # Update Team Information
+        gym.old_team_id = self.__cache.gym_team(gym.gym_id)
+        self.__cache.gym_team(gym.gym_id, gym.new_team_id)
 
         # Check if notifications are on
         if self.__gyms_enabled is False:
             log.debug("Gym ignored: gym notifications are disabled.")
             return
-
-        # Update the cache with the gyms info
-        info = self.__cache.get_gym_info(gym.gym_id)
-        gym.gym_name = info['name']
-        gym.gym_description = info['description']
-        gym.gym_image = info['url']
 
         # Doesn't look like anything to me
         if gym.new_team_id == gym.old_team_id:
@@ -738,7 +734,6 @@ class Manager(object):
     def _trigger_gym(self, gym, alarms):
         # Generate the DTS for the event
         dts = gym.generate_dts(self.__locale, self.__timezone, self.__units)
-        dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
         # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -761,8 +756,14 @@ class Manager(object):
         """ Process a egg event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            egg.gym_id, egg.gym_name, egg.gym_description, egg.gym_image)
+        egg.gym_name = self.__cache.gym_name(egg.gym_id, egg.gym_name)
+        egg.gym_description = self.__cache.gym_desc(
+            egg.gym_id, egg.gym_description)
+        egg.gym_image = self.__cache.gym_image(egg.gym_id, egg.gym_image)
+
+        # Update Team if Unknown
+        if Unknown.is_(egg.current_team_id):
+            egg.current_team_id = self.__cache.gym_team(egg.gym_id)
 
         # Make sure that eggs are enabled
         if self.__eggs_enabled is False:
@@ -770,11 +771,11 @@ class Manager(object):
             return
 
         # Skip if previously processed
-        if self.__cache.get_egg_expiration(egg.gym_id) is not None:
+        if self.__cache.egg_expiration(egg.gym_id) is not None:
             log.debug("Egg {} was skipped because it was previously "
                       "processed.".format(egg.name))
             return
-        self.__cache.update_egg_expiration(egg.gym_id, egg.hatch_time)
+        self.__cache.egg_expiration(egg.gym_id, egg.hatch_time)
 
         # Check the time remaining
         seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
@@ -782,13 +783,6 @@ class Manager(object):
             log.debug("Egg {} was skipped because only {} seconds remained"
                       "".format(egg.name, seconds_left))
             return
-
-        # Assigned cached info
-        info = self.__cache.get_gym_info(egg.gym_id)
-        egg.current_team_id = self.__cache.get_gym_team(egg.gym_id)
-        egg.gym_name = info['name']
-        egg.gym_description = info['description']
-        egg.gym_image = info['url']
 
         # Calculate distance and direction
         if self.__location is not None:
@@ -820,7 +814,6 @@ class Manager(object):
     def _trigger_egg(self, egg, alarms):
         # Generate the DTS for the event
         dts = egg.generate_dts(self.__locale, self.__timezone, self.__units)
-        dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
         # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
@@ -843,8 +836,14 @@ class Manager(object):
         """ Process a raid event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            raid.gym_id, raid.gym_name, raid.gym_description, raid.gym_image)
+        raid.gym_name = self.__cache.gym_name(raid.gym_id, raid.gym_name)
+        raid.gym_description = self.__cache.gym_desc(
+            raid.gym_id, raid.gym_description)
+        raid.gym_image = self.__cache.gym_image(raid.gym_id, raid.gym_image)
+
+        # Update Team if Unknown
+        if Unknown.is_(raid.current_team_id):
+            raid.current_team_id = self.__cache.gym_team(raid.gym_id)
 
         # Make sure that raids are enabled
         if self.__raids_enabled is False:
@@ -852,11 +851,11 @@ class Manager(object):
             return
 
         # Skip if previously processed
-        if self.__cache.get_raid_expiration(raid.gym_id) is not None:
+        if self.__cache.raid_expiration(raid.gym_id) is not None:
             log.debug("Raid {} was skipped because it was previously "
                       "processed.".format(raid.name))
             return
-        self.__cache.update_raid_expiration(raid.gym_id, raid.raid_end)
+        self.__cache.raid_expiration(raid.gym_id, raid.raid_end)
 
         # Check the time remaining
         seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
@@ -864,13 +863,6 @@ class Manager(object):
             log.debug("Raid {} was skipped because only {} seconds remained"
                       "".format(raid.name, seconds_left))
             return
-
-        # Assigned cached info
-        info = self.__cache.get_gym_info(raid.gym_id)
-        raid.current_team_id = self.__cache.get_gym_team(raid.gym_id)
-        raid.gym_name = info['name']
-        raid.gym_description = info['description']
-        raid.gym_image = info['url']
 
         # Calculate distance and direction
         if self.__location is not None:
@@ -902,7 +894,6 @@ class Manager(object):
     def _trigger_raid(self, raid, alarms):
         # Generate the DTS for the event
         dts = raid.generate_dts(self.__locale, self.__timezone, self.__units)
-        dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
         # Get reverse geocoding
         if self.__loc_service:
             self.__loc_service.add_optional_arguments(
