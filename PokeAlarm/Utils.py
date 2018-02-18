@@ -128,6 +128,18 @@ def get_team_id(team_name):
     return get_team_id.ids.get(name)
 
 
+# Returns the types for a pokemon
+def get_move_type(move_id):
+    if not hasattr(get_move_type, 'info'):
+        get_move_type.info = {}
+        file_ = get_path('data/move_info.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_move_type.info[int(id_)] = j[id_]['type']
+    return get_move_type.info.get(move_id, 'unkn')
+
+
 # Returns the damage of a move when requesting
 def get_move_damage(move_id):
     if not hasattr(get_move_damage, 'info'):

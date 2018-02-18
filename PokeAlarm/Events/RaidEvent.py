@@ -50,14 +50,18 @@ class RaidEvent(BaseEvent):
             self.boss_level = 25
 
         # Quick Move
-        self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
+        self.quick_id = check_for_none(
+            int, data.get('move_1'), Unknown.TINY)
+        self.quick_type = get_move_type(self.quick_move_id)
         self.quick_damage = get_move_damage(self.quick_id)
         self.quick_dps = get_move_dps(self.quick_id)
         self.quick_duration = get_move_duration(self.quick_id)
         self.quick_energy = get_move_energy(self.quick_id)
 
         # Charge Move
-        self.charge_id = check_for_none(int, data.get('move_2'), Unknown.TINY)
+        self.charge_id = check_for_none(
+            int, data.get('move_2'), Unknown.TINY)
+        self.charge_type_id = get_move_type(self.charge_id)
         self.charge_damage = get_move_damage(self.charge_id)
         self.charge_dps = get_move_dps(self.charge_id)
         self.charge_duration = get_move_duration(self.quick_id)
@@ -154,6 +158,10 @@ class RaidEvent(BaseEvent):
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_id),
             'quick_id': self.quick_id,
+            'quick_type_id': self.quick_type_id,
+            'quick_type': locale.get_type_name(self.quick_type_id),
+            'quick_type_emoji': Unknown.or_empty(
+                get_type_emoji(self.quick_type_id)),
             'quick_damage': self.quick_damage,
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
@@ -162,6 +170,10 @@ class RaidEvent(BaseEvent):
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_id),
             'charge_id': self.charge_id,
+            'charge_type_id': self.charge_type_id,
+            'charge_type': locale.get_type_name(self.charge_type_id),
+            'charge_type_emoji': Unknown.or_empty(
+                get_type_emoji(self.quick_type_id)),
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
