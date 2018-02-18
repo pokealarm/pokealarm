@@ -1,11 +1,11 @@
 {
   "013": {
-	"type": 1,
+    "type": 1,
     "damage": 60,
     "dps": 20.69,
     "duration": 2900,
     "energy": 33
-  },	
+  },
   "014": {
     "type": 1,
     "damage": 150,
