@@ -52,7 +52,7 @@ class RaidEvent(BaseEvent):
         # Quick Move
         self.quick_id = check_for_none(
             int, data.get('move_1'), Unknown.TINY)
-        self.quick_type = get_move_type(self.quick_move_id)
+        self.quick_type = get_move_type(self.quick_id)
         self.quick_damage = get_move_damage(self.quick_id)
         self.quick_dps = get_move_dps(self.quick_id)
         self.quick_duration = get_move_duration(self.quick_id)
