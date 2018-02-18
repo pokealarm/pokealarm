@@ -64,7 +64,7 @@ class RaidEvent(BaseEvent):
         self.charge_type_id = get_move_type(self.charge_id)
         self.charge_damage = get_move_damage(self.charge_id)
         self.charge_dps = get_move_dps(self.charge_id)
-        self.charge_duration = get_move_duration(self.quick_id)
+        self.charge_duration = get_move_duration(self.charge_id)
         self.charge_energy = get_move_energy(self.charge_id)
 
         # Gym Details (currently only sent from Monocle)
@@ -173,7 +173,7 @@ class RaidEvent(BaseEvent):
             'charge_type_id': self.charge_type_id,
             'charge_type': locale.get_type_name(self.charge_type_id),
             'charge_type_emoji': Unknown.or_empty(
-                get_type_emoji(self.quick_type_id)),
+                get_type_emoji(self.charge_type_id)),
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,

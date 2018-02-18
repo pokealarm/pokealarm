@@ -128,7 +128,7 @@ def get_team_id(team_name):
     return get_team_id.ids.get(name)
 
 
-# Returns the types for a pokemon
+# Returns the types of a move when requesting
 def get_move_type(move_id):
     if not hasattr(get_move_type, 'info'):
         get_move_type.info = {}
