@@ -96,12 +96,13 @@ class MonFilter(BaseFilter):
 
         # Quick Move
         self.quick_moves = self.evaluate_attribute(  # f.q_ms contains m.q_m
-            event_attribute='quick_move_id', eval_func=operator.contains,
+            event_attribute='quick_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
+
         # Charge Move
         self.charge_moves = self.evaluate_attribute(  # f.c_ms contains m.c_m
-            event_attribute='charge_move_id', eval_func=operator.contains,
+            event_attribute='charge_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'charge_moves', data))
 

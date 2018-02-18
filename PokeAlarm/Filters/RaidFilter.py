@@ -60,6 +60,7 @@ class RaidFilter(BaseFilter):
             event_attribute='quick_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
+
         # Charge Move
         self.charge_moves = self.evaluate_attribute(  # f.c_ms contains r.c_m
             event_attribute='charge_id', eval_func=operator.contains,
