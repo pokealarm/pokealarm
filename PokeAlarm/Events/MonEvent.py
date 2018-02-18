@@ -203,8 +203,7 @@ class MonEvent(BaseEvent):
             'quick_id': self.quick_id,
             'quick_type_id': self.quick_type,
             'quick_type': locale.get_type_name(self.quick_type),
-            'quick_type_emoji': Unknown.or_empty(
-                get_type_emoji(self.quick_type)),
+            'quick_type_emoji': get_type_emoji(self.quick_type),
             'quick_damage': self.quick_damage,
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
@@ -215,8 +214,7 @@ class MonEvent(BaseEvent):
             'charge_id': self.charge_id,
             'charge_type_id': self.charge_type,
             'charge_type': locale.get_type_name(self.charge_type),
-            'charge_type_emoji': Unknown.or_empty(
-                get_type_emoji(self.charge_type)),
+            'charge_type_emoji': get_type_emoji(self.charge_type),
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,

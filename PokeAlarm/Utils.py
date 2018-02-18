@@ -137,7 +137,7 @@ def get_move_type(move_id):
             j = json.loads(f.read())
         for id_ in j:
             get_move_type.info[int(id_)] = j[id_]['type']
-    return get_move_type.info.get(move_id, 'unkn')
+    return get_move_type.info.get(move_id, Unknown.SMALL)
 
 
 # Returns the damage of a move when requesting
