@@ -25,7 +25,7 @@ from PokeAlarm import Unknown
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
                    parse_boolean, get_cardinal_dir)
 from . import config
-Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
+Rule = namedtuple('Rule', ['filter_names', 'alarm_names', 'geofence_names'])
 
 log = logging.getLogger('Manager')
 
@@ -166,7 +166,7 @@ class Manager(object):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RULES API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Add new Monster Rule
-    def add_monster_rule(self, name, filters, alarms):
+    def add_monster_rule(self, name, filters, alarms, geofences):
         if name in self.__mon_rules:
             raise ValueError("Unable to add Rule: Monster Rule with the name "
                              "{} already exists!".format(name))
@@ -181,10 +181,10 @@ class Manager(object):
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
-        self.__mon_rules[name] = Rule(filters, alarms)
+        self.__mon_rules[name] = Rule(filters, alarms, geofences)
 
     # Add new Stop Rule
-    def add_stop_rule(self, name, filters, alarms):
+    def add_stop_rule(self, name, filters, alarms, geofences):
         if name in self.__stop_rules:
             raise ValueError("Unable to add Rule: Stop Rule with the name "
                              "{} already exists!".format(name))
@@ -199,10 +199,10 @@ class Manager(object):
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
-        self.__stop_rules[name] = Rule(filters, alarms)
+        self.__stop_rules[name] = Rule(filters, alarms, geofences)
 
     # Add new Gym Rule
-    def add_gym_rule(self, name, filters, alarms):
+    def add_gym_rule(self, name, filters, alarms, geofences):
         if name in self.__gym_rules:
             raise ValueError("Unable to add Rule: Gym Rule with the name "
                              "{} already exists!".format(name))
@@ -217,10 +217,10 @@ class Manager(object):
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
-        self.__gym_rules[name] = Rule(filters, alarms)
+        self.__gym_rules[name] = Rule(filters, alarms, geofences)
 
     # Add new Egg Rule
-    def add_egg_rule(self, name, filters, alarms):
+    def add_egg_rule(self, name, filters, alarms, geofences):
         if name in self.__egg_rules:
             raise ValueError("Unable to add Rule: Egg Rule with the name "
                              "{} already exists!".format(name))
@@ -235,10 +235,10 @@ class Manager(object):
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
-        self.__egg_rules[name] = Rule(filters, alarms)
+        self.__egg_rules[name] = Rule(filters, alarms, geofences)
 
     # Add new Raid Rule
-    def add_raid_rule(self, name, filters, alarms):
+    def add_raid_rule(self, name, filters, alarms, geofences):
         if name in self.__raid_rules:
             raise ValueError("Unable to add Rule: Raid Rule with the name "
                              "{} already exists!".format(name))
@@ -253,7 +253,7 @@ class Manager(object):
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
-        self.__raid_rules[name] = Rule(filters, alarms)
+        self.__raid_rules[name] = Rule(filters, alarms, geofences)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -535,9 +535,11 @@ class Manager(object):
         rules = self.__mon_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__mon_filters.keys(), self.__alarms.keys())}
+                self.__mon_filters.keys(), self.__alarms.keys(), None)}
 
         for r_name, rule in rules.iteritems():  # For all rules
+            if not self.check_rule_geofences(rule, mon):
+                continue
             for f_name in rule.filter_names:  # Check Filters in Rules
                 f = self.__mon_filters.get(f_name)
                 passed = f.check_event(mon) and self.check_geofences(f, mon)
@@ -615,9 +617,11 @@ class Manager(object):
         rules = self.__stop_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__stop_filters.keys(), self.__alarms.keys())}
+                self.__stop_filters.keys(), self.__alarms.keys(), None)}
 
         for r_name, rule in rules.iteritems():  # For all rules
+            if not self.check_rule_geofences(rule, stop):
+                continue
             for f_name in rule.filter_names:  # Check Filters in Rules
                 f = self.__stop_filters.get(f_name)
                 passed = f.check_event(stop) and self.check_geofences(f, stop)
@@ -696,9 +700,11 @@ class Manager(object):
         rules = self.__gym_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__gym_filters.keys(), self.__alarms.keys())}
+                self.__gym_filters.keys(), self.__alarms.keys(), None)}
 
         for r_name, rule in rules.iteritems():  # For all rules
+            if not self.check_rule_geofences(rule, gym):
+                continue
             for f_name in rule.filter_names:  # Check Filters in Rules
                 f = self.__gym_filters.get(f_name)
                 passed = f.check_event(gym) and self.check_geofences(f, gym)
@@ -781,9 +787,12 @@ class Manager(object):
         rules = self.__egg_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__egg_filters.keys(), self.__alarms.keys())}
+                self.__egg_filters.keys(), self.__alarms.keys(), None)}
 
-        for r_name, rule in rules.iteritems():  # For all rules
+        for r_name, rule in rules.iteritems():  #
+            if not self.check_rule_geofences(rule, egg):
+                continue
+            #  For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
                 f = self.__egg_filters.get(f_name)
                 passed = f.check_event(egg) and self.check_geofences(f, egg)
@@ -866,9 +875,11 @@ class Manager(object):
         rules = self.__raid_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__raid_filters.keys(), self.__alarms.keys())}
+                self.__raid_filters.keys(), self.__alarms.keys(), None)}
 
         for r_name, rule in rules.iteritems():  # For all rules
+            if not self.check_rule_geofences(rule, raid):
+                continue
             for f_name in rule.filter_names:  # Check Filters in Rules
                 f = self.__raid_filters.get(f_name)
                 passed = f.check_event(raid) and self.check_geofences(f, raid)
@@ -907,14 +918,7 @@ class Manager(object):
         for thread in threads:  # Wait for all alarms to finish
             thread.join()
 
-    # Check to see if a notification is within the given range
-    def check_geofences(self, f, e):
-        """ Returns true if the event passes the filter's geofences. """
-        if self.geofences is None or f.geofences is None:  # No geofences set
-            return True
-        targets = f.geofences
-        if len(targets) == 1 and "all" in targets:
-            targets = self.geofences.iterkeys()
+    def __check_fence(self, targets, e):
         for name in targets:
             gf = self.geofences.get(name)
             if not gf:  # gf doesn't exist
@@ -926,6 +930,28 @@ class Manager(object):
                 return True
             else:  # e not in gf
                 log.debug("%s not in %s.", e.name, name)
+        return False
+
+    # Check to see if a notification is within the given range
+    def check_rule_geofences(self, rule, e):
+        """ Returns true if the event passes the filter's geofences. """
+        if self.geofences is None or rule.geofence_names is None:  # No geofences set
+            return True
+        targets = rule.geofence_names
+        if len(targets) == 1 and "all" in targets:
+            targets = self.geofences.iterkeys()
+        return self.__check_fence(targets, e)
+
+    # Check to see if a notification is within the given range
+    def check_geofences(self, f, e):
+        """ Returns true if the event passes the filter's geofences. """
+        if self.geofences is None or f.geofences is None:  # No geofences set
+            return True
+        targets = f.geofences
+        if len(targets) == 1 and "all" in targets:
+            targets = self.geofences.iterkeys()
+        if self.__check_fence(targets, e):
+            return True
         f.reject(e, "not in geofences")
         return False
 

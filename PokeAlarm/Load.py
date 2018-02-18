@@ -72,7 +72,8 @@ def load_rules_section(set_rule, rules):
 
         filters = settings.pop('filters')
         alarms = settings.pop('alarms')
-        set_rule(name, filters, alarms)
+        geofences = settings.pop('geofences', None)
+        set_rule(name, filters, alarms, geofences)
 
         if len(settings) > 0:
             raise ValueError("Rule {} has unknown parameters: {}".format(
