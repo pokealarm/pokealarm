@@ -199,8 +199,8 @@ class MonEvent(BaseEvent):
             'form_id_3': "{:03d}".format(self.form_id),
 
             # Quick Move
-            'quick_move': locale.get_move_name(self.quick_move_id),
-            'quick_id': self.quick_move_id,
+            'quick_move': locale.get_move_name(self.quick_id),
+            'quick_id': self.quick_id,
             'quick_type_id': self.quick_type,
             'quick_type': locale.get_type_name(self.quick_type),
             'quick_type_emoji': Unknown.or_empty(
@@ -211,8 +211,8 @@ class MonEvent(BaseEvent):
             'quick_energy': self.quick_energy,
 
             # Charge Move
-            'charge_move': locale.get_move_name(self.charge_move_id),
-            'charge_id': self.charge_move_id,
+            'charge_move': locale.get_move_name(self.charge_id),
+            'charge_id': self.charge_id,
             'charge_type_id': self.charge_type,
             'charge_type': locale.get_type_name(self.charge_type),
             'charge_type_emoji': Unknown.or_empty(
