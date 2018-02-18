@@ -65,10 +65,12 @@ class FileCache(Cache):
         try:
             # Write to temporary file and then rename
             temp = self._file + ".new"
-            with portalocker.Lock(temp, timeout=5, mode="wb+") as f:
-                pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-                os.remove(self._file)  # Required for Windows
-                os.rename(temp, self._file)
+            with portalocker.Lock(self._file, timeout=5, mode="wb+"):
+                with portalocker.Lock(temp, timeout=5, mode="wb+") as f:
+                    pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
+                    if os.path.exists(self._file):
+                        os.remove(self._file)  # Required for Windows
+                    os.rename(temp, self._file)
             log.debug("Cache saved successfully.")
         except Exception as e:
             log.error("Encountered error while saving cache: "
