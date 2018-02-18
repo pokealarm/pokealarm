@@ -11,6 +11,7 @@ import sys
 # Local Imports
 from PokeAlarm import not_so_secret_url
 from PokeAlarm import config
+from PokeAlarm import Unknown
 
 log = logging.getLogger('Utils')
 
