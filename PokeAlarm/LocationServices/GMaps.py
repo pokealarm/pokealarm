@@ -16,16 +16,15 @@ log = logging.getLogger('Gmaps')
 
 class GMaps(object):
 
-    transit_types = {'walking', 'biking', 'driving', 'transit'}
+    TRAVEL_MODES = frozenset(['walking', 'biking', 'driving', 'transit'])
 
     # Maximum number of requests per second
     _queries_per_second = 50
     # How often to warn about going over query limit
     _query_warning_window = datetime.timedelta(minutes=10)
 
-    def __init__(self, api_key, manager):
+    def __init__(self, api_key):
         self._key = api_key
-        self._mgr = manager
 
         # Create a session to handle connections
         self._session = self._create_session()
@@ -36,7 +35,45 @@ class GMaps(object):
 
         # Memoization dicts
         self._reverse_geocode_hist = {}
-        self._dm_hist = {key: dict() for key in self.transit_types}
+        self._dm_hist = {key: dict() for key in self.TRAVEL_MODES}
+
+    @staticmethod
+    def _create_session(retry_count=3, pool_size=3, backoff=.25):
+        """ Create a session to use connection pooling. """
+
+        # Create a session for connection pooling and
+        session = requests.Session()
+
+        # Reattempt connection on these statuses
+        status_forcelist = [500, 502, 503, 504]
+
+        # Define a Retry object to handle failures
+        retry_policy = Retry(
+            total=retry_count,
+            backoff_factor=backoff,
+            status_forcelist=status_forcelist
+        )
+
+    TRAVEL_MODES = frozenset(['walking', 'biking', 'driving', 'transit'])
+
+    # Maximum number of requests per second
+    _queries_per_second = 50
+    # How often to warn about going over query limit
+    _query_warning_window = datetime.timedelta(minutes=10)
+
+    def __init__(self, api_key):
+        self._key = api_key
+
+        # Create a session to handle connections
+        self._session = self._create_session()
+
+        # Sliding window for rate limiting
+        self._window = collections.deque(maxlen=self._queries_per_second)
+        self._time_limit = time.time()
+
+        # Memoization dicts
+        self._reverse_geocode_hist = {}
+        self._dm_hist = {key: dict() for key in self.TRAVEL_MODES}
 
     @staticmethod
     def _create_session(retry_count=3, pool_size=3, backoff=.25):
@@ -63,11 +100,20 @@ class GMaps(object):
         )
 
         # Apply Adapter for all HTTPS (no HTTP for you!)
+
+        # Define an Adapter, to limit pool and implement retry policy
+        adapter = requests.adapters.HTTPAdapter(
+            max_retries=retry_policy,
+            pool_connections=pool_size,
+            pool_maxsize=pool_size
+        )
+
+        # Apply Adapter for all HTTPS (no HTTP for you!)
         session.mount('https://', adapter)
 
         return session
 
-    def _make_request(self, service, parameters=None):
+    def _make_request(self, service, params=None):
         """ Make a request to the GMAPs API. """
         # Rate Limit - All APIs use the same quota
         if len(self._window) == self._queries_per_second:
@@ -81,14 +127,14 @@ class GMaps(object):
         url = u'https://maps.googleapis.com/maps/api/{}/json'.format(service)
 
         # Add in the API key
-        if parameters is None:
-            parameters = {}
-        parameters['key'] = self._key
+        if params is None:
+            params = {}
+        params['key'] = self._key
 
         # Use the session to send the request
         log.debug(u'{} request sending.'.format(service))
         self._window.append(time.time())
-        request = self._session.get(url, parameters=parameters, timeout=3)
+        request = self._session.get(url, params=params, timeout=3)
 
         if not request.ok:
             log.debug(u'Response body: {}'.format(
@@ -180,7 +226,7 @@ class GMaps(object):
 
     def distance_matrix(self,  mode, origin, dest, lang, units):
         # Check for valid mode
-        if mode not in self.transit_types:
+        if mode not in self.TRAVEL_MODES:
             raise ValueError(u"DM doesn't support mode '{}'.".format(mode))
         # Estimate to about ~1 meter of accuracy
         origin = u'{:.5f},{:.5f}'.format(origin[0], origin[1])
@@ -198,7 +244,7 @@ class GMaps(object):
         try:
             # Set parameters and make the request
             params = {
-                'mode': mode, 'origin': origin, 'destinations': dest,
+                'mode': mode, 'origins': origin, 'destinations': dest,
                 'language': lang, 'units': units
             }
 
