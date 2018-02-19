@@ -336,7 +336,6 @@ class Manager(object):
             for name, alarm in alarm_settings.iteritems():
                 if parse_boolean(require_and_remove_key(
                         'active', alarm, "Alarm objects in file.")) is True:
-                    self.set_optional_args(str(alarm))
                     self.__alarms[name] = Alarms.alarm_factory(
                         alarm, max_attempts, self._google_key)
                 else:
@@ -363,72 +362,6 @@ class Manager(object):
                       + "{}: {}".format(type(e).__name__, e))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
-
-    # Check for optional arguments and enable APIs as needed
-    def set_optional_args(self, line):
-        # Reverse Location
-        args = {'street', 'street_num', 'address', 'address_eu',
-                'postal', 'neighborhood', 'sublocality', 'city', 'county',
-                'state', 'country'}
-        if contains_arg(line, args):
-            if self._gmaps_service is None:
-                log.critical("Reverse location DTS were detected but "
-                             + "no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            self._gmaps_service.enable_reverse_location()
-
-        # Walking Dist Matrix
-        args = {'walk_dist', 'walk_time'}
-        if contains_arg(line, args):
-            if self.__location is None:
-                log.critical("Walking Distance Matrix DTS were detected but "
-                             + " no location was set!")
-                log.critical("Please either remove the DTS, set a location, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            if self._gmaps_service is None:
-                log.critical("Walking Distance Matrix DTS were detected "
-                             + "but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            self._gmaps_service.enable_walking_data()
-
-        # Biking Dist Matrix
-        args = {'bike_dist', 'bike_time'}
-        if contains_arg(line, args):
-            if self.__location is None:
-                log.critical("Biking Distance Matrix DTS were detected but "
-                             + " no location was set!")
-                log.critical("Please either remove the DTS, set a location, "
-                             + " or disable the alarm and try again.")
-                sys.exit(1)
-            if self._gmaps_service is None:
-                log.critical("Biking Distance Matrix DTS were detected "
-                             + "  but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + " or disable the alarm and try again.")
-                sys.exit(1)
-            self._gmaps_service.enable_biking_data()
-
-        # Driving Dist Matrix
-        args = {'drive_dist', 'drive_time'}
-        if contains_arg(line, args):
-            if self.__location is None:
-                log.critical("Driving Distance Matrix DTS were detected but "
-                             + "no location was set!")
-                log.critical("Please either remove the DTS, set a location, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            if self._gmaps_service is None:
-                log.critical("Driving Distance Matrix DTS were detected but "
-                             + "no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + " or disable the alarm and try again.")
-                sys.exit(1)
-            self._gmaps_service.enable_driving_data()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
