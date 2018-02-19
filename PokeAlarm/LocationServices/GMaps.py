@@ -16,7 +16,7 @@ log = logging.getLogger('Gmaps')
 
 class GMaps(object):
 
-    TRAVEL_MODES = frozenset(['walking', 'biking', 'driving', 'transit'])
+    TRAVEL_MODES = frozenset([WALK, BIKE, DRIVE, TRANSIT])
 
     # Maximum number of requests per second
     _queries_per_second = 50

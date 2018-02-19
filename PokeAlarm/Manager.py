@@ -46,8 +46,8 @@ class Manager(object):
         if str(google_key).lower() != 'none':
             self._google_key = google_key
             self._gmaps_service = GMaps(google_key)
-        self._gmaps_reverse_geocode = True
-        self._gmaps_distance_matrix = GMaps.TRAVEL_MODES
+        self._gmaps_reverse_geocode = False
+        self._gmaps_distance_matrix = set()
 
         self._language = locale
         self.__locale = Locale(locale)  # Setup the language-specific stuff
@@ -128,7 +128,37 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONTROL API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    def enable_gmaps_reverse_geocoding(self):
+        """Enable GMaps Reverse Geocoding DTS for triggered Events. """
+        if not self._gmaps_service:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding.")
+        self._gmaps_reverse_geocode = True
+
+    def disable_gmaps_reverse_geocoding(self):
+        """Disable GMaps Reverse Geocoding DTS for triggered Events. """
+        self._gmaps_reverse_geocode = False
+
+    def enable_gmaps_distance_matrix(self, mode):
+        """Enable 'mode' Distance Matrix DTS for triggered Events. """
+        if not self._gmaps_service:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding.")
+        elif mode not in GMaps.TRAVEL_MODES:
+            raise ValueError("Unable to enable distance matrix mode: "
+                             "{} is not a valid mode.".format(mode))
+        self._gmaps_distance_matrix.add(mode)
+
+    def disable_gmaps_dm_walking(self, mode):
+        """Disable 'mode' Distance Matrix DTS for triggered Events. """
+        if mode not in GMaps.TRAVEL_MODES:
+            raise ValueError("Unable to disable distance matrix mode: "
+                             "Invalid mode specified.")
+        self._gmaps_distance_matrix.discard(mode)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RULES API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Add new Monster Rule
     def add_monster_rule(self, name, filters, alarms):
