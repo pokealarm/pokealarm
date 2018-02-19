@@ -117,18 +117,18 @@ class GMaps(object):
             raise ValueError(u'Unexpected response status:\n {}'.format(body))
 
     _reverse_geocode_defaults = {
-            'street_num': Unknown.SMALL,
-            'street': Unknown.REGULAR,
-            'address': Unknown.REGULAR,
-            'address_eu': Unknown.REGULAR,
-            'postal': Unknown.REGULAR,
-            'neighborhood': Unknown.REGULAR,
-            'sublocality': Unknown.REGULAR,
-            'city': Unknown.REGULAR,
-            'county': Unknown.REGULAR,
-            'state': Unknown.REGULAR,
-            'country': Unknown.REGULAR
-        }
+        'street_num': Unknown.SMALL,
+        'street': Unknown.REGULAR,
+        'address': Unknown.REGULAR,
+        'address_eu': Unknown.REGULAR,
+        'postal': Unknown.REGULAR,
+        'neighborhood': Unknown.REGULAR,
+        'sublocality': Unknown.REGULAR,
+        'city': Unknown.REGULAR,
+        'county': Unknown.REGULAR,
+        'state': Unknown.REGULAR,
+        'country': Unknown.REGULAR
+    }
 
     def reverse_geocode(self, latlng, language='en'):
         # type: (tuple) -> dict
@@ -187,7 +187,7 @@ class GMaps(object):
         # Send back dts
         return dts
 
-    def distance_matrix(self,  mode, origin, dest, lang, units):
+    def distance_matrix(self, mode, origin, dest, lang, units):
         # Check for valid mode
         if mode not in self.TRAVEL_MODES:
             raise ValueError(u"DM doesn't support mode '{}'.".format(mode))

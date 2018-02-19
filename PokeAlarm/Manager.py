@@ -23,7 +23,7 @@ from Locale import Locale
 from LocationServices import GMaps
 from PokeAlarm import Unknown
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg, get_cardinal_dir)
+                   parse_boolean, get_cardinal_dir)
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
