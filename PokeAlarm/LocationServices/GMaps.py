@@ -16,44 +16,7 @@ log = logging.getLogger('Gmaps')
 
 class GMaps(object):
 
-    TRAVEL_MODES = frozenset([WALK, BIKE, DRIVE, TRANSIT])
-
-    # Maximum number of requests per second
-    _queries_per_second = 50
-    # How often to warn about going over query limit
-    _query_warning_window = datetime.timedelta(minutes=10)
-
-    def __init__(self, api_key):
-        self._key = api_key
-
-        # Create a session to handle connections
-        self._session = self._create_session()
-
-        # Sliding window for rate limiting
-        self._window = collections.deque(maxlen=self._queries_per_second)
-        self._time_limit = time.time()
-
-        # Memoization dicts
-        self._reverse_geocode_hist = {}
-        self._dm_hist = {key: dict() for key in self.TRAVEL_MODES}
-
-    @staticmethod
-    def _create_session(retry_count=3, pool_size=3, backoff=.25):
-        """ Create a session to use connection pooling. """
-
-        # Create a session for connection pooling and
-        session = requests.Session()
-
-        # Reattempt connection on these statuses
-        status_forcelist = [500, 502, 503, 504]
-
-        # Define a Retry object to handle failures
-        retry_policy = Retry(
-            total=retry_count,
-            backoff_factor=backoff,
-            status_forcelist=status_forcelist
-        )
-
+    # Available travel modes for Distance Matrix calls
     TRAVEL_MODES = frozenset(['walking', 'biking', 'driving', 'transit'])
 
     # Maximum number of requests per second

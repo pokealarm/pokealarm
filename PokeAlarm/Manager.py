@@ -133,7 +133,8 @@ class Manager(object):
     def enable_gmaps_reverse_geocoding(self):
         """Enable GMaps Reverse Geocoding DTS for triggered Events. """
         if not self._gmaps_service:
-            raise ValueError("Unable to enable Google Maps Reverse Geocoding.")
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding."
+                             "No GMaps API key has been set.")
         self._gmaps_reverse_geocode = True
 
     def disable_gmaps_reverse_geocoding(self):
@@ -142,8 +143,12 @@ class Manager(object):
 
     def enable_gmaps_distance_matrix(self, mode):
         """Enable 'mode' Distance Matrix DTS for triggered Events. """
-        if not self._gmaps_service:
-            raise ValueError("Unable to enable Google Maps Reverse Geocoding.")
+        if not self.__location:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding."
+                             "No Manager location has been set.")
+        elif not self._gmaps_service:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding."
+                             "No GMaps API key has been provided.")
         elif mode not in GMaps.TRAVEL_MODES:
             raise ValueError("Unable to enable distance matrix mode: "
                              "{} is not a valid mode.".format(mode))
