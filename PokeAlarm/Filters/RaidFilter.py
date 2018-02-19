@@ -72,6 +72,11 @@ class RaidFilter(BaseFilter):
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_contains', data))
+        self.gym_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+            event_attribute='gym_name',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'gym_name_excludes', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti

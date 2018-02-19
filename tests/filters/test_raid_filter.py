@@ -122,6 +122,21 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_gym_name_excludes(self):
+        # Create the filters
+        settings = {"gym_name_excludes": ["fail"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        for r in ["pass1", "2pass", "3pass3"]:
+            event = Events.RaidEvent(generate_raid({"name": r}))
+            self.assertTrue(raid_filter.check_event(event))
+
+        # Generate events that should fail
+        for r in ["fail1", "failpass", "passfail"]:
+            event = Events.RaidEvent(generate_raid({"name": r}))
+            self.assertFalse(raid_filter.check_event(event))
+
     def test_current_team(self):
         # Create the filters
         settings = {"current_teams": [1, "2", "Instinct"]}
