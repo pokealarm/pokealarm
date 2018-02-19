@@ -27,8 +27,7 @@ class FileCache(Cache):
         if os.path.isfile(self._file):
             self._load()
         else:
-            with portalocker.Lock(self._file, mode="wb+") as f:
-                pickle.dump({}, f, protocol=pickle.HIGHEST_PROTOCOL)
+            self._save()
 
     def _load(self):
         try:
@@ -65,7 +64,7 @@ class FileCache(Cache):
         try:
             # Write to temporary file and then rename
             temp = self._file + ".new"
-            with portalocker.Lock(self._file, timeout=5, mode="wb+"):
+            with portalocker.Lock(self._file + ".lock", timeout=5, mode="wb+"):
                 with portalocker.Lock(temp, timeout=5, mode="wb+") as f:
                     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
                     if os.path.exists(self._file):
