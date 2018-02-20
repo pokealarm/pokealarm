@@ -37,7 +37,7 @@ class StopEvent(BaseEvent):
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
-        time = get_time_as_str(self.expiration)
+        time = get_time_as_str(self.expiration, timezone)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
