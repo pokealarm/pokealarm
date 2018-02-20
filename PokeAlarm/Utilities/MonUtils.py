@@ -53,6 +53,59 @@ def get_move_id(move_name):
                          " move name or id.".format(move_name))
 
 
+# Returns the id corresponding with the form (use all locales for flexibility)
+def get_form_id(pokemon_name, form_name):
+    try:
+        name = str(form_name).lower()
+        pkmn_id = get_monster_id(pokemon_name)
+        if not hasattr(get_form_id, 'ids'):
+            get_form_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['moves']
+                    for mon in j:
+                        if mon == pkmn_id:
+                            for id_ in j:
+                                nm = j[id_].lower()
+                                get_form_id.ids[nm] = int(id_)
+        if name in get_form_id.ids:
+            return get_form_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except Exception:
+        raise ValueError("Unable to interpret `{}` as a valid "
+                         " form name or id.".format(form_name))
+
+
+# Returns the id corresponding with the costume
+# (use all locales for flexibility)
+def get_costume_id(pokemon_name, costume_name):
+    try:
+        name = str(costume_name).lower()
+        pkmn_id = get_monster_id(pokemon_name)
+        if not hasattr(get_costume_id, 'ids'):
+            get_costume_id.ids = {}
+            files = glob(get_path('locales/*.json'))
+            for file_ in files:
+                with open(file_, 'r') as f:
+                    j = json.loads(f.read())
+                    j = j['moves']
+                    for mon in j:
+                        if mon == pkmn_id:
+                            for id_ in j:
+                                nm = j[id_].lower()
+                                get_costume_id.ids[nm] = int(id_)
+        if name in get_costume_id.ids:
+            return get_costume_id.ids[name]
+        else:
+            return int(name)  # try as an integer
+    except Exception:
+        raise ValueError("Unable to interpret `{}` as a valid "
+                         " costume name or id.".format(costume_name))
+
+
 # Returns the gender symbol of a pokemon:
 def get_gender_sym(gender):  # TODO - support other languages
     gender = str(gender).lower()

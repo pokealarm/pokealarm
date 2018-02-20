@@ -135,6 +135,16 @@ class MonFilter(BaseFilter):
             event_attribute='size_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_size_id, 'sizes', data))
+        # Form
+        self.forms = self.evaluate_attribute(  # f.forms in m.form_id
+            event_attribute='form_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_form_id, 'forms', data))
+        # Costume
+        self.costumes = self.evaluate_attribute(  # f.costumes in m.costume_id
+            event_attribute='costume_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_costume_id, 'costumes', data))
 
         # Weather
         self.weather_ids = self.evaluate_attribute(
