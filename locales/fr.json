@@ -12,6 +12,26 @@
     "4": "grand",
     "5": "\u00E9norme"
   },
+  "costumes": {
+    "25": {
+      "1": "Chapeau de Vacances",
+      "2": "Chapeau de F\u00EAte",
+      "3": "Chapeau de Ash",
+      "4": "Chapeau de Sorci\u00E8re"
+    },
+    "26": {
+      "1": "Chapeau de Vacances",
+      "2": "Chapeau de F\u00EAte",
+      "3": "Chapeau de Ash",
+      "4": "Chapeau de Sorci\u00E8re"
+    },
+    "172": {
+      "1": "Chapeau de Vacances",
+      "2": "Chapeau de F\u00EAte",
+      "3": "Chapeau de Ash",
+      "4": "Chapeau de Sorci\u00E8re"
+    }
+  },
   "types": {
     "1": "Normal",
     "2": "Combattre",
