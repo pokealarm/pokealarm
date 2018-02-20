@@ -55,15 +55,15 @@ location:                       # Location, as address or coordinates (default=N
 # GMaps Settings
 ################
 #gmaps-key:                     # Google Maps API Key (default=None)
-#gmaps-rev-geocode: True        # Enable Reverse Geocoded DTS. (default=False)
+#gmaps-rev-geocode: yes         # Enable Reverse Geocoded DTS. (default='no')
                                 # Note: This requires the Reverse Geocoding API to be enabled on your GMAPs key.
-#gmaps-dm-walk: True            # Enable Walking DM DTS. (default=False)
+#gmaps-dm-walk: yes             # Enable Walking DM DTS. (default='no')
                                 # Note: This requires the Distance Matrix API to be enabled on your GMAPs key.
-#gmaps-dm-bike: True            # Enable Bicycling DM DTS. (default=False)
+#gmaps-dm-bike: yes             # Enable Bicycling DM DTS. (default='no')
                                 # Note: This requires the Distance Matrix API to be enabled on your GMAPs key.
-#gmaps-dm-drive: True           # Enable Driving DM DTS. (default=False)
+#gmaps-dm-drive: yes            # Enable Driving DM DTS. (default='no')
                                 # Note: This requires the Distance Matrix API to be enabled on your GMAPs key.
-#gmaps-dm-transit: True         # Enable Transit DM DTS. (default=False)
+#gmaps-dm-transit: yes          # Enable Transit DM DTS. (default='no')
                                 # Note: This requires the Distance Matrix API to be enabled on your GMAPs key.
 
 
