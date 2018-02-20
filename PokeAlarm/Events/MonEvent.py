@@ -86,7 +86,6 @@ class MonEvent(BaseEvent):
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
-
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):
@@ -95,6 +94,9 @@ class MonEvent(BaseEvent):
         else:
             self.size_id = Unknown.SMALL
         self.types = get_base_types(self.monster_id)
+
+        # Costume
+        self.costume_id = check_for_none(int, data.get('costume'), 0)
 
         # Correct this later
         self.name = self.monster_id
