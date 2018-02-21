@@ -85,11 +85,11 @@ class MonEvent(BaseEvent):
 
         # Catch Probs
         self.catch_prob_1 = check_for_none(
-                float, data.get('catch_prob_1'), 'unkw')
+            float, data.get('catch_prob_1'), 'unkw')
         self.catch_prob_2 = check_for_none(
-                float, data.get('catch_prob_2'), 'unkw')
+            float, data.get('catch_prob_2'), 'unkw')
         self.catch_prob_3 = check_for_none(
-                float, data.get('catch_prob_3'), 'unkw')
+            float, data.get('catch_prob_3'), 'unkw')
 
         # Attack Rating
         self.rating_attack = data.get('rating_attack')
@@ -239,16 +239,18 @@ class MonEvent(BaseEvent):
             'size': locale.get_size_name(self.size_id),
 
             # Attack rating
-            'rating_attack': (self.rating_attack.upper() if self.rating_attack else '-'),
-            'rating_defense': (self.rating_defense.upper() if self.rating_defense else '-'),
+            'rating_attack': (self.rating_attack.upper()
+                if self.rating_attack else '-'),
+            'rating_defense': (self.rating_defense.upper()
+			    if self.rating_defense else '-'),
 
             # Catch Prob
-            'catch_prob_1': ("{:.1f}".format(
-                self.catch_prob_1 * 100) if self.catch_prob_1 != 'unkn' else 'unkw'),
-            'catch_prob_2': ("{:.1f}".format(
-                self.catch_prob_2 * 100) if self.catch_prob_2 != 'unkn' else 'unkw'),
-            'catch_prob_3': ("{:.1f}".format(
-                self.catch_prob_3 * 100) if self.catch_prob_3 != 'unkn' else 'unkw'),
+            'catch_prob_1': ("{:.1f}".format(self.catch_prob_1 * 100)
+                if self.catch_prob_1 != 'unkn' else 'unkw'),
+            'catch_prob_2': ("{:.1f}".format(self.catch_prob_2 * 100)
+                if self.catch_prob_2 != 'unkn' else 'unkw'),
+            'catch_prob_3': ("{:.1f}".format(self.catch_prob_3 * 100)
+                if self.catch_prob_3 != 'unkn' else 'unkw'),
 
             # Misc
             'big_karp': (
