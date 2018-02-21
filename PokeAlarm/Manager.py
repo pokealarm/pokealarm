@@ -935,7 +935,7 @@ class Manager(object):
     # Check to see if a notification is within the given range
     def check_rule_geofences(self, rule, e):
         """ Returns true if the event passes the filter's geofences. """
-        if self.geofences is None or rule.geofence_names is None:  # No geofences set
+        if self.geofences is None or rule.geofence_names is None:
             return True
         targets = rule.geofence_names
         if len(targets) == 1 and "all" in targets:
