@@ -80,6 +80,25 @@ class BaseFilter(object):
                 'valid {} for parameter {}.", '.format(kind, param_name))
 
     @staticmethod
+    def parse_as_list(value_type, param_name, data):
+        """ Parse and convert a list of values into a list."""
+        # Validate Input
+        values = data.pop(param_name, None)
+        if values is None or len(values) == 0:
+            return None
+        if not isinstance(values, list):
+            raise ValueError(
+                'The "{0}" parameter must formatted as a list containing '
+                'different values. Example: "{0}": '
+                '[ "value1", "value2", "value3" ] '.format(param_name))
+        # Generate Allowed Set
+        allowed = []
+        for value in values:
+            # Value type should throw the correct error
+            allowed.append(value_type(value))
+        return allowed
+
+    @staticmethod
     def parse_as_set(value_type, param_name, data):
         """ Parse and convert a list of values into a set."""
         # Validate Input
@@ -131,6 +150,7 @@ class CheckFunction(object):
         if Unknown.is_(value):
             return Unknown.TINY  # Cannot check - missing attribute
         result = self._eval_func(self._limit, value)  # compare value to limit
+
         if result is False:  # Log rejection
             filtr.reject(event, "{} incorrect ({} to {})".format(
                 self._attr_name, value, self._limit))

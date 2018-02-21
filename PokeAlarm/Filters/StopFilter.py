@@ -31,7 +31,7 @@ class StopFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(
