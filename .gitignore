@@ -16,7 +16,7 @@ _build
 
 # pa runtime files
 *.pyc
-cache/*.cache
+cache/*
 
 # OS files
 .DS_Store
