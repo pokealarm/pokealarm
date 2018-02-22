@@ -60,6 +60,7 @@ class RaidFilter(BaseFilter):
             event_attribute='quick_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
+
         # Charge Move
         self.charge_moves = self.evaluate_attribute(  # f.c_ms contains r.c_m
             event_attribute='charge_id', eval_func=operator.contains,
@@ -71,6 +72,11 @@ class RaidFilter(BaseFilter):
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_contains', data))
+        self.gym_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+            event_attribute='gym_name',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'gym_name_excludes', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -84,7 +90,7 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(
