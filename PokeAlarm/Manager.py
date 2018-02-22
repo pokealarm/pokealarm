@@ -4,9 +4,11 @@ import logging
 import os
 import re
 import sys
+import time
 import traceback
 from collections import OrderedDict, namedtuple
 from datetime import datetime, timedelta
+from threading import Thread
 
 # 3rd Party Imports
 import gevent
@@ -86,7 +88,8 @@ class Manager(object):
         # Create the alarms to send notifications out with
         self.__alarms = []
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
-
+        self.__max_attempts = max_attempts
+        
         # Initialize Rules
         self.__mon_rules = {}
         self.__stop_rules = {}
@@ -98,12 +101,53 @@ class Manager(object):
         self.__queue = Queue()
         self.__event = Event()
         self.__process = None
+        
+        # Initialize file watcher threads
+        self.watchercfg = {
+            'Filters': (filter_file, None),
+            'Alarms': (alarm_file, None),
+            'Geofences': (geofence_file, None) if geofence_file else (None, None)
+       }
 
         log.info("----------- Manager '{}' ".format(self.__name)
                  + " successfully created.")
 
     # ~~~~~~~~~~~~~~~~~~~~~~~ MAIN PROCESS CONTROL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    def check_updated_config_files(self):
+        for cfg_type in self.watchercfg:
+            filename, tstamp = self.watchercfg[cfg_type]
+            if str(filename).lower() == 'none':
+                continue
 
+            statbuf = os.stat(filename)
+            current_mtime = statbuf.st_mtime
+
+            if current_mtime != tstamp:
+                # Don't read file on first check.
+                if tstamp is not None:
+                    log.info("File {} changed on disk. Re-reading {}.".format(filename, cfg_type))
+                    if cfg_type == "Filters":
+                        # Load and Setup the Pokemon Filters
+                        self.__pokemon_settings = {}
+                        self.__pokestop_settings = {}
+                        self.__gym_settings = {}
+                        self.__raid_settings = {}
+                        self.__egg_settings = {}
+                        self.load_filter_file(get_path(filename))
+                    elif cfg_type == "Alarms":
+                        # Create the alarms to send notifications out with
+                        self.__alarms = []
+                        self.load_alarms_file(get_path(filename), int(self.__max_attempts))
+                        # Conect the alarms and send the start up message
+                        for alarm in self.__alarms:
+                            alarm.connect()
+                            alarm.startup_message()
+                    elif cfg_type == "Geofences":
+                       # Create the Geofences to filter with from given file
+                        self.__geofences = load_geofence_file(get_path(filename))
+
+                self.watchercfg[cfg_type] = (filename, current_mtime)
+                
     # Update the object into the queue
     def update(self, obj):
         self.__queue.put(obj)
@@ -462,6 +506,7 @@ class Manager(object):
     def run(self):
         self.setup_in_process()
         last_clean = datetime.utcnow()
+        last_filecheck = datetime.utcnow()
         while True:  # Run forever and ever
 
             # Clean out visited every 5 minutes
@@ -469,6 +514,11 @@ class Manager(object):
                 log.debug("Cleaning cache...")
                 self.__cache.clean_and_save()
                 last_clean = datetime.utcnow()
+                
+     # Check if config files have changed and re-read if necessary.
+            if datetime.utcnow() - last_filecheck > timedelta(seconds=5):
+                self.check_updated_config_files()
+                last_filecheck = datetime.utcnow()
 
             try:  # Get next object to process
                 event = self.__queue.get(block=True, timeout=5)
