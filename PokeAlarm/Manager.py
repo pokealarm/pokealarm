@@ -147,6 +147,7 @@ class Manager(object):
                         self.__geofences = load_geofence_file(get_path(filename))
 
                 self.watchercfg[cfg_type] = (filename, current_mtime)
+                
     # Update the object into the queue
     def update(self, obj):
         self.__queue.put(obj)
