@@ -92,9 +92,9 @@ class MonEvent(BaseEvent):
 
         # Attack Rating
         self.rating_attack = check_for_none(
-            str,data.get('rating_attack'),Unknown.TINY)
+            str, data.get('rating_attack'), Unknown.TINY)
         self.rating_defense = check_for_none(
-            str,data.get('rating_defense'),Unknown.TINY)
+            str, data.get('rating_defense'), Unknown.TINY)
 
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
