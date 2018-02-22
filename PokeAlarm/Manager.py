@@ -103,11 +103,11 @@ class Manager(object):
         self.__process = None
         
         # Initialize file watcher threads
-+        self.watchercfg = {
-+            'Filters': (filter_file, None),
-+            'Alarms': (alarm_file, None),
-+            'Geofences': (geofence_file, None) if geofence_file else (None, None)
-+       }
+        self.watchercfg = {
+            'Filters': (filter_file, None),
+            'Alarms': (alarm_file, None),
+            'Geofences': (geofence_file, None) if geofence_file else (None, None)
+       }
 
         log.info("----------- Manager '{}' ".format(self.__name)
                  + " successfully created.")
