@@ -58,6 +58,21 @@ class TestEggFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(egg_filter.check_event(e))
 
+    def test_gym_name_excludes(self):
+        # Create the filters
+        settings = {"gym_name_excludes": ["fail"]}
+        egg_filter = Filters.EggFilter('filter1', settings)
+
+        # Generate events that should pass
+        for r in ["pass1", "2pass", "3pass3"]:
+            event = Events.EggEvent(generate_egg({"name": r}))
+            self.assertTrue(egg_filter.check_event(event))
+
+        # Generate events that should fail
+        for r in ["fail1", "failpass", "passfail"]:
+            event = Events.EggEvent(generate_egg({"name": r}))
+            self.assertFalse(egg_filter.check_event(event))
+
     def test_current_team(self):
         # Create the filters
         settings = {"current_teams": [1, "2", "Instinct"]}
