@@ -256,9 +256,9 @@ class MonEvent(BaseEvent):
 
             # Attack rating
             'rating_attack': (
-                Unknown.is_empty(self.rating_attack, Unknown.TINY),
+                Unknown.is_empty(self.rating_attack, Unknown.TINY)),
             'rating_defense': (
-                Unknown.is_empty(self.rating_defense, Unknown.TINY),
+                Unknown.is_empty(self.rating_defense, Unknown.TINY)),
 
             # Catch Prob
             'catch_prob_1': (
