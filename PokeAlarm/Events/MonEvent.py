@@ -84,15 +84,17 @@ class MonEvent(BaseEvent):
 
         # Catch Probs
         self.catch_prob_1 = check_for_none(
-            float, data.get('catch_prob_1'), 'unkw')
+            float, data.get('catch_prob_1'), Unknown.TINY)
         self.catch_prob_2 = check_for_none(
-            float, data.get('catch_prob_2'), 'unkw')
+            float, data.get('catch_prob_2'), Unknown.TINY)
         self.catch_prob_3 = check_for_none(
-            float, data.get('catch_prob_3'), 'unkw')
+            float, data.get('catch_prob_3'), Unknown.TINY)
 
         # Attack Rating
-        self.rating_attack = data.get('rating_attack')
-        self.rating_defense = data.get('rating_defense')
+        self.rating_attack = check_for_none(
+            str,data.get('rating_attack'),Unknown.TINY)
+        self.rating_defense = check_for_none(
+            str,data.get('rating_defense'),Unknown.TINY)
 
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
@@ -254,9 +256,9 @@ class MonEvent(BaseEvent):
 
             # Attack rating
             'rating_attack': (
-                self.rating_attack.upper() if self.rating_attack else '-'),
+                Unknown.is_empty(self.rating_attack, Unknown.TINY),
             'rating_defense': (
-                self.rating_defense.upper() if self.rating_defense else '-'),
+                Unknown.is_empty(self.rating_defense, Unknown.TINY),
 
             # Catch Prob
             'catch_prob_1': (
