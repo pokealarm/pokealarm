@@ -8,8 +8,10 @@ import traceback
 # 3rd Party Imports
 import requests
 from requests.packages.urllib3.util.retry import Retry
+from gevent.lock import Semaphore
 # Local Imports
 from PokeAlarm import Unknown
+from PokeAlarm.Utilities.GenUtils import synchronize_with
 
 log = logging.getLogger('Gmaps')
 
@@ -22,10 +24,11 @@ class GMaps(object):
     # Maximum number of requests per second
     _queries_per_second = 50
     # How often to warn about going over query limit
-    _query_warning_window = datetime.timedelta(minutes=10)
+    _query_warning_window = datetime.timedelta(minutes=5)
 
     def __init__(self, api_key):
         self._key = api_key
+        self._lock = Semaphore
 
         # Create a session to handle connections
         self._session = self._create_session()
@@ -38,6 +41,7 @@ class GMaps(object):
         self._reverse_geocode_hist = {}
         self._dm_hist = {key: dict() for key in self.TRAVEL_MODES}
 
+    # TODO: Move into utilities
     @staticmethod
     def _create_session(retry_count=3, pool_size=3, backoff=.25):
         """ Create a session to use connection pooling. """
@@ -54,15 +58,6 @@ class GMaps(object):
             backoff_factor=backoff,
             status_forcelist=status_forcelist
         )
-
-        # Define an Adapter, to limit pool and implement retry policy
-        adapter = requests.adapters.HTTPAdapter(
-            max_retries=retry_policy,
-            pool_connections=pool_size,
-            pool_maxsize=pool_size
-        )
-
-        # Apply Adapter for all HTTPS (no HTTP for you!)
 
         # Define an Adapter, to limit pool and implement retry policy
         adapter = requests.adapters.HTTPAdapter(
@@ -130,6 +125,7 @@ class GMaps(object):
         'country': Unknown.REGULAR
     }
 
+    @synchronize_with()
     def reverse_geocode(self, latlng, language='en'):
         # type: (tuple) -> dict
         """ Returns the reverse geocode DTS associated with 'lat,lng'. """
@@ -187,6 +183,7 @@ class GMaps(object):
         # Send back dts
         return dts
 
+    @synchronize_with()
     def distance_matrix(self, mode, origin, dest, lang, units):
         # Check for valid mode
         if mode not in self.TRAVEL_MODES:
@@ -238,3 +235,4 @@ class GMaps(object):
             log.error(u"Stack trace: \n {}".format(traceback.format_exc()))
         # Send back DTS
         return dts
+
