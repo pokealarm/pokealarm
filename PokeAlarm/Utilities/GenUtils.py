@@ -1,5 +1,6 @@
 # Standard Library Imports
 # 3rd Party Imports
+from gevent.lock import Semaphore
 # Local Imports
 
 

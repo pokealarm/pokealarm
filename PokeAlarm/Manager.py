@@ -482,20 +482,19 @@ class Manager(object):
         if res:  # If location is in a Lat,Lng coordinate
             self.__location = [float(res.group(1)), float(res.group(2))]
         else:
-            if self._gmaps_service is None:  # Check if key was provided
-                log.error("Unable to find location coordinates by name - "
-                          + "no Google API key was provided.")
-                return None
-            self.__location = self._gmaps_service.get_location_from_name(
-                location)
+            # Check if key was provided
+            if self._gmaps_service is None:
+                raise ValueError("Unable to find location coordinates by name"
+                                 " - no Google API key was provided.")
+            # Attempt to geocode location
+            location = self._gmaps_service.geocode(location)
+            if location is None:
+                raise ValueError("Unable to geocode coordinates from {}. "
+                                 "Location will not be set.".format(location))
 
-        if self.__location is None:
-            log.error("Unable to set location - "
-                      + "Please check your settings and try again.")
-            sys.exit(1)
-        else:
+            self.__location = location
             log.info("Location successfully set to '{},{}'.".format(
-                self.__location[0], self.__location[1]))
+                location[0], location[1]))
 
     # Process new Monster data and decide if a notification needs to be sent
     def process_monster(self, mon):

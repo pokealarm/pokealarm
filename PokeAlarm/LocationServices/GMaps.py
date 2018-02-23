@@ -38,6 +38,7 @@ class GMaps(object):
         self._time_limit = time.time()
 
         # Memoization dicts
+        self._geocode_hist = {}
         self._reverse_geocode_hist = {}
         self._dm_hist = {key: dict() for key in self.TRAVEL_MODES}
 
@@ -110,6 +111,46 @@ class GMaps(object):
             raise UserWarning(u'API Limit reached.')
         else:
             raise ValueError(u'Unexpected response status:\n {}'.format(body))
+
+    @synchronize_with()
+    def geocode(self, address, language='en'):
+        # type: (str, str) -> tuple
+        """ Returns 'lat,lng' associated with the name of the place. """
+        # Check for memoized results
+        address = address.lower()
+        if address in self._geocode_hist:
+            return self._geocode_hist[address]
+        # Set default in case something happens
+        latlng = None
+        try:
+            # Set parameters and make the request
+            params = {'address': address, 'language': language}
+            response = self._make_request('geocode', params)
+            # Extract the results and format into a dict
+            response = response.get('results', [])
+            response = response[0] if len(response) > 0 else {}
+            response = response.get('geometry', {})
+            response = response.get('location', {})
+            if 'lat' in response and 'lng' in response:
+                latlng = float(response['lat']), float(response['lng'])
+
+            # Memoize the results
+            self._geocode_hist[address] = latlng
+        except requests.exceptions.HTTPError as e:
+            log.error(u"Geocode failed with "
+                      u"HTTPError: {}".format(e.message))
+        except requests.exceptions.Timeout as e:
+            log.error(u"Geocode failed with "
+                      u"connection issues: {}".format(e.message))
+        except UserWarning:
+            log.error(u"Geocode failed because of exceeded quota.")
+        except Exception as e:
+            log.error(u"Geocode failed because "
+                      u"unexpected error has occurred: "
+                      u"{} - {}".format(type(e).__name__, e.message))
+            log.error(u"Stack trace: \n {}".format(traceback.format_exc()))
+        # Send back tuple
+        return latlng
 
     _reverse_geocode_defaults = {
         'street_num': Unknown.SMALL,
