@@ -3,7 +3,7 @@
 # You can create a copy of this config and edit it to suit your needs.
 # Uncomment a line (remove the #) when you want to change its default value.
 # By default, PA will use `config/config.ini` to load settings.
-# You can override the config file selction with `--config-file` or `-cf`.
+# You can override the config file selection with `--config-file` or `-cf`.
 
 
 ########################
