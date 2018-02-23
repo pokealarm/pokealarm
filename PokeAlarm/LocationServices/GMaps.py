@@ -276,4 +276,3 @@ class GMaps(object):
             log.error(u"Stack trace: \n {}".format(traceback.format_exc()))
         # Send back DTS
         return dts
-
