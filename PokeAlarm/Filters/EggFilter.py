@@ -107,7 +107,7 @@ class EggFilter(BaseFilter):
 
         # Gym Sponsor
         if self.is_sponsor is not None:
-            settings['ym_is_sponsor'] = self.is_sponsor
+            settings['gym_is_sponsor'] = self.is_sponsor
 
         # Gym Park
         if self.gym_park_contains is not None:
