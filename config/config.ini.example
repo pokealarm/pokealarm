@@ -24,7 +24,7 @@
 # If a single setting is supplied, it will apply to all Managers.
 # Example: `locale: en` will set all Managers to english
 # If an array of settings is supplied, they will be apply to Managers in order.
-# Example: `locale: [ en, fr, sp ]` sets a different langauge for 3 Managers.
+# Example: `locale: [ en, fr, en ]` sets a different language for 3 Managers.
 # `None` can be used to exempt a Manager from an optional setting
 
 #manager_name:                  # Name of Manager, used for logging (default='manager#')
@@ -43,7 +43,7 @@
 
 # Location Specific
 #####################
-location:                       # Location, as address or coordinates (default=None)
+#location:                       # Location, as address or coordinates (default=None)
 #locale: en                     # Language used for DTS translations (default='en')
                                 # Options: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'zh_hk' ]
 #unit: imperial                 # Units used to measurements.(default='imperial')
