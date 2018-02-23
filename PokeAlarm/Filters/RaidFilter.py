@@ -1,6 +1,5 @@
 # Standard Library Imports
 import operator
-import re
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
@@ -74,16 +73,16 @@ class RaidFilter(BaseFilter):
                 GymUtils.create_regex, 'gym_name_contains', data))
 
         # Gym sponsor
-        self.gym_sponsor_index_contains = self.evaluate_attribute(
-            event_attribute='gym_sponsor', eval_func=GymUtils.match_regex_dict,
-            limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_sponsor_index_contains', data))
+        self.is_sponsor = self.evaluate_attribute(  # f.sponsor > 0
+            event_attribute='gym_sponsor', eval_func=GymUtils.is_sponsor,
+            limit=BaseFilter.parse_as_type(
+                bool, 'is_sponsor', data))
 
         # Gym park
-        self.gym_park_contains = self.evaluate_attribute(
+        self.gym_park_contains = self.evaluate_attribute(  # f.gp matches e.gp
             event_attribute='gym_park', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                re.compile, 'gym_park_contains', data))
+                GymUtils.create_regex, 'gym_park_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -140,8 +139,8 @@ class RaidFilter(BaseFilter):
             settings['gym_name_matches'] = self.gym_name_contains
 
         # Gym Sponsor
-        if self.gym_sponsor_index_contains is not None:
-            settings['gym_sponsor_matches'] = self.gym_sponsor_index_contains
+        if self.is_sponsor is not None:
+            settings['ym_is_sponsor'] = self.is_sponsor
 
         # Gym Park
         if self.gym_park_contains is not None:

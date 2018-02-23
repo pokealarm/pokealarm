@@ -122,6 +122,29 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_gym_park(self):
+        # Create the filters
+        settings = {"gym_park_contains": ["pass"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.EggEvent(generate_raid({"park": "pass1"}))
+        pass2 = Events.EggEvent(generate_raid({"park": "2pass"}))
+        pass3 = Events.EggEvent(generate_raid({"park": "3pass3"}))
+
+        # Test passing events
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(raid_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.EggEvent(generate_raid({"park": "fail1"}))
+        fail2 = Events.EggEvent(generate_raid({"park": "failpas"}))
+        fail3 = Events.EggEvent(generate_raid({"park": "pasfail"}))
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(raid_filter.check_event(e))
+
     def test_current_team(self):
         # Create the filters
         settings = {"current_teams": [1, "2", "Instinct"]}
@@ -137,6 +160,25 @@ class TestRaidFilter(unittest.TestCase):
 
         # Generate events that should fail
         fail1 = Events.RaidEvent(generate_raid({"team": 0}))
+
+        # Test failing events
+        for e in [fail1]:
+            self.assertFalse(raid_filter.check_event(e))
+
+    def test_is_sponsor(self):
+        # Create the filters
+        settings = {"is_sponsor": False}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.RaidEvent(generate_raid({"sponsor": 0}))
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(raid_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.RaidEvent(generate_raid({"sponsor": 4}))
 
         # Test failing events
         for e in [fail1]:
