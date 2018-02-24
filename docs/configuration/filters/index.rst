@@ -46,7 +46,7 @@ Creating a Filter
 A Filter is represented as a *named* JSON Object containing several key-value
 pairs called *restrictions*. Each restriction represents a limit on which Events
 are allowed to pass. Restrictions are *explicit* (they must be listed to be
-checked) and *associative* (all restrictions must be passed to match) A Filter
+checked) and *conjunctive* (all restrictions must be passed to match) A Filter
 with no restrictions would allow any Event to pass:
 
 .. code-block:: json
@@ -85,13 +85,12 @@ carefully.
 Filters File
 -------------------------------------
 
-.. note::
-
-A *filters file* (often refereed to as 'filters.json') is a file containing then
-Filters that PA uses. By default, PA loads the Filter from the `filters.json`
-located in the base folder of the project. See the :doc:`../Server-Settings`
-page for instructions on specifying the file by a different name. This file
-must contain a single JSON object to load successfully:
+A *filters file* (sometimes referred to as a 'filters.json') is a file
+containing then Filters that PA uses. By default, PA loads from the
+`filters.json` located in the base folder of the project. See the
+:doc:`../Server-Settings` page for instructions on specifying the file by a
+different name. This file must contain a single JSON object to load
+successfully:
 
 .. code-block:: json
 
