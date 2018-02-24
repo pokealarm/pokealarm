@@ -527,7 +527,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             mon.distance = get_earth_dist(
-                [mon.lat, mon.lng], self.__location)
+                [mon.lat, mon.lng], self.__location, self.__units)
             mon.direction = get_cardinal_dir(
                 [mon.lat, mon.lng], self.__location)
 
@@ -602,7 +602,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             stop.distance = get_earth_dist(
-                [stop.lat, stop.lng], self.__location)
+                [stop.lat, stop.lng], self.__location, self.__units)
             stop.direction = get_cardinal_dir(
                 [stop.lat, stop.lng], self.__location)
 
@@ -683,7 +683,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             gym.distance = get_earth_dist(
-                [gym.lat, gym.lng], self.__location)
+                [gym.lat, gym.lng], self.__location, self.__units)
             gym.direction = get_cardinal_dir(
                 [gym.lat, gym.lng], self.__location)
 
@@ -768,7 +768,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             egg.distance = get_earth_dist(
-                [egg.lat, egg.lng], self.__location)
+                [egg.lat, egg.lng], self.__location, self.__units)
             egg.direction = get_cardinal_dir(
                 [egg.lat, egg.lng], self.__location)
 
@@ -853,7 +853,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             raid.distance = get_earth_dist(
-                [raid.lat, raid.lng], self.__location)
+                [raid.lat, raid.lng], self.__location, self.__units)
             raid.direction = get_cardinal_dir(
                 [raid.lat, raid.lng], self.__location)
 
