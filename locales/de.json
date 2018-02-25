@@ -12,6 +12,26 @@
 	"4": "gro\u00DF",
 	"5": "riesig"
   },
+  "costumes": {
+    "25": {
+      "1": "Festlicher Hut",
+      "2": "Partyhut",
+      "3": "Ash Cap",
+      "4": "Hexenhut"
+    },
+    "26": {
+      "1": "Festlicher Hut",
+      "2": "Partyhut",
+      "3": "Ash Cap",
+      "4": "Hexenhut"
+    },
+    "172": {
+      "1": "Festlicher Hut",
+      "2": "Partyhut",
+      "3": "Ash Cap",
+      "4": "Hexenhut"
+    }
+  },
   "types": {
     "1": "Normal",
     "2": "Kampf",

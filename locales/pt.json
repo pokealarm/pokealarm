@@ -12,6 +12,26 @@
     "4": "grande",
     "5": "enorme"
   },
+  "costumes": {
+    "25": {
+      "1": "Chap\u00E9u Festiva",
+      "2": "Chap\u00E9u de Festa",
+      "3": "Chap\u00E9u de Ash",
+      "4": "Chap\u00E9u da Bruxa"
+    },
+    "26": {
+      "1": "Chap\u00E9u Festiva",
+      "2": "Chap\u00E9u de Festa",
+      "3": "Chap\u00E9u de Ash",
+      "4": "Chap\u00E9u da Bruxa"
+    },
+    "172": {
+      "1": "Chap\u00E9u Festiva",
+      "2": "Chap\u00E9u de Festa",
+      "3": "Chap\u00E9u de Ash",
+      "4": "Chap\u00E9u da Bruxa"
+    }
+  }, 
   "types": {
     "1": "Normal",
     "2": "Lutar",

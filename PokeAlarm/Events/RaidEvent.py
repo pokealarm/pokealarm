@@ -40,6 +40,12 @@ class RaidEvent(BaseEvent):
         self.types = get_base_types(self.mon_id)
         self.boss_level = 20
 
+        # Form
+        self.form_id = check_for_none(int, data.get('form'), 0)
+
+        # Costume
+        self.costume_id = check_for_none(int, data.get('costume'), 0)
+
         # Weather Info
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
@@ -88,6 +94,10 @@ class RaidEvent(BaseEvent):
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
+        form_name = locale.get_form_name(self.monster_id, self.form_id)
+        costume_name = locale.get_costume_name(
+            self.monster_id, self.costume_id)
+
         boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
         weather_name = locale.get_weather_name(self.weather_id)
 
@@ -119,6 +129,18 @@ class RaidEvent(BaseEvent):
                     get_type_emoji(self.types[0]),
                     get_type_emoji(self.types[1]))
                 if Unknown.is_not(type2) else get_type_emoji(self.types[0])),
+
+            # Form
+            'form': form_name,
+            'form_or_empty': Unknown.or_empty(form_name),
+            'form_id': self.form_id,
+            'form_id_3': "{:03d}".format(self.form_id),
+
+            # Costume
+            'costume': costume_name,
+            'costume_or_empty': Unknown.or_empty(costume_name),
+            'costume_id': self.costume_id,
+            'costume_id_3': "{:03d}".format(self.costume_id),
 
             # Location
             'lat': self.lat,

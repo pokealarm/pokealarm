@@ -201,6 +201,21 @@ class TestMonsterFilter(unittest.TestCase):
         self.assertFalse(mon_filter.check_event(create_event({'form': 2})))
         self.assertFalse(mon_filter.check_event(create_event({'form': 999})))
 
+    def test_costume(self):
+        # Create filter that forces settings
+        settings = {"costume_ids": [1, 2]}
+        mon_filter = Filters.MonFilter('costume_filter', settings)
+
+        # Test events that should pass
+        for c in [1, 2]:
+            event = Events.MonEvent(generate_monster({"costume": c}))
+            self.assertTrue(mon_filter.check_event(event))
+
+        # Test events that should fail
+        for c in [3, 4]:
+            event = Events.MonEvent(generate_monster({"costume": c}))
+            self.assertFalse(mon_filter.check_event(event))
+
     def test_moves(self):
         quick_settings = {"quick_moves": ["Vine Whip", "Tackle"]}
         quick_mon_filter = Filters.MonFilter('quick_move_filter',

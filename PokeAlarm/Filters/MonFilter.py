@@ -93,6 +93,10 @@ class MonFilter(BaseFilter):
         self.forms = self.evaluate_attribute(  # f.forms in m.form_id
             event_attribute='form_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(int, 'form_ids', data))
+        # Costume  TODO: names
+        self.costumes = self.evaluate_attribute(  # f.costumes in m.costume_id
+            event_attribute='costume_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(int, 'costume_ids', data))
 
         # Quick Move
         self.quick_moves = self.evaluate_attribute(  # f.q_ms contains m.q_m
@@ -194,6 +198,9 @@ class MonFilter(BaseFilter):
         # Form
         if self.forms is not None:
             settings['forms'] = self.forms
+        # Costume
+        if self.forms is not None:
+            settings['costumes'] = self.costumes
 
         # Quick Move
         if self.quick_moves is not None:
