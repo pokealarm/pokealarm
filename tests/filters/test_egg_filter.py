@@ -57,7 +57,6 @@ class TestEggFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(egg_filter.check_event(e))
 
-<<<<<<< HEAD
     def test_gym_name_excludes(self):
         # Create the filters
         settings = {"gym_name_excludes": ["fail"]}
@@ -76,17 +75,17 @@ class TestEggFilter(unittest.TestCase):
     def test_gym_park(self):
         # Create the filters
         settings = {"gym_park_contains": ["pass"]}
-        raid_filter = Filters.RaidFilter('filter1', settings)
+        egg_filter = Filters.EggFilter('filter1', settings)
 
         # Test events that should pass
         for n in ["pass1", "2pass", "3pass3"]:
-            event = Events.RaidEvent(generate_raid({"park": n}))
-            self.assertTrue(raid_filter.check_event(event))
+            event = Events.EggEvent(generate_egg({"park": n}))
+            self.assertTrue(egg_filter.check_event(event))
 
         # Test events that should fail
-        for n in ["fail1", "failpass", "passfail"]:
-            event = Events.RaidEvent(generate_raid({"park": n}))
-            self.assertFalse(raid_filter.check_event(event))
+        for n in ["fail1", "failpas", "pasfail"]:
+            event = Events.EggEvent(generate_egg({"park": n}))
+            self.assertFalse(egg_filter.check_event(event))
 
     def test_current_team(self):
         # Create the filters
@@ -108,9 +107,9 @@ class TestEggFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(egg_filter.check_event(e))
 
-    def test_is_sponsor(self):
+    def test_gym_is_sponsor(self):
         # Create the filters
-        settings = {"is_sponsor": False}
+        settings = {"gym_is_sponsor": False}
         egg_filter = Filters.EggFilter('filter1', settings)
 
         # Generate events that should pass
