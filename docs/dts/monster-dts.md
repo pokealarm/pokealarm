@@ -67,7 +67,7 @@ This page assumes:
 | rating_attack   | Rating attack of the monster.                             |
 | rating_defense  | Rating defense of the monster.                            |
 | catch_prob_1    | Probability to catch the monster with a pokeball.         |
-| catch_prob_2    | Probability to catch the monster with a superball.        |
+| catch_prob_2    | Probability to catch the monster with a greatball.        |
 | catch_prob_3    | Probability to catch the monster with an ultraball.       |
 | big_karp        | Return `big` if Magikarp weight is >=13.13.               |
 | tiny_rat        | Return `tiny` if Rattata weight is <=2.41.                |
