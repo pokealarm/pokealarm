@@ -45,8 +45,10 @@ def match_regex_dict(reg_exs, name):
     return False
 
 
-def is_sponsor(sponsor_filter, sponsor):
-    if sponsor_filter:
-        return sponsor > 0
-    else:
-        return sponsor == 0
+# Returns true if the string does not match any given RE objects
+def not_match_regex_dict(reg_exs, name):
+    name = unicode(name)
+    for reg_ex in reg_exs:
+        if reg_ex.search(name):
+            return False
+    return True

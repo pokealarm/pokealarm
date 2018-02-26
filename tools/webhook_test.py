@@ -125,10 +125,7 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
-                "name": "Test gym",
-                "team": 1,
-                "park": None,
-                "sponsor": 0,
+                "name": "unknown",
                 "level": 5,
                 "latitude": 37.7876146,
                 "longitude": -122.390624
@@ -139,18 +136,15 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
-                "name": "Test gym",
-                "team": 1,
-                "park": None,
-                "sponsor": 0,
-                "weather": 5,
+                "name": "unknown",
                 "pokemon_id": 150,
                 "cp": 12345,
                 "move_1": 123,
                 "move_2": 123,
                 "level": 5,
                 "latitude": 37.7876146,
-                "longitude": -122.390624
+                "longitude": -122.390624,
+                "weather": 0
             }
         }
 

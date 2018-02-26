@@ -12,6 +12,26 @@
     "4": "\ud070",
     "5": "\uac70\ub300\ud55c"
   },
+  "costumes": {
+    "25": {
+      "1": "\ucd95\uc81c \ubaa8\uc790",
+      "2": "\ud30c\ud2f0 \ubaa8\uc790",
+      "3": "Ash \ubaa8\uc790",
+      "4": "\ub9c8\ub140 \ubaa8\uc790"
+    },
+    "26": {
+      "1": "\ucd95\uc81c \ubaa8\uc790",
+      "2": "\ud30c\ud2f0 \ubaa8\uc790",
+      "3": "Ash \ubaa8\uc790",
+      "4": "\ub9c8\ub140 \ubaa8\uc790"
+    },
+    "172": {
+      "1": "\ucd95\uc81c \ubaa8\uc790",
+      "2": "\ud30c\ud2f0 \ubaa8\uc790",
+      "3": "Ash \ubaa8\uc790",
+      "4": "\ub9c8\ub140 \ubaa8\uc790"
+    }
+  },
   "types": {
     "1": "\ubcf4\ud1b5",
     "2": "\ud30c\uc774\ud305",

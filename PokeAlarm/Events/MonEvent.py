@@ -5,7 +5,7 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from PokeAlarm.Utilities import MonUtils
 from PokeAlarm.Utils import (
-    get_gmaps_link, get_move_damage, get_move_dps,
+    get_gmaps_link, get_move_type, get_move_damage, get_move_dps,
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_time_as_str, get_seconds_remaining,
     get_base_types, get_dist_as_str, get_weather_emoji,
@@ -50,6 +50,7 @@ class MonEvent(BaseEvent):
         self.mon_lvl = check_for_none(
             int, data.get('pokemon_level'), Unknown.TINY)
         self.cp = check_for_none(int, data.get('cp'), Unknown.TINY)
+
         # IVs
         self.atk_iv = check_for_none(
             int, data.get('individual_attack'), Unknown.TINY)
@@ -62,28 +63,28 @@ class MonEvent(BaseEvent):
                 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
         else:
             self.iv = Unknown.SMALL
-        # Form
-        self.form_id = check_for_none(int, data.get('form'), 0)
 
         # Quick Move
-        self.quick_move_id = check_for_none(
+        self.quick_id = check_for_none(
             int, data.get('move_1'), Unknown.TINY)
-        self.quick_damage = get_move_damage(self.quick_move_id)
-        self.quick_dps = get_move_dps(self.quick_move_id)
-        self.quick_duration = get_move_duration(self.quick_move_id)
-        self.quick_energy = get_move_energy(self.quick_move_id)
+        self.quick_type = get_move_type(self.quick_id)
+        self.quick_damage = get_move_damage(self.quick_id)
+        self.quick_dps = get_move_dps(self.quick_id)
+        self.quick_duration = get_move_duration(self.quick_id)
+        self.quick_energy = get_move_energy(self.quick_id)
+
         # Charge Move
-        self.charge_move_id = check_for_none(
+        self.charge_id = check_for_none(
             int, data.get('move_2'), Unknown.TINY)
-        self.charge_damage = get_move_damage(self.charge_move_id)
-        self.charge_dps = get_move_dps(self.charge_move_id)
-        self.charge_duration = get_move_duration(self.quick_move_id)
-        self.charge_energy = get_move_energy(self.charge_move_id)
+        self.charge_type = get_move_type(self.charge_id)
+        self.charge_damage = get_move_damage(self.charge_id)
+        self.charge_dps = get_move_dps(self.charge_id)
+        self.charge_duration = get_move_duration(self.charge_id)
+        self.charge_energy = get_move_energy(self.charge_id)
 
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
-
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):
@@ -93,6 +94,12 @@ class MonEvent(BaseEvent):
             self.size_id = Unknown.SMALL
         self.types = get_base_types(self.monster_id)
 
+        # Form
+        self.form_id = check_for_none(int, data.get('form'), 0)
+
+        # Costume
+        self.costume_id = check_for_none(int, data.get('costume'), 0)
+
         # Correct this later
         self.name = self.monster_id
         self.geofence = Unknown.REGULAR
@@ -101,7 +108,11 @@ class MonEvent(BaseEvent):
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.disappear_time, timezone)
+
         form_name = locale.get_form_name(self.monster_id, self.form_id)
+        costume_name = locale.get_costume_name(
+            self.monster_id, self.costume_id)
+
         weather_name = locale.get_weather_name(self.weather_id)
         boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
 
@@ -195,17 +206,29 @@ class MonEvent(BaseEvent):
             'form_id': self.form_id,
             'form_id_3': "{:03d}".format(self.form_id),
 
+            # Costume
+            'costume': costume_name,
+            'costume_or_empty': Unknown.or_empty(costume_name),
+            'costume_id': self.costume_id,
+            'costume_id_3': "{:03d}".format(self.costume_id),
+
             # Quick Move
-            'quick_move': locale.get_move_name(self.quick_move_id),
-            'quick_id': self.quick_move_id,
+            'quick_move': locale.get_move_name(self.quick_id),
+            'quick_id': self.quick_id,
+            'quick_type_id': self.quick_type,
+            'quick_type': locale.get_type_name(self.quick_type),
+            'quick_type_emoji': get_type_emoji(self.quick_type),
             'quick_damage': self.quick_damage,
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
             'quick_energy': self.quick_energy,
 
             # Charge Move
-            'charge_move': locale.get_move_name(self.charge_move_id),
-            'charge_id': self.charge_move_id,
+            'charge_move': locale.get_move_name(self.charge_id),
+            'charge_id': self.charge_id,
+            'charge_type_id': self.charge_type,
+            'charge_type': locale.get_type_name(self.charge_type),
+            'charge_type_emoji': get_type_emoji(self.charge_type),
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,

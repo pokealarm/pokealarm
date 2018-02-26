@@ -33,6 +33,21 @@ class TestGymFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(gym_filter.check_event(e))
 
+    def test_gym_name_excludes(self):
+        # Create the filters
+        settings = {"gym_name_excludes": ["fail"]}
+        gym_filter = Filters.GymFilter('filter1', settings)
+
+        # Generate events that should pass
+        for r in ["pass1", "2pass", "3pass3"]:
+            event = Events.GymEvent(generate_gym({"name": r}))
+            self.assertTrue(gym_filter.check_event(event))
+
+        # Generate events that should fail
+        for r in ["fail1", "failpass", "passfail"]:
+            event = Events.GymEvent(generate_gym({"name": r}))
+            self.assertFalse(gym_filter.check_event(event))
+
     def test_gym_guards(self):
         # Create the filters
         settings = {"min_slots": 2, "max_slots": 4}

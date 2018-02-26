@@ -12,6 +12,26 @@
     "4": "grande",
     "5": "enorme"
   },
+  "costumes": {
+    "25": {
+      "1": "Cappello Festiva",
+      "2": "Cappello da Festa",
+      "3": "Cappello di Ash",
+      "4": "Cappello da Strega"
+    },
+    "26": {
+      "1": "Cappello Festiva",
+      "2": "Cappello da Festa",
+      "3": "Cappello di Ash",
+      "4": "Cappello da Strega"
+    },
+    "172": {
+      "1": "Cappello Festiva",
+      "2": "Cappello da Festa",
+      "3": "Cappello di Ash",
+      "4": "Cappello da Strega"
+    }
+  },
   "types": {
     "1": "Normale",
     "2": "Combattimento",
