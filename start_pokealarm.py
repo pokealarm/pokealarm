@@ -26,7 +26,7 @@ import PokeAlarm.Events as Events
 from PokeAlarm import config
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
-from PokeAlarm.Utils import get_path, parse_unicode
+from PokeAlarm.Utils import get_path, parse_unicode, parse_boolean
 from PokeAlarm.Load import parse_rules_file
 
 # Reinforce UTF-8 as default
@@ -121,6 +121,8 @@ def parse_settings(root_path):
     parser = configargparse.ArgParser(default_config_files=config_files)
     parser.add_argument(
         '-cf', '--config', is_config_file=True, help='Configuration file')
+
+    # Webserver Settings:
     parser.add_argument(
         '-d', '--debug', help='Debug Mode', action='store_true', default=False)
     parser.add_argument(
@@ -132,6 +134,8 @@ def parse_settings(root_path):
     parser.add_argument(
         '-C', '--concurrency', type=int,
         help='Maximum concurrent connections for the webserver.', default=200)
+
+    # Manager Settings
     parser.add_argument(
         '-m', '--manager_count', type=int, default=1,
         help='Number of Manager processes to start.')
@@ -139,9 +143,7 @@ def parse_settings(root_path):
         '-M', '--manager_name', type=parse_unicode,
         action='append', default=[],
         help='Names of Manager processes to start.')
-    parser.add_argument(
-        '-k', '--key', type=parse_unicode, action='append', default=[None],
-        help='Specify a Google API Key to use.')
+    # Files
     parser.add_argument(
         '-f', '--filters', type=parse_unicode, action='append',
         default=['filters.json'],
@@ -158,6 +160,8 @@ def parse_settings(root_path):
         '-gf', '--geofences', type=parse_unicode,
         action='append', default=[None],
         help='Alarms configuration file. default: None')
+
+    # Location Specific
     parser.add_argument(
         '-l', '--location', type=parse_unicode, action='append',
         default=[None], help='Location, can be an address or coordinates')
@@ -172,6 +176,31 @@ def parse_settings(root_path):
         help='Specify either metric or imperial units to use for distance " '
              '+ "measurements. ')
     parser.add_argument(
+        '-tz', '--timezone', type=str, action='append', default=[None],
+        help='Timezone used for notifications. Ex: "America/Los_Angeles"')
+
+    # GMaps
+    parser.add_argument(
+        '-k', '--gmaps-key', type=parse_unicode, action='append',
+        default=[None], help='Specify a Google API Key to use.')
+    parser.add_argument(
+        '--gmaps-rev-geocode', type=parse_boolean, action='append',
+        default=[None], help='Enable Walking Distance Matrix DTS.')
+    parser.add_argument(
+        '--gmaps-dm-walk', type=parse_boolean, action='append',
+        default=[None], help='Enable Walking Distance Matrix DTS.')
+    parser.add_argument(
+        '--gmaps-dm-bike', type=parse_boolean, action='append',
+        default=[None], help='Enable Bicycling Distance Matrix DTS.')
+    parser.add_argument(
+        '--gmaps-dm-drive', type=parse_boolean, action='append',
+        default=[None], help='Enable Driving Distance Matrix DTS.')
+    parser.add_argument(
+        '--gmaps-dm-transit', type=parse_boolean, action='append',
+        default=[None], help='Enable Transit Distance Matrix DTS.')
+
+    # Misc
+    parser.add_argument(
         '-ct', '--cache_type', type=parse_unicode, action='append',
         default=['mem'], choices=cache_options,
         help="Specify the type of cache to use. Options: "
@@ -182,9 +211,6 @@ def parse_settings(root_path):
     parser.add_argument(
         '-ma', '--max_attempts', type=int, default=[3], action='append',
         help='Maximum attempts an alarm makes to send a notification.')
-    parser.add_argument(
-        '-tz', '--timezone', type=str, action='append', default=[None],
-        help='Timezone used for notifications. Ex: "America/Los_Angeles"')
 
     args = parser.parse_args()
 
@@ -201,10 +227,12 @@ def parse_settings(root_path):
     config['DEBUG'] = args.debug
 
     # Check to make sure that the same number of arguments are included
-    for arg in [args.key, args.filters, args.alarms, args.rules,
+    for arg in [args.gmaps_key, args.filters, args.alarms, args.rules,
                 args.geofences, args.location, args.locale, args.units,
                 args.cache_type, args.timelimit, args.max_attempts,
-                args.timezone]:
+                args.timezone, args.gmaps_rev_geocode, args.gmaps_dm_walk,
+                args.gmaps_dm_bike, args.gmaps_dm_drive,
+                args.gmaps_dm_transit]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -241,7 +269,7 @@ def parse_settings(root_path):
         m = Manager(
             name=args.manager_name[m_ct],
             google_key=get_from_list(
-                args.key, m_ct, args.key[0]),
+                args.gmaps_key, m_ct, args.gmaps_key[0]),
             locale=get_from_list(args.locale, m_ct, args.locale[0]),
             units=get_from_list(args.units, m_ct, args.units[0]),
             timezone=get_from_list(args.timezone, m_ct, args.timezone[0]),
@@ -259,6 +287,21 @@ def parse_settings(root_path):
             debug=config['DEBUG']
         )
         parse_rules_file(m, get_from_list(args.rules, m_ct, args.rules[0]))
+
+        # Set up GMaps stuff
+        if get_from_list(
+                args.gmaps_rev_geocode, m_ct, args.gmaps_rev_geocode[0]):
+            m.enable_gmaps_reverse_geocoding()
+        if get_from_list(args.gmaps_dm_walk, m_ct, args.gmaps_dm_walk[0]):
+            m.enable_gmaps_distance_matrix('walking')
+        if get_from_list(args.gmaps_dm_bike, m_ct, args.gmaps_dm_bike[0]):
+            m.enable_gmaps_distance_matrix('biking')
+        if get_from_list(args.gmaps_dm_drive, m_ct, args.gmaps_dm_drive[0]):
+            m.enable_gmaps_distance_matrix('driving')
+        if get_from_list(
+                args.gmaps_dm_transit, m_ct, args.gmaps_dm_transit[0]):
+            m.enable_gmaps_distance_matrix('transit')
+
         if m.get_name() not in managers:
             # Add the manager to the map
             managers[m.get_name()] = m
