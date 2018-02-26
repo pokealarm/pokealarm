@@ -83,18 +83,18 @@ class MonEvent(BaseEvent):
         self.charge_energy = get_move_energy(self.charge_id)
 
         # Catch Probs
-        self.catch_prob_1 = check_for_none(
-            float, data.get('catch_prob_1'), Unknown.TINY)
-        self.catch_prob_2 = check_for_none(
-            float, data.get('catch_prob_2'), Unknown.TINY)
-        self.catch_prob_3 = check_for_none(
-            float, data.get('catch_prob_3'), Unknown.TINY)
+        self.base_catch = check_for_none(
+            float, data.get('base_catch'), Unknown.TINY)
+        self.great_catch = check_for_none(
+            float, data.get('great_catch'), Unknown.TINY)
+        self.ultra_catch = check_for_none(
+            float, data.get('ultra_catch'), Unknown.TINY)
 
         # Attack Rating
-        self.rating_attack = check_for_none(
-            str, data.get('rating_attack'), Unknown.TINY)
-        self.rating_defense = check_for_none(
-            str, data.get('rating_defense'), Unknown.TINY)
+        self.atk_grade = check_for_none(
+            str, data.get('atk_grade'), Unknown.TINY)
+        self.def_grade = check_for_none(
+            str, data.get('def_grade'), Unknown.TINY)
 
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
@@ -255,21 +255,21 @@ class MonEvent(BaseEvent):
             'size': locale.get_size_name(self.size_id),
 
             # Attack rating
-            'rating_attack': (
-                Unknown.or_empty(self.rating_attack, Unknown.TINY)),
-            'rating_defense': (
-                Unknown.or_empty(self.rating_defense, Unknown.TINY)),
+            'atk_grade': (
+                Unknown.or_empty(self.atk_grade, Unknown.TINY)),
+            'def_grade': (
+                Unknown.or_empty(self.def_grade, Unknown.TINY)),
 
             # Catch Prob
-            'catch_prob_1': (
-                "{:.1f}".format(self.catch_prob_1 * 100)
-                if self.catch_prob_1 != 'unkn' else 'unkw'),
-            'catch_prob_2': (
-                "{:.1f}".format(self.catch_prob_2 * 100)
-                if self.catch_prob_2 != 'unkn' else 'unkw'),
-            'catch_prob_3': (
-                "{:.1f}".format(self.catch_prob_3 * 100)
-                if self.catch_prob_3 != 'unkn' else 'unkw'),
+            'base_catch': (
+                "{:.1f}".format(self.base_catch * 100)
+                if Unknown.is_not(self.base_catch) else Unknown.SMALL,
+            'great_catch': (
+                "{:.1f}".format(self.great_catch * 100)
+                if Unknown.is_not(self.great_catch) else Unknown.SMALL,
+            'ultra_catch': (
+                "{:.1f}".format(self.ultra_catch * 100)
+                if Unknown.is_not(self.ultra_catch) else Unknown.SMALL,
 
             # Misc
             'big_karp': (
