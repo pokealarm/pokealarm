@@ -19,8 +19,11 @@ class StopEvent(BaseEvent):
         self.stop_id = data['pokestop_id']
 
         # Time left
-        self.expiration = datetime.utcfromtimestamp(data['lure_expiration'])
-        self.time_left = get_seconds_remaining(self.expiration)
+        self.expiration = data['lure_expiration']
+        self.time_left = None
+        if self.expiration is not None:
+            self.expiration = datetime.utcfromtimestamp(self.expiration)
+            self.time_left = get_seconds_remaining(self.expiration)
 
         # Location
         self.lat = float(data['latitude'])

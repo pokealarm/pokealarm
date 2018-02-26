@@ -585,6 +585,11 @@ class Manager(object):
             log.debug("Stop ignored: stop notifications are disabled.")
             return
 
+        # Check for lured
+        if stop.expiration is None:
+            log.debug("Stop ignored: stop was not lured")
+            return
+
         # Check if previously processed and update expiration
         if self.__cache.stop_expiration(stop.stop_id) is not None:
             log.debug("Stop {} was skipped because it was previously "
