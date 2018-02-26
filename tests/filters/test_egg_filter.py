@@ -72,9 +72,9 @@ class TestEggFilter(unittest.TestCase):
             event = Events.EggEvent(generate_egg({"name": r}))
             self.assertFalse(egg_filter.check_event(event))
 
-    def test_gym_park(self):
+    def test_park(self):
         # Create the filters
-        settings = {"gym_park_contains": ["pass"]}
+        settings = {"park_contains": ["pass"]}
         egg_filter = Filters.EggFilter('filter1', settings)
 
         # Test events that should pass
@@ -107,9 +107,9 @@ class TestEggFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(egg_filter.check_event(e))
 
-    def test_gym_is_sponsor(self):
+    def test_is_sponsor(self):
         # Create the filters
-        settings = {"gym_is_sponsor": False}
+        settings = {"is_sponsor": False}
         egg_filter = Filters.EggFilter('filter1', settings)
 
         # Generate events that should pass

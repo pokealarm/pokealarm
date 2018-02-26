@@ -79,15 +79,15 @@ class RaidFilter(BaseFilter):
                 GymUtils.create_regex, 'gym_name_excludes', data))
 
         # Gym sponsor
-        self.gym_is_sponsor = self.evaluate_attribute(  # f.gym_is_sponsor True
-            event_attribute='gym_is_sponsor', eval_func=operator.eq,
-            limit=BaseFilter.parse_as_type(bool, 'gym_is_sponsor', data))
+        self.is_sponsor = self.evaluate_attribute(  # f.gym_is_sponsor True
+            event_attribute='is_sponsor', eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'is_sponsor', data))
 
         # Gym park
-        self.gym_park_contains = self.evaluate_attribute(  # f.gp matches e.gp
-            event_attribute='gym_park', eval_func=GymUtils.match_regex_dict,
+        self.park_contains = self.evaluate_attribute(  # f.gp matches e.gp
+            event_attribute='park', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
-                GymUtils.create_regex, 'gym_park_contains', data))
+                GymUtils.create_regex, 'park_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -151,8 +151,8 @@ class RaidFilter(BaseFilter):
             settings['gym_is_sponsor'] = self.gym_is_sponsor
 
         # Gym Park
-        if self.gym_park_contains is not None:
-            settings['gym_park_contains'] = self.gym_park_contains
+        if self.park_contains is not None:
+            settings['park_contains'] = self.park_contains
 
         # Geofences
         if self.geofences is not None:
