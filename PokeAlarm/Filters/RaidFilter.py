@@ -79,7 +79,7 @@ class RaidFilter(BaseFilter):
                 GymUtils.create_regex, 'gym_name_excludes', data))
 
         # Gym sponsor
-        self.is_sponsor = self.evaluate_attribute(  # f.gym_is_sponsor True
+        self.is_sponsor = self.evaluate_attribute(  # f.is_sponsor True
             event_attribute='is_sponsor', eval_func=operator.eq,
             limit=BaseFilter.parse_as_type(bool, 'is_sponsor', data))
 
@@ -147,8 +147,8 @@ class RaidFilter(BaseFilter):
             settings['gym_name_excludes'] = self.gym_name_excludes
 
         # Gym Sponsor
-        if self.gym_is_sponsor is not None:
-            settings['gym_is_sponsor'] = self.gym_is_sponsor
+        if self.is_sponsor is not None:
+            settings['is_sponsor'] = self.is_sponsor
 
         # Gym Park
         if self.park_contains is not None:
