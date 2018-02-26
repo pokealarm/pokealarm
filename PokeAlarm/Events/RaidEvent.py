@@ -213,9 +213,9 @@ class RaidEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
-            'gym_sponsor_id': self.sponsor_id,
-            'gym_is_sponsor': self.is_sponsor,
-            'gym_park': self.park,
+            'sponsor_id': self.sponsor_id,
+            'is_sponsor': self.is_sponsor,
+            'park': self.park,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)
