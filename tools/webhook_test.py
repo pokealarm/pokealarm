@@ -125,7 +125,7 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
-                "name": "unknown",
+                "gym_name": "unknown",
                 "level": 5,
                 "latitude": 37.7876146,
                 "longitude": -122.390624
@@ -136,7 +136,7 @@ def set_init(webhook_type):
             "type": "raid",
             "message": {
                 "gym_id": 0,
-                "name": "unknown",
+                "gym_name": "unknown",
                 "pokemon_id": 150,
                 "cp": 12345,
                 "move_1": 123,
