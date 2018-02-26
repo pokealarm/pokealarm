@@ -28,7 +28,8 @@ class TelegramAlarm(Alarm):
     Alert = namedtuple(
         "Alert", ['bot_token', 'chat_id', 'sticker', 'sticker_url',
                   'sticker_notify', 'message', 'message_notify', 'venue',
-                  'venue_notify', 'map', 'map_notify', 'max_attempts'])
+                  'venue_notify', 'map', 'map_notify', 'max_attempts',
+                  'web_preview'])
 
     _defaults = {  # No touchy!!! Edit alarms.json!
         'monsters': {
@@ -93,6 +94,8 @@ class TelegramAlarm(Alarm):
                 settings, 'map_notify', utils.parse_bool, False),
             'max_attempts': self.pop_type(
                 settings, 'max_attempts', int, 3),
+            'web_preview': self.pop_type(
+                settings, 'web_preview', utils.parse_bool, False)
         }
 
         # Alert Settings
@@ -152,7 +155,10 @@ class TelegramAlarm(Alarm):
                 settings, 'map_notify', utils.parse_bool,
                 default['map_notify']),
             max_attempts=Alarm.pop_type(
-                settings, 'max_attempts', int, default['max_attempts'])
+                settings, 'max_attempts', int, default['max_attempts']),
+            web_preview=Alarm.pop_type(
+                settings, 'web_preview', utils.parse_bool,
+                default['web_preview'])
         )
 
         # Reject leftover parameters
@@ -190,7 +196,8 @@ class TelegramAlarm(Alarm):
             return  # Don't send message or map
 
         # Send Message
-        self.send_message(bot_token, chat_id, replace(message, dts))
+        self.send_message(bot_token, chat_id, replace(message, dts),
+                          web_preview=alert.web_preview)
 
         # Send Map
         if alert.map:
@@ -231,14 +238,14 @@ class TelegramAlarm(Alarm):
             max_attempts)
 
     def send_message(self, token, chat_id, message,
-                     max_attempts=3, notify=True):
+                     max_attempts=3, notify=True, web_preview=False):
         args = {
             'url': "https://api.telegram.org/bot{}/sendMessage".format(token),
             'payload': {
                 'chat_id': chat_id,
                 'text': message,
                 'parse_mode': 'Markdown',
-                'disable_web_page_preview': True,
+                'disable_web_page_preview': not web_preview,
                 'disable_notification': not notify
             }
         }
