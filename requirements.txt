@@ -1,6 +1,6 @@
 configargparse==0.12.0
 flask==0.12.2
 gevent==1.2.2
-googlemaps==2.5.1
 pytz==2017.3
 portalocker==1.1.0
+requests==2.18.4

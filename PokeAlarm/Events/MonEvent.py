@@ -50,6 +50,7 @@ class MonEvent(BaseEvent):
         self.mon_lvl = check_for_none(
             int, data.get('pokemon_level'), Unknown.TINY)
         self.cp = check_for_none(int, data.get('cp'), Unknown.TINY)
+
         # IVs
         self.atk_iv = check_for_none(
             int, data.get('individual_attack'), Unknown.TINY)
@@ -62,8 +63,6 @@ class MonEvent(BaseEvent):
                 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
         else:
             self.iv = Unknown.SMALL
-        # Form
-        self.form_id = check_for_none(int, data.get('form'), 0)
 
         # Quick Move
         self.quick_id = check_for_none(
@@ -86,7 +85,6 @@ class MonEvent(BaseEvent):
         # Cosmetic
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
-
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
         if Unknown.is_not(self.height, self.weight):
@@ -96,6 +94,12 @@ class MonEvent(BaseEvent):
             self.size_id = Unknown.SMALL
         self.types = get_base_types(self.monster_id)
 
+        # Form
+        self.form_id = check_for_none(int, data.get('form'), 0)
+
+        # Costume
+        self.costume_id = check_for_none(int, data.get('costume'), 0)
+
         # Correct this later
         self.name = self.monster_id
         self.geofence = Unknown.REGULAR
@@ -104,7 +108,11 @@ class MonEvent(BaseEvent):
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.disappear_time, timezone)
+
         form_name = locale.get_form_name(self.monster_id, self.form_id)
+        costume_name = locale.get_costume_name(
+            self.monster_id, self.costume_id)
+
         weather_name = locale.get_weather_name(self.weather_id)
         boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
 
@@ -197,6 +205,12 @@ class MonEvent(BaseEvent):
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
             'form_id_3': "{:03d}".format(self.form_id),
+
+            # Costume
+            'costume': costume_name,
+            'costume_or_empty': Unknown.or_empty(costume_name),
+            'costume_id': self.costume_id,
+            'costume_id_3': "{:03d}".format(self.costume_id),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_id),

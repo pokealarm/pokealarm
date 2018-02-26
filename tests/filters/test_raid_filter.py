@@ -122,6 +122,36 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_gym_name_excludes(self):
+        # Create the filters
+        settings = {"gym_name_excludes": ["fail"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        for r in ["pass1", "2pass", "3pass3"]:
+            event = Events.RaidEvent(generate_raid({"name": r}))
+            self.assertTrue(raid_filter.check_event(event))
+
+        # Generate events that should fail
+        for r in ["fail1", "failpass", "passfail"]:
+            event = Events.RaidEvent(generate_raid({"name": r}))
+            self.assertFalse(raid_filter.check_event(event))
+
+    def test_park(self):
+        # Create the filters
+        settings = {"park_contains": ["pass"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Test events that should pass
+        for n in ["pass1", "2pass", "3pass3"]:
+            event = Events.RaidEvent(generate_raid({"park": n}))
+            self.assertTrue(raid_filter.check_event(event))
+
+        # Test events that should fail
+        for n in ["fail1", "failpas", "pasfail"]:
+            event = Events.RaidEvent(generate_raid({"park": n}))
+            self.assertFalse(raid_filter.check_event(event))
+
     def test_current_team(self):
         # Create the filters
         settings = {"current_teams": [1, "2", "Instinct"]}
@@ -137,6 +167,25 @@ class TestRaidFilter(unittest.TestCase):
 
         # Generate events that should fail
         fail1 = Events.RaidEvent(generate_raid({"team": 0}))
+
+        # Test failing events
+        for e in [fail1]:
+            self.assertFalse(raid_filter.check_event(e))
+
+    def test_is_sponsor(self):
+        # Create the filters
+        settings = {"is_sponsor": False}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.EggEvent(generate_raid({"sponsor": 0}))
+
+        # Test passing events
+        for e in [pass1]:
+            self.assertTrue(raid_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.EggEvent(generate_raid({"sponsor": 4}))
 
         # Test failing events
         for e in [fail1]:
@@ -251,7 +300,9 @@ def generate_raid(values):
         "end": 1499246052,
         "level": 5,
         "latitude": 37.7876146,
-        "longitude": -122.390624
+        "longitude": -122.390624,
+        "sponsor": None,
+        "park": None
     }
     raid.update(values)
     return raid

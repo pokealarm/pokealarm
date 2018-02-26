@@ -12,6 +12,26 @@
     "4": "grande",
     "5": "enorme"
   },
+  "costumes": {
+    "25": {
+      "1": "Gorra festiva",
+      "2": "Gorra de Fiesta",
+      "3": "Gorra de Ash",
+      "4": "Sombrero de Bruja"
+    },
+    "26": {
+      "1": "Gorra festiva",
+      "2": "Gorra de Fiesta",
+      "3": "Gorra de Ash",
+      "4": "Sombrero de Bruja"
+    },
+    "172": {
+      "1": "Gorra festiva",
+      "2": "Gorra de Fiesta",
+      "3": "Gorra de Ash",
+      "4": "Sombrero de Bruja"
+    }
+  },
   "types": {
     "1": "Normal",
     "2": "Lucha",

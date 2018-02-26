@@ -65,6 +65,16 @@ class Locale(object):
         for id_, val in default["types"].iteritems():
             self.__type_names[int(id_)] = types.get(id_, val)
 
+        # Pokemon ID -> { Costume ID -> Costume Name)
+        self.__costume_names = {}
+        all_costumes = info.get("costumes", {})
+        for pkmn_id, costumes in default["costumes"].iteritems():
+            self.__costume_names[int(pkmn_id)] = {}
+            pkmn_costumes = all_costumes.get(pkmn_id, {})
+            for costume_id, costume_name in costumes.iteritems():
+                self.__costume_names[int(pkmn_id)][int(
+                    costume_id)] = pkmn_costumes.get(costume_id, costume_name)
+
         # Pokemon ID -> { Form ID -> Form Name)
         self.__form_names = {}
         all_forms = info.get("forms", {})
@@ -74,6 +84,7 @@ class Locale(object):
             for form_id, form_name in forms.iteritems():
                 self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(
                     form_id, form_name)
+
         log.debug("Loaded '{}' locale successfully!".format(language))
 
         self.__misc = info.get('misc', {})
@@ -109,6 +120,11 @@ class Locale(object):
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
         return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+
+    # Returns the name of the costume for the given Pokemon ID and Costume ID
+    def get_costume_name(self, pokemon_id, costume_id):
+        return self.__costume_names.get(
+            pokemon_id, {}).get(costume_id, 'unknown')
 
     def get_boosted_text(self):
         return self.__misc.get('boosted', '')
