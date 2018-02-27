@@ -138,9 +138,9 @@ class SlackAlarm(Alarm):
         self.send_message(
             channel=replace(alert['channel'], info),
             username=replace(alert['username'], info),
-            text=('<{}|{}> - {}'.format(
+            text=('<{}|{}> - {} <{}| >'.format(
                 replace(alert['url'], info), replace(alert['title'], info),
-                replace(alert['body'], info))) + '<{}| >'.format(replace(alert['map'], coords)),
+                replace(alert['body'], info), replace(alert['map'], coords))),
             icon_url=replace(alert['icon_url'], info),
             attachments=attachments
         )
