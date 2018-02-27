@@ -64,5 +64,10 @@ This page assumes:
 | height          | Height of the monster.                                    |
 | weight          | Weight of the monster.                                    |
 | size            | Estimated size of the monster.                            |
+| atk_grade       | Rating attack of the monster.                             |
+| def_grade       | Rating defense of the monster.                            |
+| base_catch      | Probability to catch the monster with a pokeball.         |
+| great_catch     | Probability to catch the monster with a greatball.        |
+| ultra_catch     | Probability to catch the monster with an ultraball.       |
 | big_karp        | Return `big` if Magikarp weight is >=13.13.               |
 | tiny_rat        | Return `tiny` if Rattata weight is <=2.41.                |

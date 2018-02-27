@@ -99,9 +99,9 @@ class RaidEvent(BaseEvent):
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
-        form_name = locale.get_form_name(self.monster_id, self.form_id)
+        form_name = locale.get_form_name(self.mon_id, self.form_id)
         costume_name = locale.get_costume_name(
-            self.monster_id, self.costume_id)
+            self.mon_id, self.costume_id)
 
         boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
         weather_name = locale.get_weather_name(self.weather_id)
