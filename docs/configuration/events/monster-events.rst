@@ -112,8 +112,8 @@ charge_energy       Energy cost by the quick move.
 charge_type         Type of the monster's charge move.
 charge_type_emoji   Emoji representing the monster's charge move.
 charge_type_id      ID of the type of the monster's charge move.
-atk_grade           Offensive grade of the monster's moveset.
-def_grade           Defensive grade of the monster's moveset.
+atk_rating           Offensive grade of the monster's moveset.
+def_rating           Defensive grade of the monster's moveset.
 =================== ============================================================
 
 
