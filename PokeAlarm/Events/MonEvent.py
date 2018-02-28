@@ -259,7 +259,7 @@ class MonEvent(BaseEvent):
             'height_2': (
                 "{:.2f}".format(self.height) if Unknown.is_not(self.height)
                 else Unknown.SMALL),
-            'hweight_0': (
+            'weight_0': (
                 "{:.0f}".format(self.weight) if Unknown.is_not(self.weight)
                 else Unknown.TINY),
             'weight': (
