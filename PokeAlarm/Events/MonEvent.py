@@ -252,6 +252,7 @@ class MonEvent(BaseEvent):
             'gender': self.gender,
             'height': self.height,
             'weight': self.weight,
+            'weight_short': "{:.1f}".format(self.weight),
             'size': locale.get_size_name(self.size_id),
 
             # Attack rating
