@@ -91,9 +91,9 @@ class MonEvent(BaseEvent):
             float, data.get('catch_prob_3'), Unknown.TINY)
 
         # Attack Rating
-        self.atk_grade = check_for_none(
+        self.atk_rating = check_for_none(
             str, data.get('rating_attack'), Unknown.TINY)
-        self.def_grade = check_for_none(
+        self.def_rating = check_for_none(
             str, data.get('rating_defense'), Unknown.TINY)
 
         # Cosmetic
@@ -255,10 +255,10 @@ class MonEvent(BaseEvent):
             'size': locale.get_size_name(self.size_id),
 
             # Attack rating
-            'atk_grade': (
-                Unknown.or_empty(self.atk_grade, Unknown.TINY)),
-            'def_grade': (
-                Unknown.or_empty(self.def_grade, Unknown.TINY)),
+            'atk_rating': (
+                Unknown.or_empty(self.atk_rating, Unknown.TINY)),
+            'def_rating': (
+                Unknown.or_empty(self.def_rating, Unknown.TINY)),
 
             # Catch Prob
             'base_catch': (
