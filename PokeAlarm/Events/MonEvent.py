@@ -250,9 +250,24 @@ class MonEvent(BaseEvent):
 
             # Cosmetic
             'gender': self.gender,
-            'height': self.height,
-            'weight': self.weight,
-            'weight_short': "{:.1f}".format(self.weight),
+            'height_0': (
+                "{:.0f}".format(self.height) if Unknown.is_not(self.height)
+                else Unknown.TINY),
+            'height': (
+                "{:.1f}".format(self.height) if Unknown.is_not(self.height)
+                else Unknown.SMALL),
+            'height_2': (
+                "{:.2f}".format(self.height) if Unknown.is_not(self.height)
+                else Unknown.SMALL),
+            'hweight_0': (
+                "{:.0f}".format(self.weight) if Unknown.is_not(self.weight)
+                else Unknown.TINY),
+            'weight': (
+                "{:.1f}".format(self.weight) if Unknown.is_not(self.weight)
+                else Unknown.SMALL),
+            'weight_2': (
+                "{:.2f}".format(self.weight) if Unknown.is_not(self.weight)
+                else Unknown.SMALL),
             'size': locale.get_size_name(self.size_id),
 
             # Attack rating
