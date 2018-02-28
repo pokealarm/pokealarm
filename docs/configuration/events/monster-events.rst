@@ -137,7 +137,7 @@ costume_id_3        Costume ID of the monster, formatted to there digits.
 gender              Gender of the monster, represented as a single character.
 height              Height of the monster.
 weight              Weight of the monster.
-weight_short        Weight of the monster, truncated to 1 decimal places.
+weight_short        Weight of the monster, truncated to 1 decimal place.
 size                Estimated size of the monster.
 big_karp            Return `big` if Magikarp weight is >=13.13.
 tiny_rat            Return `tiny` if Rattata weight is <=2.41.
