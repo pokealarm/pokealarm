@@ -24,22 +24,22 @@ Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://githu
         "pokemon_id": 201,
         "pokemon_level": 30,
         "player_level": 31,
-	"latitude": 37.7876146,
-	"longitude": -122.390624,
+        "latitude": 37.7876146,
+        "longitude": -122.390624,
         "disappear_time": 1506897031,
         "last_modified_time": 1475033386661,
         "time_until_hidden_ms": 5000,
-	"seconds_until_despawn": 1754,
-	"spawn_start": 2153,
-	"spawn_end": 3264,
-	"verified": false,
-	"cp_multiplier": 0.7317000031471252,
-	"form": 15,
+        "seconds_until_despawn": 1754,
+        "spawn_start": 2153,
+        "spawn_end": 3264,
+        "verified": false,
+        "cp_multiplier": 0.7317000031471252,
+        "form": 15,
         "cp": 768,
         "individual_attack": 10,
         "individual_defense": 1,
         "individual_stamina": 9,
-	"move_1": 281,
+        "move_1": 281,
         "move_2": 133,
         "height": 0.5694651007652283,
         "weight": 5.733094215393066,
@@ -58,8 +58,8 @@ Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://githu
     "message": {
         "pokestop_id": 0,
         "enabled": "True",
-	"latitude": 37.7876146,
-	"longitude": -122.390624,
+        "latitude": 37.7876146,
+        "longitude": -122.390624,
         "last_modified_time": 1572241600,
         "lure_expiration": 1572241600,
         "active_fort_modifier": 0
@@ -75,19 +75,19 @@ Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://githu
 {
     "type": "gyms",
     "message": {
-		"raid_active_until": 0,
-		"gym_id": 0,
-		"team_id": 0,
-		"guard_pokemon_id": 0,
-		"slots_available": 0,
-		"guard_pokemon_id": 99,
-		"lowest_pokemon_motivation": 0.8795773983001709,
-		"total_cp": 11099,
-                "occupied_since": 1506886787,
-		"enabled": "True",
-		"latitude": 37.7876146,
-		"longitude": -122.390624,
-		"last_modified": 1572241600
+				"raid_active_until": 0,
+				"gym_id": 0,
+				"team_id": 0,
+				"guard_pokemon_id": 0,
+				"slots_available": 0,
+				"guard_pokemon_id": 99,
+				"lowest_pokemon_motivation": 0.8795773983001709,
+				"total_cp": 11099,
+				"occupied_since": 1506886787,
+				"enabled": "True",
+				"latitude": 37.7876146,
+				"longitude": -122.390624,
+				"last_modified": 1572241600
     }
 }
 ```
@@ -98,14 +98,14 @@ Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://githu
 {
     "type": "gym_details",
     "message": {
-            "id": "OWNmOTFmMmM0YTY3NGQwYjg0Y2I1N2JlZjU4OWRkMTYuMTY=",
-            "url": "http://lh3.ggpht.com/yBqXtFfq3nOlZmLc7DbgSIcXcyfvsWfY3VQs_gBziPwjUx7xOfgvucz6uxP_Ri-ianoWFt5mgJ7_zpsa7VNK",
-            "name": "Graduate School of Public Health Sculpture",
-            "description": "Sculpture on the exterior of the Graduate School of Public Health building.",
-            "team": 1,
-	    "latitude": 37.7876146,
-	    "longitude": -122.390624,          
-            "pokemon": [{
+        "id": "OWNmOTFmMmM0YTY3NGQwYjg0Y2I1N2JlZjU4OWRkMTYuMTY=",
+        "url": "http://lh3.ggpht.com/yBqXtFfq3nOlZmLc7DbgSIcXcyfvsWfY3VQs_gBziPwjUx7xOfgvucz6uxP_Ri-ianoWFt5mgJ7_zpsa7VNK",
+        "name": "Graduate School of Public Health Sculpture",
+        "description": "Sculpture on the exterior of the Graduate School of Public Health building.",
+        "team": 1,
+        "latitude": 37.7876146,
+        "longitude": -122.390624,
+        "pokemon": [{
             "num_upgrades": 0,
             "move_1": 234,
             "move_2": 99,
@@ -181,10 +181,10 @@ webhook event from RocketMap as raids are.
     "message": {
         "gym_id": "gym_id",
         "start": 1499244052,
-        "end": 1499246052 ,
+        "end": 1499246052,
         "level": 5,
-	"latitude": 37.7876146,
-	"longitude": -122.390624
+        "latitude": 37.7876146,
+        "longitude": -122.390624
     }
 }
 ```
@@ -201,10 +201,10 @@ webhook event from RocketMap as raids are.
         "move_1": 123,
         "move_2": 123,
         "start": 1499244052,
-        "end": 1499246052 ,
+        "end": 1499246052,
         "level": 5,
-	"latitude": 37.7876146,
-	"longitude": -122.390624
+        "latitude": 37.7876146,
+        "longitude": -122.390624
     }
 }
 ```
