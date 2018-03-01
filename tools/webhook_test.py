@@ -48,18 +48,6 @@ _cache = {}
 _gym_info = {}
 
 
-def get_image_url(image):
-    return \
-        "https://raw.githubusercontent.com/not4profit/images/master/" + image
-
-
-_default_gym_info = {
-    "name": "unknown",
-    "description": "unknown",
-    "url": get_image_url('icons/gym_0.png')
-}
-
-
 def set_init(webhook_type):
     payloadr = {}
     current_time = time.time()
@@ -166,17 +154,17 @@ def int_or_default(input_parm):
 
 def get_gym_info(gym_id):
     """ Gets the information about the gym. """
-    return _gym_info.get(gym_id, _default_gym_info)
+    return _gym_info.get(gym_id, 'unknown')
 
 
 def gym_or_invalid(prm, prm2):
     questionable_input = raw_input()
-    while get_gym_info(questionable_input)['name'] == "unknown":
+    while get_gym_info(questionable_input) == "unknown":
         print "Not a valid gym. Please try again..\n>",
         questionable_input = raw_input()
-    print "Gym found! {}".format(get_gym_info(questionable_input)['name'])
+    print "Gym found! {}".format(get_gym_info(questionable_input))
     payload["message"][prm] = questionable_input
-    payload["message"][prm2] = get_gym_info(questionable_input)['name']
+    payload["message"][prm2] = get_gym_info(questionable_input)
 
 
 def cache_or_invalid():
@@ -198,7 +186,7 @@ def load_cache(file):
     global _gym_info
     with portalocker.Lock(file, mode="rb") as f:
         data = pickle.load(f)
-        _gym_info = data.get('gym_info', {})
+        _gym_info = data.get('gym_name', {})
 
 
 def list_cache():
@@ -214,9 +202,8 @@ def list_gyms():
     if len(_gym_info) > 50:
         with portalocker.Lock(os.path.join(path, "gyms.txt"), mode="wb+") as f:
             i = 0
-            for key in _gym_info.keys():
+            for key, name in _gym_info.items():
                 i += 1
-                name = get_gym_info(key)['name']
                 f.write("[{}] {} : {} \n".format(i, name, key))
             f.close()
         print "Find list of gyms in your \\tools\ folder (gyms.txt)"
@@ -224,9 +211,8 @@ def list_gyms():
     else:
         print "Here is a list of gyms found in your cache:"
         i = 0
-        for key in _gym_info.keys():
+        for key, name in _gym_info.items():
             i += 1
-            name = get_gym_info(key)['name']
             print "[{}] {} : {} ".format(i, name, key)
         print "Enter gym id for raid (from above)\n>",
 
