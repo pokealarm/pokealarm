@@ -314,7 +314,7 @@ class MonEvent(BaseEvent):
                 "{:.2f}".format(self.ultra_catch * 100)
                 if Unknown.is_not(self.ultra_catch)
                 else Unknown.SMALL),
-            
+
             # Misc
             'big_karp': (
                 'big' if self.monster_id == 129 and Unknown.is_not(self.weight)
