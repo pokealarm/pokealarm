@@ -14,12 +14,13 @@ know of any rare spawns or raids.
 
 
 .. toctree::
-    :titlesonly:
+   :titlesonly:
    :maxdepth: 1
-   :caption: Getting Started:
+   :caption: Getting Started
+   :glob:
 
    getting-started/installation
-   getting-started/FAQ
+   getting-started/faq
 
 .. toctree::
    :maxdepth: 1

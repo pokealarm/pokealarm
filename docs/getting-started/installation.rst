@@ -1,7 +1,6 @@
 Installation
 =====================================
 
-
 This guide will walk you through installing a fresh copy of PokeAlarm.
 
 .. contents:: Table of Contents
@@ -29,19 +28,19 @@ Installing
 -------------------------------------
 
 1. **Clone a local copy of PokeAlarm** - Navigate a new folder to install
-   PokeAlarm in (It is recommended you store it in a different folder than your
-   scanner). In a terminal, run the command
-   ``git clone https://github.com/PokeAlarm/PokeAlarm.git`` to create a local
-   copy of the project. This create a folder called 'PokeAlarm' that will
-   contain the application.
+   PokeAlarm in (It is recommended you store it in a different folder than
+   your scanner). In a terminal, run the command
+   ``git clone https://github.com/PokeAlarm/PokeAlarm.git`` to create a
+   local copy of the project. This create a folder called 'PokeAlarm' that
+   will contain the application.
 
-2. **Install the Requirements** - In a terminal, naviagate into the root folder
+2. **Install the Requirements** - In a terminal, navigate into the root folder
    of your PA installation. Run ``pip install -r requirements.txt --upgrade``.
    This will install and update the modules that PokeAlarm needs to run.
 
 3. **Configure PokeAlarm** - Next you need to configure PokeAlarm.
 
-   - :doc:`../configuration/Server-Settings` let you configure things like host
+   - :doc:`../configuration/server-settings` let you configure things like host
      IP, port, language, and more.
    - :doc:`../configuration/filters/index` represent which Events trigger
      notifications. You will need to create a filters file before starting PA.
@@ -67,8 +66,12 @@ Running
 2. **Setup Scanner Webhook** - Next, configure your scanner to send information
    to PA's address.
 
-   - For Monocle, * TODO *
-   - For RocketMap, * TODO *
+   - **For Monocle:**
+     The webhook info only works in `Hydro's fork <https://github.com/Hydro74000/Monocle>`_.
+
+   - **For RocketMap:**
+     Configure the webhook types to send info as explained in
+     `RocketMap wiki <https://rocketmap.readthedocs.io/en/develop/extras/webhooks.html>`_.
 
    Finally, start your scanner. If everything is set up correctly, PA will start
    logging information about what it is doing to the console.
@@ -78,9 +81,9 @@ Updating
 
 .. warning:: Updating PokeAlarm can be complicated if you edit files you aren't
    supposed to. For this reason, we recommend not to edit any files ending in
-   '.py'.
+   ``.py``.
 
-1. Check the :doc:`../miscellaneous/Patch-Notes` for any big changes
+1. Check the :doc:`../miscellaneous/patch-notes` for any big changes
    that might break your current configuration.
 2. Open up a command line and change directory to the root folder of your
    install.
