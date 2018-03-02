@@ -286,7 +286,7 @@ class MonEvent(BaseEvent):
                 else Unknown.SMALL),
             'base_catch_2': (
                 "{:.2f}".format(self.base_catch * 100) if Unknown.is_not(self.base_catch)
-                else Unknown.SMALL),            
+                else Unknown.SMALL),
             'great_catch_0': (
                 "{:.0f}".format(self.great_catch * 100) if Unknown.is_not(self.great_catch)
                 else Unknown.TINY),
@@ -295,7 +295,7 @@ class MonEvent(BaseEvent):
                 else Unknown.SMALL),
             'great_catch_2': (
                 "{:.2f}".format(self.great_catch * 100) if Unknown.is_not(self.great_catch)
-                else Unknown.SMALL),            
+                else Unknown.SMALL),
             'ultra_catch_0': (
                 "{:.0f}".format(self.ultra_catch * 100) if Unknown.is_not(self.ultra_catch)
                 else Unknown.TINY),
@@ -304,8 +304,8 @@ class MonEvent(BaseEvent):
                 else Unknown.SMALL),
             'ultra_catch_2': (
                 "{:.2f}".format(self.ultra_catch * 100) if Unknown.is_not(self.ultra_catch)
-                else Unknown.SMALL),            
-
+                else Unknown.SMALL),
+            
             # Misc
             'big_karp': (
                 'big' if self.monster_id == 129 and Unknown.is_not(self.weight)
