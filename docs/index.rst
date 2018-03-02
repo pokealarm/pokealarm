@@ -42,11 +42,18 @@ know of any rare spawns or raids.
    guides/*
 
 .. toctree::
+   :titlesonly:
    :maxdepth: 1
-   :caption: Miscellaneous:
+   :caption: Other
    :glob:
 
-   miscellaneous/*
+   Webhook Standards <miscellaneous/webhook-standard>
+   Webhook Tester <miscellaneous/webhook-tester>
+   Patch Notes <miscellaneous/patch-notes>
+   Caching <miscellaneous/object-caching>
+   Docker <miscellaneous/docker>
+   Location Services <miscellaneous/location-services>
+   Contributing <miscellaneous/contributing>
 
 
 Indices and tables
