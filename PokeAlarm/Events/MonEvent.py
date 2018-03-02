@@ -279,32 +279,32 @@ class MonEvent(BaseEvent):
 
             # Catch Prob
             'base_catch_0': (
-                "{:.0f}".format(self.base_catch * 100)
-                if Unknown.is_not(self.base_catch) else Unknown.TINY)
+                "{:.0f}".format(self.base_catch * 100) if Unknown.is_not(self.base_catch)
+                else Unknown.TINY),
             'base_catch': (
-                "{:.1f}".format(self.base_catch * 100)
-                if Unknown.is_not(self.base_catch) else Unknown.SMALL),
+                "{:.1f}".format(self.base_catch * 100) if Unknown.is_not(self.base_catch)
+                else Unknown.SMALL),
             'base_catch_2': (
-                "{:.2f}".format(self.base_catch * 100)
-                if Unknown.is_not(self.base_catch) else Unknown.SMALL),            
+                "{:.2f}".format(self.base_catch * 100) if Unknown.is_not(self.base_catch)
+                else Unknown.SMALL),            
             'great_catch_0': (
-                "{:.0f}".format(self.great_catch * 100)
-                if Unknown.is_not(self.great_catch) else Unknown.TINY),
+                "{:.0f}".format(self.great_catch * 100) if Unknown.is_not(self.great_catch)
+                else Unknown.TINY),
             'great_catch': (
-                "{:.1f}".format(self.great_catch * 100)
-                if Unknown.is_not(self.great_catch) else Unknown.SMALL),
+                "{:.1f}".format(self.great_catch * 100) if Unknown.is_not(self.great_catch)
+                else Unknown.SMALL),
             'great_catch_2': (
-                "{:.2f}".format(self.great_catch * 100)
-                if Unknown.is_not(self.great_catch) else Unknown.SMALL),            
+                "{:.2f}".format(self.great_catch * 100) if Unknown.is_not(self.great_catch)
+                else Unknown.SMALL),            
             'ultra_catch_0': (
-                "{:.0f}".format(self.ultra_catch * 100)
-                if Unknown.is_not(self.ultra_catch) else Unknown.TINY),
+                "{:.0f}".format(self.ultra_catch * 100) if Unknown.is_not(self.ultra_catch)
+                else Unknown.TINY),
             'ultra_catch': (
-                "{:.1f}".format(self.ultra_catch * 100)
-                if Unknown.is_not(self.ultra_catch) else Unknown.SMALL),
+                "{:.1f}".format(self.ultra_catch * 100) if Unknown.is_not(self.ultra_catch)
+                else Unknown.SMALL),
             'ultra_catch_2': (
-                "{:.2f}".format(self.ultra_catch * 100)
-                if Unknown.is_not(self.ultra_catch) else Unknown.SMALL),            
+                "{:.2f}".format(self.ultra_catch * 100) if Unknown.is_not(self.ultra_catch)
+                else Unknown.SMALL),            
 
             # Misc
             'big_karp': (
