@@ -35,11 +35,15 @@ know of any rare spawns or raids.
    configuration/Rules-Overview
 
 .. toctree::
+   :titlesonly:
    :maxdepth: 1
-   :caption: Guides:
+   :caption: Guides
    :glob:
 
-   guides/*
+   Getting Started <guides/getting-started-guide>
+   JSON Formatting Help <guides/json-formatting>
+   3.5 -> 3.6 Alarm Upgrade Tool <guides/upgrade-tool>
+   Bug Reports / Feedback <guides/bug-feedback>
 
 .. toctree::
    :titlesonly:
