@@ -12,9 +12,9 @@
 This page assumes:
 
 1. You have a working PA installations.
-2. You read and understood the [Filters](Filters-Overview) page.
+2. You read and understood the [Filters](filters) page.
 3. You read and understood the [Alarms](alarms) page
-4. You have an understanding on what a [Manager](Managers) is.
+4. You have an understanding on what a [Manager](managers.html) is.
 
 ## Default Rule
 
@@ -28,17 +28,16 @@ Imagine you have some filters( `"100-iv"`, `"90-iv"`,
 filter. If that doesn't match, it will check the `"90-iv"` filter.
 Once it finds a match, it will then send to all of the alarms.
 
-This behavior is known as the 'default rule' - all filters to all
+This behavior is known as the `default rule` - all filters to all
 alarms. If you don't specify any rules for a section, this is the
-default behavior. The 'default rule' for the above scenario could be
+default behavior. The `default rule` for the above scenario could be
  described as the following:
 
 ```json
-"default": {
-    "filters": ["100-iv", "90-iv", "in_geofence", "rare-mon"],
-    "alarms": ["discord-rare", "discord-perfect", "telegram-all" ]
+"default":{
+    "filters":["100-iv","90-iv","in_geofence","rare-mon"],
+    "alarms":["discord-rare","discord-perfect","telegram-all"]
 }
-
 ```
 
 Each rule has a name, and 2 required sections: `"filters"` and
@@ -56,15 +55,15 @@ Each rule file can have 5 sections, one for each type of event. An empty
 rules file would look like this, and would results in the default rules:
 ```json
 {
-    "monsters": {
+    "monsters":{
     },
-    "stops": {
+    "stops":{
     },
-    "gyms": {
+    "gyms":{
     },
-    "eggs": {
+    "eggs":{
     },
-    "raids": {
+    "raids":{
     }
 }
 ```
@@ -72,19 +71,19 @@ rules file would look like this, and would results in the default rules:
 Adding rules will override the default rules and create new behavior.
 If multiple rules are specified, they will be checked independently and
 possible trigger a notification for each one. For example, the
-following would send `"rare-mon"` events to the telegram alarm,  and all
+following would send `"rare-mon"` events to the telegram alarm, and all
 other events to the discord alarm.
 
 ```json
 {
-    "monsters": {
-        "discord-rule": {
-            "filters": [ "100-iv", "90-iv", "in_geofence" ],
-            "alarms": [ "discord-rare", "discord-perfect" ]
+    "monsters":{
+        "discord-rule":{
+            "filters":["100-iv","90-iv","in_geofence"],
+            "alarms":["discord-rare","discord-perfect"]
         },
-        "telegram-rule": {
-            "filters": [ "rare-mon" ],
-            "alarms": [ "telegram-all" ]
+        "telegram-rule":{
+            "filters":["rare-mon"],
+            "alarms":["telegram-all"]
         }
     }
 }
@@ -93,4 +92,3 @@ other events to the discord alarm.
 ## Examples
 
 Coming soon!
-

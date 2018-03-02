@@ -16,7 +16,7 @@ This guide will walk you through configuring server settings for PokeAlarm.
 
 This guide assumes the following:
 
-1. You have correctly [installed PokeAlarm](installation).
+1. You have correctly [installed PokeAlarm](../getting-started/installation.html).
 
 2. You are using Notepad++, Nano, or Vi(m) to configure any files. Do **NOT**
 use or open any files with Notepad or TextEdit - they will break your files!
@@ -27,7 +27,7 @@ In PokeAlarm, a **Manager** is a grouping of different settings. Managers
 allow you to configure multiple combinations of filters, alarms, geofences,
 and other settings behind single webserver.
 
-![Manager Example](images/v3_overview.png)
+![Manager Example](../images/managers.png)
 
 Webhooks are received by the PokeAlarm server, which then passes a copy to the
 manager. Each Manager determines (independently)if the alert passes one of the
@@ -57,7 +57,7 @@ file to set up their alarms.
 This same configuration can be accomplished via the following in the configuration file:
 
 ```ini
-manager_count: 1
+manager_count: 3
 filters: [ common.json, rares.json, uncommon.json ]
 alarms: alarms.json
 ```
@@ -89,7 +89,7 @@ geofence: [ city1.json, none, city2.json ]
 As you can see, you can mix managers with geofences and without by using `none`
 for any managers that you don't want a geofence file loaded for.
 
-You can find more information about Geofences on the [Geofences](geofences)
+You can find more information about Geofences on the [Geofences](geofences.html)
 wiki page.
 
 ### Timezones

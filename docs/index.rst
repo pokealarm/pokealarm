@@ -23,16 +23,15 @@ know of any rare spawns or raids.
    getting-started/faq
 
 .. toctree::
+   :titlesonly:
    :maxdepth: 1
-   :caption: Configuration:
+   :caption: Configuration
+   :glob:
 
    configuration/server-settings
-   configuration/events/index
-   configuration/filters/index
-   configuration/alarms/index
-   configuration/Managers
-   configuration/Geofences
-   configuration/Rules-Overview
+   configuration/managers
+   configuration/rules-overview
+   configuration/geofences
 
 .. toctree::
    :titlesonly:
