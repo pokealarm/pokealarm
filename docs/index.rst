@@ -16,7 +16,7 @@ know of any rare spawns or raids.
 .. toctree::
    :titlesonly:
    :maxdepth: 1
-   :caption: Getting Started
+   :caption: Initial Setup
    :glob:
 
    getting-started/installation
@@ -25,13 +25,24 @@ know of any rare spawns or raids.
 .. toctree::
    :titlesonly:
    :maxdepth: 1
-   :caption: Configuration
+   :caption: Basic Configuration
    :glob:
 
    configuration/server-settings
+   configuration/events/index
+   configuration/filters/index
+   configuration/alarms/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Advanced Configuration
+
+   configuration/server-settings
+
    configuration/managers
-   configuration/rules-overview
    configuration/geofences
+   configuration/rules-overview
+
 
 .. toctree::
    :titlesonly:
