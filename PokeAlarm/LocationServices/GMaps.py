@@ -78,7 +78,7 @@ class GMaps(object):
         if len(self._window) == self._queries_per_second:
             # Calculate elapsed time since start of window
             elapsed_time = time.time() - self._window[0]
-            if elapsed_time > 1:
+            if elapsed_time < 1:
                 # Sleep off the difference
                 time.sleep(1 - elapsed_time)
 
