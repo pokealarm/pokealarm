@@ -33,13 +33,16 @@ more.
 There are several different types of Alarms, each representing a different type
 of service:
 
-+ :doc:`discord`
-+ :doc:`facebook-pages`
-+ :doc:`pushbullet`
-+ :doc:`slack`
-+ :doc:`telegram`
-+ :doc:`twilio`
-+ :doc:`twitter`
+.. toctree::
+   :maxdepth: 1
+
+    discord
+    facebook-pages
+    pushbullet
+    slack
+    telegram
+    twilio
+    twitter
 
 .. note:: It is valid to have multiple Alarms with the same type - a
           different Alarm could represent a different channel or a specialized

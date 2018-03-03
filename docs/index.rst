@@ -33,11 +33,10 @@ know of any rare spawns or raids.
    configuration/filters/index
    configuration/alarms/index
 
+
 .. toctree::
    :maxdepth: 1
    :caption: Advanced Configuration
-
-   configuration/server-settings
 
    configuration/managers
    configuration/geofences
@@ -55,6 +54,7 @@ know of any rare spawns or raids.
    3.5 -> 3.6 Alarm Upgrade Tool <guides/upgrade-tool>
    Bug Reports / Feedback <guides/bug-feedback>
 
+
 .. toctree::
    :titlesonly:
    :maxdepth: 1
@@ -69,13 +69,6 @@ know of any rare spawns or raids.
    Location Services <miscellaneous/location-services>
    Contributing <miscellaneous/contributing>
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. |discord| image:: https://discordapp.com/api/guilds/215181169761714177/widget.png?style=shield
     :target: https://discord.gg/S2BKC7p

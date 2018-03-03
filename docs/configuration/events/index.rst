@@ -20,11 +20,14 @@ in the World. Events can be several different things - a new monster spawning,
 a gym changing teams, or a new raid appearing. There are 5 different categories
 for Events, each with different information:
 
-+ :doc:`monster-events`
-+ :doc:`stop-events`
-+ :doc:`gym-events`
-+ :doc:`egg-events`
-+ :doc:`raid-events`
+.. toctree::
+   :maxdepth: 1
+
+    monster-eventss
+    stop-events
+    gym-events
+    egg-events
+    raid-events
 
 .. _events_dts:
 
