@@ -23,11 +23,11 @@ for Events, each with different information:
 .. toctree::
    :maxdepth: 1
 
-    monster-eventss
-    stop-events
-    gym-events
-    egg-events
-    raid-events
+   monster-events
+   stop-events
+   gym-events
+   egg-events
+   raid-events
 
 .. _events_dts:
 

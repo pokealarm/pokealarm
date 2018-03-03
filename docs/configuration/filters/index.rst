@@ -32,11 +32,11 @@ There are 5 different types of Filters, each matching a category of Events:
 .. toctree::
    :maxdepth: 1
 
-    monster-filters
-    stop-filters
-    gym-filters
-    egg-filters
-    raid-filters
+   monster-filters
+   stop-filters
+   gym-filters
+   egg-filters
+   raid-filters
 
 
 Restrictions

@@ -36,13 +36,14 @@ of service:
 .. toctree::
    :maxdepth: 1
 
-    discord
-    facebook-pages
-    pushbullet
-    slack
-    telegram
-    twilio
-    twitter
+   discord
+   facebook-pages
+   pushbullet
+   slack
+   telegram
+   twilio
+   twitter
+
 
 .. note:: It is valid to have multiple Alarms with the same type - a
           different Alarm could represent a different channel or a specialized

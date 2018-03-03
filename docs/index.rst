@@ -23,10 +23,8 @@ know of any rare spawns or raids.
    getting-started/faq
 
 .. toctree::
-   :titlesonly:
    :maxdepth: 1
    :caption: Basic Configuration
-   :glob:
 
    configuration/server-settings
    configuration/events/index
