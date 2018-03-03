@@ -82,7 +82,6 @@ class RaidEvent(BaseEvent):
             str, data.get('url'), Unknown.REGULAR)
         self.sponsor_id = check_for_none(
             int, data.get('sponsor'), Unknown.TINY)
-        self.is_sponsor = True if self.sponsor_id > 0 else False
         self.park = check_for_none(
             str, data.get('park'), Unknown.REGULAR)
 
