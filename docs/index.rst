@@ -23,6 +23,7 @@ know of any rare spawns or raids.
    getting-started/faq
 
 .. toctree::
+   :titlesonly:
    :maxdepth: 1
    :caption: Basic Configuration
 
@@ -33,6 +34,7 @@ know of any rare spawns or raids.
 
 
 .. toctree::
+   :titlesonly:
    :maxdepth: 1
    :caption: Advanced Configuration
 
