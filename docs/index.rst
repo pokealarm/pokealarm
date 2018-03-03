@@ -34,6 +34,18 @@ know of any rare spawns or raids.
    configuration/geofences
 
 .. toctree::
+   :maxdepth: 1
+   :caption: Advanced:
+
+   configuration/server-settings
+   configuration/events/index
+   configuration/filters/index
+   configuration/alarms/index
+   configuration/managers
+   configuration/geofences
+   configuration/rules-overview
+
+.. toctree::
    :titlesonly:
    :maxdepth: 1
    :caption: Guides
