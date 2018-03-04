@@ -2,12 +2,190 @@
 
 ## Patch History
 
+* [Patch 3.7](#patch-3-7)
 * [Patch 3.6](#patch-3-6)
 * [Patch 3.5](#patch-3-5)
 * [Patch 3.4](#patch-3-4)
 * [Patch 3.3](#patch-3-3)
 * [Patch 3.2](#patch-3-2)
 * [Patch 3.1](#patch-3-1)
+
+---
+
+## Patch 3.7
+
+This patch contains a few breaking changes - make sure to read
+carefully, back up your current configuration, and have some free time
+before attempting to upgrade.
+
+### Google Maps API Changes
+
+**Breaking Changes** - This is a rewrite of the Google Maps API calls used for
+DTS. It removes the official Google python client and instead handles the
+requests directly to give more control over how they are handled. This will
+allow for better error handling and won't timeout for extended periods of time
+when the API Quota has been reached.
+
+Additionally, it removes the automatic DTS detection and instead adds explicit
+config options to enable the use of DTS. This is to reduce issues users may
+experience with accidentally overusing the api quotas.
+
+See the updated `config.ini.example` to see the necessary changes.
+
+* **DTS Changes**
+Some of the Distance Matrix DTS have been renamed, and are as follows:
+
+  * `<walk_dist>` changed to `<walking_distance>`
+  * `<walk_time>` changed to `<walking_duration>`
+  * `<bike_dist>` changed to `<biking_distance>`
+  * `<bike_time>` changed to `<biking_duration>`
+  * `<drive_time>` changed to `<driving_distance>`
+  * `<drive_time>` changed to `<driving_duration>`
+  * `<transit_distance>` added
+  * `<transit_duration>` added
+
+### Alarms 
+
+#### Telegram Changes
+
+Restored the ability to enable/disable the Telegram Web Preview via the
+`web_preview` Alert Setting
+
+### Filters  
+
+#### New Filters
+
+* **Monsters**
+  * `ignore_monsters` - Add an Array of monsters to ignore, by id or name
+  * `costume_ids` - Adds the ability to filter monster events by the monster's
+  costume id
+
+* **Gyms/Eggs/Raids**
+  * `gym_name_excludes` - Allows using RegEx Patterns drop events where
+  `gym_name` matches one of the patterns
+
+### DTS 
+
+#### Costumes
+
+The following Costume DTS Fields have been added to both **Monster** and
+**Raid** alerts 
+
+| DTS              | Description                                             |
+|----------------- |-------------------------------------------------------- |
+| costume          | The name of the Monster's Costume or `Unknown`          |
+| costume_or_empty | The name of the Monster's Costume or Empty              |
+| costume_id       | The ID of the Monster's Costume                         |
+| costume_id_3     | The ID of the Monster's Costume, zero padded            |
+
+#### Move Types
+
+The following Move Type DTS fields have been added to both **Monster** and
+**Raid** alerts
+
+| DTS              | Description                                             |
+|----------------- |-------------------------------------------------------- |
+| quick_type_id    | The id of the Quick Move's Type or  `?`                 |
+| quick_type       | The name of the Quick Move's Type or `Unknown`          |
+| quick_type_emoji | The emoji for the Quick Move's Type or Empty            |
+| charge_type_id   | The id of the Charge Move's Type or  `?`                |
+| charge_type      | The name of the Charge Move's Type or `Unknown`         |
+| charge_type_emoji | The emoji for the Charge Move's Type or Empty          |
+
+#### Catch & Probability Rating
+
+The following DTS Fields have been added to **Monster** alerts
+
+| DTS              | Description                                             |
+|----------------- |-------------------------------------------------------- |
+| atk_grade        | Rating attack of the monster.                           |
+| def_grade        | Rating defense of the monster.                          |
+| base_catch       | Probability to catch the monster with a pokeball.       |
+| great_catch      | Probability to catch the monster with a greatball.      |
+| ultra_catch      | Probability to catch the monster with an ultraball.     |
+
+#### Height and Weight
+
+The following DTS fields have been added to **Monster** alerts
+
+| DTS              | Description                                             |
+|----------------- |-------------------------------------------------------- |
+| height_0         | Height of the monster, rounded to the nearest integer   |
+| height_2         | Height of the monster, rounded to 2 decimal places      |
+| weight_0         | Weight of the monster, rounded to the nearest integer   |
+| weight_2         | Weight of the monster, rounded to 2 decimal places      |
+
+#### Forms
+
+The `Form` DTS Fields have also been added to **Raid** alerts 
+
+#### Weather
+
+Added support for the `boosted_weather` DTS fields for RocketMap users
+
+### Gym Sponsors & Parks
+
+Support for detecting EX Eligible Raids in Sponsored Gyms and Gyms in Parks for
+Raid and Egg events
+
+#### Filters
+| Filters          | Description                                             |
+|----------------- |-------------------------------------------------------- |
+| park_contains    | Regex Patterns to filter based on Park name from OSM    |
+| is_sponsor       | True/False check if a Raid is at a Sponsored Gym        |
+
+#### DTS Fields 
+| DTS              | Description                                             |
+|----------------- |-------------------------------------------------------- |
+| sponsor_id       | The ID of the Gym's Sponsor.                            |
+| is_sponsor       | Returns `sponsor` if the Gym is a Sponsored Gym         |
+| park             | The associated Park from OSM for the Gym                |
+
+### Caching Improvements
+
+* Updated the Mapping APIs to be more condensed
+* Separated `gym_info` into `gym_name`, `gym_desc`, and `gym_url` into
+separate endpoints
+* Added support for `team_id` from RocketMap `egg` and `raid` webhooks
+* File Cache now creates the required cache folder upon initialization if it
+doesn't exist
+* File Cache saves the initial cache file with the ".new" extension and then
+renames over the original file to reduce the chance of the cache being
+corrupted if PA exits incorrectly
+* If a Cache file fails to load for any reason, PA will continue to load and
+overwrite the file at the next opportunity
+
+### Overall Improvements
+
+* **Data Files**
+  * The base data files were reformatted to allow for proper sorting of keys
+
+* **Locales**
+  * The locale files were reformatted to allow for proper sorting of keys
+  
+* **DTS**
+  * `custom_dts` - Improved Custom DTS to allow use of both Defaults & Filter
+  Specific Custom DTS fields.
+
+* **Webhook Tester**
+  * Fixed gym caching
+  * Now uses the `en` locale file for all data
+  * Reworked forms to allow for testing all Monsters with forms
+  * Raids can now have different gym ids
+  * Added `team_id` check
+  * Added the ability to test for `is_missing_info` in Monster Events
+  * Added raid level check
+  * Performed a few text formatting changes
+
+### Bug Fixes
+
+* **Filters** 
+  * `geofences` - Geofences are now checked in the order they are specified in
+  the filter.
+* **DTS**
+  * Fixed reverse geocode failures when only using the `<address_eu>` DTS field
+* **Locales**
+  * Minor fixes for `zh-hk` size translations. 
 
 ---
 
