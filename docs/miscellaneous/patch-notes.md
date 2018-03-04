@@ -51,12 +51,12 @@
 
 * **Eggs**
   * Park DTS: `park`
-  * Sponsor DTS: `sponsor_id`, `is_sponsor`
+  * Sponsor DTS: `sponsor_id`, `sponsored`
 
 * **Raids**
   * Form DTS: `form`, `form_or_empty`, `form_id`, `form_id_3`
   * Park DTS: `park`
-  * Sponsor DTS: `sponsor_id`, `is_sponsor`
+  * Sponsor DTS: `sponsor_id`, `sponsored`
 
 ### Filters
 
@@ -77,12 +77,14 @@
 * **Eggs**
   * `gym_name_excludes` restriction - restrict gym_name to not contain
     a regex match
-  * `is_sponsor` restriction - restrict sponsor_id to be zero or not
+  * `sponsored` restriction - restrict sponsor_id to be zero or not
   * `park_contains` restriction - restrict park to contain a regex match
 
 * **Raids**
   * `gym_name_excludes` restriction - restrict gym_name to not contain
     a matching regex
+  * `sponsored` restriction - restrict sponsor_id to be zero or not
+  * `park_contains` restriction - restrict park to contain a regex match
 
 ### Alarms
 

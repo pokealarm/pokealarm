@@ -44,6 +44,8 @@ gym_description  The description of the gym. *
 gym_image        The url to the image of the gym. *
 slots_available  Number of open guard slots available in a gym.
 guard_count      Number of guards assigned to a gym.
+sponsor_id        The sponsor if of the gym. 0 if not sponsored.
+sponsored         True if sponsored, False if not.
 ================ ========================================================
 
 .. note::

@@ -49,6 +49,8 @@ gym_name_contains  List of regex's required to be in the gym name.  ``["Sponsore
 gym_name_excludes  List of regex's rejected to be in the gym name.  ``["Sponsored","West\\sOak"]``
 min_slots          Minimum number of guard slots available.         ``2``
 max_slots          Maximum number of guard slots available.         ``6``
+park_contains      List of regex's required to be in the park name. ``["Sponsored","Park\\sName"]``
+sponsored          restrict sponsor_id to be zero or not            ``true`` or ``false``
 ================== ================================================ ================================
 
 

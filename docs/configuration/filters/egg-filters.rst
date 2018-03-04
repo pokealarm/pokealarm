@@ -47,6 +47,8 @@ max_egg_lvl        Maximum level of the egg when hatched.           ``5``
 current_teams      List of allowed current teams, by id or name.    ``["Instinct","Mystic"]``
 gym_name_contains  List of regex's required to be in the gym name.  ``["Sponsored","West\\sOak"]``
 gym_name_excludes  List of regex's rejected to be in the gym name.  ``["Sponsored","West\\sOak"]``
+park_contains      List of regex's required to be in the park name. ``["Sponsored","Park\\sName"]``
+sponsored          restrict sponsor_id to be zero or not            ``true`` or ``false``
 ================== ================================================ ================================
 
 
@@ -66,6 +68,7 @@ weather         Accepted weathers, by id or name.                      ``["Clear
 geofences       See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
 custom_dts      See :ref:`custom_dts_filters` page on 'Custom DTS'     ``{"dts1":"substitution"}``
 is_missing_info See :ref:`missing_info_filters` page on 'Missing Info' ``true`` or ``false``
+
 =============== ====================================================== ==============================
 
 + Floats can use ``"inf"`` to represent infinity
