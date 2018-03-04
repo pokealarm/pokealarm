@@ -66,8 +66,8 @@
   * Bugfix: Geofences now always evaluate in order listed
 
 * **Monsters**
-  * `ignore_monsters` restriction - list of monsters to ignore, by id or
-    name
+  * `monsters_exclude` restriction - list of monsters to ignore, by id
+    or name
   * `costume_ids` restriction - restrict by costume id
 
 * **Gyms**
@@ -81,6 +81,8 @@
   * `park_contains` restriction - restrict park to contain a regex match
 
 * **Raids**
+  * `monsters_exclude` restriction - list of monsters to ignore, by id
+    or name
   * `gym_name_excludes` restriction - restrict gym_name to not contain
     a matching regex
   * `sponsored` restriction - restrict sponsor_id to be zero or not

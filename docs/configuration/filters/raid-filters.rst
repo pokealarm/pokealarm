@@ -42,6 +42,7 @@ General
 Parameter         Description                                      Example
 ================= ================================================ ===============================
 monsters          Array of allowed monsters, by id or name.        ``["Raikou","244",245]``
+monsters_exclude  Array of excluded monsters, by id or name.       ``["Raikou","244",245]``
 min_raid_lvl      Minimum level of the raid.                       ``0``
 max_raid_lvl      Maximum level of the raid.                       ``5``
 min_cp            Minimum CP of the monster.                       ``0``

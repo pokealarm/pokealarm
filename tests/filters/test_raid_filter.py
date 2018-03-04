@@ -35,6 +35,29 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_exclude_monster_id(self):
+        # Create the filters
+        settings = {"monsters_exclude": [382, "383", "Rayquaza"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should fail
+        pass1 = Events.RaidEvent(generate_raid({"pokemon_id": 20}))
+        pass2 = Events.RaidEvent(generate_raid({"pokemon_id": 150}))
+        pass3 = Events.RaidEvent(generate_raid({"pokemon_id": 301}))
+
+        # Test failing events
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(raid_filter.check_event(e))
+
+        # Generate events that should pass
+        fail1 = Events.RaidEvent(generate_raid({"pokemon_id": 382}))
+        fail2 = Events.RaidEvent(generate_raid({"pokemon_id": 383}))
+        fail3 = Events.RaidEvent(generate_raid({"pokemon_id": 384}))
+
+        # Test passing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(raid_filter.check_event(e))
+
     def test_quick_move(self):
         # Create the filters
         settings = {"quick_moves": [225, "88", "Present"]}

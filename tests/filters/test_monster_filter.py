@@ -41,10 +41,10 @@ class TestMonsterFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(mon_filter.check_event(e))
 
-    def test_ignore_monster_id(self):
+    def test_monsters_exclude(self):
         # Create the filters
         settings = {
-            "ignore_monsters": [4, "5", "Charizard"]
+            "monsters_exclude": [4, "5", "Charizard"]
         }
         mon_filter = Filters.MonFilter('filter1', settings)
 

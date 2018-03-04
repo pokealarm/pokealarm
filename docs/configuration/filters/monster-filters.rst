@@ -38,14 +38,15 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-============== ================================================== ================================
-Parameter      Description                                        Example
-============== ================================================== ================================
-monsters       Array of allowed monsters, by id or name.          ``["Bulbasaur","2",3]``
-form_ids       Array of allowed form ids for a monster.           ``[0,"1"]``
-genders        Array of acceptable genders. Options: `"male",     ``["female"]``
-               "female", "neutral"`
-============== ================================================== ================================
+================= ================================================== ================================
+Parameter         Description                                        Example
+================= ================================================== ================================
+monsters          Array of allowed monsters, by id or name.          ``["Bulbasaur","2",3]``
+monsters_exclude  Array of excluded monsters, by id or name.         ``["Bulbasaur","2",3]``
+form_ids          Array of allowed form ids for a monster.           ``[0,"1"]``
+genders           Array of acceptable genders. Options: `"male",     ``["female"]``
+                  "female", "neutral"`
+============== ===================================================== ================================
 
 
 Encounter Information
