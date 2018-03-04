@@ -138,9 +138,9 @@ class SlackAlarm(Alarm):
         self.send_message(
             channel=replace(alert['channel'], info),
             username=replace(alert['username'], info),
-            text='<{}|{}> - {}'.format(
+            text=('<{}|{}> - {} <{}| >'.format(
                 replace(alert['url'], info), replace(alert['title'], info),
-                replace(alert['body'], info)),
+                replace(alert['body'], info), replace(alert['map'], coords))),
             icon_url=replace(alert['icon_url'], info),
             attachments=attachments
         )
@@ -193,7 +193,8 @@ class SlackAlarm(Alarm):
         args = {
             "channel": self.get_channel(channel),
             "username": username,
-            "text": text
+            "text": text,
+            "unfurl_links": True,
         }
         if icon_url is not None:
             args['icon_url'] = icon_url
