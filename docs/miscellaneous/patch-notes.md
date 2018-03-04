@@ -23,7 +23,7 @@
     you will need to manually enable these DTS via server settings. See
     the `config.ini.example` for usage.
   * Fixed a bug where API Quotas caused timeouts
-  * `gmaps
+  * Config change: `key` changed to `gmaps-key`
   * `<walk_dist>` changed to `<walking_distance>`
   * `<walk_time>` changed to `<walking_duration>`
   * `<bike_dist>` changed to `<biking_distance>`
