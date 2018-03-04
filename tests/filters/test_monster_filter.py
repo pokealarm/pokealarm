@@ -41,6 +41,30 @@ class TestMonsterFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(mon_filter.check_event(e))
 
+    def test_monsters_exclude(self):
+        # Create the filters
+        settings = {
+            "monsters_exclude": [4, "5", "Charizard"]
+        }
+        mon_filter = Filters.MonFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.MonEvent(generate_monster({"pokemon_id": 1}))
+        pass2 = Events.MonEvent(generate_monster({"pokemon_id": 2}))
+        pass3 = Events.MonEvent(generate_monster({"pokemon_id": 3}))
+        # Test passing events
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(mon_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.MonEvent(generate_monster({"pokemon_id": 4}))
+        fail2 = Events.MonEvent(generate_monster({"pokemon_id": 5}))
+        fail3 = Events.MonEvent(generate_monster({"pokemon_id": 6}))
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(mon_filter.check_event(e))
+
     def test_lvl(self):
         # Create the filters
         settings = {"min_lvl": 5, "max_lvl": 10}
@@ -176,6 +200,21 @@ class TestMonsterFilter(unittest.TestCase):
         self.assertTrue(mon_filter.check_event(create_event({'form': 28})))
         self.assertFalse(mon_filter.check_event(create_event({'form': 2})))
         self.assertFalse(mon_filter.check_event(create_event({'form': 999})))
+
+    def test_costume(self):
+        # Create filter that forces settings
+        settings = {"costume_ids": [1, 2]}
+        mon_filter = Filters.MonFilter('costume_filter', settings)
+
+        # Test events that should pass
+        for c in [1, 2]:
+            event = Events.MonEvent(generate_monster({"costume": c}))
+            self.assertTrue(mon_filter.check_event(event))
+
+        # Test events that should fail
+        for c in [3, 4]:
+            event = Events.MonEvent(generate_monster({"costume": c}))
+            self.assertFalse(mon_filter.check_event(event))
 
     def test_moves(self):
         quick_settings = {"quick_moves": ["Vine Whip", "Tackle"]}

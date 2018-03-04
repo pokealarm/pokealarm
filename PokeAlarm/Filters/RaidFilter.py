@@ -21,6 +21,13 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters', data))
 
+        # Exclude Monster ID - f.monster_ids not contains r.ex_mon_id
+        self.exclude_mon_ids = self.evaluate_attribute(  #
+            event_attribute='mon_id',
+            eval_func=lambda d, v: not operator.contains(d, v),
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_monster_id, 'monsters_exclude', data))
+
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= r.distance
             event_attribute='distance', eval_func=operator.le,
@@ -60,6 +67,7 @@ class RaidFilter(BaseFilter):
             event_attribute='quick_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_move_id, 'quick_moves', data))
+
         # Charge Move
         self.charge_moves = self.evaluate_attribute(  # f.c_ms contains r.c_m
             event_attribute='charge_id', eval_func=operator.contains,
@@ -71,6 +79,22 @@ class RaidFilter(BaseFilter):
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_contains', data))
+        self.gym_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+            event_attribute='gym_name',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'gym_name_excludes', data))
+
+        # Gym sponsor
+        self.sponsored = self.evaluate_attribute(  #
+            event_attribute='sponsor_id', eval_func=lambda y, x: (x > 0) == y,
+            limit=BaseFilter.parse_as_type(bool, 'sponsored', data))
+
+        # Gym park
+        self.park_contains = self.evaluate_attribute(  # f.gp matches e.gp
+            event_attribute='park', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'park_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -84,7 +108,7 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(
@@ -124,7 +148,18 @@ class RaidFilter(BaseFilter):
 
         # Gym Name
         if self.gym_name_contains is not None:
-            settings['gym_name_matches'] = self.gym_name_contains
+            settings['gym_name_contains'] = self.gym_name_contains
+
+        if self.gym_name_excludes is not None:
+            settings['gym_name_excludes'] = self.gym_name_excludes
+
+        # Gym Sponsor
+        if self.sponsored is not None:
+            settings['sponsored'] = self.sponsored
+
+        # Gym Park
+        if self.park_contains is not None:
+            settings['park_contains'] = self.park_contains
 
         # Geofences
         if self.geofences is not None:
@@ -132,6 +167,6 @@ class RaidFilter(BaseFilter):
 
         # Missing Info
         if self.is_missing_info is not None:
-            settings['missing_info'] = self.is_missing_info
+            settings['is_missing_info'] = self.is_missing_info
 
         return settings

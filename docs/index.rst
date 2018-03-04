@@ -3,87 +3,76 @@
 Welcome to PokeAlarm's documentation!
 =====================================
 
+.. image:: images/logo.png
+    :align: center
+
+|discord| |nbsp| |patron| |nbsp| |repo| |nbsp| |issues|
+
 PokeAlarm is a highly configurable application that filters and relays alerts
 about Pokemon Go to your favorite online service, allowing you to be first to
 know of any rare spawns or raids.
 
-.. image:: images/PokeAlarm.png
-    :align: center
-
-.. image:: https://discordapp.com/api/guilds/215181169761714177/widget.png?style=shield :https://discord.gg/S2BKC7p: .. image:: https://img.shields.io/badge/Donate-Patron-orange.svg :https://www.patreon.com/bePatron?u=5193416: .. image:: https://img.shields.io/badge/python-2.7-blue.svg .. image:: https://img.shields.io/github/license/PokeAlarm/PokeAlarm.svg
-
-| `GitHub <https://github.com/PokeAlarm/PokeAlarm>`_ || `Discord <https://discord.gg/S2BKC7p>`_ || `GitHub Issues <https://github.com/PokeAlarm/PokeAlarm/issues>`_ |
 
 .. toctree::
    :titlesonly:
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Initial Setup
    :glob:
 
-   contents/*
+   getting-started/installation
+   getting-started/faq
 
 .. toctree::
    :titlesonly:
-   :maxdepth: 2
-   :caption: Settings:
-   :glob:
+   :maxdepth: 1
+   :caption: Basic Configuration
 
-   settings/*
+   configuration/server-settings
+   configuration/events/index
+   configuration/filters/index
+   configuration/alarms/index
+
 
 .. toctree::
    :titlesonly:
-   :maxdepth: 2
-   :caption: Filters:
-   :glob:
+   :maxdepth: 1
+   :caption: Advanced Configuration
 
-   filters/filters-overview
-   filters/monster-filters
-   filters/stop-filters
-   filters/gym-filters
-   filters/egg-filters
-   filters/raid-filters
+   configuration/rules
+   configuration/managers
+   configuration/geofences
+
 
 .. toctree::
    :titlesonly:
-   :maxdepth: 2
-   :caption: DTS:
+   :maxdepth: 1
+   :caption: Guides
    :glob:
 
-   dts/dynamic-text-substitution
-   dts/monster-dts
-   dts/stop-dts
-   dts/gym-dts
-   dts/egg-dts
-   dts/raid-dts
+   Getting Started <guides/getting-started-guide>
+
 
 .. toctree::
    :titlesonly:
-   :maxdepth: 2
-   :caption: Alarms:
+   :maxdepth: 1
+   :caption: Other
    :glob:
 
-   alarms/*
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 2
-   :caption: Other:
-   :glob:
-
-   other/*
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 2
-   :caption: Documentation:
-   :glob:
-
-   documentation/*
+   Webhook Standards <miscellaneous/webhook-standard>
+   Patch Notes <miscellaneous/patch-notes>
+   Caching <miscellaneous/object-caching>
+   Docker <miscellaneous/docker>
+   Location Services <miscellaneous/location-services>
+   Contributing <miscellaneous/contributing>
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. |discord| image:: https://discordapp.com/api/guilds/215181169761714177/widget.png?style=shield
+    :target: https://discord.gg/S2BKC7p
+.. |patron| image:: https://img.shields.io/badge/Donate-Patron-orange.svg
+    :target: https://www.patreon.com/pokealarm
+.. |repo| image:: https://img.shields.io/badge/github-PokeAlarm-green.svg
+    :target: https://github.com/PokeAlarm/PokeAlarm
+.. |issues| image:: https://img.shields.io/github/issues/PokeAlarm/PokeAlarm.svg
+    :target: https://github.com/PokeAlarm/PokeAlarm/issues
+.. |nbsp| unicode:: 0xA0
+   :trim:

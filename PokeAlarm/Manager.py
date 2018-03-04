@@ -20,9 +20,10 @@ import Events
 from Cache import cache_factory
 from Geofence import load_geofence_file
 from Locale import Locale
-from LocationServices import location_service_factory
+from LocationServices import GMaps
+from PokeAlarm import Unknown
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg, get_cardinal_dir)
+                   parse_boolean, get_cardinal_dir)
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
@@ -40,16 +41,15 @@ class Manager(object):
         self.__debug = debug
 
         # Get the Google Maps API
-        self.__google_key = None
-        self.__loc_service = None
+        self._google_key = None
+        self._gmaps_service = None
         if str(google_key).lower() != 'none':
-            self.__google_key = google_key
-            self.__loc_service = location_service_factory(
-                "GoogleMaps", google_key, locale, units)
-        else:
-            log.warning("NO GOOGLE API KEY SET - Reverse Location and"
-                        + " Distance Matrix DTS will NOT be detected.")
+            self._google_key = google_key
+            self._gmaps_service = GMaps(google_key)
+        self._gmaps_reverse_geocode = False
+        self._gmaps_distance_matrix = set()
 
+        self._language = locale
         self.__locale = Locale(locale)  # Setup the language-specific stuff
         self.__units = units  # type of unit used for distances
         self.__timezone = timezone  # timezone for time calculations
@@ -83,7 +83,7 @@ class Manager(object):
         if str(geofence_file).lower() != 'none':
             self.geofences = load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
-        self.__alarms = []
+        self.__alarms = {}
         self.load_alarms_file(get_path(alarm_file), int(max_attempts))
 
         # Initialize Rules
@@ -128,7 +128,42 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONTROL API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    def enable_gmaps_reverse_geocoding(self):
+        """Enable GMaps Reverse Geocoding DTS for triggered Events. """
+        if not self._gmaps_service:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding."
+                             "No GMaps API key has been set.")
+        self._gmaps_reverse_geocode = True
+
+    def disable_gmaps_reverse_geocoding(self):
+        """Disable GMaps Reverse Geocoding DTS for triggered Events. """
+        self._gmaps_reverse_geocode = False
+
+    def enable_gmaps_distance_matrix(self, mode):
+        """Enable 'mode' Distance Matrix DTS for triggered Events. """
+        if not self.__location:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding."
+                             "No Manager location has been set.")
+        elif not self._gmaps_service:
+            raise ValueError("Unable to enable Google Maps Reverse Geocoding."
+                             "No GMaps API key has been provided.")
+        elif mode not in GMaps.TRAVEL_MODES:
+            raise ValueError("Unable to enable distance matrix mode: "
+                             "{} is not a valid mode.".format(mode))
+        self._gmaps_distance_matrix.add(mode)
+
+    def disable_gmaps_dm_walking(self, mode):
+        """Disable 'mode' Distance Matrix DTS for triggered Events. """
+        if mode not in GMaps.TRAVEL_MODES:
+            raise ValueError("Unable to disable distance matrix mode: "
+                             "Invalid mode specified.")
+        self._gmaps_distance_matrix.discard(mode)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RULES API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Add new Monster Rule
     def add_monster_rule(self, name, filters, alarms):
@@ -227,10 +262,15 @@ class Manager(object):
     @staticmethod
     def load_filter_section(section, sect_name, filter_type):
         defaults = section.pop('defaults', {})
+        default_dts = defaults.pop('custom_dts', {})
         filter_set = OrderedDict()
         for name, settings in section.pop('filters', {}).iteritems():
             settings = dict(defaults.items() + settings.items())
             try:
+                local_dts = dict(default_dts.items()
+                                 + settings.pop('custom_dts', {}).items())
+                if len(local_dts) > 0:
+                    settings['custom_dts'] = local_dts
                 filter_set[name] = filter_type(name, settings)
                 log.debug(
                     "Filter '%s' set as the following: %s", name,
@@ -331,9 +371,8 @@ class Manager(object):
             for name, alarm in alarm_settings.iteritems():
                 if parse_boolean(require_and_remove_key(
                         'active', alarm, "Alarm objects in file.")) is True:
-                    self.set_optional_args(str(alarm))
                     self.__alarms[name] = Alarms.alarm_factory(
-                        alarm, max_attempts, self.__google_key)
+                        alarm, max_attempts, self._google_key)
                 else:
                     log.debug("Alarm not activated: {}".format(alarm['type'])
                               + " because value not set to \"True\"")
@@ -358,71 +397,6 @@ class Manager(object):
                       + "{}: {}".format(type(e).__name__, e))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
-
-    # Check for optional arguments and enable APIs as needed
-    def set_optional_args(self, line):
-        # Reverse Location
-        args = {'street', 'street_num', 'address', 'postal', 'neighborhood',
-                'sublocality', 'city', 'county', 'state', 'country'}
-        if contains_arg(line, args):
-            if self.__loc_service is None:
-                log.critical("Reverse location DTS were detected but "
-                             + "no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            self.__loc_service.enable_reverse_location()
-
-        # Walking Dist Matrix
-        args = {'walk_dist', 'walk_time'}
-        if contains_arg(line, args):
-            if self.__location is None:
-                log.critical("Walking Distance Matrix DTS were detected but "
-                             + " no location was set!")
-                log.critical("Please either remove the DTS, set a location, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            if self.__loc_service is None:
-                log.critical("Walking Distance Matrix DTS were detected "
-                             + "but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            self.__loc_service.enable_walking_data()
-
-        # Biking Dist Matrix
-        args = {'bike_dist', 'bike_time'}
-        if contains_arg(line, args):
-            if self.__location is None:
-                log.critical("Biking Distance Matrix DTS were detected but "
-                             + " no location was set!")
-                log.critical("Please either remove the DTS, set a location, "
-                             + " or disable the alarm and try again.")
-                sys.exit(1)
-            if self.__loc_service is None:
-                log.critical("Biking Distance Matrix DTS were detected "
-                             + "  but no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + " or disable the alarm and try again.")
-                sys.exit(1)
-            self.__loc_service.enable_biking_data()
-
-        # Driving Dist Matrix
-        args = {'drive_dist', 'drive_time'}
-        if contains_arg(line, args):
-            if self.__location is None:
-                log.critical("Driving Distance Matrix DTS were detected but "
-                             + "no location was set!")
-                log.critical("Please either remove the DTS, set a location, "
-                             + "or disable the alarm and try again.")
-                sys.exit(1)
-            if self.__loc_service is None:
-                log.critical("Driving Distance Matrix DTS were detected but "
-                             + "no API key was provided!")
-                log.critical("Please either remove the DTS, add an API key, "
-                             + " or disable the alarm and try again.")
-                sys.exit(1)
-            self.__loc_service.enable_driving_data()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -508,20 +482,19 @@ class Manager(object):
         if res:  # If location is in a Lat,Lng coordinate
             self.__location = [float(res.group(1)), float(res.group(2))]
         else:
-            if self.__loc_service is None:  # Check if key was provided
-                log.error("Unable to find location coordinates by name - "
-                          + "no Google API key was provided.")
-                return None
-            self.__location = self.__loc_service.get_location_from_name(
-                location)
+            # Check if key was provided
+            if self._gmaps_service is None:
+                raise ValueError("Unable to find location coordinates by name"
+                                 " - no Google API key was provided.")
+            # Attempt to geocode location
+            location = self._gmaps_service.geocode(location)
+            if location is None:
+                raise ValueError("Unable to geocode coordinates from {}. "
+                                 "Location will not be set.".format(location))
 
-        if self.__location is None:
-            log.error("Unable to set location - "
-                      + "Please check your settings and try again.")
-            sys.exit(1)
-        else:
+            self.__location = location
             log.info("Location successfully set to '{},{}'.".format(
-                self.__location[0], self.__location[1]))
+                location[0], location[1]))
 
     # Process new Monster data and decide if a notification needs to be sent
     def process_monster(self, mon):
@@ -536,13 +509,12 @@ class Manager(object):
         # Set the name for this event so we can log rejects better
         mon.name = self.__locale.get_pokemon_name(mon.monster_id)
 
-        # Skip if previously processed
-        if self.__cache.get_pokemon_expiration(mon.enc_id) is not None:
+        # Check if previously processed and update expiration
+        if self.__cache.monster_expiration(mon.enc_id) is not None:
             log.debug("{} monster was skipped because it was previously "
                       "processed.".format(mon.name))
             return
-        self.__cache.update_pokemon_expiration(
-            mon.enc_id, mon.disappear_time)
+        self.__cache.monster_expiration(mon.enc_id, mon.disappear_time)
 
         # Check the time remaining
         seconds_left = (mon.disappear_time
@@ -555,7 +527,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             mon.distance = get_earth_dist(
-                [mon.lat, mon.lng], self.__location)
+                [mon.lat, mon.lng], self.__location, self.__units)
             mon.direction = get_cardinal_dir(
                 [mon.lat, mon.lng], self.__location)
 
@@ -582,10 +554,15 @@ class Manager(object):
     def _trigger_mon(self, mon, alarms):
         # Generate the DTS for the event
         dts = mon.generate_dts(self.__locale, self.__timezone, self.__units)
-        # Get reverse geocoding
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [mon.lat, mon.lng], dts)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (mon.lat, mon.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (mon.lat, mon.lng), self.__location,
+                self._language, self.__units))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -608,12 +585,17 @@ class Manager(object):
             log.debug("Stop ignored: stop notifications are disabled.")
             return
 
-        # Skip if previously processed
-        if self.__cache.get_pokestop_expiration(stop.stop_id) is not None:
+        # Check for lured
+        if stop.expiration is None:
+            log.debug("Stop ignored: stop was not lured")
+            return
+
+        # Check if previously processed and update expiration
+        if self.__cache.stop_expiration(stop.stop_id) is not None:
             log.debug("Stop {} was skipped because it was previously "
                       "processed.".format(stop.name))
             return
-        self.__cache.update_pokestop_expiration(stop.stop_id, stop.expiration)
+        self.__cache.stop_expiration(stop.stop_id, stop.expiration)
 
         # Check the time remaining
         seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()
@@ -625,7 +607,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             stop.distance = get_earth_dist(
-                [stop.lat, stop.lng], self.__location)
+                [stop.lat, stop.lng], self.__location, self.__units)
             stop.direction = get_cardinal_dir(
                 [stop.lat, stop.lng], self.__location)
 
@@ -652,10 +634,15 @@ class Manager(object):
     def _trigger_stop(self, stop, alarms):
         # Generate the DTS for the event
         dts = stop.generate_dts(self.__locale, self.__timezone, self.__units)
-        # Get reverse geocoding
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [stop.lat, stop.lng], dts)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (stop.lat, stop.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (stop.lat, stop.lng), self.__location,
+                self._language, self.__units))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -674,28 +661,24 @@ class Manager(object):
         """ Process a gym event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            gym.gym_id, gym.gym_name, gym.gym_description, gym.gym_image)
+        gym.gym_name = self.__cache.gym_name(gym.gym_id, gym.gym_name)
+        gym.gym_description = self.__cache.gym_desc(
+            gym.gym_id, gym.gym_description)
+        gym.gym_image = self.__cache.gym_image(gym.gym_id, gym.gym_image)
 
         # Ignore changes to neutral
         if self.__ignore_neutral and gym.new_team_id == 0:
             log.debug("%s gym update skipped: new team was neutral")
             return
 
-        # Get the old team and update new team
-        gym.old_team_id = self.__cache.get_gym_team(gym.gym_id)
-        self.__cache.update_gym_team(gym.gym_id, gym.new_team_id)
+        # Update Team Information
+        gym.old_team_id = self.__cache.gym_team(gym.gym_id)
+        self.__cache.gym_team(gym.gym_id, gym.new_team_id)
 
         # Check if notifications are on
         if self.__gyms_enabled is False:
             log.debug("Gym ignored: gym notifications are disabled.")
             return
-
-        # Update the cache with the gyms info
-        info = self.__cache.get_gym_info(gym.gym_id)
-        gym.gym_name = info['name']
-        gym.gym_description = info['description']
-        gym.gym_image = info['url']
 
         # Doesn't look like anything to me
         if gym.new_team_id == gym.old_team_id:
@@ -705,7 +688,7 @@ class Manager(object):
         # Calculate distance and direction
         if self.__location is not None:
             gym.distance = get_earth_dist(
-                [gym.lat, gym.lng], self.__location)
+                [gym.lat, gym.lng], self.__location, self.__units)
             gym.direction = get_cardinal_dir(
                 [gym.lat, gym.lng], self.__location)
 
@@ -732,11 +715,15 @@ class Manager(object):
     def _trigger_gym(self, gym, alarms):
         # Generate the DTS for the event
         dts = gym.generate_dts(self.__locale, self.__timezone, self.__units)
-        dts.update(self.__cache.get_gym_info(gym.gym_id))  # update gym info
-        # Get reverse geocoding
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [gym.lat, gym.lng], dts)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (gym.lat, gym.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (gym.lat, gym.lng), self.__location,
+                self._language, self.__units))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -755,8 +742,14 @@ class Manager(object):
         """ Process a egg event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            egg.gym_id, egg.gym_name, egg.gym_description, egg.gym_image)
+        egg.gym_name = self.__cache.gym_name(egg.gym_id, egg.gym_name)
+        egg.gym_description = self.__cache.gym_desc(
+            egg.gym_id, egg.gym_description)
+        egg.gym_image = self.__cache.gym_image(egg.gym_id, egg.gym_image)
+
+        # Update Team if Unknown
+        if Unknown.is_(egg.current_team_id):
+            egg.current_team_id = self.__cache.gym_team(egg.gym_id)
 
         # Make sure that eggs are enabled
         if self.__eggs_enabled is False:
@@ -764,11 +757,11 @@ class Manager(object):
             return
 
         # Skip if previously processed
-        if self.__cache.get_egg_expiration(egg.gym_id) is not None:
+        if self.__cache.egg_expiration(egg.gym_id) is not None:
             log.debug("Egg {} was skipped because it was previously "
                       "processed.".format(egg.name))
             return
-        self.__cache.update_egg_expiration(egg.gym_id, egg.hatch_time)
+        self.__cache.egg_expiration(egg.gym_id, egg.hatch_time)
 
         # Check the time remaining
         seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
@@ -777,17 +770,10 @@ class Manager(object):
                       "".format(egg.name, seconds_left))
             return
 
-        # Assigned cached info
-        info = self.__cache.get_gym_info(egg.gym_id)
-        egg.current_team_id = self.__cache.get_gym_team(egg.gym_id)
-        egg.gym_name = info['name']
-        egg.gym_description = info['description']
-        egg.gym_image = info['url']
-
         # Calculate distance and direction
         if self.__location is not None:
             egg.distance = get_earth_dist(
-                [egg.lat, egg.lng], self.__location)
+                [egg.lat, egg.lng], self.__location, self.__units)
             egg.direction = get_cardinal_dir(
                 [egg.lat, egg.lng], self.__location)
 
@@ -814,11 +800,15 @@ class Manager(object):
     def _trigger_egg(self, egg, alarms):
         # Generate the DTS for the event
         dts = egg.generate_dts(self.__locale, self.__timezone, self.__units)
-        dts.update(self.__cache.get_gym_info(egg.gym_id))  # update gym info
-        # Get reverse geocoding
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [egg.lat, egg.lng], dts)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (egg.lat, egg.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (egg.lat, egg.lng), self.__location,
+                self._language, self.__units))
 
         threads = []
         # Spawn notifications in threads so they can work in background
@@ -837,8 +827,14 @@ class Manager(object):
         """ Process a raid event and notify alarms if it passes. """
 
         # Update Gym details (if they exist)
-        self.__cache.update_gym_info(
-            raid.gym_id, raid.gym_name, raid.gym_description, raid.gym_image)
+        raid.gym_name = self.__cache.gym_name(raid.gym_id, raid.gym_name)
+        raid.gym_description = self.__cache.gym_desc(
+            raid.gym_id, raid.gym_description)
+        raid.gym_image = self.__cache.gym_image(raid.gym_id, raid.gym_image)
+
+        # Update Team if Unknown
+        if Unknown.is_(raid.current_team_id):
+            raid.current_team_id = self.__cache.gym_team(raid.gym_id)
 
         # Make sure that raids are enabled
         if self.__raids_enabled is False:
@@ -846,11 +842,11 @@ class Manager(object):
             return
 
         # Skip if previously processed
-        if self.__cache.get_raid_expiration(raid.gym_id) is not None:
+        if self.__cache.raid_expiration(raid.gym_id) is not None:
             log.debug("Raid {} was skipped because it was previously "
                       "processed.".format(raid.name))
             return
-        self.__cache.update_raid_expiration(raid.gym_id, raid.raid_end)
+        self.__cache.raid_expiration(raid.gym_id, raid.raid_end)
 
         # Check the time remaining
         seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
@@ -859,17 +855,10 @@ class Manager(object):
                       "".format(raid.name, seconds_left))
             return
 
-        # Assigned cached info
-        info = self.__cache.get_gym_info(raid.gym_id)
-        raid.current_team_id = self.__cache.get_gym_team(raid.gym_id)
-        raid.gym_name = info['name']
-        raid.gym_description = info['description']
-        raid.gym_image = info['url']
-
         # Calculate distance and direction
         if self.__location is not None:
             raid.distance = get_earth_dist(
-                [raid.lat, raid.lng], self.__location)
+                [raid.lat, raid.lng], self.__location, self.__units)
             raid.direction = get_cardinal_dir(
                 [raid.lat, raid.lng], self.__location)
 
@@ -896,11 +885,15 @@ class Manager(object):
     def _trigger_raid(self, raid, alarms):
         # Generate the DTS for the event
         dts = raid.generate_dts(self.__locale, self.__timezone, self.__units)
-        dts.update(self.__cache.get_gym_info(raid.gym_id))  # update gym info
-        # Get reverse geocoding
-        if self.__loc_service:
-            self.__loc_service.add_optional_arguments(
-                self.__location, [raid.lat, raid.lng], dts)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (raid.lat, raid.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (raid.lat, raid.lng), self.__location,
+                self._language, self.__units))
 
         threads = []
         # Spawn notifications in threads so they can work in background

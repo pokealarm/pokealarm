@@ -35,6 +35,29 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_exclude_monster_id(self):
+        # Create the filters
+        settings = {"monsters_exclude": [382, "383", "Rayquaza"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should fail
+        pass1 = Events.RaidEvent(generate_raid({"pokemon_id": 20}))
+        pass2 = Events.RaidEvent(generate_raid({"pokemon_id": 150}))
+        pass3 = Events.RaidEvent(generate_raid({"pokemon_id": 301}))
+
+        # Test failing events
+        for e in [pass1, pass2, pass3]:
+            self.assertTrue(raid_filter.check_event(e))
+
+        # Generate events that should pass
+        fail1 = Events.RaidEvent(generate_raid({"pokemon_id": 382}))
+        fail2 = Events.RaidEvent(generate_raid({"pokemon_id": 383}))
+        fail3 = Events.RaidEvent(generate_raid({"pokemon_id": 384}))
+
+        # Test passing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(raid_filter.check_event(e))
+
     def test_quick_move(self):
         # Create the filters
         settings = {"quick_moves": [225, "88", "Present"]}
@@ -122,6 +145,36 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(raid_filter.check_event(e))
 
+    def test_gym_name_excludes(self):
+        # Create the filters
+        settings = {"gym_name_excludes": ["fail"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Generate events that should pass
+        for r in ["pass1", "2pass", "3pass3"]:
+            event = Events.RaidEvent(generate_raid({"name": r}))
+            self.assertTrue(raid_filter.check_event(event))
+
+        # Generate events that should fail
+        for r in ["fail1", "failpass", "passfail"]:
+            event = Events.RaidEvent(generate_raid({"name": r}))
+            self.assertFalse(raid_filter.check_event(event))
+
+    def test_park(self):
+        # Create the filters
+        settings = {"park_contains": ["pass"]}
+        raid_filter = Filters.RaidFilter('filter1', settings)
+
+        # Test events that should pass
+        for n in ["pass1", "2pass", "3pass3"]:
+            event = Events.RaidEvent(generate_raid({"park": n}))
+            self.assertTrue(raid_filter.check_event(event))
+
+        # Test events that should fail
+        for n in ["fail1", "failpas", "pasfail"]:
+            event = Events.RaidEvent(generate_raid({"park": n}))
+            self.assertFalse(raid_filter.check_event(event))
+
     def test_current_team(self):
         # Create the filters
         settings = {"current_teams": [1, "2", "Instinct"]}
@@ -141,6 +194,23 @@ class TestRaidFilter(unittest.TestCase):
         # Test failing events
         for e in [fail1]:
             self.assertFalse(raid_filter.check_event(e))
+
+    def test_sponsored(self):
+        # Create the filters
+        raid_filter1 = Filters.RaidFilter('filter1', {"sponsored": False})
+        raid_filter2 = Filters.RaidFilter('filter2', {"sponsored": True})
+
+        # Generate events
+        not_sponsored = Events.RaidEvent(generate_raid({"sponsor": 0}))
+        sponsored = Events.RaidEvent(generate_raid({"sponsor": 4}))
+
+        # Test passing events
+        self.assertTrue(raid_filter1.check_event(not_sponsored))
+        self.assertTrue(raid_filter2.check_event(sponsored))
+
+        # Test failing events
+        self.assertFalse(raid_filter2.check_event(not_sponsored))
+        self.assertFalse(raid_filter1.check_event(sponsored))
 
     def test_missing_info1(self):
         # Create the filters
@@ -251,7 +321,9 @@ def generate_raid(values):
         "end": 1499246052,
         "level": 5,
         "latitude": 37.7876146,
-        "longitude": -122.390624
+        "longitude": -122.390624,
+        "sponsor": None,
+        "park": None
     }
     raid.update(values)
     return raid
