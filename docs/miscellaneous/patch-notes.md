@@ -28,7 +28,7 @@
   * `<walk_time>` changed to `<walking_duration>`
   * `<bike_dist>` changed to `<biking_distance>`
   * `<bike_time>` changed to `<biking_duration>`
-  * `<drive_time>` changed to `<driving_distance>`
+  * `<drive_dist>` changed to `<driving_distance>`
   * `<drive_time>` changed to `<driving_duration>`
   * `<transit_distance>` added
   * `<transit_duration>` added
