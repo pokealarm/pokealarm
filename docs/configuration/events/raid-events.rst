@@ -61,6 +61,8 @@ gym_image         The url to the image of the gym. *
 team_id           The id of the team currently in control of the gym.
 team_name         The team currently in control of the gym.
 team_leader       The leader of the team currently in control of the gym.
+sponsor_id        The sponsor if of the gym. 0 if not sponsored.
+sponsored         True if sponsored, False if not.
 ================= ============================================================
 
 .. note::
