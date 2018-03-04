@@ -83,14 +83,12 @@ carefully.
 Filters File
 -------------------------------------
 
-.. note::
-
-  A *filters file* (often refereed to as ``filters.json``) is a file containing
-  then Filters that PA uses. By default, PA loads the Filter from the
-  ``filters.json`` located in the base folder of the project. See the
-  :doc:`../server-settings` page for instructions on specifying the file by
-  a different name. This file must contain a single JSON object to load
-  successfully:
+A *filters file* (often refereed to as ``filters.json``) is a file containing
+the Filters that PA uses. By default, PA loads the Filter from the
+``filters.json`` located in the base folder of the project. See the
+:doc:`../server-settings` page for instructions on specifying the file by
+a different name. This file must contain a single JSON object to load
+successfully:
 
 .. code-block:: json
 

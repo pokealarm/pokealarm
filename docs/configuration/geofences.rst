@@ -1,4 +1,4 @@
-Events
+Geofences
 =====================================
 
 .. contents:: Table of Contents
