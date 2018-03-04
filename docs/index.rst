@@ -38,9 +38,9 @@ know of any rare spawns or raids.
    :maxdepth: 1
    :caption: Advanced Configuration
 
+   configuration/rules
    configuration/managers
    configuration/geofences
-   configuration/rules-overview
 
 
 .. toctree::
