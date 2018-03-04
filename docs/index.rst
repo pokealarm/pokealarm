@@ -50,9 +50,6 @@ know of any rare spawns or raids.
    :glob:
 
    Getting Started <guides/getting-started-guide>
-   JSON Formatting Help <guides/json-formatting>
-   3.5 -> 3.6 Alarm Upgrade Tool <guides/upgrade-tool>
-   Bug Reports / Feedback <guides/bug-feedback>
 
 
 .. toctree::
@@ -62,7 +59,6 @@ know of any rare spawns or raids.
    :glob:
 
    Webhook Standards <miscellaneous/webhook-standard>
-   Webhook Tester <miscellaneous/webhook-tester>
    Patch Notes <miscellaneous/patch-notes>
    Caching <miscellaneous/object-caching>
    Docker <miscellaneous/docker>
