@@ -213,7 +213,7 @@ class RaidEvent(BaseEvent):
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
             'sponsor_id': self.sponsor_id,
-            'is_sponsor':
+            'sponsored':
                 self.sponsor_id > 0 if Unknown.is_not(self.sponsor_id)
                 else Unknown.REGULAR,
             'park': self.park,

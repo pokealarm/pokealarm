@@ -172,24 +172,22 @@ class TestRaidFilter(unittest.TestCase):
         for e in [fail1]:
             self.assertFalse(raid_filter.check_event(e))
 
-    def test_is_sponsor(self):
+    def test_sponsored(self):
         # Create the filters
-        settings = {"is_sponsor": False}
-        raid_filter = Filters.RaidFilter('filter1', settings)
+        raid_filter1 = Filters.RaidFilter('filter1', {"sponsored": False})
+        raid_filter2 = Filters.RaidFilter('filter2', {"sponsored": True})
 
-        # Generate events that should pass
-        pass1 = Events.EggEvent(generate_raid({"sponsor": 0}))
+        # Generate events
+        not_sponsored = Events.RaidEvent(generate_raid({"sponsor": 0}))
+        sponsored = Events.RaidEvent(generate_raid({"sponsor": 4}))
 
         # Test passing events
-        for e in [pass1]:
-            self.assertTrue(raid_filter.check_event(e))
-
-        # Generate events that should fail
-        fail1 = Events.EggEvent(generate_raid({"sponsor": 4}))
+        self.assertTrue(raid_filter1.check_event(not_sponsored))
+        self.assertTrue(raid_filter2.check_event(sponsored))
 
         # Test failing events
-        for e in [fail1]:
-            self.assertFalse(raid_filter.check_event(e))
+        self.assertFalse(raid_filter2.check_event(not_sponsored))
+        self.assertFalse(raid_filter1.check_event(sponsored))
 
     def test_missing_info1(self):
         # Create the filters
