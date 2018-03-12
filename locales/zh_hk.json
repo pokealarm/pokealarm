@@ -1,4 +1,24 @@
 {
+  "costumes": {
+    "025": {
+      "001": "\u8056\u8a95\u5e3d", 
+      "002": "\u6d3e\u5c0d\u5e3d", 
+      "003": "\u5c0f\u667a\u5e3d", 
+      "004": "\u5deb\u5e2b\u5e3d"
+    }, 
+    "026": {
+      "001": "\u8056\u8a95\u5e3d", 
+      "002": "\u6d3e\u5c0d\u5e3d", 
+      "003": "\u5c0f\u667a\u5e3d", 
+      "004": "\u5deb\u5e2b\u5e3d"
+    }, 
+    "172": {
+      "001": "\u8056\u8a95\u5e3d", 
+      "002": "\u6d3e\u5c0d\u5e3d", 
+      "003": "\u5c0f\u667a\u5e3d", 
+      "004": "\u5deb\u5e2b\u5e3d"
+    }
+  },
   "leaders": {
     "000": "Professor Willow (\u7dad\u7f85\u535a)", 
     "001": "Blanche (\u5e03\u862d)", 
