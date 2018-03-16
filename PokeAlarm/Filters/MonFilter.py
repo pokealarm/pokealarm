@@ -140,6 +140,12 @@ class MonFilter(BaseFilter):
             event_attribute='weather_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
+        # Rarity
+        self.rarity_ids = self.evaluate_attribute(  #
+            event_attribute='rarity_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_rarity_id, 'rarity', data))
+
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
