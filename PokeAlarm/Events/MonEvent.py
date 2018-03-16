@@ -115,6 +115,9 @@ class MonEvent(BaseEvent):
         # Costume
         self.costume_id = check_for_none(int, data.get('costume'), 0)
 
+        # Rarity
+        self.rarity_id = check_for_none(int, data.get('rarity'), Unknown.TINY)
+
         # Correct this later
         self.name = self.monster_id
         self.geofence = Unknown.REGULAR
@@ -271,11 +274,13 @@ class MonEvent(BaseEvent):
                 else Unknown.SMALL),
             'size': locale.get_size_name(self.size_id),
 
-            # Attack rating
+            # Misc
             'atk_grade': (
                 Unknown.or_empty(self.atk_grade, Unknown.TINY)),
             'def_grade': (
                 Unknown.or_empty(self.def_grade, Unknown.TINY)),
+            'rarity_id': self.rarity_id,
+            'rarity': locale.get_rarity_name(self.rarity_id),
 
             # Catch Prob
             'base_catch_0': (
