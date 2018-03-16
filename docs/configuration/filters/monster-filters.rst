@@ -46,7 +46,8 @@ monsters_exclude  Array of excluded monsters, by id or name.         ``["Bulbasa
 form_ids          Array of allowed form ids for a monster.           ``[0,"1"]``
 genders           Array of acceptable genders. Options: `"male",     ``["female"]``
                   "female", "neutral"`
-============== ===================================================== ================================
+rarity            Array of allowed rarities.                         ``["common", "uncommon", 3``
+================= ================================================== ================================
 
 
 Encounter Information

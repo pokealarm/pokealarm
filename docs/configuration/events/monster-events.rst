@@ -83,6 +83,7 @@ great_catch_2       Catch rate of the monster when using a great ball, rounded t
 ultra_catch         Catch rate of the monster when using an ultra ball.
 ultra_catch_0       Catch rate of the monster when using an ultra ball, rounded to the nearest integer.
 ultra_catch_2       Catch rate of the monster when using an ultra ball, rounded to 2 decimal places.
+rarity              Rarity of the monster, as supplied by the scanner.
 =================== =========================================================
 
 Moves
