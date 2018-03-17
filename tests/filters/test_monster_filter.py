@@ -41,6 +41,27 @@ class TestMonsterFilter(unittest.TestCase):
         for e in [fail1, fail2, fail3]:
             self.assertFalse(mon_filter.check_event(e))
 
+    def test_rarity_id(self):
+        # Create the filters
+        settings = {"rarity": ["common", "Very Rare"]}
+        mon_filter = Filters.MonFilter('filter1', settings)
+
+        # Generate events that should pass
+        pass1 = Events.MonEvent(generate_monster({"rarity": 0}))
+        pass2 = Events.MonEvent(generate_monster({"rarity": 3}))
+        # Test passing events
+        for e in [pass1, pass2]:
+            self.assertTrue(mon_filter.check_event(e))
+
+        # Generate events that should fail
+        fail1 = Events.MonEvent(generate_monster({"rarity": 1}))
+        fail2 = Events.MonEvent(generate_monster({"rarity": 2}))
+        fail3 = Events.MonEvent(generate_monster({"rarity": 4}))
+
+        # Test failing events
+        for e in [fail1, fail2, fail3]:
+            self.assertFalse(mon_filter.check_event(e))
+
     def test_monsters_exclude(self):
         # Create the filters
         settings = {
