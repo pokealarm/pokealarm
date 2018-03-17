@@ -119,8 +119,8 @@ def get_type_id(type_name):
 def get_rarity_id(rarity_name):
     try:
         name = str(rarity_name).lower()
-        if not hasattr(get_type_id, 'rarity'):
-            get_type_id.ids = {}
+        if not hasattr(get_rarity_id, 'rarity'):
+            get_rarity_id.ids = {}
             files = glob(get_path('locales/*.json'))
             for file_ in files:
                 with open(file_, 'r') as f:
@@ -128,14 +128,14 @@ def get_rarity_id(rarity_name):
                     j = j['rarity']
                     for id_ in j:
                         nm = j[id_].lower()
-                        get_type_id.ids[nm] = int(id_)
-        if name in get_type_id.ids:
-            return get_type_id.ids[name]
+                        get_rarity_id.ids[nm] = int(id_)
+        if name in get_rarity_id.ids:
+            return get_rarity_id.ids[name]
         else:
             return int(name)  # try as an integer
     except Exception:
         raise ValueError("Unable to interpret `{}` as a valid"
-                         " type name or id.".format(rarity_name))
+                         " rarity name or id.".format(rarity_name))
 
 
 # Returns the gender symbol of a pokemon:
