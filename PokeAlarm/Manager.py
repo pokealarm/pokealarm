@@ -40,7 +40,7 @@ class Manager(object):
                  + " is being created.")
         self.__debug = debug
 
-        # Get the Google Maps API
+        # Get the Google Maps AP# TODO: Improve error checking
         self._google_key = None
         self._gmaps_service = None
         if str(google_key).lower() != 'none':
@@ -314,21 +314,21 @@ class Manager(object):
 
         try:
             # Load Monsters Section
-            log.info("Parsing 'monsters' section.")
+            log.debug("Parsing 'monsters' section.")
             section = filters.pop('monsters', {})
             self.__mons_enabled = bool(section.pop('enabled', False))
             self.__mon_filters = self.load_filter_section(
                 section, 'monsters', Filters.MonFilter)
 
             # Load Stops Section
-            log.info("Parsing 'stops' section.")
+            log.debug("Parsing 'stops' section.")
             section = filters.pop('stops', {})
             self.__stops_enabled = bool(section.pop('enabled', False))
             self.__stop_filters = self.load_filter_section(
                 section, 'stops', Filters.StopFilter)
 
             # Load Gyms Section
-            log.info("Parsing 'gyms' section.")
+            log.debug("Parsing 'gyms' section.")
             section = filters.pop('gyms', {})
             self.__gyms_enabled = bool(section.pop('enabled', False))
             self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
@@ -336,14 +336,14 @@ class Manager(object):
                 section, 'gyms', Filters.GymFilter)
 
             # Load Eggs Section
-            log.info("Parsing 'eggs' section.")
+            log.debug("Parsing 'eggs' section.")
             section = filters.pop('eggs', {})
             self.__eggs_enabled = bool(section.pop('enabled', False))
             self.__egg_filters = self.load_filter_section(
                 section, 'eggs', Filters.EggFilter)
 
             # Load Raids Section
-            log.info("Parsing 'raids' section.")
+            log.debug("Parsing 'raids' section.")
             section = filters.pop('raids', {})
             self.__raids_enabled = bool(section.pop('enabled', False))
             self.__raid_filters = self.load_filter_section(

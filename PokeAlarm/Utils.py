@@ -440,7 +440,6 @@ def get_dist_as_str(dist, units):
 def get_earth_dist(pt_a, pt_b=None, units='imperial'):
     if type(pt_a) is str or pt_b is None:
         return 'unkn'  # No location set
-    log.debug("Calculating distance from {} to {}".format(pt_a, pt_b))
     lat_a = radians(pt_a[0])
     lng_a = radians(pt_a[1])
     lat_b = radians(pt_b[0])

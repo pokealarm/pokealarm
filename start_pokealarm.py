@@ -2,19 +2,21 @@
 # -*- coding: utf-8 -*-
 
 # Monkey Patch to allow Gevent's Concurrency
+from datetime import timedelta, datetime
+
 from gevent import monkey
 monkey.patch_all()
 
 # Setup Logging
 import logging
 logging.basicConfig(
-    format='%(asctime)s [%(processName)15.15s][%(name)10.10s]'
-           + '[%(levelname)8.8s] %(message)s', level=logging.INFO)
+    format='%(asctime)s [%(levelname)5.5s][%(name)10.10s] %(message)s',
+    level=logging.INFO)
 
 # Standard Library Imports
-
 import json
 import os
+import time
 import sys
 # 3rd Party Imports
 import configargparse
@@ -35,7 +37,7 @@ sys.setdefaultencoding('UTF8')
 
 # Set up logging
 
-log = logging.getLogger('Server')
+log = logging.getLogger('webserver')
 
 # Global Variables
 app = Flask(__name__)
@@ -52,55 +54,56 @@ def index():
 @app.route('/', methods=['POST'])
 def accept_webhook():
     try:
-        log.debug("POST request received from {}.".format(request.remote_addr))
         data = json.loads(request.data)
+        count = 1
         if type(data) == dict:  # older webhook style
             data_queue.put(data)
-        else:   # For RM's frame
+        else:   # For data set in frame
+            count = len(data)
             for frame in data:
                 data_queue.put(frame)
+        log.debug("Received %s event(s) from %s.", count, request.remote_addr)
     except Exception as e:
-        log.error("Encountered error while receiving webhook "
-                  + "({}: {})".format(type(e).__name__, e))
+        log.error("Encountered error while receiving webhook from %s: "
+                  "(%s: %s)",request.remote_addr, type(e).__name__, e.message)
+        # Send back 400
         abort(400)
-    return "OK"  # request ok
+    return "OK"
 
 
 # Thread used to distribute the data into various processes
-def manage_webhook_data(queue):
+def manage_webhook_data(_queue):
+    warning_limit = datetime.utcnow()
     while True:
-        qsize = queue.qsize()
-        if qsize > 5000:
-            log.warning("Queue length is at %s... this may be causing "
-                        + "a significant delay in notifications.", qsize)
-        data = queue.get(block=True)
+        # Check queue length periodically
+        if (datetime.utcnow() - warning_limit) > timedelta(seconds=30):
+            warning_limit = time.time()
+            size = _queue.qsize()
+            if size > 2000:
+                log.warning("Queue length at %s! This may be causing a"
+                            "significant delay in notifications.", size)
+        # Distribute events to the other managers
+        data = _queue.get(block=True)
         obj = Events.event_factory(data)
-        if obj is not None:
-            for name, mgr in managers.iteritems():
-                mgr.update(obj)
-                log.debug("Distributing event {} to manager {}.".format(
-                    obj.id, name))
-            log.debug("Finished distributing event: {}".format(obj.id))
+        if obj is None:  # TODO: Improve Event error checking
+            continue
+        for name, mgr in managers.iteritems():
+            mgr.update(obj)
+        log.debug("Distributed event %s to %s managers.",
+                  obj.id, len(managers))
 
 
 # Configure and run PokeAlarm
 def start_server():
-    log.setLevel(logging.INFO)
-    logging.getLogger('PokeAlarm').setLevel(logging.INFO)
-    logging.getLogger('requests').setLevel(logging.WARNING)
-    logging.getLogger('pywsgi').setLevel(logging.WARNING)
-    logging.getLogger('connectionpool').setLevel(logging.WARNING)
-    logging.getLogger('gipc').setLevel(logging.WARNING)
-    logging.getLogger("urllib3").setLevel(logging.WARNING)
-
+    # Parse Settings
     parse_settings(os.path.abspath(os.path.dirname(__file__)))
 
     # Start Webhook Manager in a Thread
     spawn(manage_webhook_data, data_queue)
 
     # Start up Server
-    log.info("PokeAlarm is listening for webhooks on: http://{}:{}".format(
-        config['HOST'], config['PORT']))
+    log.info("PokeAlarm is listening for webhooks on http://{}:{}"
+             "".format(config['HOST'], config['PORT']))
     threads = pool.Pool(config['CONCURRENCY'])
     global server
     server = wsgi.WSGIServer(
@@ -215,10 +218,7 @@ def parse_settings(root_path):
     args = parser.parse_args()
 
     if args.debug:
-        log.setLevel(logging.DEBUG)
         logging.getLogger().setLevel(logging.DEBUG)
-        logging.getLogger('PokeAlarm').setLevel(logging.DEBUG)
-        logging.getLogger('Manager').setLevel(logging.DEBUG)
         log.debug("Debug mode enabled!")
 
     config['HOST'] = args.host
@@ -309,7 +309,6 @@ def parse_settings(root_path):
             log.critical("Names of Manager processes must be unique "
                          + "(not case sensitive)! Process will exit.")
             sys.exit(1)
-    log.info("Starting up the Managers")
     for m_name in managers:
         managers[m_name].start()
 
