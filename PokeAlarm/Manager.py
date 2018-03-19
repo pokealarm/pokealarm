@@ -22,6 +22,7 @@ from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import GMaps
 from PokeAlarm import Unknown
+from PokeAlarm.Utilities.GenUtils import parse_bool
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
                    parse_boolean, get_cardinal_dir)
 from . import config
@@ -32,7 +33,7 @@ log = logging.getLogger('TO BE REMOVED')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, quiet, cache_type, filter_file,
+                 max_attempts, location, quiet, cache_type,
                  geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self._name = str(name).lower()
@@ -71,13 +72,12 @@ class Manager(object):
         self.__cache = cache_factory(cache_type, self._name)
 
         # Load and Setup the Pokemon Filters
-        self.__mons_enabled, self.__mon_filters = False, OrderedDict()
-        self.__stops_enabled, self.__stop_filters = False, OrderedDict()
-        self.__gyms_enabled, self.__gym_filters = False, OrderedDict()
-        self.__ignore_neutral = False
-        self.__eggs_enabled, self.__egg_filters = False, OrderedDict()
-        self.__raids_enabled, self.__raid_filters = False, OrderedDict()
-        self.load_filter_file(get_path(filter_file))
+        self._mons_enabled, self._mon_filters = False, OrderedDict()
+        self._stops_enabled, self._stop_filters = False, OrderedDict()
+        self._gyms_enabled, self._gym_filters = False, OrderedDict()
+        self._ignore_neutral = False
+        self._eggs_enabled, self._egg_filters = False, OrderedDict()
+        self._raids_enabled, self._raid_filters = False, OrderedDict()
 
         # Create the Geofences to filter with from given file
         self.geofences = None
@@ -99,7 +99,7 @@ class Manager(object):
         self.__event = Event()
         self.__process = None
 
-        self._log.info("----------- Manager '%s' successfully "
+        self._log.info("----------- Manager '{}' successfully "
                        "created.".format(self._name))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~ MAIN PROCESS CONTROL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,8 +177,92 @@ class Manager(object):
                 return True
         _log = logging.getLogger(mgr_name)
         _log.addFilter(MgrFilter())
-        _log.setLevel(logging.INFO)
+        _log.setLevel(logging.DEBUG)
         return _log
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Filters API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # Enable/Disable Monster notifications
+    def set_monsters_enabled(self, boolean):
+        self._mons_enabled = parse_bool(boolean)
+        self._log.debug("Monster notifications %s",
+                        "enabled" if self._mons_enabled else "disabled")
+
+    # Add new Monster Filter
+    def add_monster_filter(self, name, settings):
+        if name in self._mon_filters:
+            raise ValueError("Unable to add Monster Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.MonFilter(name, settings)
+        self._stop_filters[name] = f
+        self._log.debug("Monster filter '%s' set: %s", name, f)
+
+    # Enable/Disable Stops notifications
+    def set_stops_enabled(self, boolean):
+        self._stops_enabled = parse_bool(boolean)
+        self._log.debug("Stops notifications %s!",
+                        "enabled" if self._mons_enabled else "disabled")
+
+    # Add new Stop Filter
+    def add_stop_filter(self, name, settings):
+        if name in self._stop_filters:
+            raise ValueError("Unable to add Stop Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.StopFilter(name, settings)
+        self._stop_filters[name] = f
+        self._log.debug("Stop filter '%s' set: %s", name, f)
+
+    # Enable/Disable Gym notifications
+    def set_gyms_enabled(self, boolean):
+        self._gyms_enabled = parse_bool(boolean)
+        self._log.debug("Gyms notifications %s!",
+                        "enabled" if self._mons_enabled else "disabled")
+
+    # Enable/Disable Stops notifications
+    def set_ignore_neutral(self, boolean):
+        self._ignore_neutral = parse_bool(boolean)
+        self._log.debug("Ignore neutral set to %s!", self._ignore_neutral)
+
+    # Add new Gym Filter
+    def add_gym_filter(self, name, settings):
+        if name in self._gym_filters:
+            raise ValueError("Unable to add Gym Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.GymFilter(name, settings)
+        self._gym_filters[name] = f
+        self._log.debug("Gym filter '%s' set: %s", name, f)
+
+    # Enable/Disable Egg notifications
+    def set_eggs_enabled(self, boolean):
+        self._eggs_enabled = parse_bool(boolean)
+        self._log.debug("Egg notifications %s!",
+                        "enabled" if self._mons_enabled else "disabled")
+
+    # Add new Egg Filter
+    def add_egg_filter(self, name, settings):
+        if name in self._egg_filters:
+            raise ValueError("Unable to add Egg Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.EggFilter(name, settings)
+        self._egg_filters[name] = f
+        self._log.debug("Egg filter '%s' set: %s", name, f)
+
+    # Enable/Disable Stops notifications
+    def set_raids_enabled(self, boolean):
+        self._stops_enabled = parse_bool(boolean)
+        self._log.debug("Raid notifications %s!",
+                        "enabled" if self._mons_enabled else "disabled")
+
+    # Add new Raid Filter
+    def add_raid_filter(self, name, settings):
+        if name in self._raid_filters:
+            raise ValueError("Unable to add Raid Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.RaidFilter(name, settings)
+        self._raid_filters[name] = f
+        self._log.debug("Raid filter '%s' set: %s", name, f)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -191,7 +275,7 @@ class Manager(object):
                              "{} already exists!".format(name))
 
         for filt in filters:
-            if filt not in self.__mon_filters:
+            if filt not in self._mon_filters:
                 raise ValueError("Unable to create Rule: No Monster Filter "
                                  "named {}!".format(filt))
 
@@ -209,7 +293,7 @@ class Manager(object):
                              "{} already exists!".format(name))
 
         for filt in filters:
-            if filt not in self.__stop_filters:
+            if filt not in self._stop_filters:
                 raise ValueError("Unable to create Rule: No Stop Filter "
                                  "named {}!".format(filt))
 
@@ -227,7 +311,7 @@ class Manager(object):
                              "{} already exists!".format(name))
 
         for filt in filters:
-            if filt not in self.__gym_filters:
+            if filt not in self._gym_filters:
                 raise ValueError("Unable to create Rule: No Gym Filter "
                                  "named {}!".format(filt))
 
@@ -245,7 +329,7 @@ class Manager(object):
                              "{} already exists!".format(name))
 
         for filt in filters:
-            if filt not in self.__egg_filters:
+            if filt not in self._egg_filters:
                 raise ValueError("Unable to create Rule: No Egg Filter "
                                  "named {}!".format(filt))
 
@@ -263,7 +347,7 @@ class Manager(object):
                              "{} already exists!".format(name))
 
         for filt in filters:
-            if filt not in self.__raid_filters:
+            if filt not in self._raid_filters:
                 raise ValueError("Unable to create Rule: No Raid Filter "
                                  "named {}!".format(filt))
 
@@ -277,105 +361,6 @@ class Manager(object):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    @staticmethod
-    def load_filter_section(section, sect_name, filter_type):
-        defaults = section.pop('defaults', {})
-        default_dts = defaults.pop('custom_dts', {})
-        filter_set = OrderedDict()
-        for name, settings in section.pop('filters', {}).iteritems():
-            settings = dict(defaults.items() + settings.items())
-            try:
-                local_dts = dict(default_dts.items()
-                                 + settings.pop('custom_dts', {}).items())
-                if len(local_dts) > 0:
-                    settings['custom_dts'] = local_dts
-                filter_set[name] = filter_type(name, settings)
-                log.debug(
-                    "Filter '%s' set as the following: %s", name,
-                    filter_set[name].to_dict())
-            except Exception as e:
-                log.error("Encountered error inside filter named '%s'.", name)
-                raise e  # Pass the error up
-        for key in section:  # Reject leftover parameters
-            raise ValueError("'{}' is not a recognized parameter for the "
-                             "'{}' section.".format(key, sect_name))
-        return filter_set
-
-    # Load in a new filters file
-    def load_filter_file(self, file_path):
-        try:
-            log.info("Loading Filters from file at {}".format(file_path))
-            with open(file_path, 'r') as f:
-                filters = json.load(f, object_pairs_hook=OrderedDict)
-            if type(filters) is not OrderedDict:
-                log.critical("Filters files must be a JSON object:"
-                             " { \"monsters\":{...},... }")
-                raise ValueError("Filter file did not contain a dict.")
-        except ValueError as e:
-            log.error("Encountered error while loading Filters:"
-                      " {}: {}".format(type(e).__name__, e))
-            log.error(
-                "PokeAlarm has encountered a 'ValueError' while loading the "
-                "Filters file. This typically means the file isn't in the "
-                "correct json format. Try loading the file contents into a "
-                "json validator.")
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-            sys.exit(1)
-        except IOError as e:
-            log.error("Encountered error while loading Filters: "
-                      "{}: {}".format(type(e).__name__, e))
-            log.error("PokeAlarm was unable to find a filters file "
-                      "at {}. Please check that this file exists "
-                      "and that PA has read permissions.".format(file_path))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-            sys.exit(1)
-
-        try:
-            # Load Monsters Section
-            log.debug("Parsing 'monsters' section.")
-            section = filters.pop('monsters', {})
-            self.__mons_enabled = bool(section.pop('enabled', False))
-            self.__mon_filters = self.load_filter_section(
-                section, 'monsters', Filters.MonFilter)
-
-            # Load Stops Section
-            log.debug("Parsing 'stops' section.")
-            section = filters.pop('stops', {})
-            self.__stops_enabled = bool(section.pop('enabled', False))
-            self.__stop_filters = self.load_filter_section(
-                section, 'stops', Filters.StopFilter)
-
-            # Load Gyms Section
-            log.debug("Parsing 'gyms' section.")
-            section = filters.pop('gyms', {})
-            self.__gyms_enabled = bool(section.pop('enabled', False))
-            self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
-            self.__gym_filters = self.load_filter_section(
-                section, 'gyms', Filters.GymFilter)
-
-            # Load Eggs Section
-            log.debug("Parsing 'eggs' section.")
-            section = filters.pop('eggs', {})
-            self.__eggs_enabled = bool(section.pop('enabled', False))
-            self.__egg_filters = self.load_filter_section(
-                section, 'eggs', Filters.EggFilter)
-
-            # Load Raids Section
-            log.debug("Parsing 'raids' section.")
-            section = filters.pop('raids', {})
-            self.__raids_enabled = bool(section.pop('enabled', False))
-            self.__raid_filters = self.load_filter_section(
-                section, 'raids', Filters.RaidFilter)
-
-            return  # exit function
-
-        except Exception as e:
-            log.error("Encountered error while parsing Filters. "
-                      "This is because of a mistake in your Filters file.")
-            log.error("{}: {}".format(type(e).__name__, e))
-            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-            sys.exit(1)
 
     def load_alarms_file(self, file_path, max_attempts):
         log.info("Loading Alarms from the file at {}".format(file_path))
@@ -522,7 +507,7 @@ class Manager(object):
         """ Process a monster event and notify alarms if it passes. """
 
         # Make sure that monsters are enabled
-        if self.__mons_enabled is False:
+        if self._mons_enabled is False:
             self._log.debug("Monster ignored: monster notifications "
                             "are disabled.")
             return
@@ -556,11 +541,11 @@ class Manager(object):
         rules = self.__mon_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__mon_filters.keys(), self.__alarms.keys())}
+                self._mon_filters.keys(), self.__alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self.__mon_filters.get(f_name)
+                f = self._mon_filters.get(f_name)
                 passed = f.check_event(mon) and self.check_geofences(f, mon)
                 if not passed:
                     continue  # go to next filter
@@ -601,7 +586,7 @@ class Manager(object):
         """ Process a stop event and notify alarms if it passes. """
 
         # Make sure that stops are enabled
-        if self.__stops_enabled is False:
+        if self._stops_enabled is False:
             self._log.debug("Stop ignored: stop notifications are disabled.")
             return
 
@@ -635,11 +620,11 @@ class Manager(object):
         rules = self.__stop_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__stop_filters.keys(), self.__alarms.keys())}
+                self._stop_filters.keys(), self.__alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self.__stop_filters.get(f_name)
+                f = self._stop_filters.get(f_name)
                 passed = f.check_event(stop) and self.check_geofences(f, stop)
                 if not passed:
                     continue  # go to next filter
@@ -686,7 +671,7 @@ class Manager(object):
         gym.gym_image = self.__cache.gym_image(gym.gym_id, gym.gym_image)
 
         # Ignore changes to neutral
-        if self.__ignore_neutral and gym.new_team_id == 0:
+        if self._ignore_neutral and gym.new_team_id == 0:
             self._log.debug("%s gym update skipped: new team was neutral")
             return
 
@@ -695,7 +680,7 @@ class Manager(object):
         self.__cache.gym_team(gym.gym_id, gym.new_team_id)
 
         # Check if notifications are on
-        if self.__gyms_enabled is False:
+        if self._gyms_enabled is False:
             self._log.debug("Gym ignored: gym notifications are disabled.")
             return
 
@@ -716,11 +701,11 @@ class Manager(object):
         rules = self.__gym_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__gym_filters.keys(), self.__alarms.keys())}
+                self._gym_filters.keys(), self.__alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self.__gym_filters.get(f_name)
+                f = self._gym_filters.get(f_name)
                 passed = f.check_event(gym) and self.check_geofences(f, gym)
                 if not passed:
                     continue  # go to next filter
@@ -771,7 +756,7 @@ class Manager(object):
             egg.current_team_id = self.__cache.gym_team(egg.gym_id)
 
         # Make sure that eggs are enabled
-        if self.__eggs_enabled is False:
+        if self._eggs_enabled is False:
             self._log.debug("Egg ignored: egg notifications are disabled.")
             return
 
@@ -800,11 +785,11 @@ class Manager(object):
         rules = self.__egg_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__egg_filters.keys(), self.__alarms.keys())}
+                self._egg_filters.keys(), self.__alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self.__egg_filters.get(f_name)
+                f = self._egg_filters.get(f_name)
                 passed = f.check_event(egg) and self.check_geofences(f, egg)
                 if not passed:
                     continue  # go to next filter
@@ -855,7 +840,7 @@ class Manager(object):
             raid.current_team_id = self.__cache.gym_team(raid.gym_id)
 
         # Make sure that raids are enabled
-        if self.__raids_enabled is False:
+        if self._raids_enabled is False:
             self._log.debug("Raid ignored: raid notifications are disabled.")
             return
 
@@ -884,11 +869,11 @@ class Manager(object):
         rules = self.__raid_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self.__raid_filters.keys(), self.__alarms.keys())}
+                self._raid_filters.keys(), self.__alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self.__raid_filters.get(f_name)
+                f = self._raid_filters.get(f_name)
                 passed = f.check_event(raid) and self.check_geofences(f, raid)
                 if not passed:
                     continue  # go to next filter

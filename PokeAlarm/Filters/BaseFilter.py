@@ -30,8 +30,8 @@ class BaseFilter(object):
         """ Create a dict representation of this Event. """
         raise NotImplementedError("This is an abstract method.")
 
-    def to_string(self):
-        return json.dumps(self.to_dict(), indent=4, sort_keys=True)
+    def __str__(self):
+        return str(self.to_dict())
 
     def check_event(self, event):
         missing = False  # Event is missing no info to start

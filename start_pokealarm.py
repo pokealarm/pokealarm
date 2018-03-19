@@ -29,7 +29,7 @@ from PokeAlarm import config
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
 from PokeAlarm.Utils import get_path, parse_unicode, parse_boolean
-from PokeAlarm.Load import parse_rules_file
+from PokeAlarm.Load import parse_rules_file, parse_filters_file
 
 # Reinforce UTF-8 as default
 reload(sys)
@@ -282,12 +282,13 @@ def parse_settings(root_path):
             cache_type=get_from_list(
                 args.cache_type, m_ct, args.cache_type[0]),
             location=get_from_list(args.location, m_ct, args.location[0]),
-            filter_file=get_from_list(args.filters, m_ct, args.filters[0]),
             geofence_file=get_from_list(
                 args.geofences, m_ct, args.geofences[0]),
             alarm_file=get_from_list(args.alarms, m_ct, args.alarms[0]),
             debug=config['DEBUG']
         )
+        parse_filters_file(
+            m, get_from_list(args.filters, m_ct, args.filters[0]))
         parse_rules_file(m, get_from_list(args.rules, m_ct, args.rules[0]))
 
         # Set up GMaps stuff
