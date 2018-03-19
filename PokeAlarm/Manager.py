@@ -27,7 +27,7 @@ from Utils import (get_earth_dist, get_path, require_and_remove_key,
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
-log = logging.getLogger('Manager')
+log = logging.getLogger('TO BE REMOVED')
 
 
 class Manager(object):
@@ -35,8 +35,9 @@ class Manager(object):
                  max_attempts, location, quiet, cache_type, filter_file,
                  geofence_file, alarm_file, debug):
         # Set the name of the Manager
-        self.__name = str(name).lower()
-        log.info("----------- Manager '{}' ".format(self.__name)
+        self._name = str(name).lower()
+        self._log = self._create_logger(self._name)
+        self._log.info("----------- Manager '{}' ".format(self._name)
                  + " is being created.")
         self.__debug = debug
 
@@ -60,14 +61,14 @@ class Manager(object):
         if str(location).lower() != 'none':
             self.set_location(location)
         else:
-            log.warning("NO LOCATION SET - "
+            self._log.warning("NO LOCATION SET - "
                         + " this may cause issues with distance related DTS.")
 
         # Quiet mode
         self.__quiet = quiet
 
         # Create cache
-        self.__cache = cache_factory(cache_type, self.__name)
+        self.__cache = cache_factory(cache_type, self._name)
 
         # Load and Setup the Pokemon Filters
         self.__mons_enabled, self.__mon_filters = False, OrderedDict()
@@ -98,8 +99,8 @@ class Manager(object):
         self.__event = Event()
         self.__process = None
 
-        log.info("----------- Manager '{}' ".format(self.__name)
-                 + " successfully created.")
+        self._log.info("----------- Manager '%s' successfully "
+                       "created.".format(self._name))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~ MAIN PROCESS CONTROL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -109,22 +110,23 @@ class Manager(object):
 
     # Get the name of this Manager
     def get_name(self):
-        return self.__name
+        return self._name
 
     # Tell the process to finish up and go home
     def stop(self):
-        log.info("Manager {} shutting down... ".format(self.__name)
+        self._log.info("Manager {} shutting down... ".format(self._name)
                  + "{} items in queue.".format(self.__queue.qsize()))
         self.__event.set()
 
     def join(self):
         self.__process.join(timeout=20)
         if not self.__process.ready():
-            log.warning("Manager {} could not be stopped in time!"
-                        " Forcing process to stop.".format(self.__name))
+            self._log.warning("Manager {} could not be stopped in time! "
+                              "Forcing process to stop.".format(self._name))
             self.__process.kill(timeout=2, block=True)  # Force stop
         else:
-            log.info("Manager {} successfully stopped!".format(self.__name))
+            self._log.info(
+                "Manager {} successfully stopped!".format(self._name))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -160,6 +162,23 @@ class Manager(object):
             raise ValueError("Unable to disable distance matrix mode: "
                              "Invalid mode specified.")
         self._gmaps_distance_matrix.discard(mode)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGGING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    @staticmethod
+    def _create_logger(mgr_name):
+        """ Internal method for initializing manager loggers. """
+        # Create a Filter to pass on manager name
+        class MgrFilter(logging.Filter):
+            def filter(self, record):
+                record.mgr_name = mgr_name
+                return True
+        _log = logging.getLogger(mgr_name)
+        _log.addFilter(MgrFilter())
+        _log.setLevel(logging.INFO)
+        return _log
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -433,7 +452,7 @@ class Manager(object):
 
             # Clean out visited every 5 minutes
             if datetime.utcnow() - last_clean > timedelta(minutes=5):
-                log.debug("Cleaning cache...")
+                self._log.debug("Cleaning cache...")
                 self.__cache.clean_and_save()
                 last_clean = datetime.utcnow()
 
@@ -449,7 +468,7 @@ class Manager(object):
 
             try:
                 kind = type(event)
-                log.debug("Processing event: %s", event.id)
+                self._log.debug("Processing event: %s", event.id)
                 if kind == Events.MonEvent:
                     self.process_monster(event)
                 elif kind == Events.StopEvent:
@@ -461,13 +480,14 @@ class Manager(object):
                 elif kind == Events.RaidEvent:
                     self.process_raid(event)
                 else:
-                    log.error("!!! Manager does not support "
+                    self._log.error("!!! Manager does not support "
                               + "{} events!".format(kind))
-                log.debug("Finished event: %s", event.id)
+                self._log.debug("Finished event: %s", event.id)
             except Exception as e:
-                log.error("Encountered error during processing: "
-                          + "{}: {}".format(type(e).__name__, e))
-                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                self._log.error("Encountered error during processing: "
+                                "{}: {}".format(type(e).__name__, e))
+                self._log.debug("Stack trace: \n {}"
+                                "".format(traceback.format_exc()))
             # Explict context yield
             gevent.sleep(0)
         # Save cache and exit
@@ -493,7 +513,7 @@ class Manager(object):
                                  "Location will not be set.".format(location))
 
             self.__location = location
-            log.info("Location successfully set to '{},{}'.".format(
+            self._log.info("Location successfully set to '{},{}'.".format(
                 location[0], location[1]))
 
     # Process new Monster data and decide if a notification needs to be sent
@@ -503,7 +523,8 @@ class Manager(object):
 
         # Make sure that monsters are enabled
         if self.__mons_enabled is False:
-            log.debug("Monster ignored: monster notifications are disabled.")
+            self._log.debug("Monster ignored: monster notifications "
+                            "are disabled.")
             return
 
         # Set the name for this event so we can log rejects better
@@ -511,8 +532,8 @@ class Manager(object):
 
         # Check if previously processed and update expiration
         if self.__cache.monster_expiration(mon.enc_id) is not None:
-            log.debug("{} monster was skipped because it was previously "
-                      "processed.".format(mon.name))
+            self._log.debug("{} monster was skipped because it was "
+                            "previously processed.".format(mon.name))
             return
         self.__cache.monster_expiration(mon.enc_id, mon.disappear_time)
 
@@ -520,8 +541,8 @@ class Manager(object):
         seconds_left = (mon.disappear_time
                         - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            log.debug("{} monster was skipped because only {} seconds remained"
-                      "".format(mon.name, seconds_left))
+            self._log.debug("{} monster was skipped because only {} seconds "
+                            "remained".format(mon.name, seconds_left))
             return
 
         # Calculate distance and direction
@@ -545,9 +566,8 @@ class Manager(object):
                     continue  # go to next filter
                 mon.custom_dts = f.custom_dts
                 if self.__quiet is False:
-                    log.info("{} monster notification"
-                             " has been triggered in rule '{}'!"
-                             "".format(mon.name, r_name))
+                    self._log.info("{} monster notification has been triggered"
+                                   " in rule '{}'!".format(mon.name, r_name))
                 self._trigger_mon(mon, rule.alarm_names)
                 break  # Next rule
 
@@ -571,7 +591,7 @@ class Manager(object):
             if alarm:
                 threads.append(gevent.spawn(alarm.pokemon_alert, dts))
             else:
-                log.critical("Alarm '{}' not found!".format(name))
+               self._log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:  # Wait for all alarms to finish
             thread.join()
@@ -582,26 +602,26 @@ class Manager(object):
 
         # Make sure that stops are enabled
         if self.__stops_enabled is False:
-            log.debug("Stop ignored: stop notifications are disabled.")
+            self._log.debug("Stop ignored: stop notifications are disabled.")
             return
 
         # Check for lured
         if stop.expiration is None:
-            log.debug("Stop ignored: stop was not lured")
+            self._log.debug("Stop ignored: stop was not lured")
             return
 
         # Check if previously processed and update expiration
         if self.__cache.stop_expiration(stop.stop_id) is not None:
-            log.debug("Stop {} was skipped because it was previously "
-                      "processed.".format(stop.name))
+            self._log.debug("Stop {} was skipped because it was "
+                            "previously processed.".format(stop.name))
             return
         self.__cache.stop_expiration(stop.stop_id, stop.expiration)
 
         # Check the time remaining
         seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            log.debug("Stop {} was skipped because only {} seconds remained"
-                      "".format(stop.name, seconds_left))
+            self._log.debug("Stop {} was skipped because only {} seconds "
+                            "remained".format(stop.name, seconds_left))
             return
 
         # Calculate distance and direction
@@ -625,9 +645,8 @@ class Manager(object):
                     continue  # go to next filter
                 stop.custom_dts = f.custom_dts
                 if self.__quiet is False:
-                    log.info("{} stop notification"
-                             " has been triggered in rule '{}'!"
-                             "".format(stop.name, r_name))
+                    self._log.info("{} stop notification has been triggered "
+                                   "in rule '{}'!".format(stop.name, r_name))
                 self._trigger_stop(stop, rule.alarm_names)
                 break  # Next rule
 
@@ -651,7 +670,7 @@ class Manager(object):
             if alarm:
                 threads.append(gevent.spawn(alarm.pokestop_alert, dts))
             else:
-                log.critical("Alarm '{}' not found!".format(name))
+                self._log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:
             thread.join()
@@ -668,7 +687,7 @@ class Manager(object):
 
         # Ignore changes to neutral
         if self.__ignore_neutral and gym.new_team_id == 0:
-            log.debug("%s gym update skipped: new team was neutral")
+            self._log.debug("%s gym update skipped: new team was neutral")
             return
 
         # Update Team Information
@@ -677,12 +696,13 @@ class Manager(object):
 
         # Check if notifications are on
         if self.__gyms_enabled is False:
-            log.debug("Gym ignored: gym notifications are disabled.")
+            self._log.debug("Gym ignored: gym notifications are disabled.")
             return
 
         # Doesn't look like anything to me
         if gym.new_team_id == gym.old_team_id:
-            log.debug("%s gym update skipped: no change detected", gym.gym_id)
+            self._log.debug(
+                "%s gym update skipped: no change detected", gym.gym_id)
             return
 
         # Calculate distance and direction
@@ -706,9 +726,8 @@ class Manager(object):
                     continue  # go to next filter
                 gym.custom_dts = f.custom_dts
                 if self.__quiet is False:
-                    log.info("{} gym notification"
-                             " has been triggered in rule '{}'!"
-                             "".format(gym.name, r_name))
+                    self._log.info("{} gym notification has been triggered "
+                                   "in rule '{}'!".format(gym.name, r_name))
                 self._trigger_gym(gym, rule.alarm_names)
                 break  # Next rule
 
@@ -732,7 +751,7 @@ class Manager(object):
             if alarm:
                 threads.append(gevent.spawn(alarm.gym_alert, dts))
             else:
-                log.critical("Alarm '{}' not found!".format(name))
+                self._log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:  # Wait for all alarms to finish
             thread.join()
@@ -753,21 +772,21 @@ class Manager(object):
 
         # Make sure that eggs are enabled
         if self.__eggs_enabled is False:
-            log.debug("Egg ignored: egg notifications are disabled.")
+            self._log.debug("Egg ignored: egg notifications are disabled.")
             return
 
         # Skip if previously processed
         if self.__cache.egg_expiration(egg.gym_id) is not None:
-            log.debug("Egg {} was skipped because it was previously "
-                      "processed.".format(egg.name))
+            self._log.debug("Egg {} was skipped because it was "
+                            "previously processed.".format(egg.name))
             return
         self.__cache.egg_expiration(egg.gym_id, egg.hatch_time)
 
         # Check the time remaining
         seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            log.debug("Egg {} was skipped because only {} seconds remained"
-                      "".format(egg.name, seconds_left))
+            self._log.debug("Egg {} was skipped because only {} seconds "
+                            "remained".format(egg.name, seconds_left))
             return
 
         # Calculate distance and direction
@@ -791,9 +810,8 @@ class Manager(object):
                     continue  # go to next filter
                 egg.custom_dts = f.custom_dts
                 if self.__quiet is False:
-                    log.info("{} egg notification"
-                             " has been triggered in rule '{}'!"
-                             "".format(egg.name, r_name))
+                    self._log.info("{} egg notification has been triggered "
+                                   "in rule '{}'!".format(egg.name, r_name))
                 self._trigger_egg(egg, rule.alarm_names)
                 break  # Next rule
 
@@ -817,7 +835,7 @@ class Manager(object):
             if alarm:
                 threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
             else:
-                log.critical("Alarm '{}' not found!".format(name))
+                self._log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:  # Wait for all alarms to finish
             thread.join()
@@ -838,21 +856,21 @@ class Manager(object):
 
         # Make sure that raids are enabled
         if self.__raids_enabled is False:
-            log.debug("Raid ignored: raid notifications are disabled.")
+            self._log.debug("Raid ignored: raid notifications are disabled.")
             return
 
         # Skip if previously processed
         if self.__cache.raid_expiration(raid.gym_id) is not None:
-            log.debug("Raid {} was skipped because it was previously "
-                      "processed.".format(raid.name))
+            self._log.debug("Raid {} was skipped because it was "
+                            "previously processed.".format(raid.name))
             return
         self.__cache.raid_expiration(raid.gym_id, raid.raid_end)
 
         # Check the time remaining
         seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
-            log.debug("Raid {} was skipped because only {} seconds remained"
-                      "".format(raid.name, seconds_left))
+            self._log.debug("Raid {} was skipped because only {} seconds "
+                            "remained".format(raid.name, seconds_left))
             return
 
         # Calculate distance and direction
@@ -876,9 +894,8 @@ class Manager(object):
                     continue  # go to next filter
                 raid.custom_dts = f.custom_dts
                 if self.__quiet is False:
-                    log.info("{} raid notification"
-                             " has been triggered in rule '{}'!"
-                             "".format(raid.name, r_name))
+                    self._log.info("{} raid notification has been triggered "
+                                   "in rule '{}'!".format(raid.name, r_name))
                 self._trigger_raid(raid, rule.alarm_names)
                 break  # Next rule
 
@@ -902,7 +919,7 @@ class Manager(object):
             if alarm:
                 threads.append(gevent.spawn(alarm.raid_alert, dts))
             else:
-                log.critical("Alarm '{}' not found!".format(name))
+                self._log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:  # Wait for all alarms to finish
             thread.join()
@@ -918,14 +935,15 @@ class Manager(object):
         for name in targets:
             gf = self.geofences.get(name)
             if not gf:  # gf doesn't exist
-                log.error("Cannot check geofence %s: does not exist!", name)
+                self._log.error("Cannot check geofence %s: "
+                                "does not exist!", name)
             elif gf.contains(e.lat, e.lng):  # e in gf
-                log.debug("{} is in geofence {}!".format(
+                self._log.debug("{} is in geofence {}!".format(
                     e.name, gf.get_name()))
                 e.geofence = name  # Set the geofence for dts
                 return True
             else:  # e not in gf
-                log.debug("%s not in %s.", e.name, name)
+                self._log.debug("%s not in %s.", e.name, name)
         f.reject(e, "not in geofences")
         return False
 

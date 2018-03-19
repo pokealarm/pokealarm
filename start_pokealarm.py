@@ -107,7 +107,8 @@ def start_server():
     threads = pool.Pool(config['CONCURRENCY'])
     global server
     server = wsgi.WSGIServer(
-        (config['HOST'], config['PORT']), app, log=logging.getLogger('pywsgi'),
+        (config['HOST'], config['PORT']), app,
+        log=logging.getLogger('webserver.internal'),
         spawn=threads)
     server.serve_forever()
 
@@ -217,6 +218,7 @@ def parse_settings(root_path):
 
     args = parser.parse_args()
 
+    logging.getLogger('webserver.internal').setLevel(logging.WARNING)
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
         log.debug("Debug mode enabled!")
