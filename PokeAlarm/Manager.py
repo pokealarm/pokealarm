@@ -62,8 +62,9 @@ class Manager(object):
         if str(location).lower() != 'none':
             self.set_location(location)
         else:
-            self._log.warning("NO LOCATION SET - "
-                        + " this may cause issues with distance related DTS.")
+            self._log.warning(
+                "NO LOCATION SET - this may cause issues "
+                "with distance related DTS.")
 
         # Quiet mode
         self.__quiet = quiet
@@ -84,8 +85,8 @@ class Manager(object):
         if str(geofence_file).lower() != 'none':
             self.geofences = load_geofence_file(get_path(geofence_file))
         # Create the alarms to send notifications out with
-        self.__alarms = {}
-        self.load_alarms_file(get_path(alarm_file), int(max_attempts))
+        self._alarms = {}
+        self._max_attempts = int(max_attempts)  # TODO: Move to alarm level
 
         # Initialize Rules
         self.__mon_rules = {}
@@ -182,7 +183,7 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Filters API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FILTERS API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Enable/Disable Monster notifications
     def set_monsters_enabled(self, boolean):
@@ -266,6 +267,18 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ALARMS API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    def add_alarm(self, name, settings):
+        if name in self._alarms:
+            raise ValueError("Unable to add new Alarm: Alarm with the name "
+                             "{} already exists!".format(name))
+        alarm = Alarms.alarm_factory(
+            settings, self._max_attempts, self._google_key)
+        self._alarms[name] = alarm
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RULES API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # Add new Monster Rule
@@ -280,7 +293,7 @@ class Manager(object):
                                  "named {}!".format(filt))
 
         for alarm in alarms:
-            if alarm not in self.__alarms:
+            if alarm not in self._alarms:
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
@@ -298,7 +311,7 @@ class Manager(object):
                                  "named {}!".format(filt))
 
         for alarm in alarms:
-            if alarm not in self.__alarms:
+            if alarm not in self._alarms:
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
@@ -316,7 +329,7 @@ class Manager(object):
                                  "named {}!".format(filt))
 
         for alarm in alarms:
-            if alarm not in self.__alarms:
+            if alarm not in self._alarms:
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
@@ -334,7 +347,7 @@ class Manager(object):
                                  "named {}!".format(filt))
 
         for alarm in alarms:
-            if alarm not in self.__alarms:
+            if alarm not in self._alarms:
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
@@ -352,7 +365,7 @@ class Manager(object):
                                  "named {}!".format(filt))
 
         for alarm in alarms:
-            if alarm not in self.__alarms:
+            if alarm not in self._alarms:
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
@@ -361,46 +374,6 @@ class Manager(object):
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    def load_alarms_file(self, file_path, max_attempts):
-        log.info("Loading Alarms from the file at {}".format(file_path))
-        try:
-            with open(file_path, 'r') as f:
-                alarm_settings = json.load(f)
-            if type(alarm_settings) is not dict:
-                log.critical("Alarms file must be an object of Alarms objects "
-                             + "- { 'alarm1': {...}, ... 'alarm5': {...} }")
-                sys.exit(1)
-            self.__alarms = {}
-            for name, alarm in alarm_settings.iteritems():
-                if parse_boolean(require_and_remove_key(
-                        'active', alarm, "Alarm objects in file.")) is True:
-                    self.__alarms[name] = Alarms.alarm_factory(
-                        alarm, max_attempts, self._google_key)
-                else:
-                    log.debug("Alarm not activated: {}".format(alarm['type'])
-                              + " because value not set to \"True\"")
-            log.info("{} active alarms found.".format(len(self.__alarms)))
-            return  # all done
-        except ValueError as e:
-            log.error("Encountered error while loading Alarms file: "
-                      + "{}: {}".format(type(e).__name__, e))
-            log.error(
-                "PokeAlarm has encountered a 'ValueError' while loading the "
-                + " Alarms file. This typically means your file isn't in the "
-                + "correct json format. Try loading your file contents into"
-                + " a json validator.")
-        except IOError as e:
-            log.error("Encountered error while loading Alarms: "
-                      + "{}: {}".format(type(e).__name__, e))
-            log.error("PokeAlarm was unable to find a filters file "
-                      + "at {}. Please check that this file".format(file_path)
-                      + " exists and PA has read permissions.")
-        except Exception as e:
-            log.error("Encountered error while loading Alarms: "
-                      + "{}: {}".format(type(e).__name__, e))
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
-        sys.exit(1)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -425,7 +398,7 @@ class Manager(object):
             logging.getLogger().setLevel(logging.DEBUG)
 
         # Conect the alarms and send the start up message
-        for alarm in self.__alarms.values():
+        for alarm in self._alarms.values():
             alarm.connect()
             alarm.startup_message()
 
@@ -541,7 +514,7 @@ class Manager(object):
         rules = self.__mon_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self._mon_filters.keys(), self.__alarms.keys())}
+                self._mon_filters.keys(), self._alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
@@ -572,7 +545,7 @@ class Manager(object):
         threads = []
         # Spawn notifications in threads so they can work in background
         for name in alarms:
-            alarm = self.__alarms.get(name)
+            alarm = self._alarms.get(name)
             if alarm:
                 threads.append(gevent.spawn(alarm.pokemon_alert, dts))
             else:
@@ -620,7 +593,7 @@ class Manager(object):
         rules = self.__stop_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self._stop_filters.keys(), self.__alarms.keys())}
+                self._stop_filters.keys(), self._alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
@@ -651,7 +624,7 @@ class Manager(object):
         threads = []
         # Spawn notifications in threads so they can work in background
         for name in alarms:
-            alarm = self.__alarms.get(name)
+            alarm = self._alarms.get(name)
             if alarm:
                 threads.append(gevent.spawn(alarm.pokestop_alert, dts))
             else:
@@ -701,7 +674,7 @@ class Manager(object):
         rules = self.__gym_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self._gym_filters.keys(), self.__alarms.keys())}
+                self._gym_filters.keys(), self._alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
@@ -732,7 +705,7 @@ class Manager(object):
         threads = []
         # Spawn notifications in threads so they can work in background
         for name in alarms:
-            alarm = self.__alarms.get(name)
+            alarm = self._alarms.get(name)
             if alarm:
                 threads.append(gevent.spawn(alarm.gym_alert, dts))
             else:
@@ -785,7 +758,7 @@ class Manager(object):
         rules = self.__egg_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self._egg_filters.keys(), self.__alarms.keys())}
+                self._egg_filters.keys(), self._alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
@@ -816,7 +789,7 @@ class Manager(object):
         threads = []
         # Spawn notifications in threads so they can work in background
         for name in alarms:
-            alarm = self.__alarms.get(name)
+            alarm = self._alarms.get(name)
             if alarm:
                 threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
             else:
@@ -869,7 +842,7 @@ class Manager(object):
         rules = self.__raid_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self._raid_filters.keys(), self.__alarms.keys())}
+                self._raid_filters.keys(), self._alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
@@ -900,7 +873,7 @@ class Manager(object):
         threads = []
         # Spawn notifications in threads so they can work in background
         for name in alarms:
-            alarm = self.__alarms.get(name)
+            alarm = self._alarms.get(name)
             if alarm:
                 threads.append(gevent.spawn(alarm.raid_alert, dts))
             else:

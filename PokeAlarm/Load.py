@@ -7,8 +7,9 @@ from collections import OrderedDict
 # 3rd Party Imports
 # Local Import
 import Utils as utils
+from Utils import require_and_remove_key, parse_boolean
 
-log = logging.getLogger('LoadConfig')
+log = logging.getLogger('LOAD')
 
 
 def parse_filters_file(mgr, filename):
@@ -104,6 +105,42 @@ def parse_filter_section(section):
             settings['custom_dts'] = local_dts
         filter_set[name] = settings
     return filter_set
+
+def parse_alarms_file(manager, filename):
+    try:
+        filepath = utils.get_path(filename)
+        log.info("Loading Alarms from file at {}".format(filepath))
+        with open(filepath, 'r') as f:
+            alarm_settings = json.load(f, object_pairs_hook=OrderedDict)
+        if type(alarm_settings) is not OrderedDict:
+            log.critical("Alarms file must be an object of Alarms objects "
+                         + "- { 'alarm1': {...}, ... 'alarm5': {...} }")
+            sys.exit(1)
+    except ValueError as e:
+        log.error("Encountered error while loading Alarms:"
+                  " {}: {}".format(type(e).__name__, e))
+        log.error(
+            "PokeAlarm has encountered a 'ValueError' while loading the "
+            "Alarms file. This typically means the file isn't in the "
+            "correct json format. Try loading the file contents into a "
+            "json validator.")
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
+    log.info("Loading Alarms from the file at {}".format(filepath))
+
+    try:
+        for name, alarm in alarm_settings.iteritems():
+            active = parse_boolean(require_and_remove_key(
+                        'active', alarm, "Alarm objects in file."))
+            if active:
+                manager.add_alarm(name, alarm)
+            else:
+                log.debug("%s alarm ignored: active is set to 'false'", name)
+    except Exception as e:
+        log.error("Encountered error while loading Alarms: "
+                  + "{}: {}".format(type(e).__name__, e))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
 
 
 def parse_rules_file(manager, filename):
