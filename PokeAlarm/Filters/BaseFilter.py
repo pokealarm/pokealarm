@@ -11,11 +11,15 @@ log = logging.getLogger('Filter')
 class BaseFilter(object):
     """ Abstract class representing details related to different events. """
 
-    def __init__(self, name):
+    def __init__(self, mgr, kind, name):
         """ Initializes base parameters for a filter. """
 
         # Logger for rejecting items
         self._name = name
+        self._type = kind
+
+        self._log = logging.getLogger("{}.filters".format(mgr.name))
+        self._log.setLevel(logging.DEBUG)
 
         # Dict representation for the filter
         self._settings = {}
@@ -26,12 +30,12 @@ class BaseFilter(object):
         # Missing Info
         self.is_missing_info = None
 
+    def __str__(self):
+        return str(self.to_dict())
+
     def to_dict(self):
         """ Create a dict representation of this Event. """
         raise NotImplementedError("This is an abstract method.")
-
-    def __str__(self):
-        return str(self.to_dict())
 
     def check_event(self, event):
         missing = False  # Event is missing no info to start
@@ -46,11 +50,19 @@ class BaseFilter(object):
                 and missing != self.is_missing_info:
             self.reject(event, "'is_missing_info' incorrect.")
             return False
+        self.accept(event)
         return True
 
-    def reject(self, event, reason):
+    def reject(self, event, attr_name, value, required):
         """ Log the reason for rejecting the Event. """
-        log.info("[%10s] %s rejected: %s", self._name, event.name, reason)
+        self._log.info(
+            "'%s' %s rejected by '%s'", event.name, self._type, self._name)
+        self._log.debug("%s incorrect: (%s to %s)", attr_name, value, required)
+
+    def accept(self, event):
+        """ Log that the Event was accepted. """
+        self._log.info(
+            "'%s' %s accepted by '%s'", event.name, self._type, self._name)
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """ Evaluates a parameter and generate a check if needed. """
@@ -58,7 +70,6 @@ class BaseFilter(object):
             return None  # limit not set
 
         # Create a function to compare the event vs the limit
-        # TODO: This can be a closure if not pickled
         check = CheckFunction(limit, eval_func, event_attribute)
 
         # Add check function to our list
@@ -152,6 +163,6 @@ class CheckFunction(object):
         result = self._eval_func(self._limit, value)  # compare value to limit
 
         if result is False:  # Log rejection
-            filtr.reject(event, "{} incorrect ({} to {})".format(
-                self._attr_name, value, self._limit))
+            filtr.reject(event, self._attr_name, value, self._limit)
+
         return result

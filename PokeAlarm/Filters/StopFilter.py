@@ -8,9 +8,9 @@ from . import BaseFilter
 class StopFilter(BaseFilter):
     """ Filter class for limiting which stops trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(StopFilter, self).__init__(name)
+        super(StopFilter, self).__init__(mgr, 'egg', name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance

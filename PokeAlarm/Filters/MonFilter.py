@@ -10,9 +10,9 @@ from PokeAlarm.Utils import get_weather_id
 class MonFilter(BaseFilter):
     """ Filter class for limiting which monsters trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(MonFilter, self).__init__(name)
+        super(MonFilter, self).__init__(mgr, 'monster', name)
 
         # Monster ID - f.monster_ids contains m.monster_id
         self.monster_ids = self.evaluate_attribute(  #

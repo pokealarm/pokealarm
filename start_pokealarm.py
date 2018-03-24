@@ -9,9 +9,6 @@ monkey.patch_all()
 
 # Setup Logging
 import logging
-logging.basicConfig(
-    format='%(asctime)s [%(levelname)5.5s][%(name)10.10s] %(message)s',
-    level=logging.INFO)
 
 # Standard Library Imports
 import json
@@ -36,9 +33,34 @@ from PokeAlarm.Load import parse_rules_file, parse_filters_file, \
 reload(sys)
 sys.setdefaultencoding('UTF8')
 
-# Set up logging
 
-log = logging.getLogger('webserver')
+# Set up logging
+class ContextFilter(logging.Filter):
+    def filter(self, record):
+        levels = record.name.split('.')
+
+        if len(levels) > 1:
+            record.parent = levels[-2]
+            record.child = levels[-1]
+        else:
+            record.parent = 'external'
+            record.child = levels[0]
+
+        return True
+
+
+formatter = logging.Formatter(
+    '%(asctime)s [%(levelname)5.5s]'
+    '[%(parent)10.10s][%(child)10.10s] %(message)s')
+base = logging.getLogger()
+std = logging.StreamHandler()
+std.setFormatter(formatter)
+std.addFilter(ContextFilter())
+base.addHandler(std)
+base.setLevel(logging.INFO)
+
+
+log = logging.getLogger('pokealarm.webserver')
 
 # Global Variables
 app = Flask(__name__)

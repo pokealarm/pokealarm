@@ -399,7 +399,7 @@ def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
 
     if api_key is not None:
         map_ += ('&key=%s' % api_key)
-        log.debug("API_KEY added to static map url.")
+        # log.debug("API_KEY added to static map url.")
     return map_
 
 

@@ -9,7 +9,7 @@ from collections import OrderedDict
 import Utils as utils
 from Utils import require_and_remove_key, parse_boolean
 
-log = logging.getLogger('LOAD')
+log = logging.getLogger('pokealarm.setup')
 
 
 def parse_filters_file(mgr, filename):
@@ -43,7 +43,6 @@ def parse_filters_file(mgr, filename):
 
     try:
         # Load Monsters Section
-        log.debug("Parsing 'monsters' section:")
         section = filters.pop('monsters', {'enabled': False})
         mgr.set_monsters_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
@@ -51,7 +50,6 @@ def parse_filters_file(mgr, filename):
             mgr.add_monster_filter(name, f)
 
         # Load Stops Section
-        log.debug("Parsing 'stops' section:")
         section = filters.pop('stops', {'enabled': False})
         mgr.set_stops_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
@@ -59,7 +57,6 @@ def parse_filters_file(mgr, filename):
             mgr.add_stop_filter(name, f)
 
         # Load Gyms Section
-        log.debug("Parsing 'gyms' section.")
         section = filters.pop('gyms', {'enabled': False})
         mgr.set_gyms_enabled(section.pop('enabled', True))
         mgr.set_ignore_neutral(section.pop('ignore_neutral', True))
@@ -68,7 +65,6 @@ def parse_filters_file(mgr, filename):
             mgr.add_gym_filter(name, f)
 
         # Load Eggs Section
-        log.debug("Parsing 'eggs' section.")
         section = filters.pop('eggs', {'enabled': False})
         mgr.set_eggs_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
@@ -76,7 +72,6 @@ def parse_filters_file(mgr, filename):
             mgr.add_egg_filter(name, f)
 
         # Load Raids Section
-        log.debug("Parsing 'raids' section.")
         section = filters.pop('raids', {'enabled': False})
         mgr.set_raids_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)

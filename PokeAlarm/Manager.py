@@ -28,17 +28,18 @@ from Utils import (get_earth_dist, get_path, require_and_remove_key,
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
-log = logging.getLogger('TO BE REMOVED')
-
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
                  max_attempts, location, quiet, cache_type,
                  geofence_file, alarm_file, debug):
         # Set the name of the Manager
-        self._name = str(name).lower()
-        self._log = self._create_logger(self._name)
-        self._log.info("----------- Manager '{}' ".format(self._name)
+        self.name = str(name).lower()
+        self._log = self._create_logger(self.name)
+        self._create_sub_logger(name, 'filters')
+        self._create_sub_logger(name, 'alarms')
+
+        self._log.info("----------- Manager '{}' ".format(self.name)
                  + " is being created.")
         self.__debug = debug
 
@@ -70,7 +71,7 @@ class Manager(object):
         self.__quiet = quiet
 
         # Create cache
-        self.__cache = cache_factory(cache_type, self._name)
+        self.__cache = cache_factory(cache_type, self.name)
 
         # Load and Setup the Pokemon Filters
         self._mons_enabled, self._mon_filters = False, OrderedDict()
@@ -101,7 +102,7 @@ class Manager(object):
         self.__process = None
 
         self._log.info("----------- Manager '{}' successfully "
-                       "created.".format(self._name))
+                       "created.".format(self.name))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~ MAIN PROCESS CONTROL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -111,11 +112,11 @@ class Manager(object):
 
     # Get the name of this Manager
     def get_name(self):
-        return self._name
+        return self.name
 
     # Tell the process to finish up and go home
     def stop(self):
-        self._log.info("Manager {} shutting down... ".format(self._name)
+        self._log.info("Manager {} shutting down... ".format(self.name)
                  + "{} items in queue.".format(self.__queue.qsize()))
         self.__event.set()
 
@@ -123,11 +124,11 @@ class Manager(object):
         self.__process.join(timeout=20)
         if not self.__process.ready():
             self._log.warning("Manager {} could not be stopped in time! "
-                              "Forcing process to stop.".format(self._name))
+                              "Forcing process to stop.".format(self.name))
             self.__process.kill(timeout=2, block=True)  # Force stop
         else:
             self._log.info(
-                "Manager {} successfully stopped!".format(self._name))
+                "Manager {} successfully stopped!".format(self.name))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -176,10 +177,30 @@ class Manager(object):
             def filter(self, record):
                 record.mgr_name = mgr_name
                 return True
-        _log = logging.getLogger(mgr_name)
-        _log.addFilter(MgrFilter())
-        _log.setLevel(logging.DEBUG)
-        return _log
+        log = logging.getLogger('pokealarm.{}'.format(mgr_name))
+        log.addFilter(MgrFilter())
+        log.setLevel(logging.DEBUG) # TODO
+        return log
+
+    @staticmethod
+    def _create_sub_logger(mgr_name, log_name):
+        """ Internal method for initializing sub-manager loggers. """
+
+        # Create a Filter to pass on manager name
+        class SubFilter(logging.Filter):
+            def filter(self, record):
+                record.log_name = log_name
+                return True
+
+        log = logging.getLogger('{}.{}'.format(mgr_name, log_name))
+        log.addFilter(SubFilter())
+        ch = logging.StreamHandler()
+        ch.setFormatter(logging.Formatter(
+            '%(asctime)s[%(levelname)5.5s][%(mgr_name)10.10s]'
+            '[log_name] %(message)s'))
+        log.addHandler(ch)
+        log.setLevel(logging.DEBUG)  # TODO
+        return log
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -196,8 +217,8 @@ class Manager(object):
         if name in self._mon_filters:
             raise ValueError("Unable to add Monster Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.MonFilter(name, settings)
-        self._stop_filters[name] = f
+        f = Filters.MonFilter(self, name, settings)
+        self._mon_filters[name] = f
         self._log.debug("Monster filter '%s' set: %s", name, f)
 
     # Enable/Disable Stops notifications
@@ -211,7 +232,7 @@ class Manager(object):
         if name in self._stop_filters:
             raise ValueError("Unable to add Stop Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.StopFilter(name, settings)
+        f = Filters.StopFilter(self, name, settings)
         self._stop_filters[name] = f
         self._log.debug("Stop filter '%s' set: %s", name, f)
 
@@ -231,7 +252,7 @@ class Manager(object):
         if name in self._gym_filters:
             raise ValueError("Unable to add Gym Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.GymFilter(name, settings)
+        f = Filters.GymFilter(self, name, settings)
         self._gym_filters[name] = f
         self._log.debug("Gym filter '%s' set: %s", name, f)
 
@@ -246,7 +267,7 @@ class Manager(object):
         if name in self._egg_filters:
             raise ValueError("Unable to add Egg Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.EggFilter(name, settings)
+        f = Filters.EggFilter(self, name, settings)
         self._egg_filters[name] = f
         self._log.debug("Egg filter '%s' set: %s", name, f)
 
@@ -261,7 +282,7 @@ class Manager(object):
         if name in self._raid_filters:
             raise ValueError("Unable to add Raid Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.RaidFilter(name, settings)
+        f = Filters.RaidFilter(self, name, settings)
         self._raid_filters[name] = f
         self._log.debug("Raid filter '%s' set: %s", name, f)
 
