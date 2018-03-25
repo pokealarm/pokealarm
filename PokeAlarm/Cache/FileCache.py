@@ -1,7 +1,6 @@
 # Standard Library Imports
 import os
 # 3rd Party Imports
-import logging
 import pickle
 import portalocker
 import traceback
@@ -16,7 +15,8 @@ class FileCache(Cache):
         """ Initializes a new cache object for storing data between events. """
         super(FileCache, self).__init__(mgr)
         self._name = mgr.get_name()
-        self._file = get_path(os.path.join("cache", "{}.cache".format(name)))
+        self._file = get_path(
+            os.path.join("cache", "{}.cache".format(self._name)))
 
         self._log.debug("Checking for previous cache at {}".format(self._file))
         cache_folder = get_path("cache")
@@ -40,15 +40,16 @@ class FileCache(Cache):
                 self._gym_desc = data.get('gym_desc', {})
                 self._gym_image = data.get('gym_image', {})
 
-                log.debug("Cache loaded successfully.")
+                self._log.debug("Cache loaded successfully.")
         except Exception as e:
-            log.error("There was an error attempting to load the cache. The "
-                      "old cache will be overwritten.")
-            log.error("{}: {}".format(type(e).__name__, e))
+            self._log.error(
+                "There was an error attempting to load the cache. "
+                "The old cache will be overwritten.")
+            self._log.error("{}: {}".format(type(e).__name__, e))
 
     def _save(self):
         """ Export the data to a more permanent location. """
-        log.debug("Writing cache to file...")
+        self._log.debug("Writing cache to file...")
         data = {
             'mon_hist': self._mon_hist,
             'stop_hist': self._stop_hist,
@@ -68,8 +69,9 @@ class FileCache(Cache):
                 if os.path.exists(self._file):
                     os.remove(self._file)  # Required for Windows
                 os.rename(temp, self._file)
-            log.debug("Cache saved successfully.")
+            self._log.debug("Cache saved successfully.")
         except Exception as e:
-            log.error("Encountered error while saving cache: "
-                      + "{}: {}".format(type(e).__name__, e))
-            log.error("Stack trace: \n {}".format(traceback.format_exc()))
+            self._log.error("Encountered error while saving cache: "
+                            "{}: {}".format(type(e).__name__, e))
+            self._log.error(
+                "Stack trace: \n {}".format(traceback.format_exc()))

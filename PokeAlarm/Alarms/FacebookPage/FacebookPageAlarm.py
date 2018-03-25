@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 from datetime import datetime
 
 # 3rd Party Imports
@@ -73,8 +72,8 @@ class FacebookPageAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, mgr, settings):
-        self._log = logging.getLogger(
-            "pokealarm.{}.alarms".format(mgr.get_name()))
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__page_access_token = require_and_remove_key(
             'page_access_token', settings, "'FacebookPage' type alarms.")
@@ -100,7 +99,7 @@ class FacebookPageAlarm(Alarm):
         reject_leftover_parameters(
             settings, "Alarm level in FacebookPage alarm.")
 
-        log.info("FacebookPage Alarm has been created!")
+        self._log.info("FacebookPage Alarm has been created!")
 
     # Establish connection with FacebookPage
     def connect(self):
@@ -112,7 +111,7 @@ class FacebookPageAlarm(Alarm):
             timestamps = get_time_as_str(datetime.utcnow())
             self.post_to_wall("{} - PokeAlarm has initialized!".format(
                 timestamps[2]))
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -169,5 +168,5 @@ class FacebookPageAlarm(Alarm):
         args = {"message": message}
         if attachment is not None:
             args['attachment'] = attachment
-        try_sending(log, self.connect, "FacebookPage",
+        try_sending(self._log, self.connect, "FacebookPage",
                     self.__client.put_wall_post, args)

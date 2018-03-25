@@ -17,8 +17,8 @@ def parse_filters_file(mgr, filename):
         filepath = utils.get_path(filename)
         log.info("Loading Filters from file at {}".format(filepath))
         with open(filepath, 'r') as f:
-            filters = json.load(f, object_pairs_hook=OrderedDict)
-        if type(filters) is not OrderedDict:
+            filters_file = json.load(f, object_pairs_hook=OrderedDict)
+        if type(filters_file) is not OrderedDict:
             log.critical("Filters files must be a JSON object:"
                          " { \"monsters\":{...},... }")
             raise ValueError("Filter file did not contain a dict.")
@@ -43,21 +43,21 @@ def parse_filters_file(mgr, filename):
 
     try:
         # Load Monsters Section
-        section = filters.pop('monsters', {'enabled': False})
+        section = filters_file.pop('monsters', {'enabled': False})
         mgr.set_monsters_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
         for name, f in filters.iteritems():
             mgr.add_monster_filter(name, f)
 
         # Load Stops Section
-        section = filters.pop('stops', {'enabled': False})
+        section = filters_file.pop('stops', {'enabled': False})
         mgr.set_stops_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
         for name, f in filters.iteritems():
             mgr.add_stop_filter(name, f)
 
         # Load Gyms Section
-        section = filters.pop('gyms', {'enabled': False})
+        section = filters_file.pop('gyms', {'enabled': False})
         mgr.set_gyms_enabled(section.pop('enabled', True))
         mgr.set_ignore_neutral(section.pop('ignore_neutral', True))
         filters = parse_filter_section(section)
@@ -65,14 +65,14 @@ def parse_filters_file(mgr, filename):
             mgr.add_gym_filter(name, f)
 
         # Load Eggs Section
-        section = filters.pop('eggs', {'enabled': False})
+        section = filters_file.pop('eggs', {'enabled': False})
         mgr.set_eggs_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
         for name, f in filters.iteritems():
             mgr.add_egg_filter(name, f)
 
         # Load Raids Section
-        section = filters.pop('raids', {'enabled': False})
+        section = filters_file.pop('raids', {'enabled': False})
         mgr.set_raids_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
         for name, f in filters.iteritems():
@@ -127,7 +127,7 @@ def parse_alarms_file(manager, filename):
     try:
         for name, alarm in alarm_settings.iteritems():
             active = parse_boolean(require_and_remove_key(
-                        'active', alarm, "Alarm objects in file."))
+                'active', alarm, "Alarm objects in file."))
             if active:
                 manager.add_alarm(name, alarm)
             else:

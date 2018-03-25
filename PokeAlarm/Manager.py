@@ -1,9 +1,7 @@
 # Standard Library Imports
-import json
 import logging
 import os
 import re
-import sys
 import traceback
 from collections import OrderedDict, namedtuple
 from datetime import datetime, timedelta
@@ -23,8 +21,7 @@ from Locale import Locale
 from LocationServices import GMaps
 from PokeAlarm import Unknown
 from PokeAlarm.Utilities.GenUtils import parse_bool
-from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, get_cardinal_dir)
+from Utils import (get_earth_dist, get_path, get_cardinal_dir)
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
@@ -109,8 +106,9 @@ class Manager(object):
 
     # Tell the process to finish up and go home
     def stop(self):
-        self._log.info("Manager {} shutting down... ".format(self.name)
-                 + "{} items in queue.".format(self.__queue.qsize()))
+        self._log.info(
+            "Manager {} shutting down... {} items in queue."
+            "".format(self.name, self.__queue.qsize()))
         self.__event.set()
 
     def join(self):
@@ -229,7 +227,7 @@ class Manager(object):
     def set_stops_enabled(self, boolean):
         self._stops_enabled = parse_bool(boolean)
         self._log.debug("Stops notifications %s!",
-                        "enabled" if self._mons_enabled else "disabled")
+                        "enabled" if self._stops_enabled else "disabled")
 
     # Add new Stop Filter
     def add_stop_filter(self, name, settings):
@@ -244,7 +242,7 @@ class Manager(object):
     def set_gyms_enabled(self, boolean):
         self._gyms_enabled = parse_bool(boolean)
         self._log.debug("Gyms notifications %s!",
-                        "enabled" if self._mons_enabled else "disabled")
+                        "enabled" if self._gyms_enabled else "disabled")
 
     # Enable/Disable Stops notifications
     def set_ignore_neutral(self, boolean):
@@ -264,7 +262,7 @@ class Manager(object):
     def set_eggs_enabled(self, boolean):
         self._eggs_enabled = parse_bool(boolean)
         self._log.debug("Egg notifications %s!",
-                        "enabled" if self._mons_enabled else "disabled")
+                        "enabled" if self._eggs_enabled else "disabled")
 
     # Add new Egg Filter
     def add_egg_filter(self, name, settings):
@@ -277,9 +275,9 @@ class Manager(object):
 
     # Enable/Disable Stops notifications
     def set_raids_enabled(self, boolean):
-        self._stops_enabled = parse_bool(boolean)
+        self._raids_enabled = parse_bool(boolean)
         self._log.debug("Raid notifications %s!",
-                        "enabled" if self._mons_enabled else "disabled")
+                        "enabled" if self._raids_enabled else "disabled")
 
     # Add new Raid Filter
     def add_raid_filter(self, name, settings):
@@ -463,8 +461,8 @@ class Manager(object):
                 elif kind == Events.RaidEvent:
                     self.process_raid(event)
                 else:
-                    self._log.error("!!! Manager does not support "
-                              + "{} events!".format(kind))
+                    self._log.error(
+                        "!!! Manager does not support {} events!".format(kind))
                 self._log.debug("Finished event: %s", event.id)
             except Exception as e:
                 self._log.error("Encountered error during processing: "
@@ -574,7 +572,7 @@ class Manager(object):
             if alarm:
                 threads.append(gevent.spawn(alarm.pokemon_alert, dts))
             else:
-               self._log.critical("Alarm '{}' not found!".format(name))
+                self._log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:  # Wait for all alarms to finish
             thread.join()

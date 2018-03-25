@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 
 # 3rd Party Imports
 from twilio.rest import TwilioRestClient
@@ -47,8 +46,8 @@ class TwilioAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, mgr, settings):
-        self._log = logging.getLogger(
-            "pokealarm.{}.alarms".format(mgr.get_name()))
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__account_sid = require_and_remove_key(
             'account_sid', settings, "'Twilio' type alarms.")

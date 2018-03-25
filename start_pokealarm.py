@@ -13,7 +13,6 @@ import logging
 # Standard Library Imports
 import json
 import os
-import time
 import sys
 # 3rd Party Imports
 import configargparse
@@ -88,7 +87,7 @@ def accept_webhook():
         log.debug("Received %s event(s) from %s.", count, request.remote_addr)
     except Exception as e:
         log.error("Encountered error while receiving webhook from %s: "
-                  "(%s: %s)",request.remote_addr, type(e).__name__, e.message)
+                  "(%s: %s)", request.remote_addr, type(e).__name__, e.message)
         # Send back 400
         abort(400)
     return "OK"
@@ -100,7 +99,7 @@ def manage_webhook_data(_queue):
     while True:
         # Check queue length periodically
         if (datetime.utcnow() - warning_limit) > timedelta(seconds=30):
-            warning_limit = time.time()
+            warning_limit = datetime.utcnow()
             size = _queue.qsize()
             if size > 2000:
                 log.warning("Queue length at %s! This may be causing a"

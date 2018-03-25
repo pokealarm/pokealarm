@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import requests
 
 # 3rd Party Imports
@@ -75,8 +74,7 @@ class DiscordAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, mgr, settings, max_attempts, static_map_key):
-        self._log = logging.getLogger(
-            "pokealarm.{}.alarms".format(mgr.get_name()))
+        self._log = mgr.get_child_logger("alarms")
         # Required Parameters
         self.__webhook_url = require_and_remove_key(
             'webhook_url', settings, "'Discord' type alarms.")

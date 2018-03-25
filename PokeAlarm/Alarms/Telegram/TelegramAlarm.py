@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import requests
 from collections import namedtuple
 
@@ -63,8 +62,8 @@ class TelegramAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, mgr, settings):
-        self._log = logging.getLogger(
-            "pokealarm.{}.alarms".format(mgr.get_name()))
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self._bot_token = require_and_remove_key(
             'bot_token', settings, "'Telegram' type alarms.")

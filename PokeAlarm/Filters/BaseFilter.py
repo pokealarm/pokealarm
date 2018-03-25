@@ -1,6 +1,5 @@
 # Standard Library Imports
 import logging
-import json
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown

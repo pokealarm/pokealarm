@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import re
 from datetime import datetime
 
@@ -52,8 +51,8 @@ class TwitterAlarm(Alarm):
 
     # Gather settings and create alarm
     def __init__(self, mgr, settings):
-        self._log = logging.getLogger(
-            "pokealarm.{}.alarms".format(mgr.get_name()))
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__token = require_and_remove_key(
             'access_token', settings, "'Twitter' type alarms.")
@@ -99,7 +98,8 @@ class TwitterAlarm(Alarm):
             args = {
                 "status": "{}- PokeAlarm activated!" .format(timestamps[2])
             }
-            try_sending(self._log, self.connect, "Twitter", self.send_tweet, args)
+            try_sending(
+                self._log, self.connect, "Twitter", self.send_tweet, args)
 
             self._log.info("Startup tweet sent!")
 

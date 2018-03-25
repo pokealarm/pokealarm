@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
@@ -18,7 +17,7 @@ class Cache(object):
 
     def __init__(self, mgr):
         """ Initializes a new cache object for storing data between events. """
-        self._log = logging.getLogger("{}.cache".format(mgr.get_name()))
+        self._log = mgr.get_child_logger("cache")
 
         self._mon_hist = {}
         self._stop_hist = {}
