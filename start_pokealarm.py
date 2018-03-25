@@ -170,6 +170,10 @@ def parse_settings(root_path):
         '-M', '--manager_name', type=parse_unicode,
         action='append', default=[],
         help='Names of Manager processes to start.')
+    parser.add_argument(
+        '-mll', '--manager_log_level', type=int, choices=[1, 2, 3, 4, 5],
+        action='append', default=[3],
+        help='Names of Manager processes to start.')
     # Files
     parser.add_argument(
         '-f', '--filters', type=parse_unicode, action='append',
@@ -241,10 +245,10 @@ def parse_settings(root_path):
 
     args = parser.parse_args()
 
+    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger('pokealarm.webserver').setLevel(logging.INFO)
     logging.getLogger('webserver.internal').setLevel(logging.WARNING)
-    if args.debug:
-        logging.getLogger().setLevel(logging.DEBUG)
-        log.debug("Debug mode enabled!")
+    logging.getLogger('pokealarm.setup').setLevel(logging.INFO)
 
     config['HOST'] = args.host
     config['PORT'] = args.port
@@ -257,7 +261,7 @@ def parse_settings(root_path):
                 args.cache_type, args.timelimit, args.max_attempts,
                 args.timezone, args.gmaps_rev_geocode, args.gmaps_dm_walk,
                 args.gmaps_dm_bike, args.gmaps_dm_drive,
-                args.gmaps_dm_transit]:
+                args.gmaps_dm_transit, args.manager_log_level]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -290,6 +294,7 @@ def parse_settings(root_path):
     # Build the managers
     for m_ct in range(args.manager_count):
         # TODO: Fix this mess better next time
+        log.info("----------- Setting up 'manager_0'")
         config['UNITS'] = get_from_list(args.units, m_ct, args.units[0])
         m = Manager(
             name=args.manager_name[m_ct],
@@ -307,9 +312,11 @@ def parse_settings(root_path):
             location=get_from_list(args.location, m_ct, args.location[0]),
             geofence_file=get_from_list(
                 args.geofences, m_ct, args.geofences[0]),
-            alarm_file=get_from_list(args.alarms, m_ct, args.alarms[0]),
             debug=config['DEBUG']
         )
+        m.set_log_level(get_from_list(
+            args.manager_log_level, m_ct, args.manager_log_level[0]))
+
         parse_filters_file(
             m, get_from_list(args.filters, m_ct, args.filters[0]))
         parse_alarms_file(
@@ -337,6 +344,7 @@ def parse_settings(root_path):
             log.critical("Names of Manager processes must be unique "
                          + "(not case sensitive)! Process will exit.")
             sys.exit(1)
+        log.info("----------- Finished setting up 'manager_0'")
     for m_name in managers:
         managers[m_name].start()
 

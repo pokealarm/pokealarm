@@ -31,16 +31,12 @@ Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, quiet, cache_type,
-                 geofence_file, alarm_file, debug):
+                 max_attempts, location, quiet, cache_type, geofence_file,
+                 debug):
         # Set the name of the Manager
         self.name = str(name).lower()
         self._log = self._create_logger(self.name)
-        self._create_sub_logger(name, 'filters')
-        self._create_sub_logger(name, 'alarms')
 
-        self._log.info("----------- Manager '{}' ".format(self.name)
-                 + " is being created.")
         self.__debug = debug
 
         # Get the Google Maps AP# TODO: Improve error checking
@@ -100,9 +96,6 @@ class Manager(object):
         self.__queue = Queue()
         self.__event = Event()
         self.__process = None
-
-        self._log.info("----------- Manager '{}' successfully "
-                       "created.".format(self.name))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~ MAIN PROCESS CONTROL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -179,28 +172,39 @@ class Manager(object):
                 return True
         log = logging.getLogger('pokealarm.{}'.format(mgr_name))
         log.addFilter(MgrFilter())
-        log.setLevel(logging.DEBUG) # TODO
         return log
 
-    @staticmethod
-    def _create_sub_logger(mgr_name, log_name):
-        """ Internal method for initializing sub-manager loggers. """
+    def get_child_logger(self, name):
+        """ Get a child logger of this manager. """
+        return self._log.getChild(name)
 
-        # Create a Filter to pass on manager name
-        class SubFilter(logging.Filter):
-            def filter(self, record):
-                record.log_name = log_name
-                return True
-
-        log = logging.getLogger('{}.{}'.format(mgr_name, log_name))
-        log.addFilter(SubFilter())
-        ch = logging.StreamHandler()
-        ch.setFormatter(logging.Formatter(
-            '%(asctime)s[%(levelname)5.5s][%(mgr_name)10.10s]'
-            '[log_name] %(message)s'))
-        log.addHandler(ch)
-        log.setLevel(logging.DEBUG)  # TODO
-        return log
+    def set_log_level(self, log_level):
+        if log_level == 1:
+            self._log.setLevel(logging.WARNING)
+        elif log_level == 2:
+            self._log.setLevel(logging.INFO)
+            self._log.getChild("cache").setLevel(logging.WARNING)
+            self._log.getChild("filters").setLevel(logging.WARNING)
+            self._log.getChild("alarms").setLevel(logging.WARNING)
+        elif log_level == 3:
+            self._log.setLevel(logging.INFO)
+            self._log.getChild("cache").setLevel(logging.INFO)
+            self._log.getChild("filters").setLevel(logging.WARNING)
+            self._log.getChild("alarms").setLevel(logging.WARNING)
+        elif log_level == 4:
+            self._log.setLevel(logging.DEBUG)
+            self._log.getChild("cache").setLevel(logging.INFO)
+            self._log.getChild("filters").setLevel(logging.INFO)
+            self._log.getChild("alarms").setLevel(logging.INFO)
+        elif log_level == 5:
+            self._log.setLevel(logging.DEBUG)
+            self._log.getChild("cache").setLevel(logging.DEBUG)
+            self._log.getChild("filters").setLevel(logging.DEBUG)
+            self._log.getChild("alarms").setLevel(logging.DEBUG)
+        else:
+            raise ValueError("Unable to set verbosity, must be an "
+                             "integer between 1 and 5.")
+        self._log.debug("Verbosity set to %s", log_level)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -18,8 +18,7 @@ class BaseFilter(object):
         self._name = name
         self._type = kind
 
-        self._log = logging.getLogger("{}.filters".format(mgr.name))
-        self._log.setLevel(logging.DEBUG)
+        self._log = mgr.get_child_logger('filters')
 
         # Dict representation for the filter
         self._settings = {}

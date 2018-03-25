@@ -101,6 +101,7 @@ def parse_filter_section(section):
         filter_set[name] = settings
     return filter_set
 
+
 def parse_alarms_file(manager, filename):
     try:
         filepath = utils.get_path(filename)
