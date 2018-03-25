@@ -295,7 +295,7 @@ class Manager(object):
             raise ValueError("Unable to add new Alarm: Alarm with the name "
                              "{} already exists!".format(name))
         alarm = Alarms.alarm_factory(
-            settings, self._max_attempts, self._google_key)
+            self, settings, self._max_attempts, self._google_key)
         self._alarms[name] = alarm
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

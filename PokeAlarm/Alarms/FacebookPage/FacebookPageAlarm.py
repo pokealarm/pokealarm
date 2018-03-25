@@ -10,7 +10,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
     reject_leftover_parameters, require_and_remove_key, get_image_url
 
-log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -73,7 +72,9 @@ class FacebookPageAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = logging.getLogger(
+            "pokealarm.{}.alarms".format(mgr.get_name()))
         # Required Parameters
         self.__page_access_token = require_and_remove_key(
             'page_access_token', settings, "'FacebookPage' type alarms.")

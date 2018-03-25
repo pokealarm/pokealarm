@@ -10,7 +10,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
     require_and_remove_key, reject_leftover_parameters, get_image_url
 
-log = logging.getLogger('Slack')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -66,7 +65,9 @@ class SlackAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings, static_map_key):
+    def __init__(self, mgr, settings, static_map_key):
+        self._log = logging.getLogger(
+            "pokealarm.{}.alarms".format(mgr.get_name()))
         # Required Parameters
         self.__api_key = require_and_remove_key(
             'api_key', settings, "'Slack' type alarms.")
