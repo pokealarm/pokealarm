@@ -71,7 +71,7 @@ class Manager(object):
         self.__quiet = quiet
 
         # Create cache
-        self.__cache = cache_factory(cache_type, self.name)
+        self.__cache = cache_factory(self, cache_type)
 
         # Load and Setup the Pokemon Filters
         self._mons_enabled, self._mon_filters = False, OrderedDict()

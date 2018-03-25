@@ -9,18 +9,16 @@ import traceback
 from ..Utils import get_path
 from . import Cache
 
-log = logging.getLogger('FileCache')
-
 
 class FileCache(Cache):
 
-    def __init__(self, name):
+    def __init__(self, mgr):
         """ Initializes a new cache object for storing data between events. """
-        super(FileCache, self).__init__()
-        self._name = name
+        super(FileCache, self).__init__(mgr)
+        self._name = mgr.get_name()
         self._file = get_path(os.path.join("cache", "{}.cache".format(name)))
 
-        log.debug("Checking for previous cache at {}".format(self._file))
+        self._log.debug("Checking for previous cache at {}".format(self._file))
         cache_folder = get_path("cache")
         if not os.path.exists(cache_folder):
             os.makedirs(cache_folder)
