@@ -885,7 +885,14 @@
     "719": "\ub514\uc548\uc2dc", 
     "720": "\ud6c4\ud30c", 
     "721": "\ubcfc\ucf00\ub2c8\uc628"
-  }, 
+  },
+  "rarity": {
+    "000": "\uacf5\uc720\uc9c0",
+    "001": "\ud76c\uc720",
+    "002": "\ub4dc\ubb38",
+    "003": "\uc544\uc8fc \ud76c\uadc0 \ud55c",
+    "004": "\uc6b8\ud2b8\ub77c \ub808\uc5b4"
+  },
   "sizes": {
     "001": "\uc791\uc740", 
     "002": "\uc791\uc740", 

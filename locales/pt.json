@@ -971,13 +971,15 @@
     "719": "Diancie", 
     "720": "Hoopa", 
     "721": "Volcanion"
-  }, 
+  },
+  "rarity": {
+  },
   "sizes": {
-    "001": "min\u00fasculo", 
-    "002": "pequeno", 
-    "003": "normal", 
-    "004": "grande", 
-    "005": "enorme"
+    "000": "Comum",
+    "001": "Incomum",
+    "002": "Raro",
+    "003": "Muito raro",
+    "004": "Ultra raro"
   }, 
   "teams": {
     "000": "Neutro", 
