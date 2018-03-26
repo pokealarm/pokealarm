@@ -936,6 +936,11 @@
     "721": "Volcanion"
   },
   "rarity": {
+    "000": "Commun",
+    "001": "Peu Commun",
+    "002": "Peu Fréquent",
+    "003": "Très Rare",
+    "004": "Ultra Rare"
   },
   "sizes": {
     "001": "minuscule", 
