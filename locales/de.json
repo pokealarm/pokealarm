@@ -940,11 +940,11 @@
     "721": "Volcanion"
   },
   "rarity": {
-    "000": "Gemeenschappelijk",
-    "001": "Ongewoon",
-    "002": "Zeldzaam",
-    "003": "Erg Zeldzaam",
-    "004": "Ultra Zeldzaam"
+    "000": "Allgemein",
+    "001": "Speziell",
+    "002": "Selten",
+    "003": "Sehr Selten",
+    "004": "Ultra Selten"
   },
   "sizes": {
     "001": "winzig", 
