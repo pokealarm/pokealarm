@@ -988,7 +988,8 @@
     "001": "Uncommon",
     "002": "Rare",
     "003": "Very Rare",
-    "004": "Ultra Rare"
+    "004": "Ultra Rare",
+    "005": "New Spawn"
   },
   "sizes": {
     "001": "tiny", 
