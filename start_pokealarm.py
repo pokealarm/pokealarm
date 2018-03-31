@@ -21,7 +21,7 @@ from flask import Flask, request, abort
 import pytz
 # Local Imports
 import PokeAlarm.Events as Events
-from PokeAlarm import config
+from PokeAlarm import config, ContextFilter
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
 from PokeAlarm.Utils import get_path, parse_unicode, parse_boolean
@@ -34,20 +34,6 @@ sys.setdefaultencoding('UTF8')
 
 
 # Set up logging
-class ContextFilter(logging.Filter):
-    def filter(self, record):
-        levels = record.name.split('.')
-
-        if len(levels) > 1:
-            record.parent = levels[-2]
-            record.child = levels[-1]
-        else:
-            record.parent = 'external'
-            record.child = levels[0]
-
-        return True
-
-
 formatter = logging.Formatter(
     '%(asctime)s [%(levelname)5.5s]'
     '[%(parent)10.10s][%(child)10.10s] %(message)s')
@@ -170,9 +156,21 @@ def parse_settings(root_path):
         action='append', default=[],
         help='Names of Manager processes to start.')
     parser.add_argument(
-        '-mll', '--manager_log_level', type=int, choices=[1, 2, 3, 4, 5],
+        '-mll', '--mgr-log-lvl', type=int, choices=[1, 2, 3, 4, 5],
         action='append', default=[3],
-        help='Names of Manager processes to start.')
+        help="Set the verbosity of a manager's logger.")
+    parser.add_argument(
+        '-mlf', '--mgr-log-file', type=parse_unicode,
+        action='append', default=[None],
+        help="Path of a file to attach to a manager's logger.")
+    parser.add_argument(
+        '-mls', '--mgr-log-size', type=int,
+        action='append', default=[100],
+        help="Maximum megabytes of a log before rollover.")
+    parser.add_argument(
+        '-mlc', '--mgr-log-ct', type=int,
+        action='append', default=[5],
+        help="Maximum number of old logs to keep before deleteion.")
     # Files
     parser.add_argument(
         '-f', '--filters', type=parse_unicode, action='append',
@@ -260,7 +258,8 @@ def parse_settings(root_path):
                 args.cache_type, args.timelimit, args.max_attempts,
                 args.timezone, args.gmaps_rev_geocode, args.gmaps_dm_walk,
                 args.gmaps_dm_bike, args.gmaps_dm_drive,
-                args.gmaps_dm_transit, args.manager_log_level]:
+                args.gmaps_dm_transit, args.mgr_log_lvl, args.mgr_log_size,
+                args.mgr_log_file]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -313,8 +312,15 @@ def parse_settings(root_path):
                 args.geofences, m_ct, args.geofences[0]),
             debug=config['DEBUG']
         )
+
         m.set_log_level(get_from_list(
-            args.manager_log_level, m_ct, args.manager_log_level[0]))
+            args.mgr_log_lvl, m_ct, args.mgr_log_lvl[0]))
+
+        file_log = get_from_list(args.mgr_log_file, m_ct, args.mgr_log_file[0])
+        if str(file_log).lower() != "none":
+            size = get_from_list(args.mgr_log_size, m_ct, args.mgr_log_size[0])
+            log_ct = get_from_list(args.mgr_log_ct, m_ct, args.mgr_log_ct[0])
+            m.add_file_logger(file_log, size, log_ct)
 
         parse_filters_file(
             m, get_from_list(args.filters, m_ct, args.filters[0]))

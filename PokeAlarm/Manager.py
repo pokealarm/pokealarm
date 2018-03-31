@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+import logging.handlers
 import os
 import re
 import traceback
@@ -19,7 +20,7 @@ from Cache import cache_factory
 from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import GMaps
-from PokeAlarm import Unknown
+from PokeAlarm import Unknown, ContextFilter
 from PokeAlarm.Utilities.GenUtils import parse_bool
 from Utils import (get_earth_dist, get_path, get_cardinal_dir)
 from . import config
@@ -164,17 +165,14 @@ class Manager(object):
     def _create_logger(mgr_name):
         """ Internal method for initializing manager loggers. """
         # Create a Filter to pass on manager name
-        class MgrFilter(logging.Filter):
-            def filter(self, record):
-                record.mgr_name = mgr_name
-                return True
         log = logging.getLogger('pokealarm.{}'.format(mgr_name))
-        log.addFilter(MgrFilter())
         return log
 
     def get_child_logger(self, name):
         """ Get a child logger of this manager. """
-        return self._log.getChild(name)
+        logger = self._log.getChild(name)
+        logger.addFilter(ContextFilter())
+        return logger
 
     def set_log_level(self, log_level):
         if log_level == 1:
@@ -203,6 +201,24 @@ class Manager(object):
             raise ValueError("Unable to set verbosity, must be an "
                              "integer between 1 and 5.")
         self._log.debug("Verbosity set to %s", log_level)
+
+    def add_file_logger(self, path, max_size=100, ct=5):
+        # MB to B
+        max_size = max_size * (10**6)
+        # Get root path
+        path = get_path(path)
+        dir = os.path.dirname(path)
+        if not os.path.exists(dir):
+            raise IOError("Cannot add filter logger - path does not exist.")
+        file_logger = logging.handlers.RotatingFileHandler(
+            filename=path, maxBytes=max_size, backupCount=ct)
+        file_logger.setFormatter(logging.Formatter(
+            '%(asctime)s [%(levelname)5.5s]' 
+            '[%(parent)10.10s][%(child)10.10s] %(message)s'))
+        self._log.addFilter(ContextFilter())
+        self._log.addHandler(file_logger)
+        self._log.debug("Added new file logger to %s", path)
+
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
