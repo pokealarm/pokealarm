@@ -42,6 +42,7 @@ class Unknown:
         """ Returns an default if unknown, else the original value. """
         return val if val not in cls.__unknown_set else default
 
+
 class ContextFilter(logging.Filter):
     def filter(self, record):
         levels = record.name.split('.')

@@ -213,12 +213,11 @@ class Manager(object):
         file_logger = logging.handlers.RotatingFileHandler(
             filename=path, maxBytes=max_size, backupCount=ct)
         file_logger.setFormatter(logging.Formatter(
-            '%(asctime)s [%(levelname)5.5s]' 
+            '%(asctime)s [%(levelname)5.5s]'
             '[%(parent)10.10s][%(child)10.10s] %(message)s'))
         self._log.addFilter(ContextFilter())
         self._log.addHandler(file_logger)
         self._log.debug("Added new file logger to %s", path)
-
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

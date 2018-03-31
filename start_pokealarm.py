@@ -33,18 +33,6 @@ reload(sys)
 sys.setdefaultencoding('UTF8')
 
 
-# Set up logging
-formatter = logging.Formatter(
-    '%(asctime)s [%(levelname)5.5s]'
-    '[%(parent)10.10s][%(child)10.10s] %(message)s')
-base = logging.getLogger()
-std = logging.StreamHandler()
-std.setFormatter(formatter)
-std.addFilter(ContextFilter())
-base.addHandler(std)
-base.setLevel(logging.INFO)
-
-
 log = logging.getLogger('pokealarm.webserver')
 
 # Global Variables
@@ -136,8 +124,6 @@ def parse_settings(root_path):
 
     # Webserver Settings:
     parser.add_argument(
-        '-d', '--debug', help='Debug Mode', action='store_true', default=False)
-    parser.add_argument(
         '-H', '--host', help='Set web server listening host',
         default='127.0.0.1')
     parser.add_argument(
@@ -146,6 +132,19 @@ def parse_settings(root_path):
     parser.add_argument(
         '-C', '--concurrency', type=int,
         help='Maximum concurrent connections for the webserver.', default=200)
+
+    parser.add_argument(
+        '-d', '--debug', action='store_true', default=False,
+        help='Enable debuging mode.')
+    parser.add_argument(
+        '-q', '--quiet', action='store_true', default=False,
+        help='Disables output to console.')
+    parser.add_argument(
+        '-ll', '--log-lvl', type=int, choices=[1, 2, 3, 4, 5], default=3,
+        help='Verbosity of the root logger.')
+    parser.add_argument(
+        '-lf', '--log-file', type=parse_unicode, default='logs/pokealarm.log',
+        help="Path of a file to attach to a manager's logger.")
 
     # Manager Settings
     parser.add_argument(
@@ -242,10 +241,49 @@ def parse_settings(root_path):
 
     args = parser.parse_args()
 
-    logging.getLogger().setLevel(logging.DEBUG)
-    logging.getLogger('pokealarm.webserver').setLevel(logging.INFO)
+    if not args.quiet:
+        formatter = logging.Formatter(
+            '%(asctime)s [%(levelname)5.5s]'
+            '[%(parent)10.10s][%(child)10.10s] %(message)s')
+        base = logging.getLogger()
+        std = logging.StreamHandler()
+        std.setFormatter(formatter)
+        std.addFilter(ContextFilter())
+        base.addHandler(std)
+        base.setLevel(logging.INFO)
+
+    if args.debug:
+        args.log_lvl = 5
+        args.mgr_log_lvl = [5]
+        log.info("Debug mode enabled!")
+
+    # Log to a file
+    args.log_file = get_path(args.log_file)
+    formatter = logging.Formatter(
+        '%(asctime)s [%(levelname)5.5s]'
+        '[%(parent)10.10s][%(child)10.10s] %(message)s')
+    handler = logging.handlers.RotatingFileHandler(
+        filename=args.log_file, maxBytes=100000000, backupCount=5)
+    handler.setFormatter(formatter)
+    logging.getLogger().addHandler(handler)
+
     logging.getLogger('webserver.internal').setLevel(logging.WARNING)
-    logging.getLogger('pokealarm.setup').setLevel(logging.INFO)
+    # Set up webserver logging
+    if args.log_lvl == 1:
+        logging.getLogger('pokealarm.webserver').setLevel(logging.WARNING)
+        logging.getLogger('pokealarm.setup').setLevel(logging.WARNING)
+    elif args.log_lvl == 2:
+        logging.getLogger('pokealarm.webserver').setLevel(logging.INFO)
+        logging.getLogger('pokealarm.setup').setLevel(logging.WARNING)
+    elif args.log_lvl == 3:
+        logging.getLogger('pokealarm.webserver').setLevel(logging.INFO)
+        logging.getLogger('pokealarm.setup').setLevel(logging.INFO)
+    elif args.log_lvl == 4:
+        logging.getLogger('pokealarm.webserver').setLevel(logging.INFO)
+        logging.getLogger('pokealarm.setup').setLevel(logging.DEBUG)
+    elif args.log_lvl == 5:
+        logging.getLogger('pokealarm.webserver').setLevel(logging.DEBUG)
+        logging.getLogger('pokealarm.setup').setLevel(logging.DEBUG)
 
     config['HOST'] = args.host
     config['PORT'] = args.port
