@@ -940,12 +940,12 @@
     "721": "Volcanion"
   },
   "rarity": {
-    "001": "Neuer Spawn"
-    "002": "Häufig",
-    "003": "Nicht Häufig",
-    "004": "Selten",
-    "005": "Sehr Selten",
-    "006": "Ultra Selten"
+    "000": "Neuer Spawn"
+    "001": "Häufig",
+    "002": "Nicht Häufig",
+    "003": "Selten",
+    "004": "Sehr Selten",
+    "005": "Ultra Selten"
   },
   "sizes": {
     "001": "winzig", 
