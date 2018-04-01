@@ -47,13 +47,13 @@ class TestMonsterFilter(unittest.TestCase):
         mon_filter = Filters.MonFilter('filter1', settings)
 
         # Test passing events
-        for r_id in [0, 3]:
+        for r_id in [1, 4]:
             self.assertTrue(mon_filter.check_event(
                 create_event({"rarity": r_id})
             ))
 
         # Test failing events
-        for r_id in [1, 2, 4]:
+        for r_id in [2, 3, 5]:
             self.assertFalse(mon_filter.check_event(
                 create_event({"rarity": r_id})
             ))
