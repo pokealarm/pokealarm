@@ -940,11 +940,12 @@
     "721": "Volcanion"
   },
   "rarity": {
-    "000": "Comune",
-    "001": "Non Comune",
-    "002": "Raro",
-    "003": "Molto Rara",
-    "004": "Estremamente Raro"
+    "000": "Nuevo engendro",
+    "001": "Comune",
+    "002": "Non Comune",
+    "003": "Raro",
+    "004": "Molto Rara",
+    "005": "Estremamente Raro"
   },
   "sizes": {
     "001": "minuscolo", 
