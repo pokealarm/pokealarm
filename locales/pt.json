@@ -973,13 +973,19 @@
     "721": "Volcanion"
   },
   "rarity": {
+    "000": "Novo spawn", 
+    "001": "Comum", 
+    "002": "Incomum", 
+    "003": "Raro", 
+    "004": "Muito raro", 
+    "005": "Ultra Raro"
   },
   "sizes": {
-    "000": "Comum",
-    "001": "Incomum",
-    "002": "Raro",
-    "003": "Muito raro",
-    "004": "Ultra raro"
+    "001": "min\u00fasculo", 
+    "002": "pequeno", 
+    "003": "normal", 
+    "004": "grande", 
+    "005": "enorme"
   }, 
   "teams": {
     "000": "Neutro", 
