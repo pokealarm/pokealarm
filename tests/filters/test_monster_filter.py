@@ -53,7 +53,7 @@ class TestMonsterFilter(unittest.TestCase):
             ))
 
         # Test failing events
-        for r_id in [2, 3, 5]:
+        for r_id in [0, 2, 3, 5]:
             self.assertFalse(mon_filter.check_event(
                 create_event({"rarity": r_id})
             ))
