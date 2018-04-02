@@ -20,7 +20,8 @@ from Cache import cache_factory
 from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import GMaps
-from PokeAlarm import Unknown, ContextFilter
+from PokeAlarm import Unknown
+from PokeAlarm.Utilities.Logging import ContextFilter, setup_file_handler
 from PokeAlarm.Utilities.GenUtils import parse_bool
 from Utils import (get_earth_dist, get_path, get_cardinal_dir)
 from . import config
@@ -202,21 +203,8 @@ class Manager(object):
                              "integer between 1 and 5.")
         self._log.debug("Verbosity set to %s", log_level)
 
-    def add_file_logger(self, path, max_size=100, ct=5):
-        # MB to B
-        max_size = max_size * (10**6)
-        # Get root path
-        path = get_path(path)
-        dir = os.path.dirname(path)
-        if not os.path.exists(dir):
-            raise IOError("Cannot add filter logger - path does not exist.")
-        file_logger = logging.handlers.RotatingFileHandler(
-            filename=path, maxBytes=max_size, backupCount=ct)
-        file_logger.setFormatter(logging.Formatter(
-            '%(asctime)s [%(levelname)5.5s]'
-            '[%(parent)10.10s][%(child)10.10s] %(message)s'))
-        self._log.addFilter(ContextFilter())
-        self._log.addHandler(file_logger)
+    def add_file_logger(self, path, max_size_mb, ct):
+        setup_file_handler(self._log, path, max_size_mb, ct)
         self._log.debug("Added new file logger to %s", path)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

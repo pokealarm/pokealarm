@@ -2,8 +2,6 @@ import os
 import binascii
 
 # Global variables used by all functions
-import logging
-
 config = {
     'ROOT_PATH': os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 }
@@ -41,17 +39,3 @@ class Unknown:
     def or_empty(cls, val, default=EMPTY):
         """ Returns an default if unknown, else the original value. """
         return val if val not in cls.__unknown_set else default
-
-
-class ContextFilter(logging.Filter):
-    def filter(self, record):
-        levels = record.name.split('.')
-
-        if len(levels) > 1:
-            record.parent = levels[-2]
-            record.child = levels[-1]
-        else:
-            record.parent = 'external'
-            record.child = levels[0]
-
-        return True

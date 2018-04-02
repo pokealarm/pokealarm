@@ -7,10 +7,8 @@ from datetime import timedelta, datetime
 from gevent import monkey
 monkey.patch_all()
 
-# Setup Logging
-import logging
-
 # Standard Library Imports
+import logging
 import json
 import os
 import sys
@@ -21,7 +19,8 @@ from flask import Flask, request, abort
 import pytz
 # Local Imports
 import PokeAlarm.Events as Events
-from PokeAlarm import config, ContextFilter
+from PokeAlarm import config
+from PokeAlarm.Utilities.Logging import setup_std_handler, setup_file_handler
 from PokeAlarm.Cache import cache_options
 from PokeAlarm.Manager import Manager
 from PokeAlarm.Utils import get_path, parse_unicode, parse_boolean
@@ -145,6 +144,12 @@ def parse_settings(root_path):
     parser.add_argument(
         '-lf', '--log-file', type=parse_unicode, default='logs/pokealarm.log',
         help="Path of a file to attach to a manager's logger.")
+    parser.add_argument(
+        '-ls', '--log-size', type=int, default=100,
+        help="Maximum size in mb of a log before rollover.")
+    parser.add_argument(
+        '-lc', '--log-ct', type=int, default=5,
+        help="Maximum number of logs to keep.")
 
     # Manager Settings
     parser.add_argument(
@@ -163,13 +168,11 @@ def parse_settings(root_path):
         action='append', default=[None],
         help="Path of a file to attach to a manager's logger.")
     parser.add_argument(
-        '-mls', '--mgr-log-size', type=int,
-        action='append', default=[100],
-        help="Maximum megabytes of a log before rollover.")
+        '-mls', '--mgr-log-size', type=int, action='append', default=[100],
+        help="Maximum megabytes of a manager's log before rollover.")
     parser.add_argument(
-        '-mlc', '--mgr-log-ct', type=int,
-        action='append', default=[5],
-        help="Maximum number of old logs to keep before deleteion.")
+        '-mlc', '--mgr-log-ct', type=int, action='append', default=[5],
+        help="Maximum number of old manager's logs to keep before deletion.")
     # Files
     parser.add_argument(
         '-f', '--filters', type=parse_unicode, action='append',
@@ -241,31 +244,17 @@ def parse_settings(root_path):
 
     args = parser.parse_args()
 
+    root_logger = logging.getLogger()
     if not args.quiet:
-        formatter = logging.Formatter(
-            '%(asctime)s [%(levelname)5.5s]'
-            '[%(parent)10.10s][%(child)10.10s] %(message)s')
-        base = logging.getLogger()
-        std = logging.StreamHandler()
-        std.setFormatter(formatter)
-        std.addFilter(ContextFilter())
-        base.addHandler(std)
-        base.setLevel(logging.INFO)
+        setup_std_handler(root_logger)
+
+    setup_file_handler(root_logger, args.log_file, args.log_size, args.log_ct)
 
     if args.debug:
+        # Set everything to VERY VERBOSE
         args.log_lvl = 5
         args.mgr_log_lvl = [5]
         log.info("Debug mode enabled!")
-
-    # Log to a file
-    args.log_file = get_path(args.log_file)
-    formatter = logging.Formatter(
-        '%(asctime)s [%(levelname)5.5s]'
-        '[%(parent)10.10s][%(child)10.10s] %(message)s')
-    handler = logging.handlers.RotatingFileHandler(
-        filename=args.log_file, maxBytes=100000000, backupCount=5)
-    handler.setFormatter(formatter)
-    logging.getLogger().addHandler(handler)
 
     logging.getLogger('webserver.internal').setLevel(logging.WARNING)
     # Set up webserver logging
