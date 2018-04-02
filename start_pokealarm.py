@@ -331,7 +331,6 @@ def parse_settings(root_path):
             time_limit=get_from_list(args.timelimit, m_ct, args.timelimit[0]),
             max_attempts=get_from_list(
                 args.max_attempts, m_ct, args.max_attempts[0]),
-            quiet=False,  # TODO: I'll totally document this some day. Promise.
             cache_type=get_from_list(
                 args.cache_type, m_ct, args.cache_type[0]),
             location=get_from_list(args.location, m_ct, args.location[0]),

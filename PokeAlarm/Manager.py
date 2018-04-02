@@ -30,8 +30,7 @@ Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, quiet, cache_type, geofence_file,
-                 debug):
+                 max_attempts, location, cache_type, geofence_file, debug):
         # Set the name of the Manager
         self.name = str(name).lower()
         self._log = self._create_logger(self.name)
@@ -61,9 +60,6 @@ class Manager(object):
             self._log.warning(
                 "NO LOCATION SET - this may cause issues "
                 "with distance related DTS.")
-
-        # Quiet mode
-        self.__quiet = quiet
 
         # Create cache
         self.__cache = cache_factory(self, cache_type)
@@ -549,9 +545,8 @@ class Manager(object):
                 if not passed:
                     continue  # go to next filter
                 mon.custom_dts = f.custom_dts
-                if self.__quiet is False:
-                    self._log.info("{} monster notification has been triggered"
-                                   " in rule '{}'!".format(mon.name, r_name))
+                self._log.info("{} monster notification has been triggered"
+                               " in rule '{}'!".format(mon.name, r_name))
                 self._trigger_mon(mon, rule.alarm_names)
                 break  # Next rule
 
@@ -628,9 +623,8 @@ class Manager(object):
                 if not passed:
                     continue  # go to next filter
                 stop.custom_dts = f.custom_dts
-                if self.__quiet is False:
-                    self._log.info("{} stop notification has been triggered "
-                                   "in rule '{}'!".format(stop.name, r_name))
+                self._log.info("{} stop notification has been triggered "
+                               "in rule '{}'!".format(stop.name, r_name))
                 self._trigger_stop(stop, rule.alarm_names)
                 break  # Next rule
 
@@ -709,9 +703,8 @@ class Manager(object):
                 if not passed:
                     continue  # go to next filter
                 gym.custom_dts = f.custom_dts
-                if self.__quiet is False:
-                    self._log.info("{} gym notification has been triggered "
-                                   "in rule '{}'!".format(gym.name, r_name))
+                self._log.info("{} gym notification has been triggered "
+                               "in rule '{}'!".format(gym.name, r_name))
                 self._trigger_gym(gym, rule.alarm_names)
                 break  # Next rule
 
@@ -793,9 +786,8 @@ class Manager(object):
                 if not passed:
                     continue  # go to next filter
                 egg.custom_dts = f.custom_dts
-                if self.__quiet is False:
-                    self._log.info("{} egg notification has been triggered "
-                                   "in rule '{}'!".format(egg.name, r_name))
+                self._log.info("{} egg notification has been triggered "
+                               "in rule '{}'!".format(egg.name, r_name))
                 self._trigger_egg(egg, rule.alarm_names)
                 break  # Next rule
 
@@ -877,9 +869,8 @@ class Manager(object):
                 if not passed:
                     continue  # go to next filter
                 raid.custom_dts = f.custom_dts
-                if self.__quiet is False:
-                    self._log.info("{} raid notification has been triggered "
-                                   "in rule '{}'!".format(raid.name, r_name))
+                self._log.info("{} raid notification has been triggered "
+                               "in rule '{}'!".format(raid.name, r_name))
                 self._trigger_raid(raid, rule.alarm_names)
                 break  # Next rule
 
