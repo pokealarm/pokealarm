@@ -46,7 +46,7 @@ class BaseFilter(object):
         # Do a special check for is missing_info is set
         if self.is_missing_info is not None \
                 and missing != self.is_missing_info:
-            self.reject(event, "'is_missing_info' incorrect.")
+            self.reject(event, "missing_info", missing, self.is_missing_info)
             return False
         self.accept(event)
         return True
