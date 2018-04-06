@@ -1,7 +1,7 @@
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
-from tests.filters import MockManager
+from tests.filters import MockManager, generic_filter_test
 
 
 class TestGymFilter(unittest.TestCase):
@@ -93,61 +93,33 @@ class TestGymFilter(unittest.TestCase):
         settings.update(values)
         return Events.GymEvent(settings)
 
+    @generic_filter_test
     def test_gym_name_contains(self):
-        # Create the filter
-        filt = self.gen_filter({"gym_name_contains": ["pass"]})
+        self.filt = {"gym_name_contains": ["pass"]}
+        self.event_key = "name"
+        self.pass_vals = ["pass1", "2pass", "3pass3"]
+        self.fail_vals = ["fail1", "failpas", "pasfail"]
 
-        # Test passing
-        for name in ["pass1", "2pass", "3pass3"]:
-            event = self.gen_event({"name": name})
-            self.assertTrue(filt.check_event(event))
-
-        # Test failing
-        for name in ["fail1", "failpas", "pasfail"]:
-            event = self.gen_event({"name": name})
-            self.assertFalse(filt.check_event(event))
-
+    @generic_filter_test
     def test_gym_name_excludes(self):
-        # Create the filter
-        filt = self.gen_filter({"gym_name_excludes": ["fail"]})
+        self.filt = {"gym_name_excludes": ["fail"]}
+        self.event_key = "name"
+        self.pass_vals = ["pass1", "2pass", "3pass3"]
+        self.fail_vals = ["fail1", "failpas", "pasfail"]
 
-        # Test passing
-        for name in ["pass1", "2pass", "3pass3"]:
-            event = self.gen_event({"name": name})
-            self.assertTrue(filt.check_event(event))
-
-        # Test failing
-        for name in ["fail1", "failpas", "pasfail"]:
-            event = self.gen_event({"name": name})
-            self.assertFalse(filt.check_event(event))
-
+    @generic_filter_test
     def test_gym_slots(self):
-        # Create the filter
-        filt = self.gen_filter({"min_slots": 2, "max_slots": 4})
+        self.filt = {"min_slots": 2, "max_slots": 4}
+        self.event_key = "slots_available"
+        self.pass_vals = [2, 3, 4]
+        self.fail_vals = [0, 1, 5]
 
-        # Test passing
-        for slots in [2, 3, 4]:
-            event = self.gen_event({"slots_available": slots})
-            self.assertTrue(filt.check_event(event))
-
-        # Test failing
-        for slots in [0, 1, 5]:
-            event = self.gen_event({"slots_available": slots})
-            self.assertFalse(filt.check_event(event))
-
+    @generic_filter_test
     def test_new_teams(self):
-        # Create the filter
-        filt = self.gen_filter({"new_teams": [1, "2", "Instinct"]})
-
-        # Test passing
-        for team in [1, 2, 3]:
-            event = self.gen_event({"team": team})
-            self.assertTrue(filt.check_event(event))
-
-        # Test failing
-        for team in [0]:
-            event = self.gen_event({"team": team})
-            self.assertFalse(filt.check_event(event))
+        self.filt = {"new_teams": [1, "2", "Instinct"]}
+        self.event_key = "team"
+        self.pass_vals = [1, 2, 3]
+        self.fail_vals = [0]
 
     def test_missing_info(self):
         # Create the filters
@@ -167,7 +139,7 @@ class TestGymFilter(unittest.TestCase):
         self.assertTrue(not_missing.check_event(info_event))
         self.assertFalse(missing.check_event(info_event))
 
-    def test_egg_distance(self):
+    def test_gym_distance(self):
         # Create the filter
         filt = self.gen_filter(
             {"max_dist": 2000, "min_dist": 400})

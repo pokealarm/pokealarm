@@ -3,7 +3,7 @@ import time
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
-from tests.filters import MockManager
+from tests.filters import MockManager, generic_filter_test
 
 
 class TestEggFilter(unittest.TestCase):
@@ -38,75 +38,40 @@ class TestEggFilter(unittest.TestCase):
         settings.update(values)
         return Events.EggEvent(settings)
 
+    @generic_filter_test
     def test_egg_lvl(self):
-        # Create the filter
-        egg_filter = self.gen_filter({"min_egg_lvl": 2, "max_egg_lvl": 4})
+        self.filt = {"min_egg_lvl": 2, "max_egg_lvl": 4}
+        self.event_key = "level"
+        self.pass_vals = [2, 3, 4]
+        self.fail_vals = [1, 5]
 
-        # Test passing
-        for lvl in [2, 3, 4]:
-            event = self.gen_event({"level": lvl})
-            self.assertTrue(egg_filter.check_event(event))
-
-        # Test failing
-        for lvl in [1, 5]:
-            event = self.gen_event({"level": lvl})
-            self.assertFalse(egg_filter.check_event(event))
-
+    @generic_filter_test
     def test_gym_name_contains(self):
-        # Create the filter
-        egg_filter = self.gen_filter({"gym_name_contains": ["pass"]})
+        self.filt = {"gym_name_contains": ["pass"]}
+        self.event_key = "name"
+        self.pass_vals = ["pass1", "2pass", "3pass"]
+        self.fail_vals = ["fail1", "failpas", "pasfail"]
 
-        # Test passing
-        for name in ["pass1", "2pass", "3pass"]:
-            event = self.gen_event({"name": name})
-            self.assertTrue(egg_filter.check_event(event))
-
-        # Test failing
-        for name in ["fail1", "failpas", "pasfail"]:
-            event = self.gen_event({"name": name})
-            self.assertFalse(egg_filter.check_event(event))
-
+    @generic_filter_test
     def test_gym_name_excludes(self):
-        # Create the filter
-        egg_filter = self.gen_filter({"gym_name_excludes": ["fail"]})
+        self.filt = {"gym_name_excludes": ["fail"]}
+        self.event_key = "name"
+        self.pass_vals = ["pass1", "2pass", "3pass"]
+        self.fail_vals = ["fail1", "failpas", "pasfail"]
 
-        # Test passing
-        for name in ["pass1", "2pass", "3pass3"]:
-            event = self.gen_event({"name": name})
-            self.assertTrue(egg_filter.check_event(event))
-
-        # Test failing
-        for name in ["fail1", "failpass", "passfail"]:
-            event = self.gen_event({"name": name})
-            self.assertFalse(egg_filter.check_event(event))
-
+    @generic_filter_test
     def test_park_contains(self):
-        # Create the filter
-        egg_filter = self.gen_filter({"park_contains": ["pass"]})
+        self.filt = {"park_contains": ["pass"]}
+        self.event_key = "park"
+        self.pass_vals = ["pass1", "2pass", "3pass"]
+        self.fail_vals = ["fail1", "failpas", "pasfail"]
 
-        # Test passing
-        for name in ["pass1", "2pass", "3pass3"]:
-            event = self.gen_event({"park": name})
-            self.assertTrue(egg_filter.check_event(event))
-
-        # Test failing
-        for name in ["fail1", "failpas", "pasfail"]:
-            event = self.gen_event({"park": name})
-            self.assertFalse(egg_filter.check_event(event))
-
+    @generic_filter_test
     def test_current_teams(self):
-        # Create the filter
-        egg_filter = self.gen_filter({"current_teams": [1, "2", "Instinct"]})
-
-        # Test passing
-        for team in [1, 2, 3]:
-            event = self.gen_event({"team": team})
-            self.assertTrue(egg_filter.check_event(event))
-
-        # Test failing
-        for team in [0]:
-            event = self.gen_event({"team": team})
-            self.assertFalse(egg_filter.check_event(event))
+        self.filt = {"current_teams": [1, "2", "Instinct"]}
+        self.event_key = "team"
+        self.pass_vals = [1, 2, 3]
+        self.fail_vals = [0]
 
     def test_sponsored(self):
         # Create the filters
@@ -145,24 +110,24 @@ class TestEggFilter(unittest.TestCase):
 
     def test_egg_distance(self):
         # Create the filter
-        egg_filter = self.gen_filter(
+        filt = self.gen_filter(
             {"max_dist": 2000, "min_dist": 400})
 
         # Test passing
         egg = self.gen_event({})
         for dist in [1000, 800, 600]:
             egg.distance = dist
-            self.assertTrue(egg_filter.check_event(egg))
+            self.assertTrue(filt.check_event(egg))
 
         # Test failing
         egg = self.gen_event({})
         for dist in [0, 300, 3000]:
             egg.distance = dist
-            self.assertFalse(egg_filter.check_event(egg))
+            self.assertFalse(filt.check_event(egg))
 
     def test_time_left(self):
         # Create the filter
-        egg_filter = self.gen_filter(
+        filt = self.gen_filter(
             {'min_time_left': 1000, 'max_time_left': 8000})
 
         # Test passing
@@ -170,14 +135,14 @@ class TestEggFilter(unittest.TestCase):
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
             event = self.gen_event({"start": t})
-            self.assertTrue(egg_filter.check_event(event))
+            self.assertTrue(filt.check_event(event))
 
         # Test failing
         for s in [200, 999, 8001]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
             event = self.gen_event({"start": t})
-            self.assertFalse(egg_filter.check_event(event))
+            self.assertFalse(filt.check_event(event))
 
 
 if __name__ == '__main__':
