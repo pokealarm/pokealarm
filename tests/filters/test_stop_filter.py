@@ -3,87 +3,91 @@ import time
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
+from tests.filters import MockManager
 
 
 class TestStopFilter(unittest.TestCase):
 
-    def setUp(self):
+
+    @classmethod
+    def setUp(cls):
+        cls._mgr = MockManager()
+
+    @classmethod
+    def tearDown(cls):
         pass
 
-    def tearDown(self):
-        pass
+    def gen_filter(self, settings):
+        """ Generate a generic filter with given settings. """
+        return Filters.StopFilter(self._mgr, "testfilter", settings)
+
+    def gen_event(self, values):
+        """ Generate a generic stop, overriding with an specific values. """
+        settings = {
+            "pokestop_id": 0,
+            "enabled": "True",
+            "latitude": 37.7876146,
+            "longitude": -122.390624,
+            "last_modified_time": 1572241600,
+            "lure_expiration": 1572241600,
+            "active_fort_modifier": 0
+        }
+        settings.update(values)
+        return Events.StopEvent(settings)
 
     def test_distance(self):
-        stop_event = Events.StopEvent(generate_stop({}))
-        settings = {'min_dist': 5, 'max_dist': 2000}
-        stop_filter = Filters.StopFilter('distance_filter', settings)
-        for i in [5, 2000, 1000]:
-            stop_event.distance = i
-            self.assertTrue(stop_filter.check_event(stop_event))
+        # Create the filter
+        filt = self.gen_filter(
+            {"max_dist": 2000, "min_dist": 400})
 
-        settings2 = {'min_dist': 100, 'max_dist': 5000}
-        stop_filter2 = Filters.StopFilter('distance_filter_2', settings2)
-        for i in [99, 5001, 9999]:
-            stop_event.distance = i
-            self.assertFalse(stop_filter2.check_event(stop_event))
+        # Test passing
+        egg = self.gen_event({})
+        for dist in [1000, 800, 600]:
+            egg.distance = dist
+            self.assertTrue(filt.check_event(egg))
 
-    def test_custom_dts(self):
-        settings = {'custom_dts': {
-            'key1': 'value1',
-            'I\'m a goofy': 'goober yeah!'
-        }}
-        stop_filter = Filters.StopFilter('custom_dts_filter', settings)
-        self.assertTrue(stop_filter.check_event(create_event({})))
+        # Test failing
+        egg = self.gen_event({})
+        for dist in [0, 300, 3000]:
+            egg.distance = dist
+            self.assertFalse(filt.check_event(egg))
 
     def test_missing_info(self):
-        settings = {'is_missing_info': False, 'max_dist': 500}
-        stop_filter = Filters.StopFilter('missing_info_filter', settings)
-        stop_event = Events.StopEvent(generate_stop({}))
-        self.assertFalse(stop_filter.check_event(stop_event))
-        for i in [0, 500]:
-            stop_event.distance = i
-            self.assertTrue(stop_filter.check_event(stop_event))
-        stop_event.distance = 'Unknown'
-        self.assertFalse(stop_filter.check_event(stop_event))
+        # Create the filters
+        missing = self.gen_filter(
+            {"max_dist": "inf", "is_missing_info": True})
+        not_missing = self.gen_filter(
+            {"max_dist": "inf", "is_missing_info": False})
+
+        # Test missing
+        miss_event = self.gen_event({})
+        self.assertTrue(missing.check_event(miss_event))
+        self.assertFalse(not_missing.check_event(miss_event))
+
+        # Test not missing
+        info_event = self.gen_event({})
+        info_event.distance = 1000
+        self.assertTrue(not_missing.check_event(info_event))
+        self.assertFalse(missing.check_event(info_event))
 
     def test_time_left(self):
-        # Create the filters
-        settings = {'min_time_left': 1000, 'max_time_left': 8000}
-        stop_filter = Filters.StopFilter('time_filter', settings)
+        # Create the filter
+        filt = self.gen_filter(
+            {'min_time_left': 1000, 'max_time_left': 8000})
 
-        # Test events that should pass
+        # Test passing
         for s in [2000, 4000, 6000]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = Events.StopEvent(generate_stop({"lure_expiration": t}))
-            self.assertTrue(stop_filter.check_event(event))
+            event = self.gen_event({"start": t})
+            self.assertTrue(filt.check_event(event))
 
-        # Test events that should fail
+        # Test failing
         for s in [200, 999, 8001]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = Events.StopEvent(generate_stop({"lure_expiration": t}))
-            self.assertFalse(stop_filter.check_event(event))
-
-
-# Create a generic stop, overriding with an specific values
-def generate_stop(values):
-    stop = {
-        "pokestop_id": 0,
-        "enabled": "True",
-        "latitude": 37.7876146,
-        "longitude": -122.390624,
-        "last_modified_time": 1572241600,
-        "lure_expiration": 1572241600,
-        "active_fort_modifier": 0
-    }
-    stop.update(values)
-    return stop
-
-
-# Create the event and change default values
-def create_event(items_to_change):
-    return Events.StopEvent(generate_stop(items_to_change))
+            event = self.gen_event({"start": t})
+            self.assertFalse(filt.check_event(event))
 
 
 if __name__ == '__main__':
