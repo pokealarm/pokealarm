@@ -66,7 +66,7 @@ def setup_file_handler(logger, path, max_size=100, backup_ct=5):
             "Unable to create file logger - path '%s' doesn't exist", folder)
     # Create the handler
     handler = logging.handlers.RotatingFileHandler(
-        filename=path, maxBytes=max_size*(10**6), backupCount=backup_ct)
+        filename=path, maxBytes=max_size * (10**6), backupCount=backup_ct)
     handler.setFormatter(FORMATTER)
     handler.addFilter(ContextFilter())
     # Attach it to the logger

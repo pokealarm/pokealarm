@@ -8,7 +8,6 @@ from tests.filters import MockManager
 
 class TestStopFilter(unittest.TestCase):
 
-
     @classmethod
     def setUp(cls):
         cls._mgr = MockManager()
@@ -79,14 +78,14 @@ class TestStopFilter(unittest.TestCase):
         for s in [2000, 4000, 6000]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = self.gen_event({"start": t})
+            event = self.gen_event({"lure_expiration": t})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
         for s in [200, 999, 8001]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = self.gen_event({"start": t})
+            event = self.gen_event({"lure_expiration": t})
             self.assertFalse(filt.check_event(event))
 
 
