@@ -496,6 +496,46 @@ class Manager(object):
             self._log.info("Location successfully set to '{},{}'.".format(
                 location[0], location[1]))
 
+    def _check_filters(self, event, filter_set, filter_names):
+        """ Function for checking if an event passes any filters. """
+        for name in filter_names:
+            f = filter_set.get(name)
+            # Filter should always exist, but sanity check anyway
+            if f:
+                # If the Event passes, return True
+                if f.check_event and self.check_geofences(f, event):
+                    event.custom_dts = f.custom_dts
+                    return True
+            else:
+                self._log.critical("ERROR: No filter named %s found!", name)
+        return False
+
+    def _notify_alarms(self, event, alarm_names, process_func):
+        """ Function for triggering notifications to alarms. """
+        # Generate the DTS for the event
+        dts = event.generate_dts(self.__locale, self.__timezone, self.__units)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (event.lat, event.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (event.lat, event.lng), self.__location,
+                self._language, self.__units))
+
+        # Spawn notifications in threads so they can work asynchronously
+        threads = []
+        for name in alarm_names:
+            alarm = self._alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(process_func, dts))
+            else:
+                self._log.critical("ERROR: No alarm named %s found!", name)
+
+        for thread in threads:  # Wait for all alarms to finish
+            thread.join()
+
     # Process new Monster data and decide if a notification needs to be sent
     def process_monster(self, mon):
         # type: (Events.MonEvent) -> None
@@ -776,8 +816,8 @@ class Manager(object):
         # Check for Rules
         rules = self.__egg_rules
         if len(rules) == 0:  # If no rules, default to all
-            rules = {"default": Rule(
-                self._egg_filters.keys(), self._alarms.keys())}
+            rules = {
+                "default": Rule(self._egg_filters.keys(), self._alarms.keys())}
 
         for r_name, rule in rules.iteritems():  # For all rules
             for f_name in rule.filter_names:  # Check Filters in Rules
