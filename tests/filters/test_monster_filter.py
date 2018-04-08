@@ -68,10 +68,10 @@ class TestMonsterFilter(unittest.TestCase):
 
     @generic_filter_test
     def test_rarity(self):
-        self.filt = {"rarity": ["common", "Very Rare"]}
+        self.filt = {"rarity": ["new spawn", "Very Rare"]}
         self.event_key = "rarity"
-        self.pass_vals = [0, 3]
-        self.fail_vals = [1, 2, 4]
+        self.pass_vals = [0, 4]
+        self.fail_vals = [1, 2, 5]
 
     @generic_filter_test
     def test_monsters_exclude(self):
