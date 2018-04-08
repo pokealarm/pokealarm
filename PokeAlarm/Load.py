@@ -76,7 +76,7 @@ def parse_filters_file(mgr, filename):
         mgr.set_raids_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
         for name, f in filters.iteritems():
-            mgr.add_egg_filter(name, f)
+            mgr.add_raid_filter(name, f)
 
         return  # exit function
 
@@ -122,7 +122,6 @@ def parse_alarms_file(manager, filename):
             "json validator.")
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
         sys.exit(1)
-    log.info("Loading Alarms from the file at {}".format(filepath))
 
     try:
         for name, alarm in alarm_settings.iteritems():

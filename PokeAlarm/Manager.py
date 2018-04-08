@@ -34,6 +34,7 @@ class Manager(object):
         # Set the name of the Manager
         self.name = str(name).lower()
         self._log = self._create_logger(self.name)
+        self._rule_log = self.get_child_logger('rules')
 
         self.__debug = debug
 
@@ -185,7 +186,7 @@ class Manager(object):
             self._log.getChild("filters").setLevel(logging.WARNING)
             self._log.getChild("alarms").setLevel(logging.WARNING)
         elif log_level == 4:
-            self._log.setLevel(logging.DEBUG)
+            self._log.setLevel(logging.INFO)
             self._log.getChild("cache").setLevel(logging.INFO)
             self._log.getChild("filters").setLevel(logging.INFO)
             self._log.getChild("alarms").setLevel(logging.INFO)
@@ -466,7 +467,7 @@ class Manager(object):
             except Exception as e:
                 self._log.error("Encountered error during processing: "
                                 "{}: {}".format(type(e).__name__, e))
-                self._log.debug("Stack trace: \n {}"
+                self._log.error("Stack trace: \n {}"
                                 "".format(traceback.format_exc()))
             # Explict context yield
             gevent.sleep(0)
@@ -503,14 +504,14 @@ class Manager(object):
             # Filter should always exist, but sanity check anyway
             if f:
                 # If the Event passes, return True
-                if f.check_event and self.check_geofences(f, event):
+                if f.check_event(event) and self.check_geofences(f, event):
                     event.custom_dts = f.custom_dts
                     return True
             else:
                 self._log.critical("ERROR: No filter named %s found!", name)
         return False
 
-    def _notify_alarms(self, event, alarm_names, process_func):
+    def _notify_alarms(self, event, alarm_names, func_name):
         """ Function for triggering notifications to alarms. """
         # Generate the DTS for the event
         dts = event.generate_dts(self.__locale, self.__timezone, self.__units)
@@ -528,10 +529,11 @@ class Manager(object):
         threads = []
         for name in alarm_names:
             alarm = self._alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(process_func, dts))
-            else:
+            if not alarm:
                 self._log.critical("ERROR: No alarm named %s found!", name)
+                continue
+            func = getattr(alarm, func_name)
+            threads.append(gevent.spawn(func, dts))
 
         for thread in threads:  # Wait for all alarms to finish
             thread.join()
@@ -575,45 +577,25 @@ class Manager(object):
         # Check for Rules
         rules = self.__mon_rules
         if len(rules) == 0:  # If no rules, default to all
-            rules = {"default": Rule(
-                self._mon_filters.keys(), self._alarms.keys())}
+            rules = {
+                "default": Rule(self._mon_filters.keys(), self._alarms.keys())}
 
+        rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
-            for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self._mon_filters.get(f_name)
-                passed = f.check_event(mon) and self.check_geofences(f, mon)
-                if not passed:
-                    continue  # go to next filter
-                mon.custom_dts = f.custom_dts
-                self._log.info("{} monster notification has been triggered"
-                               " in rule '{}'!".format(mon.name, r_name))
-                self._trigger_mon(mon, rule.alarm_names)
-                break  # Next rule
+            passed = self._check_filters(
+                mon, self._mon_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    mon, rule.alarm_names, 'pokemon_alert')
 
-    def _trigger_mon(self, mon, alarms):
-        # Generate the DTS for the event
-        dts = mon.generate_dts(self.__locale, self.__timezone, self.__units)
-
-        # Get GMaps Triggers
-        if self._gmaps_reverse_geocode:
-            dts.update(self._gmaps_service.reverse_geocode(
-                (mon.lat, mon.lng), self._language))
-        for mode in self._gmaps_distance_matrix:
-            dts.update(self._gmaps_service.distance_matrix(
-                mode, (mon.lat, mon.lng), self.__location,
-                self._language, self.__units))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for name in alarms:
-            alarm = self._alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(alarm.pokemon_alert, dts))
-            else:
-                self._log.critical("Alarm '{}' not found!".format(name))
-
-        for thread in threads:  # Wait for all alarms to finish
-            thread.join()
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Monster %s passed %s rule(s) and triggered %s alarm(s).',
+                mon.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Monster %s rejected by all rules.', mon.name)
 
     def process_stop(self, stop):
         # type: (Events.StopEvent) -> None
@@ -656,42 +638,22 @@ class Manager(object):
             rules = {"default": Rule(
                 self._stop_filters.keys(), self._alarms.keys())}
 
+        rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
-            for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self._stop_filters.get(f_name)
-                passed = f.check_event(stop) and self.check_geofences(f, stop)
-                if not passed:
-                    continue  # go to next filter
-                stop.custom_dts = f.custom_dts
-                self._log.info("{} stop notification has been triggered "
-                               "in rule '{}'!".format(stop.name, r_name))
-                self._trigger_stop(stop, rule.alarm_names)
-                break  # Next rule
+            passed = self._check_filters(
+                stop, self._stop_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    stop, rule.alarm_names, 'pokestop_alert')
 
-    def _trigger_stop(self, stop, alarms):
-        # Generate the DTS for the event
-        dts = stop.generate_dts(self.__locale, self.__timezone, self.__units)
-
-        # Get GMaps Triggers
-        if self._gmaps_reverse_geocode:
-            dts.update(self._gmaps_service.reverse_geocode(
-                (stop.lat, stop.lng), self._language))
-        for mode in self._gmaps_distance_matrix:
-            dts.update(self._gmaps_service.distance_matrix(
-                mode, (stop.lat, stop.lng), self.__location,
-                self._language, self.__units))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for name in alarms:
-            alarm = self._alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(alarm.pokestop_alert, dts))
-            else:
-                self._log.critical("Alarm '{}' not found!".format(name))
-
-        for thread in threads:
-            thread.join()
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Stop %s passed %s rule(s) and triggered %s alarm(s).',
+                stop.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Stop %s rejected by all rules.', stop.name)
 
     def process_gym(self, gym):
         # type: (Events.GymEvent) -> None
@@ -736,42 +698,22 @@ class Manager(object):
             rules = {"default": Rule(
                 self._gym_filters.keys(), self._alarms.keys())}
 
+        rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
-            for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self._gym_filters.get(f_name)
-                passed = f.check_event(gym) and self.check_geofences(f, gym)
-                if not passed:
-                    continue  # go to next filter
-                gym.custom_dts = f.custom_dts
-                self._log.info("{} gym notification has been triggered "
-                               "in rule '{}'!".format(gym.name, r_name))
-                self._trigger_gym(gym, rule.alarm_names)
-                break  # Next rule
+            passed = self._check_filters(
+                gym, self._gym_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    gym, rule.alarm_names, 'gym_alert')
 
-    def _trigger_gym(self, gym, alarms):
-        # Generate the DTS for the event
-        dts = gym.generate_dts(self.__locale, self.__timezone, self.__units)
-
-        # Get GMaps Triggers
-        if self._gmaps_reverse_geocode:
-            dts.update(self._gmaps_service.reverse_geocode(
-                (gym.lat, gym.lng), self._language))
-        for mode in self._gmaps_distance_matrix:
-            dts.update(self._gmaps_service.distance_matrix(
-                mode, (gym.lat, gym.lng), self.__location,
-                self._language, self.__units))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for name in alarms:
-            alarm = self._alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(alarm.gym_alert, dts))
-            else:
-                self._log.critical("Alarm '{}' not found!".format(name))
-
-        for thread in threads:  # Wait for all alarms to finish
-            thread.join()
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Gym %s passed %s rule(s) and triggered %s alarm(s).',
+                gym.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Gym %s rejected by all rules.', gym.name)
 
     def process_egg(self, egg):
         # type: (Events.EggEvent) -> None
@@ -819,42 +761,22 @@ class Manager(object):
             rules = {
                 "default": Rule(self._egg_filters.keys(), self._alarms.keys())}
 
+        rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
-            for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self._egg_filters.get(f_name)
-                passed = f.check_event(egg) and self.check_geofences(f, egg)
-                if not passed:
-                    continue  # go to next filter
-                egg.custom_dts = f.custom_dts
-                self._log.info("{} egg notification has been triggered "
-                               "in rule '{}'!".format(egg.name, r_name))
-                self._trigger_egg(egg, rule.alarm_names)
-                break  # Next rule
+            passed = self._check_filters(
+                egg, self._egg_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    egg, rule.alarm_names, 'raid_egg_alert')
 
-    def _trigger_egg(self, egg, alarms):
-        # Generate the DTS for the event
-        dts = egg.generate_dts(self.__locale, self.__timezone, self.__units)
-
-        # Get GMaps Triggers
-        if self._gmaps_reverse_geocode:
-            dts.update(self._gmaps_service.reverse_geocode(
-                (egg.lat, egg.lng), self._language))
-        for mode in self._gmaps_distance_matrix:
-            dts.update(self._gmaps_service.distance_matrix(
-                mode, (egg.lat, egg.lng), self.__location,
-                self._language, self.__units))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for name in alarms:
-            alarm = self._alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(alarm.raid_egg_alert, dts))
-            else:
-                self._log.critical("Alarm '{}' not found!".format(name))
-
-        for thread in threads:  # Wait for all alarms to finish
-            thread.join()
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Egg %s passed %s rule(s) and triggered %s alarm(s).',
+                egg.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Egg %s rejected by all rules.', egg.name)
 
     def process_raid(self, raid):
         # type: (Events.RaidEvent) -> None
@@ -902,42 +824,22 @@ class Manager(object):
             rules = {"default": Rule(
                 self._raid_filters.keys(), self._alarms.keys())}
 
+        rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
-            for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self._raid_filters.get(f_name)
-                passed = f.check_event(raid) and self.check_geofences(f, raid)
-                if not passed:
-                    continue  # go to next filter
-                raid.custom_dts = f.custom_dts
-                self._log.info("{} raid notification has been triggered "
-                               "in rule '{}'!".format(raid.name, r_name))
-                self._trigger_raid(raid, rule.alarm_names)
-                break  # Next rule
+            passed = self._check_filters(
+                raid, self._raid_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    raid, rule.alarm_names, 'raid_alert')
 
-    def _trigger_raid(self, raid, alarms):
-        # Generate the DTS for the event
-        dts = raid.generate_dts(self.__locale, self.__timezone, self.__units)
-
-        # Get GMaps Triggers
-        if self._gmaps_reverse_geocode:
-            dts.update(self._gmaps_service.reverse_geocode(
-                (raid.lat, raid.lng), self._language))
-        for mode in self._gmaps_distance_matrix:
-            dts.update(self._gmaps_service.distance_matrix(
-                mode, (raid.lat, raid.lng), self.__location,
-                self._language, self.__units))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for name in alarms:
-            alarm = self._alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(alarm.raid_alert, dts))
-            else:
-                self._log.critical("Alarm '{}' not found!".format(name))
-
-        for thread in threads:  # Wait for all alarms to finish
-            thread.join()
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Raid %s passed %s rule(s) and triggered %s alarm(s).',
+                raid.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Raid %s rejected by all rules.', raid.name)
 
     # Check to see if a notification is within the given range
     def check_geofences(self, f, e):
