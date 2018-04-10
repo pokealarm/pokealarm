@@ -248,6 +248,9 @@ def parse_settings(root_path):
     if not args.quiet:
         setup_std_handler(root_logger)
 
+    # Setup file logging
+    if not os.path.exists(get_path('logs')):
+        os.mkdir(get_path('logs'))
     setup_file_handler(root_logger, args.log_file, args.log_size, args.log_ct)
 
     if args.debug:
@@ -404,4 +407,5 @@ def exit_gracefully():
 
 if __name__ == '__main__':
     log.info("PokeAlarm is getting ready...")
+
     start_server()
