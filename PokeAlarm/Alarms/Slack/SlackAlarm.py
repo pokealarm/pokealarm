@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import re
 
 # 3rd Party Imports
@@ -10,7 +9,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
     require_and_remove_key, reject_leftover_parameters, get_image_url
 
-log = logging.getLogger('Slack')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -66,7 +64,9 @@ class SlackAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings, static_map_key):
+    def __init__(self, mgr, settings, static_map_key):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__api_key = require_and_remove_key(
             'api_key', settings, "'Slack' type alarms.")
@@ -96,7 +96,7 @@ class SlackAlarm(Alarm):
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
 
-        log.info("Slack Alarm has been created!")
+        self._log.info("Slack Alarm has been created!")
 
     # Establish connection with Slack
     def connect(self):
@@ -108,7 +108,7 @@ class SlackAlarm(Alarm):
         if self.__startup_message:
             self.send_message(self.__default_channel, username="PokeAlarm",
                               text="PokeAlarm activated!")
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -174,16 +174,17 @@ class SlackAlarm(Alarm):
         response = self.__client.groups.list().body
         for channel in response['groups']:
             self.__channels[channel['name']] = channel['id']
-        log.debug("Detected the following Slack channnels: {}" .format(
+        self._log.debug("Detected the following Slack channnels: {}" .format(
             self.__channels))
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
         channel = SlackAlarm.channel_format(name)
         if channel not in self.__channels:
-            log.error("Detected no channel with the name '{}'." +
-                      " Trying the default channel '{}' instead.".format(
-                          channel, self.__default_channel))
+            self._log.error(
+                "Detected no channel with the name '{}'. "
+                "Trying the default channel '{}' instead."
+                "".format(channel, self.__default_channel))
             return self.__default_channel
         return channel
 
@@ -199,7 +200,7 @@ class SlackAlarm(Alarm):
             args['icon_url'] = icon_url
         if attachments is not None:
             args['attachments'] = attachments
-        try_sending(log, self.connect, "Slack",
+        try_sending(self._log, self.connect, "Slack",
                     self.__client.chat.post_message, args)
 
     # Returns a string s that is in proper channel format

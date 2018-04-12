@@ -1,6 +1,4 @@
 # Standard Library Imports
-import logging
-
 # 3rd Party Imports
 from pushbullet import PushBullet
 
@@ -9,7 +7,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
     reject_leftover_parameters
 
-log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -52,7 +49,9 @@ class PushbulletAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__api_key = require_and_remove_key(
             'api_key', settings, "'Pushbullet' type alarms.")
@@ -80,7 +79,7 @@ class PushbulletAlarm(Alarm):
         reject_leftover_parameters(
             settings, "Alarm level in Pushbullet alarm.")
 
-        log.info("Pushbullet Alarm has been created!")
+        self._log.info("Pushbullet Alarm has been created!")
 
     # Establish connection with Pushbullet
     def connect(self):
@@ -99,8 +98,9 @@ class PushbulletAlarm(Alarm):
                 "title": "PokeAlarm activated!",
                 "message": "PokeAlarm has successully started!"
             }
-            try_sending(log, self.connect, "PushBullet", self.push_note, args)
-            log.info("Startup message sent!")
+            try_sending(
+                self._log, self.connect, "PushBullet", self.push_note, args)
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -122,7 +122,8 @@ class PushbulletAlarm(Alarm):
             'url': replace(alert['url'], info),
             'body': replace(alert['body'], info)
         }
-        try_sending(log, self.connect, "PushBullet", self.push_link, args)
+        try_sending(
+            self._log, self.connect, "PushBullet", self.push_link, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -150,9 +151,10 @@ class PushbulletAlarm(Alarm):
             (channel for channel in self.__client.channels
              if channel.channel_tag == channel_tag), self.__client)
         if req_channel is self.__client and channel_tag is not None:
-            log.error("Unable to find channel.Pushing to all devices instead.")
+            self._log.error(
+                "Unable to find channel.Pushing to all devices instead.")
         else:
-            log.debug("Setting to channel %s." % channel_tag)
+            self._log.debug("Setting to channel %s." % channel_tag)
         return req_channel
 
     # Push a link to the given channel

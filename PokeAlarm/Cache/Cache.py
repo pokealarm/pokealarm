@@ -1,12 +1,9 @@
 # Standard Library Imports
-import logging
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
 from PokeAlarm.Utils import get_image_url
-
-log = logging.getLogger('Cache')
 
 
 class Cache(object):
@@ -18,8 +15,10 @@ class Cache(object):
 
     default_image_url = get_image_url("regular/gyms/0.png"),
 
-    def __init__(self):
+    def __init__(self, mgr):
         """ Initializes a new cache object for storing data between events. """
+        self._log = mgr.get_child_logger("cache")
+
         self._mon_hist = {}
         self._stop_hist = {}
         self._egg_hist = {}
@@ -98,4 +97,4 @@ class Cache(object):
                     old.append(key)
             for key in old:  # Remove expired events
                 del hist[key]
-        log.debug("Cache cleaned!")
+        self._log.debug("Cleared %s items from cache.", len(old))

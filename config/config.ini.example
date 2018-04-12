@@ -15,6 +15,11 @@
 #concurrency: 200               # Maximum concurrent connections to webserver (default=200)
 #manager_count: 1				# Number of Managers to run (default=1)
 #debug                          # Enable debug logging (default='False)
+#quiet                          # Disable output to stdin/stdout.
+#log-lvl: 3                     # Verbosity of the main logger (default=3)
+#log-file: logs/pokealarm.log   # File path of the main logger (default='logs/pokealam.log')
+#log-size: 100                  # Maximum size in mb of a log before rollover.
+#log-ct: 5                      # Maximum number of logs to keep.
 
 
 #########################
@@ -28,6 +33,13 @@
 # `None` can be used to exempt a Manager from an optional setting
 
 #manager_name:                  # Name of Manager, used for logging (default='manager#')
+
+# Logging Settings
+#####################
+#mgr-log-lvl: 3                 # Verbosity of a manager's logger (default=3)
+#mgr-log-file: logs/mgr.log     # Path of a file to attach to a manager's logger.
+#mgr-log-size: 100              # Maximum size (in mb) of a log before rollover.
+#mgr-log-ct: 5                  # Maximum number of older logs to keep.
 
 
 # File Settings

@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import requests
 from collections import namedtuple
 
@@ -9,8 +8,6 @@ from collections import namedtuple
 from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utilities import GenUtils as utils
 from PokeAlarm.Utils import require_and_remove_key, get_image_url
-
-log = logging.getLogger('Telegram')
 
 # 2 lazy 2 type
 try_sending = Alarm.try_sending
@@ -64,7 +61,9 @@ class TelegramAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self._bot_token = require_and_remove_key(
             'bot_token', settings, "'Telegram' type alarms.")
@@ -115,7 +114,7 @@ class TelegramAlarm(Alarm):
             raise ValueError("'{}' is not a recognized parameter for the Alarm"
                              " level in a Telegram Alarm".format(key))
 
-        log.info("Telegram Alarm has been created!")
+        self._log.info("Telegram Alarm has been created!")
 
     # (Re)establishes Telegram connection
     def connect(self):
@@ -174,7 +173,7 @@ class TelegramAlarm(Alarm):
         if self._startup_message:
             self.send_message(
                 self._bot_token, self._chat_id, "PokeAlarm activated!")
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Generic Telegram Alert
     def generic_alert(self, alert, dts):
@@ -184,7 +183,7 @@ class TelegramAlarm(Alarm):
         lat, lng = dts['lat'], dts['lng']
         max_attempts = alert.max_attempts
         sticker_url = replace(alert.sticker_url, dts)
-        log.debug(sticker_url)
+        self._log.debug(sticker_url)
         # Send Sticker
         if alert.sticker and sticker_url is not None:
             self.send_sticker(bot_token, chat_id, sticker_url, max_attempts)
@@ -234,8 +233,8 @@ class TelegramAlarm(Alarm):
             }
         }
         try_sending(
-            log, self.connect, "Telegram (STKR)", self.send_webhook, args,
-            max_attempts)
+            self._log, self.connect, "Telegram (STKR)", self.send_webhook,
+            args, max_attempts)
 
     def send_message(self, token, chat_id, message,
                      max_attempts=3, notify=True, web_preview=False):
@@ -250,8 +249,8 @@ class TelegramAlarm(Alarm):
             }
         }
         try_sending(
-            log, self.connect, "Telegram (MSG)", self.send_webhook, args,
-            max_attempts)
+            self._log, self.connect, "Telegram (MSG)", self.send_webhook,
+            args, max_attempts)
 
     def send_location(self, token, chat_id, lat, lng,
                       max_attempts=3, notify=False):
@@ -265,7 +264,7 @@ class TelegramAlarm(Alarm):
             }
         }
         try_sending(
-            log, self.connect, "Telegram (LOC)", self.send_webhook, args,
+            self._log, self.connect, "Telegram (LOC)", self.send_webhook, args,
             max_attempts)
 
     def send_venue(self, token, chat_id, lat, lng, message, max_attempts):
@@ -283,19 +282,19 @@ class TelegramAlarm(Alarm):
             }
         }
         try_sending(
-            log, self.connect, "Telegram (VEN)", self.send_webhook, args,
+            self._log, self.connect, "Telegram (VEN)", self.send_webhook, args,
             max_attempts)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):
-        log.debug(url)
-        log.debug(payload)
+        self._log.debug(url)
+        self._log.debug(payload)
         resp = requests.post(url, json=payload, timeout=30)
         if resp.ok is True:
-            log.debug("Notification successful (returned {})".format(
+            self._log.debug("Notification successful (returned {})".format(
                 resp.status_code))
         else:
-            log.debug("Telegram response was {}".format(resp.content))
+            self._log.debug("Telegram response was {}".format(resp.content))
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(
                     resp.status_code))

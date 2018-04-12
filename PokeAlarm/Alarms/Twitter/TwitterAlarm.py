@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import re
 from datetime import datetime
 
@@ -11,7 +10,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
     require_and_remove_key, reject_leftover_parameters
 
-log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 url_regex = re.compile(
@@ -52,7 +50,9 @@ class TwitterAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__token = require_and_remove_key(
             'access_token', settings, "'Twitter' type alarms.")
@@ -83,7 +83,7 @@ class TwitterAlarm(Alarm):
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
 
-        log.info("Twitter Alarm has been created!")
+        self._log.info("Twitter Alarm has been created!")
 
     # Establish connection with Twitter
     def connect(self):
@@ -98,8 +98,10 @@ class TwitterAlarm(Alarm):
             args = {
                 "status": "{}- PokeAlarm activated!" .format(timestamps[2])
             }
-            try_sending(log, self.connect, "Twitter", self.send_tweet, args)
-            log.info("Startup tweet sent!")
+            try_sending(
+                self._log, self.connect, "Twitter", self.send_tweet, args)
+
+            self._log.info("Startup tweet sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -130,7 +132,7 @@ class TwitterAlarm(Alarm):
         args = {
             "status": self.shorten(replace(alert['status'], info))
         }
-        try_sending(log, self.connect, "Twitter", self.send_tweet, args)
+        try_sending(self._log, self.connect, "Twitter", self.send_tweet, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):

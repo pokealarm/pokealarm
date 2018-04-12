@@ -399,7 +399,7 @@ def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
 
     if api_key is not None:
         map_ += ('&key=%s' % api_key)
-        log.debug("API_KEY added to static map url.")
+        # log.debug("API_KEY added to static map url.")
     return map_
 
 
@@ -440,7 +440,6 @@ def get_dist_as_str(dist, units):
 def get_earth_dist(pt_a, pt_b=None, units='imperial'):
     if type(pt_a) is str or pt_b is None:
         return 'unkn'  # No location set
-    log.debug("Calculating distance from {} to {}".format(pt_a, pt_b))
     lat_a = radians(pt_a[0])
     lng_a = radians(pt_a[1])
     lat_b = radians(pt_b[0])

@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 
 # 3rd Party Imports
 from twilio.rest import TwilioRestClient
@@ -9,7 +8,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
     reject_leftover_parameters
 
-log = logging.getLogger('Twilio')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -47,7 +45,9 @@ class TwilioAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__account_sid = require_and_remove_key(
             'account_sid', settings, "'Twilio' type alarms.")
@@ -78,7 +78,7 @@ class TwilioAlarm(Alarm):
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
 
-        log.info("Twilio Alarm has been created!")
+        self._log.info("Twilio Alarm has been created!")
 
     # (Re)establishes Twilio connection
     def connect(self):
@@ -92,7 +92,7 @@ class TwilioAlarm(Alarm):
                 from_num=self.__from_number,
                 body="PokeAlarm activated!"
             )
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def set_alert(self, settings, default):
@@ -143,5 +143,5 @@ class TwilioAlarm(Alarm):
                 'body': body
             }
             try_sending(
-                log, self.connect, "Twilio",
+                self._log, self.connect, "Twilio",
                 self.__client.messages.create, args)
