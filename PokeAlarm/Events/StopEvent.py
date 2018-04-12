@@ -5,7 +5,7 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_seconds_remaining, get_dist_as_str
+    get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str
 
 
 class StopEvent(BaseEvent):
@@ -62,6 +62,7 @@ class StopEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence
         })
         return dts

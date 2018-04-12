@@ -372,9 +372,15 @@ def get_gmaps_link(lat, lng):
 
 # Returns a String link to Apple Maps Pin at the location
 def get_applemaps_link(lat, lng):
-    latlon = '{},{}'.format(repr(lat), repr(lng))
+    latlng = '{},{}'.format(repr(lat), repr(lng))
     return 'http://maps.apple.com/maps?' \
-           + 'daddr={}&z=10&t=s&dirflg=w'.format(latlon)
+           + 'daddr={}&z=10&t=s&dirflg=w'.format(latlng)
+
+
+# Returns a String link to Waze Maps Navigation at the location
+def get_waze_link(lat, lng):
+    latlng = '{},{}'.format(repr(lat), repr(lng))
+    return 'https://waze.com/ul?navigate=yes&ll={}'.format(latlng)
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test

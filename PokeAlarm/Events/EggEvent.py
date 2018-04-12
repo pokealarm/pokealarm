@@ -3,7 +3,8 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_time_as_str, get_seconds_remaining, \
-    get_gmaps_link, get_applemaps_link, get_dist_as_str, get_weather_emoji
+    get_gmaps_link, get_applemaps_link, get_waze_link, get_dist_as_str, \
+    get_weather_emoji
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -86,6 +87,7 @@ class EggEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
             'weather_id': self.weather_id,
             'weather': weather_name,
