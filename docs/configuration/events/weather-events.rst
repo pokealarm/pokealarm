@@ -29,18 +29,19 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=============== ===========================================================================
-DTS             Description
-=============== ===========================================================================
-s2_cell_id      The id of the s2 cell. Unique per cell.
-weather_id      The id of the changed weather condition.
-weather_emoji   The emoji representing the changed weather condition.
-alert_id        The id that represents the severity of the weather.
-alert           The severity of the weather. (Example: ``Extreme``)
-alert_or_empty  The severity of the weather or nothing when there isn't and severe weather.
-day_or_night_id The id representing if it's day or night
-day_or_night    The current day type (Either day or night)
-=============== ===========================================================================
+================= ===========================================================================
+DTS               Description
+================= ===========================================================================
+s2_cell_id        The id of the s2 cell. Unique per cell.
+weather_id        The id of the changed weather condition.
+weather_emoji     The emoji representing the changed weather condition.
+severity_id       The id that represents the severity of the weather. (Either ``0``, ``1``,
+                  or ``3``
+severity          The severity of the weather. (Example: ``Extreme``)
+severity_or_empty The severity of the weather or nothing when there isn't and severe weather.
+day_or_night_id   The id representing if it's day or night
+day_or_night      The current day type (Either ``Day`` or ``Night``)
+================= ===========================================================================
 
 
 Location
