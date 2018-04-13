@@ -36,7 +36,8 @@ class TestWeatherFilter(unittest.TestCase):
     # Unsure if this webhook will send prbable missing info later
     # def test_missing_info(self):
     #     settings = {'is_missing_info': False, 'max_dist': 500}
-    #     weather_filter = Filters.WeatherFilter('missing_info_filter', settings)
+    #     weather_filter = Filters.WeatherFilter(
+    #           'missing_info_filter', settings)
     #     weather_event = Events.WeatherEvent(generate_weather({}))
     #     self.assertFalse(weather_filter.check_event(weather_event))
     #     for i in [0, 500]:
@@ -45,9 +46,9 @@ class TestWeatherFilter(unittest.TestCase):
     #     weather_event.distance = 'Unknown'
     #     self.assertFalse(weather_filter.check_event(weather_event))
 
-    def test_alert(self):
-        settings = {'alert': [1, "Extreme"]}
-        weather_filter = Filters.WeatherFilter('alert_filter', settings)
+    def test_severity(self):
+        settings = {'severity': [1, "Extreme"]}
+        weather_filter = Filters.WeatherFilter('severity_filter', settings)
         weather_event1 = Events.WeatherEvent(generate_weather({'severity': 1}))
         self.assertTrue(weather_filter.check_event(weather_event1))
         weather_event2 = Events.WeatherEvent(generate_weather({'severity': 0}))

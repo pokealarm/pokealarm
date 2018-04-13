@@ -1,5 +1,5 @@
 {
-  "alert": {
+  "severity": {
     "000": "Ninguno",
     "001": "Moderado",
     "003": "Extremo"

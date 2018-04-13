@@ -35,18 +35,17 @@ ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 locales_file = glob(get_path('../locales/en.json'))[0]
 data = json.loads(open(locales_file, 'rb+').read())
 
-teams_formatted = re.sub('[{}",]', '', json.dumps(
-    data['teams'], indent=2, sort_keys=True))
+teams_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['teams'], indent=2, sort_keys=True))
 
-weather_formatted = re.sub('[{}",]', '', json.dumps(
-    data['weather'], indent=2, sort_keys=True))
+weather_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['weather'], indent=2, sort_keys=True))
 
-alert_formatted = re.sub('[{}",]', '',
-                         json.dumps(data['alert'], indent=2, sort_keys=True))
+severity_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['severity'], indent=2, sort_keys=True))
 
-day_or_night_formatted = re.sub('[{}",]', '',
-                                json.dumps(data['day_or_night'],
-                                           indent=2, sort_keys=True))
+day_or_night_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['day_or_night'], indent=2, sort_keys=True))
 
 _cache = {}
 
@@ -402,8 +401,8 @@ elif type == whtypes["6"]:
     print "What type of weather would you like to report? (Default: 0)\n" +\
           weather_formatted + '\n>',
     int_or_default("gameplay_weather")
-    print "What type of alert status would you like? (Default: 0)\n" \
-          + alert_formatted + '\n>',
+    print "What type of severity status would you like? (Default: 0)\n" \
+          + severity_formatted + '\n>',
     int_or_default("severity")
     print "Day or night? (Put in number, Default: 1)\n" + \
           day_or_night_formatted + '\n>',

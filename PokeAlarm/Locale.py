@@ -91,12 +91,11 @@ class Locale(object):
         for _id, rarity in default["rarity"].iteritems():
             self.__rarity_names[int(_id)] = rarity_names.get(_id, rarity)
 
-
-        # Alert ID -> Alert Name
-        self.__alert_names = {}
-        alerts = info.get("alert", {})
-        for id_, val in default["alert"].iteritems():
-            self.__alert_names[int(id_)] = alerts.get(id_, val)
+        # Severity ID -> Severity Name
+        self.__severity_names = {}
+        severities = info.get("severity", {})
+        for id_, val in default["severity"].iteritems():
+            self.__severity_names[int(id_)] = severities.get(id_, val)
 
         # Day or Night ID -> Day or Night Name
         self.__day_or_night_names = {}
@@ -152,8 +151,8 @@ class Locale(object):
     def get_boosted_text(self):
         return self.__misc.get('boosted', '')
 
-    def get_alert_name(self, alert_id):
-        return self.__alert_names.get(alert_id, 'unknown')
+    def get_severity_name(self, severity_id):
+        return self.__severity_names.get(severity_id, 'unknown')
 
     def get_day_or_night(self, day_or_night_id):
         return self.__day_or_night_names.get(day_or_night_id, 'unknown')

@@ -39,8 +39,8 @@ class FileCache(Cache):
                 self._gym_name = data.get('gym_name', {})
                 self._gym_desc = data.get('gym_desc', {})
                 self._gym_image = data.get('gym_image', {})
-                self._weather_id = data.get('weather_id', {})
-                self._alert_id = data.get('alert_id', {})
+                self._cell_weather_id = data.get('cell_weather_id', {})
+                self._severity_id = data.get('severity_id', {})
                 self._day_or_night_id = data.get('day_or_night_id', {})
 
                 self._log.debug("Cache loaded successfully.")
@@ -62,8 +62,8 @@ class FileCache(Cache):
             'gym_name': self._gym_name,
             'gym_desc': self._gym_desc,
             'gym_image': self._gym_image,
-            'weather_id': self._weather_id,
-            'alert_id': self._alert_id,
+            'cell_weather_id': self._cell_weather_id,
+            'severity_id': self._severity_id,
             'day_or_night_id': self._day_or_night_id
         }
         try:

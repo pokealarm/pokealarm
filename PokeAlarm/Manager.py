@@ -1,4 +1,5 @@
 # Standard Library Imports
+fimport json
 import logging
 import logging.handlers
 import os
@@ -867,17 +868,12 @@ class Manager(object):
         # type: (Events.WeatherEvent) -> None
         """ Process a weather event and notify alarms if it passes. """
 
-        cache_weather_id = self.__cache.weather_id(weather.s2_cell_id)
-        cache_day_or_night_id = self.__cache.day_or_night_id(
-            weather.s2_cell_id)
-        cache_alert_id = self.__cache.alert_id(weather.s2_cell_id)
-
         # Set the name for this event so we can log rejects better
         weather.name = self.__locale.get_weather_name(weather.s2_cell_id)
 
         # Make sure that weather changes are enabled
         if self._weather_enabled is False:
-            log.debug("Weather ignored: weather change " +
+            log.debug("Weather ignored: weather change "
                       "notifications are disabled.")
             return
 
@@ -888,14 +884,28 @@ class Manager(object):
             weather.direction = get_cardinal_dir(
                 [weather.lat, weather.lng], self.__location)
 
+        # Store copy of cache info
+        cache_weather_id = self.__cache.cell_weather_id(weather.s2_cell_id)
+        cache_day_or_night_id = self.__cache.day_or_night_id(
+            weather.s2_cell_id)
+        cache_severity_id = self.__cache.severity_id(weather.s2_cell_id)
+
+        # Update cache info
+        self.__cache.cell_weather_id(weather.s2_cell_id,
+                                     weather.weather_id)
+        self.__cache.day_or_night_id(
+            weather.s2_cell_id, weather.day_or_night_id)
+        self.__cache.severity_id(weather.s2_cell_id, weather.severity_id)
+
         # Check and see if the weather hasn't changed and ignore
         if weather.weather_id == cache_weather_id and \
                 weather.day_or_night_id == cache_day_or_night_id and \
-                weather.alert_id == cache_alert_id:
+                weather.severity_id == cache_severity_id:
             log.debug("weather of %s, alert of %s, and day or night"
                       " of %s skipped: no change detected",
-                      weather.weather_id, weather.alert_id,
+                      weather.weather_id, weather.severity_id,
                       weather.day_or_night_id)
+            return
 
         # Check for Rules
         rules = self.__weather_rules

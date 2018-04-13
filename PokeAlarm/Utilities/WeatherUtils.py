@@ -6,26 +6,26 @@ import json
 from PokeAlarm.Utils import get_path
 
 
-def get_alert_id(alert_id):
+def get_severity_id(severity_id):
     try:
-        name = str(alert_id).lower()
-        if not hasattr(get_alert_id, 'ids'):
-            get_alert_id.ids = {}
+        name = str(severity_id).lower()
+        if not hasattr(get_severity_id, 'ids'):
+            get_severity_id.ids = {}
             files = glob(get_path('locales/*.json'))
             for file_ in files:
                 with open(file_, 'r') as f:
                     j = json.loads(f.read())
-                    j = j['alert']
+                    j = j['severity']
                     for id_ in j:
                         nm = j[id_].lower()
-                        get_alert_id.ids[nm] = int(id_)
-        if name in get_alert_id.ids:
-            return get_alert_id.ids[name]
+                        get_severity_id.ids[nm] = int(id_)
+        if name in get_severity_id.ids:
+            return get_severity_id.ids[name]
         else:
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
-                         " alert name or id.".format(alert_id))
+                         " severity name or id.".format(severity_id))
 
 
 def get_day_or_night_id(day_or_night_id):

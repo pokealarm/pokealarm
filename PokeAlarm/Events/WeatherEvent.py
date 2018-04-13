@@ -25,7 +25,7 @@ class WeatherEvent(BaseEvent):
 
         # Weather Info
         self.weather_id = data.get('condition') or data.get('gameplay_weather')
-        self.alert_id = data.get('alert_severity') or data.get('severity')
+        self.severity_id = data.get('alert_severity') or data.get('severity')
         self.day_or_night_id = data.get('day') or data.get('world_time')
 
         self.name = self.s2_cell_id
@@ -35,7 +35,7 @@ class WeatherEvent(BaseEvent):
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         weather_name = locale.get_weather_name(self.weather_id)
-        alert_locale = locale.get_alert_name(self.alert_id)
+        severity_locale = locale.get_severity_name(self.severity_id)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -59,10 +59,11 @@ class WeatherEvent(BaseEvent):
             'weather_id_3': "{:03}".format(self.weather_id),
             'weather': weather_name,
             'weather_emoji': get_weather_emoji(self.weather_id),
-            'alert_id': self.alert_id,
-            'alert_id_3': "{:03}".format(self.alert_id),
-            'alert': alert_locale,
-            'alert_or_empty': '' if self.alert_id is 0 else alert_locale,
+            'severity_id': self.severity_id,
+            'severity_id_3': "{:03}".format(self.severity_id),
+            'severity': severity_locale,
+            'severity_or_empty':
+                '' if self.severity_id is 0 else severity_locale,
             'day_or_night_id': self.day_or_night_id,
             'day_or_night_id_3': "{:03}".format(self.day_or_night_id),
             'day_or_night': locale.get_day_or_night(self.day_or_night_id)

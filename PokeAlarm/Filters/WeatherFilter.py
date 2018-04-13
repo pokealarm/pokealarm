@@ -25,16 +25,16 @@ class WeatherFilter(BaseFilter):
         # Weather filters
         self.weather = self.evaluate_attribute(
             event_attribute='weather_id', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(get_weather_id, 'weather',
-                                          data))
+            limit=BaseFilter.parse_as_set(
+                get_weather_id, 'weather', data))
         self.day_or_night = self.evaluate_attribute(
             event_attribute='day_or_night_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
                 WeatherUtils.get_day_or_night_id, 'day_or_night', data))
-        self.alert = self.evaluate_attribute(
-            event_attribute='alert_id', eval_func=operator.contains,
+        self.severity = self.evaluate_attribute(
+            event_attribute='severity_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                WeatherUtils.get_alert_id, 'alert', data))
+                WeatherUtils.get_severity_id, 'severity', data))
 
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
@@ -71,7 +71,7 @@ class WeatherFilter(BaseFilter):
             settings['weather'] = self.weather
         if self.day_or_night is not None:
             settings['day_or_night'] = self.day_or_night
-        if self.alert is not None:
-            settings['alert'] = self.alert
+        if self.severity is not None:
+            settings['severity'] = self.severity
 
         return settings
