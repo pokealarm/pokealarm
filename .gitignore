@@ -21,3 +21,5 @@ logs/*
 
 # OS files
 .DS_Store
+.vs/*
+.gitignore
