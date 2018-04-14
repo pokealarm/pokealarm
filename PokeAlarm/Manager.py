@@ -842,6 +842,7 @@ class Manager(object):
             self._rule_log.info('Raid %s rejected by all rules.', raid.name)
 
     # Check to see if a notification is within the given range
+    # TODO: Move this into filters and add unit tests
     def check_geofences(self, f, e):
         """ Returns true if the event passes the filter's geofences. """
         if self.geofences is None or f.geofences is None:  # No geofences set
@@ -861,7 +862,7 @@ class Manager(object):
                 return True
             else:  # e not in gf
                 self._log.debug("%s not in %s.", e.name, name)
-        f.reject(e, "not in geofences")
+        self._log.debug("%s rejected from filter by geofences.", e.name)
         return False
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
