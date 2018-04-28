@@ -27,7 +27,8 @@ whtypes = {
     "2": "pokestop",
     "3": "gym",
     "4": "egg",
-    "5": "raid"
+    "5": "raid",
+    "6": "weather"
 }
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -39,6 +40,13 @@ teams_formatted = re.sub('[{}",]', '', json.dumps(
 
 weather_formatted = re.sub('[{}",]', '', json.dumps(
     data['weather'], indent=2, sort_keys=True))
+
+alert_formatted = re.sub('[{}",]', '',
+                         json.dumps(data['alert'], indent=2, sort_keys=True))
+
+day_or_night_formatted = re.sub('[{}",]', '',
+                                json.dumps(data['day_or_night'],
+                                           indent=2, sort_keys=True))
 
 _cache = {}
 
@@ -130,6 +138,18 @@ def set_init(webhook_type):
                 "latitude": 37.7876146,
                 "longitude": -122.390624,
                 "weather": 0
+            }
+        }
+    elif webhook_type == whtypes["6"]:
+        payloadr = {
+            "type": "weather",
+            "message": {
+                "s2_cell_id": current_time,
+                "latitude": 37.7876146,
+                "longitude": -122.390624,
+                "gameplay_weather": 0,
+                "severity": 0,
+                "world_time": 1
             }
         }
 
@@ -378,6 +398,16 @@ elif type == whtypes["5"]:
     print "What type of weather? (put in a number)\n" + \
           weather_formatted + "\n>",
     int_or_default("weather")
+elif type == whtypes["6"]:
+    print "What type of weather would you like to report? (Default: 0)\n" +\
+          weather_formatted + '\n>',
+    int_or_default("gameplay_weather")
+    print "What type of alert status would you like? (Default: 0)\n" \
+          + alert_formatted + '\n>',
+    int_or_default("severity")
+    print "Day or night? (Put in number, Default: 1)\n" + \
+          day_or_night_formatted + '\n>',
+    int_or_default("world_time")
 
 if type in ["4", "5"]:
     print "What level of raid/egg? (1-5)\n>",

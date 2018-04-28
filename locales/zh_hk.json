@@ -1,4 +1,9 @@
 {
+  "alert": {
+    "000": "\u6c92\u6709",
+    "001": "\u6eab\u548c",
+    "003": "\u6975\u7aef"
+  },
   "costumes": {
     "025": {
       "001": "\u8056\u8a95\u5e3d", 
@@ -18,6 +23,10 @@
       "003": "\u5c0f\u667a\u5e3d", 
       "004": "\u5deb\u5e2b\u5e3d"
     }
+  },
+  "day_or_night": {
+    "001": "\u65e9\u4e0a",
+    "002": "\u665a\u4e0a"
   },
   "leaders": {
     "000": "Professor Willow (\u7dad\u7f85\u535a)", 

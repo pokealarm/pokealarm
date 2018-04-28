@@ -60,6 +60,10 @@ class Alarm(object):
     def raid_alert(self, pokeraid_info):
         raise NotImplementedError('Raid Alert is not implemented.')
 
+    # Trigger an alert when the weather has changed for an s2 cell
+    def weather_alert(self, pokeweather_info):
+        raise NotImplementedError('Weather Alert is not implemented.')
+
     # Return a version of the string with the correct substitutions made
     @staticmethod
     def replace(string, pkinfo):

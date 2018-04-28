@@ -72,6 +72,7 @@ class Manager(object):
         self._ignore_neutral = False
         self._eggs_enabled, self._egg_filters = False, OrderedDict()
         self._raids_enabled, self._raid_filters = False, OrderedDict()
+        self._weather_enabled, self._weather_filters = False, OrderedDict()
 
         # Create the Geofences to filter with from given file
         self.geofences = None
@@ -87,6 +88,7 @@ class Manager(object):
         self.__gym_rules = {}
         self.__egg_rules = {}
         self.__raid_rules = {}
+        self.__weather_rules = {}
 
         # Initialize the queue and start the process
         self.__queue = Queue()
@@ -394,6 +396,24 @@ class Manager(object):
 
         self.__raid_rules[name] = Rule(filters, alarms)
 
+    # Add new Weather Rule
+    def add_weather_rule(self, name, filters, alarms):
+        if name in self.__weather_rules:
+            raise ValueError("Unable to add Rule: Weather Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self._weather_filters:
+                raise ValueError("Unable to create Rule: No Weather Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__weather_rules[name] = Rule(filters, alarms)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -460,6 +480,8 @@ class Manager(object):
                     self.process_egg(event)
                 elif kind == Events.RaidEvent:
                     self.process_raid(event)
+                elif kind == Events.WeatherEvent:
+                    self.process_weather(event)
                 else:
                     self._log.error(
                         "!!! Manager does not support {} events!".format(kind))
@@ -840,6 +862,87 @@ class Manager(object):
                 raid.name, rule_ct, alarm_ct)
         else:
             self._rule_log.info('Raid %s rejected by all rules.', raid.name)
+
+    def process_weather(self, weather):
+        # type: (Events.WeatherEvent) -> None
+        """ Process a weather event and notify alarms if it passes. """
+
+        cache_weather_id = self.__cache.weather_id(weather.s2_cell_id)
+        cache_day_or_night_id = self.__cache.day_or_night_id(
+            weather.s2_cell_id)
+        cache_alert_id = self.__cache.alert_id(weather.s2_cell_id)
+
+        # Set the name for this event so we can log rejects better
+        weather.name = self.__locale.get_weather_name(weather.s2_cell_id)
+
+        # Make sure that weather changes are enabled
+        if self._weather_enabled is False:
+            log.debug("Weather ignored: weather change " +
+                      "notifications are disabled.")
+            return
+
+        # Calculate distance and direction
+        if self.__location is not None:
+            weather.distance = get_earth_dist(
+                [weather.lat, weather.lng], self.__location, self.__units)
+            weather.direction = get_cardinal_dir(
+                [weather.lat, weather.lng], self.__location)
+
+        # Check and see if the weather hasn't changed and ignore
+        if weather.weather_id == cache_weather_id and \
+                weather.day_or_night_id == cache_day_or_night_id and \
+                weather.alert_id == cache_alert_id:
+            log.debug("weather of %s, alert of %s, and day or night"
+                      " of %s skipped: no change detected",
+                      weather.weather_id, weather.alert_id,
+                      weather.day_or_night_id)
+
+        # Check for Rules
+        rules = self.__weather_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self._weather_filters.keys(), self.__alarms.keys())}
+
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self._weather_filters.get(f_name)
+                passed = \
+                    f.check_event(weather) and self.check_geofences(f, weather)
+                if not passed:
+                    continue  # go to next filter
+                weather.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} weather notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(weather.name, r_name))
+                self._trigger_weather(weather, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_weather(self, weather, alarms):
+        # Generate the DTS for the event
+        dts = weather.generate_dts(self.__locale, self.__timezone,
+                                   self.__units)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (weather.lat, weather.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (weather.lat, weather.lng), self.__location,
+                self._language, self.__units))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.weather_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
+
+        for thread in threads:  # Wait for all alarms to finish
+            thread.join()
 
     # Check to see if a notification is within the given range
     # TODO: Move this into filters and add unit tests

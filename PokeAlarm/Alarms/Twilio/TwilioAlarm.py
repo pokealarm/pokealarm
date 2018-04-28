@@ -41,6 +41,10 @@ class TwilioAlarm(Alarm):
         'raids': {
             'message': "Level <raid_lvl> raid against <mon_name>! <gmaps>"
                        " Available until <24h_raid_end> (<raid_time_left>)."
+        },
+        'weather': {
+            'message': "The weather around <lat>,<lng> has"
+                       " changed to <weather>!"
         }
     }
 
@@ -74,6 +78,8 @@ class TwilioAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.set_alert(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.set_alert(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
@@ -131,6 +137,10 @@ class TwilioAlarm(Alarm):
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
+
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
 
     # Send a SMS message
     def send_sms(self, to_num, from_num, body):
