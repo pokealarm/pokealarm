@@ -9,7 +9,7 @@ from PokeAlarm.Utils import (
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_time_as_str, get_seconds_remaining,
     get_base_types, get_dist_as_str, get_weather_emoji,
-    get_type_emoji)
+    get_type_emoji, get_waze_link)
 from . import BaseEvent
 
 
@@ -166,6 +166,7 @@ class MonEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
 
             # Weather

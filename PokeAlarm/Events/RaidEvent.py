@@ -8,7 +8,7 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_seconds_remaining, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
-    get_base_types, get_weather_emoji, get_type_emoji
+    get_base_types, get_weather_emoji, get_type_emoji, get_waze_link
 
 
 class RaidEvent(BaseEvent):
@@ -157,6 +157,7 @@ class RaidEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
 
             # Weather
