@@ -130,6 +130,7 @@ distance      Distance of the raid from the set location.
 direction     Cardinal direction of the raid, from the set location.
 gmaps         Google Maps link to the location of the raid.
 applemaps     Apple Maps link to the location of the raid.
+waze          Waze link to the location of the raid.
 geofence      Geofence around the event.
 ============= =======================================================
 

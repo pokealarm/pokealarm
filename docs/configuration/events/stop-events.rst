@@ -55,6 +55,7 @@ distance     Distance of the stop from the set location.
 direction    Cardinal direction of the stop, from the set location.
 gmaps        Google Maps link to the location of the stop.
 applemaps    Apple Maps link to the location of the stop.
+waze         Waze link to the location of the stop.
 geofence     Geofence around the event.
 ============ ======================================================
 
