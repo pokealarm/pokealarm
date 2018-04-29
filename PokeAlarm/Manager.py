@@ -1,5 +1,5 @@
 # Standard Library Imports
-fimport json
+import json
 import logging
 import logging.handlers
 import os
@@ -291,6 +291,21 @@ class Manager(object):
         self._raid_filters[name] = f
         self._log.debug("Raid filter '%s' set: %s", name, f)
 
+    # Enable/Disable Weather notifications
+    def set_weather_enabled(self, boolean):
+        self._weather_enabled = parse_bool(boolean)
+        self._log.debug("Weather notifications %s!",
+                        "enabled" if self._weather_enabled else "disabled")
+
+    # Add new Weather Filter
+    def add_weather_filter(self, name, settings):
+        if name in self._weather_filters:
+            raise ValueError("Unable to add Weather Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.WeatherFilter(self, name, settings)
+        self._weather_filters[name] = f
+        self._log.debug("Weather filter '%s' set: %s", name, f)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ALARMS API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -409,7 +424,7 @@ class Manager(object):
                                  "named {}!".format(filt))
 
         for alarm in alarms:
-            if alarm not in self.__alarms:
+            if alarm not in self._alarms:
                 raise ValueError("Unable to create Rule: No Alarm "
                                  "named {}!".format(alarm))
 
@@ -873,7 +888,7 @@ class Manager(object):
 
         # Make sure that weather changes are enabled
         if self._weather_enabled is False:
-            log.debug("Weather ignored: weather change "
+            self._log.debug("Weather ignored: weather change "
                       "notifications are disabled.")
             return
 
@@ -901,7 +916,7 @@ class Manager(object):
         if weather.weather_id == cache_weather_id and \
                 weather.day_or_night_id == cache_day_or_night_id and \
                 weather.severity_id == cache_severity_id:
-            log.debug("weather of %s, alert of %s, and day or night"
+            self._log.debug("weather of %s, alert of %s, and day or night"
                       " of %s skipped: no change detected",
                       weather.weather_id, weather.severity_id,
                       weather.day_or_night_id)
@@ -911,48 +926,24 @@ class Manager(object):
         rules = self.__weather_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                self._weather_filters.keys(), self.__alarms.keys())}
+                self._weather_filters.keys(), self._alarms.keys())}
 
+        rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
-            for f_name in rule.filter_names:  # Check Filters in Rules
-                f = self._weather_filters.get(f_name)
-                passed = \
-                    f.check_event(weather) and self.check_geofences(f, weather)
-                if not passed:
-                    continue  # go to next filter
-                weather.custom_dts = f.custom_dts
-                if self.__quiet is False:
-                    log.info("{} weather notification"
-                             " has been triggered in rule '{}'!"
-                             "".format(weather.name, r_name))
-                self._trigger_weather(weather, rule.alarm_names)
-                break  # Next rule
+            passed = self._check_filters(
+                weather, self._raid_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    weather, rule.alarm_names, 'weather_alert')
 
-    def _trigger_weather(self, weather, alarms):
-        # Generate the DTS for the event
-        dts = weather.generate_dts(self.__locale, self.__timezone,
-                                   self.__units)
-
-        # Get GMaps Triggers
-        if self._gmaps_reverse_geocode:
-            dts.update(self._gmaps_service.reverse_geocode(
-                (weather.lat, weather.lng), self._language))
-        for mode in self._gmaps_distance_matrix:
-            dts.update(self._gmaps_service.distance_matrix(
-                mode, (weather.lat, weather.lng), self.__location,
-                self._language, self.__units))
-
-        threads = []
-        # Spawn notifications in threads so they can work in background
-        for name in alarms:
-            alarm = self.__alarms.get(name)
-            if alarm:
-                threads.append(gevent.spawn(alarm.weather_alert, dts))
-            else:
-                log.critical("Alarm '{}' not found!".format(name))
-
-        for thread in threads:  # Wait for all alarms to finish
-            thread.join()
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Weather %s passed %s rule(s) and triggered %s alarm(s).',
+                weather.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Weather %s rejected by all rules.', weather.name)
 
     # Check to see if a notification is within the given range
     # TODO: Move this into filters and add unit tests

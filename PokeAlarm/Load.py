@@ -78,6 +78,13 @@ def parse_filters_file(mgr, filename):
         for name, f in filters.iteritems():
             mgr.add_raid_filter(name, f)
 
+        # Load Weather Section
+        section = filters_file.pop('weather', {'enabled': False})
+        mgr.set_weather_enabled(section.pop('enabled', True))
+        filters = parse_filter_section(section)
+        for name, f in filters.iteritems():
+            mgr.add_weather_filter(name, f)
+
         return  # exit function
 
     except Exception as e:
