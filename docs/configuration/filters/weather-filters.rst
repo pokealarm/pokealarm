@@ -19,7 +19,7 @@ This page assumes:
 Introduction
 -------------------------------------
 
-The ``"weather"`` section has three distinct settings.
+The ``"weather"`` section has three distinct sections.
 
 +----------------------+-----------------------------------------------------------+
 | Setting Name         | Description                                               |

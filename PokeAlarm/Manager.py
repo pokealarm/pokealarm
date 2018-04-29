@@ -931,7 +931,7 @@ class Manager(object):
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.iteritems():  # For all rules
             passed = self._check_filters(
-                weather, self._raid_filters, rule.filter_names)
+                weather, self._weather_filters, rule.filter_names)
             if passed:
                 rule_ct += 1
                 alarm_ct += len(rule.alarm_names)

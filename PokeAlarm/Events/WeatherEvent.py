@@ -2,7 +2,7 @@
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_dist_as_str, get_weather_emoji
+    get_dist_as_str, get_weather_emoji, get_waze_link
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -53,6 +53,7 @@ class WeatherEvent(BaseEvent):
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'waze': get_waze_link(self.lat, self.lng),
 
             # Weather Info
             'weather_id': self.weather_id,

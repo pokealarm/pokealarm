@@ -1,4 +1,4 @@
-Stops
+Weather
 =====================================
 
 .. contents:: Table of Contents
@@ -52,16 +52,17 @@ Location
     Geofences are only evaluated per Filter - ``<geofence>`` will be unknown if
     it passes through a Filter without a ``geofences`` restriction applied.
 
-============ ======================================================================
+============ =======================================================================
 DTS          Description
-============ ======================================================================
+============ =======================================================================
 lat          Latitude of the center of the s2 cell.
 lng          Longitude of the center of the s2 cell.
 lat_5        Latitude of the center of the s2 cell, truncated to 5 decimal places.
 lng_5        Longitude of the center of the s2 cell, truncated to 5 decimal places.
 distance     Distance to the center of the s2 cell from the set location.
-direction    Cardinal direction of the stop, from the set location.
+direction    Cardinal direction of the center of the s2 cell from the set location.
 gmaps        Google Maps link to the center of the s2 cell.
 applemaps    Apple Maps link to the center of the s2 cell.
+waze         Waze link to the center of the s2 cell.
 geofence     Geofence around the event.
-============ ======================================================================
+============ =======================================================================
