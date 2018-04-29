@@ -36,19 +36,22 @@
     Waze app
 * **Monsters**
   * Added `rarity` dts for scanners that properly support dynamic rarity
+    via webhook.
 * **Weather**
   * Added a new Event to handle weather changes! This event represents
     a a change in weather for a location. For more information check out
-    the [Weather Events](../events/weather-events.html) page.
+    the [Weather Events](../configuration/events/weather-events.html)
+    page.
 
 ### Filters
 * **Monsters**
   * Added `rarity` restriction for scanners that properly support
-    dynamic rarity
+    dynamic rarity via weebhook.
 * **Weather**
   * Added a filters to handle the new Weather Events. For more
     information check out the
-    [Weather Filters](../filters/weather-filters.html) page.
+    [Weather Filters](../configuration/filters/weather-filters.html)
+    page.
 
 ### Alarms
 * No changes
