@@ -2,6 +2,7 @@
 
 ## Patch History
 
+* [Patch 3.8](#patch-3-8)
 * [Patch 3.7](#patch-3-7)
 * [Patch 3.6](#patch-3-6)
 * [Patch 3.5](#patch-3-5)
@@ -11,6 +12,43 @@
 * [Patch 3.1](#patch-3-1)
 
 ---
+
+## Patch 3.8
+
+### Server Settings
+* **Logging Rework**
+  * The 'main' logger represents logging from the entire application,
+    including webserver and managers that are attached.
+  * `log-lvl`- Verbosity of the main logger (default=3)
+  * `log-file` - File path of the main logger
+    (default='logs/pokealam.log')
+  * `log-size` - Maximum size (in mb) of a log before rollover
+  * `log-ct` - Maximum number of older logs to keep.
+  * The 'manager' loggers are attached to each individual manager
+  * `mgr-log-lvl` - Verbosity of a manager's logger (default=3)
+  * `mgr-file-lvl` - Path of a file to attach to a manager's logger.
+  * `mgr-log-size` - Maximum size (in mb) of a log before rollover
+  * `mgr-log-ct` - Maximum number of older logs to keep.
+
+### Events
+* **All Events**
+  * Added 'waze' dts to provide link event location to waze app
+* **Monsters**
+  * Added `rarity` dts for scanners that properly support dynamic rarity
+* **Weather**
+  * Added a new Event to handle weather changes! This event represents
+    an S2 cell location's weather changing.
+
+### Filters
+* **Monsters**
+  * Added `rarity` restriction for scanners that properly support
+    dynamic rarity
+
+### Alarms
+* No changes
+
+### Misc
+* No changes
 
 ## Patch 3.7
 
