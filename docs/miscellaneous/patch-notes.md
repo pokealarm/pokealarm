@@ -32,7 +32,8 @@
 
 ### Events
 * **All Events**
-  * Added 'waze' dts to provide link event location to waze app
+  * Added `waze` dts to provide a deep link to the event location in the
+    Waze app
 * **Monsters**
   * Added `rarity` dts for scanners that properly support dynamic rarity
 * **Weather**
