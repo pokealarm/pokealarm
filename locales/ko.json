@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "\uc5c6\uc74c",
+    "001": "\ubcf4\ud1b5\uc758",
+    "003": "\uadf9\ub2e8"
+  },
   "costumes": {
     "025": {
       "001": "\ucd95\uc81c \ubaa8\uc790", 
@@ -18,7 +23,11 @@
       "003": "Ash \ubaa8\uc790", 
       "004": "\ub9c8\ub140 \ubaa8\uc790"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "\uc77c",
+    "002": "\ubc24"
+  },
   "leaders": {
     "000": "\uc70c\ub85c\uc6b0\ubc15\uc0ac", 
     "001": "\ube14\ub791\uc26c", 

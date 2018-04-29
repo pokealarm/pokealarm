@@ -27,6 +27,9 @@ class Cache(object):
         self._gym_name = {}
         self._gym_desc = {}
         self._gym_image = {}
+        self._cell_weather_id = {}
+        self._severity_id = {}
+        self._day_or_night_id = {}
 
     def monster_expiration(self, mon_id, expiration=None):
         """ Update and return the datetime that a monster expires."""
@@ -75,6 +78,24 @@ class Cache(object):
         if Unknown.is_not(gym_image):
             self._gym_image[gym_id] = gym_image
         return self._gym_image.get(gym_id, get_image_url('icons/gym_0.png'))
+
+    def cell_weather_id(self, s2_cell_id, cell_weather_id=Unknown.REGULAR):
+        """ Update and return weather_id for a cell """
+        if Unknown.is_not(cell_weather_id):
+            self._cell_weather_id[s2_cell_id] = cell_weather_id
+        return self._cell_weather_id.get(s2_cell_id, Unknown.REGULAR)
+
+    def severity_id(self, s2_cell_id, severity_id=Unknown.REGULAR):
+        """ Update and return severity_id for a cell """
+        if Unknown.is_not(severity_id):
+            self._severity_id[s2_cell_id] = severity_id
+        return self._severity_id.get(s2_cell_id, Unknown.REGULAR)
+
+    def day_or_night_id(self, s2_cell_id, day_or_night_id=Unknown.REGULAR):
+        """ Update and return day_or_night_id for a cell """
+        if Unknown.is_not(day_or_night_id):
+            self._day_or_night_id[s2_cell_id] = day_or_night_id
+        return self._day_or_night_id.get(s2_cell_id, Unknown.REGULAR)
 
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """

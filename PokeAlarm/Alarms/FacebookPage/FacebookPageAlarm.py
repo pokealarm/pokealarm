@@ -67,6 +67,16 @@ class FacebookPageAlarm(Alarm):
                 "The raid is available until <24h_raid_end>"
                 " (<raid_time_left>).",
             'caption': None
+        },
+        'weather': {
+            'message': 'The weather has changed!',
+            "image": get_image_url("regular/weather/<weather_id_3>"
+                                   "_<day_or_night_id_3>.png"),
+            "link": "<gmaps>",
+            'name': "Weather",
+            'description': "The weather around <lat>,<lng>"
+                           " has changed to <weather>!",
+            'caption': None
         }
     }
 
@@ -94,6 +104,8 @@ class FacebookPageAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raids = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -162,6 +174,10 @@ class FacebookPageAlarm(Alarm):
     # Trigger an alert based on Raid info
     def raid_alert(self, raid_info):
         self.send_alert(self.__raids, raid_info)
+
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
 
     # Sends a wall post to Facebook
     def post_to_wall(self, message, attachment=None):

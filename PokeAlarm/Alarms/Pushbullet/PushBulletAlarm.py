@@ -45,6 +45,11 @@ class PushbulletAlarm(Alarm):
             'url': "<gmaps>",
             'body': "The raid is available until <24h_raid_end>"
                     " (<raid_time_left>)."
+        },
+        'weather': {
+            'title': "The weather has changed!",
+            'url': "<gmaps>",
+            'body': "The weather around <lat>,<lng> has changed to <weather>!"
         }
     }
 
@@ -74,6 +79,8 @@ class PushbulletAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -90,6 +97,7 @@ class PushbulletAlarm(Alarm):
         self.__gym['sender'] = self.get_sender(self.__gym['channel'])
         self.__egg['sender'] = self.get_sender(self.__egg['channel'])
         self.__raid['sender'] = self.get_sender(self.__raid['channel'])
+        self.__weather['sender'] = self.get_sender(self.__weather['channel'])
 
     def startup_message(self):
         if self.__startup_message:
@@ -144,6 +152,10 @@ class PushbulletAlarm(Alarm):
     # Trigger an alert based on Gym info
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
+
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
 
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):

@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "Aucun",
+    "001": "Mod\u00E9r\u00E9",
+    "003": "Extr\u00EAme"
+  },
   "costumes": {
     "025": {
       "001": "Chapeau de Vacances", 
@@ -18,7 +23,11 @@
       "003": "Chapeau de Ash", 
       "004": "Chapeau de Sorci\u00e8re"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "Jour",
+    "002": "Nuit"
+  },
   "leaders": {
     "000": "Professeur Saule", 
     "001": "Blanche", 

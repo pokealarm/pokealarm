@@ -46,6 +46,10 @@ class TwitterAlarm(Alarm):
         'raids': {
             'status': "Raid <raid_lvl> against <mon_name>! Available until "
                       "<24h_raid_end> (<raid_time_left>). <gmaps>"
+        },
+        'weather': {
+            'status': "The weather around <lat>,<lng> has changed"
+                      " to <weather>!"
         }
     }
 
@@ -79,6 +83,8 @@ class TwitterAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
@@ -153,6 +159,10 @@ class TwitterAlarm(Alarm):
     # Trigger an alert based on Gym info
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
+
+    # Trigger an alert based on weather webhook
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
 
     # Send out a tweet with the given status
     def send_tweet(self, status):

@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "Ninguno",
+    "001": "Moderado",
+    "003": "Extremo"
+  },
   "costumes": {
     "025": {
       "001": "Gorra festiva", 
@@ -18,7 +23,11 @@
       "003": "Gorra de Ash", 
       "004": "Sombrero de Bruja"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "D\u00EDa",
+    "002": "Noche"
+  },
   "leaders": {
     "000": "Profesor Willow", 
     "001": "Blanche", 

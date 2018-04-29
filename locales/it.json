@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "Nessuno",
+    "001": "Moderato",
+    "003": "Estremo"
+  },
   "costumes": {
     "025": {
       "001": "Cappello Festiva", 
@@ -18,7 +23,11 @@
       "003": "Cappello di Ash", 
       "004": "Cappello da Strega"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "Giorno",
+    "002": "Notte"
+  },
   "leaders": {
     "000": "Professor Willow", 
     "001": "Blanche", 

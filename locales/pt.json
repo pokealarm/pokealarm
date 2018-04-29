@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "Nenhum",
+    "001": "Moderado",
+    "003": "Extremo"
+  },
   "costumes": {
     "025": {
       "001": "Chap\u00e9u Festiva", 
@@ -18,7 +23,11 @@
       "003": "Chap\u00e9u de Ash", 
       "004": "Chap\u00e9u da Bruxa"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "Dia",
+    "002": "Noite"
+  },
   "leaders": {
     "000": "Professor Willow", 
     "001": "Blanche", 

@@ -78,6 +78,13 @@ def parse_filters_file(mgr, filename):
         for name, f in filters.iteritems():
             mgr.add_raid_filter(name, f)
 
+        # Load Weather Section
+        section = filters_file.pop('weather', {'enabled': False})
+        mgr.set_weather_enabled(section.pop('enabled', True))
+        filters = parse_filter_section(section)
+        for name, f in filters.iteritems():
+            mgr.add_weather_filter(name, f)
+
         return  # exit function
 
     except Exception as e:
@@ -173,6 +180,8 @@ def parse_rules_file(manager, filename):
         load_rules_section(manager.add_egg_rule, rules.pop('eggs', {}))
         log.debug("Parsing 'raids' section.")
         load_rules_section(manager.add_raid_rule, rules.pop('raids', {}))
+        log.debug("Parsing 'weather' section.")
+        load_rules_section(manager.add_weather_rule, rules.pop('weather', {}))
 
         for key in rules:
             raise ValueError("Unknown Event type '{}'. Rules must be defined "

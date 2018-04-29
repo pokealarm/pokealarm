@@ -83,6 +83,8 @@ default rule.
       "eggs":{
       },
       "raids":{
+      },
+      "weather":{
       }
     }
 
