@@ -34,11 +34,9 @@
 <!---
  Please describe in detail how you tested your changes. Make sure to
  describe what tests you have performed, your testing environment,
- and if you have used this in a production setting.
+ and if you have used this in a production setting. Please add
+ screenshots if appropriate.
 -->
-
-## Screenshots (if appropriate):
-
 
 ## Wiki Update
 <!--
@@ -49,8 +47,3 @@
 --->
 - [ ] This change requires an update to the Wiki.
 - [ ] This change does not require an update to the Wiki.
-
-
-## Checklist
-- [ ] This change follows the code style of this project.
-- [ ] This change only changes what is necessary to the feature.
