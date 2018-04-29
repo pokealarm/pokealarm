@@ -1,5 +1,4 @@
 # Standard Library Imports
-import json
 import logging
 import logging.handlers
 import os
@@ -889,7 +888,7 @@ class Manager(object):
         # Make sure that weather changes are enabled
         if self._weather_enabled is False:
             self._log.debug("Weather ignored: weather change "
-                      "notifications are disabled.")
+                            "notifications are disabled.")
             return
 
         # Calculate distance and direction
@@ -916,10 +915,11 @@ class Manager(object):
         if weather.weather_id == cache_weather_id and \
                 weather.day_or_night_id == cache_day_or_night_id and \
                 weather.severity_id == cache_severity_id:
-            self._log.debug("weather of %s, alert of %s, and day or night"
-                      " of %s skipped: no change detected",
-                      weather.weather_id, weather.severity_id,
-                      weather.day_or_night_id)
+            self._log.debug(
+                "weather of %s, alert of %s, and day or night of %s skipped: "
+                "no change detected",
+                weather.weather_id, weather.severity_id,
+                weather.day_or_night_id)
             return
 
         # Check for Rules
@@ -943,7 +943,8 @@ class Manager(object):
                 'Weather %s passed %s rule(s) and triggered %s alarm(s).',
                 weather.name, rule_ct, alarm_ct)
         else:
-            self._rule_log.info('Weather %s rejected by all rules.', weather.name)
+            self._rule_log.info(
+                'Weather %s rejected by all rules.', weather.name)
 
     # Check to see if a notification is within the given range
     # TODO: Move this into filters and add unit tests
