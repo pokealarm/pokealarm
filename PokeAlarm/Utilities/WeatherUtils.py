@@ -6,9 +6,9 @@ import json
 from PokeAlarm.Utils import get_path
 
 
-def get_severity_id(severity_id):
+def get_severity_id(severity):
     try:
-        name = str(severity_id).lower()
+        name = str(severity).lower()
         if not hasattr(get_severity_id, 'ids'):
             get_severity_id.ids = {}
             files = glob(get_path('locales/*.json'))
@@ -25,12 +25,12 @@ def get_severity_id(severity_id):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
-                         " severity name or id.".format(severity_id))
+                         " severity name or id.".format(severity))
 
 
-def get_day_or_night_id(day_or_night_id):
+def get_day_or_night_id(day_or_night):
     try:
-        name = str(day_or_night_id).lower()
+        name = str(day_or_night).lower()
         if not hasattr(get_day_or_night_id, 'ids'):
             get_day_or_night_id.ids = {}
             files = glob(get_path('locales/*.json'))
@@ -47,4 +47,4 @@ def get_day_or_night_id(day_or_night_id):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
-                         " day or night name or id.".format(day_or_night_id))
+                         " day or night name or id.".format(day_or_night))
