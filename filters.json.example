@@ -68,5 +68,15 @@
                 "current_teams":["Valor","Instinct","Mystic"]
             }
         }
+    },
+    "weather":{
+        "enabled":false,
+        "defaults":{
+        },
+        "filters":{
+            "filter_by_geofence":{
+                "geofence":["geofence1", "geofence2"]
+            }
+        }
     }
 }
