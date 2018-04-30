@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "\uc5c6\uc74c",
+    "001": "\ubcf4\ud1b5\uc758",
+    "003": "\uadf9\ub2e8"
+  },
   "costumes": {
     "025": {
       "001": "\ucd95\uc81c \ubaa8\uc790", 
@@ -18,7 +23,11 @@
       "003": "Ash \ubaa8\uc790", 
       "004": "\ub9c8\ub140 \ubaa8\uc790"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "\uc77c",
+    "002": "\ubc24"
+  },
   "leaders": {
     "000": "\uc70c\ub85c\uc6b0\ubc15\uc0ac", 
     "001": "\ube14\ub791\uc26c", 
@@ -885,7 +894,15 @@
     "719": "\ub514\uc548\uc2dc", 
     "720": "\ud6c4\ud30c", 
     "721": "\ubcfc\ucf00\ub2c8\uc628"
-  }, 
+  },
+  "rarity": {
+    "000": "\uc0c8\ub85c\uc6b4 \uc2a4\ud3f0",
+    "001": "\uacf5\uc720\uc9c0",
+    "002": "\ud76c\uc720",
+    "003": "\ub4dc\ubb38",
+    "004": "\uc544\uc8fc \ud76c\uadc0 \ud55c",
+    "005": "\uc6b8\ud2b8\ub77c \ub808\uc5b4"
+  },
   "sizes": {
     "001": "\uc791\uc740", 
     "002": "\uc791\uc740", 

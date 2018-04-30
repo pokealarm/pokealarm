@@ -10,9 +10,9 @@ from PokeAlarm.Utils import get_weather_id
 class MonFilter(BaseFilter):
     """ Filter class for limiting which monsters trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(MonFilter, self).__init__(name)
+        super(MonFilter, self).__init__(mgr, 'monster', name)
 
         # Monster ID - f.monster_ids contains m.monster_id
         self.monster_ids = self.evaluate_attribute(  #
@@ -139,6 +139,12 @@ class MonFilter(BaseFilter):
         self.weather_ids = self.evaluate_attribute(
             event_attribute='weather_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
+
+        # Rarity
+        self.rarity_ids = self.evaluate_attribute(  #
+            event_attribute='rarity_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_rarity_id, 'rarity', data))
 
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)

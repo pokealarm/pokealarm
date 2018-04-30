@@ -44,10 +44,13 @@ To get the most recent command line settings for your version, use the
 following command:  `python start_pokealarm.py --help`.
 
 ```
-usage: start_pokealarm.py [-h] [-cf CONFIG] [-d] [-H HOST] [-P PORT]
-                          [-C CONCURRENCY] [-m MANAGER_COUNT]
-                          [-M MANAGER_NAME] [-f FILTERS] [-a ALARMS]
-                          [-r RULES] [-gf GEOFENCES] [-l LOCATION]
+usage: start_pokealarm.py [-h] [-cf CONFIG] [-H HOST] [-P PORT]
+                          [-C CONCURRENCY] [-d] [-q] [-ll {1,2,3,4,5}]
+                          [-lf LOG_FILE] [-ls LOG_SIZE] [-lc LOG_CT]
+                          [-m MANAGER_COUNT] [-M MANAGER_NAME]
+                          [-mll {1,2,3,4,5}] [-mlf MGR_LOG_FILE]
+                          [-mls MGR_LOG_SIZE] [-mlc MGR_LOG_CT] [-f FILTERS]
+                          [-a ALARMS] [-r RULES] [-gf GEOFENCES] [-l LOCATION]
                           [-L {de,en,es,fr,it,ko,pt,zh_hk}]
                           [-u {metric,imperial}] [-tz TIMEZONE] [-k GMAPS_KEY]
                           [--gmaps-rev-geocode GMAPS_REV_GEOCODE]
@@ -58,18 +61,36 @@ usage: start_pokealarm.py [-h] [-cf CONFIG] [-d] [-H HOST] [-P PORT]
                           [-ct {mem,file}] [-tl TIMELIMIT] [-ma MAX_ATTEMPTS]
 
 optional arguments:
-  -h, --help            Show this help message and exit.
+  -h, --help            show this help message and exit
   -cf CONFIG, --config CONFIG
-                        Configuration file.
-  -d, --debug           Debug Mode.
-  -H HOST, --host HOST  Set web server listening host.
-  -P PORT, --port PORT  Set web server listening port.
+                        Configuration file
+  -H HOST, --host HOST  Set web server listening host
+  -P PORT, --port PORT  Set web server listening port
   -C CONCURRENCY, --concurrency CONCURRENCY
                         Maximum concurrent connections for the webserver.
+  -d, --debug           Enable debuging mode.
+  -q, --quiet           Disables output to console.
+  -ll {1,2,3,4,5}, --log-lvl {1,2,3,4,5}
+                        Verbosity of the root logger.
+  -lf LOG_FILE, --log-file LOG_FILE
+                        Path of a file to attach to a manager's logger.
+  -ls LOG_SIZE, --log-size LOG_SIZE
+                        Maximum size in mb of a log before rollover.
+  -lc LOG_CT, --log-ct LOG_CT
+                        Maximum number of logs to keep.
   -m MANAGER_COUNT, --manager_count MANAGER_COUNT
                         Number of Manager processes to start.
   -M MANAGER_NAME, --manager_name MANAGER_NAME
                         Names of Manager processes to start.
+  -mll {1,2,3,4,5}, --mgr-log-lvl {1,2,3,4,5}
+                        Set the verbosity of a manager's logger.
+  -mlf MGR_LOG_FILE, --mgr-log-file MGR_LOG_FILE
+                        Path of a file to attach to a manager's logger.
+  -mls MGR_LOG_SIZE, --mgr-log-size MGR_LOG_SIZE
+                        Maximum megabytes of a manager's log before rollover.
+  -mlc MGR_LOG_CT, --mgr-log-ct MGR_LOG_CT
+                        Maximum number of old manager's logs to keep before
+                        deletion.
   -f FILTERS, --filters FILTERS
                         Filters configuration file. default: filters.json
   -a ALARMS, --alarms ALARMS
@@ -79,10 +100,10 @@ optional arguments:
   -gf GEOFENCES, --geofences GEOFENCES
                         Alarms configuration file. default: None
   -l LOCATION, --location LOCATION
-                        Location, can be an address or coordinates.
+                        Location, can be an address or coordinates
   -L {de,en,es,fr,it,ko,pt,zh_hk}, --locale {de,en,es,fr,it,ko,pt,zh_hk}
                         Locale for Pokemon and Move names: default en," + "
-                        check locale folder for more options.
+                        check locale folder for more options
   -u {metric,imperial}, --units {metric,imperial}
                         Specify either metric or imperial units to use for
                         distance " + "measurements.
@@ -105,7 +126,7 @@ optional arguments:
                         Specify the type of cache to use. Options: ['mem',
                         'file'] (Default: 'mem')
   -tl TIMELIMIT, --timelimit TIMELIMIT
-                        Minimum limit.
+                        Minimum limit
   -ma MAX_ATTEMPTS, --max_attempts MAX_ATTEMPTS
                         Maximum attempts an alarm makes to send a
                         notification.
@@ -122,7 +143,7 @@ You can manually specify a configuration file with either the `-cf` or
 
 ```ini
 # DO NOT USE NOTEPAD OR TEXTEDIT TO EDIT FILES!
-# USE AN EDITOR SUCH AS NOTEPAD++, ATOM, NANO OR VI(M)
+# USE AN EDITOR SUCH AS NOTPAD++, ATOM, NANO OR VI(M)
 # You can create a copy of this config and edit it to suit your needs.
 # Uncomment a line (remove the #) when you want to change its default value.
 # By default, PA will use `config/config.ini` to load settings.
@@ -138,6 +159,11 @@ You can manually specify a configuration file with either the `-cf` or
 #concurrency: 200               # Maximum concurrent connections to webserver (default=200)
 #manager_count: 1				# Number of Managers to run (default=1)
 #debug                          # Enable debug logging (default='False)
+#quiet                          # Disable output to stdin/stdout.
+#log-lvl: 3                     # Verbosity of the main logger (default=3)
+#log-file: logs/pokealarm.log   # File path of the main logger (default='logs/pokealam.log')
+#log-size: 100                  # Maximum size in mb of a log before rollover.
+#log-ct: 5                      # Maximum number of logs to keep.
 
 
 #########################
@@ -151,6 +177,13 @@ You can manually specify a configuration file with either the `-cf` or
 # `None` can be used to exempt a Manager from an optional setting
 
 #manager_name:                  # Name of Manager, used for logging (default='manager#')
+
+# Logging Settings
+#####################
+#mgr-log-lvl: 3                 # Verbosity of a manager's logger (default=3)
+#mgr-log-file: logs/mgr.log     # Path of a file to attach to a manager's logger.
+#mgr-log-size: 100              # Maximum size (in mb) of a log before rollover.
+#mgr-log-ct: 5                  # Maximum number of older logs to keep.
 
 
 # File Settings
@@ -166,7 +199,7 @@ You can manually specify a configuration file with either the `-cf` or
 
 # Location Specific
 #####################
-#location:                      # Location, as address or coordinates (default=None)
+#location:                       # Location, as address or coordinates (default=None)
 #locale: en                     # Language used for DTS translations (default='en')
                                 # Options: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'zh_hk' ]
 #unit: imperial                 # Units used to measurements.(default='imperial')
@@ -195,6 +228,6 @@ You can manually specify a configuration file with either the `-cf` or
 #cache_type: file               # Type of cache used to share information between webhooks. (default='mem')
                                 # Options: ['mem', 'file']
 #timelimit: 0					# Minimum seconds remaining on an Event to trigger notification (default=0)
-                                # Note - `max_attempts` is being deprecated and may be replaced by alarm-level settings
+# Note - `max_attempts` is being deprecated and may be replaced by alarm-level settings
 #max_attempts: 3				# Maximum number of attempts an alarm makes to send a notification. (default=3)
 ```

@@ -37,6 +37,7 @@ There are 5 different types of Filters, each matching a category of Events:
    gym-filters
    egg-filters
    raid-filters
+   weather-filters
 
 
 Restrictions
@@ -112,6 +113,8 @@ by default.
       "eggs":{
       },
       "raids":{
+      },
+      "weather":{
       }
     }
 

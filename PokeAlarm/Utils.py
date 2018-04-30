@@ -366,15 +366,21 @@ def get_type_emoji(type_id):
 
 # Returns a String link to Google Maps Pin at the location
 def get_gmaps_link(lat, lng):
-    latlng = '{},{}'.format(repr(lat), repr(lng))
+    latlng = '{:5f},{:5f}'.format(repr(lat), repr(lng))
     return 'http://maps.google.com/maps?q={}'.format(latlng)
 
 
 # Returns a String link to Apple Maps Pin at the location
 def get_applemaps_link(lat, lng):
-    latlon = '{},{}'.format(repr(lat), repr(lng))
+    latlng = '{:5f},{:5f}'.format(repr(lat), repr(lng))
     return 'http://maps.apple.com/maps?' \
-           + 'daddr={}&z=10&t=s&dirflg=w'.format(latlon)
+           + 'daddr={}&z=10&t=s&dirflg=w'.format(latlng)
+
+
+# Returns a String link to Waze Maps Navigation at the location
+def get_waze_link(lat, lng):
+    latlng = '{:5f},{:5f}'.format(repr(lat), repr(lng))
+    return 'https://waze.com/ul?navigate=yes&ll={}'.format(latlng)
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
@@ -399,7 +405,7 @@ def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
 
     if api_key is not None:
         map_ += ('&key=%s' % api_key)
-        log.debug("API_KEY added to static map url.")
+        # log.debug("API_KEY added to static map url.")
     return map_
 
 
@@ -440,7 +446,6 @@ def get_dist_as_str(dist, units):
 def get_earth_dist(pt_a, pt_b=None, units='imperial'):
     if type(pt_a) is str or pt_b is None:
         return 'unkn'  # No location set
-    log.debug("Calculating distance from {} to {}".format(pt_a, pt_b))
     lat_a = radians(pt_a[0])
     lng_a = radians(pt_a[1])
     lat_b = radians(pt_b[0])

@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import requests
 
 # 3rd Party Imports
@@ -9,7 +8,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
     reject_leftover_parameters, require_and_remove_key, get_image_url
 
-log = logging.getLogger('Discord')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -71,11 +69,23 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "The raid is available until "
                     "<24h_raid_end> (<raid_time_left>)."
+        },
+        'weather': {
+            'username': "Weather",
+            'content': "",
+            "icon_url": get_image_url("regular/weather/<weather_id_3>"
+                                      "_<day_or_night_id_3>.png"),
+            "avatar_url": get_image_url("regular/weather/<weather_id_3>"
+                                        "_<day_or_night_id_3>.png"),
+            "title": "The weather has changed!",
+            "url": "<gmaps>",
+            "body": "The weather around <lat>,<lng> has changed to <weather>!"
         }
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings, max_attempts, static_map_key):
+    def __init__(self, mgr, settings, max_attempts, static_map_key):
+        self._log = mgr.get_child_logger("alarms")
         # Required Parameters
         self.__webhook_url = require_and_remove_key(
             'webhook_url', settings, "'Discord' type alarms.")
@@ -101,11 +111,13 @@ class DiscordAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raids = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
 
-        log.info("Discord Alarm has been created!")
+        self._log.info("Discord Alarm has been created!")
 
     # (Re)connect with Discord
     def connect(self):
@@ -121,9 +133,9 @@ class DiscordAlarm(Alarm):
                     'content': 'PokeAlarm activated!'
                 }
             }
-            try_sending(log, self.connect, "Discord",
+            try_sending(self._log, self.connect, "Discord",
                         self.send_webhook, args, self.__max_attempts)
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -147,7 +159,7 @@ class DiscordAlarm(Alarm):
 
     # Send Alert to Discord
     def send_alert(self, alert, info):
-        log.debug("Attempting to send notification to Discord.")
+        self._log.debug("Attempting to send notification to Discord.")
         payload = {
             # Usernames are limited to 32 characters
             'username': replace(alert['username'], info)[:32],
@@ -173,22 +185,22 @@ class DiscordAlarm(Alarm):
             'url': replace(alert['webhook_url'], info),
             'payload': payload
         }
-        try_sending(log, self.connect,
+        try_sending(self._log, self.connect,
                     "Discord", self.send_webhook, args, self.__max_attempts)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
-        log.debug("Pokemon notification triggered.")
+        self._log.debug("Pokemon notification triggered.")
         self.send_alert(self.__monsters, pokemon_info)
 
     # Trigger an alert based on Pokestop info
     def pokestop_alert(self, pokestop_info):
-        log.debug("Pokestop notification triggered.")
+        self._log.debug("Pokestop notification triggered.")
         self.send_alert(self.__stops, pokestop_info)
 
     # Trigger an alert based on Pokestop info
     def gym_alert(self, gym_info):
-        log.debug("Gym notification triggered.")
+        self._log.debug("Gym notification triggered.")
         self.send_alert(self.__gyms, gym_info)
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
@@ -198,15 +210,19 @@ class DiscordAlarm(Alarm):
     def raid_alert(self, raid_info):
         self.send_alert(self.__raids, raid_info)
 
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
+
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):
-        log.debug(payload)
+        self._log.debug(payload)
         resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
-            log.debug("Notification successful (returned {})".format(
+            self._log.debug("Notification successful (returned {})".format(
                 resp.status_code))
         else:
-            log.debug("Discord response was {}".format(resp.content))
+            self._log.debug("Discord response was {}".format(resp.content))
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(
                     resp.status_code))

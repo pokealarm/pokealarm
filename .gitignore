@@ -1,22 +1,25 @@
-# virtual env
+# Python
 env
+venv
+*.pyc
 
-# pycharm
+# IDEs
 .idea
+.vs/*
 
 # sphinx
 _build
 
-# configuration files
+# Config
 *.json
 *.ini
 *.txt
 !data/*.json
 !locales/*.json
 
-# pa runtime files
-*.pyc
+# Runtime
 cache/*
+logs/*
 
-# OS files
+# MacOS
 .DS_Store

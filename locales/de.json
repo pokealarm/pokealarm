@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "Keins",
+    "001": "M\u00E4\u00DFig",
+    "003": "Extrem"
+  },
   "costumes": {
     "025": {
       "001": "Festlicher Hut", 
@@ -18,7 +23,11 @@
       "003": "Ash Cap", 
       "004": "Hexenhut"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "Tag",
+    "002": "Nacht"
+  },
   "leaders": {
     "000": "Professor Willow", 
     "001": "Blanche", 
@@ -938,7 +947,15 @@
     "719": "Diancie", 
     "720": "Hoopa", 
     "721": "Volcanion"
-  }, 
+  },
+  "rarity": {
+    "000": "Neuer Spawn",
+    "001": "Häufig",
+    "002": "Nicht Häufig",
+    "003": "Selten",
+    "004": "Sehr Selten",
+    "005": "Ultra Selten"
+  },
   "sizes": {
     "001": "winzig", 
     "002": "klein", 

@@ -83,6 +83,7 @@ great_catch_2       Catch rate of the monster when using a great ball, rounded t
 ultra_catch         Catch rate of the monster when using an ultra ball.
 ultra_catch_0       Catch rate of the monster when using an ultra ball, rounded to the nearest integer.
 ultra_catch_2       Catch rate of the monster when using an ultra ball, rounded to 2 decimal places.
+rarity              Rarity of the monster, as supplied by the scanner.
 =================== =========================================================
 
 Moves
@@ -171,6 +172,7 @@ lat_5               Latitude of the monster, truncated to 5 decimal places.
 lng_5               Longitude of the monster, truncated to 5 decimal places.
 gmaps               Google Maps link to the location of the monster.
 applemaps           Apple Maps link to the location of the monster.
+Waze                Waze link to the location of the monster.
 geofence            Geofence around the event.
 =================== ============================================================
 

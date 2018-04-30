@@ -11,9 +11,9 @@ from PokeAlarm.Utils import get_weather_id
 class RaidFilter(BaseFilter):
     """ Filter class for limiting which egg trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(RaidFilter, self).__init__(name)
+        super(RaidFilter, self).__init__(mgr, 'egg', name)
 
         # Monster ID - f.mon_ids in r.mon_id
         self.mon_ids = self.evaluate_attribute(  #

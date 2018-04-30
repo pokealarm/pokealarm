@@ -1,6 +1,5 @@
 # Standard Library Imports
 import logging
-import json
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
@@ -11,11 +10,14 @@ log = logging.getLogger('Filter')
 class BaseFilter(object):
     """ Abstract class representing details related to different events. """
 
-    def __init__(self, name):
+    def __init__(self, mgr, kind, name):
         """ Initializes base parameters for a filter. """
 
         # Logger for rejecting items
         self._name = name
+        self._type = kind
+
+        self._log = mgr.get_child_logger('filters')
 
         # Dict representation for the filter
         self._settings = {}
@@ -26,12 +28,12 @@ class BaseFilter(object):
         # Missing Info
         self.is_missing_info = None
 
+    def __str__(self):
+        return str(self.to_dict())
+
     def to_dict(self):
         """ Create a dict representation of this Event. """
         raise NotImplementedError("This is an abstract method.")
-
-    def to_string(self):
-        return json.dumps(self.to_dict(), indent=4, sort_keys=True)
 
     def check_event(self, event):
         missing = False  # Event is missing no info to start
@@ -44,13 +46,21 @@ class BaseFilter(object):
         # Do a special check for is missing_info is set
         if self.is_missing_info is not None \
                 and missing != self.is_missing_info:
-            self.reject(event, "'is_missing_info' incorrect.")
+            self.reject(event, "missing_info", missing, self.is_missing_info)
             return False
+        self.accept(event)
         return True
 
-    def reject(self, event, reason):
+    def reject(self, event, attr_name, value, required):
         """ Log the reason for rejecting the Event. """
-        log.info("[%10s] %s rejected: %s", self._name, event.name, reason)
+        self._log.info(
+            "'%s' %s rejected by '%s'", event.name, self._type, self._name)
+        self._log.debug("%s incorrect: (%s to %s)", attr_name, value, required)
+
+    def accept(self, event):
+        """ Log that the Event was accepted. """
+        self._log.info(
+            "'%s' %s accepted by '%s'", event.name, self._type, self._name)
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """ Evaluates a parameter and generate a check if needed. """
@@ -58,7 +68,6 @@ class BaseFilter(object):
             return None  # limit not set
 
         # Create a function to compare the event vs the limit
-        # TODO: This can be a closure if not pickled
         check = CheckFunction(limit, eval_func, event_attribute)
 
         # Add check function to our list
@@ -152,6 +161,6 @@ class CheckFunction(object):
         result = self._eval_func(self._limit, value)  # compare value to limit
 
         if result is False:  # Log rejection
-            filtr.reject(event, "{} incorrect ({} to {})".format(
-                self._attr_name, value, self._limit))
+            filtr.reject(event, self._attr_name, value, self._limit)
+
         return result

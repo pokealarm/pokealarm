@@ -65,7 +65,7 @@ class Locale(object):
         for id_, val in default["types"].iteritems():
             self.__type_names[int(id_)] = types.get(id_, val)
 
-        # Pokemon ID -> { Costume ID -> Costume Name)
+        # Pokemon ID -> { Costume ID -> Costume Name}
         self.__costume_names = {}
         all_costumes = info.get("costumes", {})
         for pkmn_id, costumes in default["costumes"].iteritems():
@@ -75,7 +75,7 @@ class Locale(object):
                 self.__costume_names[int(pkmn_id)][int(
                     costume_id)] = pkmn_costumes.get(costume_id, costume_name)
 
-        # Pokemon ID -> { Form ID -> Form Name)
+        # Pokemon ID -> { Form ID -> Form Name}
         self.__form_names = {}
         all_forms = info.get("forms", {})
         for pkmn_id, forms in default["forms"].iteritems():
@@ -84,6 +84,24 @@ class Locale(object):
             for form_id, form_name in forms.iteritems():
                 self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(
                     form_id, form_name)
+
+        # Rarity ID -> Rarity Name
+        self.__rarity_names = {}
+        rarity_names = info.get("rarity", {})
+        for _id, rarity in default["rarity"].iteritems():
+            self.__rarity_names[int(_id)] = rarity_names.get(_id, rarity)
+
+        # Severity ID -> Severity Name
+        self.__severity_names = {}
+        severities = info.get("severity", {})
+        for id_, val in default["severity"].iteritems():
+            self.__severity_names[int(id_)] = severities.get(id_, val)
+
+        # Day or Night ID -> Day or Night Name
+        self.__day_or_night_names = {}
+        day_or_night = info.get('day_or_night', {})
+        for id_, val in default['day_or_night'].iteritems():
+            self.__day_or_night_names[int(id_)] = day_or_night.get(id_, val)
 
         log.debug("Loaded '{}' locale successfully!".format(language))
 
@@ -126,5 +144,15 @@ class Locale(object):
         return self.__costume_names.get(
             pokemon_id, {}).get(costume_id, 'unknown')
 
+    # Returns the rarity corresponding to the id
+    def get_rarity_name(self, rarity_id):
+        return self.__rarity_names.get(rarity_id, 'unknown')
+
     def get_boosted_text(self):
         return self.__misc.get('boosted', '')
+
+    def get_severity_name(self, severity_id):
+        return self.__severity_names.get(severity_id, 'unknown')
+
+    def get_day_or_night(self, day_or_night_id):
+        return self.__day_or_night_names.get(day_or_night_id, 'unknown')

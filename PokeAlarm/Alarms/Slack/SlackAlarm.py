@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import re
 
 # 3rd Party Imports
@@ -10,7 +9,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
     require_and_remove_key, reject_leftover_parameters, get_image_url
 
-log = logging.getLogger('Slack')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -62,11 +60,21 @@ class SlackAlarm(Alarm):
             'url': "<gmaps>",
             'body': "The raid is available until <24h_raid_end> "
                     "(<raid_time_left>)."
+        },
+        'weather': {
+            'username': "Weather",
+            'icon_url': get_image_url("regular/weather/<weather_id_3>_"
+                                      "<day_or_night_id_3>.png"),
+            'title': "The weather has changed!",
+            'url': "<gmaps>",
+            'body': "The weather around <lat>,<lng> has changed to <weather>!"
         }
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings, static_map_key):
+    def __init__(self, mgr, settings, static_map_key):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__api_key = require_and_remove_key(
             'api_key', settings, "'Slack' type alarms.")
@@ -92,11 +100,13 @@ class SlackAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
 
-        log.info("Slack Alarm has been created!")
+        self._log.info("Slack Alarm has been created!")
 
     # Establish connection with Slack
     def connect(self):
@@ -108,7 +118,7 @@ class SlackAlarm(Alarm):
         if self.__startup_message:
             self.send_message(self.__default_channel, username="PokeAlarm",
                               text="PokeAlarm activated!")
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -165,6 +175,10 @@ class SlackAlarm(Alarm):
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
 
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
+
     # Get a list of channels from Slack to help
     def update_channels(self):
         self.__channels = {}
@@ -174,16 +188,17 @@ class SlackAlarm(Alarm):
         response = self.__client.groups.list().body
         for channel in response['groups']:
             self.__channels[channel['name']] = channel['id']
-        log.debug("Detected the following Slack channnels: {}" .format(
+        self._log.debug("Detected the following Slack channnels: {}" .format(
             self.__channels))
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
         channel = SlackAlarm.channel_format(name)
         if channel not in self.__channels:
-            log.error("Detected no channel with the name '{}'." +
-                      " Trying the default channel '{}' instead.".format(
-                          channel, self.__default_channel))
+            self._log.error(
+                "Detected no channel with the name '{}'. "
+                "Trying the default channel '{}' instead."
+                "".format(channel, self.__default_channel))
             return self.__default_channel
         return channel
 
@@ -199,7 +214,7 @@ class SlackAlarm(Alarm):
             args['icon_url'] = icon_url
         if attachments is not None:
             args['attachments'] = attachments
-        try_sending(log, self.connect, "Slack",
+        try_sending(self._log, self.connect, "Slack",
                     self.__client.chat.post_message, args)
 
     # Returns a string s that is in proper channel format

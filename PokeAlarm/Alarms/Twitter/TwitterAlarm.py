@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 import re
 from datetime import datetime
 
@@ -11,7 +10,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
     require_and_remove_key, reject_leftover_parameters
 
-log = logging.getLogger('Twitter')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 url_regex = re.compile(
@@ -48,11 +46,17 @@ class TwitterAlarm(Alarm):
         'raids': {
             'status': "Raid <raid_lvl> against <mon_name>! Available until "
                       "<24h_raid_end> (<raid_time_left>). <gmaps>"
+        },
+        'weather': {
+            'status': "The weather around <lat>,<lng> has changed"
+                      " to <weather>!"
         }
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__token = require_and_remove_key(
             'access_token', settings, "'Twitter' type alarms.")
@@ -79,11 +83,13 @@ class TwitterAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
 
-        log.info("Twitter Alarm has been created!")
+        self._log.info("Twitter Alarm has been created!")
 
     # Establish connection with Twitter
     def connect(self):
@@ -98,8 +104,10 @@ class TwitterAlarm(Alarm):
             args = {
                 "status": "{}- PokeAlarm activated!" .format(timestamps[2])
             }
-            try_sending(log, self.connect, "Twitter", self.send_tweet, args)
-            log.info("Startup tweet sent!")
+            try_sending(
+                self._log, self.connect, "Twitter", self.send_tweet, args)
+
+            self._log.info("Startup tweet sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -130,7 +138,7 @@ class TwitterAlarm(Alarm):
         args = {
             "status": self.shorten(replace(alert['status'], info))
         }
-        try_sending(log, self.connect, "Twitter", self.send_tweet, args)
+        try_sending(self._log, self.connect, "Twitter", self.send_tweet, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -151,6 +159,10 @@ class TwitterAlarm(Alarm):
     # Trigger an alert based on Gym info
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
+
+    # Trigger an alert based on weather webhook
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
 
     # Send out a tweet with the given status
     def send_tweet(self, status):

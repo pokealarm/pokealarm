@@ -9,9 +9,9 @@ from PokeAlarm.Utilities import GymUtils as GymUtils
 class EggFilter(BaseFilter):
     """ Filter class for limiting which egg trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(EggFilter, self).__init__(name)
+        super(EggFilter, self).__init__(mgr, 'egg', name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= e.distance

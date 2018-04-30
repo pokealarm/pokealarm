@@ -32,5 +32,11 @@
             "filters":["filter_by_monster","filter_raid_lvl_and_teams"],
             "alarms":["discord_alarm","telegram_alarm"]
         }
+    },
+    "weather":{
+        "all":{
+            "filters":["filter_by_geofence"],
+            "alarms":["discord_alarm","telegram_alarm"]
+        }
     }
 }

@@ -28,6 +28,7 @@ for Events, each with different information:
    gym-events
    egg-events
    raid-events
+   weather-events
 
 .. _events_dts:
 
