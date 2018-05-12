@@ -3,8 +3,6 @@
 ## Table of Contents
 
 * [Reporting Issues](#reporting-issues):
-  * [Support or Bugs](#support-or-bugs)
-  * [Feature Requests](#feature-requests)
 * [Contibuting Changes](#contributing-changes):
   * [Updating Wiki](#updating-wiki)
   * [Submitting PRs](#submitting-prs)
@@ -18,69 +16,9 @@ If you would like to request a feature, report a suspected bug, or
 didn't find a solution to your support question you should open an Issue
 on our Github page.
 
-### Support or Bugs
-If you believe you've found a bug or need help setting up or configuring
-PA, please copy and paste the below template for your bug.
-
-We'll generally respond within a day, but garentee a response within 4
-days. Requests for more information that are not responsed to within 7
-days will be closed.
-
-```
-## Troubleshooting Checklist
-<!-- Mark items as completed with a single 'x' inside them, ex: [x] --->
-- [ ] My Scanner install is at the most recent version.
-- [ ] My PokeAlarm install is at the most recent version.
-- [ ] I've already checked the
- [FAQ](https://github.com/RocketMap/PokeAlarm/wiki/faq) and the
- [Wiki](https://github.com/RocketMap/PokeAlarm/wiki) already.
-
-## Problem Description
-<!--  Please leave a detailed description of the issue experienced  --->
-
-
-## Environment
-Operating System: ` YOUR OPERATING SYSTEM HERE `
-Python Version: ` (obtained from `python -V`) `
-PokeAlarm Branch: ` ex: master, dev, other `
-PokeAlarm Version: ` (`git rev-parse HEAD` inside PA folder) `
-Scanner used: `TYPE/FORK OF SCANNER HERE`
-
-
-## PokeAlarm Setup:
-<!-- Please include links to the following configuration files --->
-<!-- Feel free to use HasteBin or a similar service  -->
-<!-- Make sure to remove or censor any personal info or API keys -->
-Your config file: <!-- LINK TO CONFIG.INI GOES HERE --->
-Your filters file: <!-- LINK TO FILTERS.JSON GOES HERE --->
-Your alarms file:  <!-- LINK TO ALARMS.JSON GOES HERE --->
-
-
-## Log Output
-<!-- If your issue occurs in the output, provide a link here --->
-<!-- Please provide the ENTIRE log - minus any personal info --->
-
-```
-
-### Feature Requests
-
-If you have a suggestion or would like to request a feature, please
-use Github. Using Discord is NOT a good alternative - it's often
-infeasible for us to read every message, but using Github garentees we
-we will see and process your request.
-
-Please copy and paste the following for requests:
-```
-## Description
-<!--  Describe the feature you would like to see added to PokeAlarm --->
-
-## Why is this enhancement necessary or useful?
-<!--  Describe why this enhancement is necessary or useful to users --->
-
-## How can this enhancement be accomplished?
-<!-- Provide anything relevant such as links to helpful libraries --->
-
-```
+Using Discord is NOT a good alternative - it's often infeasible for us
+to read every message, but using Github garentees we
+we will see and respond to your request appropriately.
 
 ## Contributing Changes
 
