@@ -14,7 +14,7 @@ def generic_monster(values):
     """ Generate a generic monster, overriding with an specific values. """
     settings = {
         "encounter_id": str(datetime.utcnow()),
-        "disappear_time":  calendar.timegm(
+        "disappear_time": calendar.timegm(
             (datetime.utcnow() + timedelta(minutes=45)).timetuple()),
         "spawnpoint_id": "0",
         "pokemon_id": 1,

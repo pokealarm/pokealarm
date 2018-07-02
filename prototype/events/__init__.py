@@ -10,7 +10,7 @@ of importance that can occur.
 
 # Standard Library Imports
 import logging
-from typing import List, Mapping, Optional
+from typing import List, Mapping, Optional  # noqa F401
 # 3rd Party Imports
 import six
 from future.utils import iteritems
@@ -85,3 +85,5 @@ class Event(object):
 
 
 from monster import Monster
+
+EVENT_TYPES = [Monster]
