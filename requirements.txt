@@ -4,3 +4,4 @@ gevent==1.2.2
 pytz==2017.3
 portalocker==1.1.0
 requests==2.18.4
+six=1.11.0
