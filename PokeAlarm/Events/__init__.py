@@ -8,6 +8,7 @@ from GymEvent import GymEvent
 from EggEvent import EggEvent
 from RaidEvent import RaidEvent
 from WeatherEvent import WeatherEvent
+from QuestEvent import QuestEvent
 
 log = logging.getLogger('Events')
 
@@ -31,6 +32,8 @@ def event_factory(data):
             return RaidEvent(message)
         elif kind == 'weather':
             return WeatherEvent(message)
+        elif kind == 'quest':
+            return QuestEvent(message)
         elif kind in ['captcha', 'scheduler']:
             log.debug(
                 "{} data ignored - unsupported webhook type.".format(kind))

@@ -73,6 +73,7 @@ class Manager(object):
         self.__eggs_enabled, self.__egg_filters = False, OrderedDict()
         self.__raids_enabled, self.__raid_filters = False, OrderedDict()
         self.__weather_enabled, self.__weather_filters = False, OrderedDict()
+        self.__quest_enabled, self.__quest_filters = False, OrderedDict()
         self.load_filter_file(get_path(filter_file))
 
         # Create the Geofences to filter with from given file
@@ -89,6 +90,11 @@ class Manager(object):
         self.__gym_rules = {}
         self.__egg_rules = {}
         self.__raid_rules = {}
+<<<<<<< HEAD
+=======
+        self.__weather_rules = {}
+        self.__quest_rules = {}
+>>>>>>> 00734c5... Quests! WIP
 
         # Initialize the queue and start the process
         self.__queue = Queue()
@@ -223,6 +229,26 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # Add new Quest Rule
+    def add_quest_rule(self, name, filters, alarms):
+        if name in self.__quest_rules:
+            raise ValueError("Unable to add Rule: Quest Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__quest_filters:
+                raise ValueError("Unable to create Rule: No quest Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__quest_rules[name] = Rule(filters, alarms)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @staticmethod
@@ -316,6 +342,13 @@ class Manager(object):
             self.__weather_enabled = bool(section.pop('enabled', True))
             self.__weather_filters = self.load_filter_section(
                 section, 'weather', Filters.WeatherFilter)
+
+            # Load Quest Section
+            log.info("Parsing 'quest' section.")
+            section = filters.pop('quest', {})
+            self.__quest_enabled = bool(section.pop('enabled', True))
+            self.__quest_filters = self.load_filter_section(
+                section, 'quest', Filters.QuestFilter)
 
             return  # exit function
 
@@ -496,6 +529,8 @@ class Manager(object):
                     self.process_raid(event)
                 elif kind == Events.WeatherEvent:
                     self.process_weather(event)
+                elif kind == Events.QuestEvent:
+                    self.process_quest(event)
                 else:
                     log.error("!!! Manager does not support "
                               + "{} events!".format(kind))
@@ -989,6 +1024,75 @@ class Manager(object):
                 log.critical("Alarm '{}' not found!".format(name))
 
         for thread in threads:  # Wait for all alarms to finish
+            thread.join()
+
+    def process_quest(self, quest):
+        # type: (Events.QuestEvent) -> None
+        """ Process a quest event and notify alarms if it passes. """
+
+        # Make sure that stops are enabled
+        if self.__quest_enabled is False:
+            log.debug("Quest ignored: quest notifications are disabled.")
+            return
+
+        # Check if previously processed and update expiration
+        if self.__cache.quest_reward(quest.stop_id) is not None:
+            log.debug("Quest {} was skipped because it was previously "
+                      "processed.".format(quest.stop_name))
+            return
+        self.__cache.quest_reward(quest.stop_id, quest.reward)
+
+        # Calculate distance and direction
+        if self.__location is not None:
+            quest.distance = get_earth_dist(
+                [quest.lat, quest.lng], self.__location, self.__units)
+            quest.direction = get_cardinal_dir(
+                [quest.lat, quest.lng], self.__location)
+
+        # Check for Rules
+        rules = self.__quest_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__quest_filters.keys(), self.__alarms.keys())}
+
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__quest_filters.get(f_name)
+                passed = f.check_event(quest) and self.check_geofences(
+                    f, quest)
+                if not passed:
+                    continue  # go to next filter
+                quest.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} quest notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(quest.stop_name, r_name))
+                self._trigger_quest(quest, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_quest(self, quest, alarms):
+        # Generate the DTS for the event
+        dts = quest.generate_dts(self.__locale, self.__timezone, self.__units)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (quest.lat, quest.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (quest.lat, quest.lng), self.__location,
+                self._language, self.__units))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.quest_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
+
+        for thread in threads:
             thread.join()
 
     # Check to see if a notification is within the given range

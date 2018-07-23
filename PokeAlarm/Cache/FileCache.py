@@ -28,6 +28,7 @@ class FileCache(Cache):
                 pickle.dump({}, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     def _load(self):
+<<<<<<< HEAD
         with portalocker.Lock(self._file, mode="rb") as f:
             data = pickle.load(f)
             self._pokemon_hist = data.get('pokemon_hist', {})
@@ -38,6 +39,27 @@ class FileCache(Cache):
             self._raid_hist = data.get('raid_hist', {})
             self._weather_hist = data.get('weather_hist', {})
             log.debug("LOADED: \n {}".format(data))
+=======
+        try:
+            with portalocker.Lock(self._file, mode="rb") as f:
+                data = pickle.load(f)
+                self._mon_hist = data.get('mon_hist', {})
+                self._stop_hist = data.get('stop_hist', {})
+                self._egg_hist = data.get('egg_hist', {})
+                self._raid_hist = data.get('raid_hist', {})
+                self._weather_hist = data.get('weather_hist', {})
+                self._gym_team = data.get('gym_team', {})
+                self._gym_name = data.get('gym_name', {})
+                self._gym_desc = data.get('gym_desc', {})
+                self._gym_image = data.get('gym_image', {})
+                self._reward = data.get('gym_image', {})
+
+                log.debug("Cache loaded successfully.")
+        except Exception as e:
+            log.error("There was an error attempting to load the cache. The "
+                      "old cache will be overwritten.")
+            log.error("{}: {}".format(type(e).__name__, e))
+>>>>>>> 00734c5... Quests! WIP
 
     def _save(self):
         """ Export the data to a more permanent location. """
@@ -49,7 +71,16 @@ class FileCache(Cache):
             'gym_info': self._gym_info,
             'egg_hist': self._egg_hist,
             'raid_hist': self._raid_hist,
+<<<<<<< HEAD
             'weather_hist': self._weather_hist
+=======
+            'weather_hist': self._weather_hist,
+            'gym_team': self._gym_team,
+            'gym_name': self._gym_name,
+            'gym_desc': self._gym_desc,
+            'gym_image': self._gym_image,
+            'reward': self._reward
+>>>>>>> 00734c5... Quests! WIP
         }
         log.debug(self._pokestop_hist)
         log.debug("SAVED: {}".format(data))

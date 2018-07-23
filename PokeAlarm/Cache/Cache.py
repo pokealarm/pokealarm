@@ -89,6 +89,12 @@ class Cache(object):
         """ Update the current weather in an S2 cell. """
         self._weather_hist[weather_cell_id] = condition
 
+    def quest_reward(self, stop_id, reward=None):
+        """ Update and return the reward for a quest."""
+        if Unknown.is_not(reward):
+            self._reward[stop_id] = reward
+        return self._reward.get(stop_id, Unknown.REGULAR)
+
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
         self._clean_hist()
