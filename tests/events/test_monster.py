@@ -6,7 +6,6 @@ import unittest
 from datetime import datetime, timedelta
 # 3rd Party Imports
 # Local Imports
-# from tests import context
 from prototype.events import Monster
 
 
