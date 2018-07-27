@@ -52,7 +52,7 @@ class FileCache(Cache):
                 self._gym_name = data.get('gym_name', {})
                 self._gym_desc = data.get('gym_desc', {})
                 self._gym_image = data.get('gym_image', {})
-                self._reward = data.get('gym_image', {})
+                self._reward = data.get('reward', {})
 
                 log.debug("Cache loaded successfully.")
         except Exception as e:
