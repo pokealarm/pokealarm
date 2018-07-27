@@ -990,56 +990,9 @@
     "719": "Diancie",
     "720": "Hoopa",
     "721": "Volcanion"
-<<<<<<< HEAD
   },
   "misc": {
     "boosted": "boosted"
-  }
-}
-=======
-  }, 
-  "sizes": {
-    "001": "tiny", 
-    "002": "small", 
-    "003": "normal", 
-    "004": "large", 
-    "005": "big"
-  }, 
-  "teams": {
-    "000": "Neutral", 
-    "001": "Mystic", 
-    "002": "Valor", 
-    "003": "Instinct"
-  }, 
-  "types": {
-    "001": "Normal", 
-    "002": "Fighting", 
-    "003": "Flying", 
-    "004": "Poison", 
-    "005": "Ground", 
-    "006": "Rock", 
-    "007": "Bug", 
-    "008": "Ghost", 
-    "009": "Steel", 
-    "010": "Fire", 
-    "011": "Water", 
-    "012": "Grass", 
-    "013": "Electric", 
-    "014": "Psychic", 
-    "015": "Ice", 
-    "016": "Dragon", 
-    "017": "Fairy", 
-    "018": "Dark"
-  }, 
-  "weather": {
-    "000": "None", 
-    "001": "Clear", 
-    "002": "Rain", 
-    "003": "Partly Cloudy", 
-    "004": "Cloudy", 
-    "005": "Windy", 
-    "006": "Snow", 
-    "007": "Fog"
   },  
   "items": {
 	"000": "Stardust", 
@@ -1054,7 +1007,7 @@
     "201": "Revive", 
     "202": "Max Revive", 
     "301": "Lucky Egg", 
-	"401": "Incense", 
+	  "401": "Incense", 
     "402": "Spicy Incense", 
     "403": "Cool Incense", 
     "404": "Floral Incense", 
@@ -1075,7 +1028,7 @@
     "901": "Unlimited Incubator", 
     "902": "Incubator", 
     "903": "Super Incunbator",
-	"1001": "Pokemon Storage Upgrade", 
+	  "1001": "Pokemon Storage Upgrade", 
     "1002": "Item Storage Upgrade", 
     "1101": "Sun Stone", 
     "1102": "Kings Rock", 
@@ -1132,4 +1085,3 @@
    }
 }
 
->>>>>>> 294192d... nice quests

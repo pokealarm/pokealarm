@@ -1,18 +1,11 @@
 # Standard Library Imports
-<<<<<<< HEAD
 import datetime
-=======
->>>>>>> 00734c5... Quests! WIP
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-<<<<<<< HEAD
     get_dist_as_str, get_string_for_quest_task
-=======
-    get_time_as_str, get_dist_as_str
->>>>>>> 00734c5... Quests! WIP
 
 
 class QuestEvent(BaseEvent):
@@ -41,7 +34,6 @@ class QuestEvent(BaseEvent):
         self.custom_dts = {}
 
         # Quest Details
-<<<<<<< HEAD
         self.quest = int(data['quest_type_raw'])
         self.reward = data['quest_reward_type']
         self.monster_id = int(data['pokemon_id'])
@@ -50,10 +42,6 @@ class QuestEvent(BaseEvent):
         self.condition = data['quest_condition']
         self.target = data['quest_target']
         self.expiry = datetime.datetime.now().strftime("%d/%m/%Y 23:59")
-=======
-        self.quest = data['quest']
-        self.reward = data['reward']
->>>>>>> 00734c5... Quests! WIP
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
@@ -76,16 +64,11 @@ class QuestEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
             # Quest Details
-<<<<<<< HEAD
             'quest': get_string_for_quest_task(locale, self.quest, self.condition, self.target),
             'reward': (
                 locale.get_pokemon_name(self.monster_id)
                 if self.reward == 'Pokemon'
                 else "{} ({})".format(locale.get_item_name(self.item_id), self.item_amount)),
             'expiry': self.expiry
-=======
-            'quest': self.quest,
-            'reward': self.reward
->>>>>>> 00734c5... Quests! WIP
         })
         return dts

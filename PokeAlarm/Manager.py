@@ -90,11 +90,8 @@ class Manager(object):
         self.__gym_rules = {}
         self.__egg_rules = {}
         self.__raid_rules = {}
-<<<<<<< HEAD
-=======
         self.__weather_rules = {}
         self.__quest_rules = {}
->>>>>>> 00734c5... Quests! WIP
 
         # Initialize the queue and start the process
         self.__queue = Queue()
