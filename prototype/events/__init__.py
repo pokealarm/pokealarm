@@ -10,6 +10,6 @@ of importance that can occur.
 
 from monster import Monster
 from stop import Stop
+from gym import Gym
 
-TYPES = [Monster, Stop]
-
+TYPES = [Monster, Stop, Gym]
