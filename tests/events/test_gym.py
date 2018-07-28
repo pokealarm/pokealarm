@@ -8,7 +8,7 @@ from prototype.events import Gym
 
 
 def generic_gym(values):
-    """ Generate a generic stop, overriding with an specific values. """
+    """ Generate a generic gym, overriding with an specific values. """
     settings = {
         "id": "OWNmOTFmMmM0YTY3NGQwYjg0Y2I1N2JlZjU4OWRkMTYuMTY=",
         "url": None,
@@ -55,6 +55,11 @@ class TestGymEvent(unittest.TestCase):
         gym = generic_gym({'description': "test123"})
         self.assertTrue(isinstance(gym.gym_description, str))
         self.assertTrue(gym.gym_description == "test123")
+
+    def test_gym_image(self):
+        gym = generic_gym({'url': "https://someimage.url"})
+        self.assertTrue(isinstance(gym.gym_image, str))
+        self.assertTrue(gym.gym_image == "https://someimage.url")
 
     def test_slots_available(self):
         gym = generic_gym({'slots_available': "6"})

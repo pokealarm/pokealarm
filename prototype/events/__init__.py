@@ -11,5 +11,6 @@ of importance that can occur.
 from monster import Monster
 from stop import Stop
 from gym import Gym
+from egg import Egg
 
-TYPES = [Monster, Stop, Gym]
+TYPES = [Monster, Stop, Gym, Egg]
