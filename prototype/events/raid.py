@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-pokealarm.events.egg
+pokealarm.events.raid
 ~~~~~~~~~~~~~~~~
 
-This module contains classes for managing changes to Eggs ingame.
+This module contains classes for managing changes to a Raid ingame.
 """
 
 # Standard Library Imports
@@ -14,15 +14,14 @@ from datetime import datetime
 from _base import Event, EventAttr
 
 
-class Egg(Event):
+class Raid(Event):
     """
-    Object representation of an Egg, which is an early indicator of a raid.
+    Object representation of an ingame Raid.
     """
 
     # Location
     lat = EventAttr(['latitude'], float)  # type: float
     lng = EventAttr(['longitude'], float)  # type: float
-    weather_id = EventAttr(['weather'], int)  # type: int
     # Completed by Manager
     distance = None  # type: float
     direction = None  # type: str
@@ -39,15 +38,24 @@ class Egg(Event):
     park = EventAttr(['park'], str)  # type: str
 
     # Time Remaining
-    hatch_time = EventAttr(  # type: datetime
-        ['start', 'raid_begin'], datetime.utcfromtimestamp, required=True)
     raid_end = EventAttr(  # type: datetime
         ['end', 'raid_end'], datetime.utcfromtimestamp, required=True)
 
     @property
     def time_left(self):
         # type: () -> float
-        return (self.hatch_time - datetime.utcnow()).total_seconds()
+        return (self.raid_end - datetime.utcnow()).total_seconds()
 
-    # Egg Info
-    egg_lvl = EventAttr(['level'], int, default=0)  # type: int
+    # Monster Info
+    raid_lvl = EventAttr(['level'], int, required=True)  # type: int
+    monster_id = EventAttr(['pokemon_id'], int, required=True)  # type: int
+    cp = EventAttr(['cp'], int, required=True)  # type: int
+
+    form_id = EventAttr(['form'], int, default=0)  # type: int
+    costume_id = EventAttr(['costume'], int, default=0)  # type: int
+
+    quick_id = EventAttr(['move_1'], int)  # type: int
+    charge_id = EventAttr(['move_2'], int)  # type: int
+
+    # Weather Info
+    weather_id = EventAttr(['weather'], int)  # type: int
