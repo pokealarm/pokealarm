@@ -13,5 +13,6 @@ from stop import Stop
 from gym import Gym
 from egg import Egg
 from raid import Raid
+from weather import Weather
 
-TYPES = [Monster, Stop, Gym, Egg, Raid]
+TYPES = [Monster, Stop, Gym, Egg, Raid, Weather]
