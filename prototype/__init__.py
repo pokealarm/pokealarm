@@ -7,6 +7,13 @@ PokeAlarm Prototype Library
 This is a prototype library for PokeAlarm.
 """
 
+# Standard Library Imports
+import os
+# 3rd Party Imports
+# Local Imports
+
+_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+
 
 class Unknown:
     """ Enum for unknown DTS. """
@@ -37,3 +44,4 @@ class Unknown:
     def or_empty(cls, val, default=EMPTY):
         """ Returns an default if unknown, else the original value. """
         return val if val not in cls.__unknown_set else default
+
