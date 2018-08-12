@@ -9,6 +9,7 @@ types.
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 import logging
 from typing import List, Mapping, Optional  # noqa F401
 # 3rd Party Imports
@@ -26,7 +27,7 @@ class EventAttr(object):
     """
 
     def __init__(self, keys, validator, required=False, default=None):
-        # type: (List[str], function, Optional) -> None
+        # type: (List[str], function, bool, Optional) -> None
         self.keys = keys
         self.validator = validator
         self.required = required
@@ -63,7 +64,8 @@ class _MetaEvent(type):
         # Collect all _EventAttr into _event_attr dict
         dct['_event_attr'] = {
             k: dct.pop(k)
-            for k in dct.keys() if isinstance(dct[k], EventAttr)}
+            for k in list(dct.keys()) if isinstance(dct[k], EventAttr)
+        }
         return super(_MetaEvent, mcs).__new__(mcs, name, bases, dct)
 
 

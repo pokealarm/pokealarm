@@ -4,10 +4,11 @@
 pokealarm.utils._data_files
 ~~~~~~~~~~~~~~~~
 
-Contains information for accessing info from pokealarm/data.
+Contains information for accessing info from prototype/data.
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 import os
 import json
 from collections import defaultdict
@@ -41,4 +42,3 @@ move_stats = _load_stats("data/move_stats.json")
 cp_mult = _load_other('data/cp_multipliers.json', float, float)
 weather_boosts = _load_other(
     'data/weather_boosts.json', int, lambda types: [int(t)for t in types])
-

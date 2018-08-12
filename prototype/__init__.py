@@ -8,6 +8,7 @@ This is a prototype library for PokeAlarm.
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 import os
 # 3rd Party Imports
 # Local Imports
@@ -44,4 +45,3 @@ class Unknown:
     def or_empty(cls, val, default=EMPTY):
         """ Returns an default if unknown, else the original value. """
         return val if val not in cls.__unknown_set else default
-

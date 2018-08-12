@@ -8,10 +8,11 @@ This module contains classes for managing changes to a Raid ingame.
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from _base import Event, EventAttr
+from ._base import Event, EventAttr
 
 
 class Raid(Event):

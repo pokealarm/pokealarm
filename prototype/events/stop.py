@@ -7,11 +7,13 @@ pokealarm.events.stop
 This module contains classes for managing changes to pokestops.
 """
 
+from __future__ import (
+    absolute_import, division, print_function, unicode_literals)
 # Standard Library Imports
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from _base import Event, EventAttr
+from ._base import Event, EventAttr
 
 
 class Stop(Event):

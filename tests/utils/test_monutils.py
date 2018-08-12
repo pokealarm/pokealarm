@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 import unittest
 # 3rd Party Imports
 # Local Imports

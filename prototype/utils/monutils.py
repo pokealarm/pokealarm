@@ -8,9 +8,10 @@ This module contains utility functions for data related to Monsters
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 # 3rd Party Imports
 # Local Imports
-from _data import mon_stats, move_stats, cp_mult, weather_boosts
+from ._data import mon_stats, move_stats, cp_mult, weather_boosts
 
 
 def get_atk_stat(mon_id):

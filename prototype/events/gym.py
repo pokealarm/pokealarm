@@ -8,9 +8,10 @@ This module contains classes for managing changes to Gyms ingame.
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 # 3rd Party Imports
 # Local Imports
-from _base import Event, EventAttr
+from ._base import Event, EventAttr
 
 
 class Gym(Event):
