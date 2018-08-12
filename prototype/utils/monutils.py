@@ -10,7 +10,7 @@ This module contains utility functions for data related to Monsters
 # Standard Library Imports
 # 3rd Party Imports
 # Local Imports
-from _data import mon_stats, move_stats
+from _data import mon_stats, move_stats, cp_mult, weather_boosts
 
 
 def get_atk_stat(mon_id):
@@ -91,3 +91,15 @@ def get_move_energy(move_id):
     """ Returns the energy a move generates. """
     # (int) -> int
     return move_stats['energy'].get(move_id)
+
+
+def get_weather_boosted_types(weather_id):
+    """ Returns the types boosted by a supplied weather type. """
+    # (int) -> list[int]
+    return weather_boosts.get(weather_id)
+
+
+def get_cp_multiplier(lvl):
+    """ Returns the cp multiplier for a given level. """
+    # (float) -> int
+    return cp_mult.get(lvl)

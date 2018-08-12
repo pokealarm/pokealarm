@@ -79,3 +79,13 @@ class TestMonUtils(unittest.TestCase):
         energy = monutils.get_move_energy(20)
         self.assertTrue(type(energy) == int)
         self.assertTrue(energy == 33)
+
+    def test_get_weather_boosted_types(self):
+        types = monutils.get_weather_boosted_types(1)
+        self.assertTrue(type(types) == list)
+        self.assertTrue(types == [10, 12, 5])
+
+    def test_get_cp_multiplier(self):
+        multiplier = monutils.get_cp_multiplier(10)
+        self.assertTrue(type(multiplier) == float)
+        self.assertTrue(multiplier == 0.422500014305115)
