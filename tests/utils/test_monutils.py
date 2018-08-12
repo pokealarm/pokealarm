@@ -54,3 +54,28 @@ class TestMonUtils(unittest.TestCase):
         weight = monutils.get_weight(4)
         self.assertTrue(type(weight) == float)
         self.assertTrue(weight == 8.5)
+
+    def test_get_move_type(self):
+        move_type = monutils.get_move_type(13)
+        self.assertTrue(type(move_type) == int)
+        self.assertTrue(move_type == 1)
+
+    def test_get_move_damage(self):
+        dmg = monutils.get_move_damage(14)
+        self.assertTrue(type(dmg) == int)
+        self.assertTrue(dmg == 150)
+
+    def test_get_move_dps(self):
+        dps = monutils.get_move_dps(16)
+        self.assertTrue(type(dps) == float)
+        self.assertTrue(dps == 26.67)
+
+    def test_get_move_duration(self):
+        duration = monutils.get_move_duration(18)
+        self.assertTrue(type(duration) == int)
+        self.assertTrue(duration == 2100)
+
+    def test_get_move_energy(self):
+        energy = monutils.get_move_energy(20)
+        self.assertTrue(type(energy) == int)
+        self.assertTrue(energy == 33)
