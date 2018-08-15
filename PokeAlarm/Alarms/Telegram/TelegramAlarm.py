@@ -63,6 +63,11 @@ class TelegramAlarm(Alarm):
                        " changed to <weather>!",
             'sticker_url': get_image_url(
                 "telegram/weather/<weather_id_3>_<day_or_night_id_3>.webp")
+        },
+        'quest': {
+            'message': "*New quest for <reward>*\n"
+                       "<quest>",
+            'sticker_url': get_image_url("telegram/stop/ready.webp")
         }
     }
 
@@ -116,6 +121,8 @@ class TelegramAlarm(Alarm):
             'raids', settings, alert_defaults)
         self._weather_alert = self.create_alert_settings(
             'weather', settings, alert_defaults)
+        self._quest_alert = self.create_alert_settings(
+            'quest', settings, alert_defaults)
 
         # Reject leftover parameters
         for key in settings:
@@ -233,6 +240,9 @@ class TelegramAlarm(Alarm):
     # Trigger an alert based on Weather info
     def weather_alert(self, weather_dts):
         self.generic_alert(self._weather_alert, weather_dts)
+
+    def quest_alert(self, quest_dts):
+        self.generic_alert(self._quest_alert, quest_dts)
 
     def send_sticker(self, token, chat_id, sticker_url,
                      max_attempts=3, notify=False):

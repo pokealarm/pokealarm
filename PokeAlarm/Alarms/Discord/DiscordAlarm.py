@@ -80,6 +80,15 @@ class DiscordAlarm(Alarm):
             "title": "The weather has changed!",
             "url": "<gmaps>",
             "body": "The weather around <lat>,<lng> has changed to <weather>!"
+        },
+        'quest': {
+            'username': "Quest",
+            'content': "",
+            'icon_url': None,
+            'avatar_url': None,
+            'title': "New Quest Found!",
+            'url': "<gmaps>",
+            'body': "Quest will expire at midnight."
         }
     }
 
@@ -113,6 +122,8 @@ class DiscordAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
+        self.__quest = self.create_alert_settings(
+            settings.pop('quest', {}), self._defaults['quest'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -205,14 +216,21 @@ class DiscordAlarm(Alarm):
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
+        self._log.debug("Raid Egg notification triggered.")
         self.send_alert(self.__eggs, raid_info)
 
     def raid_alert(self, raid_info):
+        self._log.debug("Raid notification triggered.")
         self.send_alert(self.__raids, raid_info)
 
     # Trigger an alert based on Weather info
     def weather_alert(self, weather_info):
+        self._log.debug("Weather notification triggered.")
         self.send_alert(self.__weather, weather_info)
+
+    def quest_alert(self, quest_info):
+        self._log.debug("Quest notification triggered.")
+        self.send_alert(self.__quest, quest_info)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):

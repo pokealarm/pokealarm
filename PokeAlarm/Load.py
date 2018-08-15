@@ -85,6 +85,13 @@ def parse_filters_file(mgr, filename):
         for name, f in filters.iteritems():
             mgr.add_weather_filter(name, f)
 
+        # Load Quest Section
+        section = filters_file.pop('quest', {'enabled': False})
+        mgr.set_quest_enabled(section.pop('enabled', True))
+        filters = parse_filter_section(section)
+        for name, f in filters.iteritems():
+            mgr.add_quest_filter(name, f)
+
         return  # exit function
 
     except Exception as e:
@@ -182,6 +189,8 @@ def parse_rules_file(manager, filename):
         load_rules_section(manager.add_raid_rule, rules.pop('raids', {}))
         log.debug("Parsing 'weather' section.")
         load_rules_section(manager.add_weather_rule, rules.pop('weather', {}))
+        log.debug("Parsing 'quest' section.")
+        load_rules_section(manager.add_quest_rule, rules.pop('quest', {}))
 
         for key in rules:
             raise ValueError("Unknown Event type '{}'. Rules must be defined "

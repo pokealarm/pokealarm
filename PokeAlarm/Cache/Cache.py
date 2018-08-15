@@ -30,6 +30,7 @@ class Cache(object):
         self._cell_weather_id = {}
         self._severity_id = {}
         self._day_or_night_id = {}
+        self._reward = {}
 
     def monster_expiration(self, mon_id, expiration=None):
         """ Update and return the datetime that a monster expires."""
@@ -96,6 +97,12 @@ class Cache(object):
         if Unknown.is_not(day_or_night_id):
             self._day_or_night_id[s2_cell_id] = day_or_night_id
         return self._day_or_night_id.get(s2_cell_id, Unknown.REGULAR)
+
+    def quest_reward(self, stop_id, reward=None):
+        """ Update and return the reward for a quest."""
+        if Unknown.is_not(reward):
+            self._reward[stop_id] = reward
+        return self._reward.get(stop_id, Unknown.REGULAR)
 
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
