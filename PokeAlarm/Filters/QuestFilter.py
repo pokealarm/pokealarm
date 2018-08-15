@@ -25,7 +25,7 @@ class QuestFilter(BaseFilter):
             event_attribute='quest', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'quest_contains', data))
-        self.gym_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+        self.quest_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
             event_attribute='quest',
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
@@ -36,7 +36,7 @@ class QuestFilter(BaseFilter):
             event_attribute='reward', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'reward_contains', data))
-        self.gym_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+        self.reward_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
             event_attribute='reward',
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
