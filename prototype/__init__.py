@@ -7,6 +7,14 @@ PokeAlarm Prototype Library
 This is a prototype library for PokeAlarm.
 """
 
+# Standard Library Imports
+from __future__ import absolute_import, unicode_literals
+import os
+# 3rd Party Imports
+# Local Imports
+
+_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+
 
 class Unknown:
     """ Enum for unknown DTS. """

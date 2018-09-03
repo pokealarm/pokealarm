@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 pokealarm.events.egg
 ~~~~~~~~~~~~~~~~
@@ -8,10 +7,11 @@ This module contains classes for managing changes to Eggs ingame.
 """
 
 # Standard Library Imports
+from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from _base import Event, EventAttr
+from ._base import Event, EventAttr
 
 
 class Egg(Event):

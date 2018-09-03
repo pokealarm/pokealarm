@@ -11,7 +11,7 @@ This module contains classes for managing catchable monsters that spawn ingame.
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from _base import Event, EventAttr
+from ._base import Event, EventAttr
 
 
 class Monster(Event):
