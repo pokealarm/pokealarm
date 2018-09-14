@@ -81,11 +81,11 @@ class DiscordAlarm(Alarm):
             "url": "<gmaps>",
             "body": "The weather around <lat>,<lng> has changed to <weather>!"
         },
-        'quest': {
+        'quests': {
             'username': "Quest",
             'content': "",
-            'icon_url': None,
-            'avatar_url': None,
+            'icon_url': get_image_url("regular/quest/<type_id>.png"),
+            'avatar_url': get_image_url("regular/quest/<type_id>.png"),
             'title': "New Quest Found!",
             'url': "<gmaps>",
             'body': "Quest will expire at midnight."
@@ -122,8 +122,8 @@ class DiscordAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
-        self.__quest = self.create_alert_settings(
-            settings.pop('quest', {}), self._defaults['quest'])
+        self.__quests = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -230,7 +230,7 @@ class DiscordAlarm(Alarm):
 
     def quest_alert(self, quest_info):
         self._log.debug("Quest notification triggered.")
-        self.send_alert(self.__quest, quest_info)
+        self.send_alert(self.__quests, quest_info)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):

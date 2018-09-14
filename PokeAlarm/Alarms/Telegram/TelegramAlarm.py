@@ -64,10 +64,10 @@ class TelegramAlarm(Alarm):
             'sticker_url': get_image_url(
                 "telegram/weather/<weather_id_3>_<day_or_night_id_3>.webp")
         },
-        'quest': {
+        'quests': {
             'message': "*New quest for <reward>*\n"
                        "<quest>",
-            'sticker_url': get_image_url("telegram/stop/ready.webp")
+            'sticker_url': get_image_url("telegram/quest/<type_id>.webp")
         }
     }
 
@@ -122,7 +122,7 @@ class TelegramAlarm(Alarm):
         self._weather_alert = self.create_alert_settings(
             'weather', settings, alert_defaults)
         self._quest_alert = self.create_alert_settings(
-            'quest', settings, alert_defaults)
+            'quests', settings, alert_defaults)
 
         # Reject leftover parameters
         for key in settings:

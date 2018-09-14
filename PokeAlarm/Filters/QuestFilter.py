@@ -3,7 +3,8 @@ import operator
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
-from PokeAlarm.Utilities import GymUtils as GymUtils
+from PokeAlarm.Utilities import GymUtils as GymUtils, QuestUtils
+
 
 class QuestFilter(BaseFilter):
     """ Filter class for limiting which quests trigger a notification. """
@@ -19,7 +20,7 @@ class QuestFilter(BaseFilter):
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
-            
+
         # Quest Description
         self.quest_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='quest', eval_func=GymUtils.match_regex_dict,
@@ -30,7 +31,7 @@ class QuestFilter(BaseFilter):
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'quest_excludes', data))
-                
+
         # Reward Description
         self.reward_contains = self.evaluate_attribute(  # f.gn matches e.gn
             event_attribute='reward', eval_func=GymUtils.match_regex_dict,
@@ -41,6 +42,11 @@ class QuestFilter(BaseFilter):
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'reward_excludes', data))
+
+        self.types = self.evaluate_attribute(
+            event_attribute='type', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(QuestUtils.get_type, 'type', data)
+        )
 
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)

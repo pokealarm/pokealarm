@@ -5,7 +5,7 @@ import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_dist_as_str
+    get_waze_link, get_dist_as_str
 
 
 class QuestEvent(BaseEvent):
@@ -13,12 +13,15 @@ class QuestEvent(BaseEvent):
 
     def __init__(self, data):
         """ Creates a new Quest Event based on the given dict. """
-        super(QuestEvent, self).__init__('quest')
+        super(QuestEvent, self).__init__('quests')
+        check_for_none = BaseEvent.check_for_none
 
         # Identification
         self.stop_id = data['pokestop_id']
-        self.stop_name = data['name']
-        self.stop_image = data['url']
+        self.stop_name = check_for_none(
+            str, data.get('name'), Unknown.REGULAR)
+        self.stop_image = check_for_none(
+            str, data.get('pokestop_url'), Unknown.REGULAR)
 
         # Location
         self.lat = float(data['latitude'])
@@ -37,15 +40,20 @@ class QuestEvent(BaseEvent):
         self.quest = data['quest']
         self.reward = data['reward']
         self.expiry = datetime.datetime.now().strftime("%d/%m/%Y 23:59")
+        self.type = check_for_none(int, data.get('type'), 0)
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
+        type_name = locale.get_quest_type_name(self.type)
+
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
             'stop_id': self.stop_id,
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
+            'type_id': self.type,
+            'type': type_name,
             # Location
             'lat': self.lat,
             'lng': self.lng,
@@ -57,10 +65,12 @@ class QuestEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
             # Quest Details
             'quest': self.quest,
             'reward': self.reward,
+            'reward_type': self.type,
             'expiry': self.expiry
         })
         return dts

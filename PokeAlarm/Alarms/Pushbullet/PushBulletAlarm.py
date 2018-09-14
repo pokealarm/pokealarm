@@ -50,6 +50,12 @@ class PushbulletAlarm(Alarm):
             'title': "The weather has changed!",
             'url': "<gmaps>",
             'body': "The weather around <lat>,<lng> has changed to <weather>!"
+        },
+        'quests': {
+            'message': "*New quest for <reward>*\n"
+                       "<quest>",
+            'url': '<gmaps>',
+            'body': 'New quest for <reward>\n<quest>'
         }
     }
 
@@ -81,6 +87,8 @@ class PushbulletAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
+        self.__quest = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -156,6 +164,10 @@ class PushbulletAlarm(Alarm):
     # Trigger an alert based on Weather info
     def weather_alert(self, weather_info):
         self.send_alert(self.__weather, weather_info)
+
+    # Trigger quest alert
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quest, quest_info)
 
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):

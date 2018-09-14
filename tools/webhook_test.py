@@ -28,7 +28,8 @@ whtypes = {
     "3": "gym",
     "4": "egg",
     "5": "raid",
-    "6": "weather"
+    "6": "weather",
+    "7": "quest"
 }
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -47,9 +48,14 @@ severity_formatted = re.sub(
 day_or_night_formatted = re.sub(
     r'[{}",]', '', json.dumps(data['day_or_night'], indent=2, sort_keys=True))
 
+quest_types_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['quest_types'], indent=2, sort_keys=True))
+
 _cache = {}
 
 _gym_info = {}
+
+_stop_info = {}
 
 
 def set_init(webhook_type):
@@ -151,6 +157,20 @@ def set_init(webhook_type):
                 "world_time": 1
             }
         }
+    elif webhook_type == whtypes["7"]:
+        payloadr = {
+            "type": "quest",
+            "message": {
+                "pokestop_id": current_time,
+                "name": "Stop Name",
+                "url": "http://placehold.it/500x500",
+                "latitude": 37.7876146,
+                "longitude": -122.390624,
+                "quest": "Catch 10 Dragonites",
+                "reward": "1 Pidgey",
+                "type": 0
+            }
+        }
 
     return payloadr
 
@@ -173,6 +193,11 @@ def get_gym_info(gym_id):
     return _gym_info.get(gym_id, 'unknown')
 
 
+def get_stop_info(stop_id):
+    """ Gets the information about the stop. """
+    return _stop_info.get(stop_id, 'unknown')
+
+
 def gym_or_invalid(prm, prm2):
     questionable_input = raw_input()
     while get_gym_info(questionable_input) == "unknown":
@@ -181,6 +206,16 @@ def gym_or_invalid(prm, prm2):
     print "Gym found! {}".format(get_gym_info(questionable_input))
     payload["message"][prm] = questionable_input
     payload["message"][prm2] = get_gym_info(questionable_input)
+
+
+def stop_or_invalid(prm, prm2):
+    questionable_input = raw_input()
+    while get_stop_info(questionable_input) == "unknown":
+        print "Not a valid stop. Please try again..\n>",
+        questionable_input = raw_input()
+    print "Stop found! {}".format(get_stop_info(questionable_input))
+    payload["message"][prm] = questionable_input
+    payload["message"][prm2] = get_stop_info(questionable_input)
 
 
 def cache_or_invalid():
@@ -195,18 +230,28 @@ def cache_or_invalid():
     else:
         print "No valid cache file found, terminating.."
         sys.exit(1)
-    load_cache(file)
+    load_gym_cache(file)
 
 
-def load_cache(file):
+def load_gym_cache(file):
     global _gym_info
     with portalocker.Lock(file, mode="rb") as f:
         data = pickle.load(f)
         _gym_info = data.get('gym_name', {})
 
 
+def load_stop_cache(file):
+    global _stop_info
+    with portalocker.Lock(file, mode="rb") as f:
+        data = pickle.load(f)
+        _stop_info = data.get('pokestop_name', {})
+
+
 def list_cache():
     path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.exists(os.path.join(path, "cache")):
+        print "Cache folder does not exist! No cache files found!"
+        return False
     print "Here is a list of cache files found in cache :"
     for file in os.listdir(os.path.join(path, "cache")):
         if file.endswith(".cache"):
@@ -233,14 +278,48 @@ def list_gyms():
         print "Enter gym id for raid (from above)\n>",
 
 
+def list_stops():
+    path = os.path.dirname(os.path.abspath(__file__))
+    if len(_stop_info) > 50:
+        with portalocker.Lock(os.path.join(path, "stops.txt"), mode="wb+") \
+                as f:
+            i = 0
+            for key, name in _gym_info.items():
+                i += 1
+                f.write("[{}] {} : {} \n".format(i, name, key))
+            f.close()
+        print "Find list of stops in your \\tools\ folder (stops.txt)"
+        print "Enter stop id for raid (from file)\n>",
+    else:
+        print "Here is a list of stops found in your cache:"
+        i = 0
+        for key, name in _gym_info.items():
+            i += 1
+            print "[{}] {} : {} ".format(i, name, key)
+        print "Enter stop id (from above)\n>",
+
+
 def gym_cache():
     print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
     if raw_input() in truthy:
-        list_cache()
+        if not list_cache():
+            return False
         print "Enter cache file name to verify the gym (default:manager_0)\n>",
         cache_or_invalid()
         list_gyms()
         gym_or_invalid("gym_id", "gym_name")
+
+
+def stop_cache():
+    print "Do you use file caching or does 'stop name' matter? (Y/N)\n>",
+    if raw_input() in truthy:
+        if not list_cache():
+            return False
+        print "Enter cache file name to verify the stop (default:manager_0)" \
+              "\n>",
+        cache_or_invalid()
+        list_stops()
+        stop_or_invalid("pokestop_id", "pokestop_name")
 
 
 def reset_timers_and_encounters():
@@ -267,6 +346,10 @@ def reset_timers_and_encounters():
             "gym_id": current_time,
             "start": current_time + 20,
             "end": current_time + 20 + 60,
+        })
+    elif payload["type"] == "quest":
+        payload["message"].update({
+            "stop_id": current_time
         })
 
 
@@ -407,6 +490,15 @@ elif type == whtypes["6"]:
     print "Day or night? (Put in number, Default: 1)\n" + \
           day_or_night_formatted + '\n>',
     int_or_default("world_time")
+elif type == whtypes["7"]:
+    stop_cache()
+    print "What quest type is it? (Default: 0)\n" + quest_types_formatted + \
+          '\n>',
+    int_or_default('type')
+    print "What are the quest requirements?\n>",
+    payload["message"]["quest"] = raw_input()
+    print "what are the quest rewards?\n>",
+    payload["message"]["reward"] = raw_input()
 
 if type in ["4", "5"]:
     print "What level of raid/egg? (1-5)\n>",
