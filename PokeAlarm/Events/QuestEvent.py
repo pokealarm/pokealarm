@@ -19,9 +19,10 @@ class QuestEvent(BaseEvent):
         # Identification
         self.stop_id = data['pokestop_id']
         self.stop_name = check_for_none(
-            str, data.get('name'), Unknown.REGULAR)
+            str, data.get('pokestop_name') or data.get('name'),
+            Unknown.REGULAR)
         self.stop_image = check_for_none(
-            str, data.get('pokestop_url'), Unknown.REGULAR)
+            str, data.get('pokestop_url') or data.get('url'), Unknown.REGULAR)
 
         # Location
         self.lat = float(data['latitude'])
@@ -70,7 +71,6 @@ class QuestEvent(BaseEvent):
             # Quest Details
             'quest': self.quest,
             'reward': self.reward,
-            'reward_type': self.type,
             'expiry': self.expiry
         })
         return dts

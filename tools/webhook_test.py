@@ -162,8 +162,8 @@ def set_init(webhook_type):
             "type": "quest",
             "message": {
                 "pokestop_id": current_time,
-                "name": "Stop Name",
-                "url": "http://placehold.it/500x500",
+                "pokestop_name": "Stop Name",
+                "pokestop_url": "http://placehold.it/500x500",
                 "latitude": 37.7876146,
                 "longitude": -122.390624,
                 "quest": "Catch 10 Dragonites",
