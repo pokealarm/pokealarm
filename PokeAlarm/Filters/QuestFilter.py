@@ -45,7 +45,7 @@ class QuestFilter(BaseFilter):
 
         self.types = self.evaluate_attribute(
             event_attribute='type', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(QuestUtils.get_type, 'type', data)
+            limit=BaseFilter.parse_as_set(QuestUtils.get_type, 'types', data)
         )
 
         # Geofences
@@ -62,7 +62,7 @@ class QuestFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
-                             " Stop filters".format(key))
+                             " Quest filters".format(key))
 
     def to_dict(self):
         """ Create a dict representation of this Filter. """

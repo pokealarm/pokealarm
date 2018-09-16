@@ -895,6 +895,16 @@
     "720": "\ud6c4\ud30c", 
     "721": "\ubcfc\ucf00\ub2c8\uc628"
   },
+  "quest_types": {
+    "000": "Unset",
+    "001": "Experience",
+    "002": "Item",
+    "003": "Stardust",
+    "004": "Candy",
+    "005": "Avatar Clothing",
+    "006": "Quest",
+    "007": "Monster Encounter"
+  },
   "rarity": {
     "000": "\uc0c8\ub85c\uc6b4 \uc2a4\ud3f0",
     "001": "\uacf5\uc720\uc9c0",

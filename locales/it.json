@@ -948,6 +948,16 @@
     "720": "Hoopa", 
     "721": "Volcanion"
   },
+  "quest_types": {
+    "000": "Unset",
+    "001": "Experience",
+    "002": "Item",
+    "003": "Stardust",
+    "004": "Candy",
+    "005": "Avatar Clothing",
+    "006": "Quest",
+    "007": "Monster Encounter"
+  },
   "rarity": {
     "000": "Nuevo engendro",
     "001": "Comune",
