@@ -982,14 +982,14 @@
     "721": "Volcanion"
   },
   "quest_types": {
-    "000": "Unset",
-    "001": "Experience",
+    "000": "Desviar",
+    "001": "Experi\u00EAncia",
     "002": "Item",
-    "003": "Stardust",
-    "004": "Candy",
-    "005": "Avatar Clothing",
-    "006": "Quest",
-    "007": "Monster Encounter"
+    "003": "poeira estelar",
+    "004": "Doces",
+    "005": "Vestu\u00E1rio Avatar",
+    "006": "Busca",
+    "007": "Encontro Monstro"
   },
   "rarity": {
     "000": "Novo spawn", 

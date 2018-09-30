@@ -945,14 +945,14 @@
     "721": "Volcanion"
   },
   "quest_types": {
-    "000": "Unset",
-    "001": "Experience",
-    "002": "Item",
+    "000": "Desarmado",
+    "001": "Experiencia",
+    "002": "\u00EDt.",
     "003": "Stardust",
-    "004": "Candy",
-    "005": "Avatar Clothing",
-    "006": "Quest",
-    "007": "Monster Encounter"
+    "004": "Caramelo",
+    "005": "Ropa de avatar",
+    "006": "B\u00FAsqueda",
+    "007": "Encuentro de monstruos"
   },
   "rarity": {
     "000": "Nuevo engendro",

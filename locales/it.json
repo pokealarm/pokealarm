@@ -949,14 +949,14 @@
     "721": "Volcanion"
   },
   "quest_types": {
-    "000": "Unset",
-    "001": "Experience",
-    "002": "Item",
-    "003": "Stardust",
-    "004": "Candy",
-    "005": "Avatar Clothing",
-    "006": "Quest",
-    "007": "Monster Encounter"
+    "000": "unset",
+    "001": "Esperienza",
+    "002": "Articolo",
+    "003": "polvere di stelle",
+    "004": "caramella",
+    "005": "Abbigliamento Avatar",
+    "006": "Ricerca",
+    "007": "Incontro dei mostri"
   },
   "rarity": {
     "000": "Nuevo engendro",
