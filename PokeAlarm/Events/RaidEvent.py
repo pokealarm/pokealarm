@@ -73,7 +73,7 @@ class RaidEvent(BaseEvent):
         self.charge_duration = get_move_duration(self.charge_id)
         self.charge_energy = get_move_energy(self.charge_id)
 
-        # Gym Details (currently only sent from Monocle)
+        # Gym Details (currently only sent from Monocle and RocketMapPlusPlus)
         self.gym_name = check_for_none(
             str, data.get('name'), Unknown.REGULAR).strip()
         self.gym_description = check_for_none(
@@ -84,6 +84,8 @@ class RaidEvent(BaseEvent):
             int, data.get('sponsor'), Unknown.TINY)
         self.park = check_for_none(
             str, data.get('park'), Unknown.REGULAR)
+        self.is_ex_raid_eligible = check_for_none(                                                             
+            int, data.get('is_ex_raid_eligible'), Unknown.TINY)
 
         # Gym Team (this is only available from cache)
         self.current_team_id = check_for_none(
@@ -217,6 +219,9 @@ class RaidEvent(BaseEvent):
             'sponsored':
                 self.sponsor_id > 0 if Unknown.is_not(self.sponsor_id)
                 else Unknown.REGULAR,
+            'is_ex_raid_eligible': 
+                self.is_ex_raid_eligible > 0 if Unknown.is_not(self.is_ex_raid_eligible)
+                else unknown.REGULAR,
             'park': self.park,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
