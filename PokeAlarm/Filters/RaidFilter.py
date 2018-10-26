@@ -96,6 +96,12 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'park_contains', data))
 
+        self.is_ex_eligible = self.evaluate_attribute(
+            event_attribute='ex_eligible',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'is_ex_eligible', data)
+        )
+
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
             event_attribute='current_team_id', eval_func=operator.contains,

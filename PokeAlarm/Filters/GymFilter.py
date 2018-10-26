@@ -41,6 +41,11 @@ class GymFilter(BaseFilter):
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_excludes', data))
+        self.is_ex_eligible = self.evaluate_attribute(
+            event_attribute='ex_eligible',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'is_ex_eligible', data)
+        )
 
         # Slots Available
         self.min_slots = self.evaluate_attribute(
