@@ -13,8 +13,8 @@ from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 url_regex = re.compile(
-    "(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]"
-    "@!\$&'\(\)\*\+,;=.]+", re.I)
+    r"(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]"
+    r"@!\$&'\(\)\*\+,;=.]+", re.I)
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
