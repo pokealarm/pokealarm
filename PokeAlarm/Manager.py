@@ -515,7 +515,7 @@ class Manager(object):
     # Set the location of the Manager
     def set_location(self, location):
         # Regex for Lat,Lng coordinate
-        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
+        prog = re.compile(r"^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
         res = prog.match(location)
         if res:  # If location is in a Lat,Lng coordinate
             self.__location = [float(res.group(1)), float(res.group(2))]
