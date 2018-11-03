@@ -79,12 +79,11 @@ class FacebookPageAlarm(Alarm):
             'caption': None
         },
         'quests': {
-            'message': "*New quest for <reward>*\n"
-                       "<quest>",
+            'message': "*New quest for <reward>*",
             'image': get_image_url('regular/quest/<type_id>.png'),
             'link': '<gmaps>',
             'name': 'Quest',
-            'description': 'New quest for <reward>\n<quest>',
+            'description': '<quest>',
             'caption': None
         }
     }

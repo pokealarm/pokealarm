@@ -88,7 +88,7 @@ class DiscordAlarm(Alarm):
             'avatar_url': get_image_url("regular/quest/<type_id>.png"),
             'title': "New Quest Found!",
             'url': "<gmaps>",
-            'body': "Quest will expire at midnight."
+            'body': "Quest will expire in <time_remaining>"
         }
     }
 

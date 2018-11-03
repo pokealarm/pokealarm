@@ -9,7 +9,7 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
 
 
 class QuestEvent(BaseEvent):
-    """ Event representing the discovery of a PokeStop. """
+    """ Event representing the discovery of a Quest. """
 
     def __init__(self, data):
         """ Creates a new Quest Event based on the given dict. """
@@ -40,12 +40,12 @@ class QuestEvent(BaseEvent):
         # Quest Details
         self.quest = data['quest']
         self.reward = data['reward']
-        self.expiry = datetime.datetime.now().strftime("%d/%m/%Y 23:59")
-        self.type = check_for_none(int, data.get('type'), 0)
+        self.expire_time = datetime.datetime.now().strftime("%d/%m/%Y 23:59")
+        self.reward_type = check_for_none(int, data.get('type'), 0)
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
-        type_name = locale.get_quest_type_name(self.type)
+        type_name = locale.get_quest_type_name(self.reward_type)
 
         dts = self.custom_dts.copy()
         dts.update({
@@ -53,8 +53,8 @@ class QuestEvent(BaseEvent):
             'stop_id': self.stop_id,
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
-            'type_id': self.type,
-            'type': type_name,
+            'reward_type_id': self.reward_type,
+            'reward_type': type_name,
             # Location
             'lat': self.lat,
             'lng': self.lng,
@@ -71,6 +71,7 @@ class QuestEvent(BaseEvent):
             # Quest Details
             'quest': self.quest,
             'reward': self.reward,
-            'expiry': self.expiry
+            'expire_time': self.expire_time,
+            'time_remaining': self.expire_time
         })
         return dts

@@ -23,6 +23,7 @@ class Cache(object):
         self._stop_hist = {}
         self._egg_hist = {}
         self._raid_hist = {}
+        self._quest_hist = {}
         self._gym_team = {}
         self._gym_name = {}
         self._gym_desc = {}
@@ -31,6 +32,7 @@ class Cache(object):
         self._severity_id = {}
         self._day_or_night_id = {}
         self._reward = {}
+        self._task = {}
 
     def monster_expiration(self, mon_id, expiration=None):
         """ Update and return the datetime that a monster expires."""
@@ -55,6 +57,12 @@ class Cache(object):
         if expiration is not None:
             self._raid_hist[raid_id] = expiration
         return self._raid_hist.get(raid_id)
+
+    def quest_expiration(self, stop_id, expiration=None):
+        """ Update and return the datetime that a quest expires."""
+        if expiration is not None:
+            self._quest_hist[stop_id] = expiration
+        return self._quest_hist.get(stop_id)
 
     def gym_team(self, gym_id, team_id=Unknown.TINY):
         """ Update and return the team_id of a gym. """
@@ -98,11 +106,14 @@ class Cache(object):
             self._day_or_night_id[s2_cell_id] = day_or_night_id
         return self._day_or_night_id.get(s2_cell_id, Unknown.REGULAR)
 
-    def quest_reward(self, stop_id, reward=None):
-        """ Update and return the reward for a quest."""
+    def quest_reward(self, stop_id, reward=None, task=None):
+        """ Update and return the reward and task for a quest."""
         if Unknown.is_not(reward):
             self._reward[stop_id] = reward
-        return self._reward.get(stop_id, Unknown.REGULAR)
+        if Unknown.is_not(task):
+            self._task[stop_id] = task
+        return self._reward.get(stop_id, Unknown.REGULAR), \
+            self._task.get(stop_id, Unknown.REGULAR)
 
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
@@ -117,7 +128,7 @@ class Cache(object):
         """ Clean expired objects to free up memory. """
         for hist in (
                 self._mon_hist, self._stop_hist, self._egg_hist,
-                self._raid_hist):
+                self._raid_hist, self._quest_hist):
             old = []
             now = datetime.utcnow()
             for key, expiration in hist.iteritems():

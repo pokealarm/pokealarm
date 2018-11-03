@@ -43,9 +43,10 @@ class QuestFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'reward_excludes', data))
 
-        self.types = self.evaluate_attribute(
-            event_attribute='type', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(QuestUtils.get_type, 'types', data)
+        self.reward_types = self.evaluate_attribute(
+            event_attribute='reward_type', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(QuestUtils.get_reward_type,
+                                          'reward_types', data)
         )
 
         # Geofences

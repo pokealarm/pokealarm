@@ -52,10 +52,9 @@ class PushbulletAlarm(Alarm):
             'body': "The weather around <lat>,<lng> has changed to <weather>!"
         },
         'quests': {
-            'message': "*New quest for <reward>*\n"
-                       "<quest>",
+            'title': '*New quest for <reward>*',
             'url': '<gmaps>',
-            'body': 'New quest for <reward>\n<quest>'
+            'body': '<quest>'
         }
     }
 

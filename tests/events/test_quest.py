@@ -2,6 +2,7 @@
 
 # Standard Library Imports
 import unittest
+import datetime
 # 3rd Party Imports
 # Local Imports
 from prototype.events import Quest
@@ -60,11 +61,12 @@ class TestStopEvent(unittest.TestCase):
         self.assertTrue(isinstance(quest.reward, str))
         self.assertTrue(quest.reward == 'Get Stuff')
 
-    def test_expiry(self):
-        quest = generic_quest({})
-        self.assertTrue(isinstance(quest.expiry, str))
+    def test_expire_time(self):
+        quest = generic_quest({'expire_time': datetime.
+                              datetime.now().strftime("%d/%m/%Y 23:59")})
+        self.assertTrue(isinstance(quest.expire_time, str))
 
     def test_type(self):
         quest = generic_quest({'type': 7})
-        self.assertTrue(isinstance(quest.type_id, int))
-        self.assertTrue(quest.type_id == 7)
+        self.assertTrue(isinstance(quest.reward_type_id, int))
+        self.assertTrue(quest.reward_type_id == 7)

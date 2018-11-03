@@ -999,11 +999,22 @@ class Manager(object):
             quest.direction = get_cardinal_dir(
                 [quest.lat, quest.lng], self.__location)
 
-        # Store copy of cache info
-        # TODO
+        # Skip if previously processed
+        if self.__cache.quest_expiration(quest.stop_id) is not None:
+            self._log.debug("Quest {} was skipped because it was "
+                            "previously processed.".format(quest.name))
+            return
+        self.__cache.quest_expiration(quest.stop_id, quest.expire_time)
+
+        # Check against previous copy from cache
+        previous_reward, previous_task = \
+            self.__cache.quest_reward(quest.stop_id)
+        if quest.reward == previous_reward and quest.quest == previous_task:
+            self._log.debug("Quest ignored: Reward previously alerted!")
+            return
 
         # Update cache info
-        # TODO
+        self.__cache.quest_reward(quest.stop_id, quest.reward, quest.quest)
 
         # Check for Rules
         rules = self.__quest_rules
