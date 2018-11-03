@@ -288,7 +288,7 @@ def list_stops():
                 i += 1
                 f.write("[{}] {} : {} \n".format(i, name, key))
             f.close()
-        print "Find list of stops in your \\tools\ folder (stops.txt)"
+        print "Find list of stops in your tools folder (stops.txt)"
         print "Enter stop id for raid (from file)\n>",
     else:
         print "Here is a list of stops found in your cache:"
