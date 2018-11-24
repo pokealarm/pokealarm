@@ -2,7 +2,7 @@
 
 # Standard Library Imports
 import unittest
-import datetime
+from datetime import datetime, time, date
 # 3rd Party Imports
 # Local Imports
 from prototype.events import Quest
@@ -62,11 +62,23 @@ class TestStopEvent(unittest.TestCase):
         self.assertTrue(quest.reward == 'Get Stuff')
 
     def test_expire_time(self):
-        quest = generic_quest({'expire_time': datetime.
-                              datetime.now().strftime("%d/%m/%Y 23:59")})
-        self.assertTrue(isinstance(quest.expire_time, str))
+        # Check if it defaults to today at 23:59
+        quest = generic_quest([])
+        midnight_tonight = datetime.utcfromtimestamp(
+            (datetime.combine(date.today(), time(23, 59))
+             - datetime(1970, 1, 1)).total_seconds())
+        self.assertTrue(isinstance(quest.expire_time, datetime))
+        self.assertTrue(quest.expire_time == midnight_tonight)
+
+        # Check if it accepts the webhook field
+        midnight_tonight = (datetime.combine(date.today(), time(23, 30))
+                            - datetime(1970, 1, 1)).total_seconds()
+        quest = generic_quest({'expire_time': midnight_tonight})
+        self.assertTrue(isinstance(quest.expire_time, datetime))
+        self.assertTrue(quest.expire_time ==
+                        datetime.utcfromtimestamp(midnight_tonight))
 
     def test_type(self):
         quest = generic_quest({'type': 7})
-        self.assertTrue(isinstance(quest.reward_type_id, int))
-        self.assertTrue(quest.reward_type_id == 7)
+        self.assertTrue(isinstance(quest.reward_type, int))
+        self.assertTrue(quest.reward_type == 7)

@@ -1,5 +1,5 @@
 # Standard Library Imports
-import datetime
+from datetime import datetime, time, date
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
@@ -40,7 +40,12 @@ class QuestEvent(BaseEvent):
         # Quest Details
         self.quest = data['quest']
         self.reward = data['reward']
-        self.expire_time = datetime.datetime.now().strftime("%d/%m/%Y 23:59")
+        # To ensure Windows compatibility, epoch calculation is required
+        self.expire_time = datetime.utcfromtimestamp(
+            data.get(
+                'expire_time',
+                (datetime.combine(date.today(), time(23, 59)) -
+                 datetime(1970, 1, 1)).total_seconds()))
         self.reward_type = check_for_none(int, data.get('type'), 0)
 
     def generate_dts(self, locale, timezone, units):
@@ -71,7 +76,6 @@ class QuestEvent(BaseEvent):
             # Quest Details
             'quest': self.quest,
             'reward': self.reward,
-            'expire_time': self.expire_time,
-            'time_remaining': self.expire_time
+            'expire_time': self.expire_time
         })
         return dts

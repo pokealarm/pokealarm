@@ -98,7 +98,7 @@ class TestQuestFilter(unittest.TestCase):
 
     @generic_filter_test
     def test_types(self):
-        self.filt = {'types': ['Monster Encounter', 1, 2]}
+        self.filt = {'reward_types': ['Monster Encounter', '1', 2]}
         self.event_key = 'type'
         self.pass_vals = [1, 2, 7]
         self.fail_vals = [0, 3, 4]
