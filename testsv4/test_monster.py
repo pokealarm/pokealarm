@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 # Standard Library Imports
 import calendar
 import unittest
 from datetime import datetime, timedelta
 # 3rd Party Imports
 # Local Imports
-from prototype.events import Monster
+from pokealarmv4.events import Monster
 
 
 def generic_monster(values):
