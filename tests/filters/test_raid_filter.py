@@ -37,7 +37,8 @@ class TestRaidFilter(unittest.TestCase):
             "latitude": 37.7876146,
             "longitude": -122.390624,
             "sponsor": None,
-            "park": None
+            "park": None,
+            "is_ex_raid_eligible": None
         }
         settings.update(values)
         return Events.RaidEvent(settings)
@@ -182,6 +183,22 @@ class TestRaidFilter(unittest.TestCase):
             t = time.mktime(d.timetuple())
             event = self.gen_event({"end": t})
             self.assertFalse(filt.check_event(event))
+
+    def test_is_ex_eligible(self):
+        # Create the filters
+        eligible = self.gen_filter({"is_ex_eligible": True})
+        not_eligible = self.gen_filter({"is_ex_eligible": False})
+
+        ex_event = self.gen_event({"is_ex_raid_eligible": True})
+        not_ex_event = self.gen_event({"is_ex_raid_eligible": False})
+
+        # Test passing
+        self.assertTrue(eligible.check_event(ex_event))
+        self.assertTrue(not_eligible.check_event(not_ex_event))
+
+        # Test failing
+        self.assertFalse(eligible.check_event(not_ex_event))
+        self.assertFalse(not_eligible.check_event(ex_event))
 
 
 if __name__ == '__main__':
