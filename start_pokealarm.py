@@ -14,7 +14,7 @@ import os
 import sys
 # 3rd Party Imports
 import configargparse
-from gevent import wsgi, spawn, signal, pool, queue
+from gevent import pywsgi, spawn, signal, pool, queue
 from flask import Flask, request, abort
 import pytz
 # Local Imports
@@ -101,7 +101,7 @@ def start_server():
              "".format(config['HOST'], config['PORT']))
     threads = pool.Pool(config['CONCURRENCY'])
     global server
-    server = wsgi.WSGIServer(
+    server = pywsgi.WSGIServer(
         (config['HOST'], config['PORT']), app,
         log=logging.getLogger('webserver.internal'),
         spawn=threads)

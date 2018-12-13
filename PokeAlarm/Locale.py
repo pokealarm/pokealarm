@@ -103,6 +103,12 @@ class Locale(object):
         for id_, val in default['day_or_night'].iteritems():
             self.__day_or_night_names[int(id_)] = day_or_night.get(id_, val)
 
+        # Quest Type ID -> Quest Type Name
+        self.__quest_type_names = {}
+        quest_types = info.get('quest_types', {})
+        for id_, val in default['quest_types'].iteritems():
+            self.__quest_type_names[int(id_)] = quest_types.get(id_, val)
+
         log.debug("Loaded '{}' locale successfully!".format(language))
 
         self.__misc = info.get('misc', {})
@@ -156,3 +162,6 @@ class Locale(object):
 
     def get_day_or_night(self, day_or_night_id):
         return self.__day_or_night_names.get(day_or_night_id, 'unknown')
+
+    def get_quest_type_name(self, quest_type_id):
+        return self.__quest_type_names.get(quest_type_id, 'unknown')

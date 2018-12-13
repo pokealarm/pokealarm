@@ -50,6 +50,9 @@ class TwitterAlarm(Alarm):
         'weather': {
             'status': "The weather around <lat>,<lng> has changed"
                       " to <weather>!"
+        },
+        'quests': {
+            'status': "*New quest for <reward>*\n<quest>\n<gmaps>",
         }
     }
 
@@ -85,6 +88,8 @@ class TwitterAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
+        self.__quest = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
@@ -163,6 +168,10 @@ class TwitterAlarm(Alarm):
     # Trigger an alert based on weather webhook
     def weather_alert(self, weather_info):
         self.send_alert(self.__weather, weather_info)
+
+    # Trigger an alert based on weather webhook
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quest, quest_info)
 
     # Send out a tweet with the given status
     def send_tweet(self, status):

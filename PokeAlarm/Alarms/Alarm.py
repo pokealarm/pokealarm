@@ -64,6 +64,10 @@ class Alarm(object):
     def weather_alert(self, pokeweather_info):
         raise NotImplementedError('Weather Alert is not implemented.')
 
+    # Trigger an alert when a quest is reported
+    def quest_alert(self, pokequest_info):
+        raise NotImplementedError('Quest Alert is not implemented.')
+
     # Return a version of the string with the correct substitutions made
     @staticmethod
     def replace(string, pkinfo):

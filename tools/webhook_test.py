@@ -28,7 +28,8 @@ whtypes = {
     "3": "gym",
     "4": "egg",
     "5": "raid",
-    "6": "weather"
+    "6": "weather",
+    "7": "quest"
 }
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -46,6 +47,9 @@ severity_formatted = re.sub(
 
 day_or_night_formatted = re.sub(
     r'[{}",]', '', json.dumps(data['day_or_night'], indent=2, sort_keys=True))
+
+quest_types_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['quest_types'], indent=2, sort_keys=True))
 
 _cache = {}
 
@@ -151,6 +155,20 @@ def set_init(webhook_type):
                 "world_time": 1
             }
         }
+    elif webhook_type == whtypes["7"]:
+        payloadr = {
+            "type": "quest",
+            "message": {
+                "pokestop_id": current_time,
+                "pokestop_name": "Stop Name",
+                "pokestop_url": "http://placehold.it/500x500",
+                "latitude": 37.7876146,
+                "longitude": -122.390624,
+                "quest": "Catch 10 Dragonites",
+                "reward": "1 Pidgey",
+                "type": 0
+            }
+        }
 
     return payloadr
 
@@ -195,10 +213,10 @@ def cache_or_invalid():
     else:
         print "No valid cache file found, terminating.."
         sys.exit(1)
-    load_cache(file)
+    load_gym_cache(file)
 
 
-def load_cache(file):
+def load_gym_cache(file):
     global _gym_info
     with portalocker.Lock(file, mode="rb") as f:
         data = pickle.load(f)
@@ -207,10 +225,14 @@ def load_cache(file):
 
 def list_cache():
     path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.exists(os.path.join(path, "cache")):
+        print "Cache folder does not exist! No cache files found!"
+        return False
     print "Here is a list of cache files found in cache :"
     for file in os.listdir(os.path.join(path, "cache")):
         if file.endswith(".cache"):
             print file
+    return True
 
 
 def list_gyms():
@@ -236,7 +258,8 @@ def list_gyms():
 def gym_cache():
     print "Do you use file caching or does 'gym name' matter? (Y/N)\n>",
     if raw_input() in truthy:
-        list_cache()
+        if not list_cache():
+            return False
         print "Enter cache file name to verify the gym (default:manager_0)\n>",
         cache_or_invalid()
         list_gyms()
@@ -267,6 +290,10 @@ def reset_timers_and_encounters():
             "gym_id": current_time,
             "start": current_time + 20,
             "end": current_time + 20 + 60,
+        })
+    elif payload["type"] == "quest":
+        payload["message"].update({
+            "stop_id": current_time
         })
 
 
@@ -407,6 +434,14 @@ elif type == whtypes["6"]:
     print "Day or night? (Put in number, Default: 1)\n" + \
           day_or_night_formatted + '\n>',
     int_or_default("world_time")
+elif type == whtypes["7"]:
+    print "What quest type is it? (Default: 0)\n" + quest_types_formatted + \
+          '\n>',
+    int_or_default('type')
+    print "What are the quest requirements?\n>",
+    payload["message"]["quest"] = raw_input()
+    print "what are the quest rewards?\n>",
+    payload["message"]["reward"] = raw_input()
 
 if type in ["4", "5"]:
     print "What level of raid/egg? (1-5)\n>",
@@ -430,7 +465,6 @@ while True:
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(
                     resp.status_code))
-            print "Attempting connection again"
     print "Send again?\n>",
     if raw_input() not in truthy:
         break

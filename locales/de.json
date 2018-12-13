@@ -948,6 +948,16 @@
     "720": "Hoopa", 
     "721": "Volcanion"
   },
+  "quest_types": {
+    "000": "Nicht festgelegt",
+    "001": "Erfahrung",
+    "002": "Artikel",
+    "003": "Sternenstaub",
+    "004": "S\u00FC\u00DFigkeiten",
+    "005": "Avatar Kleidung",
+    "006": "Suche",
+    "007": "Monsterbegegnung"
+  },
   "rarity": {
     "000": "Neuer Spawn",
     "001": "Häufig",
