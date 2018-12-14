@@ -10,7 +10,7 @@ python:
 
 install:
   - pip install flake8
-  - pip install -r requirements.txt
+  - .github/install_reqs.sh
 
 script:
   - .github/run_tests.sh
