@@ -20,6 +20,10 @@ class Stop(Event):
     # Identification
     stop_id: str = EventAttr(['pokestop_id'], str, required=True)
 
+    @property
+    def id(self) -> int:
+        return hash(self.stop_id)
+
     # Location
     lat: float = EventAttr(['latitude'], float, required=True)
     lng: float = EventAttr(['longitude'], float, required=True)

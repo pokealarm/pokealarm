@@ -19,6 +19,10 @@ class Gym(Event):
     # Identification
     gym_id: str = EventAttr(['gym_id', 'id'], str, required=True)
 
+    @property
+    def id(self) -> int:
+        return hash(self.gym_id)
+
     # Location
     lat: float = EventAttr(['latitude'], float, required=True)
     lng: float = EventAttr(['longitude'], float, required=True)

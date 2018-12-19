@@ -48,6 +48,11 @@ class TestMonsterEvent(unittest.TestCase):
         self.assertTrue(isinstance(mon.enc_id, str))
         self.assertTrue(mon.enc_id == "1")
 
+    def test_id(self):
+        mon = generic_monster({'encounter_id': 12345})
+        self.assertTrue(isinstance(mon.id, int))
+        self.assertTrue(mon.id == hash("12345"))
+
     def test_monster_id(self):
         mon = generic_monster({'pokemon_id': 1})
         self.assertTrue(isinstance(mon.monster_id, int))

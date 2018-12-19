@@ -20,6 +20,10 @@ class Raid(Event):
     # Identification
     gym_id = EventAttr(['gym_id', 'id'], str, required=True)
 
+    @property
+    def id(self) -> int:
+        return hash(self.gym_id)
+
     # Location
     lat: float = EventAttr(['latitude'], float)
     lng: float = EventAttr(['longitude'], float)

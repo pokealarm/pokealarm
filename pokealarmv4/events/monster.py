@@ -21,6 +21,10 @@ class Monster(Event):
     enc_id: str = EventAttr(['encounter_id'], str, required=True)
     monster_id: int = EventAttr(['pokemon_id'], int, required=True)
 
+    @property
+    def id(self) -> int:
+        return hash(self.enc_id)
+
     # Location
     lat: Optional[float] = EventAttr(['latitude'], float)
     lng: Optional[float] = EventAttr(['longitude'], float)

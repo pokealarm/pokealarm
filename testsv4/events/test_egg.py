@@ -29,6 +29,16 @@ def generic_egg(values):
 
 class TestEggEvent(unittest.TestCase):
 
+    def test_gym_id(self):
+        egg = generic_egg({'gym_id': 1})
+        self.assertTrue(isinstance(egg.gym_id, str))
+        self.assertTrue(egg.gym_id == "1")
+
+    def test_id(self):
+        egg = generic_egg({'gym_id': 12345})
+        self.assertTrue(isinstance(egg.id, int))
+        self.assertTrue(egg.id == hash("12345"))
+
     def test_lat(self):
         egg = generic_egg({'latitude': 0})
         self.assertTrue(isinstance(egg.lat, float))
@@ -43,11 +53,6 @@ class TestEggEvent(unittest.TestCase):
         egg = generic_egg({'weather': 0})
         self.assertTrue(isinstance(egg.weather_id, int))
         self.assertTrue(egg.weather_id == 0)
-
-    def test_gym_id(self):
-        egg = generic_egg({'gym_id': 1})
-        self.assertTrue(isinstance(egg.gym_id, str))
-        self.assertTrue(egg.gym_id == "1")
 
     def test_hatch_time(self):
         egg = generic_egg({})
