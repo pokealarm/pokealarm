@@ -106,6 +106,13 @@ class TestRaidFilter(unittest.TestCase):
         self.pass_vals = [1, 2, 3]
         self.fail_vals = [0]
 
+    @generic_filter_test
+    def test_form_id(self):
+        self.filt = {'form_ids': [1, '2', 67]}
+        self.event_key = 'form'
+        self.pass_vals = [1, 2, 67]
+        self.fail_vals = [0]
+
     def test_sponsored(self):
         # Create the filters
         filter1 = self.gen_filter({"sponsored": False})

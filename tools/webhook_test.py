@@ -134,6 +134,7 @@ def set_init(webhook_type):
                 "gym_id": current_time,
                 "gym_name": "unknown",
                 "pokemon_id": 150,
+                "form": 0,
                 "cp": 12345,
                 "move_1": 123,
                 "move_2": 123,
@@ -413,6 +414,8 @@ elif type == whtypes["5"]:
     gym_cache()
     print "Enter pokemon id for raid\n>",
     int_or_default("pokemon_id")
+    print "Enter form id for raid monster\n>",
+    int_or_default("form")
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",
     get_and_validate_team()
     print "Moveset important?\n>",
