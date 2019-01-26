@@ -219,7 +219,7 @@
     "284": "Surfer", 
     "285": "Draco Meteor", 
     "286": "Kismetwunsch", 
-    "287": "G\u0344hner", 
+    "287": "G\u00e4hner",
     "288": "Psyschub", 
     "289": "Ursprungswoge", 
     "290": "Abgrundsklinge", 
@@ -1000,11 +1000,11 @@
     "018": "Unlicht"
   }, 
   "weather": {
-    "000": "Keiner", 
-    "001": "klar", 
+    "000": "Keins",
+    "001": "Klar",
     "002": "Regen", 
-    "003": "Teilweise wolkig", 
-    "004": "Bew\u00f6lkt", 
+    "003": "Teilweise bew\u00f6lkt",
+    "004": "Bedeckt",
     "005": "Windig", 
     "006": "Schnee", 
     "007": "Nebel"

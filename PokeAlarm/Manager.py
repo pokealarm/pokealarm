@@ -917,9 +917,6 @@ class Manager(object):
         # type: (Events.WeatherEvent) -> None
         """ Process a weather event and notify alarms if it passes. """
 
-        # Set the name for this event so we can log rejects better
-        weather.name = self.__locale.get_weather_name(weather.s2_cell_id)
-
         # Make sure that weather changes are enabled
         if self._weather_enabled is False:
             self._log.debug("Weather ignored: weather change "
