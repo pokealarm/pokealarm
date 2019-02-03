@@ -481,7 +481,15 @@ def get_time_as_str(t, timezone=None):
         + disappear_time.strftime("%p").lower()
     # Disappear time in 24h format including seconds, eg "14:30:16"
     time_24 = disappear_time.strftime("%H:%M:%S")
-    return time_left, time_12, time_24
+
+    # Get the same as above but without seconds
+    time_left_minutes = "%dm" % m if h == 0 else "%dh %dm" % (h, m)
+    time_12_minutes = disappear_time.strftime("%I:%M") \
+        + disappear_time.strftime("%p").lower()
+    time_24_minutes = disappear_time.strftime("%H:%M")
+
+    return time_left, time_12, time_24, \
+        time_left_minutes, time_12_minutes, time_24_minutes
 
 
 # Return the time in seconds

@@ -51,6 +51,11 @@ class StopEvent(BaseEvent):
             '12h_time': time[1],
             '24h_time': time[2],
 
+            # Time Left Without Seconds
+            'time_left_minutes': time[3],
+            '12h_time_minutes': time[4],
+            '24h_time_minutes': time[5],
+
             # Location
             'lat': self.lat,
             'lng': self.lng,

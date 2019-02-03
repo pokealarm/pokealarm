@@ -63,10 +63,13 @@ geofence     Geofence around the event.
 Time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-============ ====================================================
-DTS          Description
-============ ====================================================
-time_left    Time remaining until the lure expires.
-12h_time     Time that the lure will disappear, in a 12h format.
-24h_time     Time that the lure will disappear, in a 24h format.
-============ ====================================================
+==================== ===================================================================
+DTS                  Description
+==================== ===================================================================
+time_left            Time remaining until the lure expires.
+12h_time             Time that the lure will disappear, in a 12h format.
+24h_time             Time that the lure will disappear, in a 24h format.
+time_left_minutes    Time remaining until the lure expires without seconds.
+12h_time_minutes     Time that the lure will disappear, in a 12h format without seconds.
+24h_time_minutes     Time that the lure will disappear, in a 24h format without seconds.
+==================== ===================================================================

@@ -138,13 +138,16 @@ geofence      Geofence around the event.
 Time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-================ ===============================================
-DTS              Description
-================ ===============================================
-raid_time_left   Time remaining until the raid ends.
-12h_raid_end     Time when the raid ends, formatted in 12h.
-24h_raid_end     Time when the raid ends, formatted in 24h.
-================ ===============================================
+======================== ==========================================================
+DTS                      Description
+======================== ==========================================================
+raid_time_left           Time remaining until the raid ends.
+12h_raid_end             Time when the raid ends, formatted in 12h.
+24h_raid_end             Time when the raid ends, formatted in 24h.
+raid_time_left_minutes   Time remaining until the raid ends without seconds.
+12h_raid_end_minutes     Time when the raid ends, formatted in 12h without seconds.
+24h_raid_end_minutes     Time when the raid ends, formatted in 24h without seconds.
+======================== ==========================================================
 
 
 Weather

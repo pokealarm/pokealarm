@@ -75,16 +75,22 @@ geofence            Geofence around the event.
 Time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-================= =========================================================
-DTS               Description
-================= =========================================================
-hatch_time_left   Time remaining until the egg hatches.
-12h_hatch_time    Time when the egg will hatch, formatted in 12h.
-24h_hatch_time    Time when the egg will hatch, formatted in 24h.
-raid_time_left    Time remaining until the raid ends.
-12h_raid_end      Time when the raid ends, formatted in 12h.
-24h_raid_end      Time when the raid ends, formatted in 24h.
-================= =========================================================
+======================= ===============================================================
+DTS                     Description
+======================= ===============================================================
+hatch_time_left         Time remaining until the egg hatches.
+12h_hatch_time          Time when the egg will hatch, formatted in 12h.
+24h_hatch_time          Time when the egg will hatch, formatted in 24h.
+raid_time_left          Time remaining until the raid ends.
+12h_raid_end            Time when the raid ends, formatted in 12h.
+24h_raid_end            Time when the raid ends, formatted in 24h.
+hatch_time_left_minutes Time remaining until the egg hatches without seconds.
+12_hatch_time_minutes   Time when the egg will hatch, formatted in 12h without seconds.
+24h_hatch_time_minutes  Time when the egg will hatch, formatted in 24h without seconds.
+raid_time_left_minutes  Time remaining until the raid ends without seconds.
+12h_raid_end_minutes    Time when the raid ends, formatted in 12h without seconds.
+24h_raid_end_minutes    Time when the raid ends, formatted in 24h without seconds.
+======================= ===============================================================
 
 
 Weather

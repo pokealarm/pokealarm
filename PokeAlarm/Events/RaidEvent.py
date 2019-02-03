@@ -121,6 +121,11 @@ class RaidEvent(BaseEvent):
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
+            # Time Remaining Without Seconds
+            'raid_time_left_minutes': raid_end_time[3],
+            '12h_raid_end_minutes': raid_end_time[4],
+            '24h_raid_end_minutes': raid_end_time[5],
+
             # Type
             'type1': type1,
             'type1_or_empty': Unknown.or_empty(type1),
