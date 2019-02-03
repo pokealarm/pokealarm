@@ -7,6 +7,7 @@ import logging
 from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
+import re
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import not_so_secret_url
@@ -309,6 +310,12 @@ def is_weather_boosted(pokemon_id, weather_id):
 
     boosted_types = is_weather_boosted.info.get(str(weather_id), {})
     types = get_base_types(pokemon_id)
+    print(str(types[0]))
+    print(str(types[1]))
+    print(str(boosted_types))
+    print(str(weather_id))
+    print(str(pokemon_id))
+
     return types[0] in boosted_types or types[1] in boosted_types
 
 
@@ -542,6 +549,69 @@ def match_items_in_array(list, items):
         if obj in items:
             return True
     return False
+	
+def get_string_for_quest_task(locale, typeid, condition, target):
+    
+	arr = {}
+	arr['0'] = target
+	text = locale.get_quest_type_name(typeid)
+	
+	if typeid == 4:
+		arr['wb'] = ""
+		arr['type'] = ""
+		match_object = re.search(r"'pokemon_type': \[([0-9, ]+)\]", condition)
+		if match_object is not None:
+				pt = match_object.group(1).split(', ')
+				last = len(pt)
+				cur = 1
+				if last == 1:
+					arr['type'] = locale.get_type_name(int(pt[0])).replace(' Berry','') + '-type '
+				else:
+					for ty in pt:
+						arr['type'] += ('or ' if last == cur else '') + locale.get_type_name(int(ty)) + ('-type ' if last == cur else '-, ')
+						cur += 1
+		if re.search(r"'type': 3", condition):
+				arr['wb'] = " with weather boost"
+	elif typeid == 7:
+		if re.search(r"'type': 10",condition) is not None:
+			text = locale.get_quest_type_name(71)
+	elif typeid == 8:
+		if re.search(r"'type': 6",condition) is not None:
+			text = "Win {0} Raids."
+			if re.search(r"'raid_level': \[3, 4, 5\]",condition) is not None:
+				text = locale.get_quest_type_name(81)
+	elif typeid == 13:
+		arr['type'] = "";
+		match_object = re.search(r"'item': ([0-9]+)",condition)
+		if match_object is not None:
+			arr['type'] = locale.get_item_name(int(match_object.group(1))).replace(' Berry','')+" ";
+	elif typeid == 15:
+		if re.search(r"'type': 11",condition) is not None:
+			text = locale.get_quest_type_name(151)
+	elif typeid == 16:
+		arr['inrow'] = ""
+		arr['curve'] = ""
+		arr['type'] = ""
+		if re.search(r"'type': 14",condition) is not None:
+			arr['inrow'] = " in a row"
+		if re.search(r"'type': 15",condition) is not None:
+			arr['curve'] = "Curveball "
+		match_object = re.search(r"'throw_type': ([0-9]{2})",condition)
+		if match_object is not None:
+			arr['type'] = locale.get_throw_type_name(int(match_object.group(1)))+" "
+		text = "Land {0} {type}{curve}throws{inrow}."
+	if str(target) == str(1):
+		text = text.replace(' Eggs','n Egg')
+		text = text.replace(' Raids',' Raid')
+		text = text.replace(' Battles',' Battle')
+		text = text.replace(' candies',' candy')
+		text = text.replace(' gifts',' gift')
+		text = text.replace(' {0} times','')
+		arr['0'] = "a";
+
+	for key, val in arr.items():
+			text = text.replace('{'+key+'}', val)
+	return text
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

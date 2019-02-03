@@ -41,6 +41,12 @@ class Locale(object):
         for id_, val in default["teams"].iteritems():
             self.__team_names[int(id_)] = teams.get(id_, val)
 
+		# Item ID -> Name
+        self.__item_names = {}
+        items = info.get("items", {})
+        for id_, val in default["items"].iteritems():
+            self.__item_names[int(id_)] = items.get(id_, val)
+
         # Team ID -> Team Leaders
         self.__leader_names = {}
         leaders = info.get("leaders", {})
@@ -64,6 +70,18 @@ class Locale(object):
         types = info.get("types", {})
         for id_, val in default["types"].iteritems():
             self.__type_names[int(id_)] = types.get(id_, val)
+			
+		# Throw Type ID -> Throw Type Name
+        self.__throw_type_names = {}
+        types = info.get("throw_types", {})
+        for id_, val in default["throw_types"].iteritems():
+            self.__throw_type_names[int(id_)] = types.get(id_, val)
+			
+		# Quest Type ID -> Quest Type Name
+        self.__quest_type_names = {}
+        types = info.get("quest_types", {})
+        for id_, val in default["quest_types"].iteritems():
+            self.__quest_type_names[int(id_)] = types.get(id_, val)
 
         # Pokemon ID -> { Form ID -> Form Name)
         self.__form_names = {}
@@ -89,6 +107,10 @@ class Locale(object):
     # Returns the name of the team associated with the Team ID
     def get_team_name(self, team_id):
         return self.__team_names.get(team_id, 'unknown')
+		
+	# Returns the name of the team associated with the Team ID
+    def get_item_name(self, item_id):
+        return self.__item_names.get(item_id, 'unknown')
 
     # Returns the name of the team ledaer associated with the Team ID
     def get_leader_name(self, team_id):
@@ -105,6 +127,14 @@ class Locale(object):
     # Returns the name of the type associated with the Type ID
     def get_type_name(self, type_id):
         return self.__type_names.get(type_id, 'unknown')
+		
+	# Returns the name of the throw type associated with the throw type ID
+    def get_throw_type_name(self, throw_type_id):
+        return self.__throw_type_names.get(throw_type_id, 'unknown')
+		
+	# Returns the name of the quest type associated with the quest type ID
+    def get_quest_type_name(self, quest_type_id):
+        return self.__quest_type_names.get(quest_type_id, 'unknown')
 
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
