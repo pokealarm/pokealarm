@@ -558,20 +558,34 @@ def get_string_for_quest_task(locale, typeid, condition, target):
 	
 	if typeid == 4:
 		arr['wb'] = ""
-		arr['type'] = ""
-		match_object = re.search(r"'pokemon_type': \[([0-9, ]+)\]", condition)
-		if match_object is not None:
-				pt = match_object.group(1).split(', ')
-				last = len(pt)
-				cur = 1
-				if last == 1:
-					arr['type'] = locale.get_type_name(int(pt[0])).replace(' Berry','') + '-type '
+        arr['type'] = ""
+        text = "Catch {0} {type}pokémon{wb}."
+        match_object = re.search(r"'pokemon_type': \[([0-9, ]+)\]", condition)
+        if match_object is not None:
+                pt = match_object.group(1).split(', ')
+                last = len(pt)
+                cur = 1
+                if last == 1:
+                    arr['type'] = locale.get_type_name(int(pt[0])).replace(' Berry','') + '-type '
+                else:
+                    for ty in pt:
+                        arr['type'] += ('or ' if last == cur else '') + locale.get_type_name(int(ty)) + ('-type ' if last == cur else '-, ')
+                        cur += 1
+        if re.search(r"'type': 3", condition) is not None:
+                arr['wb'] = " with weather boost"
+        match_object = re.search(r"'pokemon_ids': \[([0-9, ]+)\]", condition)
+        if match_object is not None:
+                pt = match_object.group(1).split(', ')
+                last = len(pt)
+                cur = 1
+                if last == 1:
+                    arr['poke'] = locale.get_pokemon_name(int([pt[0])]
 				else:
-					for ty in pt:
-						arr['type'] += ('or ' if last == cur else '') + locale.get_type_name(int(ty)) + ('-type ' if last == cur else '-, ')
-						cur += 1
-		if re.search(r"'type': 3", condition):
-				arr['wb'] = " with weather boost"
+                    for ty in pt:
+                        arr['poke'] += ('or ' if last == cur else '') + locale.get_pokemon_name(int(ty))
+                        cur += 1
+                text = 'Catch a {poke}.'
+				
 	elif typeid == 7:
 		if re.search(r"'type': 10",condition) is not None:
 			text = locale.get_quest_type_name(71)
