@@ -310,11 +310,6 @@ def is_weather_boosted(pokemon_id, weather_id):
 
     boosted_types = is_weather_boosted.info.get(str(weather_id), {})
     types = get_base_types(pokemon_id)
-    print(str(types[0]))
-    print(str(types[1]))
-    print(str(boosted_types))
-    print(str(weather_id))
-    print(str(pokemon_id))
 
     return types[0] in boosted_types or types[1] in boosted_types
 
