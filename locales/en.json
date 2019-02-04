@@ -1103,7 +1103,7 @@
 	"1": "First catch of the day",
 	"2": "First pokéstop of the day",
 	"3": "Multi part",
-	"4": "Catch {0} pokémon",
+	"4": "Catch {0} {type} {poke}",
 	"5": "Spin {0} pokéstops",
 	"6": "Hatch {0} eggs",
 	"7": "Complete {0} gym battles",
@@ -1112,11 +1112,11 @@
 	"10": "Transfer {0} pokémon",
 	"11": "Favorite {0} pokémon",
 	"12": "Autocomplete",
-	"13": "Catch {0} pokémon with berrie(s)",
+	"13": "Use {0} {type} to help catch Pokémon",
 	"14": "Power up a pokémon {0} times",
 	"15": "Evolve {0} pokémon",
-	"16": "Land {0} throw(s)",
-	"17": "Walk your buddy to earn {0} candy",
+	"16": "Make {0} {type} {curve} throws {inrow}",
+	"17": "Earn {0} candies with your buddy",
 	"18": "Collect {0} badges",
 	"19": "Become level {0}",
 	"20": "Join {0} raids",
@@ -1125,9 +1125,10 @@
 	"23": "Trade {0} pokémon",
 	"24": "Send {0} gifts",
 	"25": "Evolve {0} pokémon into",
-	"71": "Use a supereffective Charged Attack in {0} Gym battles.",
-	"81": "Win a level 3 or higher raid.",
-	"151": "Use an item to evolve a Pokemon."
+	"701": "Use a supereffective Charged Attack in {0} Gym battles.",
+	"801": "Win a level 3 or higher raid.",
+	"151": "Use an item to evolve a Pokemon.",
+	"401": "with weather boost"
    }
 }
 
