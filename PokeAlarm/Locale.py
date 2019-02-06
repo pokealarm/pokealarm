@@ -142,3 +142,9 @@ class Locale(object):
 
     def get_boosted_text(self):
         return self.__misc.get('boosted', '')
+
+    def get_indefinite_article(self, isVowel):
+        if isVowel:
+            return self.__misc.get('an', '')
+        else:
+            return self.__misc.get('a', '')
