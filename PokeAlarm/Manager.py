@@ -32,7 +32,7 @@ log = logging.getLogger('Manager')
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, stations, location, quiet, cache_type,
+                 max_attempts, location, quiet, cache_type,
                  filter_file, geofence_file, alarm_file, debug):
         # Set the name of the Manager
         self.__name = str(name).lower()
@@ -97,10 +97,6 @@ class Manager(object):
         self.__queue = Queue()
         self.__event = Event()
         self.__process = None
-
-        self.__stations = False
-        if stations == 'True':
-            self.__stations = True
 
         log.info("----------- Manager '{}' ".format(self.__name)
                  + " successfully created.")
@@ -601,8 +597,6 @@ class Manager(object):
             mon.direction = get_cardinal_dir(
                 [mon.lat, mon.lng], self.__location)
 
-        if self.__stations:
-            mon.station = get_station(mon.lat, mon.lng)
 
         # Check for Rules
         rules = self.__mon_rules
@@ -834,9 +828,6 @@ class Manager(object):
                 [egg.lat, egg.lng], self.__location)
             egg.direction = get_cardinal_dir(
                 [egg.lat, egg.lng], self.__location)
-
-        if self.__stations:
-            egg.station = get_station(egg.lat, egg.lng)
 
         # Check for Rules
         rules = self.__egg_rules
