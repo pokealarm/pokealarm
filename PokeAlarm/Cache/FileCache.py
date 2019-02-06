@@ -59,7 +59,6 @@ class FileCache(Cache):
             'egg_hist': self._egg_hist,
             'raid_hist': self._raid_hist,
             'weather_hist': self._weather_hist,
-            'gym_team': self._gym_team,
             'gym_name': self._gym_name,
             'gym_desc': self._gym_desc,
             'gym_image': self._gym_image,

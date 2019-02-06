@@ -64,11 +64,13 @@ class QuestEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'geofence': self.geofence,
             # Quest Details
-            'quest': get_string_for_quest_task(locale, self.quest, self.condition, self.target),
+            'quest': get_string_for_quest_task(
+                locale, self.quest, self.condition, self.target),
             'reward': (
                 locale.get_pokemon_name(self.monster_id)
                 if self.reward == 'Pokemon'
-                else "{} ({})".format(locale.get_item_name(self.item_id), self.item_amount)),
+                else "{} ({})".format(locale.get_item_name(
+                    self.item_id), self.item_amount)),
             'expiry': self.expiry
         })
         return dts
