@@ -84,14 +84,9 @@ class DiscordAlarm(Alarm):
                           "assets/weather_<condition>_day.png",
             'title': "Weather Change Alert!",
             'url': None,
-<<<<<<< HEAD
             'body': "At <24h_time_weather_changed>, "
                     "weather became <weather>.\nCell reference: "
                     "<weather_cell_id>\nAffected areas are:\n\n<geofence>",
-        }
-=======
-            'body': "At <12h_time_weather_changed>, weather in "
-                    "<geofence> became <weather>",
         },
         'quest': {
             'username': "Quest",
@@ -102,7 +97,6 @@ class DiscordAlarm(Alarm):
             'url': "<gmaps>",
             'body': "Quest will expire at midnight."
         },
->>>>>>> 00734c5... Quests! WIP
     }
 
     # Gather settings and create alarm
