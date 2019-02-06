@@ -22,7 +22,7 @@ from Geofence import load_geofence_file
 from Locale import Locale
 from LocationServices import location_service_factory
 from Utils import (get_earth_dist, get_path, require_and_remove_key,
-                   parse_boolean, contains_arg, get_cardinal_dir, get_station)
+                   parse_boolean, contains_arg, get_cardinal_dir)
 
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
@@ -918,9 +918,6 @@ class Manager(object):
                 [raid.lat, raid.lng], self.__location)
             raid.direction = get_cardinal_dir(
                 [raid.lat, raid.lng], self.__location)
-
-        if self.__stations:
-            raid.station = get_station(raid.lat, raid.lng)
 
         # Check for Rules
         rules = self.__raid_rules
