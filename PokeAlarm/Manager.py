@@ -597,7 +597,6 @@ class Manager(object):
             mon.direction = get_cardinal_dir(
                 [mon.lat, mon.lng], self.__location)
 
-
         # Check for Rules
         rules = self.__mon_rules
         if len(rules) == 0:  # If no rules, default to all
