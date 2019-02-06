@@ -12,7 +12,6 @@ import re
 # Local Imports
 from PokeAlarm import not_so_secret_url
 from PokeAlarm import config
-from LSP import gSt
 
 log = logging.getLogger('Utils')
 
@@ -502,18 +501,6 @@ def get_image_url(suffix):
     return not_so_secret_url + suffix
 
 
-def get_station(lat, lng):
-
-    station = ''
-    point = []
-    point.append(lat)
-    point.append(lng)
-    actualStation = gSt(point)
-    if actualStation is not None:
-        station = "\nNearest Station: " + actualStation
-    return station
-
-
 # Returns the id corresponding with the weather
 # (use all locales for flexibility)
 def get_weather_id(weather_name):
@@ -590,7 +577,7 @@ def get_string_for_quest_task(locale, typeid, condition, target):
 		arr['type'] = "berries";
 		match_object = re.search(r"'item': ([0-9]+)",condition)
 		if match_object is not None:
-			arr['type'] = locale.get_item_name(int(match_object.group(1))).replace(' Berry','')+" ";
+			arr['type'] = locale.get_item_name(int(match_object.group(1))).replace(' Berry','')+" "
 	elif typeid == 15:
 		if re.search(r"'type': 11",condition) is not None:
 			text = locale.get_quest_type_name(151)
@@ -614,7 +601,7 @@ def get_string_for_quest_task(locale, typeid, condition, target):
 		text = text.replace(' candies',' candy')
 		text = text.replace(' gifts',' gift')
 		text = text.replace(' {0} times','')
-		arr['0'] = ("a");
+		arr['0'] = ("a")
 
 	for key, val in arr.items():
 			text = text.replace('{'+key+'}', val)
