@@ -623,11 +623,11 @@ class Manager(object):
         mon.name = self.__locale.get_pokemon_name(mon.monster_id)
 
         # Check if previously processed and update expiration
-        if self.__cache.monster_expiration(mon.enc_id) is not None:
+        if self.__cache.monster_expiration(mon.enc_id + str(mon.weight)) is not None:
             self._log.debug("{} monster was skipped because it was "
                             "previously processed.".format(mon.name))
             return
-        self.__cache.monster_expiration(mon.enc_id, mon.disappear_time)
+        self.__cache.monster_expiration(mon.enc_id + str(mon.weight), mon.disappear_time)
 
         # Check the time remaining
         seconds_left = (mon.disappear_time
