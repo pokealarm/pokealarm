@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 # Standard Library Imports
 import calendar
 import unittest
 from datetime import datetime, timedelta
 # 3rd Party Imports
 # Local Imports
-from prototype.events import Monster
+from pokealarmv4.events import Monster
 
 
 def generic_monster(values):
@@ -49,6 +47,11 @@ class TestMonsterEvent(unittest.TestCase):
         mon = generic_monster({'encounter_id': 1})
         self.assertTrue(isinstance(mon.enc_id, str))
         self.assertTrue(mon.enc_id == "1")
+
+    def test_id(self):
+        mon = generic_monster({'encounter_id': 12345})
+        self.assertTrue(isinstance(mon.id, int))
+        self.assertTrue(mon.id == hash("12345"))
 
     def test_monster_id(self):
         mon = generic_monster({'pokemon_id': 1})

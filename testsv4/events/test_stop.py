@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 # Standard Library Imports
 import calendar
 import unittest
 from datetime import datetime, timedelta
 # 3rd Party Imports
 # Local Imports
-from prototype.events import Stop
+from pokealarmv4.events import Stop
 
 
 def generic_stop(values):
@@ -26,6 +24,16 @@ def generic_stop(values):
 
 class TestStopEvent(unittest.TestCase):
 
+    def test_stop_id(self):
+        stop = generic_stop({'pokestop_id': 1})
+        self.assertTrue(isinstance(stop.stop_id, str))
+        self.assertTrue(stop.stop_id == "1")
+
+    def test_id(self):
+        stop = generic_stop({'pokestop_id': 12345})
+        self.assertTrue(isinstance(stop.id, int))
+        self.assertTrue(stop.id == hash("12345"))
+
     def test_lat(self):
         stop = generic_stop({'latitude': 0})
         self.assertTrue(isinstance(stop.lat, float))
@@ -35,11 +43,6 @@ class TestStopEvent(unittest.TestCase):
         stop = generic_stop({'longitude': 0})
         self.assertTrue(isinstance(stop.lng, float))
         self.assertTrue(stop.lng == 0.0)
-
-    def test_stop_id(self):
-        stop = generic_stop({'pokestop_id': 1})
-        self.assertTrue(isinstance(stop.stop_id, str))
-        self.assertTrue(stop.stop_id == "1")
 
     def test_expiration(self):
         stop = generic_stop({})
