@@ -260,7 +260,18 @@
     "288": "Psycho Boost", 
     "289": "Origin Pulse", 
     "290": "Precipice Blades", 
-    "291": "Present"
+    "291": "Present",
+	"292": "Weather Ball Fire",
+	"293": "Weather Ball Ice",
+	"294": "Weather Ball Rock",
+	"295": "Weather Ball Water",
+	"296": "Frenzy Plant",
+	"297": "Smack Down",
+	"298": "Blast Burn",
+	"299": "Hydro Cannon",
+	"300": "Last Resort",
+	"301": "Meteor Mash",
+	"319": "Power-Up Punch"
   }, 
   "pokemon": {
     "001": "Bulbasaur", 
