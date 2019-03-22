@@ -3,7 +3,8 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_time_as_str, get_seconds_remaining, \
-    get_gmaps_link, get_applemaps_link, get_dist_as_str, get_weather_emoji
+    get_gmaps_link, get_applemaps_link, get_waze_link, get_dist_as_str, \
+    get_weather_emoji
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -50,9 +51,16 @@ class EggEvent(BaseEvent):
         self.gym_park = check_for_none(
             str, data.get('park'), Unknown.REGULAR)
 
+        self.sponsor_id = check_for_none(
+            int, data.get('sponsor'), Unknown.TINY)
+        self.park = check_for_none(
+            str, data.get('park'), Unknown.REGULAR)
+        self.ex_eligible = check_for_none(
+            int, data.get('is_ex_raid_eligible'), Unknown.REGULAR)
+
         # Gym Team (this is only available from cache)
         self.current_team_id = check_for_none(
-            int, data.get('team'), Unknown.TINY)
+            int, data.get('team_id', data.get('team')), Unknown.TINY)
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
@@ -94,6 +102,7 @@ class EggEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
             'station': self.station,
             'weather_id': self.weather_id,
@@ -108,8 +117,14 @@ class EggEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
-            'gym_sponsor': self.gym_sponsor,
-            'gym_park': exraid,
+            'sponsor_id': self.sponsor_id,
+            'sponsored':
+                self.sponsor_id > 0
+                if Unknown.is_not(self.sponsor_id) else Unknown.REGULAR,
+            'ex_eligible':
+                self.ex_eligible > 0 if Unknown.is_not(self.ex_eligible)
+                else Unknown.REGULAR,
+            'park': self.park,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)

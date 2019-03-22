@@ -8,9 +8,9 @@ from . import BaseFilter
 class StopFilter(BaseFilter):
     """ Filter class for limiting which stops trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(StopFilter, self).__init__(name)
+        super(StopFilter, self).__init__(mgr, 'egg', name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
@@ -31,7 +31,7 @@ class StopFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(

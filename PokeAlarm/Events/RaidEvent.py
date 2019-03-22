@@ -5,10 +5,10 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_move_damage, get_move_dps, \
+    get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_seconds_remaining, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
-    get_base_types, get_weather_emoji, get_type_emoji
+    get_base_types, get_weather_emoji, get_type_emoji, get_waze_link
 
 
 class RaidEvent(BaseEvent):
@@ -32,7 +32,6 @@ class RaidEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
-        self.station = ''
 
         # Monster Info
         self.raid_lvl = int(data['level'])
@@ -40,6 +39,12 @@ class RaidEvent(BaseEvent):
         self.cp = int(data['cp'])
         self.types = get_base_types(self.mon_id)
         self.boss_level = 20
+
+        # Form
+        self.form_id = check_for_none(int, data.get('form'), 0)
+
+        # Costume
+        self.costume_id = check_for_none(int, data.get('costume'), 0)
 
         # Weather Info
         self.weather_id = check_for_none(
@@ -51,17 +56,21 @@ class RaidEvent(BaseEvent):
             self.boss_level = 25
 
         # Quick Move
-        self.quick_id = check_for_none(int, data.get('move_1'), Unknown.TINY)
+        self.quick_id = check_for_none(
+            int, data.get('move_1'), Unknown.TINY)
+        self.quick_type = get_move_type(self.quick_id)
         self.quick_damage = get_move_damage(self.quick_id)
         self.quick_dps = get_move_dps(self.quick_id)
         self.quick_duration = get_move_duration(self.quick_id)
         self.quick_energy = get_move_energy(self.quick_id)
 
         # Charge Move
-        self.charge_id = check_for_none(int, data.get('move_2'), Unknown.TINY)
+        self.charge_id = check_for_none(
+            int, data.get('move_2'), Unknown.TINY)
+        self.charge_type = get_move_type(self.charge_id)
         self.charge_damage = get_move_damage(self.charge_id)
         self.charge_dps = get_move_dps(self.charge_id)
-        self.charge_duration = get_move_duration(self.quick_id)
+        self.charge_duration = get_move_duration(self.charge_id)
         self.charge_energy = get_move_energy(self.charge_id)
 
         # Gym Details (currently only sent from Monocle)
@@ -76,9 +85,16 @@ class RaidEvent(BaseEvent):
         self.gym_park = check_for_none(
             str, data.get('park'), Unknown.REGULAR)
 
+        self.sponsor_id = check_for_none(
+            int, data.get('sponsor'), Unknown.TINY)
+        self.park = check_for_none(
+            str, data.get('park'), Unknown.REGULAR)
+        self.ex_eligible = check_for_none(
+            int, data.get('is_ex_raid_eligible'), Unknown.REGULAR)
+
         # Gym Team (this is only available from cache)
         self.current_team_id = check_for_none(
-            int, int(data.get('team')), Unknown.TINY)
+            int, data.get('team_id', data.get('team')), Unknown.TINY)
 
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
@@ -89,11 +105,9 @@ class RaidEvent(BaseEvent):
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         dts = self.custom_dts.copy()
 
-        exraid = self.gym_park
-        if exraid == 'unknown':
-            exraid = ''
-        else:
-            exraid = "\n*Potential EX Raid (" + exraid + ")*"
+        form_name = locale.get_form_name(self.mon_id, self.form_id)
+        costume_name = locale.get_costume_name(
+            self.mon_id, self.costume_id)
 
         boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
         weather_name = locale.get_weather_name(self.weather_id)
@@ -127,6 +141,18 @@ class RaidEvent(BaseEvent):
                     get_type_emoji(self.types[1]))
                 if Unknown.is_not(type2) else get_type_emoji(self.types[0])),
 
+            # Form
+            'form': form_name,
+            'form_or_empty': Unknown.or_empty(form_name),
+            'form_id': self.form_id,
+            'form_id_3': "{:03d}".format(self.form_id),
+
+            # Costume
+            'costume': costume_name,
+            'costume_or_empty': Unknown.or_empty(costume_name),
+            'costume_id': self.costume_id,
+            'costume_id_3': "{:03d}".format(self.costume_id),
+
             # Location
             'lat': self.lat,
             'lng': self.lng,
@@ -138,8 +164,8 @@ class RaidEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
-            'station': self.station,
 
             # Weather
             'weather_id': self.weather_id,
@@ -166,6 +192,9 @@ class RaidEvent(BaseEvent):
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_id),
             'quick_id': self.quick_id,
+            'quick_type_id': self.quick_type,
+            'quick_type': locale.get_type_name(self.quick_type),
+            'quick_type_emoji': get_type_emoji(self.quick_type),
             'quick_damage': self.quick_damage,
             'quick_dps': self.quick_dps,
             'quick_duration': self.quick_duration,
@@ -174,6 +203,9 @@ class RaidEvent(BaseEvent):
             # Charge Move
             'charge_move': locale.get_move_name(self.charge_id),
             'charge_id': self.charge_id,
+            'charge_type_id': self.charge_type,
+            'charge_type': locale.get_type_name(self.charge_type),
+            'charge_type_emoji': get_type_emoji(self.charge_type),
             'charge_damage': self.charge_damage,
             'charge_dps': self.charge_dps,
             'charge_duration': self.charge_duration,
@@ -188,8 +220,14 @@ class RaidEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
-            'gym_sponsor': self.gym_sponsor,
-            'gym_park': exraid,
+            'sponsor_id': self.sponsor_id,
+            'sponsored':
+                self.sponsor_id > 0 if Unknown.is_not(self.sponsor_id)
+                else Unknown.REGULAR,
+            'ex_eligible':
+                self.ex_eligible > 0 if Unknown.is_not(self.ex_eligible)
+                else Unknown.REGULAR,
+            'park': self.park,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)

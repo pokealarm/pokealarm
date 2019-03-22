@@ -3,14 +3,15 @@ import operator
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
+from PokeAlarm.Utilities import GymUtils as GymUtils, QuestUtils
 
 
 class QuestFilter(BaseFilter):
     """ Filter class for limiting which quests trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(QuestFilter, self).__init__(name)
+        super(QuestFilter, self).__init__(mgr, 'quest', name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
@@ -19,6 +20,34 @@ class QuestFilter(BaseFilter):
         self.max_dist = self.evaluate_attribute(  # f.max_dist <= m.distance
             event_attribute='distance', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
+
+        # Quest Description
+        self.quest_contains = self.evaluate_attribute(  # f.gn matches e.gn
+            event_attribute='quest', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'quest_contains', data))
+        self.quest_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+            event_attribute='quest',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'quest_excludes', data))
+
+        # Reward Description
+        self.reward_contains = self.evaluate_attribute(  # f.gn matches e.gn
+            event_attribute='reward', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'reward_contains', data))
+        self.reward_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+            event_attribute='reward',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'reward_excludes', data))
+
+        self.reward_types = self.evaluate_attribute(
+            event_attribute='reward_type', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(QuestUtils.get_reward_type,
+                                          'reward_types', data)
+        )
 
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
@@ -34,7 +63,7 @@ class QuestFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
-                             " Stop filters".format(key))
+                             " Quest filters".format(key))
 
     def to_dict(self):
         """ Create a dict representation of this Filter. """

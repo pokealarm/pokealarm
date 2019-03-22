@@ -5,7 +5,7 @@
         },
         "filters":{
             "filter_by_monsters_example":{
-                "monsters":["Bulbasaur","Charmander",7],
+                "monsters":["Bulbasaur","Charmander",7]
             },
             "filter_by_ivs_example":{
                 "min_atk": 0, "max_atk": 15,
@@ -89,6 +89,16 @@
                 "geofences": [ "Central Park" ],
                 "custom_dts": { "key1": "value1", "key2": "value2" },
                 "is_missing_info": false
+            }
+        }
+    },
+    "weather":{
+        "enabled":false,
+        "defaults":{
+        },
+        "filters":{
+            "filter_by_geofence":{
+                "geofence":["geofence1", "geofence2"]
             }
         }
     }

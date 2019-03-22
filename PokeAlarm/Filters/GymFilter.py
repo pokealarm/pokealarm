@@ -9,9 +9,9 @@ from PokeAlarm.Utilities import GymUtils as GymUtils
 class GymFilter(BaseFilter):
     """ Filter class for limiting which gyms trigger a notification. """
 
-    def __init__(self, name, data):
+    def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(GymFilter, self).__init__(name)
+        super(GymFilter, self).__init__(mgr, 'gym', name)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= g.distance
@@ -36,6 +36,16 @@ class GymFilter(BaseFilter):
             event_attribute='gym_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_contains', data))
+        self.gym_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+            event_attribute='gym_name',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'gym_name_excludes', data))
+        self.is_ex_eligible = self.evaluate_attribute(
+            event_attribute='ex_eligible',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'is_ex_eligible', data)
+        )
 
         # Slots Available
         self.min_slots = self.evaluate_attribute(
@@ -48,7 +58,7 @@ class GymFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_slots', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_set(str, 'geofences', data)
+        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(

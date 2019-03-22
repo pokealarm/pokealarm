@@ -1,6 +1,4 @@
 # Standard Library Imports
-import logging
-
 # 3rd Party Imports
 from pushbullet import PushBullet
 
@@ -9,7 +7,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
     reject_leftover_parameters
 
-log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -48,11 +45,23 @@ class PushbulletAlarm(Alarm):
             'url': "<gmaps>",
             'body': "The raid is available until <24h_raid_end>"
                     " (<raid_time_left>)."
+        },
+        'weather': {
+            'title': "The weather has changed!",
+            'url': "<gmaps>",
+            'body': "The weather around <lat>,<lng> has changed to <weather>!"
+        },
+        'quests': {
+            'title': '*New quest for <reward>*',
+            'url': '<gmaps>',
+            'body': '<quest>'
         }
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__api_key = require_and_remove_key(
             'api_key', settings, "'Pushbullet' type alarms.")
@@ -75,12 +84,16 @@ class PushbulletAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
+        self.__quest = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
             settings, "Alarm level in Pushbullet alarm.")
 
-        log.info("Pushbullet Alarm has been created!")
+        self._log.info("Pushbullet Alarm has been created!")
 
     # Establish connection with Pushbullet
     def connect(self):
@@ -91,6 +104,7 @@ class PushbulletAlarm(Alarm):
         self.__gym['sender'] = self.get_sender(self.__gym['channel'])
         self.__egg['sender'] = self.get_sender(self.__egg['channel'])
         self.__raid['sender'] = self.get_sender(self.__raid['channel'])
+        self.__weather['sender'] = self.get_sender(self.__weather['channel'])
 
     def startup_message(self):
         if self.__startup_message:
@@ -99,8 +113,9 @@ class PushbulletAlarm(Alarm):
                 "title": "PokeAlarm activated!",
                 "message": "PokeAlarm has successully started!"
             }
-            try_sending(log, self.connect, "PushBullet", self.push_note, args)
-            log.info("Startup message sent!")
+            try_sending(
+                self._log, self.connect, "PushBullet", self.push_note, args)
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -122,7 +137,8 @@ class PushbulletAlarm(Alarm):
             'url': replace(alert['url'], info),
             'body': replace(alert['body'], info)
         }
-        try_sending(log, self.connect, "PushBullet", self.push_link, args)
+        try_sending(
+            self._log, self.connect, "PushBullet", self.push_link, args)
 
     # Trigger an alert based on Pokemon info
     def pokemon_alert(self, pokemon_info):
@@ -144,15 +160,24 @@ class PushbulletAlarm(Alarm):
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
 
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
+
+    # Trigger quest alert
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quest, quest_info)
+
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):
         req_channel = next(
             (channel for channel in self.__client.channels
              if channel.channel_tag == channel_tag), self.__client)
         if req_channel is self.__client and channel_tag is not None:
-            log.error("Unable to find channel.Pushing to all devices instead.")
+            self._log.error(
+                "Unable to find channel.Pushing to all devices instead.")
         else:
-            log.debug("Setting to channel %s." % channel_tag)
+            self._log.debug("Setting to channel %s." % channel_tag)
         return req_channel
 
     # Push a link to the given channel

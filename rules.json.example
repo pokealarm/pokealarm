@@ -1,36 +1,42 @@
 {
-    "monsters": {
-        "first_rule" : {
-            "filters": [ "filter_by_monsters_example" ],
-            "alarms": [ "discord_alarm" ]
+    "monsters":{
+        "first_rule":{
+            "filters":["filter_by_monsters_example"],
+            "alarms":["discord_alarm"]
         },
-        "second_rule" : {
-            "filters": [ "filter_by_ivs_example", "filter_by_moves_example" ],
-            "alarms": [ "telegram_alarm" ]
+        "second_rule":{
+            "filters":["filter_by_ivs_example","filter_by_moves_example"],
+            "alarms":["telegram_alarm"]
         }
     },
     "stops":{
-        "all" : {
-            "filters": [ "filter_by_geofence_example"],
-            "alarms": [ "discord_alarm", "telegram_alarm" ]
+        "all":{
+            "filters":["filter_by_geofence_example"],
+            "alarms":["discord_alarm","telegram_alarm"]
         }
     },
-    "gyms": {
-        "all" : {
-            "filters": [ "filter_by_teams_example", "gym_name_contains_regex_example"],
-            "alarms": [ "discord_alarm", "telegram_alarm" ]
+    "gyms":{
+        "all":{
+            "filters":["filter_by_teams_example","gym_name_contains_regex_example"],
+            "alarms":["discord_alarm","telegram_alarm"]
         }
     },
-    "eggs": {
-        "all" : {
-            "filters": [ "filter_by_lvl_example" ],
-            "alarms": [ "discord_alarm", "telegram_alarm" ]
+    "eggs":{
+        "all":{
+            "filters":["filter_by_lvl_example"],
+            "alarms":["discord_alarm","telegram_alarm"]
         }
     },
-    "raids": {
-        "all" : {
-            "filters": [ "filter_by_monster", "filter_raid_lvl_and_teams" ],
-            "alarms": [ "discord_alarm", "telegram_alarm" ]
+    "raids":{
+        "all":{
+            "filters":["filter_by_monster","filter_raid_lvl_and_teams"],
+            "alarms":["discord_alarm","telegram_alarm"]
+        }
+    },
+    "weather":{
+        "all":{
+            "filters":["filter_by_geofence"],
+            "alarms":["discord_alarm","telegram_alarm"]
         }
     }
 }

@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 
 # 3rd Party Imports
 from twilio.rest import TwilioRestClient
@@ -9,7 +8,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
     reject_leftover_parameters
 
-log = logging.getLogger('Twilio')
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -43,11 +41,20 @@ class TwilioAlarm(Alarm):
         'raids': {
             'message': "Level <raid_lvl> raid against <mon_name>! <gmaps>"
                        " Available until <24h_raid_end> (<raid_time_left>)."
+        },
+        'weather': {
+            'message': "The weather around <lat>,<lng> has"
+                       " changed to <weather>!"
+        },
+        'quests': {
+            'message': "*New quest for <reward>*\n<quest>\n<gmaps>",
         }
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__account_sid = require_and_remove_key(
             'account_sid', settings, "'Twilio' type alarms.")
@@ -74,11 +81,15 @@ class TwilioAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raid = self.set_alert(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.set_alert(
+            settings.pop('weather', {}), self._defaults['weather'])
+        self.__quest = self.set_alert(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
 
-        log.info("Twilio Alarm has been created!")
+        self._log.info("Twilio Alarm has been created!")
 
     # (Re)establishes Twilio connection
     def connect(self):
@@ -92,7 +103,7 @@ class TwilioAlarm(Alarm):
                 from_num=self.__from_number,
                 body="PokeAlarm activated!"
             )
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def set_alert(self, settings, default):
@@ -132,6 +143,14 @@ class TwilioAlarm(Alarm):
     def raid_alert(self, raid_info):
         self.send_alert(self.__raid, raid_info)
 
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
+
+    # Trigger an alert based on Weather info
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quest, quest_info)
+
     # Send a SMS message
     def send_sms(self, to_num, from_num, body):
         if not isinstance(to_num, list):
@@ -143,5 +162,5 @@ class TwilioAlarm(Alarm):
                 'body': body
             }
             try_sending(
-                log, self.connect, "Twilio",
+                self._log, self.connect, "Twilio",
                 self.__client.messages.create, args)

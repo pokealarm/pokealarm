@@ -16,9 +16,9 @@ log = logging.getLogger('Geofence')
 def load_geofence_file(file_path):
     try:
         geofences = OrderedDict()
-        name_pattern = re.compile("(?<=\[)([^]]+)(?=\])")
-        coor_patter = re.compile("[-+]?[0-9]*\.?[0-9]*"
-                                 + "[ \t]*,[ \t]*" + "[-+]?[0-9]*\.?[0-9]*")
+        name_pattern = re.compile(r"(?<=\[)([^]]+)(?=\])")
+        coor_patter = re.compile(r"[-+]?[0-9]*\.?[0-9]*"
+                                 + r"[ \t]*,[ \t]*" + r"[-+]?[0-9]*\.?[0-9]*")
         with open(file_path, 'r') as f:
             lines = f.read().splitlines()
         name = "geofence"

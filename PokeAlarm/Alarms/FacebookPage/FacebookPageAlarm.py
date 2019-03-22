@@ -1,5 +1,4 @@
 # Standard Library Imports
-import logging
 from datetime import datetime
 
 # 3rd Party Imports
@@ -10,7 +9,6 @@ from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
     reject_leftover_parameters, require_and_remove_key, get_image_url
 
-log = logging.getLogger(__name__)
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 
@@ -69,11 +67,31 @@ class FacebookPageAlarm(Alarm):
                 "The raid is available until <24h_raid_end>"
                 " (<raid_time_left>).",
             'caption': None
+        },
+        'weather': {
+            'message': 'The weather has changed!',
+            "image": get_image_url("regular/weather/<weather_id_3>"
+                                   "_<day_or_night_id_3>.png"),
+            "link": "<gmaps>",
+            'name': "Weather",
+            'description': "The weather around <lat>,<lng>"
+                           " has changed to <weather>!",
+            'caption': None
+        },
+        'quests': {
+            'message': "*New quest for <reward>*",
+            'image': get_image_url('regular/quest/<type_id>.png'),
+            'link': '<gmaps>',
+            'name': 'Quest',
+            'description': '<quest>',
+            'caption': None
         }
     }
 
     # Gather settings and create alarm
-    def __init__(self, settings):
+    def __init__(self, mgr, settings):
+        self._log = mgr.get_child_logger("alarms")
+
         # Required Parameters
         self.__page_access_token = require_and_remove_key(
             'page_access_token', settings, "'FacebookPage' type alarms.")
@@ -94,12 +112,16 @@ class FacebookPageAlarm(Alarm):
             settings.pop('eggs', {}), self._defaults['eggs'])
         self.__raids = self.create_alert_settings(
             settings.pop('raids', {}), self._defaults['raids'])
+        self.__weather = self.create_alert_settings(
+            settings.pop('weather', {}), self._defaults['weather'])
+        self.__quests = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
             settings, "Alarm level in FacebookPage alarm.")
 
-        log.info("FacebookPage Alarm has been created!")
+        self._log.info("FacebookPage Alarm has been created!")
 
     # Establish connection with FacebookPage
     def connect(self):
@@ -111,7 +133,7 @@ class FacebookPageAlarm(Alarm):
             timestamps = get_time_as_str(datetime.utcnow())
             self.post_to_wall("{} - PokeAlarm has initialized!".format(
                 timestamps[2]))
-            log.info("Startup message sent!")
+            self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
@@ -163,10 +185,18 @@ class FacebookPageAlarm(Alarm):
     def raid_alert(self, raid_info):
         self.send_alert(self.__raids, raid_info)
 
+    # Trigger an alert based on Weather info
+    def weather_alert(self, weather_info):
+        self.send_alert(self.__weather, weather_info)
+
+    # Quest Alert
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quests, quest_info)
+
     # Sends a wall post to Facebook
     def post_to_wall(self, message, attachment=None):
         args = {"message": message}
         if attachment is not None:
             args['attachment'] = attachment
-        try_sending(log, self.connect, "FacebookPage",
+        try_sending(self._log, self.connect, "FacebookPage",
                     self.__client.put_wall_post, args)

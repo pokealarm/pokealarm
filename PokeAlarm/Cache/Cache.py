@@ -1,11 +1,9 @@
 # Standard Library Imports
-import logging
 from datetime import datetime
 # 3rd Party Imports
 # Local Imports
-from ..Utils import get_image_url
 from PokeAlarm import Unknown
-log = logging.getLogger('Cache')
+from PokeAlarm.Utils import get_image_url
 
 
 class Cache(object):
@@ -15,71 +13,107 @@ class Cache(object):
     be lost between run times if save has not been implemented correctly.
     """
 
-    _default_gym_info = {
-        "name": "unknown",
-        "description": "unknown",
-        "url": get_image_url('icons/gym_0.png')
-    }
+    default_image_url = get_image_url("regular/gyms/0.png"),
 
-    def __init__(self):
+    def __init__(self, mgr):
         """ Initializes a new cache object for storing data between events. """
-        self._pokemon_hist = {}
-        self._pokestop_hist = {}
-        self._gym_team = {}
-        self._gym_info = {}
+        self._log = mgr.get_child_logger("cache")
+
+        self._mon_hist = {}
+        self._stop_hist = {}
         self._egg_hist = {}
         self._raid_hist = {}
-        self._weather_hist = {}
+        self._quest_hist = {}
+        self._gym_team = {}
+        self._gym_name = {}
+        self._gym_desc = {}
+        self._gym_image = {}
+        self._cell_weather_id = {}
+        self._severity_id = {}
+        self._day_or_night_id = {}
+        self._reward = {}
+        self._task = {}
 
-    def get_pokemon_expiration(self, pkmn_id):
-        """ Get the datetime that the pokemon expires."""
-        return self._pokemon_hist.get(pkmn_id)
+    def monster_expiration(self, mon_id, expiration=None):
+        """ Update and return the datetime that a monster expires."""
+        if expiration is not None:
+            self._mon_hist[mon_id] = expiration
+        return self._mon_hist.get(mon_id)
 
-    def update_pokemon_expiration(self, pkmn_id, expiration):
-        """ Updates the datetime that the pokemon expires. """
-        self._pokemon_hist[pkmn_id] = expiration
+    def stop_expiration(self, stop_id, expiration=None):
+        """ Update and return the datetime that a stop expires."""
+        if expiration is not None:
+            self._stop_hist[stop_id] = expiration
+        return self._stop_hist.get(stop_id)
 
-    def get_pokestop_expiration(self, stop_id):
-        """ Returns the datetime that the pokemon expires. """
-        return self._pokestop_hist.get(stop_id)
+    def egg_expiration(self, egg_id, expiration=None):
+        """ Update and return the datetime that an egg expires."""
+        if expiration is not None:
+            self._egg_hist[egg_id] = expiration
+        return self._egg_hist.get(egg_id)
 
-    def update_pokestop_expiration(self, stop_id, expiration):
-        """ Updates the datetime that the pokestop expires. """
-        self._pokestop_hist[stop_id] = expiration
+    def raid_expiration(self, raid_id, expiration=None):
+        """ Update and return the datetime that a raid expires."""
+        if expiration is not None:
+            self._raid_hist[raid_id] = expiration
+        return self._raid_hist.get(raid_id)
 
-    def get_gym_team(self, gym_id):
-        """ Get the current team that owns the gym. """
-        return self._gym_team.get(gym_id, '?')
+    def quest_expiration(self, stop_id, expiration=None):
+        """ Update and return the datetime that a quest expires."""
+        if expiration is not None:
+            self._quest_hist[stop_id] = expiration
+        return self._quest_hist.get(stop_id)
 
-    def update_gym_team(self, gym_id, team):
-        """ Update the current team of the gym. """
-        self._gym_team[gym_id] = team
+    def gym_team(self, gym_id, team_id=Unknown.TINY):
+        """ Update and return the team_id of a gym. """
+        if Unknown.is_not(team_id):
+            self._gym_team[gym_id] = team_id
+        return self._gym_team.get(gym_id, Unknown.TINY)
 
-    def get_gym_info(self, gym_id):
-        """ Gets the information about the gym. """
-        return self._gym_info.get(gym_id, self._default_gym_info)
+    def gym_name(self, gym_id, gym_name=Unknown.REGULAR):
+        """ Update and return the gym_name for a gym. """
+        if Unknown.is_not(gym_name):
+            self._gym_name[gym_id] = gym_name
+        return self._gym_name.get(gym_id, Unknown.REGULAR)
 
-    def update_gym_info(self, gym_id, name, desc, url):
-        """ Updates the information about the gym. """
-        if name != 'unknown':  # Don't update if the gym info is missing
-            self._gym_info[gym_id] = {
-                "name": name, "description": desc, "url": url}
+    def gym_desc(self, gym_id, gym_desc=Unknown.REGULAR):
+        """ Update and return the gym_desc for a gym. """
+        if Unknown.is_not(gym_desc):
+            self._gym_desc[gym_id] = gym_desc
+        return self._gym_desc.get(gym_id, Unknown.REGULAR)
 
-    def get_egg_expiration(self, gym_id):
-        """ Returns the datetime that the egg expires. """
-        return self._egg_hist.get(gym_id)
+    def gym_image(self, gym_id, gym_image=Unknown.REGULAR):
+        """ Update and return the gym_image for a gym. """
+        if Unknown.is_not(gym_image):
+            self._gym_image[gym_id] = gym_image
+        return self._gym_image.get(gym_id, get_image_url('icons/gym_0.png'))
 
-    def update_egg_expiration(self, gym_id, expiration):
-        """ Updates the datetime that the egg expires. """
-        self._egg_hist[gym_id] = expiration
+    def cell_weather_id(self, s2_cell_id, cell_weather_id=Unknown.REGULAR):
+        """ Update and return weather_id for a cell """
+        if Unknown.is_not(cell_weather_id):
+            self._cell_weather_id[s2_cell_id] = cell_weather_id
+        return self._cell_weather_id.get(s2_cell_id, Unknown.REGULAR)
 
-    def get_raid_expiration(self, gym_id):
-        """ Returns the datetime that the raid expires. """
-        return self._raid_hist.get(gym_id)
+    def severity_id(self, s2_cell_id, severity_id=Unknown.REGULAR):
+        """ Update and return severity_id for a cell """
+        if Unknown.is_not(severity_id):
+            self._severity_id[s2_cell_id] = severity_id
+        return self._severity_id.get(s2_cell_id, Unknown.REGULAR)
 
-    def update_raid_expiration(self, gym_id, expiration):
-        """ Updates the datetime that the raid expires. """
-        self._raid_hist[gym_id] = expiration
+    def day_or_night_id(self, s2_cell_id, day_or_night_id=Unknown.REGULAR):
+        """ Update and return day_or_night_id for a cell """
+        if Unknown.is_not(day_or_night_id):
+            self._day_or_night_id[s2_cell_id] = day_or_night_id
+        return self._day_or_night_id.get(s2_cell_id, Unknown.REGULAR)
+
+    def quest_reward(self, stop_id, reward=None, task=None):
+        """ Update and return the reward and task for a quest."""
+        if Unknown.is_not(reward):
+            self._reward[stop_id] = reward
+        if Unknown.is_not(task):
+            self._task[stop_id] = task
+        return self._reward.get(stop_id, Unknown.REGULAR), \
+            self._task.get(stop_id, Unknown.REGULAR)
 
     def get_cell_weather(self, weather_cell_id):
         """ Returns the weather for the S2 cell. """
@@ -107,8 +141,8 @@ class Cache(object):
     def _clean_hist(self):
         """ Clean expired objects to free up memory. """
         for hist in (
-                self._pokemon_hist, self._pokestop_hist, self._egg_hist,
-                self._raid_hist):
+                self._mon_hist, self._stop_hist, self._egg_hist,
+                self._raid_hist, self._quest_hist):
             old = []
             now = datetime.utcnow()
             for key, expiration in hist.iteritems():
@@ -116,4 +150,4 @@ class Cache(object):
                     old.append(key)
             for key in old:  # Remove expired events
                 del hist[key]
-        log.debug("Cache cleaned!")
+        self._log.debug("Cleared %s items from cache.", len(old))

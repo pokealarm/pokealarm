@@ -43,3 +43,12 @@ def match_regex_dict(reg_exs, name):
         if reg_ex.search(name):
             return True
     return False
+
+
+# Returns true if the string does not match any given RE objects
+def not_match_regex_dict(reg_exs, name):
+    name = unicode(name)
+    for reg_ex in reg_exs:
+        if reg_ex.search(name):
+            return False
+    return True

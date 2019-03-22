@@ -7,366 +7,284 @@ import PokeAlarm.Events as Events
 
 # ToDo: Find a better way
 # Reinforce UTF-8 as default
+from tests.filters import MockManager, generic_filter_test
+
 reload(sys)
 sys.setdefaultencoding('UTF8')
 
 
 class TestMonsterFilter(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUp(cls):
+        cls._mgr = MockManager()
+
+    @classmethod
+    def tearDown(cls):
         pass
 
-    def tearDown(self):
-        pass
+    def gen_filter(self, settings):
+        """ Generate a generic filter with given settings. """
+        return Filters.MonFilter(self._mgr, "testfilter", settings)
 
+    def gen_event(self, values):
+        """ Generate a generic monster, overriding with an specific values. """
+        settings = {
+            "encounter_id": "0",
+            "spawnpoint_id": "0",
+            "pokemon_id": 1,
+            "pokemon_level": 1,
+            "player_level": 40,
+            "latitude": 37.7876146,
+            "longitude": -122.390624,
+            "disappear_time": 1506897031,
+            "last_modified_time": 1475033386661,
+            "time_until_hidden_ms": 5000,
+            "seconds_until_despawn": 1754,
+            "spawn_start": 2153,
+            "spawn_end": 3264,
+            "verified": False,
+            "cp_multiplier": 0.7317000031471252,
+            "form": None,
+            "cp": None,
+            "individual_attack": None,
+            "individual_defense": None,
+            "individual_stamina": None,
+            "move_1": None,
+            "move_2": None,
+            "height": None,
+            "weight": None,
+            "gender": None
+        }
+        settings.update(values)
+        return Events.MonEvent(settings)
+
+    @generic_filter_test
     def test_monster_id(self):
-        # Create the filters
-        settings = {"monsters": [1, "2", "Venusaur"]}
-        mon_filter = Filters.MonFilter('filter1', settings)
+        self.filt = {"monsters": [1, "2", "Venusaur"]}
+        self.event_key = "pokemon_id"
+        self.pass_vals = [1, 2, 3]
+        self.fail_vals = [5, 102, 30]
 
-        # Generate events that should pass
-        pass1 = Events.MonEvent(generate_monster({"pokemon_id": 1}))
-        pass2 = Events.MonEvent(generate_monster({"pokemon_id": 2}))
-        pass3 = Events.MonEvent(generate_monster({"pokemon_id": 3}))
-        # Test passing events
-        for e in [pass1, pass2, pass3]:
-            self.assertTrue(mon_filter.check_event(e))
+    @generic_filter_test
+    def test_rarity(self):
+        self.filt = {"rarity": ["new spawn", "Very Rare"]}
+        self.event_key = "rarity"
+        self.pass_vals = [0, 4]
+        self.fail_vals = [1, 2, 5]
 
-        # Generate events that should fail
-        fail1 = Events.MonEvent(generate_monster({"pokemon_id": 5}))
-        fail2 = Events.MonEvent(generate_monster({"pokemon_id": 102}))
-        fail3 = Events.MonEvent(generate_monster({"pokemon_id": 30}))
+    @generic_filter_test
+    def test_monsters_exclude(self):
+        self.filt = {"monsters_exclude": [4, "5", "Charizard"]}
+        self.event_key = "pokemon_id"
+        self.pass_vals = [1, 2, 3]
+        self.fail_vals = [4, 5, 6]
 
-        # Test failing events
-        for e in [fail1, fail2, fail3]:
-            self.assertFalse(mon_filter.check_event(e))
-
+    @generic_filter_test
     def test_lvl(self):
-        # Create the filters
-        settings = {"min_lvl": 5, "max_lvl": 10}
-        mon_filter = Filters.MonFilter('filter1', settings)
-
-        # Generate events that should pass
-        pass1 = Events.MonEvent(generate_monster({"pokemon_level": 5}))
-        pass2 = Events.MonEvent(generate_monster({"pokemon_level": 7}))
-        pass3 = Events.MonEvent(generate_monster({"pokemon_level": 10}))
-        # Test passing events
-        for e in [pass1, pass2, pass3]:
-            self.assertTrue(mon_filter.check_event(e))
-
-        # Generate events that should fail
-        fail1 = Events.MonEvent(generate_monster({"pokemon_id": 4}))
-        fail2 = Events.MonEvent(generate_monster({"pokemon_id": 11}))
-        fail3 = Events.MonEvent(generate_monster({"pokemon_id": 100}))
-
-        # Test failing events
-        for e in [fail1, fail2, fail3]:
-            self.assertFalse(mon_filter.check_event(e))
+        self.filt = {"min_lvl": 5, "max_lvl": 10}
+        self.event_key = "pokemon_level"
+        self.pass_vals = [5, 7, 10]
+        self.fail_vals = [4, 11, 100]
 
     def test_iv(self):
-        # Create filter that forces settings
-        settings = {"min_iv": 50, "max_iv": 75}
-        mon_filter = Filters.MonFilter('iv_filter', settings)
+        filt = self.gen_filter({"min_iv": 50, "max_iv": 75})
 
-        # Generate events that pass based off forced filter
-        pass1 = create_event({  # test max
-            "individual_attack": 15,
-            "individual_defense": 15,
-            "individual_stamina": 3
-        })
-        pass2 = create_event({  # in between
-            "individual_attack": 15,
-            "individual_defense": 10,
-            "individual_stamina": 2
-        })
-        pass3 = create_event({  # test min
-            "individual_attack": 10,
-            "individual_defense": 8,
-            "individual_stamina": 5
-        })
+        pass_vals = [
+            {
+                "individual_attack": 15,
+                "individual_defense": 15,
+                "individual_stamina": 3
+            },
+            {
+                "individual_attack": 15,
+                "individual_defense": 10,
+                "individual_stamina": 2
+            },
+            {
+                "individual_attack": 10,
+                "individual_defense": 8,
+                "individual_stamina": 5
+            }
+        ]
 
-        for e in [pass1, pass2, pass3]:
-            self.assertTrue(mon_filter.check_event(e))
+        for val in pass_vals:
+            event = self.gen_event(val)
+            self.assertTrue(filt.check_event(event))
 
-        # Generate events that fail based off the forced filter
-        fail1 = create_event({  # test max
-            "individual_attack": 12,
-            "individual_defense": 11,
-            "individual_stamina": 11
-        })
-        fail2 = create_event({  # Extreme end
-            "individual_attack": 15,
-            "individual_defense": 15,
-            "individual_stamina": 15
-        })
-        fail3 = create_event({  # test min
-            "individual_attack": 10,
-            "individual_defense": 8,
-            "individual_stamina": 4
-        })
+        fail_vals = [
+            {
+                "individual_attack": 12,
+                "individual_defense": 11,
+                "individual_stamina": 11
+            },
+            {
+                "individual_attack": 15,
+                "individual_defense": 15,
+                "individual_stamina": 15
+            },
+            {
+                "individual_attack": 10,
+                "individual_defense": 8,
+                "individual_stamina": 4
+            }
+        ]
 
-        for e in [fail1, fail2, fail3]:
-            self.assertFalse(mon_filter.check_event(e))
+        for val in fail_vals:
+            event = self.gen_event(val)
+            self.assertFalse(filt.check_event(event))
 
+    @generic_filter_test
     def test_attack(self):
-        # Create filter that forces settings
-        settings = {"min_atk": 5, "max_atk": 10}
-        mon_filter = Filters.MonFilter('atk_filter', settings)
+        self.filt = {"min_atk": 5, "max_atk": 10}
+        self.event_key = "individual_attack"
+        self.pass_vals = [5, 7, 10]
+        self.fail_vals = [4, 11, 1]
 
-        # Generate events that pass based off forced filter
-        pass1 = create_event({"individual_attack": 5})  # test min
-        pass2 = create_event({"individual_attack": 7})  # test middle
-        pass3 = create_event({"individual_attack": 10})  # test max
-
-        for e in [pass1, pass2, pass3]:
-            self.assertTrue(mon_filter.check_event(e))
-
-        fail1 = create_event({"individual_attack": 4})  # test close to min
-        fail2 = create_event({"individual_attack": 11})  # test close to max
-        fail3 = create_event({"individual_attack": 1})  # test extreme
-
-        for e in [fail1, fail2, fail3]:
-            self.assertFalse(mon_filter.check_event(e))
-
+    @generic_filter_test
     def test_defense(self):
-        # Create filter that forces settings
-        settings = {"min_def": 5, "max_def": 10}
-        mon_filter = Filters.MonFilter('def_filter', settings)
+        self.filt = {"min_def": 10, "max_def": 15}
+        self.event_key = "individual_defense"
+        self.pass_vals = [10, 12, 15]
+        self.fail_vals = [4, 9, 16]
 
-        # Generate events that pass based off forced filter
-        pass1 = create_event({"individual_defense": 5})  # test min
-        pass2 = create_event({"individual_defense": 7})  # test middle
-        pass3 = create_event({"individual_defense": 10})  # test max
-
-        for e in [pass1, pass2, pass3]:
-            self.assertTrue(mon_filter.check_event(e))
-
-        fail1 = create_event({"individual_defense": 4})  # test close to min
-        fail2 = create_event({"individual_defense": 11})  # test close to max
-        fail3 = create_event({"individual_defense": 1})  # test extreme
-
-        for e in [fail1, fail2, fail3]:
-            self.assertFalse(mon_filter.check_event(e))
-
+    @generic_filter_test
     def test_stamina(self):
-        # Create filter that forces settings
-        settings = {"min_sta": 5, "max_sta": 10}
-        mon_filter = Filters.MonFilter('sta_filter', settings)
+        self.filt = {"min_sta": 3, "max_sta": 10}
+        self.event_key = "individual_stamina"
+        self.pass_vals = [3, 8, 10]
+        self.fail_vals = [2, 11, 15]
 
-        # Generate events that pass based off forced filter
-        pass1 = create_event({"individual_stamina": 5})  # test min
-        pass2 = create_event({"individual_stamina": 7})  # test middle
-        pass3 = create_event({"individual_stamina": 10})  # test max
-
-        for e in [pass1, pass2, pass3]:
-            self.assertTrue(mon_filter.check_event(e))
-
-        fail1 = create_event({"individual_stamina": 4})  # test close to min
-        fail2 = create_event({"individual_stamina": 11})  # test close to max
-        fail3 = create_event({"individual_stamina": 1})  # test extreme
-
-        for e in [fail1, fail2, fail3]:
-            self.assertFalse(mon_filter.check_event(e))
-
+    @generic_filter_test
     def test_form(self):
-        # Create filter that forces settings
-        settings = {"form_ids": [1, 28]}
-        mon_filter = Filters.MonFilter('form_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({'form': 1})))
-        self.assertTrue(mon_filter.check_event(create_event({'form': 28})))
-        self.assertFalse(mon_filter.check_event(create_event({'form': 2})))
-        self.assertFalse(mon_filter.check_event(create_event({'form': 999})))
+        self.filt = {"form_ids": [1, 28]}
+        self.event_key = "form"
+        self.pass_vals = [1, 28]
+        self.fail_vals = [2, 999]
 
-    def test_moves(self):
-        quick_settings = {"quick_moves": ["Vine Whip", "Tackle"]}
-        quick_mon_filter = Filters.MonFilter('quick_move_filter',
-                                             quick_settings)
-        self.assertTrue(quick_mon_filter.check_event(create_event({
-            'move_1': 221
-        })))
-        self.assertTrue(quick_mon_filter.check_event(create_event({
-            'move_1': 214
-        })))
-        self.assertFalse(quick_mon_filter.check_event(create_event({
-            'move_1': 1
-        })))
-        self.assertFalse(quick_mon_filter.check_event(create_event({
-            'move_1': 999
-        })))
+    @generic_filter_test
+    def test_costume(self):
+        self.filt = {"costume_ids": [1, 2]}
+        self.event_key = "costume"
+        self.pass_vals = [1, 2]
+        self.fail_vals = [3, 999]
 
-        charge_settings = {"charge_moves": ["Sludge Bomb", "Seed Bomb"]}
-        charge_mon_filter = Filters.MonFilter('charge_move_filter',
-                                              charge_settings)
-        self.assertTrue(charge_mon_filter.check_event(create_event({
-            'move_2': 90
-        })))
-        self.assertTrue(charge_mon_filter.check_event(create_event({
-            'move_2': 59
-        })))
-        self.assertFalse(charge_mon_filter.check_event(create_event({
-            'move_2': 1
-        })))
-        self.assertFalse(charge_mon_filter.check_event(create_event({
-            'move_2': 999
-        })))
+    @generic_filter_test
+    def test_quick_move(self):
+        self.filt = {"quick_moves": ["Vine Whip", "Tackle"]}
+        self.event_key = "move_1"
+        self.pass_vals = [221, 214]
+        self.fail_vals = [1, 999]
 
+    @generic_filter_test
+    def test_charge_move(self):
+        self.filt = {"charge_moves": ["Sludge Bomb", "Seed Bomb"]}
+        self.event_key = "move_2"
+        self.pass_vals = [90, 59]
+        self.fail_vals = [1, 999]
+
+    @generic_filter_test
     def test_gender(self):
-        settings = {'genders': ["male", "female"]}
-        mon_filter = Filters.MonFilter('gender_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({'gender': 2})))
-        self.assertFalse(mon_filter.check_event(create_event({'gender': 3})))
+        self.filt = {'genders': ["male", "female"]}
+        self.event_key = "gender"
+        self.pass_vals = [1, 2]
+        self.fail_vals = [3]
 
     def test_size(self):
         # Assumes base height/weight of Bulbasaur
-        settings = {'sizes': ["1", "small", "4"]}
-        mon_filter = Filters.MonFilter('size_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({
-            'height': 0.71,
-            'weight': 9
-        })))
-        self.assertFalse(mon_filter.check_event(create_event({
-            'height': 0.71,
-            'weight': 8
-        })))
-        self.assertFalse(mon_filter.check_event(create_event({
-            'height': 0.71,
-            'weight': 12
-        })))
+        filt = self.gen_filter({'sizes': [1, "small", "4"]})
+        # Test passing
+        for val in [{'height': 0.71, 'weight': 9}]:
+            event = self.gen_event(val)
+            self.assertTrue(
+                filt.check_event(event))
+        # Test failing
+        fails = [{'height': 0.71, 'weight': 8}, {'height': 0.71, 'weight': 8}]
+        for val in fails:
+            event = self.gen_event(val)
+            self.assertFalse(filt.check_event(event))
 
+    @generic_filter_test
     def test_weight(self):
-        settings = {'min_weight': 15, 'max_weight': 'inf'}
-        mon_filter = Filters.MonFilter('weight_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({'weight': 15})))
-        self.assertFalse(mon_filter.check_event(create_event({'weight': 14})))
-        self.assertTrue(mon_filter.check_event(create_event({
-            'weight': 'inf'
-        })))
+        self.filt = {'min_weight': 15, 'max_weight': 25}
+        self.event_key = 'weight'
+        self.pass_vals = [15, 20, 25]
+        self.fail_vals = [10, 14, 26, 100]
 
+    @generic_filter_test
     def test_height(self):
-        settings = {'min_height': 15, 'max_height': 'inf'}
-        mon_filter = Filters.MonFilter('height_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({'height': 15})))
-        self.assertFalse(mon_filter.check_event(create_event({'height': 14})))
-        self.assertTrue(mon_filter.check_event(create_event({
-            'height': 'inf'
-        })))
+        self.filt = {'min_height': 15, 'max_height': 25}
+        self.event_key = 'height'
+        self.pass_vals = [15, 20, 25]
+        self.fail_vals = [10, 14, 26, 100]
 
-    def test_distance(self):
-        mon_event = Events.MonEvent(generate_monster({}))
-        settings = {'min_dist': '5', 'max_dist': '2000'}
-        mon_filter = Filters.MonFilter('distance_filter', settings)
-        for i in [1000, 5, 2000]:
-            mon_event.distance = i
-            self.assertTrue(mon_filter.check_event(mon_event))
+    def test_mon_distance(self):
+        # Create the filter
+        filt = self.gen_filter(
+            {"max_dist": 2000, "min_dist": 400})
 
-        settings2 = {'min_dist': '5', 'max_dist': 500}
-        mon_filter2 = Filters.MonFilter('distance_filter_2', settings2)
-        for i in [4, 501, 9999]:
-            mon_event.distance = i
-            self.assertFalse(mon_filter2.check_event(mon_event))
+        # Test passing
+        mon = self.gen_event({})
+        for dist in [1000, 800, 600]:
+            mon.distance = dist
+            self.assertTrue(filt.check_event(mon))
 
-    def test_custom_dts(self):
-        settings = {'custom_dts': {
-            'key1': 'value1',
-            'I\'m a goofy': 'goober yeah!'
-        }}
-        mon_filter = Filters.MonFilter('custom_dts_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({})))
+        # Test failing
+        mon = self.gen_event({})
+        for dist in [0, 300, 3000]:
+            mon.distance = dist
+            self.assertFalse(filt.check_event(mon))
 
     def test_missing_info(self):
-        settings = {
-            'is_missing_info': False,
-            'min_atk': 5,
-            'min_def': 5,
-            'max_sta': 14
-        }
-        mon_filter = Filters.MonFilter('missing_info_filter', settings)
-        self.assertTrue(mon_filter.check_event(create_event({
-            'individual_attack': 15,
-            'individual_defense': 15,
-            'individual_stamina': 14,
-            "cp": 280
-        })))
-        self.assertFalse(mon_filter.check_event(create_event({})))
+        # Create the filters
+        missing = self.gen_filter(
+            {"max_dist": "inf", "is_missing_info": True})
+        not_missing = self.gen_filter(
+            {"max_dist": "inf", "is_missing_info": False})
 
+        # Test missing
+        miss_event = self.gen_event({})
+        self.assertTrue(missing.check_event(miss_event))
+        self.assertFalse(not_missing.check_event(miss_event))
+
+        # Test not missing
+        info_event = self.gen_event({})
+        info_event.distance = 1000
+        self.assertTrue(not_missing.check_event(info_event))
+        self.assertFalse(missing.check_event(info_event))
+
+    @generic_filter_test
     def test_cp(self):
-        settings = {'min_cp': 20, 'max_cp': 500}
-        mon_filter = Filters.MonFilter('cp_filter', settings)
-        for i in [20, 250, 500]:
-            self.assertTrue(mon_filter.check_event(create_event({'cp': i})))
+        self.filt = {'min_cp': 20, 'max_cp': 500}
+        self.event_key = "cp"
+        self.pass_vals = [20, 250, 500]
+        self.fail_vals = [19, 501, 9999]
 
-        for i in [19, 501, 9999]:
-            self.assertFalse(mon_filter.check_event(create_event({'cp': i})))
-
+    @generic_filter_test
     def test_weather(self):
-        settings = {'weather': [1, "windy"]}
-        mon_filter = Filters.MonFilter('weather_filter', settings)
-        for i in [1, 5]:
-            self.assertTrue(mon_filter.check_event(create_event({
-                'weather': i
-            })))
-
-        for i in [0, 2, 8]:
-            self.assertFalse(mon_filter.check_event(create_event({
-                'weather': i
-            })))
+        self.filt = {'weather': [1, "windy"]}
+        self.event_key = "weather"
+        self.pass_vals = [1, 5]
+        self.fail_vals = [0, 2, 8]
 
     def test_time_left(self):
-        # Create the filters
-        settings = {'min_time_left': 1000, 'max_time_left': 8000}
-        mon_filter = Filters.MonFilter('time_filter', settings)
+        # Create the filter
+        filt = self.gen_filter(
+            {'min_time_left': 1000, 'max_time_left': 8000})
 
-        # Test events that should pass
+        # Test passing
         for s in [2000, 4000, 6000]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = Events.MonEvent(generate_monster({"disappear_time": t}))
-            self.assertTrue(mon_filter.check_event(event))
+            event = self.gen_event({"disappear_time": t})
+            self.assertTrue(filt.check_event(event))
 
-        # Test events that should fail
+        # Test failing
         for s in [200, 999, 8001]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = Events.MonEvent(generate_monster({"disappear_time": t}))
-            self.assertFalse(mon_filter.check_event(event))
-
-
-# Create a generic monster, overriding with an specific values
-def generate_monster(values):
-    mon = {
-        "encounter_id": "0",
-        "spawnpoint_id": "0",
-        "pokemon_id": 1,
-        "pokemon_level": 1,
-        "player_level": 40,
-        "latitude": 37.7876146,
-        "longitude": -122.390624,
-        "disappear_time": 1506897031,
-        "last_modified_time": 1475033386661,
-        "time_until_hidden_ms": 5000,
-        "seconds_until_despawn": 1754,
-        "spawn_start": 2153,
-        "spawn_end": 3264,
-        "verified": False,
-        "cp_multiplier": 0.7317000031471252,
-        "form": None,
-        "cp": None,
-        "individual_attack": None,
-        "individual_defense": None,
-        "individual_stamina": None,
-        "move_1": None,
-        "move_2": None,
-        "height": None,
-        "weight": None,
-        "gender": None
-    }
-    mon.update(values)
-    return mon
-
-
-# Create the event and change default values
-def create_event(items_to_change):
-    return Events.MonEvent(generate_monster(items_to_change))
+            event = self.gen_event({"disappear_time": t})
+            self.assertFalse(filt.check_event(event))
 
 
 if __name__ == '__main__':

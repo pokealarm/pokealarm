@@ -1,4 +1,9 @@
 {
+  "severity": {
+    "000": "None",
+    "001": "Moderate",
+    "003": "Extreme"
+  },
   "costumes": {
     "025": {
       "001": "Festive Hat", 
@@ -18,7 +23,11 @@
       "003": "Ash Hat", 
       "004": "Witch Hat"
     }
-  }, 
+  },
+  "day_or_night": {
+    "001": "Day",
+    "002": "Night"
+  },
   "forms": {
     "201": {
       "001": "A", 
@@ -70,9 +79,7 @@
     "003": "Spark"
   }, 
   "misc": {
-    "boosted": "boosted",
-	"a": "a",
-	"an": "an"
+    "boosted": "boosted"
   }, 
   "moves": {
     "013": "Wrap", 
@@ -1127,5 +1134,56 @@
 	"801": "Win a level 3 or higher raid",
 	"151": "Use an item to evolve a Pokemon.",
 	"401": "with weather boost"
-   }
+  },
+  "rarity": {
+    "000": "New Spawn",
+    "001": "Common",
+    "002": "Uncommon",
+    "003": "Rare",
+    "004": "Very Rare",
+    "005": "Ultra Rare"
+  },
+  "sizes": {
+    "001": "tiny", 
+    "002": "small", 
+    "003": "normal", 
+    "004": "large", 
+    "005": "big"
+  }, 
+  "teams": {
+    "000": "Neutral", 
+    "001": "Mystic", 
+    "002": "Valor", 
+    "003": "Instinct"
+  }, 
+  "types": {
+    "001": "Normal", 
+    "002": "Fighting", 
+    "003": "Flying", 
+    "004": "Poison", 
+    "005": "Ground", 
+    "006": "Rock", 
+    "007": "Bug", 
+    "008": "Ghost", 
+    "009": "Steel", 
+    "010": "Fire", 
+    "011": "Water", 
+    "012": "Grass", 
+    "013": "Electric", 
+    "014": "Psychic", 
+    "015": "Ice", 
+    "016": "Dragon", 
+    "017": "Fairy", 
+    "018": "Dark"
+  }, 
+  "weather": {
+    "000": "None", 
+    "001": "Clear", 
+    "002": "Rain", 
+    "003": "Partly Cloudy", 
+    "004": "Cloudy", 
+    "005": "Windy", 
+    "006": "Snow", 
+    "007": "Fog"
+  }
 }

@@ -5,7 +5,7 @@ from datetime import datetime
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_time_as_str, get_seconds_remaining, get_dist_as_str
+    get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str
 
 
 class StopEvent(BaseEvent):
@@ -19,8 +19,11 @@ class StopEvent(BaseEvent):
         self.stop_id = data['pokestop_id']
 
         # Time left
-        self.expiration = datetime.utcfromtimestamp(data['lure_expiration'])
-        self.time_left = get_seconds_remaining(self.expiration)
+        self.expiration = data['lure_expiration']
+        self.time_left = None
+        if self.expiration is not None:
+            self.expiration = datetime.utcfromtimestamp(self.expiration)
+            self.time_left = get_seconds_remaining(self.expiration)
 
         # Location
         self.lat = float(data['latitude'])
@@ -37,7 +40,7 @@ class StopEvent(BaseEvent):
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
-        time = get_time_as_str(self.expiration)
+        time = get_time_as_str(self.expiration, timezone)
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -59,6 +62,7 @@ class StopEvent(BaseEvent):
             'direction': self.direction,
             'gmaps': get_gmaps_link(self.lat, self.lng),
             'applemaps': get_applemaps_link(self.lat, self.lng),
+            'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence
         })
         return dts
