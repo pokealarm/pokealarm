@@ -1,5 +1,6 @@
 # Standard Library Imports
 import operator
+import re
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
@@ -106,6 +107,18 @@ class RaidFilter(BaseFilter):
             eval_func=operator.eq,
             limit=BaseFilter.parse_as_type(bool, 'is_ex_eligible', data)
         )
+
+        # Gym sponsor
+        self.gym_sponsor_index_contains = self.evaluate_attribute(
+            event_attribute='gym_sponsor', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                re.compile, 'gym_sponsor_index_contains', data))
+
+        # Gym park
+        self.gym_park_contains = self.evaluate_attribute(
+            event_attribute='gym_park', eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                re.compile, 'gym_park_contains', data))
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti

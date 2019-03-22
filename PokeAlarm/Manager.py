@@ -462,7 +462,241 @@ class Manager(object):
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    # Add new Quest Rule
+    def add_quest_rule(self, name, filters, alarms):
+        if name in self.__quest_rules:
+            raise ValueError("Unable to add Rule: Quest Rule with the name "
+                             "{} already exists!".format(name))
+
+        for filt in filters:
+            if filt not in self.__quest_filters:
+                raise ValueError("Unable to create Rule: No quest Filter "
+                                 "named {}!".format(filt))
+
+        for alarm in alarms:
+            if alarm not in self.__alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+
+        self.__quest_rules[name] = Rule(filters, alarms)
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    @staticmethod
+    def load_filter_section(section, sect_name, filter_type):
+        defaults = section.pop('defaults', {})
+        filter_set = OrderedDict()
+        for name, settings in section.pop('filters', {}).iteritems():
+            settings = dict(defaults.items() + settings.items())
+            try:
+                filter_set[name] = filter_type(name, settings)
+                log.debug(
+                    "Filter '%s' set as the following: %s", name,
+                    filter_set[name].to_dict())
+            except Exception as e:
+                log.error("Encountered error inside filter named '%s'.", name)
+                raise e  # Pass the error up
+        for key in section:  # Reject leftover parameters
+            raise ValueError("'{}' is not a recognized parameter for the "
+                             "'{}' section.".format(key, sect_name))
+        return filter_set
+
+    # Load in a new filters file
+    def load_filter_file(self, file_path):
+        try:
+            log.info("Loading Filters from file at {}".format(file_path))
+            with open(file_path, 'r') as f:
+                filters = json.load(f, object_pairs_hook=OrderedDict)
+            if type(filters) is not OrderedDict:
+                log.critical("Filters files must be a JSON object:"
+                             " { \"monsters\":{...},... }")
+                raise ValueError("Filter file did not contain a dict.")
+        except ValueError as e:
+            log.error("Encountered error while loading Filters:"
+                      " {}: {}".format(type(e).__name__, e))
+            log.error(
+                "PokeAlarm has encountered a 'ValueError' while loading the "
+                "Filters file. This typically means the file isn't in the "
+                "correct json format. Try loading the file contents into a "
+                "json validator.")
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            sys.exit(1)
+        except IOError as e:
+            log.error("Encountered error while loading Filters: "
+                      "{}: {}".format(type(e).__name__, e))
+            log.error("PokeAlarm was unable to find a filters file "
+                      "at {}. Please check that this file exists "
+                      "and that PA has read permissions.".format(file_path))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            sys.exit(1)
+
+        try:
+            # Load Monsters Section
+            log.info("Parsing 'monsters' section.")
+            section = filters.pop('monsters', {})
+            self.__mons_enabled = bool(section.pop('enabled', False))
+            self.__mon_filters = self.load_filter_section(
+                section, 'monsters', Filters.MonFilter)
+
+            # Load Stops Section
+            log.info("Parsing 'stops' section.")
+            section = filters.pop('stops', {})
+            self.__stops_enabled = bool(section.pop('enabled', False))
+            self.__stop_filters = self.load_filter_section(
+                section, 'stops', Filters.StopFilter)
+
+            # Load Gyms Section
+            log.info("Parsing 'gyms' section.")
+            section = filters.pop('gyms', {})
+            self.__gyms_enabled = bool(section.pop('enabled', False))
+            self.__ignore_neutral = bool(section.pop('ignore_neutral', False))
+            self.__gym_filters = self.load_filter_section(
+                section, 'gyms', Filters.GymFilter)
+
+            # Load Eggs Section
+            log.info("Parsing 'eggs' section.")
+            section = filters.pop('eggs', {})
+            self.__eggs_enabled = bool(section.pop('enabled', False))
+            self.__egg_filters = self.load_filter_section(
+                section, 'eggs', Filters.EggFilter)
+
+            # Load Raids Section
+            log.info("Parsing 'raids' section.")
+            section = filters.pop('raids', {})
+            self.__raids_enabled = bool(section.pop('enabled', False))
+            self.__raid_filters = self.load_filter_section(
+                section, 'raids', Filters.RaidFilter)
+
+            # Load Weather Section
+            log.info("Parsing 'weather' section.")
+            section = filters.pop('weather', {})
+            self.__weather_enabled = bool(section.pop('enabled', True))
+            self.__weather_filters = self.load_filter_section(
+                section, 'weather', Filters.WeatherFilter)
+
+            # Load Quest Section
+            log.info("Parsing 'quest' section.")
+            section = filters.pop('quest', {})
+            self.__quest_enabled = bool(section.pop('enabled', True))
+            self.__quest_filters = self.load_filter_section(
+                section, 'quest', Filters.QuestFilter)
+
+            return  # exit function
+
+        except Exception as e:
+            log.error("Encountered error while parsing Filters. "
+                      "This is because of a mistake in your Filters file.")
+            log.error("{}: {}".format(type(e).__name__, e))
+            log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+            sys.exit(1)
+
+    def load_alarms_file(self, file_path, max_attempts):
+        log.info("Loading Alarms from the file at {}".format(file_path))
+        try:
+            with open(file_path, 'r') as f:
+                alarm_settings = json.load(f)
+            if type(alarm_settings) is not dict:
+                log.critical("Alarms file must be an object of Alarms objects "
+                             + "- { 'alarm1': {...}, ... 'alarm5': {...} }")
+                sys.exit(1)
+            self.__alarms = {}
+            for name, alarm in alarm_settings.iteritems():
+                if parse_boolean(require_and_remove_key(
+                        'active', alarm, "Alarm objects in file.")) is True:
+                    self.set_optional_args(str(alarm))
+                    self.__alarms[name] = Alarms.alarm_factory(
+                        alarm, max_attempts, self.__google_key)
+                else:
+                    log.debug("Alarm not activated: {}".format(alarm['type'])
+                              + " because value not set to \"True\"")
+            log.info("{} active alarms found.".format(len(self.__alarms)))
+            return  # all done
+        except ValueError as e:
+            log.error("Encountered error while loading Alarms file: "
+                      + "{}: {}".format(type(e).__name__, e))
+            log.error(
+                "PokeAlarm has encountered a 'ValueError' while loading the "
+                + " Alarms file. This typically means your file isn't in the "
+                + "correct json format. Try loading your file contents into"
+                + " a json validator.")
+        except IOError as e:
+            log.error("Encountered error while loading Alarms: "
+                      + "{}: {}".format(type(e).__name__, e))
+            log.error("PokeAlarm was unable to find a filters file "
+                      + "at {}. Please check that this file".format(file_path)
+                      + " exists and PA has read permissions.")
+        except Exception as e:
+            log.error("Encountered error while loading Alarms: "
+                      + "{}: {}".format(type(e).__name__, e))
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        sys.exit(1)
+
+    # Check for optional arguments and enable APIs as needed
+    def set_optional_args(self, line):
+        # Reverse Location
+        args = {'street', 'street_num', 'address', 'postal', 'neighborhood',
+                'sublocality', 'city', 'county', 'state', 'country'}
+        if contains_arg(line, args):
+            if self.__loc_service is None:
+                log.critical("Reverse location DTS were detected but "
+                             + "no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + "or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_reverse_location()
+
+        # Walking Dist Matrix
+        args = {'walk_dist', 'walk_time'}
+        if contains_arg(line, args):
+            if self.__location is None:
+                log.critical("Walking Distance Matrix DTS were detected but "
+                             + " no location was set!")
+                log.critical("Please either remove the DTS, set a location, "
+                             + "or disable the alarm and try again.")
+                sys.exit(1)
+            if self.__loc_service is None:
+                log.critical("Walking Distance Matrix DTS were detected "
+                             + "but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + "or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_walking_data()
+
+        # Biking Dist Matrix
+        args = {'bike_dist', 'bike_time'}
+        if contains_arg(line, args):
+            if self.__location is None:
+                log.critical("Biking Distance Matrix DTS were detected but "
+                             + " no location was set!")
+                log.critical("Please either remove the DTS, set a location, "
+                             + " or disable the alarm and try again.")
+                sys.exit(1)
+            if self.__loc_service is None:
+                log.critical("Biking Distance Matrix DTS were detected "
+                             + "  but no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + " or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_biking_data()
+
+        # Driving Dist Matrix
+        args = {'drive_dist', 'drive_time'}
+        if contains_arg(line, args):
+            if self.__location is None:
+                log.critical("Driving Distance Matrix DTS were detected but "
+                             + "no location was set!")
+                log.critical("Please either remove the DTS, set a location, "
+                             + "or disable the alarm and try again.")
+                sys.exit(1)
+            if self.__loc_service is None:
+                log.critical("Driving Distance Matrix DTS were detected but "
+                             + "no API key was provided!")
+                log.critical("Please either remove the DTS, add an API key, "
+                             + " or disable the alarm and try again.")
+                sys.exit(1)
+            self.__loc_service.enable_driving_data()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1040,6 +1274,135 @@ class Manager(object):
             self._rule_log.info(
                 'Quest %s rejected by all rules.', quest.name)
 
+    def process_weather(self, weather):
+        # type: (Events.WeatherEvent) -> None
+        """ Process a weather event and notify alarms if it passes. """
+
+        # Make sure that weather is enabled
+        if self.__weather_enabled is False:
+            log.debug("Weather ignored: weather notifications are disabled.")
+            return
+
+        # Skip if previously processed
+        if self.__cache.get_cell_weather(
+                weather.weather_cell_id) == weather.condition:
+            log.debug("Weather alert for cell {} was skipped "
+                      "because it was already {} weather.".format(
+                          weather.weather_cell_id, weather.condition))
+            return
+        self.__cache.update_cell_weather(
+            weather.weather_cell_id, weather.condition)
+
+        weather.geofence = ''
+
+        # Check for Rules
+        rules = self.__weather_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__weather_filters.keys(), self.__alarms.keys())}
+
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__weather_filters.get(f_name)
+                passed = f.check_event(weather) and \
+                    self.check_weather_geofences(f, weather)
+                if not passed:
+                    continue  # go to next filter
+                weather.custom_dts = f.custom_dts
+
+                if self.__quiet is False:
+                    log.info("{} weather notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(weather.weather_cell_id, r_name))
+                self._trigger_weather(weather, weather.alarm_names)
+                break  # Next rule
+
+    def _trigger_weather(self, weather, alarms):
+
+        dts = weather.generate_dts(
+            self.__locale, self.__timezone, self.__units)
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.weather_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
+
+        for thread in threads:  # Wait for all alarms to finish
+            thread.join()
+
+    def process_quest(self, quest):
+        # type: (Events.QuestEvent) -> None
+        """ Process a quest event and notify alarms if it passes. """
+
+        # Make sure that stops are enabled
+        if self.__quest_enabled is False:
+            log.debug("Quest ignored: quest notifications are disabled.")
+            return
+
+        # Check if previously processed and update expiration
+        if self.__cache.quest_reward(quest.stop_id) is not None:
+            log.debug("Quest {} was skipped because it was previously "
+                      "processed.".format(quest.stop_name))
+            return
+        self.__cache.quest_reward(quest.stop_id, quest.reward)
+
+        # Calculate distance and direction
+        if self.__location is not None:
+            quest.distance = get_earth_dist(
+                [quest.lat, quest.lng], self.__location, self.__units)
+            quest.direction = get_cardinal_dir(
+                [quest.lat, quest.lng], self.__location)
+
+        # Check for Rules
+        rules = self.__quest_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self.__quest_filters.keys(), self.__alarms.keys())}
+
+        for r_name, rule in rules.iteritems():  # For all rules
+            for f_name in rule.filter_names:  # Check Filters in Rules
+                f = self.__quest_filters.get(f_name)
+                passed = f.check_event(quest) and self.check_geofences(
+                    f, quest)
+                if not passed:
+                    continue  # go to next filter
+                quest.custom_dts = f.custom_dts
+                if self.__quiet is False:
+                    log.info("{} quest notification"
+                             " has been triggered in rule '{}'!"
+                             "".format(quest.stop_name, r_name))
+                self._trigger_quest(quest, rule.alarm_names)
+                break  # Next rule
+
+    def _trigger_quest(self, quest, alarms):
+        # Generate the DTS for the event
+        dts = quest.generate_dts(self.__locale, self.__timezone, self.__units)
+
+        # Get GMaps Triggers
+        if self._gmaps_reverse_geocode:
+            dts.update(self._gmaps_service.reverse_geocode(
+                (quest.lat, quest.lng), self._language))
+        for mode in self._gmaps_distance_matrix:
+            dts.update(self._gmaps_service.distance_matrix(
+                mode, (quest.lat, quest.lng), self.__location,
+                self._language, self.__units))
+
+        threads = []
+        # Spawn notifications in threads so they can work in background
+        for name in alarms:
+            alarm = self.__alarms.get(name)
+            if alarm:
+                threads.append(gevent.spawn(alarm.quest_alert, dts))
+            else:
+                log.critical("Alarm '{}' not found!".format(name))
+
+        for thread in threads:
+            thread.join()
+
     # Check to see if a notification is within the given range
     # TODO: Move this into filters and add unit tests
     def check_geofences(self, f, e):
@@ -1064,4 +1427,28 @@ class Manager(object):
         self._log.debug("%s rejected from filter by geofences.", e.name)
         return False
 
+
+# Check to see if a weather notification s2 cell
+# overlaps with a given range (geofence)
+    def check_weather_geofences(self, f, weather):
+        """ Returns true if the event passes the filter's geofences. """
+        geofencesFound = False
+        if self.geofences is None or f.geofences is None:  # No geofences set
+            return True
+        targets = f.geofences
+        if len(targets) == 1 and "all" in targets:
+            targets = self.geofences.iterkeys()
+        for name in targets:
+            gf = self.geofences.get(name)
+            if not gf:  # gf doesn't exist
+                log.error("Cannot check geofence %s: does not exist!", name)
+            elif gf.check_overlap(weather):  # weather cell overlaps gf
+                log.info("{} is in geofence {}!".format(
+                    weather.weather_cell_id, gf.get_name()))
+                weather.geofence += name + '\n'  # Set the geofence for dts
+                geofencesFound = True
+            else:  # weather not in gf
+                log.debug("%s not in %s.", weather.weather_cell_id, name)
+        f.reject(weather, "not in geofences")
+        return geofencesFound
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

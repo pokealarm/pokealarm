@@ -7,6 +7,7 @@ import logging
 from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
+import re
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import not_so_secret_url
@@ -321,6 +322,7 @@ def is_weather_boosted(pokemon_id, weather_id):
 
     boosted_types = is_weather_boosted.info.get(str(weather_id), {})
     types = get_base_types(pokemon_id)
+
     return types[0] in boosted_types or types[1] in boosted_types
 
 
@@ -384,7 +386,7 @@ def get_waze_link(lat, lng):
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
-def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
+def get_static_map_url(settings):  # TODO: optimize formatting
     if not parse_boolean(settings.get('enabled', 'True')):
         return None
     width = settings.get('width', '250')
@@ -401,13 +403,33 @@ def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
 
     map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
             query_center + '&' + query_markers + '&' +
-            query_maptype + '&' + query_size + '&' + query_zoom)
+            query_maptype + '&' + query_size + '&' +
+            query_zoom + '&key=<gkey>')
 
-    if api_key is not None:
-        map_ += ('&key=%s' % api_key)
-        # log.debug("API_KEY added to static map url.")
     return map_
 
+
+# TODO: optimize formatting
+def get_static_weather_map_url(settings):
+    if not parse_boolean(settings.get('enabled', 'True')):
+        return None
+    width = settings.get('width', '400')
+    height = settings.get('height', '400')
+    maptype = settings.get('maptype', 'roadmap')
+    zoom = settings.get('zoom', '12')
+
+    query_size = 'size={}x{}'.format(width, height)
+    query_zoom = 'zoom={}'.format(zoom)
+    query_maptype = 'maptype={}'.format(maptype)
+    query_path = 'path=fillcolor:0xFFFF0033|weight:5|' \
+        '<lat1>,<lng1>|<lat2>,<lng2>|<lat3>,<lng3>' \
+        '|<lat4>,<lng4>|<lat1>,<lng1>'
+
+    map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
+            query_maptype + '&' + query_size +
+            '&' + query_zoom + '&' + query_path + '&key=<gkey>')
+
+    return map_
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -527,5 +549,92 @@ def match_items_in_array(list, items):
         if obj in items:
             return True
     return False
+
+
+def get_string_for_quest_task(locale, typeid, condition, target):
+    arr = {}
+    arr['0'] = target
+    text = locale.get_quest_type_name(typeid)
+    is_vowel = False
+    if typeid == 4:
+        arr['type'] = ""
+        arr['poke'] = "pokémon"
+        match_object = re.search(r"'pokemon_type': \[([0-9, ]+)\]", condition)
+        if match_object is not None:
+                pt = match_object.group(1).split(', ')
+                last = len(pt)
+                cur = 1
+                if last == 1:
+                    arr['type'] = ' ' + locale.get_type_name(
+                        int(pt[0])).replace(' Berry', '') + ' type '
+                else:
+                    arr['type'] = ' '
+                    for ty in pt:
+                        arr['type'] += ('or ' if last == cur else '') + (
+                            locale.get_type_name(int(ty)) + (
+                                ' type ' if last == cur else ', '))
+                        cur += 1
+        if re.search(r"'type': 3", condition) is not None:
+            text += " " + locale.get_quest_type_name(401)
+        match_object = re.search(r"'pokemon_ids': \[([0-9, ]+)\]", condition)
+        if match_object is not None:
+                pt = match_object.group(1).split(', ')
+                last = len(pt)
+                cur = 1
+                if last == 1:
+                    arr['poke'] = locale.get_pokemon_name(int(pt[0]))
+                else:
+                    for ty in pt:
+                        arr['poke'] += ('or ' if last == cur else '') + (
+                            locale.get_pokemon_name(int(ty)))
+                        cur += 1
+    elif typeid == 6:
+        if str(target) == str(1):
+            is_vowel = True
+    elif typeid == 7:
+        if re.search(r"'type': 10", condition) is not None:
+            text = locale.get_quest_type_name(701)
+    elif typeid == 8:
+        if re.search(r"'type': 6", condition) is not None:
+            if re.search(r"'raid_level': \[3, 4, 5\]", condition) is not None:
+                text = locale.get_quest_type_name(801)
+    elif typeid == 13:
+        arr['type'] = "berries "
+        match_object = re.search(r"'item': ([0-9]+)", condition)
+        if match_object is not None:
+            arr['type'] = locale.get_item_name(
+                int(match_object.group(1))).replace(' Berry', '') + " "
+    elif typeid == 15:
+        if re.search(r"'type': 11", condition) is not None:
+            text = locale.get_quest_type_name(151)
+    elif typeid == 16:
+        arr['inrow'] = ""
+        arr['curve'] = ""
+        arr['type'] = ""
+        if re.search(r"'type': 14", condition) is not None:
+            arr['inrow'] = "in a row"
+        if re.search(r"'type': 15", condition) is not None:
+            arr['curve'] = locale.get_throw_type_name(13)
+        match_object = re.search(r"'throw_type': ([0-9]{2})", condition)
+        if match_object is not None:
+            arr['type'] = locale.get_throw_type_name(
+                int(match_object.group(1))) + " "
+            if int(match_object.group(1)) == 12:
+                is_vowel = True
+
+    if str(target) == str(1):
+        text = text.replace(' eggs', ' egg')
+        text = text.replace(' raids', ' raid')
+        text = text.replace(' throws', ' throw')
+        text = text.replace(' battles', ' battle')
+        text = text.replace(' candies', ' candy')
+        text = text.replace(' gifts', ' gift')
+        text = text.replace(' {0} times', '')
+        arr['0'] = locale.get_indefinite_article(is_vowel)
+
+    for key, val in arr.items():
+        text = text.replace('{' + key + '}', val)
+    return text
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

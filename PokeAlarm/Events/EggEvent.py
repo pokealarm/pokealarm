@@ -32,6 +32,7 @@ class EggEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.station = ''
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
 
@@ -45,6 +46,10 @@ class EggEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+        self.gym_sponsor = check_for_none(
+            int, data.get('sponsor'), Unknown.SMALL)
+        self.gym_park = check_for_none(
+            str, data.get('park'), Unknown.REGULAR)
 
         self.sponsor_id = check_for_none(
             int, data.get('sponsor'), Unknown.TINY)
@@ -66,6 +71,13 @@ class EggEvent(BaseEvent):
         hatch_time = get_time_as_str(self.hatch_time, timezone)
         raid_end_time = get_time_as_str(self.raid_end, timezone)
         weather_name = locale.get_weather_name(self.weather_id)
+
+        exraid = self.gym_park
+        if exraid == 'unknown':
+            exraid = ''
+        else:
+            exraid = "\n*Potential EX Raid (" + exraid + ")*"
+
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -92,6 +104,7 @@ class EggEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'station': self.station,
             'weather_id': self.weather_id,
             'weather': weather_name,
             'weather_or_empty': Unknown.or_empty(weather_name),

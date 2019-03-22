@@ -5,6 +5,7 @@ import sys
 import traceback
 from collections import OrderedDict
 # 3rd Party Imports
+from shapely.geometry import Polygon
 # Local Imports
 
 
@@ -97,3 +98,7 @@ class Geofence(object):
     # Returns the name of this geofence
     def get_name(self):
         return self.__name
+
+    # Checks to see if two regions overlap
+    def check_overlap(self, weather):
+        return Polygon(self.__points).intersects(Polygon(weather.coords))

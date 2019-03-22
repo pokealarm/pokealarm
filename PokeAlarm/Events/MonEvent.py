@@ -41,6 +41,7 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+        self.station = ''
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
         self.boosted_weather_id = check_for_none(
@@ -168,6 +169,7 @@ class MonEvent(BaseEvent):
             'applemaps': get_applemaps_link(self.lat, self.lng),
             'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
+            'station': self.station,
 
             # Weather
             'weather_id': self.weather_id,
@@ -188,6 +190,7 @@ class MonEvent(BaseEvent):
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
             'cp': self.cp,
+            'cpiv': cpiv,
 
             # IVs
             'iv_0': (
@@ -220,8 +223,7 @@ class MonEvent(BaseEvent):
                 if Unknown.is_not(type2) else get_type_emoji(self.types[0])),
 
             # Form
-            'form': form_name,
-            'form_or_empty': Unknown.or_empty(form_name),
+            'form': form,
             'form_id': self.form_id,
             'form_id_3': "{:03d}".format(self.form_id),
 
@@ -323,10 +325,12 @@ class MonEvent(BaseEvent):
 
             # Misc
             'big_karp': (
-                'big' if self.monster_id == 129 and Unknown.is_not(self.weight)
+                '\nA big Magikarp has been found!' if self.monster_id == 129
+                and Unknown.is_not(self.weight)
                 and self.weight >= 13.13 else ''),
             'tiny_rat': (
-                'tiny' if self.monster_id == 19 and Unknown.is_not(self.weight)
+                '\nA tiny Rattata has been found!' if self.monster_id == 19
+                and Unknown.is_not(self.weight)
                 and self.weight <= 2.41 else '')
         })
         return dts

@@ -2,11 +2,12 @@
 import requests
 
 # 3rd Party Imports
-
+import itertools
 # Local Imports
 from PokeAlarm.Alarms import Alarm
 from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
-    reject_leftover_parameters, require_and_remove_key, get_image_url
+    reject_leftover_parameters, require_and_remove_key, get_image_url, \
+    get_static_weather_map_url
 
 try_sending = Alarm.try_sending
 replace = Alarm.replace
@@ -107,23 +108,24 @@ class DiscordAlarm(Alarm):
             settings.pop('disable_embed', "False"))
         self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})
-        self.__static_map_key = static_map_key
+        self.__static_map_key = itertools.cycle(static_map_key)
 
         # Set Alert Parameters
         self.__monsters = self.create_alert_settings(
-            settings.pop('monsters', {}), self._defaults['monsters'])
+            settings.pop('monsters', {}),
+            self._defaults['monsters'], 'monsters')
         self.__stops = self.create_alert_settings(
-            settings.pop('stops', {}), self._defaults['stops'])
+            settings.pop('stops', {}), self._defaults['stops'], 'stops')
         self.__gyms = self.create_alert_settings(
-            settings.pop('gyms', {}), self._defaults['gyms'])
+            settings.pop('gyms', {}), self._defaults['gyms'], 'gyms')
         self.__eggs = self.create_alert_settings(
-            settings.pop('eggs', {}), self._defaults['eggs'])
+            settings.pop('eggs', {}), self._defaults['eggs'], 'eggs')
         self.__raids = self.create_alert_settings(
-            settings.pop('raids', {}), self._defaults['raids'])
+            settings.pop('raids', {}), self._defaults['raids'], 'raids')
         self.__weather = self.create_alert_settings(
-            settings.pop('weather', {}), self._defaults['weather'])
-        self.__quests = self.create_alert_settings(
-            settings.pop('quests', {}), self._defaults['quests'])
+            settings.pop('weather', {}), self._defaults['weather'], 'weather')
+        self.__quest = self.create_alert_settings(
+            settings.pop('quest', {}), self._defaults['quest'], 'quest')
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -149,7 +151,13 @@ class DiscordAlarm(Alarm):
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
-    def create_alert_settings(self, settings, default):
+    def create_alert_settings(self, settings, default, kind):
+        if kind == 'weather':
+            static_map = get_static_weather_map_url(
+                settings.pop('map', self.__map))
+        else:
+            static_map = get_static_map_url(
+                settings.pop('map', self.__map))
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
@@ -161,8 +169,7 @@ class DiscordAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': get_static_map_url(
-                settings.pop('map', self.__map), self.__static_map_key)
+            'map': static_map
         }
 
         reject_leftover_parameters(settings, "'Alert level in Discord alarm.")
@@ -185,12 +192,26 @@ class DiscordAlarm(Alarm):
                 'thumbnail': {'url': replace(alert['icon_url'], info)}
             }]
             if alert['map'] is not None:
-                coords = {
-                    'lat': info['lat'],
-                    'lng': info['lng']
-                }
+                if info.get('alert_type') == 'weather':
+                    map_info = {
+                        'lat1': info['coords'][0][0],
+                        'lng1': info['coords'][0][1],
+                        'lat2': info['coords'][1][0],
+                        'lng2': info['coords'][1][1],
+                        'lat3': info['coords'][2][0],
+                        'lng3': info['coords'][2][1],
+                        'lat4': info['coords'][3][0],
+                        'lng4': info['coords'][3][1],
+                        'gkey': next(self.__static_map_key),
+                    }
+                else:
+                    map_info = {
+                        'lat': info['lat'],
+                        'lng': info['lng'],
+                        'gkey': next(self.__static_map_key),
+                    }
                 payload['embeds'][0]['image'] = {
-                    'url': replace(alert['map'], coords)
+                    'url': replace(alert['map'], map_info)
                 }
         args = {
             'url': replace(alert['webhook_url'], info),

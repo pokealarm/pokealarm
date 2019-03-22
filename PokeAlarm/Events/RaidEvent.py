@@ -80,6 +80,10 @@ class RaidEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+        self.gym_sponsor = check_for_none(
+            int, data.get('sponsor'), Unknown.SMALL)
+        self.gym_park = check_for_none(
+            str, data.get('park'), Unknown.REGULAR)
 
         self.sponsor_id = check_for_none(
             int, data.get('sponsor'), Unknown.TINY)
