@@ -35,6 +35,8 @@ class GymEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+        self.ex_eligible = check_for_none(
+            int, data.get('is_ex_raid_eligible'), Unknown.REGULAR)
 
         # Gym Guards
         self.slots_available = check_for_none(
@@ -69,6 +71,7 @@ class GymEvent(BaseEvent):
             'waze': get_waze_link(self.lat, self.lng),
             'geofence': self.geofence,
 
+
             # Team Info
             'old_team': locale.get_team_name(self.old_team_id),
             'old_team_id': self.old_team_id,
@@ -81,6 +84,9 @@ class GymEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
+            'ex_eligible':
+                self.ex_eligible > 0 if Unknown.is_not(self.ex_eligible)
+                else Unknown.REGULAR,
 
             # Guards
             'slots_available': self.slots_available,

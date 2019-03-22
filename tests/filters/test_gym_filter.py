@@ -87,7 +87,8 @@ class TestGymFilter(unittest.TestCase):
                 "trainer_level": 23,
                 "cp": 1670,
                 "iv_stamina": 11,
-                "cp_decayed": 1435
+                "cp_decayed": 1435,
+                "is_ex_raid_eligible": None
             }]
         }
         settings.update(values)
@@ -155,6 +156,22 @@ class TestGymFilter(unittest.TestCase):
         for dist in [0, 300, 3000]:
             gym.distance = dist
             self.assertFalse(filt.check_event(gym))
+
+    def test_is_ex_eligible(self):
+        # Create the filters
+        eligible = self.gen_filter({"is_ex_eligible": True})
+        not_eligible = self.gen_filter({"is_ex_eligible": False})
+
+        ex_event = self.gen_event({"is_ex_raid_eligible": True})
+        not_ex_event = self.gen_event({"is_ex_raid_eligible": False})
+
+        # Test passing
+        self.assertTrue(eligible.check_event(ex_event))
+        self.assertTrue(not_eligible.check_event(not_ex_event))
+
+        # Test failing
+        self.assertFalse(eligible.check_event(not_ex_event))
+        self.assertFalse(not_eligible.check_event(ex_event))
 
 
 if __name__ == '__main__':

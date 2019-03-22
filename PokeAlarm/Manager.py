@@ -73,6 +73,7 @@ class Manager(object):
         self._eggs_enabled, self._egg_filters = False, OrderedDict()
         self._raids_enabled, self._raid_filters = False, OrderedDict()
         self._weather_enabled, self._weather_filters = False, OrderedDict()
+        self._quest_enabled, self._quest_filters = False, OrderedDict()
 
         # Create the Geofences to filter with from given file
         self.geofences = None
@@ -89,6 +90,7 @@ class Manager(object):
         self.__egg_rules = {}
         self.__raid_rules = {}
         self.__weather_rules = {}
+        self.__quest_rules = {}
 
         # Initialize the queue and start the process
         self.__queue = Queue()
@@ -305,6 +307,21 @@ class Manager(object):
         self._weather_filters[name] = f
         self._log.debug("Weather filter '%s' set: %s", name, f)
 
+    # Enable/Disable Quest notifications
+    def set_quest_enabled(self, boolean):
+        self._quest_enabled = parse_bool(boolean)
+        self._log.debug("Quest notifications %s!",
+                        "enabled" if self._quest_enabled else "disabled")
+
+    # Add new Weather Filter
+    def add_quest_filter(self, name, settings):
+        if name in self._quest_filters:
+            raise ValueError("Unable to add Quest Filter: Filter with the "
+                             "name {} already exists!".format(name))
+        f = Filters.QuestFilter(self, name, settings)
+        self._quest_filters[name] = f
+        self._log.debug("Quest filter '%s' set: %s", name, f)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ALARMS API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -429,6 +446,20 @@ class Manager(object):
 
         self.__weather_rules[name] = Rule(filters, alarms)
 
+    def add_quest_rule(self, name, filters, alarms):
+        if name in self.__quest_rules:
+            raise ValueError("Unable to add Rule: Quest Rule with the name "
+                             "{} already exists!".format(name))
+        for filt in filters:
+            if filt not in self._quest_filters:
+                raise ValueError("Unable to create Rule: No quest Filter "
+                                 "named {}!".format(filt))
+        for alarm in alarms:
+            if alarm not in self._alarms:
+                raise ValueError("Unable to create Rule: No Alarm "
+                                 "named {}!".format(alarm))
+        self.__quest_rules[name] = Rule(filters, alarms)
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANAGER LOADING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -497,6 +528,8 @@ class Manager(object):
                     self.process_raid(event)
                 elif kind == Events.WeatherEvent:
                     self.process_weather(event)
+                elif kind == Events.QuestEvent:
+                    self.process_quest(event)
                 else:
                     self._log.error(
                         "!!! Manager does not support {} events!".format(kind))
@@ -515,7 +548,7 @@ class Manager(object):
     # Set the location of the Manager
     def set_location(self, location):
         # Regex for Lat,Lng coordinate
-        prog = re.compile("^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
+        prog = re.compile(r"^(-?\d+\.\d+)[,\s]\s*(-?\d+\.\d+?)$")
         res = prog.match(location)
         if res:  # If location is in a Lat,Lng coordinate
             self.__location = [float(res.group(1)), float(res.group(2))]
@@ -945,6 +978,67 @@ class Manager(object):
         else:
             self._rule_log.info(
                 'Weather %s rejected by all rules.', weather.name)
+
+    def process_quest(self, quest):
+        # type: (Events.QuestEvent) -> None
+        """ Process a quest event and notify alarms if it passes. """
+
+        # Set the name for this event so we can log rejects better
+        quest.name = quest.stop_name + '-' + quest.reward
+
+        # Make sure that quest changes are enabled
+        if self._quest_enabled is False:
+            self._log.debug("Quest ignored: quest "
+                            "notifications are disabled.")
+            return
+
+        # Calculate distance and direction
+        if self.__location is not None:
+            quest.distance = get_earth_dist(
+                [quest.lat, quest.lng], self.__location, self.__units)
+            quest.direction = get_cardinal_dir(
+                [quest.lat, quest.lng], self.__location)
+
+        # Skip if previously processed
+        if self.__cache.quest_expiration(quest.stop_id) is not None:
+            self._log.debug("Quest {} was skipped because it was "
+                            "previously processed.".format(quest.name))
+            return
+        self.__cache.quest_expiration(quest.stop_id, quest.expire_time)
+
+        # Check against previous copy from cache
+        previous_reward, previous_task = \
+            self.__cache.quest_reward(quest.stop_id)
+        if quest.reward == previous_reward and quest.quest == previous_task:
+            self._log.debug("Quest ignored: Reward previously alerted!")
+            return
+
+        # Update cache info
+        self.__cache.quest_reward(quest.stop_id, quest.reward, quest.quest)
+
+        # Check for Rules
+        rules = self.__quest_rules
+        if len(rules) == 0:  # If no rules, default to all
+            rules = {"default": Rule(
+                self._quest_filters.keys(), self._alarms.keys())}
+
+        rule_ct, alarm_ct = 0, 0
+        for r_name, rule in rules.iteritems():  # For all rules
+            passed = self._check_filters(
+                quest, self._quest_filters, rule.filter_names)
+            if passed:
+                rule_ct += 1
+                alarm_ct += len(rule.alarm_names)
+                self._notify_alarms(
+                    quest, rule.alarm_names, 'quest_alert')
+
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Quest %s passed %s rule(s) and triggered %s alarm(s).',
+                quest.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info(
+                'Quest %s rejected by all rules.', quest.name)
 
     # Check to see if a notification is within the given range
     # TODO: Move this into filters and add unit tests

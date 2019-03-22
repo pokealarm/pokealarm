@@ -68,6 +68,13 @@ class SlackAlarm(Alarm):
             'title': "The weather has changed!",
             'url': "<gmaps>",
             'body': "The weather around <lat>,<lng> has changed to <weather>!"
+        },
+        'quests': {
+            'username': "Quest",
+            'icon_url': get_image_url("regular/quest/<type_id>.png"),
+            'title': "New Quest Found!",
+            'url': "<gmaps>",
+            'body': "Quest will expire at midnight."
         }
     }
 
@@ -102,6 +109,8 @@ class SlackAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
+        self.__quests = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
@@ -178,6 +187,10 @@ class SlackAlarm(Alarm):
     # Trigger an alert based on Weather info
     def weather_alert(self, weather_info):
         self.send_alert(self.__weather, weather_info)
+
+    # Trigger quest alert
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quests, quest_info)
 
     # Get a list of channels from Slack to help
     def update_channels(self):

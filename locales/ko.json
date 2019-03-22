@@ -895,6 +895,16 @@
     "720": "\ud6c4\ud30c", 
     "721": "\ubcfc\ucf00\ub2c8\uc628"
   },
+  "quest_types": {
+    "000": "\uC124\uC815 \uD574\uC81C",
+    "001": "\uACBD\uD5D8",
+    "002": "\uBAA9",
+    "003": "\uC2A4\uD0C0 \uB354\uC2A4\uD2B8",
+    "004": "\uC0AC\uD0D5",
+    "005": "\uC544\uBC14\uD0C0 \uC758\uB958",
+    "006": "\uD0D0\uAD6C",
+    "007": "\uBAAC\uC2A4\uD130 \uB9CC\uB0A8"
+  },
   "rarity": {
     "000": "\uc0c8\ub85c\uc6b4 \uc2a4\ud3f0",
     "001": "\uacf5\uc720\uc9c0",

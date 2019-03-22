@@ -944,6 +944,16 @@
     "720": "Hoopa", 
     "721": "Volcanion"
   },
+  "quest_types": {
+    "000": "Desarmado",
+    "001": "Experiencia",
+    "002": "\u00EDt.",
+    "003": "Stardust",
+    "004": "Caramelo",
+    "005": "Ropa de avatar",
+    "006": "B\u00FAsqueda",
+    "007": "Encuentro de monstruos"
+  },
   "rarity": {
     "000": "Nuevo engendro",
     "001": "Común",

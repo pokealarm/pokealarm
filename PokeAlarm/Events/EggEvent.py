@@ -45,10 +45,13 @@ class EggEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+
         self.sponsor_id = check_for_none(
             int, data.get('sponsor'), Unknown.TINY)
         self.park = check_for_none(
             str, data.get('park'), Unknown.REGULAR)
+        self.ex_eligible = check_for_none(
+            int, data.get('is_ex_raid_eligible'), Unknown.REGULAR)
 
         # Gym Team (this is only available from cache)
         self.current_team_id = check_for_none(
@@ -105,6 +108,9 @@ class EggEvent(BaseEvent):
             'sponsored':
                 self.sponsor_id > 0
                 if Unknown.is_not(self.sponsor_id) else Unknown.REGULAR,
+            'ex_eligible':
+                self.ex_eligible > 0 if Unknown.is_not(self.ex_eligible)
+                else Unknown.REGULAR,
             'park': self.park,
             'team_id': self.current_team_id,
             'team_name': locale.get_team_name(self.current_team_id),
