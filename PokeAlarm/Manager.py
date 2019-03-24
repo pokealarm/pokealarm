@@ -446,6 +446,7 @@ class Manager(object):
 
         self.__weather_rules[name] = Rule(filters, alarms)
 
+    # Add new Quest rule
     def add_quest_rule(self, name, filters, alarms):
         if name in self.__quest_rules:
             raise ValueError("Unable to add Rule: Quest Rule with the name "
@@ -737,7 +738,8 @@ class Manager(object):
 
         # Ignore changes to neutral
         if self._ignore_neutral and gym.new_team_id == 0:
-            self._log.debug("%s gym update skipped: new team was neutral")
+            self._log.debug("%s gym update skipped: new team was neutral",
+                            gym.name)
             return
 
         # Update Team Information
@@ -914,9 +916,6 @@ class Manager(object):
     def process_weather(self, weather):
         # type: (Events.WeatherEvent) -> None
         """ Process a weather event and notify alarms if it passes. """
-
-        # Set the name for this event so we can log rejects better
-        weather.name = self.__locale.get_weather_name(weather.s2_cell_id)
 
         # Make sure that weather changes are enabled
         if self._weather_enabled is False:
