@@ -4,7 +4,7 @@
 import unittest
 # 3rd Party Imports
 # Local Imports
-from prototype.events import Gym
+from pokealarmv4.events import Gym
 
 
 def generic_gym(values):
@@ -26,16 +26,6 @@ def generic_gym(values):
 
 class TestGymEvent(unittest.TestCase):
 
-    def test_lat(self):
-        gym = generic_gym({'latitude': 0})
-        self.assertTrue(isinstance(gym.lat, float))
-        self.assertTrue(gym.lat == 0.0)
-
-    def test_lng(self):
-        gym = generic_gym({'longitude': 0})
-        self.assertTrue(isinstance(gym.lng, float))
-        self.assertTrue(gym.lng == 0.0)
-
     def test_gym_id(self):
         gym = generic_gym({'id': 1})
         self.assertTrue(isinstance(gym.gym_id, str))
@@ -45,6 +35,21 @@ class TestGymEvent(unittest.TestCase):
         gym = generic_gym({'team_id': 1})
         self.assertTrue(isinstance(gym.team_id, int))
         self.assertTrue(gym.team_id == 1)
+
+    def test_id(self):
+        gym = generic_gym({'id': 12345})
+        self.assertTrue(isinstance(gym.id, int))
+        self.assertTrue(gym.id == hash("12345"))
+
+    def test_lat(self):
+        gym = generic_gym({'latitude': 0})
+        self.assertTrue(isinstance(gym.lat, float))
+        self.assertTrue(gym.lat == 0.0)
+
+    def test_lng(self):
+        gym = generic_gym({'longitude': 0})
+        self.assertTrue(isinstance(gym.lng, float))
+        self.assertTrue(gym.lng == 0.0)
 
     def test_gym_name(self):
         gym = generic_gym({'name': "test123"})

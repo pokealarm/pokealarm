@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import unittest
 # 3rd Party Imports
 # Local Imports
-from prototype.events import Raid
+from pokealarmv4.events import Raid
 
 
 def generic_raid(values):
@@ -34,6 +34,16 @@ def generic_raid(values):
 
 class TestRaidEvent(unittest.TestCase):
 
+    def test_gym_id(self):
+        raid = generic_raid({'gym_id': 1})
+        self.assertTrue(isinstance(raid.gym_id, str))
+        self.assertTrue(raid.gym_id == "1")
+
+    def test_id(self):
+        raid = generic_raid({'gym_id': 12345})
+        self.assertTrue(isinstance(raid.id, int))
+        self.assertTrue(raid.id == hash("12345"))
+
     def test_lat(self):
         raid = generic_raid({'latitude': 0})
         self.assertTrue(isinstance(raid.lat, float))
@@ -43,11 +53,6 @@ class TestRaidEvent(unittest.TestCase):
         raid = generic_raid({'longitude': 0})
         self.assertTrue(isinstance(raid.lng, float))
         self.assertTrue(raid.lng == 0.0)
-
-    def test_gym_id(self):
-        raid = generic_raid({'gym_id': 1})
-        self.assertTrue(isinstance(raid.gym_id, str))
-        self.assertTrue(raid.gym_id == "1")
 
     def test_gym_name(self):
         raid = generic_raid({'name': "test123"})
