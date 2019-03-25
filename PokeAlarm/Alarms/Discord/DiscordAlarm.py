@@ -63,8 +63,10 @@ class DiscordAlarm(Alarm):
         'raids': {
             'username': "Raid",
             'content': "",
-            'icon_url': get_image_url("regular/monsters/<mon_id_3>_000.png"),
-            'avatar_url': get_image_url("regular/monsters/<mon_id_3>_000.png"),
+            'icon_url':
+                get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
+            'avatar_url':
+                get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'title': "Level <raid_lvl> raid is available against <mon_name>!",
             'url': "<gmaps>",
             'body': "The raid is available until "
