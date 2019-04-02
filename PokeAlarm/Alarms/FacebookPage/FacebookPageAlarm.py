@@ -60,7 +60,7 @@ class FacebookPageAlarm(Alarm):
         'raids': {
             'message': "Level <raid_lvl> raid available against <mon_name>!",
             'image': get_image_url(
-                "regular/monsters/<mon_id_3>_000.png"),
+                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'link': "<gmaps>",
             'name': 'Raid',
             'description':
