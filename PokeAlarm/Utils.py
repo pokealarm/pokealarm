@@ -475,21 +475,26 @@ def get_time_as_str(t, timezone=None):
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds
-    time_left = "%dm %ds" % (m, s) if h == 0 else "%dh %dm" % (h, m)
+    time = "%dm %ds" % (m, s) if h == 0 else "%dh %dm" % (h, m)
     # Disappear time in 12h format, eg "2:30:16 PM"
-    time_12 = disappear_time.strftime("%I:%M:%S") \
+    time_12h = disappear_time.strftime("%I:%M:%S") \
         + disappear_time.strftime("%p").lower()
     # Disappear time in 24h format including seconds, eg "14:30:16"
-    time_24 = disappear_time.strftime("%H:%M:%S")
+    time_24h = disappear_time.strftime("%H:%M:%S")
 
     # Get the same as above but without seconds
-    time_left_minutes = "%dm" % m if h == 0 else "%dh %dm" % (h, m)
-    time_12_minutes = disappear_time.strftime("%I:%M") \
+    time_no_sec = "%dm" % m if h == 0 else "%dh %dm" % (h, m)
+    time_12h_no_sec = disappear_time.strftime("%I:%M") \
         + disappear_time.strftime("%p").lower()
-    time_24_minutes = disappear_time.strftime("%H:%M")
+    time_24h_no_sec = disappear_time.strftime("%H:%M")
 
-    return time_left, time_12, time_24, \
-        time_left_minutes, time_12_minutes, time_24_minutes
+    time_raw_hours = int(h)
+    time_raw_minutes = int(m)
+    time_raw_seconds = int(s)
+
+    return time, time_12h, time_24h, \
+        time_no_sec, time_12h_no_sec, time_24h_no_sec, \
+        time_raw_hours, time_raw_minutes, time_raw_seconds
 
 
 # Return the time in seconds

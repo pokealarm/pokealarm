@@ -63,13 +63,16 @@ geofence     Geofence around the event.
 Time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-==================== ===================================================================
-DTS                  Description
-==================== ===================================================================
-time_left            Time remaining until the lure expires.
-12h_time             Time that the lure will disappear, in a 12h format.
-24h_time             Time that the lure will disappear, in a 24h format.
-time_left_minutes    Time remaining until the lure expires without seconds.
-12h_time_minutes     Time that the lure will disappear, in a 12h format without seconds.
-24h_time_minutes     Time that the lure will disappear, in a 24h format without seconds.
-==================== ===================================================================
+===================== =================================================================== ===========
+DTS                   Description                                                         Example
+===================== =================================================================== ===========
+time_left             Time remaining until the lure expires.                              1h 15m 52s
+12h_time              Time that the lure will disappear, in a 12h format.                 01:15:52pm
+24h_time              Time that the lure will disappear, in a 24h format.                 13:15:52
+time_left_no_secs     Time remaining until the lure expires without seconds.              1h 15m
+12h_time_no_secs      Time that the lure will disappear, in a 12h format without seconds. 01:15pm
+24h_time_no_secs      Time that the lure will disappear, in a 24h format without seconds. 13:15
+time_left_raw_hours   Hours only until the lure expires.                                  1
+time_left_raw_minutes Minutes only until the lure expires.                                15
+time_left_raw_seconds Seconds only until the lure expires.                                52
+===================== =================================================================== ===========
