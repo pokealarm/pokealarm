@@ -56,7 +56,7 @@ class TelegramAlarm(Alarm):
                        "The raid is available until <24h_raid_end> "
                        "(<raid_time_left>).",
             'sticker_url':
-                get_image_url("telegram/monsters/<mon_id_3>_000.webp")
+                get_image_url("telegram/monsters/<mon_id_3>_<form_id_3>.webp")
         },
         'weather': {
             'message': "The weather around <lat>,<lng> has"
