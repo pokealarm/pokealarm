@@ -99,11 +99,11 @@ optional parameters and how they are incorporated into a functional alarm layout
 
 These optional parameters are entered at the same level as ``"type":"discord"``.
 
-+-------------------+-----------------------------------------------+----------+
-| Parameters        | Description                                   | Default  |
-+-------------------+-----------------------------------------------+----------+
-| `startup_message` | Confirmation post when PokeAlarm initialized  | ``true`` |
-+-------------------+-----------------------------------------------+----------+
+================= ============================================== =========
+Parameters        Description                                    Default
+`startup_message` Confirmation post when PokeAlarm initialized   ``true``
+`disable_embed`   Remove embed from message                      ``false``
+================= ============================================== =========
 
 These optional parameters below are applicable to the ``monsters``, ``stops``,
 ``gyms``, ``eggs``, and ``raids`` sections of the JSON file.
