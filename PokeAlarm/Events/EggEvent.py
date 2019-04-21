@@ -71,13 +71,27 @@ class EggEvent(BaseEvent):
             # Identification
             'gym_id': self.gym_id,
 
-            # Time Remaining
+            # Hatch Time Remaining
             'hatch_time_left': hatch_time[0],
             '12h_hatch_time': hatch_time[1],
             '24h_hatch_time': hatch_time[2],
+            'hatch_time_no_secs': hatch_time[3],
+            '12h_hatch_time_no_secs': hatch_time[4],
+            '24h_hatch_time_no_secs': hatch_time[5],
+            'hatch_time_raw_hours': hatch_time[6],
+            'hatch_time_raw_minutes': hatch_time[7],
+            'hatch_time_raw_seconds': hatch_time[8],
+
+            # Raid Time Remaining
             'raid_time_left': raid_end_time[0],
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
+            'raid_time_no_secs': raid_end_time[3],
+            '12h_raid_end_no_secs': raid_end_time[4],
+            '24h_raid_end_no_secs': raid_end_time[5],
+            'raid_time_raw_hours': raid_end_time[6],
+            'raid_time_raw_minutes': raid_end_time[7],
+            'raid_time_raw_seconds': raid_end_time[8],
 
             # Location
             'lat': self.lat,
