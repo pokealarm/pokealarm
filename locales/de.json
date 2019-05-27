@@ -226,6 +226,12 @@
     "002": "Candela", 
     "003": "Spark"
   }, 
+  "lure_types": {
+    "501": "Standard",
+    "502": "Gletscher",
+    "503": "Moos",
+    "504": "Magnet"
+  },
   "misc": {
     "boosted": "verst\u00e4rktes"
   }, 

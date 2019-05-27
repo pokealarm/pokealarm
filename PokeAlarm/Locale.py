@@ -109,6 +109,12 @@ class Locale(object):
         for id_, val in default['quest_types'].iteritems():
             self.__quest_type_names[int(id_)] = quest_types.get(id_, val)
 
+        # Lure Type ID -> Lure Type Name
+        self.__lure_type_names = {}
+        lure_types = info.get('lure_types', {})
+        for id_, val in default['lure_types'].iteritems():
+            self.__lure_type_names[int(id_)] = lure_types.get(id_, val)
+
         log.debug("Loaded '{}' locale successfully!".format(language))
 
         self.__misc = info.get('misc', {})
@@ -165,3 +171,6 @@ class Locale(object):
 
     def get_quest_type_name(self, quest_type_id):
         return self.__quest_type_names.get(quest_type_id, 'unknown')
+
+    def get_lure_type_name(self, lure_type_id):
+        return self.__lure_type_names.get(lure_type_id, 'unknown')
