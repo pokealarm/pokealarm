@@ -226,6 +226,12 @@
     "002": "Candela",
     "003": "Spark"
   },
+  "lure_types": {
+    "501": "Standard",
+    "502": "Glaciale",
+    "503": "Silvestre",
+    "504": "Magnetico"
+  },
   "misc": {
     "boosted": "potenziato"
   },

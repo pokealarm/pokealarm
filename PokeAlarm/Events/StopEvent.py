@@ -24,7 +24,7 @@ class StopEvent(BaseEvent):
             str, data.get('pokestop_name') or data.get('name'), Unknown.REGULAR)
         self.stop_image = check_for_none(
             str, data.get('pokestop_url') or data.get('url'), Unknown.REGULAR)
-        self.lure_type_id = int(data.get('active_fort_modifier'))
+        self.lure_type_id = int(data.get('lure_id'))
 
         # Time left
         self.expiration = data['lure_expiration']

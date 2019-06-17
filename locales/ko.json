@@ -230,6 +230,12 @@
     "002": "\uce78\ub378\ub77c",
     "003": "\uc2a4\ud30c\ud06c"
   },
+  "lure_types": {
+    "501": "\ud45c\uc900",
+    "502": "\uc544\uc774\uc2a4",
+    "503": "\ud5c8\ube0c",
+    "504": "\ub9c8\uadf8\ub124\ud2f1"
+  },
   "misc": {
     "boosted": "\ubd80\uc591 \ub41c"
   },

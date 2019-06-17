@@ -230,6 +230,12 @@
     "002": "Candela",
     "003": "Spark"
   },
+  "lure_types": {
+    "501": "Padr\u00e3o",
+    "502": "Glacial",
+    "503": "Musgoso",
+    "504": "Magn\u00e9tico"
+  },
   "misc": {
     "boosted": "impulsionado"
   },
