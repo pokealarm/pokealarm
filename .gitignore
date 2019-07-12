@@ -1,5 +1,5 @@
 # Python
-env
+env*/
 venv
 *.pyc
 

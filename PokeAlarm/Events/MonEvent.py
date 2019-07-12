@@ -149,6 +149,12 @@ class MonEvent(BaseEvent):
             'time_left': time[0],
             '12h_time': time[1],
             '24h_time': time[2],
+            'time_left_no_secs': time[3],
+            '12h_time_no_secs': time[4],
+            '24h_time_no_secs': time[5],
+            'time_left_raw_hours': time[6],
+            'time_left_raw_minutes': time[7],
+            'time_left_raw_seconds': time[8],
 
             # Spawn Data
             'spawn_start': self.spawn_start,

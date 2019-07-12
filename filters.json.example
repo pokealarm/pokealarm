@@ -75,7 +75,7 @@
         },
         "filters":{
             "filter_by_geofence":{
-                "geofence":["geofence1", "geofence2"]
+                "geofences":["geofence1", "geofence2"]
             }
         }
     }

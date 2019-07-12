@@ -63,8 +63,10 @@ class DiscordAlarm(Alarm):
         'raids': {
             'username': "Raid",
             'content': "",
-            'icon_url': get_image_url("regular/monsters/<mon_id_3>_000.png"),
-            'avatar_url': get_image_url("regular/monsters/<mon_id_3>_000.png"),
+            'icon_url':
+                get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
+            'avatar_url':
+                get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'title': "Level <raid_lvl> raid is available against <mon_name>!",
             'url': "<gmaps>",
             'body': "The raid is available until "
@@ -80,6 +82,15 @@ class DiscordAlarm(Alarm):
             "title": "The weather has changed!",
             "url": "<gmaps>",
             "body": "The weather around <lat>,<lng> has changed to <weather>!"
+        },
+        'quests': {
+            'username': "Quest",
+            'content': "",
+            'icon_url': get_image_url("regular/quest/<type_id>.png"),
+            'avatar_url': get_image_url("regular/quest/<type_id>.png"),
+            'title': "New Quest Found!",
+            'url': "<gmaps>",
+            'body': "Quest will expire in <time_remaining>"
         }
     }
 
@@ -113,6 +124,8 @@ class DiscordAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
+        self.__quests = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -205,14 +218,21 @@ class DiscordAlarm(Alarm):
 
     # Trigger an alert when a raid egg has spawned (UPCOMING raid event)
     def raid_egg_alert(self, raid_info):
+        self._log.debug("Raid Egg notification triggered.")
         self.send_alert(self.__eggs, raid_info)
 
     def raid_alert(self, raid_info):
+        self._log.debug("Raid notification triggered.")
         self.send_alert(self.__raids, raid_info)
 
     # Trigger an alert based on Weather info
     def weather_alert(self, weather_info):
+        self._log.debug("Weather notification triggered.")
         self.send_alert(self.__weather, weather_info)
+
+    def quest_alert(self, quest_info):
+        self._log.debug("Quest notification triggered.")
+        self.send_alert(self.__quests, quest_info)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):

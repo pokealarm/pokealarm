@@ -60,7 +60,7 @@ class FacebookPageAlarm(Alarm):
         'raids': {
             'message': "Level <raid_lvl> raid available against <mon_name>!",
             'image': get_image_url(
-                "regular/monsters/<mon_id_3>_000.png"),
+                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'link': "<gmaps>",
             'name': 'Raid',
             'description':
@@ -76,6 +76,14 @@ class FacebookPageAlarm(Alarm):
             'name': "Weather",
             'description': "The weather around <lat>,<lng>"
                            " has changed to <weather>!",
+            'caption': None
+        },
+        'quests': {
+            'message': "*New quest for <reward>*",
+            'image': get_image_url('regular/quest/<type_id>.png'),
+            'link': '<gmaps>',
+            'name': 'Quest',
+            'description': '<quest>',
             'caption': None
         }
     }
@@ -106,6 +114,8 @@ class FacebookPageAlarm(Alarm):
             settings.pop('raids', {}), self._defaults['raids'])
         self.__weather = self.create_alert_settings(
             settings.pop('weather', {}), self._defaults['weather'])
+        self.__quests = self.create_alert_settings(
+            settings.pop('quests', {}), self._defaults['quests'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -178,6 +188,10 @@ class FacebookPageAlarm(Alarm):
     # Trigger an alert based on Weather info
     def weather_alert(self, weather_info):
         self.send_alert(self.__weather, weather_info)
+
+    # Quest Alert
+    def quest_alert(self, quest_info):
+        self.send_alert(self.__quests, quest_info)
 
     # Sends a wall post to Facebook
     def post_to_wall(self, message, attachment=None):
