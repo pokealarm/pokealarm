@@ -101,6 +101,10 @@
       "079": "Normal",
       "080": "Alolan"
     },
+    "150": {
+      "133": "Armored".
+      "135": "Normal"
+    },
     "201": {
       "001": "A",
       "002": "B",
@@ -419,7 +423,36 @@
     "288": "Psycho Boost",
     "289": "Origin Pulse",
     "290": "Precipice Blades",
-    "291": "Present"
+    "291": "Present",
+	"292": "Weather Ball Fire",
+    "293": "Weather Ball Ice",
+    "294": "Weather Ball Rock",
+    "295": "Weather Ball Water",
+    "296": "Frenzy Plant",
+    "297": "Smack Down",
+    "298": "Blast Burn",
+    "299": "Hydro Cannon",
+    "300": "Last Resort",
+    "301": "Meteor Mash",
+    "302": "Skull Bash",
+    "303": "Acid Spray",
+    "304": "Earth Power",
+    "305": "Crabhammer",
+    "306": "Lunge",
+    "307": "Crush Claw",
+    "308": "Octazooka",
+    "309": "Mirror Shot",
+    "310": "Super Power",
+    "311": "Fell Stinger",
+    "312": "Leaf Tornado",
+    "313": "Leech Life",
+    "314": "Drain Punch",
+    "315": "Shadow Bone",
+    "316": "Muddy Water",
+    "317": "Blaze Kick",
+    "318": "Razor Shell",
+    "319": "Power-Up Punch",
+    "320": "Charm"	
   },
   "pokemon": {
     "001": "Bulbasaur",
