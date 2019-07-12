@@ -1300,5 +1300,208 @@
     "dps": 3.8,
     "duration": 1300,
     "energy": 20
+  },
+   "292": {
+    "type": 10,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "293": {
+    "type": 15,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "294": {
+    "type": 6,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "295": {
+    "type": 11,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "296": {
+    "type": 12,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "297": {
+    "type": 6,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "298": {
+    "type": 10,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "299": {
+    "type": 11,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "300": {
+    "type": 1,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "301": {
+    "type": 9,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "302": {
+    "type": 1,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "303": {
+    "type": 4,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "304": {
+    "type": 5,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "305": {
+    "type": 11,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "306": {
+    "type": 7,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "307": {
+    "type": 1,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "308": {
+    "type": 11,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "309": {
+    "type": 9,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "310": {
+    "type": 2,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "311": {
+    "type": 7,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "312": {
+    "type": 12,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "313": {
+    "type": 7,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "314": {
+    "type": 2,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "315": {
+    "type": 8,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "316": {
+    "type": 11,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "317": {
+    "type": 10,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "318": {
+    "type": 11,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "319": {
+    "type": 2,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
+  },
+   "320": {
+    "type": 17,
+    "damage": 0,
+    "dps": 0,
+    "duration": 0,
+    "energy": 0
   }
 }
