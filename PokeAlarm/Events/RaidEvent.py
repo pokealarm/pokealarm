@@ -154,6 +154,7 @@ class RaidEvent(BaseEvent):
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
+            'form_id_2': "{:02d}".format(self.form_id),
             'form_id_3': "{:03d}".format(self.form_id),
 
             # Costume
