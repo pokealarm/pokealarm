@@ -1300,5 +1300,208 @@
     "dps": 3.8,
     "duration": 1300,
     "energy": 20
+  },
+   "292": {
+    "type": 10,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "293": {
+    "type": 15,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "294": {
+    "type": 6,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "295": {
+    "type": 11,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "296": {
+    "type": 12,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "297": {
+    "type": 6,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "298": {
+    "type": 10,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "299": {
+    "type": 11,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "300": {
+    "type": 1,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "301": {
+    "type": 9,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "302": {
+    "type": 1,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "303": {
+    "type": 4,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "304": {
+    "type": 5,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "305": {
+    "type": 11,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "306": {
+    "type": 7,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "307": {
+    "type": 1,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "308": {
+    "type": 11,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "309": {
+    "type": 9,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  }, 
+   "310": {
+    "type": 2,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "311": {
+    "type": 7,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "312": {
+    "type": 12,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "313": {
+    "type": 7,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "314": {
+    "type": 2,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "315": {
+    "type": 8,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "316": {
+    "type": 11,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "317": {
+    "type": 10,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "318": {
+    "type": 11,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "319": {
+    "type": 2,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
+  },
+   "320": {
+    "type": 17,
+    "damage": 5,
+    "dps": 3.8,
+    "duration": 1300,
+    "energy": 20
   }
 }
