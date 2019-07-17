@@ -3,6 +3,7 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
+from PokeAlarm.Utilities import MonUtils
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
@@ -39,6 +40,8 @@ class RaidEvent(BaseEvent):
         self.cp = int(data['cp'])
         self.types = get_base_types(self.mon_id)
         self.boss_level = 20
+        self.gender = MonUtils.get_gender_sym(
+            check_for_none(int, data.get('gender'), Unknown.TINY))
 
         # Form
         self.form_id = check_for_none(int, data.get('form'), 0)
@@ -194,6 +197,7 @@ class RaidEvent(BaseEvent):
             'mon_name': locale.get_pokemon_name(self.mon_id),
             'mon_id': self.mon_id,
             'mon_id_3': "{:03}".format(self.mon_id),
+            'gender': self.gender,
             # TODO: Form?
 
             # Quick Move
