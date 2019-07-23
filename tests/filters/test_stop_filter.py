@@ -29,7 +29,7 @@ class TestStopFilter(unittest.TestCase):
             "longitude": -122.390624,
             "last_modified_time": 1572241600,
             "lure_expiration": 1572241600,
-            "active_fort_modifier": 0
+            "lure_id": 501
         }
         settings.update(values)
         return Events.StopEvent(settings)
