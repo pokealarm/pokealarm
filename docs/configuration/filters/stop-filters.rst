@@ -35,6 +35,17 @@ The ``"stops"`` section has three distinct settings.
 Available DTS
 -------------------------------------
 
+General
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+============== ======================================= ===========================
+Parameter      Description                             Example
+============== ======================================= ===========================
+lures          Array of allowed lures, by id or name.  ``["Standard","501",502]``
+lures_exclude  Array of excluded lures, by id or name. ``["Standard","501",502]``
+============== ======================================= ===========================
+
+
 Miscellaneous
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

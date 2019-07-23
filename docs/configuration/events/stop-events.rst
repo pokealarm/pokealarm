@@ -29,11 +29,15 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-============ ==============================
-DTS          Description
-============ ==============================
-stop_id      The stop id. Unique per stop.
-============ ==============================
+============== ==============================
+DTS            Description
+============== ==============================
+stop_id        The stop id. Unique per stop.
+stop_name      The name of the stop.
+stop_image     URL to the image of the stop.
+lure_type_id   The id of the active lure.
+lure_type_name The name of the active lure.
+============== ==============================
 
 
 Location
