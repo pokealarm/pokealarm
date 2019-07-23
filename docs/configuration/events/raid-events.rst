@@ -108,6 +108,7 @@ costume            Costume name of the monster.
 costume_or_empty   Costume name of the monster, or empty string if unknown.
 costume_id         Costume ID for the monster.
 costume_id_3       Costume ID of the monster, padded to 3 digits.
+gender             Gender of the monster, represented as a single character.
 ================== =========================================================
 
 

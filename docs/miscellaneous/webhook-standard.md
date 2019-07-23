@@ -197,6 +197,7 @@ webhook event from RocketMap as raids are.
     "message": {
         "gym_id": "gym_id",
         "pokemon_id": 200,
+        "gender": 2,
         "cp": 12345,
         "move_1": 123,
         "move_2": 123,
