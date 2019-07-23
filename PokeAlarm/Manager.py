@@ -683,11 +683,11 @@ class Manager(object):
             return
 
         # Check if previously processed and update expiration
-        if self.__cache.stop_expiration(stop.stop_id) is not None:
+        if self.__cache.stop_expiration(str(stop.stop_id) + str(stop.lure_id)) is not None:
             self._log.debug("Stop {} was skipped because it was "
                             "previously processed.".format(stop.name))
             return
-        self.__cache.stop_expiration(stop.stop_id, stop.expiration)
+        self.__cache.stop_expiration(str(stop.stop_id) + str(stop.lure_id), stop.expiration)
 
         # Check the time remaining
         seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()

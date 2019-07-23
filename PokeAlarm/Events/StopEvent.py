@@ -24,10 +24,14 @@ class StopEvent(BaseEvent):
             str, data.get('pokestop_name') or data.get('name'), Unknown.REGULAR)
         self.stop_image = check_for_none(
             str, data.get('pokestop_url') or data.get('url'), Unknown.REGULAR)
-        self.lure_type_id = int(data.get('lure_id'))
+        self.lure_type_id = check_for_none(int, data.get('lure_id'), 0)
 
         # Time left
-        self.expiration = data['lure_expiration']
+        if self.lure_type_id > 0:
+            self.expiration = data['lure_expiration']
+        else:
+            self.expiration = data['incident_expiration']
+
         self.time_left = None
         if self.expiration is not None:
             self.expiration = datetime.utcfromtimestamp(self.expiration)
@@ -75,7 +79,7 @@ class StopEvent(BaseEvent):
             'lat': self.lat,
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
-            'lng_5': "{:.5f}".format(self.lat),
+            'lng_5': "{:.5f}".format(self.lng),
             'distance': (
                 get_dist_as_str(self.distance, units)
                 if Unknown.is_not(self.distance) else Unknown.SMALL),
