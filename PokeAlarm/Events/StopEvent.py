@@ -28,14 +28,15 @@ class StopEvent(BaseEvent):
 
         # Time left
         if self.lure_type_id > 0:
-            self.expiration = data['lure_expiration']
+            self.expiration = datetime.utcfromtimestamp(data.get('lure_expiration'))
         else:
-            self.expiration = data['incident_expiration']
-            self.grunt_type_id = check_for_none(int, data.get('incident_grunt_type'), 0)
+            self.expiration = datetime.utcfromtimestamp(
+                data.get('incident_expiration') or data.get('incident_expire_timestamp')) 
+            self.grunt_type_id = check_for_none(
+                int, data.get('incident_grunt_type') or data.get('grunt_type'), 0)
 
         self.time_left = None
         if self.expiration is not None:
-            self.expiration = datetime.utcfromtimestamp(self.expiration)
             self.time_left = get_seconds_remaining(self.expiration)
 
         # Location

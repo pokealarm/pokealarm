@@ -20,7 +20,7 @@ def event_factory(data):
         message = data['message']
         if kind == 'pokemon':
             return MonEvent(message)
-        elif kind == 'pokestop':
+        elif kind == 'pokestop' or kind == 'invasion':
             return StopEvent(message)
         elif kind == 'gym' or kind == 'gym_details':
             return GymEvent(message)
