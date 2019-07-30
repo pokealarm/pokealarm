@@ -29,6 +29,7 @@ class StopEvent(BaseEvent):
         # Time left
         if self.lure_type_id > 0:
             self.expiration = datetime.utcfromtimestamp(data.get('lure_expiration'))
+            self.grunt_type_id = None
         else:
             self.expiration = datetime.utcfromtimestamp(
                 data.get('incident_expiration') or data.get('incident_expire_timestamp'))
@@ -65,8 +66,12 @@ class StopEvent(BaseEvent):
             'stop_image': self.stop_image,
             'lure_type_id': self.lure_type_id,
             'lure_type_name': locale.get_lure_type_name(self.lure_type_id),
-            'grunt_type_id': self.grunt_type_id,
-            'grunt_type_name': locale.get_grunt_type_name(self.grunt_type_id),
+            'grunt_type_id': (
+                Unknown.TINY if self.grunt_type_id is None
+                else self.grunt_type_id),
+            'grunt_type_name': (
+                Unknown.SMALL if self.grunt_type_id is None
+                else locale.get_grunt_type_name(self.grunt_type_id)),
 
             # Time left
             'time_left': time[0],
