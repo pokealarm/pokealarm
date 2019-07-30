@@ -26,6 +26,19 @@ class StopFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(
                 StopUtils.get_lure_id, 'lures_exclude', data))
 
+        # Grunts
+        self.grunt_ids = self.evaluate_attribute(
+            event_attribute='grunt_type_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                StopUtils.get_grunt_id, 'grunts', data))
+
+        # Exclude Grunts
+        self.exclude_grunt_ids = self.evaluate_attribute(
+            event_attribute='grunt_type_id',
+            eval_func=lambda d, v: not operator.contains(d, v),
+            limit=BaseFilter.parse_as_set(
+                StopUtils.get_grunt_id, 'grunts_exclude', data))
+
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
             event_attribute='distance', eval_func=operator.le,
@@ -66,6 +79,10 @@ class StopFilter(BaseFilter):
         # Lures
         if self.lure_ids is not None:
             settings['lure_ids'] = self.lure_ids
+
+        # Grunts
+        if self.grunt_ids is not None:
+            settings['grunt_ids'] = self.grunt_ids
 
         # Distance
         if self.min_dist is not None:

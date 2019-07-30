@@ -31,6 +31,7 @@ class StopEvent(BaseEvent):
             self.expiration = data['lure_expiration']
         else:
             self.expiration = data['incident_expiration']
+            self.grunt_type_id = check_for_none(int, data.get('incident_grunt_type'), 0)
 
         self.time_left = None
         if self.expiration is not None:
@@ -63,6 +64,8 @@ class StopEvent(BaseEvent):
             'stop_image': self.stop_image,
             'lure_type_id': self.lure_type_id,
             'lure_type_name': locale.get_lure_type_name(self.lure_type_id),
+            'grunt_type_id': self.grunt_type_id,
+            'grunt_type_name': locale.get_grunt_type_name(self.grunt_type_id),
 
             # Time left
             'time_left': time[0],

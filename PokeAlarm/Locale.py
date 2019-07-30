@@ -115,6 +115,12 @@ class Locale(object):
         for id_, val in default['lure_types'].iteritems():
             self.__lure_type_names[int(id_)] = lure_types.get(id_, val)
 
+        # Grunt Type ID -> Grunt Type Name
+        self.__grunt_type_names = {}
+        grunt_types = info.get('grunt_types', {})
+        for id_, val in default['grunt_types'].iteritems():
+            self.__grunt_type_names[int(id_)] = grunt_types.get(id_, val)
+
         log.debug("Loaded '{}' locale successfully!".format(language))
 
         self.__misc = info.get('misc', {})
@@ -174,3 +180,6 @@ class Locale(object):
 
     def get_lure_type_name(self, lure_type_id):
         return self.__lure_type_names.get(lure_type_id, 'unknown')
+
+    def get_grunt_type_name(self, grunt_type_id):
+        return self.__grunt_type_names.get(grunt_type_id, 'unknown')
