@@ -29,6 +29,7 @@ def get_lure_id(lure_name):
         raise ValueError("Unable to interpret `{}` as a valid "
                          " lure name or id.".format(lure_name))
 
+
 def get_grunt_id(grunt_name):
     try:
         name = unicode(grunt_name).lower()

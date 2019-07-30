@@ -18,7 +18,7 @@ class StopEvent(BaseEvent):
 
         # Identification
         self.stop_id = data['pokestop_id']
-        
+
         # Details
         self.stop_name = check_for_none(
             str, data.get('pokestop_name') or data.get('name'), Unknown.REGULAR)
@@ -31,7 +31,7 @@ class StopEvent(BaseEvent):
             self.expiration = datetime.utcfromtimestamp(data.get('lure_expiration'))
         else:
             self.expiration = datetime.utcfromtimestamp(
-                data.get('incident_expiration') or data.get('incident_expire_timestamp')) 
+                data.get('incident_expiration') or data.get('incident_expire_timestamp'))
             self.grunt_type_id = check_for_none(
                 int, data.get('incident_grunt_type') or data.get('grunt_type'), 0)
 
@@ -59,7 +59,7 @@ class StopEvent(BaseEvent):
         dts.update({
             # Identification
             'stop_id': self.stop_id,
-            
+
             # Details
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
