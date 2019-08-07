@@ -3,6 +3,7 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
+from PokeAlarm.Utilities import MonUtils
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
@@ -39,6 +40,8 @@ class RaidEvent(BaseEvent):
         self.cp = int(data['cp'])
         self.types = get_base_types(self.mon_id)
         self.boss_level = 20
+        self.gender = MonUtils.get_gender_sym(
+            check_for_none(int, data.get('gender'), Unknown.TINY))
 
         # Form
         self.form_id = check_for_none(int, data.get('form'), 0)
@@ -80,10 +83,13 @@ class RaidEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+
         self.sponsor_id = check_for_none(
             int, data.get('sponsor'), Unknown.TINY)
         self.park = check_for_none(
             str, data.get('park'), Unknown.REGULAR)
+        self.ex_eligible = check_for_none(
+            int, data.get('is_ex_raid_eligible'), Unknown.REGULAR)
 
         # Gym Team (this is only available from cache)
         self.current_team_id = check_for_none(
@@ -118,6 +124,16 @@ class RaidEvent(BaseEvent):
             '12h_raid_end': raid_end_time[1],
             '24h_raid_end': raid_end_time[2],
 
+            # Time Remaining Without Seconds
+            'raid_time_no_secs': raid_end_time[3],
+            '12h_raid_end_no_secs': raid_end_time[4],
+            '24h_raid_end_no_secs': raid_end_time[5],
+
+            # Raw time remaining values
+            'raid_time_raw_hours': raid_end_time[6],
+            'raid_time_raw_minutes': raid_end_time[7],
+            'raid_time_raw_seconds': raid_end_time[8],
+
             # Type
             'type1': type1,
             'type1_or_empty': Unknown.or_empty(type1),
@@ -138,6 +154,7 @@ class RaidEvent(BaseEvent):
             'form': form_name,
             'form_or_empty': Unknown.or_empty(form_name),
             'form_id': self.form_id,
+            'form_id_2': "{:02d}".format(self.form_id),
             'form_id_3': "{:03d}".format(self.form_id),
 
             # Costume
@@ -180,6 +197,7 @@ class RaidEvent(BaseEvent):
             'mon_name': locale.get_pokemon_name(self.mon_id),
             'mon_id': self.mon_id,
             'mon_id_3': "{:03}".format(self.mon_id),
+            'gender': self.gender,
             # TODO: Form?
 
             # Quick Move
@@ -216,6 +234,9 @@ class RaidEvent(BaseEvent):
             'sponsor_id': self.sponsor_id,
             'sponsored':
                 self.sponsor_id > 0 if Unknown.is_not(self.sponsor_id)
+                else Unknown.REGULAR,
+            'ex_eligible':
+                self.ex_eligible > 0 if Unknown.is_not(self.ex_eligible)
                 else Unknown.REGULAR,
             'park': self.park,
             'team_id': self.current_team_id,

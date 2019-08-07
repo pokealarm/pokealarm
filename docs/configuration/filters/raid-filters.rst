@@ -47,6 +47,9 @@ min_raid_lvl      Minimum level of the raid.                       ``0``
 max_raid_lvl      Maximum level of the raid.                       ``5``
 min_cp            Minimum CP of the monster.                       ``0``
 max_cp            Maximum CP of the monster.                       ``100000``
+form_ids          Array of allowed form ids for the monster.       ``[0,"1"]``
+genders           Array of acceptable genders. Options: `"male",   ``["female"]``
+                  "female", "neutral"`
 quick_moves       Accepted quick moves, by id or name.             ``["Vine Whip","Tackle"]``
 charge_moves      Accepted charge moves, by id or name.            ``["Sludge Bomb","Seed Bomb"]``
 current_teams     List of allowed current teams, by id or name.    ``["Instinct","Mystic"]``

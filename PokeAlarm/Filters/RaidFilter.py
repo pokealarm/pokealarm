@@ -54,6 +54,17 @@ class RaidFilter(BaseFilter):
             event_attribute='raid_lvl', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_raid_lvl', data))
 
+        # Monster Forms
+        self.forms = self.evaluate_attribute(  # f.forms in r.form_id
+            event_attribute='form_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(int, 'form_ids', data))
+
+        # Gender
+        self.genders = self.evaluate_attribute(  # f.genders contains m.gender
+            event_attribute='gender', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_gender_sym, 'genders', data))
+
         # CP
         self.min_cp = self.evaluate_attribute(  # f.min_cp <= r.cp
             event_attribute='cp', eval_func=operator.le,
@@ -95,6 +106,12 @@ class RaidFilter(BaseFilter):
             event_attribute='park', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'park_contains', data))
+
+        self.is_ex_eligible = self.evaluate_attribute(
+            event_attribute='ex_eligible',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'is_ex_eligible', data)
+        )
 
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
@@ -141,6 +158,14 @@ class RaidFilter(BaseFilter):
             settings['min_lvl'] = self.min_lvl
         if self.max_lvl is not None:
             settings['max_lvl'] = self.max_lvl
+
+        # Form
+        if self.forms is not None:
+            settings['forms'] = self.forms
+
+        # Gender
+        if self.genders is not None:
+            settings['genders'] = self.genders
 
         # Weather
         if self.weather_ids is not None:
