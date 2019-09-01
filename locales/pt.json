@@ -29,13 +29,97 @@
     "002": "Noite"
   },
   "forms": {
+    "001": {
+      "163": "Normal",
+      "164": "Sombra",
+      "165": "Purificado",
+      "604": "NoEvolve"
+    },
+    "002": {
+      "166": "Normal",
+      "167": "Sombra",
+      "168": "Purificado"
+    },
+    "003": {
+      "169": "Normal",
+      "170": "Sombra",
+      "171": "Purificado"
+    },
+    "004": {
+      "172": "Normal",
+      "173": "Sombra",
+      "174": "Purificado",
+      "605": "NoEvolve"
+    },
+    "005": {
+      "175": "Normal",
+      "176": "Sombra",
+      "605": "NoEvolve"
+    },
+    "006": {
+      "178": "Normal",
+      "179": "Sombra",
+      "180": "Purificado",
+      "606": "NoEvolve"
+    },
+    "007": {
+      "181": "Normal",
+      "182": "Sombra",
+      "183": "Purificado",
+      "607": "NoEvolve"
+    },
+    "008": {
+      "184": "Normal",
+      "185": "Sombra",
+      "186": "Purificado"
+    },
+    "009": {
+      "187": "Normal",
+      "188": "Sombra",
+      "189": "Purificado",
+      "608": "NoEvolve"
+    },
+    "013": {
+      "616": "Normal",
+      "617": "Sombra",
+      "618": "Purificado"
+    },
+    "014": {
+      "619": "Normal",
+      "620": "Sombra",
+      "621": "Purificado"
+    },
+    "015": {
+      "622": "Normal",
+      "623": "Sombra",
+      "624": "Purificado"
+    },
     "019": {
       "045": "Normal",
-      "046": "Alola"
+      "046": "Alola",
+      "153": "Sombra",
+      "154": "Purificado"
     },
     "020": {
       "047": "Normal",
-      "048": "Alola"
+      "048": "Alola",
+      "155": "Sombra",
+      "156": "Purificado",
+      "609": "NoEvolve"
+    },
+    "023": {
+      "697": "Normal",
+      "698": "Sombra",
+      "699": "Purificado"
+    },
+    "024": {
+      "700": "Normal",
+      "701": "Sombra",
+      "702": "Purificado"
+    },
+    "025": {
+      "598": "Normal",
+      "599": "NoEvolve"
     },
     "026": {
       "049": "Normal",
@@ -43,19 +127,87 @@
     },
     "027": {
       "051": "Normal",
-      "052": "Alola"
+      "052": "Alola",
+      "673": "Sombra",
+      "674": "Purificado"
     },
     "028": {
       "053": "Normal",
-      "054": "Alola"
+      "054": "Alola",
+      "675": "Sombra",
+      "676": "Purificado"
+    },
+    "029": {
+      "776": "Normal",
+      "777": "Sombra",
+      "778": "Purificado"
+    },
+    "030": {
+      "779": "Normal",
+      "780": "Sombra",
+      "781": "Purificado"
+    },
+    "031": {
+      "782": "Normal",
+      "783": "Sombra",
+      "784": "Purificado"
+    },
+    "033": {
+      "785": "Normal",
+      "786": "Sombra",
+      "787": "Purificado"
+    },
+    "034": {
+      "788": "Normal",
+      "789": "Sombra",
+      "790": "Purificado"
     },
     "037": {
       "055": "Normal",
-      "056": "Alola"
+      "056": "Alola",
+      "725": "Sombra",
+      "726": "Purificado"
     },
     "038": {
       "057": "Normal",
-      "058": "Alola"
+      "058": "Alola",
+      "727": "Sombra",
+      "728": "Purificado"
+    },
+    "041": {
+      "157": "Normal",
+      "158": "Sombra",
+      "159": "Purificado"
+    },
+    "042": {
+      "160": "Normal",
+      "161": "Sombra",
+      "162": "Purificado"
+    },
+    "043": {
+      "265": "Normal",
+      "266": "Sombra",
+      "267": "Purificado"
+    },
+    "044": {
+      "268": "Normal",
+      "269": "Sombra",
+      "270": "Purificado"
+    },
+    "045": {
+      "271": "Normal",
+      "272": "Sombra",
+      "273": "Purificado"
+    },
+    "048": {
+      "259": "Normal",
+      "260": "Sombra",
+      "261": "Purificado"
+    },
+    "049": {
+      "262": "Normal",
+      "263": "Sombra",
+      "264": "Purificado"
     },
     "050": {
       "059": "Normal",
@@ -67,11 +219,95 @@
     },
     "052": {
       "063": "Normal",
-      "064": "Alola"
+      "064": "Alola",
+      "709": "Sombra",
+      "710": "Purificado"
     },
     "053": {
       "065": "Normal",
-      "066": "Alola"
+      "066": "Alola",
+      "711": "Sombra",
+      "712": "Purificado"
+    },
+    "054": {
+      "286": "Normal",
+      "287": "Sombra",
+      "288": "Purificado"
+    },
+    "055": {
+      "289": "Normal",
+      "290": "Sombra",
+      "291": "Purificado"
+    },
+    "058": {
+      "280": "Normal",
+      "281": "Sombra",
+      "282": "Purificado"
+    },
+    "059": {
+      "283": "Normal",
+      "284": "Sombra",
+      "285": "Purificado"
+    },
+    "060": {
+      "235": "Normal",
+      "236": "Sombra",
+      "237": "Purificado"
+    },
+    "061": {
+      "238": "Normal",
+      "239": "Sombra",
+      "240": "Purificado"
+    },
+    "062": {
+      "241": "Normal",
+      "242": "Sombra",
+      "243": "Purificado"
+    },
+    "063": {
+      "304": "Normal",
+      "305": "Sombra",
+      "306": "Purificado"
+    },
+    "064": {
+      "307": "Normal",
+      "308": "Sombra",
+      "309": "Purificado"
+    },
+    "065": {
+      "310": "Normal",
+      "311": "Sombra",
+      "312": "Purificado"
+    },
+    "66": {
+      "809": "Normal",
+      "810": "Sombra",
+      "811": "Purificado"
+    },
+    "67": {
+      "812": "Normal",
+      "813": "Sombra",
+      "814": "Purificado"
+    },
+    "68": {
+      "815": "Normal",
+      "816": "Sombra",
+      "817": "Purificado"
+    },
+    "069": {
+      "664": "Normal",
+      "665": "Sombra",
+      "666": "Purificado"
+    },
+    "070": {
+      "667": "Normal",
+      "668": "Sombra",
+      "669": "Purificado"
+    },
+    "071": {
+      "670": "Normal",
+      "671": "Sombra",
+      "672": "Purificado"
     },
     "074": {
       "067": "Normal",
@@ -85,21 +321,198 @@
       "071": "Normal",
       "072": "Alola"
     },
+    "081": {
+      "655": "Normal",
+      "656": "Sombra",
+      "657": "Purificado"
+    },
+    "082": {
+      "658": "Normal",
+      "659": "Sombra",
+      "660": "Purificado"
+    },
     "088": {
       "073": "Normal",
-      "074": "Alola"
+      "074": "Alola",
+      "220": "Sombra",
+      "221": "Purificado"
     },
     "089": {
       "075": "Normal",
-      "076": "Alola"
+      "076": "Alola",
+      "222": "Sombra",
+      "223": "Purificado"
+    },
+    "096": {
+      "214": "Normal",
+      "215": "Sombra",
+      "216": "Purificado"
+    },
+    "097": {
+      "217": "Normal",
+      "218": "Sombra",
+      "219": "Purificado"
+    },
+    "102": {
+      "729": "Normal",
+      "730": "Sombra",
+      "731": "Purificado"
     },
     "103": {
       "077": "Normal",
-      "078": "Alola"
+      "078": "Alola",
+      "732": "Sombra",
+      "733": "Purificado"
+    },
+    "104": {
+      "224": "Normal",
+      "225": "Sombra",
+      "226": "Purificado"
     },
     "105": {
       "079": "Normal",
-      "080": "Alola"
+      "080": "Alola",
+      "227": "Sombra",
+      "228": "Purificado"
+    },
+    "106": {
+      "713": "Normal",
+      "714": "Sombra",
+      "715": "Purificado"
+    },
+    "107": {
+      "277": "Normal",
+      "278": "Sombra",
+      "279": "Purificado"
+    },
+    "109": {
+      "703": "Normal",
+      "704": "Sombra",
+      "705": "Purificado"
+    },
+    "110": {
+      "706": "Normal",
+      "707": "Sombra",
+      "708": "Purificado"
+    },
+    "123": {
+      "247": "Normal",
+      "248": "Sombra",
+      "249": "Purificado"
+    },
+    "125": {
+      "640": "Normal",
+      "641": "Sombra",
+      "642": "Purificado"
+    },
+    "126": {
+      "634": "Normal",
+      "635": "Sombra",
+      "636": "Purificado"
+    },
+    "129": {
+      "253": "Normal",
+      "254": "Sombra",
+      "255": "Purificado"
+    },
+    "130": {
+      "256": "Normal",
+      "257": "Sombra",
+      "258": "Purificado"
+    },
+    "131": {
+      "322": "Normal",
+      "323": "Sombra",
+      "324": "Purificado"
+    },
+    "137": {
+      "677": "Normal",
+      "678": "Sombra",
+      "679": "Purificado"
+    },
+    "138": {
+      "740": "Normal",
+      "741": "Sombra",
+      "742": "Purificado"
+    },
+    "139": {
+      "743": "Normal",
+      "744": "Sombra",
+      "745": "Purificado"
+    },
+    "143": {
+      "199": "Normal",
+      "200": "Sombra",
+      "201": "Purificado"
+    },
+    "144": {
+      "716": "Normal",
+      "717": "Sombra",
+      "718": "Purificado"
+    },
+    "145": {
+      "773": "Normal",
+      "774": "Sombra",
+      "775": "Purificado"
+    },
+    "146": {
+      "836": "Normal",
+      "837": "Sombra",
+      "838": "Purificado"
+    },
+    "147": {
+      "190": "Normal",
+      "191": "Sombra",
+      "192": "Purificado"
+    },
+    "148": {
+      "193": "Normal",
+      "194": "Sombra",
+      "195": "Purificado"
+    },
+    "149": {
+      "196": "Normal",
+      "197": "Sombra",
+      "198": "Purificado"
+    },
+    "150": {
+      "133": "Armored",
+      "135": "Normal"
+    },
+    "169": {
+      "202": "Normal",
+      "203": "Sombra",
+      "204": "Purificado"
+    },
+    "179": {
+      "646": "Normal",
+      "647": "Sombra",
+      "648": "Purificado"
+    },
+    "180": {
+      "649": "Normal",
+      "650": "Sombra",
+      "651": "Purificado"
+    },
+    "181": {
+      "652": "Normal",
+      "653": "Sombra",
+      "654": "Purificado"
+    },
+    "182": {
+      "274": "Normal",
+      "275": "Sombra",
+      "276": "Purificado"
+    },
+    "186": {
+      "244": "Normal",
+      "245": "Sombra",
+      "246": "Purificado"
+    },
+    "200": {
+      "719": "Normal",
+      "720": "Sombra",
+      "721": "Purificado"
     },
     "201": {
       "001": "A",
@@ -131,6 +544,126 @@
       "027": "!",
       "028": "?"
     },
+    "202": {
+      "602": "Normal",
+      "603": "NoEvolve",
+      "686": "Sombra",
+      "687": "Purificado"
+    },
+    "207": {
+      "803": "Normal",
+      "804": "Sombra",
+      "805": "Purificado"
+    },
+    "212": {
+      "250": "Normal",
+      "251": "Sombra",
+      "252": "Purificado"
+    },
+    "213": {
+      "827": "Normal",
+      "828": "Sombra",
+      "829": "Purificado"
+    },
+    "215": {
+      "797": "Normal",
+      "798": "Sombra",
+      "799": "Purificado"
+    },
+    "228": {
+      "229": "Normal",
+      "230": "Sombra",
+      "231": "Purificado"
+    },
+    "229": {
+      "232": "Normal",
+      "233": "Sombra",
+      "234": "Purificado"
+    },
+    "233": {
+      "680": "Normal",
+      "681": "Sombra",
+      "682": "Purificado"
+    },
+    "246": {
+      "313": "Normal",
+      "314": "Sombra",
+      "315": "Purificado"
+    },
+    "247": {
+      "316": "Normal",
+      "317": "Sombra",
+      "318": "Purificado"
+    },
+    "248": {
+      "319": "Normal",
+      "320": "Sombra",
+      "321": "Purificado"
+    },
+    "258": {
+      "205": "Normal",
+      "206": "Sombra",
+      "207": "Purificado"
+    },
+    "259": {
+      "208": "Normal",
+      "209": "Sombra",
+      "210": "Purificado"
+    },
+    "260": {
+      "211": "Normal",
+      "212": "Sombra",
+      "213": "Purificado"
+    },
+    "265": {
+      "600": "Normal",
+      "601": "NoEvolve"
+    },
+    "273": {
+      "625": "Normal",
+      "626": "Sombra",
+      "627": "Purificado"
+    },
+    "274": {
+      "628": "Normal",
+      "629": "Sombra",
+      "630": "Purificado"
+    },
+    "275": {
+      "631": "Normal",
+      "632": "Sombra",
+      "633": "Purificado"
+    },
+    "280": {
+      "292": "Normal",
+      "293": "Sombra",
+      "294": "Purificado"
+    },
+    "281": {
+      "295": "Normal",
+      "296": "Sombra",
+      "297": "Purificado"
+    },
+    "282": {
+      "298": "Normal",
+      "299": "Sombra",
+      "300": "Purificado"
+    },
+    "303": {
+      "833": "Normal",
+      "834": "Sombra",
+      "835": "Purificado"
+    },
+    "318": {
+      "734": "Normal",
+      "735": "Sombra",
+      "736": "Purificado"
+    },
+    "319": {
+      "737": "Normal",
+      "738": "Sombra",
+      "739": "Purificado"
+    },
     "327": {
       "037": "0",
       "038": "1",
@@ -153,17 +686,107 @@
       "131": "18",
       "132": "19"
     },
+    "328": {
+      "746": "Normal",
+      "747": "Sombra",
+      "748": "Purificado"
+    },
+    "329": {
+      "749": "Normal",
+      "750": "Sombra",
+      "751": "Purificado"
+    },
+    "330": {
+      "752": "Normal",
+      "753": "Sombra",
+      "754": "Purificado"
+    },
+    "331": {
+      "610": "Normal",
+      "611": "Sombra",
+      "612": "Purificado"
+    },
+    "332": {
+      "613": "Normal",
+      "614": "Sombra",
+      "615": "Purificado"
+    },
     "351": {
       "029": "Normal",
       "030": "Ensolarado",
       "031": "Chuvoso",
       "032": "Nevado"
     },
+    "359": {
+      "830": "Normal",
+      "831": "Sombra",
+      "832": "Purificado"
+    },
+    "371": {
+      "755": "Normal",
+      "756": "Sombra",
+      "757": "Purificado"
+    },
+    "372": {
+      "758": "Normal",
+      "759": "Sombra",
+      "760": "Purificado"
+    },
+    "373": {
+      "761": "Normal",
+      "762": "Sombra",
+      "763": "Purificado"
+    },
+    "374": {
+      "764": "Normal",
+      "765": "Sombra",
+      "766": "Purificado"
+    },
+    "375": {
+      "767": "Normal",
+      "768": "Sombra",
+      "769": "Purificado"
+    },
+    "376": {
+      "770": "Normal",
+      "771": "Sombra",
+      "772": "Purificado"
+    },
     "386": {
       "033": "Normal",
       "034": "Ataque",
       "035": "Defesa",
       "036": "Rapidez"
+    },
+    "387": {
+      "688": "Normal",
+      "689": "Sombra",
+      "690": "Purificado"
+    },
+    "388": {
+      "691": "Normal",
+      "692": "Sombra",
+      "693": "Purificado"
+    },
+    "389": {
+      "694": "Normal",
+      "695": "Sombra",
+      "696": "Purificado"
+    },
+    "390": {
+      "818": "Normal",
+      "819": "Sombra",
+      "820": "Purificado"
+    },
+    "391": {
+      "821": "Normal",
+      "822": "Sombra",
+      "823": "Purificado"
+    },
+    "392": {
+      "824": "Normal",
+      "825": "Sombra",
+      "826": "Purificado"
     },
     "412": {
       "118": "Plantar",
@@ -186,6 +809,56 @@
     "423": {
       "098": "Mar do Oeste",
       "099": "mar leste"
+    },
+    "429": {
+      "722": "Normal",
+      "723": "Sombra",
+      "724": "Purificado"
+    },
+    "434": {
+      "791": "Normal",
+      "792": "Sombra",
+      "793": "Purificado"
+    },
+    "435": {
+      "794": "Normal",
+      "795": "Sombra",
+      "796": "Purificado"
+    },
+    "461": {
+      "800": "Normal",
+      "801": "Sombra",
+      "802": "Purificado"
+    },
+    "462": {
+      "661": "Normal",
+      "662": "Sombra",
+      "663": "Purificado"
+    },
+    "466": {
+      "643": "Normal",
+      "644": "Sombra",
+      "645": "Purificado"
+    },
+    "467": {
+      "637": "Normal",
+      "638": "Sombra",
+      "639": "Purificado"
+    },
+    "472": {
+      "806": "Normal",
+      "807": "Sombra",
+      "808": "Purificado"
+    },
+    "474": {
+      "683": "Normal",
+      "684": "Sombra",
+      "685": "Purificado"
+    },
+    "475": {
+      "301": "Normal",
+      "302": "Sombra",
+      "303": "Purificado"
     },
     "479": {
       "081": "Normal",
