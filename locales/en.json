@@ -124,7 +124,8 @@
     "025": {
       "598": "Normal",
       "599": "NoEvolve",
-      "894": "Fall 2019"
+      "894": "Fall 2019",
+      "901": "Vs 2019"
     },
     "026": {
       "049": "Normal",
@@ -373,6 +374,11 @@
       "880": "Shadow",
       "881": "Purified"
     },
+    "095": {
+      "902": "Normal",
+      "903": "Shadow",
+      "904": "Purified"
+    },
     "096": {
       "214": "Normal",
       "215": "Shadow",
@@ -620,6 +626,11 @@
       "804": "Shadow",
       "805": "Purified"
     },
+    "208": {
+      "905": "Normal",
+      "906": "Shadow",
+      "907": "Purified"
+    },
     "212": {
       "250": "Normal",
       "251": "Shadow",
@@ -635,6 +646,11 @@
       "798": "Shadow",
       "799": "Purified"
     },
+    "225": {
+      "938": "Normal",
+      "939": "Shadow",
+      "940": "Purified"
+    },
     "228": {
       "229": "Normal",
       "230": "Shadow",
@@ -649,6 +665,11 @@
       "680": "Normal",
       "681": "Shadow",
       "682": "Purified"
+    },
+    "234": {
+      "941": "Normal",
+      "942": "Shadow",
+      "943": "Purified"
     },
     "246": {
       "313": "Normal",
@@ -713,6 +734,11 @@
       "298": "Normal",
       "299": "Shadow",
       "300": "Purified"
+    },
+    "302": {
+      "923": "Normal",
+      "924": "Shadow",
+      "925": "Purified"
     },
     "303": {
       "833": "Normal",
@@ -782,10 +808,40 @@
       "031": "Rainy",
       "032": "Snowy"
     },
+    "353": {
+      "908": "Normal",
+      "909": "Shadow",
+      "910": "Purified"
+    },
+    "354": {
+      "911": "Normal",
+      "912": "Shadow",
+      "913": "Purified"
+    },
+    "355": {
+      "914": "Normal",
+      "915": "Shadow",
+      "916": "Purified"
+    },
+    "356": {
+      "917": "Normal",
+      "918": "Shadow",
+      "919": "Purified"
+    },
     "359": {
       "830": "Normal",
       "831": "Shadow",
       "832": "Purified"
+    },
+    "361": {
+      "926": "Normal",
+      "927": "Shadow",
+      "928": "Purified"
+    },
+    "362": {
+      "929": "Normal",
+      "930": "Shadow",
+      "931": "Purified"
     },
     "371": {
       "755": "Normal",
@@ -920,6 +976,16 @@
       "892": "Shadow",
       "893": "Purified"
     },
+    "459": {
+      "932": "Normal",
+      "933": "Shadow",
+      "934": "Purified"
+    },
+    "460": {
+      "935": "Normal",
+      "936": "Shadow",
+      "937": "Purified"
+    },
     "461": {
       "800": "Normal",
       "801": "Shadow",
@@ -959,6 +1025,11 @@
       "301": "Normal",
       "302": "Shadow",
       "303": "Purified"
+    },
+    "477": {
+      "920": "Normal",
+      "921": "Shadow",
+      "922": "Purified"
     },
     "479": {
       "081": "Normal",

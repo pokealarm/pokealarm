@@ -124,7 +124,8 @@
     "025": {
       "598": "Normal",
       "599": "Keine Entwicklung",
-      "894": "Fall 2019"
+      "894": "Fall 2019",
+      "901": "Vs 2019"
     },
     "026": {
       "049": "Normal",
@@ -373,6 +374,11 @@
       "880": "Crypto",
       "881": "Erl\u00F6st"
     },
+    "095": {
+      "902": "Normalform",
+      "903": "Crypto",
+      "904": "Erl\u00F6st"
+    },
     "096": {
       "214": "Normal",
       "215": "Crypto",
@@ -620,6 +626,11 @@
       "804": "Crypto",
       "805": "Erl\u00F6st"
     },
+    "208": {
+      "905": "Normalform",
+      "906": "Crypto",
+      "907": "Erl\u00F6st"
+    },
     "212": {
       "250": "Normal",
       "251": "Crypto",
@@ -635,6 +646,11 @@
       "798": "Crypto",
       "799": "Erl\u00F6st"
     },
+    "225": {
+      "938": "Normalform",
+      "939": "Crypto",
+      "940": "Erl\u00F6st"
+    },
     "228": {
       "229": "Normal",
       "230": "Crypto",
@@ -649,6 +665,11 @@
       "680": "Normal",
       "681": "Crypto",
       "682": "Erl\u00F6st"
+    },
+    "234": {
+      "941": "Normalform",
+      "942": "Crypto",
+      "943": "Erl\u00F6st"
     },
     "246": {
       "313": "Normal",
@@ -713,6 +734,11 @@
       "298": "Normal",
       "299": "Crypto",
       "300": "Erl\u00F6st"
+    },
+    "302": {
+      "923": "Normalform",
+      "924": "Crypto",
+      "925": "Erl\u00F6st"
     },
     "303": {
       "833": "Normal",
@@ -782,10 +808,40 @@
       "031": "Regnerisch",
       "032": "Schneebedeckt"
     },
+    "353": {
+      "908": "Normalform",
+      "909": "Crypto",
+      "910": "Erl\u00F6st"
+    },
+    "354": {
+      "911": "Normalform",
+      "912": "Crypto",
+      "913": "Erl\u00F6st"
+    },
+    "355": {
+      "914": "Normalform",
+      "915": "Crypto",
+      "916": "Erl\u00F6st"
+    },
+    "356": {
+      "917": "Normalform",
+      "918": "Crypto",
+      "919": "Erl\u00F6st"
+    },
     "359": {
       "830": "Normal",
       "831": "Crypto",
       "832": "Erl\u00F6st"
+    },
+    "361": {
+      "926": "Normalform",
+      "927": "Crypto",
+      "928": "Erl\u00F6st"
+    },
+    "362": {
+      "929": "Normalform",
+      "930": "Crypto",
+      "931": "Erl\u00F6st"
     },
     "371": {
       "755": "Normal",
@@ -920,6 +976,16 @@
       "892": "Crypto",
       "893": "Erl\u00F6st"
     },
+    "459": {
+      "932": "Normalform",
+      "933": "Crypto",
+      "934": "Erl\u00F6st"
+    },
+    "460": {
+      "935": "Normalform",
+      "936": "Crypto",
+      "937": "Erl\u00F6st"
+    },
     "461": {
       "800": "Normal",
       "801": "Crypto",
@@ -959,6 +1025,11 @@
       "301": "Normal",
       "302": "Crypto",
       "303": "Erl\u00F6st"
+    },
+    "477": {
+      "920": "Normalform",
+      "921": "Crypto",
+      "922": "Erl\u00F6st"
     },
     "479": {
       "081": "Normal",
