@@ -43,7 +43,10 @@ Parameter         Description                                        Example
 ================= ================================================== ================================
 monsters          Array of allowed monsters, by id or name.          ``["Bulbasaur","2",3]``
 monsters_exclude  Array of excluded monsters, by id or name.         ``["Bulbasaur","2",3]``
-form_ids          Array of allowed form ids for a monster.           ``[0,"1"]``
+form_ids          Array of allowed form ids for the monster.       ``[0,"1"]``
+exclude_forms     Array of excluded forms, by id.                  ``[0,"1"]``
+costume_ids       Array of allowed costume ids for the monster.    ``[0,"1"]``
+exclude_costumes  Array of excluded costumes, by id.               ``[0,"1"]``
 genders           Array of acceptable genders. Options: `"male",     ``["female"]``
                   "female", "neutral"`
 rarity            Array of allowed rarities.                         ``["common", "uncommon", 3``
