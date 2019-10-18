@@ -148,7 +148,7 @@
   },
   "015": {
     "attack": 169,
-    "defense": 150,
+    "defense": 130,
     "stamina": 163,
     "type1": 7,
     "type2": 4,
@@ -720,7 +720,7 @@
   "070": {
     "attack": 172,
     "defense": 92,
-    "stamina": 137,
+    "stamina": 163,
     "type1": 12,
     "type2": 4,
     "legendary": false,
@@ -3038,7 +3038,7 @@
     "height": 0.51
   },
   "291": {
-    "attack": 196,
+    "attack": 199,
     "defense": 112,
     "stamina": 156,
     "type1": 7,
@@ -3051,7 +3051,7 @@
   "292": {
     "attack": 153,
     "defense": 73,
-    "stamina": 51,
+    "stamina": 1,
     "type1": 7,
     "type2": 8,
     "legendary": false,
@@ -4043,8 +4043,8 @@
   },
   "387": {
     "attack": 119,
-    "defense": 115,
-    "stamina": 110,
+    "defense": 110,
+    "stamina": 146,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4053,8 +4053,8 @@
   },
   "388": {
     "attack": 157,
-    "defense": 152,
-    "stamina": 150,
+    "defense": 143,
+    "stamina": 181,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4063,8 +4063,8 @@
   },
   "389": {
     "attack": 202,
-    "defense": 197,
-    "stamina": 190,
+    "defense": 188,
+    "stamina": 216,
     "type1": 12,
     "type2": 5,
     "legendary": false,
@@ -4075,7 +4075,7 @@
   "390": {
     "attack": 113,
     "defense": 86,
-    "stamina": 88,
+    "stamina": 127,
     "type1": 10,
     "legendary": false,
     "generation": 4,
@@ -4085,7 +4085,7 @@
   "391": {
     "attack": 158,
     "defense": 105,
-    "stamina": 128,
+    "stamina": 162,
     "type1": 10,
     "type2": 2,
     "legendary": false,
@@ -4096,7 +4096,7 @@
   "392": {
     "attack": 222,
     "defense": 151,
-    "stamina": 152,
+    "stamina": 183,
     "type1": 10,
     "type2": 2,
     "legendary": false,
@@ -4106,8 +4106,8 @@
   },
   "393": {
     "attack": 112,
-    "defense": 103,
-    "stamina": 106,
+    "defense": 102,
+    "stamina": 142,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4116,8 +4116,8 @@
   },
   "394": {
     "attack": 150,
-    "defense": 143,
-    "stamina": 128,
+    "defense": 139,
+    "stamina": 162,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4126,8 +4126,8 @@
   },
   "395": {
     "attack": 210,
-    "defense": 193,
-    "stamina": 168,
+    "defense": 186,
+    "stamina": 197,
     "type1": 11,
     "type2": 9,
     "legendary": false,
@@ -4138,7 +4138,7 @@
   "396": {
     "attack": 101,
     "defense": 58,
-    "stamina": 80,
+    "stamina": 120,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -4148,8 +4148,8 @@
   },
   "397": {
     "attack": 142,
-    "defense": 99,
-    "stamina": 110,
+    "defense": 94,
+    "stamina": 146,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -4159,8 +4159,8 @@
   },
   "398": {
     "attack": 234,
-    "defense": 145,
-    "stamina": 170,
+    "defense": 140,
+    "stamina": 198,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -4171,7 +4171,7 @@
   "399": {
     "attack": 80,
     "defense": 73,
-    "stamina": 118,
+    "stamina": 153,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4181,7 +4181,7 @@
   "400": {
     "attack": 162,
     "defense": 119,
-    "stamina": 158,
+    "stamina": 188,
     "type1": 1,
     "type2": 11,
     "legendary": false,
@@ -4192,7 +4192,7 @@
   "401": {
     "attack": 45,
     "defense": 74,
-    "stamina": 74,
+    "stamina": 114,
     "type1": 7,
     "legendary": false,
     "generation": 4,
@@ -4202,7 +4202,7 @@
   "402": {
     "attack": 160,
     "defense": 100,
-    "stamina": 154,
+    "stamina": 184,
     "type1": 7,
     "legendary": false,
     "generation": 4,
@@ -4222,7 +4222,7 @@
   "404": {
     "attack": 159,
     "defense": 95,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 13,
     "legendary": false,
     "generation": 4,
@@ -4232,7 +4232,7 @@
   "405": {
     "attack": 232,
     "defense": 156,
-    "stamina": 160,
+    "stamina": 190,
     "type1": 13,
     "legendary": false,
     "generation": 4,
@@ -4241,8 +4241,8 @@
   },
   "406": {
     "attack": 91,
-    "defense": 126,
-    "stamina": 80,
+    "defense": 109,
+    "stamina": 120,
     "type1": 12,
     "type2": 4,
     "legendary": false,
@@ -4252,8 +4252,8 @@
   },
   "407": {
     "attack": 243,
-    "defense": 206,
-    "stamina": 120,
+    "defense": 185,
+    "stamina": 155,
     "type1": 12,
     "type2": 4,
     "legendary": false,
@@ -4263,8 +4263,8 @@
   },
   "408": {
     "attack": 218,
-    "defense": 75,
-    "stamina": 134,
+    "defense": 71,
+    "stamina": 167,
     "type1": 6,
     "legendary": false,
     "generation": 4,
@@ -4273,8 +4273,8 @@
   },
   "409": {
     "attack": 295,
-    "defense": 114,
-    "stamina": 194,
+    "defense": 109,
+    "stamina": 219,
     "type1": 6,
     "legendary": false,
     "generation": 4,
@@ -4283,8 +4283,8 @@
   },
   "410": {
     "attack": 76,
-    "defense": 208,
-    "stamina": 60,
+    "defense": 195,
+    "stamina": 102,
     "type1": 6,
     "type2": 9,
     "legendary": false,
@@ -4294,8 +4294,8 @@
   },
   "411": {
     "attack": 94,
-    "defense": 299,
-    "stamina": 120,
+    "defense": 286,
+    "stamina": 155,
     "type1": 6,
     "type2": 9,
     "legendary": false,
@@ -4306,7 +4306,7 @@
   "412": {
     "attack": 53,
     "defense": 83,
-    "stamina": 80,
+    "stamina": 120,
     "type1": 7,
     "legendary": false,
     "generation": 4,
@@ -4315,8 +4315,8 @@
   },
   "413": {
     "attack": 141,
-    "defense": 189,
-    "stamina": 120,
+    "defense": 180,
+    "stamina": 155,
     "type1": 7,
     "type2": 12,
     "legendary": false,
@@ -4327,7 +4327,7 @@
   "414": {
     "attack": 185,
     "defense": 98,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 7,
     "type2": 3,
     "legendary": false,
@@ -4338,7 +4338,7 @@
   "415": {
     "attack": 59,
     "defense": 83,
-    "stamina": 60,
+    "stamina": 102,
     "type1": 7,
     "type2": 3,
     "legendary": false,
@@ -4349,7 +4349,7 @@
   "416": {
     "attack": 149,
     "defense": 190,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 7,
     "type2": 3,
     "legendary": false,
@@ -4359,8 +4359,8 @@
   },
   "417": {
     "attack": 94,
-    "defense": 182,
-    "stamina": 120,
+    "defense": 172,
+    "stamina": 155,
     "type1": 13,
     "legendary": false,
     "generation": 4,
@@ -4369,8 +4369,8 @@
   },
   "418": {
     "attack": 132,
-    "defense": 70,
-    "stamina": 110,
+    "defense": 67,
+    "stamina": 146,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4379,8 +4379,8 @@
   },
   "419": {
     "attack": 221,
-    "defense": 118,
-    "stamina": 170,
+    "defense": 114,
+    "stamina": 198,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4389,8 +4389,8 @@
   },
   "420": {
     "attack": 108,
-    "defense": 96,
-    "stamina": 90,
+    "defense": 92,
+    "stamina": 128,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4399,8 +4399,8 @@
   },
   "421": {
     "attack": 170,
-    "defense": 157,
-    "stamina": 140,
+    "defense": 153,
+    "stamina": 172,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4409,8 +4409,8 @@
   },
   "422": {
     "attack": 103,
-    "defense": 111,
-    "stamina": 152,
+    "defense": 105,
+    "stamina": 183,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4419,8 +4419,8 @@
   },
   "423": {
     "attack": 169,
-    "defense": 149,
-    "stamina": 222,
+    "defense": 143,
+    "stamina": 244,
     "type1": 11,
     "type2": 5,
     "legendary": false,
@@ -4431,7 +4431,7 @@
   "424": {
     "attack": 205,
     "defense": 143,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4440,8 +4440,8 @@
   },
   "425": {
     "attack": 117,
-    "defense": 85,
-    "stamina": 180,
+    "defense": 80,
+    "stamina": 207,
     "type1": 8,
     "type2": 3,
     "legendary": false,
@@ -4451,8 +4451,8 @@
   },
   "426": {
     "attack": 180,
-    "defense": 107,
-    "stamina": 300,
+    "defense": 102,
+    "stamina": 312,
     "type1": 8,
     "type2": 3,
     "legendary": false,
@@ -4462,8 +4462,8 @@
   },
   "427": {
     "attack": 130,
-    "defense": 111,
-    "stamina": 110,
+    "defense": 105,
+    "stamina": 146,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4472,8 +4472,8 @@
   },
   "428": {
     "attack": 156,
-    "defense": 200,
-    "stamina": 130,
+    "defense": 194,
+    "stamina": 163,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4482,8 +4482,8 @@
   },
   "429": {
     "attack": 211,
-    "defense": 211,
-    "stamina": 120,
+    "defense": 187,
+    "stamina": 155,
     "type1": 8,
     "legendary": false,
     "generation": 4,
@@ -4493,7 +4493,7 @@
   "430": {
     "attack": 243,
     "defense": 103,
-    "stamina": 200,
+    "stamina": 225,
     "type1": 18,
     "type2": 3,
     "legendary": false,
@@ -4503,8 +4503,8 @@
   },
   "431": {
     "attack": 109,
-    "defense": 85,
-    "stamina": 98,
+    "defense": 82,
+    "stamina": 135,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4513,8 +4513,8 @@
   },
   "432": {
     "attack": 172,
-    "defense": 136,
-    "stamina": 142,
+    "defense": 133,
+    "stamina": 174,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4524,7 +4524,7 @@
   "433": {
     "attack": 114,
     "defense": 94,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 14,
     "legendary": false,
     "generation": 4,
@@ -4533,8 +4533,8 @@
   },
   "434": {
     "attack": 121,
-    "defense": 93,
-    "stamina": 126,
+    "defense": 90,
+    "stamina": 160,
     "type1": 4,
     "type2": 18,
     "legendary": false,
@@ -4544,8 +4544,8 @@
   },
   "435": {
     "attack": 184,
-    "defense": 135,
-    "stamina": 206,
+    "defense": 132,
+    "stamina": 230,
     "type1": 4,
     "type2": 18,
     "legendary": false,
@@ -4556,7 +4556,7 @@
   "436": {
     "attack": 43,
     "defense": 154,
-    "stamina": 114,
+    "stamina": 149,
     "type1": 9,
     "type2": 14,
     "legendary": false,
@@ -4567,7 +4567,7 @@
   "437": {
     "attack": 161,
     "defense": 213,
-    "stamina": 134,
+    "stamina": 167,
     "type1": 9,
     "type2": 14,
     "legendary": false,
@@ -4577,8 +4577,8 @@
   },
   "438": {
     "attack": 124,
-    "defense": 155,
-    "stamina": 100,
+    "defense": 133,
+    "stamina": 137,
     "type1": 6,
     "legendary": false,
     "generation": 4,
@@ -4598,8 +4598,8 @@
   },
   "440": {
     "attack": 25,
-    "defense": 105,
-    "stamina": 200,
+    "defense": 77,
+    "stamina": 225,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4608,8 +4608,8 @@
   },
   "441": {
     "attack": 183,
-    "defense": 92,
-    "stamina": 152,
+    "defense": 91,
+    "stamina": 183,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -4620,7 +4620,7 @@
   "442": {
     "attack": 169,
     "defense": 199,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 8,
     "type2": 18,
     "legendary": false,
@@ -4631,7 +4631,7 @@
   "443": {
     "attack": 124,
     "defense": 84,
-    "stamina": 116,
+    "stamina": 151,
     "type1": 16,
     "type2": 5,
     "legendary": false,
@@ -4641,8 +4641,8 @@
   },
   "444": {
     "attack": 172,
-    "defense": 130,
-    "stamina": 136,
+    "defense": 125,
+    "stamina": 169,
     "type1": 16,
     "type2": 5,
     "legendary": false,
@@ -4652,8 +4652,8 @@
   },
   "445": {
     "attack": 261,
-    "defense": 198,
-    "stamina": 216,
+    "defense": 193,
+    "stamina": 239,
     "type1": 16,
     "type2": 5,
     "legendary": false,
@@ -4663,8 +4663,8 @@
   },
   "446": {
     "attack": 137,
-    "defense": 137,
-    "stamina": 270,
+    "defense": 117,
+    "stamina": 286,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4674,7 +4674,7 @@
   "447": {
     "attack": 127,
     "defense": 78,
-    "stamina": 80,
+    "stamina": 120,
     "type1": 2,
     "legendary": false,
     "generation": 4,
@@ -4684,7 +4684,7 @@
   "448": {
     "attack": 236,
     "defense": 144,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 2,
     "type2": 9,
     "legendary": false,
@@ -4694,8 +4694,8 @@
   },
   "449": {
     "attack": 124,
-    "defense": 134,
-    "stamina": 136,
+    "defense": 118,
+    "stamina": 169,
     "type1": 5,
     "legendary": false,
     "generation": 4,
@@ -4704,8 +4704,8 @@
   },
   "450": {
     "attack": 201,
-    "defense": 212,
-    "stamina": 216,
+    "defense": 191,
+    "stamina": 239,
     "type1": 5,
     "legendary": false,
     "generation": 4,
@@ -4714,8 +4714,8 @@
   },
   "451": {
     "attack": 93,
-    "defense": 168,
-    "stamina": 80,
+    "defense": 151,
+    "stamina": 120,
     "type1": 4,
     "type2": 7,
     "legendary": false,
@@ -4725,8 +4725,8 @@
   },
   "452": {
     "attack": 180,
-    "defense": 219,
-    "stamina": 140,
+    "defense": 202,
+    "stamina": 172,
     "type1": 4,
     "type2": 18,
     "legendary": false,
@@ -4737,7 +4737,7 @@
   "453": {
     "attack": 116,
     "defense": 76,
-    "stamina": 96,
+    "stamina": 134,
     "type1": 4,
     "type2": 2,
     "legendary": false,
@@ -4748,7 +4748,7 @@
   "454": {
     "attack": 211,
     "defense": 133,
-    "stamina": 166,
+    "stamina": 195,
     "type1": 4,
     "type2": 2,
     "legendary": false,
@@ -4759,7 +4759,7 @@
   "455": {
     "attack": 187,
     "defense": 136,
-    "stamina": 148,
+    "stamina": 179,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4768,8 +4768,8 @@
   },
   "456": {
     "attack": 96,
-    "defense": 119,
-    "stamina": 98,
+    "defense": 116,
+    "stamina": 135,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4778,8 +4778,8 @@
   },
   "457": {
     "attack": 142,
-    "defense": 175,
-    "stamina": 138,
+    "defense": 170,
+    "stamina": 170,
     "type1": 11,
     "legendary": false,
     "generation": 4,
@@ -4788,8 +4788,8 @@
   },
   "458": {
     "attack": 105,
-    "defense": 212,
-    "stamina": 90,
+    "defense": 179,
+    "stamina": 128,
     "type1": 11,
     "type2": 3,
     "legendary": false,
@@ -4799,8 +4799,8 @@
   },
   "459": {
     "attack": 115,
-    "defense": 110,
-    "stamina": 120,
+    "defense": 105,
+    "stamina": 155,
     "type1": 12,
     "type2": 15,
     "legendary": false,
@@ -4810,8 +4810,8 @@
   },
   "460": {
     "attack": 178,
-    "defense": 163,
-    "stamina": 180,
+    "defense": 158,
+    "stamina": 207,
     "type1": 12,
     "type2": 15,
     "legendary": false,
@@ -4821,8 +4821,8 @@
   },
   "461": {
     "attack": 243,
-    "defense": 182,
-    "stamina": 140,
+    "defense": 171,
+    "stamina": 172,
     "type1": 18,
     "type2": 15,
     "legendary": false,
@@ -4832,8 +4832,8 @@
   },
   "462": {
     "attack": 238,
-    "defense": 217,
-    "stamina": 140,
+    "defense": 205,
+    "stamina": 172,
     "type1": 13,
     "type2": 9,
     "legendary": false,
@@ -4844,7 +4844,7 @@
   "463": {
     "attack": 161,
     "defense": 181,
-    "stamina": 220,
+    "stamina": 242,
     "type1": 1,
     "legendary": false,
     "generation": 4,
@@ -4853,8 +4853,8 @@
   },
   "464": {
     "attack": 241,
-    "defense": 224,
-    "stamina": 230,
+    "defense": 190,
+    "stamina": 251,
     "type1": 5,
     "type2": 6,
     "legendary": false,
@@ -4864,8 +4864,8 @@
   },
   "465": {
     "attack": 207,
-    "defense": 219,
-    "stamina": 200,
+    "defense": 184,
+    "stamina": 225,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4874,8 +4874,8 @@
   },
   "466": {
     "attack": 249,
-    "defense": 173,
-    "stamina": 150,
+    "defense": 163,
+    "stamina": 181,
     "type1": 13,
     "legendary": false,
     "generation": 4,
@@ -4884,8 +4884,8 @@
   },
   "467": {
     "attack": 247,
-    "defense": 186,
-    "stamina": 150,
+    "defense": 172,
+    "stamina": 181,
     "type1": 10,
     "legendary": false,
     "generation": 4,
@@ -4894,8 +4894,8 @@
   },
   "468": {
     "attack": 225,
-    "defense": 227,
-    "stamina": 170,
+    "defense": 217,
+    "stamina": 198,
     "type1": 17,
     "type2": 3,
     "legendary": false,
@@ -4905,8 +4905,8 @@
   },
   "469": {
     "attack": 231,
-    "defense": 172,
-    "stamina": 172,
+    "defense": 156,
+    "stamina": 200,
     "type1": 7,
     "type2": 3,
     "legendary": false,
@@ -4916,8 +4916,8 @@
   },
   "470": {
     "attack": 216,
-    "defense": 254,
-    "stamina": 130,
+    "defense": 219,
+    "stamina": 163,
     "type1": 12,
     "legendary": false,
     "generation": 4,
@@ -4926,8 +4926,8 @@
   },
   "471": {
     "attack": 238,
-    "defense": 212,
-    "stamina": 130,
+    "defense": 205,
+    "stamina": 163,
     "type1": 15,
     "legendary": false,
     "generation": 4,
@@ -4936,8 +4936,8 @@
   },
   "472": {
     "attack": 185,
-    "defense": 248,
-    "stamina": 150,
+    "defense": 222,
+    "stamina": 181,
     "type1": 5,
     "type2": 3,
     "legendary": false,
@@ -4947,8 +4947,8 @@
   },
   "473": {
     "attack": 247,
-    "defense": 157,
-    "stamina": 220,
+    "defense": 146,
+    "stamina": 242,
     "type1": 15,
     "type2": 5,
     "legendary": false,
@@ -4968,8 +4968,8 @@
   },
   "475": {
     "attack": 237,
-    "defense": 220,
-    "stamina": 136,
+    "defense": 195,
+    "stamina": 169,
     "type1": 14,
     "type2": 2,
     "legendary": false,
@@ -4979,8 +4979,8 @@
   },
   "476": {
     "attack": 135,
-    "defense": 278,
-    "stamina": 120,
+    "defense": 275,
+    "stamina": 155,
     "type1": 6,
     "type2": 9,
     "legendary": false,
@@ -4991,7 +4991,7 @@
   "477": {
     "attack": 180,
     "defense": 254,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 8,
     "legendary": false,
     "generation": 4,
@@ -5001,7 +5001,7 @@
   "478": {
     "attack": 171,
     "defense": 150,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 15,
     "type2": 8,
     "legendary": false,
@@ -5012,7 +5012,7 @@
   "479": {
     "attack": 185,
     "defense": 159,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 13,
     "type2": 8,
     "legendary": false,
@@ -5023,7 +5023,7 @@
   "480": {
     "attack": 156,
     "defense": 270,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 14,
     "legendary": true,
     "generation": 4,
@@ -5033,7 +5033,7 @@
   "481": {
     "attack": 212,
     "defense": 212,
-    "stamina": 160,
+    "stamina": 190,
     "type1": 14,
     "legendary": true,
     "generation": 4,
@@ -5043,7 +5043,7 @@
   "482": {
     "attack": 270,
     "defense": 151,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 14,
     "legendary": true,
     "generation": 4,
@@ -5051,9 +5051,9 @@
     "height": 0.3
   },
   "483": {
-    "attack": 302,
-    "defense": 242,
-    "stamina": 200,
+    "attack": 275,
+    "defense": 211,
+    "stamina": 205,
     "type1": 9,
     "type2": 16,
     "legendary": true,
@@ -5062,9 +5062,9 @@
     "height": 5.41
   },
   "484": {
-    "attack": 308,
-    "defense": 247,
-    "stamina": 180,
+    "attack": 280,
+    "defense": 215,
+    "stamina": 189,
     "type1": 11,
     "type2": 16,
     "legendary": true,
@@ -5075,7 +5075,7 @@
   "485": {
     "attack": 251,
     "defense": 213,
-    "stamina": 182,
+    "stamina": 209,
     "type1": 10,
     "type2": 9,
     "legendary": true,
@@ -5084,9 +5084,9 @@
     "height": 1.7
   },
   "486": {
-    "attack": 315,
-    "defense": 231,
-    "stamina": 220,
+    "attack": 287,
+    "defense": 210,
+    "stamina": 221,
     "type1": 1,
     "legendary": true,
     "generation": 4,
@@ -5117,7 +5117,7 @@
   "489": {
     "attack": 162,
     "defense": 162,
-    "stamina": 160,
+    "stamina": 190,
     "type1": 11,
     "legendary": true,
     "generation": 4,
@@ -5127,7 +5127,7 @@
   "490": {
     "attack": 210,
     "defense": 210,
-    "stamina": 200,
+    "stamina": 225,
     "type1": 11,
     "legendary": true,
     "generation": 4,
@@ -5137,7 +5137,7 @@
   "491": {
     "attack": 285,
     "defense": 198,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 18,
     "legendary": true,
     "generation": 4,
@@ -5147,7 +5147,7 @@
   "492": {
     "attack": 210,
     "defense": 210,
-    "stamina": 200,
+    "stamina": 225,
     "type1": 12,
     "legendary": true,
     "generation": 4,
@@ -5155,9 +5155,9 @@
     "height": 0.41
   },
   "493": {
-    "attack": 262,
-    "defense": 262,
-    "stamina": 240,
+    "attack": 238,
+    "defense": 238,
+    "stamina": 237,
     "type1": 1,
     "legendary": true,
     "generation": 4,
@@ -5167,7 +5167,7 @@
   "494": {
     "attack": 210,
     "defense": 210,
-    "stamina": 200,
+    "stamina": 225,
     "type1": 14,
     "type2": 10,
     "legendary": true,
@@ -5178,7 +5178,7 @@
   "495": {
     "attack": 88,
     "defense": 107,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5188,7 +5188,7 @@
   "496": {
     "attack": 122,
     "defense": 152,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5198,7 +5198,7 @@
   "497": {
     "attack": 161,
     "defense": 204,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5208,7 +5208,7 @@
   "498": {
     "attack": 115,
     "defense": 85,
-    "stamina": 130,
+    "stamina": 163,
     "type1": 10,
     "legendary": false,
     "generation": 5,
@@ -5218,7 +5218,7 @@
   "499": {
     "attack": 173,
     "defense": 106,
-    "stamina": 180,
+    "stamina": 207,
     "type1": 10,
     "type2": 2,
     "legendary": false,
@@ -5229,7 +5229,7 @@
   "500": {
     "attack": 235,
     "defense": 127,
-    "stamina": 220,
+    "stamina": 242,
     "type1": 10,
     "type2": 2,
     "legendary": false,
@@ -5240,7 +5240,7 @@
   "501": {
     "attack": 117,
     "defense": 85,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5250,7 +5250,7 @@
   "502": {
     "attack": 159,
     "defense": 116,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5259,8 +5259,8 @@
   },
   "503": {
     "attack": 212,
-    "defense": 164,
-    "stamina": 190,
+    "defense": 157,
+    "stamina": 216,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5270,7 +5270,7 @@
   "504": {
     "attack": 98,
     "defense": 73,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5280,7 +5280,7 @@
   "505": {
     "attack": 165,
     "defense": 139,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5290,7 +5290,7 @@
   "506": {
     "attack": 107,
     "defense": 86,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5300,7 +5300,7 @@
   "507": {
     "attack": 145,
     "defense": 126,
-    "stamina": 130,
+    "stamina": 163,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5310,7 +5310,7 @@
   "508": {
     "attack": 206,
     "defense": 182,
-    "stamina": 170,
+    "stamina": 198,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5320,7 +5320,7 @@
   "509": {
     "attack": 98,
     "defense": 73,
-    "stamina": 82,
+    "stamina": 121,
     "type1": 18,
     "legendary": false,
     "generation": 5,
@@ -5330,7 +5330,7 @@
   "510": {
     "attack": 187,
     "defense": 106,
-    "stamina": 128,
+    "stamina": 162,
     "type1": 18,
     "legendary": false,
     "generation": 5,
@@ -5340,7 +5340,7 @@
   "511": {
     "attack": 104,
     "defense": 94,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5350,7 +5350,7 @@
   "512": {
     "attack": 206,
     "defense": 133,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5360,7 +5360,7 @@
   "513": {
     "attack": 104,
     "defense": 94,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 10,
     "legendary": false,
     "generation": 5,
@@ -5370,7 +5370,7 @@
   "514": {
     "attack": 206,
     "defense": 133,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 10,
     "legendary": false,
     "generation": 5,
@@ -5380,7 +5380,7 @@
   "515": {
     "attack": 104,
     "defense": 94,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5390,7 +5390,7 @@
   "516": {
     "attack": 206,
     "defense": 133,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5399,8 +5399,8 @@
   },
   "517": {
     "attack": 111,
-    "defense": 97,
-    "stamina": 152,
+    "defense": 92,
+    "stamina": 183,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -5409,8 +5409,8 @@
   },
   "518": {
     "attack": 183,
-    "defense": 171,
-    "stamina": 232,
+    "defense": 166,
+    "stamina": 253,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -5419,8 +5419,8 @@
   },
   "519": {
     "attack": 98,
-    "defense": 89,
-    "stamina": 100,
+    "defense": 80,
+    "stamina": 137,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -5430,8 +5430,8 @@
   },
   "520": {
     "attack": 144,
-    "defense": 117,
-    "stamina": 124,
+    "defense": 107,
+    "stamina": 158,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -5441,8 +5441,8 @@
   },
   "521": {
     "attack": 226,
-    "defense": 160,
-    "stamina": 160,
+    "defense": 146,
+    "stamina": 190,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -5453,7 +5453,7 @@
   "522": {
     "attack": 118,
     "defense": 64,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 13,
     "legendary": false,
     "generation": 5,
@@ -5463,7 +5463,7 @@
   "523": {
     "attack": 211,
     "defense": 136,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 13,
     "legendary": false,
     "generation": 5,
@@ -5472,8 +5472,8 @@
   },
   "524": {
     "attack": 121,
-    "defense": 136,
-    "stamina": 110,
+    "defense": 110,
+    "stamina": 146,
     "type1": 6,
     "legendary": false,
     "generation": 5,
@@ -5482,8 +5482,8 @@
   },
   "525": {
     "attack": 174,
-    "defense": 173,
-    "stamina": 140,
+    "defense": 143,
+    "stamina": 172,
     "type1": 6,
     "legendary": false,
     "generation": 5,
@@ -5492,8 +5492,8 @@
   },
   "526": {
     "attack": 226,
-    "defense": 223,
-    "stamina": 170,
+    "defense": 201,
+    "stamina": 198,
     "type1": 6,
     "legendary": false,
     "generation": 5,
@@ -5503,7 +5503,7 @@
   "527": {
     "attack": 107,
     "defense": 85,
-    "stamina": 130,
+    "stamina": 163,
     "type1": 14,
     "type2": 3,
     "legendary": false,
@@ -5514,7 +5514,7 @@
   "528": {
     "attack": 161,
     "defense": 119,
-    "stamina": 134,
+    "stamina": 167,
     "type1": 14,
     "type2": 3,
     "legendary": false,
@@ -5524,8 +5524,8 @@
   },
   "529": {
     "attack": 154,
-    "defense": 88,
-    "stamina": 120,
+    "defense": 85,
+    "stamina": 155,
     "type1": 5,
     "legendary": false,
     "generation": 5,
@@ -5534,8 +5534,8 @@
   },
   "530": {
     "attack": 255,
-    "defense": 132,
-    "stamina": 220,
+    "defense": 129,
+    "stamina": 242,
     "type1": 5,
     "type2": 9,
     "legendary": false,
@@ -5546,7 +5546,7 @@
   "531": {
     "attack": 114,
     "defense": 163,
-    "stamina": 206,
+    "stamina": 230,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5555,8 +5555,8 @@
   },
   "532": {
     "attack": 134,
-    "defense": 97,
-    "stamina": 150,
+    "defense": 87,
+    "stamina": 181,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -5565,8 +5565,8 @@
   },
   "533": {
     "attack": 180,
-    "defense": 150,
-    "stamina": 170,
+    "defense": 134,
+    "stamina": 198,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -5575,8 +5575,8 @@
   },
   "534": {
     "attack": 243,
-    "defense": 172,
-    "stamina": 210,
+    "defense": 158,
+    "stamina": 233,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -5586,7 +5586,7 @@
   "535": {
     "attack": 98,
     "defense": 78,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5596,7 +5596,7 @@
   "536": {
     "attack": 128,
     "defense": 109,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 11,
     "type2": 5,
     "legendary": false,
@@ -5607,7 +5607,7 @@
   "537": {
     "attack": 188,
     "defense": 150,
-    "stamina": 210,
+    "stamina": 233,
     "type1": 11,
     "type2": 5,
     "legendary": false,
@@ -5618,7 +5618,7 @@
   "538": {
     "attack": 172,
     "defense": 160,
-    "stamina": 240,
+    "stamina": 260,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -5628,7 +5628,7 @@
   "539": {
     "attack": 231,
     "defense": 153,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -5637,8 +5637,8 @@
   },
   "540": {
     "attack": 96,
-    "defense": 129,
-    "stamina": 90,
+    "defense": 124,
+    "stamina": 128,
     "type1": 7,
     "type2": 12,
     "legendary": false,
@@ -5648,8 +5648,8 @@
   },
   "541": {
     "attack": 115,
-    "defense": 166,
-    "stamina": 110,
+    "defense": 162,
+    "stamina": 146,
     "type1": 7,
     "type2": 12,
     "legendary": false,
@@ -5660,7 +5660,7 @@
   "542": {
     "attack": 205,
     "defense": 165,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 7,
     "type2": 12,
     "legendary": false,
@@ -5670,8 +5670,8 @@
   },
   "543": {
     "attack": 83,
-    "defense": 109,
-    "stamina": 60,
+    "defense": 99,
+    "stamina": 102,
     "type1": 7,
     "type2": 4,
     "legendary": false,
@@ -5681,8 +5681,8 @@
   },
   "544": {
     "attack": 100,
-    "defense": 182,
-    "stamina": 80,
+    "defense": 173,
+    "stamina": 120,
     "type1": 7,
     "type2": 4,
     "legendary": false,
@@ -5692,8 +5692,8 @@
   },
   "545": {
     "attack": 203,
-    "defense": 186,
-    "stamina": 120,
+    "defense": 175,
+    "stamina": 155,
     "type1": 7,
     "type2": 4,
     "legendary": false,
@@ -5703,8 +5703,8 @@
   },
   "546": {
     "attack": 71,
-    "defense": 116,
-    "stamina": 80,
+    "defense": 111,
+    "stamina": 120,
     "type1": 12,
     "type2": 17,
     "legendary": false,
@@ -5714,8 +5714,8 @@
   },
   "547": {
     "attack": 164,
-    "defense": 182,
-    "stamina": 120,
+    "defense": 176,
+    "stamina": 155,
     "type1": 12,
     "type2": 17,
     "legendary": false,
@@ -5726,7 +5726,7 @@
   "548": {
     "attack": 119,
     "defense": 91,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5736,7 +5736,7 @@
   "549": {
     "attack": 214,
     "defense": 155,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5745,8 +5745,8 @@
   },
   "550": {
     "attack": 189,
-    "defense": 134,
-    "stamina": 140,
+    "defense": 129,
+    "stamina": 172,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -5756,7 +5756,7 @@
   "551": {
     "attack": 132,
     "defense": 69,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 5,
     "type2": 18,
     "legendary": false,
@@ -5767,7 +5767,7 @@
   "552": {
     "attack": 155,
     "defense": 90,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 5,
     "type2": 18,
     "legendary": false,
@@ -5777,8 +5777,8 @@
   },
   "553": {
     "attack": 229,
-    "defense": 163,
-    "stamina": 190,
+    "defense": 158,
+    "stamina": 216,
     "type1": 5,
     "type2": 18,
     "legendary": false,
@@ -5789,7 +5789,7 @@
   "554": {
     "attack": 153,
     "defense": 86,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 10,
     "legendary": false,
     "generation": 5,
@@ -5809,7 +5809,7 @@
   "556": {
     "attack": 201,
     "defense": 130,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 12,
     "legendary": false,
     "generation": 5,
@@ -5818,8 +5818,8 @@
   },
   "557": {
     "attack": 118,
-    "defense": 152,
-    "stamina": 100,
+    "defense": 128,
+    "stamina": 137,
     "type1": 7,
     "type2": 6,
     "legendary": false,
@@ -5829,8 +5829,8 @@
   },
   "558": {
     "attack": 188,
-    "defense": 224,
-    "stamina": 140,
+    "defense": 200,
+    "stamina": 172,
     "type1": 7,
     "type2": 6,
     "legendary": false,
@@ -5841,7 +5841,7 @@
   "559": {
     "attack": 132,
     "defense": 132,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 18,
     "type2": 2,
     "legendary": false,
@@ -5852,7 +5852,7 @@
   "560": {
     "attack": 163,
     "defense": 222,
-    "stamina": 130,
+    "stamina": 163,
     "type1": 18,
     "type2": 2,
     "legendary": false,
@@ -5863,7 +5863,7 @@
   "561": {
     "attack": 204,
     "defense": 167,
-    "stamina": 144,
+    "stamina": 176,
     "type1": 14,
     "type2": 3,
     "legendary": false,
@@ -5873,8 +5873,8 @@
   },
   "562": {
     "attack": 95,
-    "defense": 150,
-    "stamina": 76,
+    "defense": 141,
+    "stamina": 116,
     "type1": 8,
     "legendary": false,
     "generation": 5,
@@ -5883,8 +5883,8 @@
   },
   "563": {
     "attack": 163,
-    "defense": 255,
-    "stamina": 116,
+    "defense": 237,
+    "stamina": 151,
     "type1": 8,
     "legendary": false,
     "generation": 5,
@@ -5893,8 +5893,8 @@
   },
   "564": {
     "attack": 134,
-    "defense": 172,
-    "stamina": 108,
+    "defense": 146,
+    "stamina": 144,
     "type1": 11,
     "type2": 6,
     "legendary": false,
@@ -5904,8 +5904,8 @@
   },
   "565": {
     "attack": 192,
-    "defense": 228,
-    "stamina": 148,
+    "defense": 197,
+    "stamina": 179,
     "type1": 11,
     "type2": 6,
     "legendary": false,
@@ -5916,7 +5916,7 @@
   "566": {
     "attack": 213,
     "defense": 89,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 6,
     "type2": 3,
     "legendary": false,
@@ -5927,7 +5927,7 @@
   "567": {
     "attack": 292,
     "defense": 139,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 6,
     "type2": 3,
     "legendary": false,
@@ -5938,7 +5938,7 @@
   "568": {
     "attack": 96,
     "defense": 122,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 4,
     "legendary": false,
     "generation": 5,
@@ -5948,7 +5948,7 @@
   "569": {
     "attack": 181,
     "defense": 164,
-    "stamina": 160,
+    "stamina": 190,
     "type1": 4,
     "legendary": false,
     "generation": 5,
@@ -5958,7 +5958,7 @@
   "570": {
     "attack": 153,
     "defense": 78,
-    "stamina": 80,
+    "stamina": 120,
     "type1": 18,
     "legendary": false,
     "generation": 5,
@@ -5968,7 +5968,7 @@
   "571": {
     "attack": 250,
     "defense": 127,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 18,
     "legendary": false,
     "generation": 5,
@@ -5978,7 +5978,7 @@
   "572": {
     "attack": 98,
     "defense": 80,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5988,7 +5988,7 @@
   "573": {
     "attack": 198,
     "defense": 130,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -5997,8 +5997,8 @@
   },
   "574": {
     "attack": 98,
-    "defense": 118,
-    "stamina": 90,
+    "defense": 112,
+    "stamina": 128,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6007,8 +6007,8 @@
   },
   "575": {
     "attack": 137,
-    "defense": 159,
-    "stamina": 120,
+    "defense": 153,
+    "stamina": 155,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6017,8 +6017,8 @@
   },
   "576": {
     "attack": 176,
-    "defense": 212,
-    "stamina": 140,
+    "defense": 205,
+    "stamina": 172,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6027,8 +6027,8 @@
   },
   "577": {
     "attack": 170,
-    "defense": 87,
-    "stamina": 90,
+    "defense": 83,
+    "stamina": 128,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6037,8 +6037,8 @@
   },
   "578": {
     "attack": 208,
-    "defense": 107,
-    "stamina": 130,
+    "defense": 103,
+    "stamina": 163,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6047,8 +6047,8 @@
   },
   "579": {
     "attack": 214,
-    "defense": 153,
-    "stamina": 220,
+    "defense": 148,
+    "stamina": 242,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6058,7 +6058,7 @@
   "580": {
     "attack": 84,
     "defense": 96,
-    "stamina": 124,
+    "stamina": 158,
     "type1": 11,
     "type2": 3,
     "legendary": false,
@@ -6069,7 +6069,7 @@
   "581": {
     "attack": 182,
     "defense": 132,
-    "stamina": 150,
+    "stamina": 181,
     "type1": 11,
     "type2": 3,
     "legendary": false,
@@ -6079,8 +6079,8 @@
   },
   "582": {
     "attack": 118,
-    "defense": 111,
-    "stamina": 72,
+    "defense": 106,
+    "stamina": 113,
     "type1": 15,
     "legendary": false,
     "generation": 5,
@@ -6089,8 +6089,8 @@
   },
   "583": {
     "attack": 151,
-    "defense": 143,
-    "stamina": 102,
+    "defense": 138,
+    "stamina": 139,
     "type1": 15,
     "legendary": false,
     "generation": 5,
@@ -6099,8 +6099,8 @@
   },
   "584": {
     "attack": 218,
-    "defense": 190,
-    "stamina": 142,
+    "defense": 184,
+    "stamina": 174,
     "type1": 15,
     "legendary": false,
     "generation": 5,
@@ -6110,7 +6110,7 @@
   "585": {
     "attack": 115,
     "defense": 100,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 1,
     "type2": 12,
     "legendary": false,
@@ -6121,7 +6121,7 @@
   "586": {
     "attack": 198,
     "defense": 146,
-    "stamina": 160,
+    "stamina": 190,
     "type1": 1,
     "type2": 12,
     "legendary": false,
@@ -6132,7 +6132,7 @@
   "587": {
     "attack": 158,
     "defense": 127,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 13,
     "type2": 3,
     "legendary": false,
@@ -6143,7 +6143,7 @@
   "588": {
     "attack": 137,
     "defense": 87,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 7,
     "legendary": false,
     "generation": 5,
@@ -6153,7 +6153,7 @@
   "589": {
     "attack": 223,
     "defense": 187,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 7,
     "type2": 9,
     "legendary": false,
@@ -6163,8 +6163,8 @@
   },
   "590": {
     "attack": 97,
-    "defense": 95,
-    "stamina": 138,
+    "defense": 91,
+    "stamina": 170,
     "type1": 12,
     "type2": 4,
     "legendary": false,
@@ -6174,8 +6174,8 @@
   },
   "591": {
     "attack": 155,
-    "defense": 144,
-    "stamina": 228,
+    "defense": 139,
+    "stamina": 249,
     "type1": 12,
     "type2": 4,
     "legendary": false,
@@ -6185,8 +6185,8 @@
   },
   "592": {
     "attack": 115,
-    "defense": 150,
-    "stamina": 110,
+    "defense": 134,
+    "stamina": 146,
     "type1": 11,
     "type2": 8,
     "legendary": false,
@@ -6196,8 +6196,8 @@
   },
   "593": {
     "attack": 159,
-    "defense": 195,
-    "stamina": 200,
+    "defense": 178,
+    "stamina": 225,
     "type1": 11,
     "type2": 8,
     "legendary": false,
@@ -6207,8 +6207,8 @@
   },
   "594": {
     "attack": 138,
-    "defense": 148,
-    "stamina": 330,
+    "defense": 131,
+    "stamina": 338,
     "type1": 11,
     "legendary": false,
     "generation": 5,
@@ -6218,7 +6218,7 @@
   "595": {
     "attack": 110,
     "defense": 98,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 7,
     "type2": 13,
     "legendary": false,
@@ -6229,7 +6229,7 @@
   "596": {
     "attack": 201,
     "defense": 128,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 7,
     "type2": 13,
     "legendary": false,
@@ -6239,8 +6239,8 @@
   },
   "597": {
     "attack": 82,
-    "defense": 157,
-    "stamina": 88,
+    "defense": 155,
+    "stamina": 127,
     "type1": 12,
     "type2": 9,
     "legendary": false,
@@ -6250,8 +6250,8 @@
   },
   "598": {
     "attack": 158,
-    "defense": 230,
-    "stamina": 148,
+    "defense": 223,
+    "stamina": 179,
     "type1": 12,
     "type2": 9,
     "legendary": false,
@@ -6261,8 +6261,8 @@
   },
   "599": {
     "attack": 98,
-    "defense": 126,
-    "stamina": 80,
+    "defense": 121,
+    "stamina": 120,
     "type1": 9,
     "legendary": false,
     "generation": 5,
@@ -6271,8 +6271,8 @@
   },
   "600": {
     "attack": 150,
-    "defense": 179,
-    "stamina": 120,
+    "defense": 174,
+    "stamina": 155,
     "type1": 9,
     "legendary": false,
     "generation": 5,
@@ -6281,8 +6281,8 @@
   },
   "601": {
     "attack": 199,
-    "defense": 230,
-    "stamina": 120,
+    "defense": 214,
+    "stamina": 155,
     "type1": 9,
     "legendary": false,
     "generation": 5,
@@ -6292,7 +6292,7 @@
   "602": {
     "attack": 105,
     "defense": 78,
-    "stamina": 70,
+    "stamina": 111,
     "type1": 13,
     "legendary": false,
     "generation": 5,
@@ -6302,7 +6302,7 @@
   "603": {
     "attack": 156,
     "defense": 130,
-    "stamina": 130,
+    "stamina": 163,
     "type1": 13,
     "legendary": false,
     "generation": 5,
@@ -6312,7 +6312,7 @@
   "604": {
     "attack": 217,
     "defense": 152,
-    "stamina": 170,
+    "stamina": 198,
     "type1": 13,
     "legendary": false,
     "generation": 5,
@@ -6322,7 +6322,7 @@
   "605": {
     "attack": 148,
     "defense": 100,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6331,8 +6331,8 @@
   },
   "606": {
     "attack": 221,
-    "defense": 172,
-    "stamina": 150,
+    "defense": 163,
+    "stamina": 181,
     "type1": 14,
     "legendary": false,
     "generation": 5,
@@ -6342,7 +6342,7 @@
   "607": {
     "attack": 108,
     "defense": 98,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 8,
     "type2": 10,
     "legendary": false,
@@ -6353,7 +6353,7 @@
   "608": {
     "attack": 169,
     "defense": 115,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 8,
     "type2": 10,
     "legendary": false,
@@ -6364,7 +6364,7 @@
   "609": {
     "attack": 271,
     "defense": 182,
-    "stamina": 120,
+    "stamina": 155,
     "type1": 8,
     "type2": 10,
     "legendary": false,
@@ -6374,8 +6374,8 @@
   },
   "610": {
     "attack": 154,
-    "defense": 111,
-    "stamina": 92,
+    "defense": 101,
+    "stamina": 130,
     "type1": 16,
     "legendary": false,
     "generation": 5,
@@ -6384,8 +6384,8 @@
   },
   "611": {
     "attack": 212,
-    "defense": 133,
-    "stamina": 132,
+    "defense": 123,
+    "stamina": 165,
     "type1": 16,
     "legendary": false,
     "generation": 5,
@@ -6394,8 +6394,8 @@
   },
   "612": {
     "attack": 284,
-    "defense": 183,
-    "stamina": 152,
+    "defense": 172,
+    "stamina": 183,
     "type1": 16,
     "legendary": false,
     "generation": 5,
@@ -6405,7 +6405,7 @@
   "613": {
     "attack": 128,
     "defense": 74,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 15,
     "legendary": false,
     "generation": 5,
@@ -6415,7 +6415,7 @@
   "614": {
     "attack": 233,
     "defense": 152,
-    "stamina": 190,
+    "stamina": 216,
     "type1": 15,
     "legendary": false,
     "generation": 5,
@@ -6424,8 +6424,8 @@
   },
   "615": {
     "attack": 190,
-    "defense": 264,
-    "stamina": 160,
+    "defense": 218,
+    "stamina": 190,
     "type1": 15,
     "legendary": false,
     "generation": 5,
@@ -6434,8 +6434,8 @@
   },
   "616": {
     "attack": 72,
-    "defense": 149,
-    "stamina": 100,
+    "defense": 140,
+    "stamina": 137,
     "type1": 7,
     "legendary": false,
     "generation": 5,
@@ -6444,8 +6444,8 @@
   },
   "617": {
     "attack": 220,
-    "defense": 131,
-    "stamina": 160,
+    "defense": 120,
+    "stamina": 190,
     "type1": 7,
     "legendary": false,
     "generation": 5,
@@ -6454,8 +6454,8 @@
   },
   "618": {
     "attack": 144,
-    "defense": 177,
-    "stamina": 218,
+    "defense": 171,
+    "stamina": 240,
     "type1": 5,
     "type2": 13,
     "legendary": false,
@@ -6466,7 +6466,7 @@
   "619": {
     "attack": 160,
     "defense": 98,
-    "stamina": 90,
+    "stamina": 128,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -6476,7 +6476,7 @@
   "620": {
     "attack": 258,
     "defense": 127,
-    "stamina": 130,
+    "stamina": 163,
     "type1": 2,
     "legendary": false,
     "generation": 5,
@@ -6486,7 +6486,7 @@
   "621": {
     "attack": 213,
     "defense": 170,
-    "stamina": 154,
+    "stamina": 184,
     "type1": 16,
     "legendary": false,
     "generation": 5,
@@ -6496,7 +6496,7 @@
   "622": {
     "attack": 127,
     "defense": 92,
-    "stamina": 118,
+    "stamina": 153,
     "type1": 5,
     "type2": 8,
     "legendary": false,
@@ -6507,7 +6507,7 @@
   "623": {
     "attack": 222,
     "defense": 154,
-    "stamina": 178,
+    "stamina": 205,
     "type1": 5,
     "type2": 8,
     "legendary": false,
@@ -6517,8 +6517,8 @@
   },
   "624": {
     "attack": 154,
-    "defense": 129,
-    "stamina": 90,
+    "defense": 114,
+    "stamina": 128,
     "type1": 18,
     "type2": 9,
     "legendary": false,
@@ -6528,8 +6528,8 @@
   },
   "625": {
     "attack": 232,
-    "defense": 191,
-    "stamina": 130,
+    "defense": 176,
+    "stamina": 163,
     "type1": 18,
     "type2": 9,
     "legendary": false,
@@ -6540,7 +6540,7 @@
   "626": {
     "attack": 195,
     "defense": 182,
-    "stamina": 190,
+    "stamina": 216,
     "type1": 1,
     "legendary": false,
     "generation": 5,
@@ -6550,7 +6550,7 @@
   "627": {
     "attack": 150,
     "defense": 97,
-    "stamina": 140,
+    "stamina": 172,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -6561,7 +6561,7 @@
   "628": {
     "attack": 232,
     "defense": 152,
-    "stamina": 200,
+    "stamina": 225,
     "type1": 1,
     "type2": 3,
     "legendary": false,
@@ -6571,8 +6571,8 @@
   },
   "629": {
     "attack": 105,
-    "defense": 144,
-    "stamina": 140,
+    "defense": 139,
+    "stamina": 172,
     "type1": 18,
     "type2": 3,
     "legendary": false,
@@ -6582,8 +6582,8 @@
   },
   "630": {
     "attack": 129,
-    "defense": 210,
-    "stamina": 220,
+    "defense": 205,
+    "stamina": 242,
     "type1": 18,
     "type2": 3,
     "legendary": false,
@@ -6594,7 +6594,7 @@
   "631": {
     "attack": 204,
     "defense": 129,
-    "stamina": 170,
+    "stamina": 198,
     "type1": 10,
     "legendary": false,
     "generation": 5,
@@ -6603,8 +6603,8 @@
   },
   "632": {
     "attack": 217,
-    "defense": 222,
-    "stamina": 116,
+    "defense": 188,
+    "stamina": 151,
     "type1": 7,
     "type2": 9,
     "legendary": false,
@@ -6615,7 +6615,7 @@
   "633": {
     "attack": 116,
     "defense": 93,
-    "stamina": 104,
+    "stamina": 141,
     "type1": 18,
     "type2": 16,
     "legendary": false,
@@ -6626,7 +6626,7 @@
   "634": {
     "attack": 159,
     "defense": 135,
-    "stamina": 144,
+    "stamina": 176,
     "type1": 18,
     "type2": 16,
     "legendary": false,
@@ -6637,7 +6637,7 @@
   "635": {
     "attack": 256,
     "defense": 188,
-    "stamina": 184,
+    "stamina": 211,
     "type1": 18,
     "type2": 16,
     "legendary": false,
@@ -6648,7 +6648,7 @@
   "636": {
     "attack": 156,
     "defense": 107,
-    "stamina": 110,
+    "stamina": 146,
     "type1": 7,
     "type2": 10,
     "legendary": false,
@@ -6658,8 +6658,8 @@
   },
   "637": {
     "attack": 264,
-    "defense": 210,
-    "stamina": 170,
+    "defense": 189,
+    "stamina": 198,
     "type1": 7,
     "type2": 10,
     "legendary": false,
@@ -6669,8 +6669,8 @@
   },
   "638": {
     "attack": 192,
-    "defense": 260,
-    "stamina": 182,
+    "defense": 229,
+    "stamina": 209,
     "type1": 9,
     "type2": 2,
     "legendary": true,
@@ -6681,7 +6681,7 @@
   "639": {
     "attack": 260,
     "defense": 192,
-    "stamina": 182,
+    "stamina": 209,
     "type1": 6,
     "type2": 2,
     "legendary": true,
@@ -6691,8 +6691,8 @@
   },
   "640": {
     "attack": 192,
-    "defense": 260,
-    "stamina": 182,
+    "defense": 229,
+    "stamina": 209,
     "type1": 12,
     "type2": 2,
     "legendary": true,
@@ -6722,9 +6722,9 @@
     "height": 3
   },
   "643": {
-    "attack": 302,
-    "defense": 242,
-    "stamina": 200,
+    "attack": 275,
+    "defense": 211,
+    "stamina": 205,
     "type1": 16,
     "type2": 10,
     "legendary": true,
@@ -6733,9 +6733,9 @@
     "height": 3.2
   },
   "644": {
-    "attack": 302,
-    "defense": 242,
-    "stamina": 200,
+    "attack": 275,
+    "defense": 211,
+    "stamina": 205,
     "type1": 16,
     "type2": 13,
     "legendary": true,
@@ -6790,7 +6790,7 @@
   "649": {
     "attack": 252,
     "defense": 199,
-    "stamina": 142,
+    "stamina": 174,
     "type1": 7,
     "type2": 9,
     "legendary": true,
@@ -8409,5 +8409,25 @@
     "generation": 7,
     "weight": 80.5,
     "height": 0.99
+  },
+  "808": {
+    "attack": 118,
+    "defense": 99,
+    "stamina": 130,
+    "type1": 9,
+    "legendary": false,
+    "generation": 7,
+    "weight": 8,
+    "height": 0.2
+  },
+  "809": {
+    "attack": 226,
+    "defense": 190,
+    "stamina": 264,
+    "type1": 9,
+    "legendary": false,
+    "generation": 7,
+    "weight": 800,
+    "height": 2.5
   }
 }
