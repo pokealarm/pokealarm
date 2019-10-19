@@ -231,7 +231,8 @@
     "003": "Spark"
   },
   "misc": {
-    "boosted": "boost\u00e9"
+    "boosted": "boost\u00e9",
+    "unknown_despawn_time": "Remaining time unknown"
   },
   "moves": {
     "013": "Ligotage",

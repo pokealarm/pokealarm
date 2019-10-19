@@ -231,7 +231,8 @@
     "003": "\uc2a4\ud30c\ud06c"
   },
   "misc": {
-    "boosted": "\ubd80\uc591 \ub41c"
+    "boosted": "\ubd80\uc591 \ub41c",
+    "unknown_despawn_time": "Remaining time unknown"
   },
   "moves": {
     "013": "\uae40\ubc25\ub9d0\uc774",

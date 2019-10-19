@@ -227,7 +227,8 @@
     "003": "Spark"
   }, 
   "misc": {
-    "boosted": "verst\u00e4rktes"
+    "boosted": "verst\u00e4rktes",
+    "unknown_despawn_time": "Restzeit unbekannt"
   }, 
   "moves": {
     "013": "Wickel", 

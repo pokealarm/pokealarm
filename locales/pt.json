@@ -231,7 +231,8 @@
     "003": "Spark"
   },
   "misc": {
-    "boosted": "impulsionado"
+    "boosted": "impulsionado",
+    "unknown_despawn_time": "Remaining time unknown"
   },
   "moves": {
     "001": "Trovoada de Choques",

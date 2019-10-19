@@ -227,7 +227,8 @@
     "003": "Spark (\u53f2\u5e15)"
   },
   "misc": {
-    "boosted": "\u63d0\u632f"
+    "boosted": "\u63d0\u632f",
+    "unknown_despawn_time": "Remaining time unknown"
   },
   "moves": {
     "013": "Wrap (\u7dca\u675f)",

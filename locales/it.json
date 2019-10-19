@@ -227,7 +227,8 @@
     "003": "Spark"
   },
   "misc": {
-    "boosted": "potenziato"
+    "boosted": "potenziato",
+    "unknown_despawn_time": "Remaining time unknown"
   },
   "moves": {
     "013": "Avvolgibotta",

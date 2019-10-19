@@ -154,6 +154,9 @@ class Locale(object):
     def get_rarity_name(self, rarity_id):
         return self.__rarity_names.get(rarity_id, 'unknown')
 
+    def get_unknown_despawn_time(self):
+        return self.__misc.get('unknown_despawn_time', '')
+
     def get_boosted_text(self):
         return self.__misc.get('boosted', '')
 

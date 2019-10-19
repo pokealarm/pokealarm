@@ -143,25 +143,19 @@ class MonEvent(BaseEvent):
             'encounter_id': self.enc_id,
             'mon_name': locale.get_pokemon_name(self.monster_id),
             'mon_id': self.monster_id,
-            'mon_id_3': "{:03}".format(self.monster_id),
-
-            # Time Remaining
-            'time_left': time[0],
-            '12h_time': time[1],
-            '24h_time': time[2],
-            'time_left_no_secs': time[3],
-            '12h_time_no_secs': time[4],
-            '24h_time_no_secs': time[5],
-            'time_left_raw_hours': time[6],
-            'time_left_raw_minutes': time[7],
-            'time_left_raw_seconds': time[8],
-
+            'mon_id_3': "{:03}".format(self.monster_id)
+        })
+        dts.update(self._disappear_time_infos(time, self.spawn_verified))
+        dts.update({
             # Spawn Data
             'spawn_start': self.spawn_start,
             'spawn_end': self.spawn_end,
             'spawn_verified': self.spawn_verified,
             'spawn_verified_emoji': get_verified_spawn_emoji(
                 self.spawn_verified),
+            'unknown_spawn_end_or_empty': (
+                locale.get_unknown_despawn_time() if self.spawn_verified
+                else ''),
 
             # Location
             'lat': self.lat,
@@ -338,4 +332,21 @@ class MonEvent(BaseEvent):
                 'tiny' if self.monster_id == 19 and Unknown.is_not(self.weight)
                 and self.weight <= 2.41 else '')
         })
+        return dts
+
+    def _disappear_time_infos(self, time, spawn_verified):
+        map = ['time_left', '12h_time', '24h_time',
+               'time_left_no_secs', '12h_time_no_secs', '24h_time_no_secs',
+               'time_left_raw_hours', 'time_left_raw_minutes', 'time_left_raw_seconds']
+        dts = {}
+        # Gather regular time infos
+        for key, i in map:
+            dts[key] = time[i]
+        # Gather time infos if the span is verified
+        for key, i in map:
+            dts['{}_or_empty'.format(key)] = (
+                time[i] if spawn_verified
+                else ''
+            )
+
         return dts
