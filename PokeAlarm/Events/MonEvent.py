@@ -9,7 +9,7 @@ from PokeAlarm.Utils import (
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_time_as_str, get_seconds_remaining,
     get_base_types, get_dist_as_str, get_weather_emoji,
-    get_type_emoji, get_waze_link)
+    get_type_emoji, get_verified_spawn_emoji, get_waze_link)
 from . import BaseEvent
 
 
@@ -160,6 +160,8 @@ class MonEvent(BaseEvent):
             'spawn_start': self.spawn_start,
             'spawn_end': self.spawn_end,
             'spawn_verified': self.spawn_verified,
+            'spawn_verified_emoji': get_verified_spawn_emoji(
+                self.spawn_verified),
 
             # Location
             'lat': self.lat,

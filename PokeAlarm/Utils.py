@@ -359,6 +359,10 @@ def get_type_emoji(type_id):
     }.get(type_id, '')
 
 
+def get_verified_spawn_emoji(spawn_verified):
+    return u'✅' if spawn_verified else u'❓'
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
