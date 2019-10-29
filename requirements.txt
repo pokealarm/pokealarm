@@ -1,5 +1,5 @@
 configargparse==0.12.0
-flask==0.12.2
+flask==1.0
 gevent==1.2.2
 pytz==2017.3
 portalocker==1.1.0
