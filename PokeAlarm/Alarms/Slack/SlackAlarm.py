@@ -75,6 +75,15 @@ class SlackAlarm(Alarm):
             'title': "New Quest Found!",
             'url': "<gmaps>",
             'body': "Quest will expire at midnight."
+        },
+        'invasions': {
+            'username': "Invasion",
+            'content': "",
+            'icon_url':
+                get_image_url("regular/invasions/<type_id>_<gender_id>.png"),
+            'title': "This Pokestop has been invaded by Team Rocket!",
+            'url': "<gmaps>",
+            'body': "Invasion will expire at <24h_time> (<time_left>)."
         }
     }
 
@@ -111,6 +120,8 @@ class SlackAlarm(Alarm):
             settings.pop('weather', {}), self._defaults['weather'])
         self.__quests = self.create_alert_settings(
             settings.pop('quests', {}), self._defaults['quests'])
+        self.__invasions = self.create_alert_settings(
+            settings.pop('invasions', {}), self._defaults['invasions'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
@@ -191,6 +202,10 @@ class SlackAlarm(Alarm):
     # Trigger quest alert
     def quest_alert(self, quest_info):
         self.send_alert(self.__quests, quest_info)
+
+    # Trigger invasion alert
+    def invasion_alert(self, invasion_info):
+        self.send_alert(self.__invasions, invasion_info)
 
     # Get a list of channels from Slack to help
     def update_channels(self):

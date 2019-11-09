@@ -12,5 +12,6 @@ from .stop import Stop
 from .gym import Gym
 from .egg import Egg
 from .raid import Raid
+from .grunt import Grunt
 
-__all__ = [Event, EventType, Monster, Stop, Gym, Egg, Raid]
+__all__ = [Event, EventType, Monster, Stop, Gym, Egg, Raid, Grunt]

@@ -55,6 +55,11 @@ class PushbulletAlarm(Alarm):
             'title': '*New quest for <reward>*',
             'url': '<gmaps>',
             'body': '<quest>'
+        },
+        'invasions': {
+            'title': 'A Pokestop has been invaded by Team Rocket!',
+            'url': '<gmaps>',
+            'body': 'Invasion will expire at <24h_time> (<time_left>).'
         }
     }
 
@@ -88,6 +93,8 @@ class PushbulletAlarm(Alarm):
             settings.pop('weather', {}), self._defaults['weather'])
         self.__quest = self.create_alert_settings(
             settings.pop('quests', {}), self._defaults['quests'])
+        self.__invasions = self.create_alert_settings(
+            settings.pop('invasions', {}), self._defaults['invasions'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -167,6 +174,10 @@ class PushbulletAlarm(Alarm):
     # Trigger quest alert
     def quest_alert(self, quest_info):
         self.send_alert(self.__quest, quest_info)
+
+    # Trigger quest alert
+    def invasion_alert(self, invasion_info):
+        self.send_alert(self.__invasions, invasion_info)
 
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):

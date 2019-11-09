@@ -29,7 +29,8 @@ whtypes = {
     "4": "egg",
     "5": "raid",
     "6": "weather",
-    "7": "quest"
+    "7": "quest",
+    "8": "invasion"
 }
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -50,6 +51,9 @@ day_or_night_formatted = re.sub(
 
 quest_types_formatted = re.sub(
     '[{}",]', '', json.dumps(data['quest_types'], indent=2, sort_keys=True))
+
+grunt_types_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['grunt_types'], indent=2, sort_keys=True))
 
 _cache = {}
 
@@ -96,7 +100,8 @@ def set_init(webhook_type):
                 "enabled": "True",
                 "latitude": 37.7876146,
                 "longitude": -122.390624,
-                "active_fort_modifier": 0
+                "active_fort_modifier": 0,
+                "lure_id": 501
             }
         }
     elif webhook_type == whtypes["3"]:
@@ -168,6 +173,20 @@ def set_init(webhook_type):
                 "quest": "Catch 10 Dragonites",
                 "reward": "1 Pidgey",
                 "type": 0
+            }
+        }
+    elif webhook_type == whtypes["8"]:
+        payloadr = {
+            "type": "invasion",
+            "message": {
+                "pokestop_id": current_time,
+                "enabled": "True",
+                "latitude": 37.7876146,
+                "longitude": -122.390624,
+                "active_fort_modifier": 0,
+                "lure_expiration": 0,
+                "incident_expiration": current_time,
+                "incident_grunt_type": 30
             }
         }
 
@@ -295,6 +314,11 @@ def reset_timers_and_encounters():
     elif payload["type"] == "quest":
         payload["message"].update({
             "stop_id": current_time
+        })
+    elif payload["type"] == "invasion":
+        payload["message"].update({
+            "last_modified_time": current_time,
+            "incident_expiration": current_time + 60,
         })
 
 
@@ -445,6 +469,9 @@ elif type == whtypes["7"]:
     payload["message"]["quest"] = raw_input()
     print "what are the quest rewards?\n>",
     payload["message"]["reward"] = raw_input()
+elif type == whtypes["8"]:
+    print "What grunt type is it?\n" + grunt_types_formatted + '\n>',
+    int_or_default('incident_grunt_type')
 
 if type in ["4", "5"]:
     print "What level of raid/egg? (1-5)\n>",

@@ -42,7 +42,11 @@ def get_grunt_id(grunt_name):
                     j = j['grunt_types']
                     for id_ in j:
                         nm = j[id_].lower()
-                        get_grunt_id.ids[nm] = int(id_)
+                        try:
+                            if get_grunt_id.ids[nm]:
+                                get_grunt_id.ids[nm].append(int(id_))
+                        except KeyError:
+                            get_grunt_id.ids[nm] = [int(id_)]
         if name in get_grunt_id.ids:
             return get_grunt_id.ids[name]
         else:
@@ -50,3 +54,22 @@ def get_grunt_id(grunt_name):
     except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
                          " grunt name or id.".format(grunt_name))
+
+
+def get_grunt_gender(grunt_id):
+    try:
+        if not hasattr(get_grunt_gender, 'id'):
+            get_grunt_gender.genders = {}
+            file_ = get_path('locales/en.json')
+            with open(file_, 'r') as f:
+                j = json.loads(f.read())
+                j = j['grunt_genders']
+                for id_ in j:
+                    get_grunt_gender.genders[id_] = j[id_]
+        try:
+            return get_grunt_gender.genders['{:03d}'.format(grunt_id)]
+        except KeyError:
+            return '?'
+    except ValueError:
+        raise ValueError('Unable to interpret `{}` as a valid grunt id'
+                         .format(grunt_id))

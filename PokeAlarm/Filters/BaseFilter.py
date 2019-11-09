@@ -127,6 +127,30 @@ class BaseFilter(object):
         return allowed
 
     @staticmethod
+    def parse_as_nested_set(value_type, param_name, data):
+        """ Parse and convert a list of values into a set."""
+        # Validate Input
+        values = data.pop(param_name, None)
+        if values is None or len(values) == 0:
+            return None
+        if not isinstance(values, list):
+            raise ValueError(
+                'The "{0}" parameter must formatted as a list containing '
+                'different values. Example: "{0}": '
+                '[ "value1", "value2", "value3" ] '.format(param_name))
+        # Generate Allowed Set
+        allowed = set()
+        for value in values:
+            # Value type should throw the correct error
+            types = value_type(value)
+            if isinstance(types, list):
+                for nested_type in types:
+                    allowed.add(nested_type)
+            else:
+                allowed.add(value_type(value))
+        return allowed
+
+    @staticmethod
     def parse_as_dict(key_type, value_type, param_name, data):
         """ Parse and convert a dict of values into a specific types."""
         values = data.pop(param_name, {})
