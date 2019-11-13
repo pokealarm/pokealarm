@@ -1,14 +1,14 @@
 # Standard Library Imports
 from datetime import datetime
-import math
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str
-from PokeAlarm.Utilities.StopUtils import get_grunt_gender
-from PokeAlarm.Utilities.MonUtils import get_gender_sym
+    get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str,\
+    get_type_emoji
+from PokeAlarm.Utilities.GruntUtils import get_grunt_gender, get_grunt_type_id,\
+    get_grunt_gender_sym
 
 
 class GruntEvent(BaseEvent):
@@ -39,7 +39,7 @@ class GruntEvent(BaseEvent):
         # Convert to standard grunt type ID
         # self.type = int(math.floor(int(self.type_id) / 2)) * 2
         self.gender_id = get_grunt_gender(self.type_id)
-        self.gender = get_gender_sym(self.gender_id)
+        self.gender = get_grunt_gender_sym(self.gender_id)
 
         self.time_left = None
         if self.expiration is not None:
@@ -62,6 +62,7 @@ class GruntEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration, timezone)
         dts = self.custom_dts.copy()
+        type_name = locale.get_grunt_type_name(self.type_id)
         dts.update({
             # Identification
             'stop_id': self.stop_id,
@@ -70,7 +71,8 @@ class GruntEvent(BaseEvent):
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
             'type_id': self.type_id,
-            'type_name': locale.get_grunt_type_name(self.type_id),
+            'type_name': type_name,
+            'type_emoji': get_type_emoji(get_grunt_type_id(type_name)),
             'gender_id': self.gender_id,
             'gender': self.gender,
             # ToDo: Add reward (should probably be sent via webhook)

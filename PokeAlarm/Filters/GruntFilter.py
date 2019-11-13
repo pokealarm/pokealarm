@@ -3,7 +3,8 @@ import operator
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
-from PokeAlarm.Utilities import StopUtils as StopUtils, MonUtils
+from PokeAlarm.Utilities import MonUtils
+from PokeAlarm.Utilities.GruntUtils import get_grunt_id
 
 
 class GruntFilter(BaseFilter):
@@ -17,14 +18,14 @@ class GruntFilter(BaseFilter):
         self.grunt_ids = self.evaluate_attribute(
             event_attribute='type_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_nested_set(
-                StopUtils.get_grunt_id, 'grunt_types', data))
+                get_grunt_id, 'grunt_types', data))
 
         # Exclude Grunts
         self.exclude_grunt_ids = self.evaluate_attribute(
             event_attribute='type_id',
             eval_func=lambda d, v: not operator.contains(d, v),
             limit=BaseFilter.parse_as_nested_set(
-                StopUtils.get_grunt_id, 'grunt_types_exclude', data))
+                get_grunt_id, 'grunt_types_exclude', data))
 
         # Gender
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender
