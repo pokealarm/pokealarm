@@ -439,7 +439,8 @@
     "110": {
       "706": "Normale",
       "707": "Ombra",
-      "708": "Purificato"
+      "708": "Purificato",
+      "944": "Galarian"
     },
     "111": {
       "846": "Normale",
@@ -700,6 +701,14 @@
       "211": "Normale",
       "212": "Ombra",
       "213": "Purificato"
+    },
+    "263": {
+      "945": "Normale",
+      "946": "Galarian"
+    },
+    "264": {
+      "947": "Normale",
+      "948": "Galarian"
     },
     "265": {
       "600": "Normale",
