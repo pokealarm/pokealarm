@@ -55,6 +55,9 @@ quest_types_formatted = re.sub(
 grunt_types_formatted = re.sub(
     '[{}",]', '', json.dumps(data['grunt_types'], indent=2, sort_keys=True))
 
+lure_types_formatted = re.sub(
+    '[{}",]', '', json.dumps(data['lure_types'], indent=2, sort_keys=True))
+
 _cache = {}
 
 _gym_info = {}
@@ -426,6 +429,9 @@ if type == whtypes["1"]:
     print "Is this mon boosted by the weather? (y/n)\n>",
     if raw_input() in truthy:
         payload["message"]["boosted_weather"] = payload["message"]["weather"]
+elif type == whtypes["2"]:
+    print "Which lure type?(put in a number)\n" + lure_types_formatted + "\n>",
+    int_or_default('lure_id')
 elif type == whtypes["3"]:
     gym_cache()
     print "Which team?(put in a number)\n" + teams_formatted + "\n>",

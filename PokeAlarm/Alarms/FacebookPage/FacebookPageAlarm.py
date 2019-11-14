@@ -34,7 +34,7 @@ class FacebookPageAlarm(Alarm):
         },
         'stops': {
             'message': "Someone has placed a lure on a Pokestop!",
-            'image': get_image_url("regular/stop/ready.png"),
+            'image': get_image_url("regular/stop/<lure_type_id_3>.png"),
             'link': "<gmaps>",
             'name': "Lured Pokestop",
             'description': "Lure will expire at <24h_time> (<time_left>).",
@@ -89,7 +89,7 @@ class FacebookPageAlarm(Alarm):
         'invasions': {
             'message': 'This Pokestop has been invaded by Team Rocket!',
             'image':
-                get_image_url("regular/invasions/<type_id>.png"),
+                get_image_url("regular/invasions/<type_id_3>.png"),
             'link': '<gmaps>',
             'name': 'Invasion',
             'description': 'Invasion will expire at <24h_time> (<time_left>).',

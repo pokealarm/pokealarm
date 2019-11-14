@@ -38,7 +38,7 @@ class TelegramAlarm(Alarm):
         'stops': {
             'message': "*Someone has placed a lure on a Pokestop!*\n"
                        "Lure will expire at <24h_time> (<time_left>).",
-            'sticker_url': get_image_url("telegram/stop/ready.webp")
+            'sticker_url': get_image_url("telegram/stop/<lure_type_id_3>.webp")
         },
         'gyms': {
             'message': "*A Team <old_team> gym has fallen!*\n"
@@ -73,7 +73,7 @@ class TelegramAlarm(Alarm):
             'message': "A Pokestop has been invaded by Team Rocket!\n"
                        "Invasion will expire at <24h_time> (<time_left>).",
             'sticker_url':
-                get_image_url("telegram/invasions/<type_id>.webp")
+                get_image_url("telegram/invasions/<type_id_3>.webp")
         }
     }
 

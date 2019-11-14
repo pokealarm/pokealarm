@@ -33,7 +33,7 @@ class SlackAlarm(Alarm):
         },
         'stops': {
             'username': "Pokestop",
-            'icon_url': get_image_url("regular/stop/ready.png"),
+            'icon_url': get_image_url("regular/stop/<lure_type_id_3>.png"),
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
@@ -80,7 +80,7 @@ class SlackAlarm(Alarm):
             'username': "Invasion",
             'content': "",
             'icon_url':
-                get_image_url("regular/invasions/<type_id>.png"),
+                get_image_url("regular/invasions/<type_id_3>.png"),
             'title': "This Pokestop has been invaded by Team Rocket!",
             'url': "<gmaps>",
             'body': "Invasion will expire at <24h_time> (<time_left>)."

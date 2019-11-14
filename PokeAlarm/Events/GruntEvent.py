@@ -71,6 +71,7 @@ class GruntEvent(BaseEvent):
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
             'type_id': self.type_id,
+            'type_id_3': "{:03}".format(self.type_id),
             'type_name': type_name,
             'type_emoji': get_type_emoji(get_grunt_type_id(type_name)),
             'gender_id': self.gender_id,

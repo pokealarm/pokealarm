@@ -60,6 +60,7 @@ class StopEvent(BaseEvent):
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
             'lure_type_id': self.lure_type_id,
+            'lure_type_id_3': "{:03}".format(self.lure_type_id),
             'lure_type_name': locale.get_lure_type_name(self.lure_type_id),
 
             # Time left
