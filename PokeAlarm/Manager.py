@@ -777,7 +777,7 @@ class Manager(object):
 
         # Check for lured
         if grunt.expiration is None:
-            self._log.debug("Invasion ignored: stop was not lured")
+            self._log.debug("Invasion ignored: stop was not invaded")
             return
 
         # Check if previously processed and update expiration
