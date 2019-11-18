@@ -782,7 +782,7 @@ class Manager(object):
 
         # Check if previously processed and update expiration
         if self.__cache.grunt_expiration(
-                str(grunt.stop_id) + str(grunt.type_id) is not None):
+                str(grunt.stop_id) + str(grunt.type_id)) is not None:
             self._log.debug("Invasion {} was skipped because it was "
                             "previously processed.".format(grunt.name))
             return
