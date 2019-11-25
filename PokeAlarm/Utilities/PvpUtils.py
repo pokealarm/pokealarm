@@ -114,8 +114,3 @@ def get_pvp_info(pokemon, atk, de, sta, lvl):
 
     return float("{0:.2f}".format(great_rating)), great_id, great_cp, great_level, float("{0:.2f}".format(ultra_rating)), ultra_id, ultra_cp, ultra_level
 
-#cp_limit = 1500
-#requested_mon = mon(3)
-
-#rating = pokemon_rating(cp_limit, requested_mon, 0, 14, 11, min_level(cp_limit, requested_mon), max_level(cp_limit, requested_mon))
-#percentage = "{0:.2f}".format(rating / stats[str(requested_mon)] * 100)
