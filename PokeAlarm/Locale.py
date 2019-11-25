@@ -29,6 +29,12 @@ class Locale(object):
         for id_, val in default["pokemon"].iteritems():
             self.__pokemon_names[int(id_)] = pokemon.get(id_, val)
 
+        # Pokemon ID -> Explicitly English Name
+        self.__english_pokemon_names = {}
+        pokemon = default.get("pokemon", {})
+        for id_, val in default["pokemon"].iteritems():
+            self.__english_pokemon_names[int(id_)] = pokemon.get(id_, val)
+
         # Move ID -> Name
         self.__move_names = {}
         moves = info.get("moves", {})
@@ -116,6 +122,10 @@ class Locale(object):
     # Returns the name of the Pokemon associated with the given ID
     def get_pokemon_name(self, pokemon_id):
         return self.__pokemon_names.get(pokemon_id, 'unknown')
+
+    # Returns the English name of the Pokemon associated with the given ID
+    def get_english_pokemon_name(self, pokemon_id):
+        return self.__english_pokemon_names.get(pokemon_id, 'unknown')
 
     # Returns the name of the move associated with the move ID
     def get_move_name(self, move_id):

@@ -3,7 +3,7 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from PokeAlarm.Utilities import MonUtils
+from PokeAlarm.Utilities import MonUtils, PvpUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_type, get_move_damage, get_move_dps,
     get_move_duration, get_move_energy, get_pokemon_size,
@@ -62,8 +62,17 @@ class MonEvent(BaseEvent):
         if Unknown.is_not(self.atk_iv, self.def_iv, self.sta_iv):
             self.iv = \
                 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
+            self.great_product, self.great_id, self.great_cp, self.great_level, self.ultra_product, self.ultra_id, self.ultra_cp, self.ultra_level = PvpUtils.get_pvp_info(self.monster_id, self.atk_iv, self.def_iv, self.sta_iv, self.mon_lvl)
         else:
             self.iv = Unknown.SMALL
+            self.great_product = Unknown.SMALL
+            self.ultra_product = Unknown.SMALL
+            self.great_id = self.monster_id
+            self.ultra_id = self.monster_id
+            self.great_cp = Unknown.SMALL
+            self.ultra_cp = Unknown.SMALL
+            self.great_level = Unknown.SMALL
+            self.ultra_level = Unknown.SMALL
 
         # Quick Move
         self.quick_id = check_for_none(
@@ -208,6 +217,17 @@ class MonEvent(BaseEvent):
             'atk': self.atk_iv,
             'def': self.def_iv,
             'sta': self.sta_iv,
+
+            'great_product': self.great_product,
+            'great_mon_name': locale.get_pokemon_name(self.great_id),
+            'great_cp': self.great_cp,
+            'great_level': self.great_level,
+            'great_url': "https://gostadium.club/pvp/iv?pokemon={}&max_cp=1500&min_iv=0&att_iv={}&def_iv={}&sta_iv={}".format(locale.get_english_pokemon_name(self.great_id), self.atk_iv, self.def_iv, self.sta_iv),
+            'ultra_product': self.ultra_product,
+            'ultra_mon_name': locale.get_pokemon_name(self.ultra_id),
+            'ultra_cp': self.ultra_cp,
+            'ultra_level': self.ultra_level,
+            'ultra_url': "https://gostadium.club/pvp/iv?pokemon={}&max_cp=2500&min_iv=0&att_iv={}&def_iv={}&sta_iv={}".format(locale.get_english_pokemon_name(self.ultra_id), self.atk_iv, self.def_iv, self.sta_iv),
 
             # Type
             'type1': type1,

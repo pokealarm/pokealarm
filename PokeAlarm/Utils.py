@@ -230,6 +230,32 @@ def get_base_stats(pokemon_id):
     return get_base_stats.info.get(pokemon_id)
 
 
+# Returns the highest possible stat product for PvP great league for a pkmn
+def get_great_product(pokemon_id):
+    if not hasattr(get_great_product, 'info'):
+        get_great_product.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_great_product.info[int(id_)] = j[id_].get('1500_product')
+
+    return get_great_product.info.get(pokemon_id)
+
+
+# Returns the highest possible stat product for PvP ultra league for a pkmn
+def get_ultra_product(pokemon_id):
+    if not hasattr(get_ultra_product, 'info'):
+        get_ultra_product.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_ultra_product.info[int(id_)] = j[id_].get('2500_product')
+
+    return get_ultra_product.info.get(pokemon_id)
+
+
 # Returns a cp range for a certain level of a pokemon caught in a raid
 def get_pokemon_cp_range(pokemon_id, level):
     stats = get_base_stats(pokemon_id)

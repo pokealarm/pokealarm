@@ -88,6 +88,21 @@ class MonFilter(BaseFilter):
         self.max_iv = self.evaluate_attribute(  # f.max_iv >= m.iv
             event_attribute='iv', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(float, 'max_iv', data))
+        # PvP
+        self.min_great = self.evaluate_attribute(
+            event_attribute='great_product', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(float, 'min_great', data))
+        self.max_great = self.evaluate_attribute(
+            event_attribute='great_product', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(float, 'max_great', data))
+        self.min_ultra = self.evaluate_attribute(
+            event_attribute='ultra_product', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(float, 'min_ultra', data))
+        self.max_ultra = self.evaluate_attribute(
+            event_attribute='ultra_product', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(float, 'max_ultra', data))
+
+
         # Form  TODO: names
         self.forms = self.evaluate_attribute(  # f.forms in m.form_id
             event_attribute='form_id', eval_func=operator.contains,
@@ -200,6 +215,15 @@ class MonFilter(BaseFilter):
             settings['min_iv'] = self.min_iv
         if self.max_iv is not None:
             settings['max_iv'] = self.max_iv
+        # PvP
+        if self.min_great is not None:
+            settings['min_great'] = self.min_great
+        if self.max_great is not None:
+            settings['max_great'] = self.max_great
+        if self.min_ultra is not None:
+            settings['min_ultra'] = self.min_ultra
+        if self.max_ultra is not None:
+            settings['max_ultra'] = self.max_ultra
         # Form
         if self.forms is not None:
             settings['forms'] = self.forms
