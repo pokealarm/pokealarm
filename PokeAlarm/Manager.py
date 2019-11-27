@@ -819,6 +819,14 @@ class Manager(object):
                 self._notify_alarms(
                     grunt, rule.alarm_names, 'invasion_alert')
 
+        if rule_ct > 0:
+            self._rule_log.info(
+                'Invasion %s passed %s rule(s) and triggered %s alarm(s).',
+                grunt.name, rule_ct, alarm_ct)
+        else:
+            self._rule_log.info('Invasion %s rejected by all rules.',
+                                grunt.name)
+
     def process_gym(self, gym):
         # type: (Events.GymEvent) -> None
         """ Process a gym event and notify alarms if it passes. """
