@@ -38,7 +38,7 @@ class TelegramAlarm(Alarm):
         'stops': {
             'message': "*Someone has placed a lure on a Pokestop!*\n"
                        "Lure will expire at <24h_time> (<time_left>).",
-            'sticker_url': get_image_url("telegram/stop/ready.webp")
+            'sticker_url': get_image_url("telegram/stop/<lure_type_id_3>.webp")
         },
         'gyms': {
             'message': "*A Team <old_team> gym has fallen!*\n"
@@ -68,6 +68,12 @@ class TelegramAlarm(Alarm):
             'message': "*New quest for <reward>*\n"
                        "<quest>",
             'sticker_url': get_image_url("telegram/quest/<type_id>.webp")
+        },
+        'invasions': {
+            'message': "A Pokestop has been invaded by Team Rocket!\n"
+                       "Invasion will expire at <24h_time> (<time_left>).",
+            'sticker_url':
+                get_image_url("telegram/invasions/<type_id_3>.webp")
         }
     }
 
@@ -123,6 +129,8 @@ class TelegramAlarm(Alarm):
             'weather', settings, alert_defaults)
         self._quest_alert = self.create_alert_settings(
             'quests', settings, alert_defaults)
+        self._invasion_alert = self.create_alert_settings(
+            'invasions', settings, alert_defaults)
 
         # Reject leftover parameters
         for key in settings:
@@ -243,6 +251,9 @@ class TelegramAlarm(Alarm):
 
     def quest_alert(self, quest_dts):
         self.generic_alert(self._quest_alert, quest_dts)
+
+    def invasion_alert(self, invasion_dts):
+        self.generic_alert(self._invasion_alert, invasion_dts)
 
     def send_sticker(self, token, chat_id, sticker_url,
                      max_attempts=3, notify=False):

@@ -6,3 +6,4 @@ from EggFilter import EggFilter  # noqa F401
 from RaidFilter import RaidFilter  # noqa F401
 from WeatherFilter import WeatherFilter # noqa F401
 from QuestFilter import QuestFilter  # noqa F401
+from GruntFilter import GruntFilter  # noqa F401

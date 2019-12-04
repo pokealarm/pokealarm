@@ -38,6 +38,7 @@ There are 5 different types of Filters, each matching a category of Events:
    egg-filters
    raid-filters
    weather-filters
+   invasion-filters
 
 
 Restrictions
@@ -115,6 +116,8 @@ by default.
       "raids":{
       },
       "weather":{
+      },
+      "invasions":{
       }
     }
 

@@ -24,6 +24,7 @@ class Cache(object):
         self._egg_hist = {}
         self._raid_hist = {}
         self._quest_hist = {}
+        self._grunt_hist = {}
         self._gym_team = {}
         self._gym_name = {}
         self._gym_desc = {}
@@ -63,6 +64,12 @@ class Cache(object):
         if expiration is not None:
             self._quest_hist[stop_id] = expiration
         return self._quest_hist.get(stop_id)
+
+    def grunt_expiration(self, stop_id, expiration=None):
+        """ Update and return the datetime that a stop expires."""
+        if expiration is not None:
+            self._grunt_hist[stop_id] = expiration
+        return self._grunt_hist.get(stop_id)
 
     def gym_team(self, gym_id, team_id=Unknown.TINY):
         """ Update and return the team_id of a gym. """
