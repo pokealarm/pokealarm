@@ -230,6 +230,27 @@ def get_base_stats(pokemon_id):
     return get_base_stats.info.get(pokemon_id)
 
 
+# Returns possible evolutions for a pokemon
+def get_evolutions(pokemon_id):
+    if not hasattr(get_evolutions, 'info'):
+        get_evolutions.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_evolutions.info[int(id_)] = j[id_].get('evolutions')
+    return get_evolutions.info.get(pokemon_id)
+
+
+# Return CP multipliers
+def get_cp_multipliers():
+    if not hasattr(get_cp_multipliers, 'info'):
+        file_ = get_path('data/cp_multipliers.json')
+        with open(file_, 'r') as f:
+            get_cp_multipliers.info = json.load(f)
+    return get_cp_multipliers.info
+
+
 # Returns the highest possible stat product for PvP great league for a pkmn
 def get_great_product(pokemon_id):
     if not hasattr(get_great_product, 'info'):
