@@ -26,6 +26,7 @@ def mon(number):
 
 
 def calculate_cp(mon, atk, de, sta, lvl):
+    base_stats = utils.get_base_stats(int(mon))
     lvl = str(lvl).replace(".0", "")
     cp = ((base_stats["attack"] + atk) * sqrt(base_stats["defense"] + de) *
           sqrt(base_stats["stamina"] + sta) * (multipliers[str(lvl)]**2)
@@ -39,6 +40,7 @@ def max_cp(mon):
 
 
 def pokemon_rating(limit, mon, atk, de, sta, min_level, max_level):
+    base_stats = utils.get_base_stats(int(mon))
     highest_rating = 0
     highest_cp = 0
     highest_level = 0
@@ -78,12 +80,10 @@ def min_level(limit, pokemon):
 
 
 def get_pvp_info(pokemon, atk, de, sta, lvl):
-    global base_stats
     global multipliers
 
     pokemon = mon(pokemon)
     lvl = float(lvl)
-    base_stats = utils.get_base_stats(int(pokemon))
     multipliers = utils.get_cp_multipliers()
     stats_great_product = utils.get_great_product(int(pokemon))
     stats_ultra_product = utils.get_ultra_product(int(pokemon))
@@ -105,6 +105,9 @@ def get_pvp_info(pokemon, atk, de, sta, lvl):
 
     for evo in evolutions:
         pokemon = mon(evo)
+        stats_great_product = utils.get_great_product(int(pokemon))
+        stats_ultra_product = utils.get_ultra_product(int(pokemon))
+
         great_product, evo_great_cp, evo_great_level = pokemon_rating(1500,
             pokemon, atk, de, sta, min_level(1500, pokemon),
             max_level(1500, pokemon))
