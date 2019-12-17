@@ -34,7 +34,7 @@ class FacebookPageAlarm(Alarm):
         },
         'stops': {
             'message': "Someone has placed a lure on a Pokestop!",
-            'image': get_image_url("regular/stop/ready.png"),
+            'image': get_image_url("regular/stop/<lure_type_id_3>.png"),
             'link': "<gmaps>",
             'name': "Lured Pokestop",
             'description': "Lure will expire at <24h_time> (<time_left>).",
@@ -85,6 +85,15 @@ class FacebookPageAlarm(Alarm):
             'name': 'Quest',
             'description': '<quest>',
             'caption': None
+        },
+        'invasions': {
+            'message': 'This Pokestop has been invaded by Team Rocket!',
+            'image':
+                get_image_url("regular/invasions/<type_id_3>.png"),
+            'link': '<gmaps>',
+            'name': 'Invasion',
+            'description': 'Invasion will expire at <24h_time> (<time_left>).',
+            'caption': None
         }
     }
 
@@ -116,6 +125,8 @@ class FacebookPageAlarm(Alarm):
             settings.pop('weather', {}), self._defaults['weather'])
         self.__quests = self.create_alert_settings(
             settings.pop('quests', {}), self._defaults['quests'])
+        self.__invasions = self.create_alert_settings(
+            settings.pop('invasions', {}), self._defaults['invasions'])
 
         #  Warn user about leftover parameters
         reject_leftover_parameters(
@@ -192,6 +203,10 @@ class FacebookPageAlarm(Alarm):
     # Quest Alert
     def quest_alert(self, quest_info):
         self.send_alert(self.__quests, quest_info)
+
+    # Quest Alert
+    def invasion_alert(self, invasion_info):
+        self.send_alert(self.__invasions, invasion_info)
 
     # Sends a wall post to Facebook
     def post_to_wall(self, message, attachment=None):
