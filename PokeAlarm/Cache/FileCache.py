@@ -33,6 +33,7 @@ class FileCache(Cache):
                 data = pickle.load(f)
                 self._mon_hist = data.get('mon_hist', {})
                 self._stop_hist = data.get('stop_hist', {})
+                self._grunt_hist = data.get('grunt_hist', {})
                 self._egg_hist = data.get('egg_hist', {})
                 self._raid_hist = data.get('raid_hist', {})
                 self._gym_team = data.get('gym_team', {})
@@ -58,6 +59,7 @@ class FileCache(Cache):
         data = {
             'mon_hist': self._mon_hist,
             'stop_hist': self._stop_hist,
+            'grunt_hist': self._grunt_hist,
             'egg_hist': self._egg_hist,
             'raid_hist': self._raid_hist,
             'gym_team': self._gym_team,
