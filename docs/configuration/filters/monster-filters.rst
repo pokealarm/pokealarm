@@ -85,6 +85,27 @@ sizes          Array of acceptable sizes. Options: `"tiny",       ``["tiny","big
 ============== ================================================== ================================
 
 
+PvP / Trainer Battles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+    A more detailed explanation about the Trainer Battle calculations
+    and the resulting DTS can be found in Other -> PvP / Trainer Battles.
+    Trainer Battle calculations also require encounter information - see
+    the note above.
+
+=============== =============================================================== ==============================
+Parameter       Description                                                     Example
+=============== =============================================================== ==============================
+min_great       Minimum stat product percentage of the mon for great league     ``95``
+max_great       Maximum stat product percentage of the mon for great league     ``99``
+min_cp_great    Minimum resulting great league CP for the mon                   ``1300``
+min_ultra       Minimum stat product percentage of the mon for ultra league     ``95``
+max_ultra       Maximum stat product percentage of the mon for ultra league     ``99``
+min_cp_ultra    Minimum resulting ultra league CP for the mon                   ``1300``
+=============== =============================================================== ==============================
+
+
 Miscellaneous
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

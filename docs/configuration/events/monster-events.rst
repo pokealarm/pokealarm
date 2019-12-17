@@ -121,6 +121,34 @@ atk_grade           Offensive grade of the monster's moveset.
 def_grade           Defensive grade of the monster's moveset.
 =================== =========================================================
 
+PvP / Trainer Battles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    The DTS in this section require your scanner to encounter the target
+    monsters to get the proper information. This typically requires special
+    settings and accounts - see the documentation for your scanner for
+    specifics.
+
+.. note::
+    A more detailed explanation about the Trainer Battle calculations
+    and the resulting DTS can be found in Other -> PvP / Trainer Battles.
+
+=================== =========================================================
+DTS                 Description
+=================== =========================================================
+great_product       Highest stat product percentage the mon or its evolution can reach in great league
+great_mon_name      Name of the mon or its evolution that reaches the highest stat product in great league
+great_cp            CP at the highest possible level for great league for the mon or its evolution
+great_level         The level at which the mon will reach the highest possible CP for great league
+great_url           Individual link to gostadium.club to further analyze the mon or its evolution in great league
+ultra_product       Highest stat product percentage the mon or its evolution can reach in ultra league
+ultra_mon_name      Name of the mon or its evolution that reaches the highest stat product in ultra league
+ultra_cp            CP at the highest possible level for ultra league for the mon or its evolution
+ultra_level         The level at which the mon will reach the highest possible CP for ultra league
+ultra_url           Individual link to gostadium.club to further analyze the mon or its evolution in ultra league
+=================== =========================================================
 
 Cosmetic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
