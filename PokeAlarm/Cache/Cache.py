@@ -140,7 +140,7 @@ class Cache(object):
         """ Clean expired objects to free up memory. """
         for hist in (
                 self._mon_hist, self._stop_hist, self._egg_hist,
-                self._raid_hist, self._quest_hist):
+                self._raid_hist, self._quest_hist, self._grunt_hist):
             old = []
             now = datetime.utcnow()
             for key, expiration in hist.iteritems():
