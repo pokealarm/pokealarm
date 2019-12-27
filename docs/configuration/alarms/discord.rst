@@ -184,6 +184,15 @@ Example: Alarm Configuration Using Optional Parameters
           "title":"Level <raid_lvl> Raid is available against <mon_name>!",
           "url":"<gmaps>",
           "body":"The raid is available until <24h_raid_end> (<raid_time_left>)."
+      },
+      "invasions":{
+          "webhook_url":"DISCORD_WEBHOOK_URL_FOR_INVASION_CHANNEL",
+          "username":"Invasion",
+          "icon_url*":"<YOUR CUSTOM URL HERE>/<type_id>_<gender_id>.png",
+          "avatar_url*":"<YOUR CUSTOM URL HERE>/<type_id>_<gender_id>.png",
+          "title":"This Pokestop has been invaded by Team Rocket!",
+          "url":"<gmaps>",
+          "body":"Invasion will expire at <24h_time> (<time_left>)"
       }
     }
   }

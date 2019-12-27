@@ -48,6 +48,11 @@ class TwilioAlarm(Alarm):
         },
         'quests': {
             'message': "*New quest for <reward>*\n<quest>\n<gmaps>",
+        },
+        'invasions': {
+            'message': "*A Pokestop has been invaded by Team Rocket!*\n"
+                       "Invasion will expire at <24h_time> (<time_left>).\n"
+                       "<gmaps>",
         }
     }
 
@@ -85,6 +90,8 @@ class TwilioAlarm(Alarm):
             settings.pop('weather', {}), self._defaults['weather'])
         self.__quest = self.set_alert(
             settings.pop('quests', {}), self._defaults['quests'])
+        self.__invasion = self.set_alert(
+            settings.pop('invasions', {}), self._defaults['invasions'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
@@ -150,6 +157,10 @@ class TwilioAlarm(Alarm):
     # Trigger an alert based on Weather info
     def quest_alert(self, quest_info):
         self.send_alert(self.__quest, quest_info)
+
+    # Trigger an alert based on Weather info
+    def invasion_alert(self, invasion_info):
+        self.send_alert(self.__invasion, invasion_info)
 
     # Send a SMS message
     def send_sms(self, to_num, from_num, body):

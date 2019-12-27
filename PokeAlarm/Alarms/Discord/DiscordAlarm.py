@@ -35,8 +35,8 @@ class DiscordAlarm(Alarm):
         'stops': {
             'username': "Pokestop",
             'content': "",
-            'icon_url': get_image_url("regular/stop/ready.png"),
-            'avatar_url': get_image_url("regular/stop/ready.png"),
+            'icon_url': get_image_url("regular/stop/<lure_type_id_3>.png"),
+            'avatar_url': get_image_url("regular/stop/<lure_type_id_3>.png"),
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
             'body': "Lure will expire at <24h_time> (<time_left>)."
@@ -91,6 +91,17 @@ class DiscordAlarm(Alarm):
             'title': "New Quest Found!",
             'url': "<gmaps>",
             'body': "Quest will expire in <time_remaining>"
+        },
+        'invasions': {
+            'username': "Invasion",
+            'content': "",
+            'icon_url':
+                get_image_url("regular/invasions/<type_id_3>.png"),
+            'avatar_url':
+                get_image_url("regular/invasions/<type_id_3>.png"),
+            'title': "This Pokestop has been invaded by Team Rocket!",
+            'url': "<gmaps>",
+            'body': "Invasion will expire at <24h_time> (<time_left>)."
         }
     }
 
@@ -126,6 +137,8 @@ class DiscordAlarm(Alarm):
             settings.pop('weather', {}), self._defaults['weather'])
         self.__quests = self.create_alert_settings(
             settings.pop('quests', {}), self._defaults['quests'])
+        self.__invasions = self.create_alert_settings(
+            settings.pop('invasions', {}), self._defaults['invasions'])
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Discord alarm.")
@@ -233,6 +246,10 @@ class DiscordAlarm(Alarm):
     def quest_alert(self, quest_info):
         self._log.debug("Quest notification triggered.")
         self.send_alert(self.__quests, quest_info)
+
+    def invasion_alert(self, invasion_info):
+        self._log.debug("Invasion notification triggered.")
+        self.send_alert(self.__invasions, invasion_info)
 
     # Send a payload to the webhook url
     def send_webhook(self, url, payload):
