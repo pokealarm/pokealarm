@@ -52,7 +52,7 @@ class TwitterAlarm(Alarm):
                       " to <weather>!"
         },
         'quests': {
-            'status': "*New quest for <reward>*\n<quest>\n<gmaps>",
+            'status': "*New quest for <reward>*\n<quest_condition>\n<gmaps>",
         },
         "invasions": {
             'status': "A Pokestop has been invaded by Team Rocket!\n"

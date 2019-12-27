@@ -86,7 +86,7 @@ def parse_filters_file(mgr, filename):
             mgr.add_weather_filter(name, f)
 
         # Load Quest Section
-        section = filters_file.pop('quest', {'enabled': False})
+        section = filters_file.pop('quests', {'enabled': False})
         mgr.set_quest_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
         for name, f in filters.iteritems():

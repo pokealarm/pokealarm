@@ -49,8 +49,12 @@ severity_formatted = re.sub(
 day_or_night_formatted = re.sub(
     r'[{}",]', '', json.dumps(data['day_or_night'], indent=2, sort_keys=True))
 
-quest_types_formatted = re.sub(
-    '[{}",]', '', json.dumps(data['quest_types'], indent=2, sort_keys=True))
+quest_reward_types_formatted = re.sub(
+    r'[{}",]', '', json.dumps(data['quest_reward_types'], indent=2,
+                              sort_keys=True))
+
+items_formatted = re.sub(
+    r'[{}",]', '', json.dumps(data['items'], indent=2, sort_keys=True))
 
 grunt_types_formatted = re.sub(
     '[{}",]', '', json.dumps(data['grunt_types'], indent=2, sort_keys=True))
@@ -169,13 +173,24 @@ def set_init(webhook_type):
             "type": "quest",
             "message": {
                 "pokestop_id": current_time,
-                "pokestop_name": "Stop Name",
+                "pokestop_name": "Monster HQ",
                 "pokestop_url": "http://placehold.it/500x500",
                 "latitude": 37.7876146,
                 "longitude": -122.390624,
-                "quest": "Catch 10 Dragonites",
-                "reward": "1 Pidgey",
-                "type": 0
+                "timestamp": current_time,
+                "quest_reward_type": "Pokemon",
+                "quest_reward_type_raw": 7,
+                "quest_target": 0,
+                "quest_type": "Catch 10 Dragonites",
+                "quest_type_raw": 0,
+                "item_type": "Pokemon",
+                "item_amount": 1,
+                "item_id": 0,
+                "pokemon_id": 123,
+                "pokemon_form": 0,
+                "quest_task": "Catch 10 Dragonites",
+                "quest_condition": "[]",
+                "quest_template": ""
             }
         }
     elif webhook_type == whtypes["8"]:
@@ -316,7 +331,8 @@ def reset_timers_and_encounters():
         })
     elif payload["type"] == "quest":
         payload["message"].update({
-            "stop_id": current_time
+            "stop_id": current_time,
+            'timestamp': current_time
         })
     elif payload["type"] == "invasion":
         payload["message"].update({
@@ -336,6 +352,37 @@ def get_and_validate_team():
                 team = int(team_id)
                 break
     payload["message"]["team_id"] = team
+
+
+def monster_form(webhook_field, monster_id):
+    monster_id_formatted = "{:03d}".format(monster_id)
+    if monster_id_formatted in data['forms'].keys():
+        sorted_forms = sorted(data['forms'][monster_id_formatted])
+        default_form_id = next(iter(sorted_forms))
+        forms_formatted = ', '.join(data['forms'][monster_id_formatted][x]
+                                    for x in sorted_forms)
+        print "Which form of " + data["pokemon"][monster_id_formatted] \
+              + ' would you like? (default: ' + \
+              data['forms'][monster_id_formatted][default_form_id] + ')\n' + \
+              forms_formatted + '\n>',
+        form_character = raw_input().lower()
+        found = False
+        for key, x in data['forms'][monster_id_formatted].items():
+            if x.lower() == form_character:
+                payload['message'][webhook_field] = int(key)
+                found = True
+                break
+        if not found:
+            print "Not a valid value, using default"
+            payload["message"][webhook_field] = int(default_form_id)
+
+    def stop_info(id_field_name, url_field_name, name_field_name):
+        print "What is the pokestop ID you'd like to have?\n>",
+        payload['message'][id_field_name] = raw_input()
+        print "What is the pokestop URL you'd like to show as the image?\n>",
+        payload['message'][url_field_name] = raw_input()
+        print "What is the pokestop name?\n>",
+        payload['message'][name_field_name] = raw_input()
 
 
 webhooks_formatted = re.sub('[{}",]', '', json.dumps(
@@ -377,26 +424,7 @@ if type == whtypes["1"]:
     int_or_default("pokemon_id")
     print "Gender (1-3)\n>",
     int_or_default("gender")
-    monster_id = "{:03d}".format(payload["message"]["pokemon_id"])
-    if monster_id in data['forms'].keys():
-        sorted_forms = sorted(data['forms'][monster_id])
-        default_form_id = next(iter(sorted_forms))
-        forms_formatted = ', '.join(data['forms'][monster_id][x]
-                                    for x in sorted_forms)
-        print "Which form of " + \
-              data["pokemon"][monster_id] + ' would you like? (default: ' + \
-              data['forms'][monster_id][default_form_id] + ')\n' + \
-              forms_formatted + '\n>',
-        form_character = raw_input().lower()
-        found = False
-        for key, x in data['forms'][monster_id].items():
-            if x.lower() == form_character:
-                payload['message']['form'] = int(key)
-                found = True
-                break
-        if not found:
-            print "Not a valid value, using default"
-            payload["message"]["form"] = int(default_form_id)
+    monster_form('form', payload['message']['pokemon_id'])
     print "Encounters enabled?\n>",
     if raw_input() in truthy:
         payload["message"]["player_level"] = 30
@@ -468,13 +496,23 @@ elif type == whtypes["6"]:
           day_or_night_formatted + '\n>',
     int_or_default("world_time")
 elif type == whtypes["7"]:
-    print "What quest type is it? (Default: 0)\n" + quest_types_formatted + \
-          '\n>',
-    int_or_default('type')
-    print "What are the quest requirements?\n>",
-    payload["message"]["quest"] = raw_input()
-    print "what are the quest rewards?\n>",
-    payload["message"]["reward"] = raw_input()
+    print "What is the user required to do to get the reward?\n>",
+    payload['message']['quest_task'] = raw_input()
+    print "What quest reward type is it? (Default: 0)\n" \
+          + quest_reward_types_formatted + '\n>',
+    int_or_default('quest_reward_type_raw')
+    reward_type = payload['message']['quest_reward_type_raw']
+    if reward_type != 7:
+        print "How many of that reward type?\n>",
+        int_or_default('item_amount')
+    if reward_type == 7:
+        print "Pokemon ID?\n>",
+        int_or_default('pokemon_id')
+        print "Pokemon form?\n>",
+        monster_form('pokemon_form', payload['message']['pokemon_id'])
+    if reward_type == 2:
+        print "Which item? (Default 0)\n" + items_formatted + '\n>',
+        int_or_default('item_id')
 elif type == whtypes["8"]:
     print "What grunt type is it?\n" + grunt_types_formatted + '\n>',
     int_or_default('incident_grunt_type')

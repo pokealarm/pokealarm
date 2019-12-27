@@ -66,8 +66,8 @@ class TelegramAlarm(Alarm):
         },
         'quests': {
             'message': "*New quest for <reward>*\n"
-                       "<quest>",
-            'sticker_url': get_image_url("telegram/quest/<type_id>.webp")
+                       "<quest_condition>",
+            'sticker_url': get_image_url("telegram/<quest_image>.webp")
         },
         'invasions': {
             'message': "A Pokestop has been invaded by Team Rocket!\n"

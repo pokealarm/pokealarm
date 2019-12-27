@@ -193,6 +193,15 @@ Example: Alarm Configuration Using Optional Parameters
           "title":"This Pokestop has been invaded by Team Rocket!",
           "url":"<gmaps>",
           "body":"Invasion will expire at <24h_time> (<time_left>)"
+      },
+      "quests":{
+          "webhook_url":"DISCORD_WEBHOOK_URL_FOR_INVASION_CHANNEL",
+          "username":"Quest",
+          "icon_url*":"<YOUR CUSTOM URL HERE>/<quest_image>.png",
+          "avatar_url*":"<YOUR CUSTOM URL HERE>/<quest_image>.png",
+          "title":"This Pokestop has a new quest!",
+          "url":"<gmaps>",
+          "body":"Quest requirements: <quest_condition>\nReward: <reward>"
       }
     }
   }
