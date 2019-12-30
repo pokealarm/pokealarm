@@ -2,6 +2,7 @@
 import requests
 
 # 3rd Party Imports
+import six
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -121,6 +122,7 @@ class DiscordAlarm(Alarm):
         self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
+        self.__custom_static_map = settings.pop('static_map', '')
 
         # Set Alert Parameters
         self.__monsters = self.create_alert_settings(
@@ -165,6 +167,7 @@ class DiscordAlarm(Alarm):
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
+        map = settings.pop('map', self.__map)
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
@@ -176,8 +179,8 @@ class DiscordAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': get_static_map_url(
-                settings.pop('map', self.__map), self.__static_map_key)
+            'map': map if isinstance(map, six.string_types) else
+            get_static_map_url(map, self.__static_map_key)
         }
 
         reject_leftover_parameters(settings, "'Alert level in Discord alarm.")

@@ -242,6 +242,32 @@ Parameters  Description                            Default
 `zoom`      Specifies the zoom of the map          ``"15"``
 =========== ====================================== =============
 
+You can also include a string instead of an object in order to define a static map from any
+service using their api
+
+Example using mapquest where `xxx` is your api key:
+
+.. code-block:: json
+
+	"monsters":{
+		"webhook_url":"YOUR_WEBHOOK_URL_FOR_POKEMON_CHANNEL",
+		"username":"<mon_name>",
+		"title":"A wild <mon_name> has appeared!",
+		"url":"<gmaps>",
+		"body":"Available until <24h_time> (<time_left>).",
+		"map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
+	},
+
+Likewise, you can define your map in the alarm-level in order to use this URL across the entire alarm.
+
+.. code-block:: json
+
+  {
+  	"active":true,
+  	"type":"discord",
+  	"webhook_url":"YOUR_WEBHOOK_URL",
+    "map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
+  }
 
 Formatting alarms text
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
