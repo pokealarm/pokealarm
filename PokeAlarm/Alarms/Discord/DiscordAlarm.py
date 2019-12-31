@@ -122,7 +122,6 @@ class DiscordAlarm(Alarm):
         self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
-        self.__custom_static_map = settings.pop('static_map', '')
 
         # Set Alert Parameters
         self.__monsters = self.create_alert_settings(
