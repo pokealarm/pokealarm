@@ -6,6 +6,7 @@ from math import sqrt
 PAROOT = str(os.path.abspath(os.path.dirname(__file__))).replace("/tools", "")
 sys.path.append(PAROOT)
 from PokeAlarm.Utilities.PvpUtils import mon, calculate_cp, max_cp, max_level, min_level
+import PokeAlarm.Utils as utils
 
 def spreads(limit, mon, min_level, max_level):
     smallest = { "product": 999999999 }
@@ -48,9 +49,7 @@ with open(PAROOT + "/data/base_stats.json", "r") as json_data:
     stats = json.load(json_data)
     json_data.close()
 
-with open(PAROOT + "/data/cp_multipliers.json", "r") as json_data:
-    multipliers = json.load(json_data)
-    json_data.close()
+multipliers = utils.get_cp_multipliers()
 
 for json_mon in stats.keys():
     json_mon = mon(json_mon)
