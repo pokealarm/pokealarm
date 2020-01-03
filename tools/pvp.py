@@ -1,25 +1,11 @@
 import json
+import sys
+import os
 from math import sqrt
 
-def mon(number):
-    number = str(number)
-    if len(number) == 1:
-        number = "00" + number
-    elif len(number) == 2:
-        number = "0" + number
-    elif len(number) != 3:
-        raise ValueError
-    return str(number)
-
-def calculate_cp(mon, atk, de, sta, lvl):
-    lvl = str(lvl).replace(".0", "")
-    cp = ((stats[mon]["attack"] + atk) * sqrt(stats[mon]["defense"] + de) *
-            sqrt(stats[mon]["stamina"] + sta) * (multipliers[str(lvl)]**2) / 10)
-    return int(cp)
-
-def max_cp(mon):
-    cp = calculate_cp(mon, 15, 15, 15, 40)
-    return int(cp)
+PAROOT = str(os.path.abspath(os.path.dirname(__file__))).replace("/tools", "")
+sys.path.append(PAROOT)
+from PokeAlarm.Utilities.PvpUtils import mon, calculate_cp, max_cp, max_level, min_level
 
 def spreads(limit, mon, min_level, max_level):
     smallest = { "product": 999999999 }
@@ -58,32 +44,13 @@ def spreads(limit, mon, min_level, max_level):
     return highest, smallest
 
 
-def max_level(limit, pokemon):
-    if not max_cp(mon(pokemon)) > limit:
-        return float(40)
-    for x in range(80, 2, -1):
-        x = (x * 0.5)
-        if calculate_cp(mon(pokemon), 0, 0, 0, x) <= limit:
-            return x
-
-
-def min_level(limit, pokemon):
-    if not max_cp(mon(pokemon)) > limit:
-        return float(40)
-    for x in range(80, 2, -1):
-        x = (x * 0.5)
-        if calculate_cp(mon(pokemon), 15, 15, 15, x) <= limit:
-            return x
-
-
-with open("../data/base_stats.json", "r") as json_data:
+with open(PAROOT + "/data/base_stats.json", "r") as json_data:
     stats = json.load(json_data)
     json_data.close()
 
-with open("../data/cp_multipliers.json", "r") as json_data:
+with open(PAROOT + "/data/cp_multipliers.json", "r") as json_data:
     multipliers = json.load(json_data)
     json_data.close()
-
 
 for json_mon in stats.keys():
     json_mon = mon(json_mon)

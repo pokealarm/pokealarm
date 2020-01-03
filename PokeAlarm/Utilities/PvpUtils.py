@@ -26,6 +26,7 @@ def mon(number):
 
 
 def calculate_cp(mon, atk, de, sta, lvl):
+    multipliers = utils.get_cp_multipliers()
     base_stats = utils.get_base_stats(int(mon))
     lvl = str(lvl).replace(".0", "")
     cp = ((base_stats["attack"] + atk) * sqrt(base_stats["defense"] + de) *
@@ -40,6 +41,7 @@ def max_cp(mon):
 
 
 def pokemon_rating(limit, mon, atk, de, sta, min_level, max_level):
+    multipliers = utils.get_cp_multipliers()
     base_stats = utils.get_base_stats(int(mon))
     highest_rating = 0
     highest_cp = 0
@@ -80,8 +82,6 @@ def min_level(limit, pokemon):
 
 
 def get_pvp_info(pokemon, atk, de, sta, lvl):
-    global multipliers
-
     pokemon = mon(pokemon)
     lvl = float(lvl)
     multipliers = utils.get_cp_multipliers()
