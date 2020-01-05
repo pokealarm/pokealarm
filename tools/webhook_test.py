@@ -502,10 +502,10 @@ elif type == whtypes["7"]:
           + quest_reward_types_formatted + '\n>',
     int_or_default('quest_reward_type_raw')
     reward_type = payload['message']['quest_reward_type_raw']
-    if reward_type != 7:
+    if reward_type != 7:  # reward_type is monster
         print "How many of that reward type?\n>",
         int_or_default('item_amount')
-    if reward_type == 7:
+    if reward_type == 7:  # reward_type is monster
         print "Pokemon ID?\n>",
         int_or_default('pokemon_id')
         print "Pokemon form?\n>",

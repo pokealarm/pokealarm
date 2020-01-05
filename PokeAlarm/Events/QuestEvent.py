@@ -43,25 +43,26 @@ class QuestEvent(BaseEvent):
         self.quest_type_id = data['quest_type_raw']
         self.quest_target = data['quest_target']
         self.quest_task_raw = data['quest_task']
-        self.quest_condition_raw = data['quest_condition']
-        self.quest_template = data['quest_template']
+        self.quest_condition_raw = data.get('quest_condition')
+        self.quest_template = data.get('quest_template')
         self.last_modified = datetime.utcfromtimestamp(data['timestamp'])
 
         # Reward Details
         self.reward_type_id = data['quest_reward_type_raw']
-        self.reward_type_raw = data['quest_reward_type']
-        self.reward_amount = data['item_amount']
+        self.reward_type_raw = data.get('quest_reward_type')
+        self.reward_amount = data.get('item_amount', 1)
 
         # Monster Reward Details
-        self.monster_id = data['pokemon_id']
-        self.monster_form_id = data['pokemon_form']
+        self.monster_id = data.get('pokemon_id', 0)
+        self.monster_form_id = data.get('pokemon_form', 0)
         self.monster_costume_id = data.get('pokemon_costume', 0)
-        self.monster_types = get_base_types(self.monster_id)
+        self.monster_types = get_base_types(self.monster_id) \
+            if self.monster_id is not 0 else [0, 0]
 
         # Item Reward Details
-        self.item_amount = data['item_amount']
-        self.item_type = data['item_type']
-        self.item_id = data['item_id']
+        self.item_amount = self.reward_amount
+        self.item_type = data.get('item_type')
+        self.item_id = data.get('item_id', 0)
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
