@@ -165,7 +165,9 @@ class SlackAlarm(Alarm):
         }
         attachments = [{
             'fallback': 'Map_Preview',
-            'image_url': replace(alert['map'], coords)
+            'image_url':
+                replace(alert['map'],
+                        info if isinstance(map, six.string_types) else coords)
         }] if alert['map'] is not None else None
         self.send_message(
             channel=replace(alert['channel'], info),

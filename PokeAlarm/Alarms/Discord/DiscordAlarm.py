@@ -207,7 +207,11 @@ class DiscordAlarm(Alarm):
                     'lng': info['lng']
                 }
                 payload['embeds'][0]['image'] = {
-                    'url': replace(alert['map'], coords)
+                    'url':
+                        replace(alert['map'],
+                                coords if not
+                                isinstance(alert['map'], six.string_types)
+                                else info)
                 }
         args = {
             'url': replace(alert['webhook_url'], info),
