@@ -2164,16 +2164,16 @@
     },
     "412": {
       "118": "Pflanze",
-      "119": "Sandig",
-      "120": "M\u00FCll",
+      "119": "Sand",
+      "120": "Lumpen",
       "1706": "Normal",
       "1707": "Crypto",
       "1708": "Erl\u00F6st"
     },
     "413": {
       "087": "Pflanze",
-      "088": "Sandig",
-      "089": "M\u00FCll",
+      "088": "Sand",
+      "089": "Lumpen",
       "1709": "Normal",
       "1710": "Crypto",
       "1711": "Erl\u00F6st"
@@ -2548,8 +2548,8 @@
       "1867": "Erl\u00F6st"
     },
     "487": {
-      "090": "Ge\u00E4ndert",
-      "091": "Ursprung",
+      "090": "Wandelform",
+      "091": "Urform",
       "1868": "Normal",
       "1869": "Crypto",
       "1870": "Erl\u00F6st"
