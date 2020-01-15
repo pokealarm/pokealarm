@@ -1,4 +1,4 @@
-Stops
+Invasions
 =====================================
 
 .. contents:: Table of Contents
@@ -19,12 +19,12 @@ This page assumes:
 Introduction
 -------------------------------------
 
-The ``"stops"`` section has three distinct settings.
+The ``"invasions"`` section has three distinct settings.
 
 +----------------------+-----------------------------------------------------------+
 | Setting Name         | Description                                               |
 +======================+===========================================================+
-| enabled              | Process Stop Events only if ``true``                      |
+| enabled              | Process Invasion Events only if ``true``                  |
 +----------------------+-----------------------------------------------------------+
 | defaults             | Section for the default settings                          |
 +----------------------+-----------------------------------------------------------+
@@ -38,12 +38,13 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=============== ======================================== ===========================
-Parameter       Description                              Example
-=============== ======================================== ===========================
-lures           Array of allowed lures, by id or name.   ``["Standard","501",502]``
-lures_exclude   Array of excluded lures, by id or name.  ``["Standard","501",502]``
-=============== ======================================== ===========================
+=================== ======================================== ===========================
+Parameter           Description                              Example
+=================== ======================================== ===========================
+grunt_types         Array of allowed grunts, by id or name.  ``["Dragon","4",39]``
+grunt_types_exclude Array of excluded grunts, by id or name. ``["Normal","4",39]``
+grunt_genders       Array of allowed genders, by id or name. ``["Male", 2]``
+=================== ======================================== ===========================
 
 
 Miscellaneous

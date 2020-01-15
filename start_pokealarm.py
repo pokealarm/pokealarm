@@ -83,9 +83,16 @@ def manage_webhook_data(_queue):
         if obj is None:  # TODO: Improve Event error checking
             continue
         for name, mgr in managers.iteritems():
-            mgr.update(obj)
-        log.debug("Distributed event %s to %s managers.",
-                  obj.id, len(managers))
+            if isinstance(obj, list):
+                for event in obj:
+                    mgr.update(event)
+                    log.debug("Distributed event %s to %s managers.",
+                              event.id, len(managers))
+            else:
+                mgr.update(obj)
+        if not isinstance(obj, list):
+            log.debug("Distributed event %s to %s managers.",
+                      obj.id, len(managers))
 
 
 # Configure and run PokeAlarm

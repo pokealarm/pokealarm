@@ -3,28 +3,35 @@ import operator
 # 3rd Party Imports
 # Local Imports
 from . import BaseFilter
-from PokeAlarm.Utilities import StopUtils as StopUtils
+from PokeAlarm.Utilities import MonUtils
+from PokeAlarm.Utilities.GruntUtils import get_grunt_id
 
 
-class StopFilter(BaseFilter):
-    """ Filter class for limiting which stops trigger a notification. """
+class GruntFilter(BaseFilter):
+    """ Filter class for limiting which invasions trigger a notification. """
 
     def __init__(self, mgr, name, data):
         """ Initializes base parameters for a filter. """
-        super(StopFilter, self).__init__(mgr, 'stop', name)
+        super(GruntFilter, self).__init__(mgr, 'invasion', name)
 
-        # Lures
-        self.lure_ids = self.evaluate_attribute(
-            event_attribute='lure_type_id', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_set(
-                StopUtils.get_lure_id, 'lures', data))
+        # Grunts
+        self.grunt_ids = self.evaluate_attribute(
+            event_attribute='type_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_nested_set(
+                get_grunt_id, 'grunt_types', data))
 
-        # Exclude Lures
-        self.exclude_lure_ids = self.evaluate_attribute(
-            event_attribute='lure_type_id',
+        # Exclude Grunts
+        self.exclude_grunt_ids = self.evaluate_attribute(
+            event_attribute='type_id',
             eval_func=lambda d, v: not operator.contains(d, v),
+            limit=BaseFilter.parse_as_nested_set(
+                get_grunt_id, 'grunt_types_exclude', data))
+
+        # Gender
+        self.genders = self.evaluate_attribute(  # f.genders contains m.gender
+            event_attribute='gender', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                StopUtils.get_lure_id, 'lures_exclude', data))
+                MonUtils.get_gender_sym, 'grunt_genders', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
@@ -58,14 +65,19 @@ class StopFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError("'{}' is not a recognized parameter for"
-                             " Stop filters".format(key))
+                             " Invasion filters".format(key))
 
     def to_dict(self):
         """ Create a dict representation of this Filter. """
         settings = {}
-        # Lures
-        if self.lure_ids is not None:
-            settings['lure_ids'] = self.lure_ids
+
+        # Grunts
+        if self.grunt_ids is not None:
+            settings['grunt_ids'] = self.grunt_ids
+
+        # Cosmetic
+        if self.genders is not None:
+            settings['genders'] = self.genders
 
         # Distance
         if self.min_dist is not None:
