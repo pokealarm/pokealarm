@@ -1,8 +1,8 @@
 {
   "severity": {
     "000": "Nenhum",
-    "001": "Moderado",
-    "003": "Extremo"
+    "001": "Cuidado",
+    "002": "Extremo"
   },
   "costumes": {
     "025": {

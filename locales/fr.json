@@ -1,8 +1,8 @@
 {
   "severity": {
     "000": "Aucun",
-    "001": "Mod\u00E9r\u00E9",
-    "003": "Extr\u00EAme"
+    "001": "Attention",
+    "002": "Extr\u00EAme"
   },
   "costumes": {
     "025": {
