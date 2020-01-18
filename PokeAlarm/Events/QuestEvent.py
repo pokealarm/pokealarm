@@ -124,6 +124,7 @@ class QuestEvent(BaseEvent):
             'costume': costume_name,
             'costume_or_empty': Unknown.or_empty(costume_name),
             'costume_id': self.monster_costume_id,
+            'costume_id_2': "{:02d}".format(self.monster_costume_id),
             'costume_id_3': "{:03d}".format(self.monster_costume_id),
             'type1': type1,
             'type1_or_empty': Unknown.or_empty(type1),

@@ -18,7 +18,8 @@ class QuestFilter(BaseFilter):
             event_attribute='stop_name', eval_func=GymUtils.match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'stop_name_contains', data))
-        self.stop_name_excludes = self.evaluate_attribute(  # f.gn no-match e.gn
+        self.stop_name_excludes = self.evaluate_attribute(
+            # f.gn no-match e.gn
             event_attribute='stop_name',
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
@@ -108,11 +109,47 @@ class QuestFilter(BaseFilter):
         """ Create a dict representation of this Filter. """
         settings = {}
 
+        # Stop Information
+        if self.stop_name_contains is not None:
+            settings['stop_name_contains'] = self.stop_name_contains
+        if self.stop_name_excludes is not None:
+            settings['stop_name_excludes'] = self.stop_name_excludes
+
         # Distance
         if self.min_dist is not None:
             settings['min_dist'] = self.min_dist
         if self.max_dist is not None:
             settings['max_dist'] = self.max_dist
+
+        # Quest Details
+        if self.template_contains is not None:
+            settings['template_contains'] = self.template_contains
+        if self.template_excludes is not None:
+            settings['template_excludes'] = self.template_excludes
+
+        # Reward Description
+        if self.reward_types is not None:
+            settings['reward_types'] = self.reward_types
+        if self.min_reward_amount is not None:
+            settings['min_reward_amount'] = self.min_reward_amount
+        if self.max_reward_amount is not None:
+            settings['max_reward_amount'] = self.max_reward_amount
+
+        # Monster Rewards
+        if self.monster_ids is not None:
+            settings['monster_ids'] = self.monster_ids
+        if self.exclude_monster_ids is not None:
+            settings['exclude_monster_ids'] = self.exclude_monster_ids
+        if self.forms is not None:
+            settings['forms'] = self.forms
+        if self.costumes is not None:
+            settings['costumes'] = self.costumes
+
+        # Item Rewards
+        if self.item_ids is not None:
+            settings['item_ids'] = self.item_ids
+        if self.exclude_item_ids is not None:
+            settings['exclude_item_ids'] = self.exclude_item_ids
 
         # Geofences
         if self.geofences is not None:

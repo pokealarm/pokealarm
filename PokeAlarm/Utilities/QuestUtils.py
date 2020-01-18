@@ -33,8 +33,8 @@ def reward_string(quest, locale):
     if quest.reward_type_id == 7:  # reward type is monster
         return locale.get_quest_monster_reward({
             'id': quest.monster_id,
-            'form': quest.monster_form_id
-            # 'costume': quest.monster_costume_id
+            'form': quest.monster_form_id,
+            'costume': quest.monster_costume_id
         })
     elif quest.reward_type_id == 2:  # reward type is item
         return locale.get_quest_item_reward({

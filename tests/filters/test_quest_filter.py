@@ -39,6 +39,7 @@ class TestQuestFilter(unittest.TestCase):
             "item_id": 0,
             "pokemon_id": 123,
             "pokemon_form": 0,
+            "pokemon_costume": 0,
             "quest_task": "Catch 10 Dragonites",
             "quest_condition": "[]",
             "quest_template": ""
@@ -119,12 +120,12 @@ class TestQuestFilter(unittest.TestCase):
         self.pass_vals = [1, 28]
         self.fail_vals = [2, 999]
 
-    # @generic_filter_test
-    # def test_costume(self):
-    #     self.filt = {"costume_ids": [1, 2]}
-    #     self.event_key = "costume_id"
-    #     self.pass_vals = [1, 2]
-    #     self.fail_vals = [3, 999]
+    @generic_filter_test
+    def test_costume(self):
+        self.filt = {"costume_ids": [1, 2]}
+        self.event_key = "pokemon_costume"
+        self.pass_vals = [1, 2]
+        self.fail_vals = [3, 999]
 
     @generic_filter_test
     def test_item_id(self):

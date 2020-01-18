@@ -83,6 +83,12 @@ form              Form name of the monster.
 form_or_empty     Form name of the monster, or empty string if unknown.
 form_id           Form ID for the monster.
 form_id_3         Form ID of the monster, padded to 3 digits.
+costume           The name of the monster's costume.
+costume_or_empty  The name of the monsters costume or an empty string if
+                  unknown.
+costume_id        The costume ID of the monster.
+costume_id_2      The costume ID of the monster, padded to 2 digits.
+costume_id_3      The costume ID of the monster, padded to 3 digits.
 type1             Name of the monster's primary type.
 type1_or_empty    Name of the monster's primary type, or empty string
                   if unknown.
