@@ -9,7 +9,7 @@ from PokeAlarm.Utils import (
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_time_as_str, get_seconds_remaining,
     get_base_types, get_dist_as_str, get_weather_emoji,
-    get_type_emoji, get_waze_link)
+    get_spawn_verified_emoji, get_type_emoji, get_waze_link)
 from . import BaseEvent
 
 
@@ -34,7 +34,8 @@ class MonEvent(BaseEvent):
             int, data.get('spawn_start'), Unknown.REGULAR)
         self.spawn_end = check_for_none(
             int, data.get('spawn_end'), Unknown.REGULAR)
-        self.spawn_verified = check_for_none(bool, data.get('verified'), False)
+        self.spawn_verified = check_for_none(
+            int, data.get('verified'), Unknown.REGULAR)
 
         # Location
         self.lat = float(data['latitude'])
@@ -159,7 +160,16 @@ class MonEvent(BaseEvent):
             # Spawn Data
             'spawn_start': self.spawn_start,
             'spawn_end': self.spawn_end,
-            'spawn_verified': self.spawn_verified,
+            'spawn_verified':
+                self.spawn_verified > 0 if Unknown.is_not(self.spawn_verified)
+                else Unknown.REGULAR,
+            'spawn_verified_emoji': get_spawn_verified_emoji(self.spawn_verified),
+            'spawn_verified_emoji_or_empty': (
+                '' if self.spawn_verified != 1
+                else get_spawn_verified_emoji(self.spawn_verified)),
+            'spawn_unverified_emoji_or_empty': (
+                '' if self.spawn_verified != 0
+                else get_spawn_verified_emoji(self.spawn_verified)),
 
             # Location
             'lat': self.lat,
