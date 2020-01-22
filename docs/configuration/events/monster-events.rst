@@ -221,11 +221,14 @@ boosted_or_empty         Return `boosted` if monster is boosted, or empty
 Miscellaneous
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ============================================================
-DTS                 Description
-=================== ============================================================
-encounter_id        The encounter id. Unique per monster spawn.
-spawn_start         Estimated time that the monster spawn starts.
-spawn_end           Estimated time that the monster spawn ends.
-spawn_verified      Whether this spawn times have been verified.
-=================== ============================================================
+=============================== ==============================================================
+DTS                             Description
+=============================== ==============================================================
+encounter_id                    The encounter id. Unique per monster spawn.
+spawn_start                     Estimated time that the monster spawn starts.
+spawn_end                       Estimated time that the monster spawn ends.
+spawn_verified                  Whether this spawn times have been verified.
+spawn_verified_emoji            Return spawn verified emoji for unknown, verified, unverified.
+spawn_verified_emoji_or_empty   Return spawn verified emoji for verified or empty string.
+spawn_unverified_emoji_or_empty Return spawn verified emoji for unverified or empty string.
+=============================== ==============================================================
