@@ -35,6 +35,9 @@ egg_lvl           The tier level of the egg.
 gym_name          The name of the gym. *
 gym_description   The description of the gym. *
 gym_image         The url to the image of the gym. *
+ex_eligible       True if the gym currently has an ex tag, False if not.
+is_exclusive      True if the egg is for an ex raid, False if not.
+park              The name of the park the gym is located in.
 team_id           The id of the team currently in control of the gym.
 team_name         The team currently in control of the gym.
 team_leader       The leader of the team currently in control of the gym.
