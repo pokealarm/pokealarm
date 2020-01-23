@@ -81,7 +81,7 @@ class QuestEvent(BaseEvent):
             'lat': self.lat,
             'lng': self.lng,
             'lat_5': "{:.5f}".format(self.lat),
-            'lng_5': "{:.5f}".format(self.lat),
+            'lng_5': "{:.5f}".format(self.lng),
             'distance': (
                 get_dist_as_str(self.distance, units)
                 if Unknown.is_not(self.distance) else Unknown.SMALL),
