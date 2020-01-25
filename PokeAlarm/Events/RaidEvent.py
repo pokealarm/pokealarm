@@ -9,7 +9,8 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_seconds_remaining, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
-    get_base_types, get_weather_emoji, get_type_emoji, get_waze_link
+    get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
+    get_team_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -240,6 +241,7 @@ class RaidEvent(BaseEvent):
                 else Unknown.REGULAR,
             'park': self.park,
             'team_id': self.current_team_id,
+            'team_emoji': get_team_emoji(self.current_team_id),
             'team_name': locale.get_team_name(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)
         })
