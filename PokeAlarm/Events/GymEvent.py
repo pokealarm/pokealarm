@@ -2,7 +2,7 @@
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_waze_link, get_dist_as_str
+    get_waze_link, get_dist_as_str, get_team_emoji
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -75,9 +75,11 @@ class GymEvent(BaseEvent):
             # Team Info
             'old_team': locale.get_team_name(self.old_team_id),
             'old_team_id': self.old_team_id,
+            'old_team_emoji': get_team_emoji(self.old_team_id),
             'old_team_leader': locale.get_leader_name(self.old_team_id),
             'new_team': locale.get_team_name(self.new_team_id),
             'new_team_id': self.new_team_id,
+            'new_team_emoji: get_team_emoji(self.new_team_id),
             'new_team_leader': locale.get_leader_name(self.new_team_id),
 
             # Details
