@@ -79,7 +79,7 @@ class GymEvent(BaseEvent):
             'old_team_leader': locale.get_leader_name(self.old_team_id),
             'new_team': locale.get_team_name(self.new_team_id),
             'new_team_id': self.new_team_id,
-            'new_team_emoji: get_team_emoji(self.new_team_id),
+            'new_team_emoji': get_team_emoji(self.new_team_id),
             'new_team_leader': locale.get_leader_name(self.new_team_id),
 
             # Details
