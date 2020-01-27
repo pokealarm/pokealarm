@@ -1,4 +1,4 @@
-Stops
+Invasions
 =====================================
 
 .. contents:: Table of Contents
@@ -19,7 +19,7 @@ This pages assumes the following:
 Description
 -------------------------------------
 
-A **Stop Event** represents when a stop is lured.
+A **Invasion Event** represents when a stop is invaded by Team Rocket.
 
 
 Available DTS
