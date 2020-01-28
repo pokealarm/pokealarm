@@ -29,77 +29,1033 @@
     "002": "Noite"
   },
   "forms": {
+    "001": {
+      "163": "Normal",
+      "164": "Sombra",
+      "165": "Purificado",
+      "604": "NoEvolve",
+      "897": "Fall 2019"
+    },
+    "002": {
+      "166": "Normal",
+      "167": "Sombra",
+      "168": "Purificado"
+    },
+    "003": {
+      "169": "Normal",
+      "170": "Sombra",
+      "171": "Purificado",
+      "950": "Copy 2019"
+    },
+    "004": {
+      "172": "Normal",
+      "173": "Sombra",
+      "174": "Purificado",
+      "605": "NoEvolve",
+      "896": "Fall 2019"
+    },
+    "005": {
+      "175": "Normal",
+      "176": "Sombra",
+      "177": "Purificado",
+      "605": "NoEvolve"
+    },
+    "006": {
+      "178": "Normal",
+      "179": "Sombra",
+      "180": "Purificado",
+      "606": "NoEvolve",
+      "951": "Copy 2019"
+    },
+    "007": {
+      "181": "Normal",
+      "182": "Sombra",
+      "183": "Purificado",
+      "607": "NoEvolve",
+      "895": "Fall 2019"
+    },
+    "008": {
+      "184": "Normal",
+      "185": "Sombra",
+      "186": "Purificado"
+    },
+    "009": {
+      "187": "Normal",
+      "188": "Sombra",
+      "189": "Purificado",
+      "608": "NoEvolve",
+      "952": "Copy 2019"
+    },
+    "010": {
+      "953": "Normal",
+      "954": "Sombroso",
+      "955": "Purificado"
+    },
+    "011": {
+      "956": "Normal",
+      "957": "Sombroso",
+      "958": "Purificado"
+    },
+    "012": {
+      "959": "Normal",
+      "960": "Sombroso",
+      "961": "Purificado"
+    },
+    "013": {
+      "616": "Normal",
+      "617": "Sombra",
+      "618": "Purificado"
+    },
+    "014": {
+      "619": "Normal",
+      "620": "Sombra",
+      "621": "Purificado"
+    },
+    "015": {
+      "622": "Normal",
+      "623": "Sombra",
+      "624": "Purificado"
+    },
+    "016": {
+      "962": "Normal",
+      "963": "Sombroso",
+      "964": "Purificado"
+    },
+    "017": {
+      "965": "Normal",
+      "966": "Sombroso",
+      "967": "Purificado"
+    },
+    "018": {
+      "968": "Normal",
+      "969": "Sombroso",
+      "970": "Purificado"
+    },
     "019": {
       "045": "Normal",
-      "046": "Alola"
+      "046": "Alola",
+      "153": "Sombra",
+      "154": "Purificado"
     },
     "020": {
       "047": "Normal",
-      "048": "Alola"
+      "048": "Alola",
+      "155": "Sombra",
+      "156": "Purificado",
+      "609": "NoEvolve",
+      "2329": "Spring 2020"
+    },
+    "021": {
+      "971": "Normal",
+      "972": "Sombroso",
+      "973": "Purificado"
+    },
+    "022": {
+      "974": "Normal",
+      "975": "Sombroso",
+      "976": "Purificado"
+    },
+    "023": {
+      "697": "Normal",
+      "698": "Sombra",
+      "699": "Purificado"
+    },
+    "024": {
+      "700": "Normal",
+      "701": "Sombra",
+      "702": "Purificado"
+    },
+    "025": {
+      "598": "Normal",
+      "599": "NoEvolve",
+      "894": "Fall 2019",
+      "901": "Vs 2019",
+      "949": "Copy 2019",
+      "977": "Sombroso",
+      "978": "Purificado"
     },
     "026": {
       "049": "Normal",
-      "050": "Alola"
+      "050": "Alola",
+      "979": "Sombroso",
+      "980": "Purificado"
     },
     "027": {
       "051": "Normal",
-      "052": "Alola"
+      "052": "Alola",
+      "673": "Sombra",
+      "674": "Purificado"
     },
     "028": {
       "053": "Normal",
-      "054": "Alola"
+      "054": "Alola",
+      "675": "Sombra",
+      "676": "Purificado"
+    },
+    "029": {
+      "776": "Normal",
+      "777": "Sombra",
+      "778": "Purificado"
+    },
+    "030": {
+      "779": "Normal",
+      "780": "Sombra",
+      "781": "Purificado"
+    },
+    "031": {
+      "782": "Normal",
+      "783": "Sombra",
+      "784": "Purificado"
+    },
+    "032": {
+      "776": "Normal",
+      "777": "Sombroso",
+      "778": "Purificado"
+    },
+    "033": {
+      "785": "Normal",
+      "786": "Sombra",
+      "787": "Purificado"
+    },
+    "034": {
+      "788": "Normal",
+      "789": "Sombra",
+      "790": "Purificado"
+    },
+    "035": {
+      "981": "Normal",
+      "982": "Sombroso",
+      "983": "Purificado"
+    },
+    "036": {
+      "984": "Normal",
+      "985": "Sombroso",
+      "986": "Purificado"
     },
     "037": {
       "055": "Normal",
-      "056": "Alola"
+      "056": "Alola",
+      "725": "Sombra",
+      "726": "Purificado"
     },
     "038": {
       "057": "Normal",
-      "058": "Alola"
+      "058": "Alola",
+      "727": "Sombra",
+      "728": "Purificado"
+    },
+    "039": {
+      "987": "Normal",
+      "988": "Sombroso",
+      "989": "Purificado"
+    },
+    "040": {
+      "990": "Normal",
+      "991": "Sombroso",
+      "992": "Purificado"
+    },
+    "041": {
+      "157": "Normal",
+      "158": "Sombra",
+      "159": "Purificado"
+    },
+    "042": {
+      "160": "Normal",
+      "161": "Sombra",
+      "162": "Purificado"
+    },
+    "043": {
+      "265": "Normal",
+      "266": "Sombra",
+      "267": "Purificado"
+    },
+    "044": {
+      "268": "Normal",
+      "269": "Sombra",
+      "270": "Purificado"
+    },
+    "045": {
+      "271": "Normal",
+      "272": "Sombra",
+      "273": "Purificado"
+    },
+    "046": {
+      "993": "Normal",
+      "994": "Sombroso",
+      "995": "Purificado"
+    },
+    "047": {
+      "996": "Normal",
+      "997": "Sombroso",
+      "998": "Purificado"
+    },
+    "048": {
+      "259": "Normal",
+      "260": "Sombra",
+      "261": "Purificado"
+    },
+    "049": {
+      "262": "Normal",
+      "263": "Sombra",
+      "264": "Purificado"
     },
     "050": {
       "059": "Normal",
-      "060": "Alola"
+      "060": "Alola",
+      "842": "Sombroso",
+      "843": "Purificado"
     },
     "051": {
       "061": "Normal",
-      "062": "Alola"
+      "062": "Alola",
+      "844": "Sombroso",
+      "845": "Purificado"
     },
     "052": {
       "063": "Normal",
-      "064": "Alola"
+      "064": "Alola",
+      "709": "Sombra",
+      "710": "Purificado"
     },
     "053": {
       "065": "Normal",
-      "066": "Alola"
+      "066": "Alola",
+      "711": "Sombra",
+      "712": "Purificado"
+    },
+    "054": {
+      "286": "Normal",
+      "287": "Sombra",
+      "288": "Purificado"
+    },
+    "055": {
+      "289": "Normal",
+      "290": "Sombra",
+      "291": "Purificado"
+    },
+    "056": {
+      "999": "Normal",
+      "1000": "Sombroso",
+      "1001": "Purificado"
+    },
+    "057": {
+      "1002": "Normal",
+      "1003": "Sombroso",
+      "1004": "Purificado"
+    },
+    "058": {
+      "280": "Normal",
+      "281": "Sombra",
+      "282": "Purificado"
+    },
+    "059": {
+      "283": "Normal",
+      "284": "Sombra",
+      "285": "Purificado"
+    },
+    "060": {
+      "235": "Normal",
+      "236": "Sombra",
+      "237": "Purificado"
+    },
+    "061": {
+      "238": "Normal",
+      "239": "Sombra",
+      "240": "Purificado"
+    },
+    "062": {
+      "241": "Normal",
+      "242": "Sombra",
+      "243": "Purificado"
+    },
+    "063": {
+      "304": "Normal",
+      "305": "Sombra",
+      "306": "Purificado"
+    },
+    "064": {
+      "307": "Normal",
+      "308": "Sombra",
+      "309": "Purificado"
+    },
+    "065": {
+      "310": "Normal",
+      "311": "Sombra",
+      "312": "Purificado"
+    },
+    "066": {
+      "809": "Normal",
+      "810": "Sombroso",
+      "811": "Purificado"
+    },
+    "067": {
+      "812": "Normal",
+      "813": "Sombroso",
+      "814": "Purificado"
+    },
+    "068": {
+      "815": "Normal",
+      "816": "Sombroso",
+      "817": "Purificado"
+    },
+    "069": {
+      "664": "Normal",
+      "665": "Sombra",
+      "666": "Purificado"
+    },
+    "070": {
+      "667": "Normal",
+      "668": "Sombra",
+      "669": "Purificado"
+    },
+    "071": {
+      "670": "Normal",
+      "671": "Sombra",
+      "672": "Purificado"
+    },
+    "072": {
+      "1005": "Normal",
+      "1006": "Sombroso",
+      "1007": "Purificado"
+    },
+    "073": {
+      "1008": "Normal",
+      "1009": "Sombroso",
+      "1010": "Purificado"
     },
     "074": {
       "067": "Normal",
-      "068": "Alola"
+      "068": "Alola",
+      "882": "Sombroso",
+      "883": "Purificado"
     },
     "075": {
       "069": "Normal",
-      "070": "Alola"
+      "070": "Alola",
+      "884": "Sombroso",
+      "885": "Purificado"
     },
     "076": {
       "071": "Normal",
-      "072": "Alola"
+      "072": "Alola",
+      "886": "Sombroso",
+      "887": "Purificado"
+    },
+    "077": {
+      "1011": "Normal",
+      "1012": "Sombroso",
+      "1013": "Purificado"
+    },
+    "078": {
+      "1014": "Normal",
+      "1015": "Sombroso",
+      "1016": "Purificado"
+    },
+    "079": {
+      "1017": "Normal",
+      "1018": "Sombroso",
+      "1019": "Purificado"
+    },
+    "080": {
+      "1020": "Normal",
+      "1021": "Sombroso",
+      "1022": "Purificado"
+    },
+    "081": {
+      "655": "Normal",
+      "656": "Sombra",
+      "657": "Purificado"
+    },
+    "082": {
+      "658": "Normal",
+      "659": "Sombra",
+      "660": "Purificado"
+    },
+    "084": {
+      "1026": "Normal",
+      "1027": "Sombroso",
+      "1028": "Purificado"
+    },
+    "085": {
+      "1029": "Normal",
+      "1030": "Sombroso",
+      "1031": "Purificado"
+    },
+    "086": {
+      "1032": "Normal",
+      "1033": "Sombroso",
+      "1034": "Purificado"
+    },
+    "087": {
+      "1035": "Normal",
+      "1036": "Sombroso",
+      "1037": "Purificado"
     },
     "088": {
       "073": "Normal",
-      "074": "Alola"
+      "074": "Alola",
+      "220": "Sombra",
+      "221": "Purificado"
     },
     "089": {
       "075": "Normal",
-      "076": "Alola"
+      "076": "Alola",
+      "222": "Sombra",
+      "223": "Purificado"
+    },
+    "090": {
+      "876": "Normal",
+      "877": "Sombroso",
+      "878": "Purificado"
+    },
+    "091": {
+      "879": "Normal",
+      "880": "Sombroso",
+      "881": "Purificado"
+    },
+    "092": {
+      "1038": "Normal",
+      "1039": "Sombroso",
+      "1040": "Purificado"
+    },
+    "093": {
+      "1041": "Normal",
+      "1042": "Sombroso",
+      "1043": "Purificado"
+    },
+    "094": {
+      "1044": "Normal",
+      "1045": "Sombroso",
+      "1046": "Purificado"
+    },
+    "095": {
+      "902": "Normal",
+      "903": "Sombroso",
+      "904": "Purificado"
+    },
+    "096": {
+      "214": "Normal",
+      "215": "Sombra",
+      "216": "Purificado"
+    },
+    "097": {
+      "217": "Normal",
+      "218": "Sombra",
+      "219": "Purificado"
+    },
+    "098": {
+      "870": "Normal",
+      "871": "Sombroso",
+      "872": "Purificado"
+    },
+    "099": {
+      "873": "Normal",
+      "874": "Sombroso",
+      "875": "Purificado"
+    },
+    "100": {
+      "1047": "Normal",
+      "1048": "Sombroso",
+      "1049": "Purificado"
+    },
+    "101": {
+      "1050": "Normal",
+      "1051": "Sombroso",
+      "1052": "Purificado"
+    },
+    "102": {
+      "729": "Normal",
+      "730": "Sombra",
+      "731": "Purificado"
     },
     "103": {
       "077": "Normal",
-      "078": "Alola"
+      "078": "Alola",
+      "732": "Sombra",
+      "733": "Purificado"
+    },
+    "104": {
+      "224": "Normal",
+      "225": "Sombra",
+      "226": "Purificado"
     },
     "105": {
       "079": "Normal",
-      "080": "Alola"
+      "080": "Alola",
+      "227": "Sombra",
+      "228": "Purificado"
+    },
+    "106": {
+      "713": "Normal",
+      "714": "Sombra",
+      "715": "Purificado"
+    },
+    "107": {
+      "277": "Normal",
+      "278": "Sombra",
+      "279": "Purificado"
+    },
+    "108": {
+      "1053": "Normal",
+      "1054": "Sombroso",
+      "1055": "Purificado"
+    },
+    "109": {
+      "703": "Normal",
+      "704": "Sombra",
+      "705": "Purificado"
+    },
+    "110": {
+      "706": "Normal",
+      "707": "Sombra",
+      "708": "Purificado",
+      "944": "Galarian"
+    },
+    "111": {
+      "846": "Normal",
+      "847": "Sombroso",
+      "848": "Purificado"
+    },
+    "112": {
+      "849": "Normal",
+      "850": "Sombroso",
+      "851": "Purificado"
+    },
+    "113": {
+      "1056": "Normal",
+      "1057": "Sombroso",
+      "1058": "Purificado"
+    },
+    "114": {
+      "1059": "Normal",
+      "1060": "Sombroso",
+      "1061": "Purificado"
+    },
+    "115": {
+      "839": "Normal",
+      "840": "Sombroso",
+      "841": "Purificado"
+    },
+    "116": {
+      "1062": "Normal",
+      "1063": "Sombroso",
+      "1064": "Purificado"
+    },
+    "117": {
+      "1065": "Normal",
+      "1066": "Sombroso",
+      "1067": "Purificado"
+    },
+    "118": {
+      "1068": "Normal",
+      "1069": "Sombroso",
+      "1070": "Purificado"
+    },
+    "119": {
+      "1071": "Normal",
+      "1072": "Sombroso",
+      "1073": "Purificado"
+    },
+    "120": {
+      "1074": "Normal",
+      "1075": "Sombroso",
+      "1076": "Purificado"
+    },
+    "121": {
+      "1077": "Normal",
+      "1078": "Sombroso",
+      "1079": "Purificado"
+    },
+    "123": {
+      "247": "Normal",
+      "248": "Sombra",
+      "249": "Purificado"
+    },
+    "124": {
+      "1083": "Normal",
+      "1084": "Sombroso",
+      "1085": "Purificado"
+    },
+    "125": {
+      "640": "Normal",
+      "641": "Sombra",
+      "642": "Purificado"
+    },
+    "126": {
+      "634": "Normal",
+      "635": "Sombra",
+      "636": "Purificado"
+    },
+    "127": {
+      "898": "Normal",
+      "899": "Sombroso",
+      "900": "Purificado"
+    },
+    "128": {
+      "1086": "Normal",
+      "1087": "Sombroso",
+      "1088": "Purificado"
+    },
+    "129": {
+      "253": "Normal",
+      "254": "Sombra",
+      "255": "Purificado"
+    },
+    "130": {
+      "256": "Normal",
+      "257": "Sombra",
+      "258": "Purificado"
+    },
+    "131": {
+      "322": "Normal",
+      "323": "Sombra",
+      "324": "Purificado"
+    },
+    "132": {
+      "1089": "Normal",
+      "1090": "Sombroso",
+      "1091": "Purificado"
+    },
+    "133": {
+      "1092": "Normal",
+      "1093": "Sombroso",
+      "1094": "Purificado"
+    },
+    "134": {
+      "1095": "Normal",
+      "1096": "Sombroso",
+      "1097": "Purificado"
+    },
+    "135": {
+      "1098": "Normal",
+      "1099": "Sombroso",
+      "1100": "Purificado"
+    },
+    "136": {
+      "1101": "Normal",
+      "1102": "Sombroso",
+      "1103": "Purificado"
+    },
+    "137": {
+      "677": "Normal",
+      "678": "Sombra",
+      "679": "Purificado"
+    },
+    "138": {
+      "740": "Normal",
+      "741": "Sombra",
+      "742": "Purificado"
+    },
+    "139": {
+      "743": "Normal",
+      "744": "Sombra",
+      "745": "Purificado"
+    },
+    "140": {
+      "1104": "Normal",
+      "1105": "Sombroso",
+      "1106": "Purificado"
+    },
+    "141": {
+      "1107": "Normal",
+      "1108": "Sombroso",
+      "1109": "Purificado"
+    },
+    "142": {
+      "1110": "Normal",
+      "1111": "Sombroso",
+      "1112": "Purificado"
+    },
+    "143": {
+      "199": "Normal",
+      "200": "Sombra",
+      "201": "Purificado"
+    },
+    "144": {
+      "716": "Normal",
+      "717": "Sombra",
+      "718": "Purificado"
+    },
+    "145": {
+      "773": "Normal",
+      "774": "Sombra",
+      "775": "Purificado"
+    },
+    "146": {
+      "836": "Normal",
+      "837": "Sombra",
+      "838": "Purificado"
+    },
+    "147": {
+      "190": "Normal",
+      "191": "Sombra",
+      "192": "Purificado"
+    },
+    "148": {
+      "193": "Normal",
+      "194": "Sombra",
+      "195": "Purificado"
+    },
+    "149": {
+      "196": "Normal",
+      "197": "Sombra",
+      "198": "Purificado"
+    },
+    "150": {
+      "133": "Armored",
+      "135": "Normal",
+      "1113": "Sombroso",
+      "1114": "Purificado"
+    },
+    "151": {
+      "1115": "Normal",
+      "1116": "Sombroso",
+      "1117": "Purificado"
+    },
+    "152": {
+      "1118": "Normal",
+      "1119": "Sombroso",
+      "1120": "Purificado"
+    },
+    "153": {
+      "1121": "Normal",
+      "1122": "Sombroso",
+      "1123": "Purificado"
+    },
+    "154": {
+      "1124": "Normal",
+      "1125": "Sombroso",
+      "1126": "Purificado"
+    },
+    "155": {
+      "1127": "Normal",
+      "1128": "Sombroso",
+      "1129": "Purificado"
+    },
+    "156": {
+      "1130": "Normal",
+      "1131": "Sombroso",
+      "1132": "Purificado"
+    },
+    "157": {
+      "1133": "Normal",
+      "1134": "Sombroso",
+      "1135": "Purificado"
+    },
+    "158": {
+      "1136": "Normal",
+      "1137": "Sombroso",
+      "1138": "Purificado"
+    },
+    "159": {
+      "1139": "Normal",
+      "1140": "Sombroso",
+      "1141": "Purificado"
+    },
+    "160": {
+      "1142": "Normal",
+      "1143": "Sombroso",
+      "1144": "Purificado"
+    },
+    "161": {
+      "1145": "Normal",
+      "1146": "Sombroso",
+      "1147": "Purificado"
+    },
+    "162": {
+      "1148": "Normal",
+      "1149": "Sombroso",
+      "1150": "Purificado"
+    },
+    "163": {
+      "1151": "Normal",
+      "1152": "Sombroso",
+      "1153": "Purificado"
+    },
+    "164": {
+      "1154": "Normal",
+      "1155": "Sombroso",
+      "1156": "Purificado"
+    },
+    "165": {
+      "1157": "Normal",
+      "1158": "Sombroso",
+      "1159": "Purificado"
+    },
+    "166": {
+      "1160": "Normal",
+      "1161": "Sombroso",
+      "1162": "Purificado"
+    },
+    "167": {
+      "1163": "Normal",
+      "1164": "Sombroso",
+      "1165": "Purificado"
+    },
+    "168": {
+      "1166": "Normal",
+      "1167": "Sombroso",
+      "1168": "Purificado"
+    },
+    "169": {
+      "202": "Normal",
+      "203": "Sombra",
+      "204": "Purificado"
+    },
+    "170": {
+      "1169": "Normal",
+      "1170": "Sombroso",
+      "1171": "Purificado"
+    },
+    "171": {
+      "1172": "Normal",
+      "1173": "Sombroso",
+      "1174": "Purificado"
+    },
+    "172": {
+      "1175": "Normal",
+      "1176": "Sombroso",
+      "1177": "Purificado"
+    },
+    "173": {
+      "1178": "Normal",
+      "1179": "Sombroso",
+      "1180": "Purificado"
+    },
+    "174": {
+      "1181": "Normal",
+      "1182": "Sombroso",
+      "1183": "Purificado"
+    },
+    "175": {
+      "1184": "Normal",
+      "1185": "Sombroso",
+      "1186": "Purificado"
+    },
+    "176": {
+      "1187": "Normal",
+      "1188": "Sombroso",
+      "1189": "Purificado"
+    },
+    "177": {
+      "1190": "Normal",
+      "1191": "Sombroso",
+      "1192": "Purificado"
+    },
+    "178": {
+      "1193": "Normal",
+      "1194": "Sombroso",
+      "1195": "Purificado"
+    },
+    "179": {
+      "646": "Normal",
+      "647": "Sombra",
+      "648": "Purificado"
+    },
+    "180": {
+      "649": "Normal",
+      "650": "Sombra",
+      "651": "Purificado"
+    },
+    "181": {
+      "652": "Normal",
+      "653": "Sombra",
+      "654": "Purificado"
+    },
+    "182": {
+      "274": "Normal",
+      "275": "Sombra",
+      "276": "Purificado"
+    },
+    "183": {
+      "1196": "Normal",
+      "1197": "Sombroso",
+      "1198": "Purificado"
+    },
+    "184": {
+      "1199": "Normal",
+      "1200": "Sombroso",
+      "1201": "Purificado"
+    },
+    "185": {
+      "1202": "Normal",
+      "1203": "Sombroso",
+      "1204": "Purificado"
+    },
+    "186": {
+      "244": "Normal",
+      "245": "Sombra",
+      "246": "Purificado"
+    },
+    "187": {
+      "1205": "Normal",
+      "1206": "Sombroso",
+      "1207": "Purificado"
+    },
+    "188": {
+      "1208": "Normal",
+      "1209": "Sombroso",
+      "1210": "Purificado"
+    },
+    "189": {
+      "1211": "Normal",
+      "1212": "Sombroso",
+      "1213": "Purificado"
+    },
+    "190": {
+      "1214": "Normal",
+      "1215": "Sombroso",
+      "1216": "Purificado"
+    },
+    "191": {
+      "1217": "Normal",
+      "1218": "Sombroso",
+      "1219": "Purificado"
+    },
+    "192": {
+      "1220": "Normal",
+      "1221": "Sombroso",
+      "1222": "Purificado"
+    },
+    "193": {
+      "1223": "Normal",
+      "1224": "Sombroso",
+      "1225": "Purificado"
+    },
+    "194": {
+      "1226": "Normal",
+      "1227": "Sombroso",
+      "1228": "Purificado"
+    },
+    "195": {
+      "1229": "Normal",
+      "1230": "Sombroso",
+      "1231": "Purificado"
+    },
+    "196": {
+      "1232": "Normal",
+      "1233": "Sombroso",
+      "1234": "Purificado"
+    },
+    "197": {
+      "1235": "Normal",
+      "1236": "Sombroso",
+      "1237": "Purificado"
+    },
+    "198": {
+      "855": "Normal",
+      "856": "Sombroso",
+      "857": "Purificado"
+    },
+    "199": {
+      "1238": "Normal",
+      "1239": "Sombroso",
+      "1240": "Purificado"
+    },
+    "200": {
+      "719": "Normal",
+      "720": "Sombra",
+      "721": "Purificado"
     },
     "201": {
       "001": "A",
@@ -131,6 +1087,637 @@
       "027": "!",
       "028": "?"
     },
+    "202": {
+      "602": "Normal",
+      "603": "NoEvolve",
+      "686": "Sombra",
+      "687": "Purificado",
+      "2328": "Spring 2020"
+    },
+    "203": {
+      "1241": "Normal",
+      "1242": "Sombroso",
+      "1243": "Purificado"
+    },
+    "204": {
+      "1244": "Normal",
+      "1245": "Sombroso",
+      "1246": "Purificado"
+    },
+    "205": {
+      "1247": "Normal",
+      "1248": "Sombroso",
+      "1249": "Purificado"
+    },
+    "206": {
+      "1250": "Normal",
+      "1251": "Sombroso",
+      "1252": "Purificado"
+    },
+    "207": {
+      "803": "Normal",
+      "804": "Sombra",
+      "805": "Purificado"
+    },
+    "208": {
+      "905": "Normal",
+      "906": "Sombroso",
+      "907": "Purificado"
+    },
+    "209": {
+      "1253": "Normal",
+      "1254": "Sombroso",
+      "1255": "Purificado"
+    },
+    "210": {
+      "1256": "Normal",
+      "1257": "Sombroso",
+      "1258": "Purificado"
+    },
+    "211": {
+      "1259": "Normal",
+      "1260": "Sombroso",
+      "1261": "Purificado"
+    },
+    "212": {
+      "250": "Normal",
+      "251": "Sombra",
+      "252": "Purificado"
+    },
+    "213": {
+      "827": "Normal",
+      "828": "Sombra",
+      "829": "Purificado"
+    },
+    "214": {
+      "1262": "Normal",
+      "1263": "Sombroso",
+      "1264": "Purificado"
+    },
+    "215": {
+      "797": "Normal",
+      "798": "Sombra",
+      "799": "Purificado"
+    },
+    "216": {
+      "1265": "Normal",
+      "1266": "Sombroso",
+      "1267": "Purificado"
+    },
+    "217": {
+      "1268": "Normal",
+      "1269": "Sombroso",
+      "1270": "Purificado"
+    },
+    "218": {
+      "1271": "Normal",
+      "1272": "Sombroso",
+      "1273": "Purificado"
+    },
+    "219": {
+      "1274": "Normal",
+      "1275": "Sombroso",
+      "1276": "Purificado"
+    },
+    "220": {
+      "1277": "Normal",
+      "1278": "Sombroso",
+      "1279": "Purificado"
+    },
+    "221": {
+      "1280": "Normal",
+      "1281": "Sombroso",
+      "1282": "Purificado"
+    },
+    "222": {
+      "1283": "Normal",
+      "1284": "Sombroso",
+      "1285": "Purificado"
+    },
+    "223": {
+      "1286": "Normal",
+      "1287": "Sombroso",
+      "1288": "Purificado"
+    },
+    "224": {
+      "1289": "Normal",
+      "1290": "Sombroso",
+      "1291": "Purificado"
+    },
+    "225": {
+      "938": "Normal",
+      "939": "Sombroso",
+      "940": "Purificado"
+    },
+    "226": {
+      "1292": "Normal",
+      "1293": "Sombroso",
+      "1294": "Purificado"
+    },
+    "227": {
+      "1295": "Normal",
+      "1296": "Sombroso",
+      "1297": "Purificado"
+    },
+    "228": {
+      "229": "Normal",
+      "230": "Sombra",
+      "231": "Purificado"
+    },
+    "229": {
+      "232": "Normal",
+      "233": "Sombra",
+      "234": "Purificado"
+    },
+    "230": {
+      "1298": "Normal",
+      "1299": "Sombroso",
+      "1300": "Purificado"
+    },
+    "231": {
+      "1301": "Normal",
+      "1302": "Sombroso",
+      "1303": "Purificado"
+    },
+    "232": {
+      "1304": "Normal",
+      "1305": "Sombroso",
+      "1306": "Purificado"
+    },
+    "233": {
+      "680": "Normal",
+      "681": "Sombra",
+      "682": "Purificado"
+    },
+    "234": {
+      "941": "Normal",
+      "942": "Sombroso",
+      "943": "Purificado"
+    },
+    "235": {
+      "1307": "Normal",
+      "1308": "Sombroso",
+      "1309": "Purificado"
+    },
+    "236": {
+      "1310": "Normal",
+      "1311": "Sombroso",
+      "1312": "Purificado"
+    },
+    "237": {
+      "1313": "Normal",
+      "1314": "Sombroso",
+      "1315": "Purificado"
+    },
+    "238": {
+      "1316": "Normal",
+      "1317": "Sombroso",
+      "1318": "Purificado"
+    },
+    "239": {
+      "1319": "Normal",
+      "1320": "Sombroso",
+      "1321": "Purificado"
+    },
+    "240": {
+      "1322": "Normal",
+      "1323": "Sombroso",
+      "1324": "Purificado"
+    },
+    "241": {
+      "1325": "Normal",
+      "1326": "Sombroso",
+      "1327": "Purificado"
+    },
+    "242": {
+      "1328": "Normal",
+      "1329": "Sombroso",
+      "1330": "Purificado"
+    },
+    "243": {
+      "1331": "Normal",
+      "1332": "Sombroso",
+      "1333": "Purificado"
+    },
+    "244": {
+      "1334": "Normal",
+      "1335": "Sombroso",
+      "1336": "Purificado"
+    },
+    "245": {
+      "1337": "Normal",
+      "1338": "Sombroso",
+      "1339": "Purificado"
+    },
+    "246": {
+      "313": "Normal",
+      "314": "Sombra",
+      "315": "Purificado"
+    },
+    "247": {
+      "316": "Normal",
+      "317": "Sombra",
+      "318": "Purificado"
+    },
+    "248": {
+      "319": "Normal",
+      "320": "Sombra",
+      "321": "Purificado"
+    },
+    "249": {
+      "1340": "Normal",
+      "1341": "Sombroso",
+      "1342": "Purificado"
+    },
+    "250": {
+      "1343": "Normal",
+      "1344": "Sombroso",
+      "1345": "Purificado"
+    },
+    "251": {
+      "1346": "Normal",
+      "1347": "Sombroso",
+      "1348": "Purificado"
+    },
+    "252": {
+      "1349": "Normal",
+      "1350": "Sombroso",
+      "1351": "Purificado"
+    },
+    "253": {
+      "1352": "Normal",
+      "1353": "Sombroso",
+      "1354": "Purificado"
+    },
+    "254": {
+      "1355": "Normal",
+      "1356": "Sombroso",
+      "1357": "Purificado"
+    },
+    "255": {
+      "1358": "Normal",
+      "1359": "Sombroso",
+      "1360": "Purificado"
+    },
+    "256": {
+      "1361": "Normal",
+      "1362": "Sombroso",
+      "1363": "Purificado"
+    },
+    "257": {
+      "1364": "Normal",
+      "1365": "Sombroso",
+      "1366": "Purificado"
+    },
+    "258": {
+      "205": "Normal",
+      "206": "Sombra",
+      "207": "Purificado"
+    },
+    "259": {
+      "208": "Normal",
+      "209": "Sombra",
+      "210": "Purificado"
+    },
+    "260": {
+      "211": "Normal",
+      "212": "Sombra",
+      "213": "Purificado"
+    },
+    "261": {
+      "1367": "Normal",
+      "1368": "Sombroso",
+      "1369": "Purificado"
+    },
+    "262": {
+      "1370": "Normal",
+      "1371": "Sombroso",
+      "1372": "Purificado"
+    },
+    "263": {
+      "945": "Normal",
+      "946": "Galarian",
+      "1373": "Sombroso",
+      "1374": "Purificado"
+    },
+    "264": {
+      "947": "Normal",
+      "948": "Galarian",
+      "1375": "Sombroso",
+      "1376": "Purificado"
+    },
+    "265": {
+      "600": "Normal",
+      "601": "NoEvolve",
+      "1377": "Sombroso",
+      "1378": "Purificado",
+      "2327": "Spring 2020"
+    },
+    "266": {
+      "1379": "Normal",
+      "1380": "Sombroso",
+      "1381": "Purificado"
+    },
+    "267": {
+      "1382": "Normal",
+      "1383": "Sombroso",
+      "1384": "Purificado"
+    },
+    "268": {
+      "1385": "Normal",
+      "1386": "Sombroso",
+      "1387": "Purificado"
+    },
+    "269": {
+      "1388": "Normal",
+      "1389": "Sombroso",
+      "1390": "Purificado"
+    },
+    "270": {
+      "1391": "Normal",
+      "1392": "Sombroso",
+      "1393": "Purificado"
+    },
+    "271": {
+      "1394": "Normal",
+      "1395": "Sombroso",
+      "1396": "Purificado"
+    },
+    "272": {
+      "1397": "Normal",
+      "1398": "Sombroso",
+      "1399": "Purificado"
+    },
+    "273": {
+      "625": "Normal",
+      "626": "Sombra",
+      "627": "Purificado"
+    },
+    "274": {
+      "628": "Normal",
+      "629": "Sombra",
+      "630": "Purificado"
+    },
+    "275": {
+      "631": "Normal",
+      "632": "Sombra",
+      "633": "Purificado"
+    },
+    "276": {
+      "1400": "Normal",
+      "1401": "Sombroso",
+      "1402": "Purificado"
+    },
+    "277": {
+      "1403": "Normal",
+      "1404": "Sombroso",
+      "1405": "Purificado"
+    },
+    "278": {
+      "1406": "Normal",
+      "1407": "Sombroso",
+      "1408": "Purificado"
+    },
+    "279": {
+      "1409": "Normal",
+      "1410": "Sombroso",
+      "1411": "Purificado"
+    },
+    "280": {
+      "292": "Normal",
+      "293": "Sombra",
+      "294": "Purificado"
+    },
+    "281": {
+      "295": "Normal",
+      "296": "Sombra",
+      "297": "Purificado"
+    },
+    "282": {
+      "298": "Normal",
+      "299": "Sombra",
+      "300": "Purificado"
+    },
+    "283": {
+      "1412": "Normal",
+      "1413": "Sombroso",
+      "1414": "Purificado"
+    },
+    "284": {
+      "1415": "Normal",
+      "1416": "Sombroso",
+      "1417": "Purificado"
+    },
+    "285": {
+      "1418": "Normal",
+      "1419": "Sombroso",
+      "1420": "Purificado"
+    },
+    "286": {
+      "1421": "Normal",
+      "1422": "Sombroso",
+      "1423": "Purificado"
+    },
+    "287": {
+      "1424": "Normal",
+      "1425": "Sombroso",
+      "1426": "Purificado"
+    },
+    "288": {
+      "1427": "Normal",
+      "1428": "Sombroso",
+      "1429": "Purificado"
+    },
+    "289": {
+      "1430": "Normal",
+      "1431": "Sombroso",
+      "1432": "Purificado"
+    },
+    "290": {
+      "1433": "Normal",
+      "1434": "Sombroso",
+      "1435": "Purificado"
+    },
+    "291": {
+      "1436": "Normal",
+      "1437": "Sombroso",
+      "1438": "Purificado"
+    },
+    "292": {
+      "1439": "Normal",
+      "1440": "Sombroso",
+      "1441": "Purificado"
+    },
+    "293": {
+      "1442": "Normal",
+      "1443": "Sombroso",
+      "1444": "Purificado"
+    },
+    "294": {
+      "1445": "Normal",
+      "1446": "Sombroso",
+      "1447": "Purificado"
+    },
+    "295": {
+      "1448": "Normal",
+      "1449": "Sombroso",
+      "1450": "Purificado"
+    },
+    "296": {
+      "1451": "Normal",
+      "1452": "Sombroso",
+      "1453": "Purificado"
+    },
+    "297": {
+      "1454": "Normal",
+      "1455": "Sombroso",
+      "1456": "Purificado"
+    },
+    "298": {
+      "1457": "Normal",
+      "1458": "Sombroso",
+      "1459": "Purificado"
+    },
+    "299": {
+      "1460": "Normal",
+      "1461": "Sombroso",
+      "1462": "Purificado"
+    },
+    "300": {
+      "1463": "Normal",
+      "1464": "Sombroso",
+      "1465": "Purificado"
+    },
+    "301": {
+      "1466": "Normal",
+      "1467": "Sombroso",
+      "1468": "Purificado"
+    },
+    "302": {
+      "923": "Normal",
+      "924": "Sombroso",
+      "925": "Purificado"
+    },
+    "303": {
+      "833": "Normal",
+      "834": "Sombra",
+      "835": "Purificado"
+    },
+    "304": {
+      "1469": "Normal",
+      "1470": "Sombroso",
+      "1471": "Purificado"
+    },
+    "305": {
+      "1472": "Normal",
+      "1473": "Sombroso",
+      "1474": "Purificado"
+    },
+    "306": {
+      "1475": "Normal",
+      "1476": "Sombroso",
+      "1477": "Purificado"
+    },
+    "307": {
+      "1478": "Normal",
+      "1479": "Sombroso",
+      "1480": "Purificado"
+    },
+    "308": {
+      "1481": "Normal",
+      "1482": "Sombroso",
+      "1483": "Purificado"
+    },
+    "309": {
+      "1484": "Normal",
+      "1485": "Sombroso",
+      "1486": "Purificado"
+    },
+    "310": {
+      "1487": "Normal",
+      "1488": "Sombroso",
+      "1489": "Purificado"
+    },
+    "311": {
+      "1490": "Normal",
+      "1491": "Sombroso",
+      "1492": "Purificado"
+    },
+    "312": {
+      "1493": "Normal",
+      "1494": "Sombroso",
+      "1495": "Purificado"
+    },
+    "313": {
+      "1496": "Normal",
+      "1497": "Sombroso",
+      "1498": "Purificado"
+    },
+    "314": {
+      "1499": "Normal",
+      "1500": "Sombroso",
+      "1501": "Purificado"
+    },
+    "315": {
+      "1502": "Normal",
+      "1503": "Sombroso",
+      "1504": "Purificado"
+    },
+    "316": {
+      "1505": "Normal",
+      "1506": "Sombroso",
+      "1507": "Purificado"
+    },
+    "317": {
+      "1508": "Normal",
+      "1509": "Sombroso",
+      "1510": "Purificado"
+    },
+    "318": {
+      "734": "Normal",
+      "735": "Sombra",
+      "736": "Purificado"
+    },
+    "319": {
+      "737": "Normal",
+      "738": "Sombra",
+      "739": "Purificado"
+    },
+    "320": {
+      "1511": "Normal",
+      "1512": "Sombroso",
+      "1513": "Purificado"
+    },
+    "321": {
+      "1514": "Normal",
+      "1515": "Sombroso",
+      "1516": "Purificado"
+    },
+    "322": {
+      "1517": "Normal",
+      "1518": "Sombroso",
+      "1519": "Purificado"
+    },
+    "323": {
+      "1520": "Normal",
+      "1521": "Sombroso",
+      "1522": "Purificado"
+    },
+    "324": {
+      "1523": "Normal",
+      "1524": "Sombroso",
+      "1525": "Purificado"
+    },
+    "325": {
+      "1526": "Normal",
+      "1527": "Sombroso",
+      "1528": "Purificado"
+    },
+    "326": {
+      "1529": "Normal",
+      "1530": "Sombroso",
+      "1531": "Purificado"
+    },
     "327": {
       "037": "0",
       "038": "1",
@@ -153,11 +1740,296 @@
       "131": "18",
       "132": "19"
     },
+    "328": {
+      "746": "Normal",
+      "747": "Sombra",
+      "748": "Purificado"
+    },
+    "329": {
+      "749": "Normal",
+      "750": "Sombra",
+      "751": "Purificado"
+    },
+    "330": {
+      "752": "Normal",
+      "753": "Sombra",
+      "754": "Purificado"
+    },
+    "331": {
+      "610": "Normal",
+      "611": "Sombra",
+      "612": "Purificado"
+    },
+    "332": {
+      "613": "Normal",
+      "614": "Sombra",
+      "615": "Purificado"
+    },
+    "333": {
+      "1532": "Normal",
+      "1533": "Sombroso",
+      "1534": "Purificado"
+    },
+    "334": {
+      "1535": "Normal",
+      "1536": "Sombroso",
+      "1537": "Purificado"
+    },
+    "335": {
+      "1538": "Normal",
+      "1539": "Sombroso",
+      "1540": "Purificado"
+    },
+    "336": {
+      "1541": "Normal",
+      "1542": "Sombroso",
+      "1543": "Purificado"
+    },
+    "337": {
+      "1544": "Normal",
+      "1545": "Sombroso",
+      "1546": "Purificado"
+    },
+    "338": {
+      "1547": "Normal",
+      "1548": "Sombroso",
+      "1549": "Purificado"
+    },
+    "339": {
+      "1550": "Normal",
+      "1551": "Sombroso",
+      "1552": "Purificado"
+    },
+    "340": {
+      "1553": "Normal",
+      "1554": "Sombroso",
+      "1555": "Purificado"
+    },
+    "341": {
+      "1556": "Normal",
+      "1557": "Sombroso",
+      "1558": "Purificado"
+    },
+    "342": {
+      "1559": "Normal",
+      "1560": "Sombroso",
+      "1561": "Purificado"
+    },
+    "343": {
+      "1562": "Normal",
+      "1563": "Sombroso",
+      "1564": "Purificado"
+    },
+    "344": {
+      "1565": "Normal",
+      "1566": "Sombroso",
+      "1567": "Purificado"
+    },
+    "345": {
+      "1568": "Normal",
+      "1569": "Sombroso",
+      "1570": "Purificado"
+    },
+    "346": {
+      "1571": "Normal",
+      "1572": "Sombroso",
+      "1573": "Purificado"
+    },
+    "347": {
+      "1574": "Normal",
+      "1575": "Sombroso",
+      "1576": "Purificado"
+    },
+    "348": {
+      "1577": "Normal",
+      "1578": "Sombroso",
+      "1579": "Purificado"
+    },
+    "349": {
+      "1580": "Normal",
+      "1581": "Sombroso",
+      "1582": "Purificado"
+    },
+    "350": {
+      "1583": "Normal",
+      "1584": "Sombroso",
+      "1585": "Purificado"
+    },
     "351": {
       "029": "Normal",
       "030": "Ensolarado",
       "031": "Chuvoso",
       "032": "Nevado"
+    },
+    "352": {
+      "1586": "Normal",
+      "1587": "Sombroso",
+      "1588": "Purificado"
+    },
+    "353": {
+      "908": "Normal",
+      "909": "Sombroso",
+      "910": "Purificado"
+    },
+    "354": {
+      "911": "Normal",
+      "912": "Sombroso",
+      "913": "Purificado"
+    },
+    "355": {
+      "914": "Normal",
+      "915": "Sombroso",
+      "916": "Purificado"
+    },
+    "356": {
+      "917": "Normal",
+      "918": "Sombroso",
+      "919": "Purificado"
+    },
+    "357": {
+      "1589": "Normal",
+      "1590": "Sombroso",
+      "1591": "Purificado"
+    },
+    "358": {
+      "1592": "Normal",
+      "1593": "Sombroso",
+      "1594": "Purificado"
+    },
+    "359": {
+      "830": "Normal",
+      "831": "Sombra",
+      "832": "Purificado"
+    },
+    "360": {
+      "1595": "Normal",
+      "1596": "Sombroso",
+      "1597": "Purificado"
+    },
+    "361": {
+      "926": "Normal",
+      "927": "Sombroso",
+      "928": "Purificado"
+    },
+    "362": {
+      "929": "Normal",
+      "930": "Sombroso",
+      "931": "Purificado"
+    },
+    "363": {
+      "1598": "Normal",
+      "1599": "Sombroso",
+      "1600": "Purificado"
+    },
+    "364": {
+      "1601": "Normal",
+      "1602": "Sombroso",
+      "1603": "Purificado"
+    },
+    "365": {
+      "1604": "Normal",
+      "1605": "Sombroso",
+      "1606": "Purificado"
+    },
+    "366": {
+      "1607": "Normal",
+      "1608": "Sombroso",
+      "1609": "Purificado"
+    },
+    "367": {
+      "1610": "Normal",
+      "1611": "Sombroso",
+      "1612": "Purificado"
+    },
+    "368": {
+      "1613": "Normal",
+      "1614": "Sombroso",
+      "1615": "Purificado"
+    },
+    "369": {
+      "1616": "Normal",
+      "1617": "Sombroso",
+      "1618": "Purificado"
+    },
+    "370": {
+      "1619": "Normal",
+      "1620": "Sombroso",
+      "1621": "Purificado"
+    },
+    "371": {
+      "755": "Normal",
+      "756": "Sombra",
+      "757": "Purificado"
+    },
+    "372": {
+      "758": "Normal",
+      "759": "Sombra",
+      "760": "Purificado"
+    },
+    "373": {
+      "761": "Normal",
+      "762": "Sombra",
+      "763": "Purificado"
+    },
+    "374": {
+      "764": "Normal",
+      "765": "Sombra",
+      "766": "Purificado"
+    },
+    "375": {
+      "767": "Normal",
+      "768": "Sombra",
+      "769": "Purificado"
+    },
+    "376": {
+      "770": "Normal",
+      "771": "Sombra",
+      "772": "Purificado"
+    },
+    "377": {
+      "1622": "Normal",
+      "1623": "Sombroso",
+      "1624": "Purificado"
+    },
+    "378": {
+      "1625": "Normal",
+      "1626": "Sombroso",
+      "1627": "Purificado"
+    },
+    "379": {
+      "1628": "Normal",
+      "1629": "Sombroso",
+      "1630": "Purificado"
+    },
+    "380": {
+      "1631": "Normal",
+      "1632": "Sombroso",
+      "1633": "Purificado"
+    },
+    "381": {
+      "1634": "Normal",
+      "1635": "Sombroso",
+      "1636": "Purificado"
+    },
+    "382": {
+      "1637": "Normal",
+      "1638": "Sombroso",
+      "1639": "Purificado"
+    },
+    "383": {
+      "1640": "Normal",
+      "1641": "Sombroso",
+      "1642": "Purificado"
+    },
+    "384": {
+      "1643": "Normal",
+      "1644": "Sombroso",
+      "1645": "Purificado"
+    },
+    "385": {
+      "1646": "Normal",
+      "1647": "Sombroso",
+      "1648": "Purificado"
     },
     "386": {
       "033": "Normal",
@@ -165,27 +2037,472 @@
       "035": "Defesa",
       "036": "Rapidez"
     },
+    "387": {
+      "688": "Normal",
+      "689": "Sombra",
+      "690": "Purificado"
+    },
+    "388": {
+      "691": "Normal",
+      "692": "Sombra",
+      "693": "Purificado"
+    },
+    "389": {
+      "694": "Normal",
+      "695": "Sombra",
+      "696": "Purificado"
+    },
+    "390": {
+      "818": "Normal",
+      "819": "Sombra",
+      "820": "Purificado"
+    },
+    "391": {
+      "821": "Normal",
+      "822": "Sombra",
+      "823": "Purificado"
+    },
+    "392": {
+      "824": "Normal",
+      "825": "Sombra",
+      "826": "Purificado"
+    },
+    "393": {
+      "1649": "Normal",
+      "1650": "Sombroso",
+      "1651": "Purificado"
+    },
+    "394": {
+      "1652": "Normal",
+      "1653": "Sombroso",
+      "1654": "Purificado"
+    },
+    "395": {
+      "1655": "Normal",
+      "1656": "Sombroso",
+      "1657": "Purificado"
+    },
+    "396": {
+      "1658": "Normal",
+      "1659": "Sombroso",
+      "1660": "Purificado"
+    },
+    "397": {
+      "1661": "Normal",
+      "1662": "Sombroso",
+      "1663": "Purificado"
+    },
+    "398": {
+      "1664": "Normal",
+      "1665": "Sombroso",
+      "1666": "Purificado"
+    },
+    "399": {
+      "1667": "Normal",
+      "1668": "Sombroso",
+      "1669": "Purificado"
+    },
+    "400": {
+      "1670": "Normal",
+      "1671": "Sombroso",
+      "1672": "Purificado"
+    },
+    "401": {
+      "1673": "Normal",
+      "1674": "Sombroso",
+      "1675": "Purificado"
+    },
+    "402": {
+      "1676": "Normal",
+      "1677": "Sombroso",
+      "1678": "Purificado"
+    },
+    "403": {
+      "1679": "Normal",
+      "1680": "Sombroso",
+      "1681": "Purificado"
+    },
+    "404": {
+      "1682": "Normal",
+      "1683": "Sombroso",
+      "1684": "Purificado"
+    },
+    "405": {
+      "1685": "Normal",
+      "1686": "Sombroso",
+      "1687": "Purificado"
+    },
+    "406": {
+      "1688": "Normal",
+      "1689": "Sombroso",
+      "1690": "Purificado"
+    },
+    "407": {
+      "1691": "Normal",
+      "1692": "Sombroso",
+      "1693": "Purificado"
+    },
+    "408": {
+      "1694": "Normal",
+      "1695": "Sombroso",
+      "1696": "Purificado"
+    },
+    "409": {
+      "1697": "Normal",
+      "1698": "Sombroso",
+      "1699": "Purificado"
+    },
+    "410": {
+      "1700": "Normal",
+      "1701": "Sombroso",
+      "1702": "Purificado"
+    },
+    "411": {
+      "1703": "Normal",
+      "1704": "Sombroso",
+      "1705": "Purificado"
+    },
     "412": {
       "118": "Plantar",
       "119": "Sandy",
-      "120": "Lixo"
+      "120": "Lixo",
+      "1706": "Normal",
+      "1707": "Sombroso",
+      "1708": "Purificado"
     },
     "413": {
       "087": "Plantar",
       "088": "Sandy",
-      "089": "Lixo"
+      "089": "Lixo",
+      "1709": "Normal",
+      "1710": "Sombroso",
+      "1711": "Purificado"
+    },
+    "414": {
+      "1712": "Normal",
+      "1713": "Sombroso",
+      "1714": "Purificado"
+    },
+    "415": {
+      "1715": "Normal",
+      "1716": "Sombroso",
+      "1717": "Purificado"
+    },
+    "416": {
+      "1718": "Normal",
+      "1719": "Sombroso",
+      "1720": "Purificado"
+    },
+    "417": {
+      "1721": "Normal",
+      "1722": "Sombroso",
+      "1723": "Purificado"
+    },
+    "418": {
+      "1724": "Normal",
+      "1725": "Sombroso",
+      "1726": "Purificado"
+    },
+    "419": {
+      "1727": "Normal",
+      "1728": "Sombroso",
+      "1729": "Purificado"
+    },
+    "420": {
+      "1730": "Normal",
+      "1731": "Sombroso",
+      "1732": "Purificado"
     },
     "421": {
       "094": "Nublado",
-      "095": "Ensolarado"
+      "095": "Ensolarado",
+      "1733": "Normal",
+      "1734": "Sombroso",
+      "1735": "Purificado"
     },
     "422": {
       "096": "Mar do Oeste",
-      "097": "mar leste"
+      "097": "mar leste",
+      "1736": "Normal",
+      "1737": "Sombroso",
+      "1738": "Purificado"
     },
     "423": {
       "098": "Mar do Oeste",
-      "099": "mar leste"
+      "099": "mar leste",
+      "1739": "Normal",
+      "1740": "Sombroso",
+      "1741": "Purificado"
+    },
+    "424": {
+      "1742": "Normal",
+      "1743": "Sombroso",
+      "1744": "Purificado"
+    },
+    "425": {
+      "1745": "Normal",
+      "1746": "Sombroso",
+      "1747": "Purificado"
+    },
+    "426": {
+      "1748": "Normal",
+      "1749": "Sombroso",
+      "1750": "Purificado"
+    },
+    "427": {
+      "1751": "Normal",
+      "1752": "Sombroso",
+      "1753": "Purificado"
+    },
+    "428": {
+      "1754": "Normal",
+      "1755": "Sombroso",
+      "1756": "Purificado"
+    },
+    "429": {
+      "722": "Normal",
+      "723": "Sombra",
+      "724": "Purificado"
+    },
+    "430": {
+      "858": "Normal",
+      "859": "Sombroso",
+      "860": "Purificado"
+    },
+    "431": {
+      "1757": "Normal",
+      "1758": "Sombroso",
+      "1759": "Purificado"
+    },
+    "432": {
+      "1760": "Normal",
+      "1761": "Sombroso",
+      "1762": "Purificado"
+    },
+    "433": {
+      "1763": "Normal",
+      "1764": "Sombroso",
+      "1765": "Purificado"
+    },
+    "434": {
+      "791": "Normal",
+      "792": "Sombra",
+      "793": "Purificado"
+    },
+    "435": {
+      "794": "Normal",
+      "795": "Sombra",
+      "796": "Purificado"
+    },
+    "436": {
+      "1766": "Normal",
+      "1767": "Sombroso",
+      "1768": "Purificado"
+    },
+    "437": {
+      "1769": "Normal",
+      "1770": "Sombroso",
+      "1771": "Purificado"
+    },
+    "438": {
+      "1772": "Normal",
+      "1773": "Sombroso",
+      "1774": "Purificado"
+    },
+    "440": {
+      "1778": "Normal",
+      "1779": "Sombroso",
+      "1780": "Purificado"
+    },
+    "441": {
+      "1781": "Normal",
+      "1782": "Sombroso",
+      "1783": "Purificado"
+    },
+    "442": {
+      "1784": "Normal",
+      "1785": "Sombroso",
+      "1786": "Purificado"
+    },
+    "443": {
+      "861": "Normal",
+      "862": "Sombroso",
+      "863": "Purificado"
+    },
+    "444": {
+      "864": "Normal",
+      "865": "Sombroso",
+      "866": "Purificado"
+    },
+    "445": {
+      "867": "Normal",
+      "868": "Sombroso",
+      "869": "Purificado"
+    },
+    "446": {
+      "1787": "Normal",
+      "1788": "Sombroso",
+      "1789": "Purificado"
+    },
+    "447": {
+      "1790": "Normal",
+      "1791": "Sombroso",
+      "1792": "Purificado"
+    },
+    "448": {
+      "1793": "Normal",
+      "1794": "Sombroso",
+      "1795": "Purificado"
+    },
+    "449": {
+      "888": "Normal",
+      "889": "Sombroso",
+      "890": "Purificado"
+    },
+    "450": {
+      "891": "Normal",
+      "892": "Sombroso",
+      "893": "Purificado"
+    },
+    "451": {
+      "1796": "Normal",
+      "1797": "Sombroso",
+      "1798": "Purificado"
+    },
+    "452": {
+      "1799": "Normal",
+      "1800": "Sombroso",
+      "1801": "Purificado"
+    },
+    "453": {
+      "1802": "Normal",
+      "1803": "Sombroso",
+      "1804": "Purificado"
+    },
+    "454": {
+      "1805": "Normal",
+      "1806": "Sombroso",
+      "1807": "Purificado"
+    },
+    "455": {
+      "1808": "Normal",
+      "1809": "Sombroso",
+      "1810": "Purificado"
+    },
+    "456": {
+      "1811": "Normal",
+      "1812": "Sombroso",
+      "1813": "Purificado"
+    },
+    "457": {
+      "1814": "Normal",
+      "1815": "Sombroso",
+      "1816": "Purificado"
+    },
+    "458": {
+      "1817": "Normal",
+      "1818": "Sombroso",
+      "1819": "Purificado"
+    },
+    "459": {
+      "932": "Normal",
+      "933": "Sombroso",
+      "934": "Purificado"
+    },
+    "460": {
+      "935": "Normal",
+      "936": "Sombroso",
+      "937": "Purificado"
+    },
+    "461": {
+      "800": "Normal",
+      "801": "Sombra",
+      "802": "Purificado"
+    },
+    "462": {
+      "661": "Normal",
+      "662": "Sombra",
+      "663": "Purificado"
+    },
+    "463": {
+      "1820": "Normal",
+      "1821": "Sombroso",
+      "1822": "Purificado"
+    },
+    "464": {
+      "852": "Normal",
+      "853": "Sombroso",
+      "854": "Purificado"
+    },
+    "465": {
+      "1823": "Normal",
+      "1824": "Sombroso",
+      "1825": "Purificado"
+    },
+    "466": {
+      "643": "Normal",
+      "644": "Sombra",
+      "645": "Purificado"
+    },
+    "467": {
+      "637": "Normal",
+      "638": "Sombra",
+      "639": "Purificado"
+    },
+    "468": {
+      "1826": "Normal",
+      "1827": "Sombroso",
+      "1828": "Purificado"
+    },
+    "469": {
+      "1829": "Normal",
+      "1830": "Sombroso",
+      "1831": "Purificado"
+    },
+    "470": {
+      "1832": "Normal",
+      "1833": "Sombroso",
+      "1834": "Purificado"
+    },
+    "471": {
+      "1835": "Normal",
+      "1836": "Sombroso",
+      "1837": "Purificado"
+    },
+    "472": {
+      "806": "Normal",
+      "807": "Sombra",
+      "808": "Purificado"
+    },
+    "473": {
+      "1838": "Normal",
+      "1839": "Sombroso",
+      "1840": "Purificado"
+    },
+    "474": {
+      "683": "Normal",
+      "684": "Sombra",
+      "685": "Purificado"
+    },
+    "475": {
+      "301": "Normal",
+      "302": "Sombra",
+      "303": "Purificado"
+    },
+    "476": {
+      "1841": "Normal",
+      "1842": "Sombroso",
+      "1843": "Purificado"
+    },
+    "477": {
+      "920": "Normal",
+      "921": "Sombroso",
+      "922": "Purificado"
+    },
+    "478": {
+      "1844": "Normal",
+      "1845": "Sombroso",
+      "1846": "Purificado"
     },
     "479": {
       "081": "Normal",
@@ -195,13 +2512,74 @@
       "085": "Lavar",
       "086": "Calor"
     },
+    "480": {
+      "1847": "Normal",
+      "1848": "Sombroso",
+      "1849": "Purificado"
+    },
+    "481": {
+      "1850": "Normal",
+      "1851": "Sombroso",
+      "1852": "Purificado"
+    },
+    "482": {
+      "1853": "Normal",
+      "1854": "Sombroso",
+      "1855": "Purificado"
+    },
+    "483": {
+      "1856": "Normal",
+      "1857": "Sombroso",
+      "1858": "Purificado"
+    },
+    "484": {
+      "1859": "Normal",
+      "1860": "Sombroso",
+      "1861": "Purificado"
+    },
+    "485": {
+      "1862": "Normal",
+      "1863": "Sombroso",
+      "1864": "Purificado"
+    },
+    "486": {
+      "1865": "Normal",
+      "1866": "Sombroso",
+      "1867": "Purificado"
+    },
     "487": {
       "090": "Alterado",
-      "091": "Origem"
+      "091": "Origem",
+      "1868": "Normal",
+      "1869": "Sombroso",
+      "1870": "Purificado"
+    },
+    "488": {
+      "1871": "Normal",
+      "1872": "Sombroso",
+      "1873": "Purificado"
+    },
+    "489": {
+      "1874": "Normal",
+      "1875": "Sombroso",
+      "1876": "Purificado"
+    },
+    "490": {
+      "1877": "Normal",
+      "1878": "Sombroso",
+      "1879": "Purificado"
+    },
+    "491": {
+      "1880": "Normal",
+      "1881": "Sombroso",
+      "1882": "Purificado"
     },
     "492": {
       "092": "C\u00E9u",
-      "093": "Terra"
+      "093": "Terra",
+      "1883": "Normal",
+      "1884": "Sombroso",
+      "1885": "Purificado"
     },
     "493": {
       "100": "Normal",
@@ -222,13 +2600,863 @@
       "115": "Drag\u00E3o",
       "116": "Sombrio",
       "117": "Fada"
+    },
+    "494": {
+      "1886": "Normal",
+      "1887": "Sombroso",
+      "1888": "Purificado"
+    },
+    "495": {
+      "1889": "Normal",
+      "1890": "Sombroso",
+      "1891": "Purificado"
+    },
+    "496": {
+      "1892": "Normal",
+      "1893": "Sombroso",
+      "1894": "Purificado"
+    },
+    "497": {
+      "1895": "Normal",
+      "1896": "Sombroso",
+      "1897": "Purificado"
+    },
+    "498": {
+      "1898": "Normal",
+      "1899": "Sombroso",
+      "1900": "Purificado"
+    },
+    "499": {
+      "1901": "Normal",
+      "1902": "Sombroso",
+      "1903": "Purificado"
+    },
+    "500": {
+      "1904": "Normal",
+      "1905": "Sombroso",
+      "1906": "Purificado"
+    },
+    "501": {
+      "1907": "Normal",
+      "1908": "Sombroso",
+      "1909": "Purificado"
+    },
+    "502": {
+      "1910": "Normal",
+      "1911": "Sombroso",
+      "1912": "Purificado"
+    },
+    "503": {
+      "1913": "Normal",
+      "1914": "Sombroso",
+      "1915": "Purificado"
+    },
+    "504": {
+      "1916": "Normal",
+      "1917": "Sombroso",
+      "1918": "Purificado"
+    },
+    "505": {
+      "1919": "Normal",
+      "1920": "Sombroso",
+      "1921": "Purificado"
+    },
+    "506": {
+      "1922": "Normal",
+      "1923": "Sombroso",
+      "1924": "Purificado"
+    },
+    "507": {
+      "1925": "Normal",
+      "1926": "Sombroso",
+      "1927": "Purificado"
+    },
+    "508": {
+      "1928": "Normal",
+      "1929": "Sombroso",
+      "1930": "Purificado"
+    },
+    "509": {
+      "1931": "Normal",
+      "1932": "Sombroso",
+      "1933": "Purificado"
+    },
+    "510": {
+      "1934": "Normal",
+      "1935": "Sombroso",
+      "1936": "Purificado"
+    },
+    "511": {
+      "1937": "Normal",
+      "1938": "Sombroso",
+      "1939": "Purificado"
+    },
+    "512": {
+      "1940": "Normal",
+      "1941": "Sombroso",
+      "1942": "Purificado"
+    },
+    "513": {
+      "1943": "Normal",
+      "1944": "Sombroso",
+      "1945": "Purificado"
+    },
+    "514": {
+      "1946": "Normal",
+      "1947": "Sombroso",
+      "1948": "Purificado"
+    },
+    "515": {
+      "1949": "Normal",
+      "1950": "Sombroso",
+      "1951": "Purificado"
+    },
+    "516": {
+      "1952": "Normal",
+      "1953": "Sombroso",
+      "1954": "Purificado"
+    },
+    "517": {
+      "1955": "Normal",
+      "1956": "Sombroso",
+      "1957": "Purificado"
+    },
+    "518": {
+      "1958": "Normal",
+      "1959": "Sombroso",
+      "1960": "Purificado"
+    },
+    "519": {
+      "1961": "Normal",
+      "1962": "Sombroso",
+      "1963": "Purificado"
+    },
+    "520": {
+      "1964": "Normal",
+      "1965": "Sombroso",
+      "1966": "Purificado"
+    },
+    "521": {
+      "1967": "Normal",
+      "1968": "Sombroso",
+      "1969": "Purificado"
+    },
+    "522": {
+      "1970": "Normal",
+      "1971": "Sombroso",
+      "1972": "Purificado"
+    },
+    "523": {
+      "1973": "Normal",
+      "1974": "Sombroso",
+      "1975": "Purificado"
+    },
+    "524": {
+      "1976": "Normal",
+      "1977": "Sombroso",
+      "1978": "Purificado"
+    },
+    "525": {
+      "1979": "Normal",
+      "1980": "Sombroso",
+      "1981": "Purificado"
+    },
+    "526": {
+      "1982": "Normal",
+      "1983": "Sombroso",
+      "1984": "Purificado"
+    },
+    "527": {
+      "1985": "Normal",
+      "1986": "Sombroso",
+      "1987": "Purificado"
+    },
+    "528": {
+      "1988": "Normal",
+      "1989": "Sombroso",
+      "1990": "Purificado"
+    },
+    "529": {
+      "1991": "Normal",
+      "1992": "Sombroso",
+      "1993": "Purificado"
+    },
+    "530": {
+      "1994": "Normal",
+      "1995": "Sombroso",
+      "1996": "Purificado"
+    },
+    "531": {
+      "1997": "Normal",
+      "1998": "Sombroso",
+      "1999": "Purificado"
+    },
+    "532": {
+      "2000": "Normal",
+      "2001": "Sombroso",
+      "2002": "Purificado"
+    },
+    "533": {
+      "2003": "Normal",
+      "2004": "Sombroso",
+      "2005": "Purificado"
+    },
+    "534": {
+      "2006": "Normal",
+      "2007": "Sombroso",
+      "2008": "Purificado"
+    },
+    "535": {
+      "2009": "Normal",
+      "2010": "Sombroso",
+      "2011": "Purificado"
+    },
+    "536": {
+      "2012": "Normal",
+      "2013": "Sombroso",
+      "2014": "Purificado"
+    },
+    "537": {
+      "2015": "Normal",
+      "2016": "Sombroso",
+      "2017": "Purificado"
+    },
+    "538": {
+      "2018": "Normal",
+      "2019": "Sombroso",
+      "2020": "Purificado"
+    },
+    "539": {
+      "2021": "Normal",
+      "2022": "Sombroso",
+      "2023": "Purificado"
+    },
+    "540": {
+      "2024": "Normal",
+      "2025": "Sombroso",
+      "2026": "Purificado"
+    },
+    "541": {
+      "2027": "Normal",
+      "2028": "Sombroso",
+      "2029": "Purificado"
+    },
+    "542": {
+      "2030": "Normal",
+      "2031": "Sombroso",
+      "2032": "Purificado"
+    },
+    "543": {
+      "2033": "Normal",
+      "2034": "Sombroso",
+      "2035": "Purificado"
+    },
+    "544": {
+      "2036": "Normal",
+      "2037": "Sombroso",
+      "2038": "Purificado"
+    },
+    "545": {
+      "2039": "Normal",
+      "2040": "Sombroso",
+      "2041": "Purificado"
+    },
+    "546": {
+      "2042": "Normal",
+      "2043": "Sombroso",
+      "2044": "Purificado"
+    },
+    "547": {
+      "2045": "Normal",
+      "2046": "Sombroso",
+      "2047": "Purificado"
+    },
+    "548": {
+      "2048": "Normal",
+      "2049": "Sombroso",
+      "2050": "Purificado"
+    },
+    "549": {
+      "2051": "Normal",
+      "2052": "Sombroso",
+      "2053": "Purificado"
+    },
+    "550": {
+      "136": "Red Striped",
+      "137": "Blue Striped"
+    },
+    "551": {
+      "2054": "Normal",
+      "2055": "Sombroso",
+      "2056": "Purificado"
+    },
+    "552": {
+      "2057": "Normal",
+      "2058": "Sombroso",
+      "2059": "Purificado"
+    },
+    "553": {
+      "2060": "Normal",
+      "2061": "Sombroso",
+      "2062": "Purificado"
+    },
+    "554": {
+      "2063": "Normal",
+      "2064": "Sombroso",
+      "2065": "Purificado"
+    },
+    "555": {
+      "138": "Standard",
+      "139": "Zen"
+    },
+    "556": {
+      "2066": "Normal",
+      "2067": "Sombroso",
+      "2068": "Purificado"
+    },
+    "557": {
+      "2069": "Normal",
+      "2070": "Sombroso",
+      "2071": "Purificado"
+    },
+    "558": {
+      "2072": "Normal",
+      "2073": "Sombroso",
+      "2074": "Purificado"
+    },
+    "559": {
+      "2075": "Normal",
+      "2076": "Sombroso",
+      "2077": "Purificado"
+    },
+    "560": {
+      "2078": "Normal",
+      "2079": "Sombroso",
+      "2080": "Purificado"
+    },
+    "561": {
+      "2081": "Normal",
+      "2082": "Sombroso",
+      "2083": "Purificado"
+    },
+    "562": {
+      "2084": "Normal",
+      "2085": "Sombroso",
+      "2086": "Purificado"
+    },
+    "563": {
+      "2087": "Normal",
+      "2088": "Sombroso",
+      "2089": "Purificado"
+    },
+    "564": {
+      "2090": "Normal",
+      "2091": "Sombroso",
+      "2092": "Purificado"
+    },
+    "565": {
+      "2093": "Normal",
+      "2094": "Sombroso",
+      "2095": "Purificado"
+    },
+    "566": {
+      "2096": "Normal",
+      "2097": "Sombroso",
+      "2098": "Purificado"
+    },
+    "567": {
+      "2099": "Normal",
+      "2100": "Sombroso",
+      "2101": "Purificado"
+    },
+    "568": {
+      "2102": "Normal",
+      "2103": "Sombroso",
+      "2104": "Purificado"
+    },
+    "569": {
+      "2105": "Normal",
+      "2106": "Sombroso",
+      "2107": "Purificado"
+    },
+    "570": {
+      "2108": "Normal",
+      "2109": "Sombroso",
+      "2110": "Purificado"
+    },
+    "571": {
+      "2111": "Normal",
+      "2112": "Sombroso",
+      "2113": "Purificado"
+    },
+    "572": {
+      "2114": "Normal",
+      "2115": "Sombroso",
+      "2116": "Purificado"
+    },
+    "573": {
+      "2117": "Normal",
+      "2118": "Sombroso",
+      "2119": "Purificado"
+    },
+    "574": {
+      "2120": "Normal",
+      "2121": "Sombroso",
+      "2122": "Purificado"
+    },
+    "575": {
+      "2123": "Normal",
+      "2124": "Sombroso",
+      "2125": "Purificado"
+    },
+    "576": {
+      "2126": "Normal",
+      "2127": "Sombroso",
+      "2128": "Purificado"
+    },
+    "577": {
+      "2129": "Normal",
+      "2130": "Sombroso",
+      "2131": "Purificado"
+    },
+    "578": {
+      "2132": "Normal",
+      "2133": "Sombroso",
+      "2134": "Purificado"
+    },
+    "579": {
+      "2135": "Normal",
+      "2136": "Sombroso",
+      "2137": "Purificado"
+    },
+    "580": {
+      "2138": "Normal",
+      "2139": "Sombroso",
+      "2140": "Purificado"
+    },
+    "581": {
+      "2141": "Normal",
+      "2142": "Sombroso",
+      "2143": "Purificado"
+    },
+    "582": {
+      "2144": "Normal",
+      "2145": "Sombroso",
+      "2146": "Purificado"
+    },
+    "583": {
+      "2147": "Normal",
+      "2148": "Sombroso",
+      "2149": "Purificado"
+    },
+    "584": {
+      "2150": "Normal",
+      "2151": "Sombroso",
+      "2152": "Purificado"
+    },
+    "585": {
+      "585": "Spring",
+      "586": "Summer",
+      "587": "Autumn",
+      "588": "Winter"
+    },
+    "586": {
+      "589": "Spring",
+      "590": "Summer",
+      "591": "Autumn",
+      "592": "Winter"
+    },
+    "587": {
+      "2153": "Normal",
+      "2154": "Sombroso",
+      "2155": "Purificado"
+    },
+    "588": {
+      "2156": "Normal",
+      "2157": "Sombroso",
+      "2158": "Purificado"
+    },
+    "589": {
+      "2159": "Normal",
+      "2160": "Sombroso",
+      "2161": "Purificado"
+    },
+    "590": {
+      "2162": "Normal",
+      "2163": "Sombroso",
+      "2164": "Purificado"
+    },
+    "591": {
+      "2165": "Normal",
+      "2166": "Sombroso",
+      "2167": "Purificado"
+    },
+    "592": {
+      "2168": "Normal",
+      "2169": "Sombroso",
+      "2170": "Purificado"
+    },
+    "593": {
+      "2171": "Normal",
+      "2172": "Sombroso",
+      "2173": "Purificado"
+    },
+    "594": {
+      "2174": "Normal",
+      "2175": "Sombroso",
+      "2176": "Purificado"
+    },
+    "595": {
+      "2177": "Normal",
+      "2178": "Sombroso",
+      "2179": "Purificado"
+    },
+    "596": {
+      "2180": "Normal",
+      "2181": "Sombroso",
+      "2182": "Purificado"
+    },
+    "597": {
+      "2183": "Normal",
+      "2184": "Sombroso",
+      "2185": "Purificado"
+    },
+    "598": {
+      "2186": "Normal",
+      "2187": "Sombroso",
+      "2188": "Purificado"
+    },
+    "599": {
+      "2189": "Normal",
+      "2190": "Sombroso",
+      "2191": "Purificado"
+    },
+    "600": {
+      "2192": "Normal",
+      "2193": "Sombroso",
+      "2194": "Purificado"
+    },
+    "601": {
+      "2195": "Normal",
+      "2196": "Sombroso",
+      "2197": "Purificado"
+    },
+    "602": {
+      "2198": "Normal",
+      "2199": "Sombroso",
+      "2200": "Purificado"
+    },
+    "603": {
+      "2201": "Normal",
+      "2202": "Sombroso",
+      "2203": "Purificado"
+    },
+    "604": {
+      "2204": "Normal",
+      "2205": "Sombroso",
+      "2206": "Purificado"
+    },
+    "605": {
+      "2207": "Normal",
+      "2208": "Sombroso",
+      "2209": "Purificado"
+    },
+    "606": {
+      "2210": "Normal",
+      "2211": "Sombroso",
+      "2212": "Purificado"
+    },
+    "607": {
+      "2213": "Normal",
+      "2214": "Sombroso",
+      "2215": "Purificado"
+    },
+    "608": {
+      "2216": "Normal",
+      "2217": "Sombroso",
+      "2218": "Purificado"
+    },
+    "609": {
+      "2219": "Normal",
+      "2220": "Sombroso",
+      "2221": "Purificado"
+    },
+    "610": {
+      "2222": "Normal",
+      "2223": "Sombroso",
+      "2224": "Purificado"
+    },
+    "611": {
+      "2225": "Normal",
+      "2226": "Sombroso",
+      "2227": "Purificado"
+    },
+    "612": {
+      "2228": "Normal",
+      "2229": "Sombroso",
+      "2230": "Purificado"
+    },
+    "613": {
+      "2231": "Normal",
+      "2232": "Sombroso",
+      "2233": "Purificado"
+    },
+    "614": {
+      "2234": "Normal",
+      "2235": "Sombroso",
+      "2236": "Purificado"
+    },
+    "615": {
+      "2237": "Normal",
+      "2238": "Sombroso",
+      "2239": "Purificado"
+    },
+    "616": {
+      "2240": "Normal",
+      "2241": "Sombroso",
+      "2242": "Purificado"
+    },
+    "617": {
+      "2243": "Normal",
+      "2244": "Sombroso",
+      "2245": "Purificado"
+    },
+    "618": {
+      "2246": "Normal",
+      "2247": "Sombroso",
+      "2248": "Purificado"
+    },
+    "619": {
+      "2249": "Normal",
+      "2250": "Sombroso",
+      "2251": "Purificado"
+    },
+    "620": {
+      "2252": "Normal",
+      "2253": "Sombroso",
+      "2254": "Purificado"
+    },
+    "621": {
+      "2255": "Normal",
+      "2256": "Sombroso",
+      "2257": "Purificado"
+    },
+    "622": {
+      "2258": "Normal",
+      "2259": "Sombroso",
+      "2260": "Purificado"
+    },
+    "623": {
+      "2261": "Normal",
+      "2262": "Sombroso",
+      "2263": "Purificado"
+    },
+    "624": {
+      "2264": "Normal",
+      "2265": "Sombroso",
+      "2266": "Purificado"
+    },
+    "625": {
+      "2267": "Normal",
+      "2268": "Sombroso",
+      "2269": "Purificado"
+    },
+    "626": {
+      "2270": "Normal",
+      "2271": "Sombroso",
+      "2272": "Purificado"
+    },
+    "627": {
+      "2273": "Normal",
+      "2274": "Sombroso",
+      "2275": "Purificado"
+    },
+    "628": {
+      "2276": "Normal",
+      "2277": "Sombroso",
+      "2278": "Purificado"
+    },
+    "629": {
+      "2279": "Normal",
+      "2280": "Sombroso",
+      "2281": "Purificado"
+    },
+    "630": {
+      "2282": "Normal",
+      "2283": "Sombroso",
+      "2284": "Purificado"
+    },
+    "631": {
+      "2285": "Normal",
+      "2286": "Sombroso",
+      "2287": "Purificado"
+    },
+    "632": {
+      "2288": "Normal",
+      "2289": "Sombroso",
+      "2290": "Purificado"
+    },
+    "633": {
+      "2291": "Normal",
+      "2292": "Sombroso",
+      "2293": "Purificado"
+    },
+    "634": {
+      "2294": "Normal",
+      "2295": "Sombroso",
+      "2296": "Purificado"
+    },
+    "635": {
+      "2297": "Normal",
+      "2298": "Sombroso",
+      "2299": "Purificado"
+    },
+    "636": {
+      "2300": "Normal",
+      "2301": "Sombroso",
+      "2302": "Purificado"
+    },
+    "637": {
+      "2303": "Normal",
+      "2304": "Sombroso",
+      "2305": "Purificado"
+    },
+    "638": {
+      "2306": "Normal",
+      "2307": "Sombroso",
+      "2308": "Purificado"
+    },
+    "639": {
+      "2309": "Normal",
+      "2310": "Sombroso",
+      "2311": "Purificado"
+    },
+    "640": {
+      "2312": "Normal",
+      "2313": "Sombroso",
+      "2314": "Purificado"
+    },
+    "641": {
+      "140": "Incarnate",
+      "141": "Therian"
+    },
+    "642": {
+      "142": "Incarnate",
+      "143": "Therian"
+    },
+    "643": {
+      "2315": "Normal",
+      "2316": "Sombroso",
+      "2317": "Purificado"
+    },
+    "644": {
+      "2318": "Normal",
+      "2319": "Sombroso",
+      "2320": "Purificado"
+    },
+    "645": {
+      "144": "Incarnate",
+      "145": "Therian"
+    },
+    "646": {
+      "146": "Normal",
+      "147": "Black",
+      "148": "White"
+    },
+    "647": {
+      "149": "Ordinary",
+      "150": "Resolute"
+    },
+    "648": {
+      "151": "Aria",
+      "152": "Pirouette"
+    },
+    "649": {
+      "593": "Normal",
+      "594": "Shock",
+      "595": "Burn",
+      "596": "Chill",
+      "597": "Douse"
+    },
+    "66": {
+      "809": "Normal",
+      "810": "Sombra",
+      "811": "Purificado"
+    },
+    "67": {
+      "812": "Normal",
+      "813": "Sombra",
+      "814": "Purificado"
+    },
+    "68": {
+      "815": "Normal",
+      "816": "Sombra",
+      "817": "Purificado"
     }
+  },
+  "grunt_types": {
+    "001": "",
+    "002": "",
+    "003": "",
+    "004": "Aleat\u00F3rio",
+    "005": "Aleat\u00F3rio",
+    "006": "Bicho",
+    "007": "Bicho",
+    "008": "Fantasma",
+    "009": "Fantasma",
+    "010": "Escuro",
+    "011": "Escuro",
+    "012": "Drag\u00e3o",
+    "013": "Drag\u00e3o",
+    "014": "Fada",
+    "015": "Fada",
+    "016": "Lutar",
+    "017": "Lutar",
+    "018": "Fogo",
+    "019": "Fogo",
+    "020": "Voando",
+    "021": "Voando",
+    "022": "Grama",
+    "023": "Grama",
+    "024": "Terra",
+    "025": "Terra",
+    "026": "Gelo",
+    "027": "Gelo",
+    "028": "A\u00e7o",
+    "029": "A\u00e7o",
+    "030": "Normal",
+    "031": "Normal",
+    "032": "Veneno",
+    "033": "Veneno",
+    "034": "Ps\u00edquico",
+    "035": "Ps\u00edquico",
+    "036": "Rocha",
+    "037": "Rocha",
+    "038": "\u00c1gua",
+    "039": "\u00c1gua",
+    "040": "",
+    "041": "Executive Cliff",
+    "042": "Executive Arlo",
+    "043": "Executive Sierra",
+    "044": "Giovanni",
+    "045": "Chamariz",
+    "046": "Chamariz",
+    "047": "Fantasma",
+    "048": "Fantasma",
+    "049": "El\u00e9trico",
+    "050": "El\u00e9trico"
   },
   "leaders": {
     "000": "Professor Willow",
     "001": "Blanche",
     "002": "Candela",
     "003": "Spark"
+  },
+  "lure_types": {
+    "501": "Padr\u00e3o",
+    "502": "Glacial",
+    "503": "Musgoso",
+    "504": "Magn\u00e9tico"
   },
   "misc": {
     "boosted": "impulsionado"

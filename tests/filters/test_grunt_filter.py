@@ -3,10 +3,10 @@ import time
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
-from tests.filters import MockManager
+from tests.filters import MockManager, generic_filter_test
 
 
-class TestStopFilter(unittest.TestCase):
+class TestGruntFilter(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
@@ -18,21 +18,23 @@ class TestStopFilter(unittest.TestCase):
 
     def gen_filter(self, settings):
         """ Generate a generic filter with given settings. """
-        return Filters.StopFilter(self._mgr, "testfilter", settings)
+        return Filters.GruntFilter(self._mgr, "testfilter", settings)
 
     def gen_event(self, values):
-        """ Generate a generic stop, overriding with an specific values. """
+        """
+        Generate a generic invasion, overriding with an specific values.
+        """
         settings = {
             "pokestop_id": 0,
             "enabled": "True",
             "latitude": 37.7876146,
             "longitude": -122.390624,
             "last_modified_time": 1572241600,
-            "lure_expiration": 1572241600,
-            "lure_id": 501
+            "incident_expiration": 1572241600,
+            "grunt_type": 6
         }
         settings.update(values)
-        return Events.StopEvent(settings)
+        return Events.GruntEvent(settings)
 
     def test_distance(self):
         # Create the filter
@@ -78,15 +80,30 @@ class TestStopFilter(unittest.TestCase):
         for s in [2000, 4000, 6000]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = self.gen_event({"lure_expiration": t})
+            event = self.gen_event({"incident_expiration": t})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
         for s in [200, 999, 8001]:
             d = (datetime.now() + timedelta(seconds=s))
             t = time.mktime(d.timetuple())
-            event = self.gen_event({"lure_expiration": t})
+            event = self.gen_event({"incident_expiration": t})
             self.assertFalse(filt.check_event(event))
+
+    @generic_filter_test
+    def test_grunt_type(self):
+        # Dragon, Ghost - "Dragon" should allow both m&f versions (12 & 13)
+        self.filt = {'grunt_types': ["Dragon", 8]}
+        self.event_key = 'grunt_type'
+        self.pass_vals = [12, 8, 13]
+        self.fail_vals = [0, 1, 5, 1111]
+
+    @generic_filter_test
+    def test_grunt_gender(self):
+        self.filt = {'grunt_genders': ['male', 1, '1']}
+        self.event_key = 'grunt_type'
+        self.pass_vals = [7, 9]  # 7 = Bug Male, 9 = Ghost Male
+        self.fail_vals = [6, 8]  # 6 = Bug Female, 8 = Ghost Female
 
 
 if __name__ == '__main__':
