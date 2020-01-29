@@ -163,11 +163,25 @@ class TestMonsterFilter(unittest.TestCase):
         self.fail_vals = [2, 999]
 
     @generic_filter_test
+    def test_form_exclude(self):
+        self.filt = {'exclude_forms': [1, 3, '55']}
+        self.event_key = 'form'
+        self.pass_vals = [2, 4, '111']
+        self.fail_vals = [1, 3, '55']
+
+    @generic_filter_test
     def test_costume(self):
         self.filt = {"costume_ids": [1, 2]}
         self.event_key = "costume"
         self.pass_vals = [1, 2]
         self.fail_vals = [3, 999]
+
+    @generic_filter_test
+    def test_costume_exclude(self):
+        self.filt = {'exclude_costumes': ['123', 1, 2]}
+        self.event_key = 'costume'
+        self.pass_vals = [111, 3, '1234']
+        self.fail_vals = [1, 2, '123']
 
     @generic_filter_test
     def test_quick_move(self):
