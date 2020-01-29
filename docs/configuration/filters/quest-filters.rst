@@ -49,6 +49,8 @@ template_contains  Array of allowed template names          ``["T3_2019_FRIENDS_
                    - Allows regex
 template_excludes  Array of excluded template names         ``["T3_2019_FRIENDS_TRADE"]``
                    - Allows regex
+task_contains      Array of allowed task strings            ``["Catch", "Dragonite"]``
+task_excludes      Array of excluded task strings           ``["Battle", "Berry"]``
 reward_types       Array of allowed reward types - See the  ``["Monster Encounter", "3", 2]``
                    table below for allowed types
 min_reward_amount  Minimum amount of the reward             ``5``

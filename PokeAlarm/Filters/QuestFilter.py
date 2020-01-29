@@ -34,6 +34,16 @@ class QuestFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(float, 'max_dist', data))
 
         # Quest Details
+        self.task_contains = self.evaluate_attribute(
+            event_attribute='quest_task_raw',
+            eval_func=GymUtils.match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'task_contains', data))
+        self.task_excludes = self.evaluate_attribute(
+            event_attribute='quest_task_raw',
+            eval_func=GymUtils.not_match_regex_dict,
+            limit=BaseFilter.parse_as_set(
+                GymUtils.create_regex, 'task_excludes', data))
         self.template_contains = self.evaluate_attribute(  # f.gn matches g.gn
             event_attribute='quest_template',
             eval_func=GymUtils.match_regex_dict,

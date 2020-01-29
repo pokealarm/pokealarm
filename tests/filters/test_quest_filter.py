@@ -155,6 +155,20 @@ class TestQuestFilter(unittest.TestCase):
         self.pass_vals = ["asd", "bcd", "qwe"]
         self.fail_vals = ["123aaa123", "123bbb123", "123ccc123"]
 
+    @generic_filter_test
+    def test_task_contains(self):
+        self.filt = {'task_contains': ['aaa', 'bbb', 'ccc']}
+        self.event_key = 'quest_task'
+        self.pass_vals = ['aaa', 'bbb', 'ccc']
+        self.fail_vals = ['eee', 'fff', 'ggg']
+
+    @generic_filter_test
+    def test_task_excludes(self):
+        self.filt = {'task_excludes': ['aaa', 'bbb', 'ccc']}
+        self.event_key = 'quest_task'
+        self.pass_vals = ['eee', 'fff', 'ggg']
+        self.fail_vals = ['aaa', 'bbb', 'ccc']
+
     def test_reward_string(self):
         # Test monster reward
         quest = self.gen_event({
