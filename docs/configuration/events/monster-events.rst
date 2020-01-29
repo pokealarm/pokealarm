@@ -36,6 +36,7 @@ mon_id_3            ID of the monster's species, padded to 3 digits.
 form                Form name of the monster.
 form_or_empty       Form name of the monster, or empty string if unknown.
 form_id             Form ID for the monster.
+form_id_2           Form ID of the monster, padded to 2 digits.
 form_id_3           Form ID of the monster, padded to 3 digits.
 type1               Name of the monster's primary type.
 type1_or_empty      Name of the monster's primary type, or empty string
@@ -166,7 +167,8 @@ DTS                 Description
 costume             Costume of the monster.
 costume_or_empty    Costume of the monster, or an empty string if unknown.
 costume_id          Costume ID of the monster.
-costume_id_3        Costume ID of the monster, formatted to there digits.
+costume_id_2        Costume ID of the monster, padded to 2 digits.
+costume_id_3        Costume ID of the monster, padded to 3 digits.
 gender              Gender of the monster, represented as a single character.
 height              Height of the monster.
 height_0            Height of the monster, rounded to the nearest integer.
@@ -249,11 +251,14 @@ boosted_or_empty         Return `boosted` if monster is boosted, or empty
 Miscellaneous
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ============================================================
-DTS                 Description
-=================== ============================================================
-encounter_id        The encounter id. Unique per monster spawn.
-spawn_start         Estimated time that the monster spawn starts.
-spawn_end           Estimated time that the monster spawn ends.
-spawn_verified      Whether this spawn times have been verified.
-=================== ============================================================
+=============================== ==============================================================
+DTS                             Description
+=============================== ==============================================================
+encounter_id                    The encounter id. Unique per monster spawn.
+spawn_start                     Estimated time that the monster spawn starts.
+spawn_end                       Estimated time that the monster spawn ends.
+spawn_verified                  Whether this spawn times have been verified.
+spawn_verified_emoji            Return spawn verified emoji for unknown, verified, unverified.
+spawn_verified_emoji_or_empty   Return spawn verified emoji for verified or empty string.
+spawn_unverified_emoji_or_empty Return spawn verified emoji for unverified or empty string.
+=============================== ==============================================================

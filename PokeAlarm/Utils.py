@@ -405,6 +405,11 @@ def get_type_emoji(type_id):
         18: u'🌑'
     }.get(type_id, '')
 
+def get_spawn_verified_emoji(spawn_verified_id):
+    return {
+        0: u'❌',
+        1: u'✅',
+    }.get(spawn_verified_id, '❔')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
