@@ -68,6 +68,12 @@ class EggFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(bool, 'is_ex_eligible', data)
         )
 
+        self.is_exclusive = self.evaluate_attribute(
+            event_attribute='is_exclusive',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'is_exclusive', data)
+        )
+
         # Team Info
         self.old_team = self.evaluate_attribute(  # f.ctis contains m.cti
             event_attribute='current_team_id', eval_func=operator.contains,

@@ -48,6 +48,9 @@ max_raid_lvl      Maximum level of the raid.                       ``5``
 min_cp            Minimum CP of the monster.                       ``0``
 max_cp            Maximum CP of the monster.                       ``100000``
 form_ids          Array of allowed form ids for the monster.       ``[0,"1"]``
+exclude_forms     Array of excluded forms, by id.                  ``[0,"1"]``
+costume_ids       Array of allowed costume ids for the monster.    ``[0,"1"]``
+exclude_costumes  Array of excluded costumes, by id.               ``[0,"1"]``
 genders           Array of acceptable genders. Options: `"male",   ``["female"]``
                   "female", "neutral"`
 quick_moves       Accepted quick moves, by id or name.             ``["Vine Whip","Tackle"]``
