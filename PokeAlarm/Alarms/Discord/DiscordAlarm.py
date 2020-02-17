@@ -90,7 +90,7 @@ class DiscordAlarm(Alarm):
             'avatar_url': get_image_url("regular/<quest_image>.png"),
             'title': "New Quest Found!",
             'url': "<gmaps>",
-            'body': "Do this: <quest_condition>\nFor this: <reward>"
+            'body': "Do this: <quest_task>\nFor this: <reward>"
         },
         'invasions': {
             'username': "Invasion",

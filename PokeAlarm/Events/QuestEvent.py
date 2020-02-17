@@ -40,9 +40,9 @@ class QuestEvent(BaseEvent):
 
         # Quest Details
         self.quest_type_raw = data['quest_type']
-        self.quest_type_id = data['quest_type_raw']
-        self.quest_target = data['quest_target']
-        self.quest_task_raw = data['quest_task']
+        self.quest_type_id = data.get('quest_type_raw')
+        self.quest_target = data.get('quest_target')
+        self.quest_task_raw = data.get('quest_task')
         self.quest_condition_raw = data.get('quest_condition')
         self.quest_template = data.get('quest_template')
         self.last_modified = datetime.utcfromtimestamp(data['timestamp'])

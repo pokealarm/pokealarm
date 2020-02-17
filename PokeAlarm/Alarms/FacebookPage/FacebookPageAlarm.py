@@ -83,7 +83,7 @@ class FacebookPageAlarm(Alarm):
             'image': get_image_url('regular/<quest_image>.png'),
             'link': '<gmaps>',
             'name': 'Quest',
-            'description': '<quest_condition>',
+            'description': '<quest_task>',
             'caption': None
         },
         'invasions': {

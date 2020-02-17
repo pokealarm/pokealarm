@@ -66,7 +66,7 @@ class TelegramAlarm(Alarm):
         },
         'quests': {
             'message': "*New quest for <reward>*\n"
-                       "<quest_condition>",
+                       "<quest_task>",
             'sticker_url': get_image_url("telegram/<quest_image>.webp")
         },
         'invasions': {
