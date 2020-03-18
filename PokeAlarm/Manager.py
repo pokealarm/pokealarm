@@ -315,7 +315,7 @@ class Manager(object):
         self._log.debug("Quest notifications %s!",
                         "enabled" if self._quest_enabled else "disabled")
 
-    # Add new Weather Filter
+    # Add new Quest Filter
     def add_quest_filter(self, name, settings):
         if name in self._quest_filters:
             raise ValueError("Unable to add Quest Filter: Filter with the "
@@ -1084,12 +1084,11 @@ class Manager(object):
         """ Process a quest event and notify alarms if it passes. """
 
         # Set the name for this event so we can log rejects better
-        quest.name = quest.stop_name + '-' + quest.reward
+        quest.name = quest.stop_id
 
         # Make sure that quest changes are enabled
         if self._quest_enabled is False:
-            self._log.debug("Quest ignored: quest "
-                            "notifications are disabled.")
+            self._log.debug("Quest ignored: quest notifications are disabled.")
             return
 
         # Calculate distance and direction
@@ -1099,22 +1098,27 @@ class Manager(object):
             quest.direction = get_cardinal_dir(
                 [quest.lat, quest.lng], self.__location)
 
-        # Skip if previously processed
-        if self.__cache.quest_expiration(quest.stop_id) is not None:
+        # Store a copy of cache info
+        previous_modified = self.__cache.quest_expiration(quest.stop_id)
+
+        # Check if previously processed
+        if self.__cache.quest_expiration(quest.stop_id, quest.last_modified)\
+                == previous_modified:
             self._log.debug("Quest {} was skipped because it was "
                             "previously processed.".format(quest.name))
             return
-        self.__cache.quest_expiration(quest.stop_id, quest.expire_time)
 
         # Check against previous copy from cache
-        previous_reward, previous_task = \
+        previous_reward, previous_task, last_modified = \
             self.__cache.quest_reward(quest.stop_id)
-        if quest.reward == previous_reward and quest.quest == previous_task:
+        if quest.reward_type_raw == previous_reward \
+                and quest.quest_type_raw == previous_task:
             self._log.debug("Quest ignored: Reward previously alerted!")
             return
 
         # Update cache info
-        self.__cache.quest_reward(quest.stop_id, quest.reward, quest.quest)
+        self.__cache.quest_reward(quest.stop_id, quest.reward_type_raw,
+                                  quest.quest_type_raw)
 
         # Check for Rules
         rules = self.__quest_rules

@@ -162,6 +162,7 @@ class RaidEvent(BaseEvent):
             'costume': costume_name,
             'costume_or_empty': Unknown.or_empty(costume_name),
             'costume_id': self.costume_id,
+            'costume_id_2': "{:02d}".format(self.costume_id),
             'costume_id_3': "{:03d}".format(self.costume_id),
 
             # Location

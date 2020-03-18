@@ -175,6 +175,15 @@ pertaining to the alarm portion of the JSON file.
           "chat_id":"OVERRIDES_DEFAULT_CHANNEL",
           "message":"*A raid is available against <mon_name>!*\nThe raid is available until <24h_raid_end> (<raid_time_left>).",
           "map":true
+      },
+      "quests":{
+          "chat_id":"OVERRIDES_DEFAULT_CHANNEL",
+          "message":"A new quest is available at <stop_name>!\nConditions: <quest_condition>\nReward: <reward>",
+          "map":true
+      },
+      "invasions":{
+          "chat_id":"OVERRIDES_DEFAULT_CHANNEL",
+          "message":"Team Rocket Go has invaded <stop_name>!"
       }
     }
   }

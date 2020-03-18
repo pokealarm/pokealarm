@@ -32,8 +32,9 @@ class Cache(object):
         self._cell_weather_id = {}
         self._severity_id = {}
         self._day_or_night_id = {}
-        self._reward = {}
-        self._task = {}
+        self._quest_reward = {}
+        self._quest_task = {}
+        self._quest_last_modified = {}
 
     def monster_expiration(self, mon_id, expiration=None):
         """ Update and return the datetime that a monster expires."""
@@ -59,10 +60,10 @@ class Cache(object):
             self._raid_hist[raid_id] = expiration
         return self._raid_hist.get(raid_id)
 
-    def quest_expiration(self, stop_id, expiration=None):
-        """ Update and return the datetime that a quest expires."""
-        if expiration is not None:
-            self._quest_hist[stop_id] = expiration
+    def quest_expiration(self, stop_id, last_modified=None):
+        """ Update and return the datetime that the stop last had a quest."""
+        if last_modified is not None:
+            self._quest_hist[stop_id] = last_modified
         return self._quest_hist.get(stop_id)
 
     def grunt_expiration(self, stop_id, expiration=None):
@@ -113,14 +114,18 @@ class Cache(object):
             self._day_or_night_id[s2_cell_id] = day_or_night_id
         return self._day_or_night_id.get(s2_cell_id, Unknown.REGULAR)
 
-    def quest_reward(self, stop_id, reward=None, task=None):
+    def quest_reward(self, stop_id, reward=None, task=None,
+                     last_modified=None):
         """ Update and return the reward and task for a quest."""
         if Unknown.is_not(reward):
-            self._reward[stop_id] = reward
+            self._quest_reward[stop_id] = reward
         if Unknown.is_not(task):
-            self._task[stop_id] = task
-        return self._reward.get(stop_id, Unknown.REGULAR), \
-            self._task.get(stop_id, Unknown.REGULAR)
+            self._quest_task[stop_id] = task
+        if Unknown.is_not(last_modified):
+            self._quest_last_modified[stop_id] = last_modified
+        return self._quest_reward.get(stop_id, Unknown.REGULAR), \
+            self._quest_task.get(stop_id, Unknown.REGULAR), \
+            self._quest_last_modified.get(stop_id, Unknown.REGULAR)
 
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
