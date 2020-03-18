@@ -13,6 +13,7 @@ class WeatherEvent(BaseEvent):
     def __init__(self, data):
         """ Creates a new Weather Event based on the given dict. """
         super(WeatherEvent, self).__init__('weather')
+        check_for_none = BaseEvent.check_for_none
 
         # Identification
         self.s2_cell_id = data.get('s2_cell_id')
@@ -24,8 +25,10 @@ class WeatherEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
 
         # Weather Info
-        self.weather_id = data.get('condition') or data.get('gameplay_weather')
-        self.severity_id = data.get('alert_severity') or data.get('severity')
+        self.weather_id = check_for_none(
+            int, data.get('condition') or data.get('gameplay_weather'), 0)
+        self.severity_id = check_for_none(
+            int, data.get('alert_severity') or data.get('severity'), 0)
         self.day_or_night_id = data.get('day') or data.get('world_time')
 
         self.name = self.s2_cell_id
@@ -64,7 +67,7 @@ class WeatherEvent(BaseEvent):
             'severity_id_3': "{:03}".format(self.severity_id),
             'severity': severity_locale,
             'severity_or_empty':
-                '' if self.severity_id is 0 else severity_locale,
+                '' if self.severity_id == 0 else severity_locale,
             'day_or_night_id': self.day_or_night_id,
             'day_or_night_id_3': "{:03}".format(self.day_or_night_id),
             'day_or_night': locale.get_day_or_night(self.day_or_night_id)
