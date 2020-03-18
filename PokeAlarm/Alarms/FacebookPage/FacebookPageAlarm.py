@@ -80,10 +80,10 @@ class FacebookPageAlarm(Alarm):
         },
         'quests': {
             'message': "*New quest for <reward>*",
-            'image': get_image_url('regular/quest/<type_id>.png'),
+            'image': get_image_url('regular/<quest_image>.png'),
             'link': '<gmaps>',
             'name': 'Quest',
-            'description': '<quest>',
+            'description': '<quest_task>',
             'caption': None
         },
         'invasions': {

@@ -72,10 +72,10 @@ class SlackAlarm(Alarm):
         },
         'quests': {
             'username': "Quest",
-            'icon_url': get_image_url("regular/quest/<type_id>.png"),
+            'icon_url': get_image_url("regular/<quest_image>.png"),
             'title': "New Quest Found!",
             'url': "<gmaps>",
-            'body': "Quest will expire at midnight."
+            'body': "New quest for <reward>\nTask: <quest_task>"
         },
         'invasions': {
             'username': "Invasion",

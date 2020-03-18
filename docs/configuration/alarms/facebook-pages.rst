@@ -194,35 +194,35 @@ Example: Alarm Configuration Using Optional Parameters
       "startup_message":false,
       "monsters":{
           "message":"<mon_name> available. <quick_move>/<charge_move> (<iv>% - <atk>/<def>/<sta>)",
-          "image*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_<form_id_3>.png",
+          "image*":"YOUR CUSTOM URL HERE/<mon_id_3>_<form_id_3>.png",
           "link":"<gmaps>",
           "description":"Address: <address>",
           "name":"<mon_name>"
       },
       "stops":{
           "message":"Someone has placed a lure on a Pokestop! Lure will expire at <24h_time> (<time_left>).",
-          "image*":"<YOUR CUSTOM URL HERE>/ready.png",
+          "image*":"YOUR CUSTOM URL HERE/ready.png",
           "description":"Address: <address>",
           "link":"<gmaps>",
           "name":""
       },
       "gyms":{
           "message":"A Team <old_team> gym has fallen! It is now controlled by <new_team>.",
-          "image*":"<YOUR CUSTOM URL HERE>/<new_team_id>.png",
+          "image*":"YOUR CUSTOM URL HERE/<new_team_id>.png",
           "link":"<gmaps>",
           "name":"<new_team>",
           "description":"Address: <address>"
       },
       "eggs":{
           "message":"A level <egg_lvl> raid is upcoming!",
-          "image*":"<YOUR CUSTOM URL HERE>/<egg_lvl>.png",
+          "image*":"YOUR CUSTOM URL HERE/<egg_lvl>.png",
           "link":"<gmaps>",
           "name":"Egg",
           "description":"A level <egg_lvl> raid will hatch at <24h_hatch_time> (<hatch_time_left>)."
       },
       "raids":{
           "message":"Level <raid_lvl> raid available against <mon_name>!",
-          "image*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_000.png",
+          "image*":"YOUR CUSTOM URL HERE/<mon_id_3>_000.png",
           "link":"<gmaps>",
           "name":"Raid",
           "description":"The raid is available until <24h_raid_end> (<raid_time_left>)."

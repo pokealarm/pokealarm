@@ -87,11 +87,11 @@ class DiscordAlarm(Alarm):
         'quests': {
             'username': "Quest",
             'content': "",
-            'icon_url': get_image_url("regular/quest/<type_id>.png"),
-            'avatar_url': get_image_url("regular/quest/<type_id>.png"),
+            'icon_url': get_image_url("regular/<quest_image>.png"),
+            'avatar_url': get_image_url("regular/<quest_image>.png"),
             'title': "New Quest Found!",
             'url': "<gmaps>",
-            'body': "Quest will expire in <time_remaining>"
+            'body': "Do this: <quest_task>\nFor this: <reward>"
         },
         'invasions': {
             'username': "Invasion",
