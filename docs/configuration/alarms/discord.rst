@@ -146,7 +146,7 @@ Example: Alarm Configuration Using Optional Parameters
       "monsters":{
           "webhook_url":"YOUR_WEBHOOK_URL_FOR_POKEMON_CHANNEL",
           "username":"<mon_name>",
-          "icon_url*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_<form_id_3>.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/<mon_id_3>_<form_id_3>.png",
           "title":"A wild <mon_name> has appeared!",
           "url":"<gmaps>",
           "body":"Available until <24h_time> (<time_left>)."
@@ -154,7 +154,7 @@ Example: Alarm Configuration Using Optional Parameters
       "stops":{
           "webhook_url":"YOUR_WEBHOOK_URL_FOR_POKESTOP_CHANNEL",
           "username":"Pokestop",
-          "icon_url*":"<YOUR CUSTOM URL HERE>/ready.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/ready.png",
           "title":"Someone has placed a lure on a Pokestop!",
           "url":"<gmaps>",
           "body":"Lure will expire at <24h_time> (<time_left>)."
@@ -162,7 +162,7 @@ Example: Alarm Configuration Using Optional Parameters
       "gyms":{
           "webhook_url":"YOUR_WEBHOOK_URL_FOR_GYM_CHANNEL",
           "username":"<new_team> Gym Alerts",
-          "icon_url*":"<YOUR CUSTOM URL HERE>/<new_team_id>.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/<new_team_id>.png",
           "title":"A Team <old_team> gym has fallen!",
           "url":"<gmaps>",
           "body":"It is now controlled by <new_team>."
@@ -170,8 +170,8 @@ Example: Alarm Configuration Using Optional Parameters
       "eggs":{
           "webhook_url":"DISCORD_WEBHOOK_URL_FOR_EGG_CHANNEL",
           "username":"Egg",
-          "icon_url*":"<YOUR CUSTOM URL HERE>/<egg_lvl>.png",
-          "avatar_url*":"<YOUR CUSTOM URL HERE>/<egg_lvl>.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/<egg_lvl>.png",
+          "avatar_url*":"YOUR CUSTOM URL HERE/<egg_lvl>.png",
           "title":"Raid is incoming!",
           "url":"<gmaps>",
           "body":"A level <egg_lvl> raid will hatch at <24h_hatch_time> (<hatch_time_left>)."
@@ -179,8 +179,8 @@ Example: Alarm Configuration Using Optional Parameters
       "raids":{
           "webhook_url":"DISCORD_WEBHOOK_URL_FOR_RAID_CHANNEL",
           "username":"Raid",
-          "icon_url*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_000.png",
-          "avatar_url*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_000.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/<mon_id_3>_000.png",
+          "avatar_url*":"YOUR CUSTOM URL HERE/<mon_id_3>_000.png",
           "title":"Level <raid_lvl> Raid is available against <mon_name>!",
           "url":"<gmaps>",
           "body":"The raid is available until <24h_raid_end> (<raid_time_left>)."
@@ -188,11 +188,20 @@ Example: Alarm Configuration Using Optional Parameters
       "invasions":{
           "webhook_url":"DISCORD_WEBHOOK_URL_FOR_INVASION_CHANNEL",
           "username":"Invasion",
-          "icon_url*":"<YOUR CUSTOM URL HERE>/<type_id>_<gender_id>.png",
-          "avatar_url*":"<YOUR CUSTOM URL HERE>/<type_id>_<gender_id>.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/<type_id>_<gender_id>.png",
+          "avatar_url*":"YOUR CUSTOM URL HERE/<type_id>_<gender_id>.png",
           "title":"This Pokestop has been invaded by Team Rocket!",
           "url":"<gmaps>",
           "body":"Invasion will expire at <24h_time> (<time_left>)"
+      },
+      "quests":{
+          "webhook_url":"DISCORD_WEBHOOK_URL_FOR_INVASION_CHANNEL",
+          "username":"Quest",
+          "icon_url*":"YOUR CUSTOM URL HERE/<quest_image>.png",
+          "avatar_url*":"YOUR CUSTOM URL HERE/<quest_image>.png",
+          "title":"This Pokestop has a new quest!",
+          "url":"<gmaps>",
+          "body":"Quest requirements: <quest_condition>\nReward: <reward>"
       }
     }
   }
@@ -242,6 +251,32 @@ Parameters  Description                            Default
 `zoom`      Specifies the zoom of the map          ``"15"``
 =========== ====================================== =============
 
+You can also include a string instead of an object in order to define a static map from any
+service using their api
+
+Example using mapquest where `xxx` is your api key:
+
+.. code-block:: json
+
+	"monsters":{
+		"webhook_url":"YOUR_WEBHOOK_URL_FOR_POKEMON_CHANNEL",
+		"username":"<mon_name>",
+		"title":"A wild <mon_name> has appeared!",
+		"url":"<gmaps>",
+		"body":"Available until <24h_time> (<time_left>).",
+		"map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
+	},
+
+Likewise, you can define your map in the alarm-level in order to use this URL across the entire alarm.
+
+.. code-block:: json
+
+  {
+  	"active":true,
+  	"type":"discord",
+  	"webhook_url":"YOUR_WEBHOOK_URL",
+    "map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
+  }
 
 Formatting alarms text
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -58,6 +58,21 @@ class RaidFilter(BaseFilter):
         self.forms = self.evaluate_attribute(  # f.forms in r.form_id
             event_attribute='form_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(int, 'form_ids', data))
+        # Exclude Forms - f.forms_ids not contains m.ex_form_id
+        self.exclude_form_ids = self.evaluate_attribute(  #
+            event_attribute='form_id',
+            eval_func=lambda d, v: not operator.contains(d, v),
+            limit=BaseFilter.parse_as_set(int, 'exclude_forms', data))
+
+        # Monster Costumes
+        self.costumes = self.evaluate_attribute(  # f.costumes in m.costume_id
+            event_attribute='costume_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(int, 'costume_ids', data))
+        # Exclude Costumes - f.costumes_ids not contains m.ex_costume_id
+        self.exclude_costume_ids = self.evaluate_attribute(  #
+            event_attribute='costume_id',
+            eval_func=lambda d, v: not operator.contains(d, v),
+            limit=BaseFilter.parse_as_set(int, 'exclude_costumes', data))
 
         # Gender
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender

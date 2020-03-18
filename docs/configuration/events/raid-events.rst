@@ -39,6 +39,7 @@ raid_lvl          The tier level of the raid.
 form              Form name of the monster.
 form_or_empty     Form name of the monster, or empty string if unknown.
 form_id           Form ID for the monster.
+form_id_2         Form ID of the monster, padded to 2 digits.
 form_id_3         Form ID of the monster, padded to 3 digits.
 min_cp            Minimum potential CP of the monster.
 max_cp            Maximum potential CP of the monster.
@@ -107,6 +108,7 @@ DTS                 Description
 costume            Costume name of the monster.
 costume_or_empty   Costume name of the monster, or empty string if unknown.
 costume_id         Costume ID for the monster.
+costume_id_2       Costume ID of the monster, padded to 2 digits.
 costume_id_3       Costume ID of the monster, padded to 3 digits.
 gender             Gender of the monster, represented as a single character.
 ================== =========================================================
