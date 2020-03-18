@@ -3,6 +3,7 @@ import re
 
 # 3rd Party Imports
 from slacker import Slacker
+import six
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -142,6 +143,7 @@ class SlackAlarm(Alarm):
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
+        map = settings.pop('map', self.__map)
         alert = {
             'channel': settings.pop('channel', self.__default_channel),
             'username': settings.pop('username', default['username']),
@@ -149,8 +151,8 @@ class SlackAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': get_static_map_url(
-                settings.pop('map', self.__map), self.__static_map_key)
+            'map': map if isinstance(map, six.string_types) else
+            get_static_map_url(map, self.__static_map_key)
         }
         reject_leftover_parameters(settings, "'Alert level in Slack alarm.")
         return alert
@@ -163,7 +165,9 @@ class SlackAlarm(Alarm):
         }
         attachments = [{
             'fallback': 'Map_Preview',
-            'image_url': replace(alert['map'], coords)
+            'image_url':
+                replace(alert['map'],
+                        info if isinstance(map, six.string_types) else coords)
         }] if alert['map'] is not None else None
         self.send_message(
             channel=replace(alert['channel'], info),
