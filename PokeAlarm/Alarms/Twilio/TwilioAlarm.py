@@ -47,7 +47,7 @@ class TwilioAlarm(Alarm):
                        " changed to <weather>!"
         },
         'quests': {
-            'message': "*New quest for <reward>*\n<quest>\n<gmaps>",
+            'message': "*New quest for <reward>*\n<quest_task>\n<gmaps>",
         },
         'invasions': {
             'message': "*A Pokestop has been invaded by Team Rocket!*\n"

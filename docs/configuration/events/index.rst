@@ -30,6 +30,7 @@ for Events, each with different information:
    raid-events
    weather-events
    invasion-events
+   quest-events
 
 .. _events_dts:
 

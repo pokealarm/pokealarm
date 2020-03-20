@@ -54,7 +54,7 @@ class PushbulletAlarm(Alarm):
         'quests': {
             'title': '*New quest for <reward>*',
             'url': '<gmaps>',
-            'body': '<quest>'
+            'body': '<quest_task>'
         },
         'invasions': {
             'title': 'A Pokestop has been invaded by Team Rocket!',
