@@ -24,6 +24,20 @@ This guide assumes the following:
    they change the encoding on the file and prevent it from loading correctly.
 
 
+Python Virtual Environment
+-------------------------------------
+
+A virtual environment is a way to install python packages in a different location to avoid potential version conflicts with other software like MAD or RocketMAD. It’s like a standalone version of python, independent of your “normal” python. Install it with:
+
+``apt install python-virtualenv``
+
+And create a new virtual environment. You can call it like pa_env and create it wherever u want, e.g. In the home directory of the executing user:
+
+``virtualenv -p python3 /home/pa_user/mad_env``
+
+Whenever you see python3 or pip3 (e.g. Installing Requirements or start PokeAlarm) in the documentation, use home/pa_user/mad_env/bin/python3 and home/pa_user/mad_env/bin/pip3 instead. And, of course, use a different environment location for different python tools.
+
+
 Installing
 -------------------------------------
 
