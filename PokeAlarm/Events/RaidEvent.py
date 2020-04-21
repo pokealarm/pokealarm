@@ -245,6 +245,7 @@ class RaidEvent(BaseEvent):
             'team_id': self.current_team_id,
             'team_emoji': get_team_emoji(self.current_team_id),
             'team_name': locale.get_team_name(self.current_team_id),
+            'team_color': locale.get_team_color(self.current_team_id),
             'team_leader': locale.get_leader_name(self.current_team_id)
         })
         return dts
