@@ -4463,6 +4463,12 @@
     "002": "Wagemut",
     "003": "Intuition"
   },
+  "team_colors": {
+    "000": "Weiß",
+    "001": "Blau",
+    "002": "Rot",
+    "003": "Gelb"
+  },
   "types": {
     "001": "Normal",
     "002": "Kampf",
