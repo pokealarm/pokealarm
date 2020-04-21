@@ -4497,6 +4497,12 @@
     "002": "Valentia",
     "003": "Instinto"
   },
+  "team_colors": {
+    "000": "Branco",
+    "001": "Azul",
+    "002": "Vermelho",
+    "003": "Amarelo"
+  },
   "types": {
     "001": "Normal",
     "002": "Lutar",
