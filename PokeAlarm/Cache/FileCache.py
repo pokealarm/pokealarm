@@ -69,8 +69,8 @@ class FileCache(Cache):
             'cell_weather_id': self._cell_weather_id,
             'severity_id': self._severity_id,
             'day_or_night_id': self._day_or_night_id,
-            'reward': self._reward,
-            'task': self._task
+            'quest_reward': self._quest_reward,
+            'quest_task': self._quest_task
         }
         try:
             # Write to temporary file and then rename
