@@ -45,6 +45,12 @@ class Locale(object):
         for id_, val in default["teams"].iteritems():
             self.__team_names[int(id_)] = teams.get(id_, val)
 
+        # Team ID -> Color
+        self.__team_colors = {}
+        team_colors = info.get("team_colors", {})
+        for id_, val in default["team_colors"].iteritems():
+            self.__team_colors[int(id_)] = team_colors.get(id_, val)
+
         # Team ID -> Team Leaders
         self.__leader_names = {}
         leaders = info.get("leaders", {})
@@ -154,9 +160,13 @@ class Locale(object):
     def get_team_name(self, team_id):
         return self.__team_names.get(team_id, 'unknown')
 
-    # Returns the name of the team ledaer associated with the Team ID
+    # Returns the name of the team leader associated with the Team ID
     def get_leader_name(self, team_id):
         return self.__leader_names.get(team_id, 'unknown')
+	
+    # Returns the name of the color associated with the Team ID
+    def get_team_color(self, team_id):
+        return self.__team_colors.get(team_id, 'unknown')
 
     # Returns the name of the weather associated with the given ID
     def get_weather_name(self, weather_id):
