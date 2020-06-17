@@ -172,7 +172,8 @@
       "901": "Vs 2019",
       "949": "Copy 2019",
       "977": "Sombroso",
-      "978": "Purificado"
+      "978": "Purificado",
+      "2332": "Costume 2020"
     },
     "026": {
       "049": "Normal",
@@ -315,7 +316,8 @@
       "063": "Normal",
       "064": "Alola",
       "709": "Sombra",
-      "710": "Purificado"
+      "710": "Purificado",
+      "2335": "Galarian"
     },
     "053": {
       "065": "Normal",
@@ -471,6 +473,12 @@
       "659": "Sombra",
       "660": "Purificado"
     },
+    "083": {
+      "1023": "Normal",
+      "1024": "Sombroso",
+      "1025": "Purificado",
+      "2338": "Galarian"
+    },
     "084": {
       "1026": "Normal",
       "1027": "Sombroso",
@@ -531,7 +539,8 @@
     "095": {
       "902": "Normal",
       "903": "Sombroso",
-      "904": "Purificado"
+      "904": "Purificado",
+      "2334": "Costume 2020"
     },
     "096": {
       "214": "Normal",
@@ -799,7 +808,8 @@
     "149": {
       "196": "Normal",
       "197": "Sombra",
-      "198": "Purificado"
+      "198": "Purificado",
+      "2333": "Costume 2020"
     },
     "150": {
       "133": "Armored",
@@ -2903,11 +2913,14 @@
     "554": {
       "2063": "Normal",
       "2064": "Sombroso",
-      "2065": "Purificado"
+      "2065": "Purificado",
+      "2341": "Galarian"
     },
     "555": {
       "138": "Standard",
-      "139": "Zen"
+      "139": "Zen",
+      "2342": "Galarian Standard",
+      "2343": "Galarian Zen"
     },
     "556": {
       "2066": "Normal",
@@ -3094,12 +3107,14 @@
     "592": {
       "2168": "Normal",
       "2169": "Sombroso",
-      "2170": "Purificado"
+      "2170": "Purificado",
+      "2330": "F\u00EAmea"
     },
     "593": {
       "2171": "Normal",
       "2172": "Sombroso",
-      "2173": "Purificado"
+      "2173": "Purificado",
+      "2331": "F\u00EAmea"
     },
     "594": {
       "2174": "Normal",
@@ -3224,7 +3239,8 @@
     "618": {
       "2246": "Normal",
       "2247": "Sombroso",
-      "2248": "Purificado"
+      "2248": "Purificado",
+      "2345": "Galarian"
     },
     "619": {
       "2249": "Normal",
@@ -3392,6 +3408,16 @@
       "815": "Normal",
       "816": "Sombra",
       "817": "Purificado"
+    },
+    "808": {
+      "2321": "Normal",
+      "2322": "Sombroso",
+      "2323": "Purificado"
+    },
+    "809": {
+      "2324": "Normal",
+      "2325": "Sombroso",
+      "2326": "Purificado"
     }
   },
   "grunt_types": {
@@ -3468,7 +3494,7 @@
     "0501": "M\u00F3dulo Atrair",
     "0502": "M\u00F3d. Atrair Glacial",
     "0503": "M\u00F3d. Atrair Musgoso",
-    "0504": "M\u00F3d. Atrair Magnético",
+    "0504": "M\u00F3d. Atrair Magn\u00E9tico",
     "0602": "Ataque X",
     "0603": "Defesa X",
     "0604": "Milagre X",

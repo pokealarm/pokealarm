@@ -172,7 +172,8 @@
       "901": "Vs 2019",
       "949": "Copy 2019",
       "977": "Shadow",
-      "978": "Purified"
+      "978": "Purified",
+      "2332": "Costume 2020"
     },
     "026": {
       "049": "Normal",
@@ -315,7 +316,8 @@
       "063": "Normal",
       "064": "Alolan",
       "709": "Shadow",
-      "710": "Purified"
+      "710": "Purified",
+      "2335": "Galarian"
     },
     "053": {
       "065": "Normal",
@@ -471,6 +473,12 @@
       "659": "Shadow",
       "660": "Purified"
     },
+    "083": {
+      "1023": "Normal",
+      "1024": "Shadow",
+      "1025": "Purified",
+      "2338": "Galarian"
+    },
     "084": {
       "1026": "Normal",
       "1027": "Shadow",
@@ -531,7 +539,8 @@
     "095": {
       "902": "Normal",
       "903": "Shadow",
-      "904": "Purified"
+      "904": "Purified",
+      "2334": "Costume 2020"
     },
     "096": {
       "214": "Normal",
@@ -799,7 +808,8 @@
     "149": {
       "196": "Normal",
       "197": "Shadow",
-      "198": "Purified"
+      "198": "Purified",
+      "2333": "Costume 2020"
     },
     "150": {
       "133": "Armored",
@@ -2903,11 +2913,14 @@
     "554": {
       "2063": "Normal",
       "2064": "Shadow",
-      "2065": "Purified"
+      "2065": "Purified",
+      "2341": "Galarian"
     },
     "555": {
       "138": "Standard",
-      "139": "Zen"
+      "139": "Zen",
+      "2342": "Galarian Standard",
+      "2343": "Galarian Zen"
     },
     "556": {
       "2066": "Normal",
@@ -3094,12 +3107,14 @@
     "592": {
       "2168": "Normal",
       "2169": "Shadow",
-      "2170": "Purified"
+      "2170": "Purified",
+      "2330": "Female"
     },
     "593": {
       "2171": "Normal",
       "2172": "Shadow",
-      "2173": "Purified"
+      "2173": "Purified",
+      "2331": "Female"
     },
     "594": {
       "2174": "Normal",
@@ -3224,7 +3239,8 @@
     "618": {
       "2246": "Normal",
       "2247": "Shadow",
-      "2248": "Purified"
+      "2248": "Purified",
+      "2345": "Galarian"
     },
     "619": {
       "2249": "Normal",
@@ -3392,6 +3408,16 @@
       "815": "Normal",
       "816": "Shadow",
       "817": "Purified"
+    },
+    "808": {
+      "2321": "Normal",
+      "2322": "Shadow",
+      "2323": "Purified"
+    },
+    "809": {
+      "2324": "Normal",
+      "2325": "Shadow",
+      "2326": "Purified"
     }
   },
   "grunt_genders": {
@@ -3790,7 +3816,7 @@
     "317": "Blaze Kick",
     "318": "Razor Shell",
     "319": "Power-Up Punch",
-    "320": "Charm"	
+    "320": "Charm"
   },
   "pokemon": {
     "001": "Bulbasaur",

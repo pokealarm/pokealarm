@@ -172,7 +172,8 @@
       "901": "Vs 2019",
       "949": "Copy 2019",
       "977": "Ombra",
-      "978": "Purificati"
+      "978": "Purificati",
+      "2332": "Costume 2020"
     },
     "026": {
       "049": "Normale",
@@ -315,7 +316,8 @@
       "063": "Normale",
       "064": "Alola",
       "709": "Ombra",
-      "710": "Purificato"
+      "710": "Purificato",
+      "2335": "Galarian"
     },
     "053": {
       "065": "Normale",
@@ -471,6 +473,12 @@
       "659": "Ombra",
       "660": "Purificato"
     },
+    "083": {
+      "1023": "Normale",
+      "1024": "Ombra",
+      "1025": "Purificati",
+      "2338": "Galarian"
+    },
     "084": {
       "1026": "Normale",
       "1027": "Ombra",
@@ -531,7 +539,8 @@
     "095": {
       "902": "Normale",
       "903": "Ombra",
-      "904": "Purificati"
+      "904": "Purificati",
+      "2334": "Costume 2020"
     },
     "096": {
       "214": "Normale",
@@ -799,7 +808,8 @@
     "149": {
       "196": "Normale",
       "197": "Ombra",
-      "198": "Purificato"
+      "198": "Purificato",
+      "2333": "Costume 2020"
     },
     "150": {
       "133": "Armored",
@@ -2903,11 +2913,14 @@
     "554": {
       "2063": "Normale",
       "2064": "Ombra",
-      "2065": "Purificati"
+      "2065": "Purificati",
+      "2341": "Galarian"
     },
     "555": {
       "138": "Standard",
-      "139": "Zen"
+      "139": "Zen",
+      "2342": "Galarian Standard",
+      "2343": "Galarian Zen"
     },
     "556": {
       "2066": "Normale",
@@ -3094,12 +3107,14 @@
     "592": {
       "2168": "Normale",
       "2169": "Ombra",
-      "2170": "Purificati"
+      "2170": "Purificati",
+      "2330": "Femmina"
     },
     "593": {
       "2171": "Normale",
       "2172": "Ombra",
-      "2173": "Purificati"
+      "2173": "Purificati",
+      "2331": "Femmina"
     },
     "594": {
       "2174": "Normale",
@@ -3224,7 +3239,8 @@
     "618": {
       "2246": "Normale",
       "2247": "Ombra",
-      "2248": "Purificati"
+      "2248": "Purificati",
+      "2345": "Galarian"
     },
     "619": {
       "2249": "Normale",
@@ -3392,6 +3408,16 @@
       "815": "Normale",
       "816": "Ombra",
       "817": "Purificato"
+    },
+    "808": {
+      "2321": "Normale",
+      "2322": "Ombra",
+      "2323": "Purificati"
+    },
+    "809": {
+      "2324": "Normale",
+      "2325": "Ombra",
+      "2326": "Purificati"
     }
   },
   "grunt_types": {

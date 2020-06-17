@@ -172,7 +172,8 @@
       "901": "Vs 2019",
       "949": "Copy 2019",
       "977": "Obscur",
-      "978": "Purifi\u00E9"
+      "978": "Purifi\u00E9",
+      "2332": "Costume 2020"
     },
     "026": {
       "049": "Normal",
@@ -315,7 +316,8 @@
       "063": "Normal",
       "064": "Alola",
       "709": "Ombre",
-      "710": "Purifi\u00E9"
+      "710": "Purifi\u00E9",
+      "2335": "Galarian"
     },
     "053": {
       "065": "Normal",
@@ -471,6 +473,12 @@
       "659": "Ombre",
       "660": "Purifi\u00E9"
     },
+    "083": {
+      "1023": "Normale",
+      "1024": "Obscur",
+      "1025": "Purifi\u00E9",
+      "2338": "Galarian"
+    },
     "084": {
       "1026": "Normale",
       "1027": "Obscur",
@@ -531,7 +539,8 @@
     "095": {
       "902": "Normale",
       "903": "Obscur",
-      "904": "Purifi\u00E9"
+      "904": "Purifi\u00E9",
+      "2334": "Costume 2020"
     },
     "096": {
       "214": "Normal",
@@ -799,7 +808,8 @@
     "149": {
       "196": "Normal",
       "197": "Ombre",
-      "198": "Purifi\u00E9"
+      "198": "Purifi\u00E9",
+      "2333": "Costume 2020"
     },
     "150": {
       "133": "Armored",
@@ -2903,11 +2913,14 @@
     "554": {
       "2063": "Normale",
       "2064": "Obscur",
-      "2065": "Purifi\u00E9"
+      "2065": "Purifi\u00E9",
+      "2341": "Galarian"
     },
     "555": {
       "138": "Standard",
-      "139": "Zen"
+      "139": "Zen",
+      "2342": "Galarian Standard",
+      "2343": "Galarian Zen"
     },
     "556": {
       "2066": "Normale",
@@ -3094,12 +3107,14 @@
     "592": {
       "2168": "Normale",
       "2169": "Obscur",
-      "2170": "Purifi\u00E9"
+      "2170": "Purifi\u00E9",
+      "2330": "Femelle"
     },
     "593": {
       "2171": "Normale",
       "2172": "Obscur",
-      "2173": "Purifi\u00E9"
+      "2173": "Purifi\u00E9",
+      "2331": "Femelle"
     },
     "594": {
       "2174": "Normale",
@@ -3224,7 +3239,8 @@
     "618": {
       "2246": "Normale",
       "2247": "Obscur",
-      "2248": "Purifi\u00E9"
+      "2248": "Purifi\u00E9",
+      "2345": "Galarian"
     },
     "619": {
       "2249": "Normale",
@@ -3392,6 +3408,16 @@
       "815": "Normal",
       "816": "Ombre",
       "817": "Purifi\u00E9"
+    },
+    "808": {
+      "2321": "Normale",
+      "2322": "Obscur",
+      "2323": "Purifi\u00E9"
+    },
+    "809": {
+      "2324": "Normale",
+      "2325": "Obscur",
+      "2326": "Purifi\u00E9"
     }
   },
   "grunt_types": {
@@ -3498,9 +3524,9 @@
     "1401": "Passe de Raid",
     "1402": "Passe de Raid Premium",
     "1403": "Passe de Raid EX",
-    "1404": "Morceau d’\u00C9toile",
+    "1404": "Morceau d\u2019\u00C9toile",
     "1405": "Cadeau",
-    "1406": "M\u00E9daillon d’\u00E9quipe",
+    "1406": "M\u00E9daillon d\u2019\u00E9quipe",
     "1501": "\u00E9l\u00E9ment myst\u00E9rieux",
     "1502": "Radar Rocket",
     "1503": "Super Radar Rocket",
