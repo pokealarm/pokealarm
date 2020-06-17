@@ -4487,6 +4487,12 @@
     "002": "Valor",
     "003": "Instinto"
   },
+  "team_colors": {
+    "000": "Blanco",
+    "001": "Azul",
+    "002": "Rojo",
+    "003": "Amarillo"
+  },
   "types": {
     "001": "Normal",
     "002": "Lucha",

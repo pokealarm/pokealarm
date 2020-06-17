@@ -4490,6 +4490,12 @@
     "002": "Coraggio",
     "003": "Istinto"
   },
+  "team_colors": {
+    "000": "bianco",
+    "001": "blu",
+    "002": "rosso",
+    "003": "giallo"
+  },
   "types": {
     "001": "Normale",
     "002": "Combattimento",

@@ -4485,6 +4485,12 @@
     "002": "Bravoure",
     "003": "Intuition"
   },
+  "team_colors": {
+    "000": "Blanc",
+    "001": "Bleu",
+    "002": "Rouge",
+    "003": "Jaune"
+  },
   "types": {
     "001": "Normal",
     "002": "Combattre",
