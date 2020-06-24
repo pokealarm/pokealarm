@@ -18,7 +18,7 @@ PokeAlarm is an easy to use yet highly configurable webserver designed to receiv
 Head on over to the [**PokeAlarm Wiki**](http://pa.readthedocs.io/en/master/) to find detailed instructions on setting up and configuring PokeAlarm. You can find the table of contents on the right!
 
 #### Discord
-Before visiting your discord channel, check both the [Wiki](http://pa.readthedocs.io/en/master/) and the [FAQ](https://github.com/PokeAlarm/PokeAlarm/wiki/faq). If you still can't find what you are looking for, try our [**Discord channel**](https://discord.gg/S2BKC7p) - but make sure you read the **#rules** channel or risk getting banned!
+Before visiting your discord channel, check both the [Wiki](http://pa.readthedocs.io/en/dev/) and the [FAQ](https://github.com/PokeAlarm/PokeAlarm/wiki/faq). If you still can't find what you are looking for, try our [**Discord channel**](https://discord.gg/S2BKC7p) - but make sure you read the **#rules** channel or risk getting banned!
 
 #### Github
 Have an idea for a new feature? Think you found a bug? Head over to our [Github](https://github.com/PokeAlarm/PokeAlarm/issues/new) and open an 'Issue' ticket. Make sure to follow the template completly, or else your issue will be closed without comment.
