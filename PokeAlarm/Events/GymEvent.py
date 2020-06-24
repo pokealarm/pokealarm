@@ -2,7 +2,7 @@
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
-    get_waze_link, get_dist_as_str
+    get_waze_link, get_dist_as_str, get_team_emoji, get_ex_eligible_emoji
 from . import BaseEvent
 from PokeAlarm import Unknown
 
@@ -75,9 +75,14 @@ class GymEvent(BaseEvent):
             # Team Info
             'old_team': locale.get_team_name(self.old_team_id),
             'old_team_id': self.old_team_id,
+            'old_team_emoji': get_team_emoji(self.old_team_id),
+            'old_team_color': locale.get_team_color(self.old_team_id),
             'old_team_leader': locale.get_leader_name(self.old_team_id),
+
             'new_team': locale.get_team_name(self.new_team_id),
             'new_team_id': self.new_team_id,
+            'new_team_emoji': get_team_emoji(self.new_team_id),
+            'new_team_color': locale.get_team_color(self.new_team_id),
             'new_team_leader': locale.get_leader_name(self.new_team_id),
 
             # Details
@@ -87,6 +92,7 @@ class GymEvent(BaseEvent):
             'ex_eligible':
                 self.ex_eligible > 0 if Unknown.is_not(self.ex_eligible)
                 else Unknown.REGULAR,
+            'ex_eligible_emoji': get_ex_eligible_emoji(self.ex_eligible),
 
             # Guards
             'slots_available': self.slots_available,

@@ -39,6 +39,7 @@ ex_eligible       True if the gym currently has an ex tag, False if not.
 is_exclusive      True if the egg is for an ex raid, False if not.
 park              The name of the park the gym is located in.
 team_id           The id of the team currently in control of the gym.
+team_emoji        The team color currently in control of the gym.
 team_name         The team currently in control of the gym.
 team_leader       The leader of the team currently in control of the gym.
 sponsor_id        The sponsor if of the gym. 0 if not sponsored.

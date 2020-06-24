@@ -35,9 +35,11 @@ DTS              Description
 gym_id           The gym id. Unique per gym.
 old_team         The team in control of the gym previously.
 old_team_id      The id of the team in control of the gym previously.
+old_team_emoji   The color as emoji of the team previously in control of the gym.
 old_team_leader  The leader of the team in control of the gym previously.
 new_team         The team currently in control of the gym.
 new_team_id      The id of the team currently in control of the gym.
+new_team_emoji   The color as emoji of the team currently in control of the gym.
 new_team_leader  The leader of the team currently in control of the gym.
 gym_name         The name of the gym. *
 gym_description  The description of the gym. *

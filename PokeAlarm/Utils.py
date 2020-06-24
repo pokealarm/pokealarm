@@ -411,6 +411,20 @@ def get_spawn_verified_emoji(spawn_verified_id):
         1: u'✅',
     }.get(spawn_verified_id, '❔')
 
+def get_team_emoji(team_id):
+	return {
+		0: u'⚪',
+		1: u'🔵',
+		2: u'🔴',
+		3: u'🟡',
+	}.get(team_id, '❔')
+
+def get_ex_eligible_emoji(ex_eligible):
+    return {
+        0: u'',
+        1: u'✉️',
+    }.get(ex_eligible,'')
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
