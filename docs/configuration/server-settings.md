@@ -161,7 +161,7 @@ You can manually specify a configuration file with either the `-cf` or
 #debug                          # Enable debug logging (default='False)
 #quiet                          # Disable output to stdin/stdout.
 #log-lvl: 3                     # Verbosity of the main logger (default=3)
-#log-file: logs/pokealarm.log   # File path of the main logger (default='logs/pokealam.log')
+#log-file: logs/pokealarm.log   # File path of the main logger (default='logs/pokealam.log'). None to disable logging to file.
 #log-size: 100                  # Maximum size in mb of a log before rollover.
 #log-ct: 5                      # Maximum number of logs to keep.
 
