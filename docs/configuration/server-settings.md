@@ -73,7 +73,7 @@ optional arguments:
   -ll {1,2,3,4,5}, --log-lvl {1,2,3,4,5}
                         Verbosity of the root logger.
   -lf LOG_FILE, --log-file LOG_FILE
-                        Path of a file to attach to a manager's logger.
+                        Path of a file to attach to a manager's logger. None to disable logging to file.
   -ls LOG_SIZE, --log-size LOG_SIZE
                         Maximum size in mb of a log before rollover.
   -lc LOG_CT, --log-ct LOG_CT
@@ -161,7 +161,7 @@ You can manually specify a configuration file with either the `-cf` or
 #debug                          # Enable debug logging (default='False)
 #quiet                          # Disable output to stdin/stdout.
 #log-lvl: 3                     # Verbosity of the main logger (default=3)
-#log-file: logs/pokealarm.log   # File path of the main logger (default='logs/pokealam.log')
+#log-file: logs/pokealarm.log   # File path of the main logger (default='logs/pokealam.log'). None to disable logging to file.
 #log-size: 100                  # Maximum size in mb of a log before rollover.
 #log-ct: 5                      # Maximum number of logs to keep.
 
