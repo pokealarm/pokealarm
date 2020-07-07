@@ -108,8 +108,6 @@ class MonFilter(BaseFilter):
             event_attribute='ultra_cp', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(float, 'min_cp_ultra', data))
 
-
-
         # Form  TODO: names
         self.forms = self.evaluate_attribute(  # f.forms in m.form_id
             event_attribute='form_id', eval_func=operator.contains,
