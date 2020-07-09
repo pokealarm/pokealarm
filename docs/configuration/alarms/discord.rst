@@ -121,6 +121,7 @@ Parameters      Description                                      Default
 `url`           Link to be added to notification text            ``<gmaps>``
 `body`          Additional text to be added to the message       ``Available until <24h_time>(<time_left>).``
 `content`       Text before the Discord embed
+`fields`        A set of fields. See below for more information.
 =============== ================================================ ===========================================
 
 .. note::
@@ -209,6 +210,53 @@ Example: Alarm Configuration Using Optional Parameters
 .. note::
   \*THESE LINES ARE USED TO OVERRIDE DEFAULT VALUES. IF YOU DO NOT WISH
   TO USE CUSTOM IMAGES, DO NOT ADD THESE LINES TO YOUR ALARMS.JSON.
+
+
+Example: Alarm Configuration Using Fields
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+  The code below is to be inserted into the alarms section of
+  ``alarms.json``. It does not represent the entire ``alarms.json`` file.
+
+.. code-block:: json
+
+  {
+    "discord_alarm":{
+      "active":true,
+      "type":"discord",
+      "webhook_url":"YOUR_WEBHOOK_URL",
+      "startup_message":false,
+      "monsters":{
+          "webhook_url":"YOUR_WEBHOOK_URL_FOR_POKEMON_CHANNEL",
+          "username":"<mon_name>",
+          "icon_url*":"YOUR CUSTOM URL HERE/<mon_id_3>_<form_id_3>.png",
+          "title":"A wild <mon_name> has appeared!",
+          "url":"<gmaps>",
+          "body":"Available until <24h_time> (<time_left>).",
+          "fields": [
+              {
+                  "name": "Detailed Information",
+                  "value": "<mon_name> <cp>...",
+                  "inline": true
+              },
+              {
+                  "name": "More information",
+                  "value": "<iv_0> <form>",
+                  "inline": true
+              },
+              {
+                  "name": "Costume",
+                  "value": "<costume>"
+              }
+          ]
+      }
+    }
+  }
+
+.. note::
+  Fields are always defined with the `name` and `value` keys, with the `inline`
+  key being optional and defaulting to `false`
 
 Mini Map Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
