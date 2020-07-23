@@ -178,6 +178,7 @@ class DiscordAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
+            'fields': settings.pop('fields', []),
             'map': map if isinstance(map, six.string_types) else
             get_static_map_url(map, self.__static_map_key)
         }
@@ -199,7 +200,8 @@ class DiscordAlarm(Alarm):
                 'title': replace(alert['title'], info),
                 'url': replace(alert['url'], info),
                 'description': replace(alert['body'], info),
-                'thumbnail': {'url': replace(alert['icon_url'], info)}
+                'thumbnail': {'url': replace(alert['icon_url'], info)},
+                'fields': self.replace_fields(alert['fields'], info)
             }]
             if alert['map'] is not None:
                 coords = {
@@ -269,3 +271,14 @@ class DiscordAlarm(Alarm):
             raise requests.exceptions.RequestException(
                 "Response received {}, webhook not accepted.".format(
                     resp.status_code))
+
+    @staticmethod
+    def replace_fields(fields, pkinfo):
+        replaced_fields = []
+        for field in fields:
+            replaced_fields.append({
+                'name': replace(field['name'], pkinfo),
+                'value': replace(field['value'], pkinfo),
+                'inline': field.get('inline', False)
+            })
+        return replaced_fields
