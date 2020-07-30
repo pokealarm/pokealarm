@@ -33,6 +33,12 @@ class Locale(object):
         for id_, val in default["pokemon"].iteritems():
             self.__pokemon_names[int(id_)] = pokemon.get(id_, val)
 
+        # Pokemon ID -> Explicitly English Name
+        self.__english_pokemon_names = {}
+        pokemon = default.get("pokemon", {})
+        for id_, val in default["pokemon"].iteritems():
+            self.__english_pokemon_names[int(id_)] = pokemon.get(id_, val)
+
         # Move ID -> Name
         self.__move_names = {}
         moves = info.get("moves", {})
@@ -95,6 +101,16 @@ class Locale(object):
                 self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(
                     form_id, form_name)
 
+        # Pokemon ID -> { Form ID -> Explicitly English Form Name }
+        self.__english_form_names = {}
+        english_forms = default.get('forms', {})
+        for pkmn_id, forms in default['forms'].iteritems():
+            self.__english_form_names[int(pkmn_id)] = {}
+            pkmn_forms = english_forms.get(pkmn_id, {})
+            for form_id, form_name in forms.iteritems():
+                self.__english_form_names[int(pkmn_id)][int(form_id)] = \
+                    pkmn_forms.get(form_id, form_name)
+
         # Rarity ID -> Rarity Name
         self.__rarity_names = {}
         rarity_names = info.get("rarity", {})
@@ -151,6 +167,13 @@ class Locale(object):
     # Returns the name of the Pokemon associated with the given ID
     def get_pokemon_name(self, pokemon_id):
         return self.__pokemon_names.get(pokemon_id, 'unknown')
+
+    # Returns the English name of the Pokemon associated with the given ID
+    def get_english_pokemon_name(self, pokemon_id):
+        return self.__english_pokemon_names.get(pokemon_id, 'unknown')
+
+    def get_english_form_name(self, pokemon_id, form_id):
+        return self.__english_form_names.get(pokemon_id, {}).get(form_id, 'unknown')
 
     # Returns the name of the move associated with the move ID
     def get_move_name(self, move_id):

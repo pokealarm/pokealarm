@@ -63,6 +63,7 @@ know of any rare spawns or raids.
    Caching <miscellaneous/object-caching>
    Docker <miscellaneous/docker>
    Location Services <miscellaneous/location-services>
+   PvP / Trainer Battles <miscellaneous/trainer-battles>
    Contributing <miscellaneous/contributing>
 
 
