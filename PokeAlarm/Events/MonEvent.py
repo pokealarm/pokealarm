@@ -236,6 +236,7 @@ class MonEvent(BaseEvent):
             'sta': self.sta_iv,
 
             # PVP Information
+            'great_mon_id': self.great_id,
             'great_product': self.great_product,
             'great_mon_name': locale.get_pokemon_name(self.great_id),
             'great_cp': self.great_cp,
@@ -265,6 +266,7 @@ class MonEvent(BaseEvent):
                         self.great_id, self.form_id)
                            for x in ['unknown', 'Normal'])
                     else ''),
+            'ultra_mon_id': self.ultra_id,
             'ultra_product': self.ultra_product,
             'ultra_mon_name': locale.get_pokemon_name(self.ultra_id),
             'ultra_cp': self.ultra_cp,
