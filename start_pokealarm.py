@@ -330,7 +330,7 @@ def parse_settings(root_path):
     # Build the managers
     for m_ct in range(args.manager_count):
         # TODO: Fix this mess better next time
-        log.info("----------- Setting up 'manager_0'")
+        log.info("----------- Setting up '{}'".format(args.manager_name[m_ct]))
         config['UNITS'] = get_from_list(args.units, m_ct, args.units[0])
         m = Manager(
             name=args.manager_name[m_ct],
@@ -386,7 +386,7 @@ def parse_settings(root_path):
             log.critical("Names of Manager processes must be unique "
                          + "(not case sensitive)! Process will exit.")
             sys.exit(1)
-        log.info("----------- Finished setting up 'manager_0'")
+        log.info("----------- Finished setting up '{}'".format(args.manager_name[m_ct]))
     for m_name in managers:
         managers[m_name].start()
 
