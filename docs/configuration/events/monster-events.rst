@@ -139,12 +139,14 @@ PvP / Trainer Battles
 =================== =========================================================
 DTS                 Description
 =================== =========================================================
+great_mon_id        The ID of the monster or its evolution that reaches the highest stat product in great league
 great_product       Highest stat product percentage the mon or its evolution can reach in great league
 great_mon_name      Name of the mon or its evolution that reaches the highest stat product in great league
 great_cp            CP at the highest possible level for great league for the mon or its evolution
 great_level         The level at which the mon will reach the highest possible CP for great league
 great_url           Individual link to gostadium.club to further analyze the mon or its evolution in great league
 great_pvpoke        Individual link to pvpoke.com to further analyze the mon or its evolution in great league
+ultra_mon_id        The ID of the monster or its evolution that reaches the highest stat product in ultra league
 ultra_product       Highest stat product percentage the mon or its evolution can reach in ultra league
 ultra_mon_name      Name of the mon or its evolution that reaches the highest stat product in ultra league
 ultra_cp            CP at the highest possible level for ultra league for the mon or its evolution
