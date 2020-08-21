@@ -78,7 +78,7 @@ class Alarm(object):
         if string is None:
             return None
 
-        s = string.encode('utf-8')
+        s = string
         for key in pkinfo:
             s = s.replace("<{}>".format(key), str(pkinfo[key]))
         return s

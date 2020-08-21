@@ -1,1 +1,1 @@
-from GMaps import GMaps  # noqa: F401
+from .GMaps import GMaps  # noqa: F401

@@ -5,4 +5,4 @@ except ImportError:
 
     pip_install('pushbullet.py', '0.10.0')
 
-from PushBulletAlarm import PushbulletAlarm  # noqa 401
+from .PushBulletAlarm import PushbulletAlarm  # noqa 401

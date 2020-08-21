@@ -1,1 +1,1 @@
-from TelegramAlarm import TelegramAlarm  # noqa F401
+from .TelegramAlarm import TelegramAlarm  # noqa F401

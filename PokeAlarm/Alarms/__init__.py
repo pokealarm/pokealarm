@@ -1,5 +1,5 @@
 from PokeAlarm.Utils import require_and_remove_key
-from Alarm import Alarm  # noqa F401
+from .Alarm import Alarm  # noqa F401
 
 
 def alarm_factory(mgr, settings, max_attempts, api_key):
@@ -27,4 +27,4 @@ def alarm_factory(mgr, settings, max_attempts, api_key):
         from PokeAlarm.Alarms.Twitter import TwitterAlarm
         return TwitterAlarm(mgr, settings)
     else:
-        raise ValueError("%s is not a valid alarm type!".format(kind))
+        raise ValueError(f"{kind} is not a valid alarm type!")

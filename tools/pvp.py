@@ -12,15 +12,15 @@ class PVP:
 
         multipliers = utils.get_cp_multipliers()
 
-        for json_mon in stats.keys():
+        for json_mon in list(stats.keys()):
             for limit in [1500, 2500]:
                 highest, lowest = self.spreads(
                     limit, json_mon, min_level(limit, json_mon),
                     max_level(limit, json_mon), multipliers, stats)
                 stats[json_mon]["{}_product".format(limit)] \
                     = highest["product"]
-                print("{}: highest product at {}: {}".format(
-                    json_mon, limit, highest['product']))
+                print(("{}: highest product at {}: {}".format(
+                    json_mon, limit, highest['product'])))
 
         with open(pa_root + "/tools/stats_with_products.json", "w+") as f:
             json.dump(stats, f, indent=2)

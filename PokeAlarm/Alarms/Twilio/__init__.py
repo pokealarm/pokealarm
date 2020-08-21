@@ -5,4 +5,4 @@ except ImportError:
 
     pip_install('twilio', '5.4.0')
 
-from TwilioAlarm import TwilioAlarm  # noqa F401
+from .TwilioAlarm import TwilioAlarm  # noqa F401

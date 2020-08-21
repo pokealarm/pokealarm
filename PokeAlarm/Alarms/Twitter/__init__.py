@@ -5,4 +5,4 @@ except ImportError:
 
     pip_install('twitter', '1.17.1')
 
-from TwitterAlarm import TwitterAlarm  # noqa F401
+from .TwitterAlarm import TwitterAlarm  # noqa F401

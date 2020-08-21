@@ -143,7 +143,7 @@ class Cache(object):
                 self._raid_hist, self._quest_hist, self._grunt_hist):
             old = []
             now = datetime.utcnow()
-            for key, expiration in hist.iteritems():
+            for key, expiration in hist.items():
                 if expiration < now:  # Track expired items
                     old.append(key)
             for key in old:  # Remove expired events

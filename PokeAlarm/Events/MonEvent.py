@@ -1,7 +1,7 @@
 # Standard Library Imports
 import re
 from datetime import datetime
-from urllib import urlencode
+from urllib.parse import urlencode
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
@@ -179,7 +179,8 @@ class MonEvent(BaseEvent):
             'spawn_verified':
                 self.spawn_verified > 0 if Unknown.is_not(self.spawn_verified)
                 else Unknown.REGULAR,
-            'spawn_verified_emoji': get_spawn_verified_emoji(self.spawn_verified),
+            'spawn_verified_emoji': get_spawn_verified_emoji(
+                self.spawn_verified),
             'spawn_verified_emoji_or_empty': (
                 '' if self.spawn_verified != 1
                 else get_spawn_verified_emoji(self.spawn_verified)),
@@ -264,7 +265,7 @@ class MonEvent(BaseEvent):
                                  .lower().replace(' ', '_'))
                     if not any(x in locale.get_english_form_name(
                         self.great_id, self.form_id)
-                           for x in ['unknown', 'Normal'])
+                        for x in ['unknown', 'Normal'])
                     else ''),
             'ultra_mon_id': self.ultra_id,
             'ultra_product': self.ultra_product,
@@ -294,7 +295,7 @@ class MonEvent(BaseEvent):
                                  .lower().replace(' ', '_'))
                     if not any(x in locale.get_english_form_name(
                         self.ultra_id, self.form_id)
-                               for x in ['unknown', 'Normal'])
+                        for x in ['unknown', 'Normal'])
                     else ''),
             # Type
             'type1': type1,

@@ -83,7 +83,7 @@ class GMaps(object):
                 time.sleep(1 - elapsed_time)
 
         # Create the correct url
-        url = u'https://maps.googleapis.com/maps/api/{}/json'.format(service)
+        url = 'https://maps.googleapis.com/maps/api/{}/json'.format(service)
 
         # Add in the API key
         if params is None:
@@ -91,26 +91,26 @@ class GMaps(object):
         params['key'] = self._key
 
         # Use the session to send the request
-        log.debug(u'{} request sending.'.format(service))
+        log.debug('{} request sending.'.format(service))
         self._window.append(time.time())
         request = self._session.get(url, params=params, timeout=3)
 
         if not request.ok:
-            log.debug(u'Response body: {}'.format(
+            log.debug('Response body: {}'.format(
                 json.dumps(request.json(), indent=4, sort_keys=True)))
             # Raise HTTPError
             request.raise_for_status()
 
-        log.debug(u'{} request completed successfully with response {}.'
-                  u''.format(service, request.status_code))
+        log.debug('{} request completed successfully with response {}.'
+                  ''.format(service, request.status_code))
         body = request.json()
         if body['status'] == "OK" or body['status'] == "ZERO_RESULTS":
             return body
         elif body['status'] == "OVER_QUERY_LIMIT":
             # self._time_limit = datetime.utcnow() + _warning_window
-            raise UserWarning(u'API Quota exceeded.')
+            raise UserWarning('API Quota exceeded.')
         else:
-            raise ValueError(u'Unexpected response status:\n {}'.format(body))
+            raise ValueError('Unexpected response status:\n {}'.format(body))
 
     @synchronize_with()
     def geocode(self, address, language='en'):
@@ -137,18 +137,18 @@ class GMaps(object):
             # Memoize the results
             self._geocode_hist[address] = latlng
         except requests.exceptions.HTTPError as e:
-            log.error(u"Geocode failed with "
-                      u"HTTPError: {}".format(e.message))
+            log.error("Geocode failed with "
+                      "HTTPError: {}".format(e.message))
         except requests.exceptions.Timeout as e:
-            log.error(u"Geocode failed with "
-                      u"connection issues: {}".format(e.message))
+            log.error("Geocode failed with "
+                      "connection issues: {}".format(e.message))
         except UserWarning:
-            log.error(u"Geocode failed because of exceeded quota.")
+            log.error("Geocode failed because of exceeded quota.")
         except Exception as e:
-            log.error(u"Geocode failed because "
-                      u"unexpected error has occurred: "
-                      u"{} - {}".format(type(e).__name__, e.message))
-            log.error(u"Stack trace: \n {}".format(traceback.format_exc()))
+            log.error("Geocode failed because "
+                      "unexpected error has occurred: "
+                      "{} - {}".format(type(e).__name__, e.message))
+            log.error("Stack trace: \n {}".format(traceback.format_exc()))
         # Send back tuple
         return latlng
 
@@ -170,7 +170,7 @@ class GMaps(object):
     def reverse_geocode(self, latlng, language='en'):
         # type: (tuple) -> dict
         """ Returns the reverse geocode DTS associated with 'lat,lng'. """
-        latlng = u'{:.5f},{:.5f}'.format(latlng[0], latlng[1])
+        latlng = '{:.5f},{:.5f}'.format(latlng[0], latlng[1])
         # Check for memoized results
         if latlng in self._reverse_geocode_hist:
             return self._reverse_geocode_hist[latlng]
@@ -192,8 +192,8 @@ class GMaps(object):
             # 'street_num' and 'street' to avoid DTS looking weird
             dts['street_num'] = details.get('street_number', Unknown.EMPTY)
             dts['street'] = details.get('route', Unknown.EMPTY)
-            dts['address'] = u"{} {}".format(dts['street_num'], dts['street'])
-            dts['address_eu'] = u"{} {}".format(
+            dts['address'] = "{} {}".format(dts['street_num'], dts['street'])
+            dts['address_eu'] = "{} {}".format(
                 dts['street'], dts['street_num'])  # Europeans are backwards
             dts['postal'] = details.get('postal_code', Unknown.REGULAR)
             dts['neighborhood'] = details.get('neighborhood', Unknown.REGULAR)
@@ -209,18 +209,18 @@ class GMaps(object):
             # Memoize the results
             self._reverse_geocode_hist[latlng] = dts
         except requests.exceptions.HTTPError as e:
-            log.error(u"Reverse Geocode failed with "
-                      u"HTTPError: {}".format(e.message))
+            log.error("Reverse Geocode failed with "
+                      "HTTPError: {}".format(e.message))
         except requests.exceptions.Timeout as e:
-            log.error(u"Reverse Geocode failed with "
-                      u"connection issues: {}".format(e.message))
+            log.error("Reverse Geocode failed with "
+                      "connection issues: {}".format(e.message))
         except UserWarning:
-            log.error(u"Reverse Geocode failed because of exceeded quota.")
+            log.error("Reverse Geocode failed because of exceeded quota.")
         except Exception as e:
-            log.error(u"Reverse Geocode failed because "
-                      u"unexpected error has occurred: "
-                      u"{} - {}".format(type(e).__name__, e.message))
-            log.error(u"Stack trace: \n {}".format(traceback.format_exc()))
+            log.error("Reverse Geocode failed because "
+                      "unexpected error has occurred: "
+                      "{} - {}".format(type(e).__name__, e.message))
+            log.error("Stack trace: \n {}".format(traceback.format_exc()))
         # Send back dts
         return dts
 
@@ -228,13 +228,13 @@ class GMaps(object):
     def distance_matrix(self, mode, origin, dest, lang, units):
         # Check for valid mode
         if mode not in self.TRAVEL_MODES:
-            raise ValueError(u"DM doesn't support mode '{}'.".format(mode))
+            raise ValueError("DM doesn't support mode '{}'.".format(mode))
         # Estimate to about ~1 meter of accuracy
-        origin = u'{:.5f},{:.5f}'.format(origin[0], origin[1])
-        dest = u'{:.5f},{:.5f}'.format(dest[0], dest[1])
+        origin = '{:.5f},{:.5f}'.format(origin[0], origin[1])
+        dest = '{:.5f},{:.5f}'.format(dest[0], dest[1])
 
         # Check for memoized results
-        key = origin + u':' + dest
+        key = origin + ':' + dest
         if key in self._dm_hist:
             return self._dm_hist[key]
 
@@ -262,17 +262,17 @@ class GMaps(object):
             dts[dur_key] = response.get(
                 'duration', {}).get('text', Unknown.REGULAR)
         except requests.exceptions.HTTPError as e:
-            log.error(u"Distance Matrix failed with "
-                      u"HTTPError: {}".format(e.message))
+            log.error("Distance Matrix failed with "
+                      "HTTPError: {}".format(e.message))
         except requests.exceptions.Timeout as e:
-            log.error(u"Distance Matrix failed with "
-                      u"connection issues: {}".format(e.message))
+            log.error("Distance Matrix failed with "
+                      "connection issues: {}".format(e.message))
         except UserWarning:
-            log.error(u"Distance Matrix failed because of exceeded quota.")
+            log.error("Distance Matrix failed because of exceeded quota.")
         except Exception as e:
-            log.error(u"Distance Matrix failed because "
-                      u"unexpected error has occurred: "
-                      u"{} - {}".format(type(e).__name__, e.message))
-            log.error(u"Stack trace: \n {}".format(traceback.format_exc()))
+            log.error("Distance Matrix failed because "
+                      "unexpected error has occurred: "
+                      "{} - {}".format(type(e).__name__, e.message))
+            log.error("Stack trace: \n {}".format(traceback.format_exc()))
         # Send back DTS
         return dts

@@ -10,7 +10,7 @@ from PokeAlarm.Utils import get_path
 # (use all locales for flexibility)
 def get_lure_id(lure_name):
     try:
-        name = unicode(lure_name).lower()
+        name = str(lure_name).lower()
         if not hasattr(get_lure_id, 'ids'):
             get_lure_id.ids = {}
             files = glob(get_path('locales/*.json'))

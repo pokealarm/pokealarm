@@ -2,7 +2,6 @@
 import requests
 
 # 3rd Party Imports
-import six
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -179,7 +178,7 @@ class DiscordAlarm(Alarm):
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
             'fields': settings.pop('fields', []),
-            'map': map if isinstance(map, six.string_types) else
+            'map': map if isinstance(map, str) else
             get_static_map_url(map, self.__static_map_key)
         }
 
@@ -212,7 +211,7 @@ class DiscordAlarm(Alarm):
                     'url':
                         replace(alert['map'],
                                 coords if not
-                                isinstance(alert['map'], six.string_types)
+                                isinstance(alert['map'], str)
                                 else info)
                 }
         args = {

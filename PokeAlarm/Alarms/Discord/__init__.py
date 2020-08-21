@@ -5,4 +5,4 @@ except ImportError:
 
     pip_install('requests')
 
-from DiscordAlarm import DiscordAlarm  # noqa F401
+from .DiscordAlarm import DiscordAlarm  # noqa F401

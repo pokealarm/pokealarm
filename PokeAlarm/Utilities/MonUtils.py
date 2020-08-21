@@ -10,7 +10,7 @@ from PokeAlarm.Utils import get_path
 # (use all locales for flexibility)
 def get_monster_id(pokemon_name):
     try:
-        name = unicode(pokemon_name).lower()
+        name = str(pokemon_name).lower()
         if not hasattr(get_monster_id, 'ids'):
             get_monster_id.ids = {}
             files = glob(get_path('locales/*.json'))
@@ -59,11 +59,11 @@ def get_gender_sym(gender):  # TODO - support other languages
     if gender == '?':
         return '?'
     if gender == '1' or gender == 'male':
-        return u'\u2642'  # male symbol
+        return '\u2642'  # male symbol
     elif gender == '2' or gender == 'female':
-        return u'\u2640'  # female symbol
+        return '\u2640'  # female symbol
     elif gender == '3' or gender == 'neutral':
-        return u'\u26b2'  # neutral
+        return '\u26b2'  # neutral
     else:
         raise ValueError("Unable to interpret `{}` as a supported "
                          " gender name or id.".format(gender))
@@ -141,9 +141,9 @@ def get_rarity_id(rarity_name):
 # Returns the gender symbol of a pokemon:
 def get_pokemon_gender(gender):
     if gender == 1:
-        return u'\u2642'  # male symbol
+        return '\u2642'  # male symbol
     elif gender == 2:
-        return u'\u2640'  # female symbol
+        return '\u2640'  # female symbol
     elif gender == 3:
-        return u'\u26b2'  # neutral
+        return '\u26b2'  # neutral
     return '?'  # catch all

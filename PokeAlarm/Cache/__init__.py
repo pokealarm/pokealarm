@@ -1,5 +1,5 @@
-from Cache import Cache
-from FileCache import FileCache
+from .Cache import Cache
+from .FileCache import FileCache
 
 cache_options = ["mem", "file"]
 
@@ -10,4 +10,4 @@ def cache_factory(mgr, kind):
     elif kind == cache_options[1]:
         return FileCache(mgr)
     else:
-        raise ValueError("%s is not a valid cache type!".format(kind))
+        raise ValueError(f"{kind} is not a valid cache type!")

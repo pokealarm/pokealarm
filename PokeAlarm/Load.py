@@ -6,8 +6,8 @@ import sys
 from collections import OrderedDict
 # 3rd Party Imports
 # Local Import
-import Utils as utils
-from Utils import require_and_remove_key, parse_boolean
+from . import Utils as utils
+from .Utils import require_and_remove_key, parse_boolean
 
 log = logging.getLogger('pokealarm.setup')
 
@@ -46,14 +46,14 @@ def parse_filters_file(mgr, filename):
         section = filters_file.pop('monsters', {'enabled': False})
         mgr.set_monsters_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_monster_filter(name, f)
 
         # Load Stops Section
         section = filters_file.pop('stops', {'enabled': False})
         mgr.set_stops_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_stop_filter(name, f)
 
         # Load Gyms Section
@@ -61,42 +61,42 @@ def parse_filters_file(mgr, filename):
         mgr.set_gyms_enabled(section.pop('enabled', True))
         mgr.set_ignore_neutral(section.pop('ignore_neutral', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_gym_filter(name, f)
 
         # Load Eggs Section
         section = filters_file.pop('eggs', {'enabled': False})
         mgr.set_eggs_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_egg_filter(name, f)
 
         # Load Raids Section
         section = filters_file.pop('raids', {'enabled': False})
         mgr.set_raids_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_raid_filter(name, f)
 
         # Load Weather Section
         section = filters_file.pop('weather', {'enabled': False})
         mgr.set_weather_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_weather_filter(name, f)
 
         # Load Quest Section
         section = filters_file.pop('quests', {'enabled': False})
         mgr.set_quest_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_quest_filter(name, f)
 
         # Load Invasions Section
         section = filters_file.pop('invasions', {'enabled': False})
         mgr.set_grunts_enabled(section.pop('enabled', True))
         filters = parse_filter_section(section)
-        for name, f in filters.iteritems():
+        for name, f in filters.items():
             mgr.add_grunt_filter(name, f)
 
         return  # exit function
@@ -113,10 +113,10 @@ def parse_filter_section(section):
     defaults = section.pop('defaults', {})
     default_dts = defaults.pop('custom_dts', {})
     filter_set = OrderedDict()
-    for name, settings in section.pop('filters', {}).iteritems():
-        settings = dict(defaults.items() + settings.items())
-        local_dts = dict(default_dts.items()
-                         + settings.pop('custom_dts', {}).items())
+    for name, settings in section.pop('filters', {}).items():
+        settings = dict(list(defaults.items()) + list(settings.items()))
+        local_dts = dict(list(default_dts.items())
+                         + list(settings.pop('custom_dts', {}).items()))
         if len(local_dts) > 0:
             settings['custom_dts'] = local_dts
         filter_set[name] = settings
@@ -145,7 +145,7 @@ def parse_alarms_file(manager, filename):
         sys.exit(1)
 
     try:
-        for name, alarm in alarm_settings.iteritems():
+        for name, alarm in alarm_settings.items():
             active = parse_boolean(require_and_remove_key(
                 'active', alarm, "Alarm objects in file."))
             if active:
@@ -216,7 +216,7 @@ def parse_rules_file(manager, filename):
 
 
 def load_rules_section(set_rule, rules):
-    for name, settings in rules.iteritems():
+    for name, settings in rules.items():
         if 'filters' not in settings:
             raise ValueError(
                 "{} rule is missing a `filters` section.".format(name))

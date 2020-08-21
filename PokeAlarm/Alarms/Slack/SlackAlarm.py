@@ -3,7 +3,6 @@ import re
 
 # 3rd Party Imports
 from slacker import Slacker
-import six
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -151,7 +150,7 @@ class SlackAlarm(Alarm):
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
-            'map': map if isinstance(map, six.string_types) else
+            'map': map if isinstance(map, str) else
             get_static_map_url(map, self.__static_map_key)
         }
         reject_leftover_parameters(settings, "'Alert level in Slack alarm.")
@@ -167,7 +166,7 @@ class SlackAlarm(Alarm):
             'fallback': 'Map_Preview',
             'image_url':
                 replace(alert['map'],
-                        info if isinstance(map, six.string_types) else coords)
+                        info if isinstance(map, str) else coords)
         }] if alert['map'] is not None else None
         self.send_message(
             channel=replace(alert['channel'], info),
@@ -254,5 +253,5 @@ class SlackAlarm(Alarm):
     def channel_format(name):
         if name[0] == '#':  # Remove # if added
             name = name[1:]
-        name = name.replace(u"\u2642", "m").replace(u"\u2640", "f").lower()
+        name = name.replace("\u2642", "m").replace("\u2640", "f").lower()
         return re.sub("[^_a-z0-9-]+", "", name)

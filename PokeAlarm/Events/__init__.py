@@ -1,15 +1,15 @@
 import logging
 import traceback
 
-from BaseEvent import BaseEvent  # noqa F401
-from MonEvent import MonEvent
-from StopEvent import StopEvent
-from GymEvent import GymEvent
-from EggEvent import EggEvent
-from RaidEvent import RaidEvent
-from WeatherEvent import WeatherEvent
-from QuestEvent import QuestEvent
-from GruntEvent import GruntEvent
+from .BaseEvent import BaseEvent  # noqa F401
+from .MonEvent import MonEvent
+from .StopEvent import StopEvent
+from .GymEvent import GymEvent
+from .EggEvent import EggEvent
+from .RaidEvent import RaidEvent
+from .WeatherEvent import WeatherEvent
+from .QuestEvent import QuestEvent
+from .GruntEvent import GruntEvent
 
 log = logging.getLogger('Events')
 

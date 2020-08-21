@@ -1,5 +1,5 @@
 # Standard Library Imports
-from datetime import datetime, time, date
+from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
@@ -57,7 +57,7 @@ class QuestEvent(BaseEvent):
         self.monster_form_id = data.get('pokemon_form', 0)
         self.monster_costume_id = data.get('pokemon_costume', 0)
         self.monster_types = get_base_types(self.monster_id) \
-            if self.monster_id is not 0 else [0, 0]
+            if self.monster_id != 0 else [0, 0]
 
         # Item Reward Details
         self.item_amount = self.reward_amount

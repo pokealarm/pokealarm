@@ -32,7 +32,7 @@ def load_geofence_file(file_path):
                     points = []
                 name = match_name.group(0)
             elif coor_patter.match(line):
-                lat, lng = map(float, line.split(","))
+                lat, lng = list(map(float, line.split(",")))
                 points.append([lat, lng])
             else:
                 log.error("Geofence was unable to parse this line: "
@@ -42,7 +42,7 @@ def load_geofence_file(file_path):
         geofences[name] = Geofence(name, points)
         log.info("Geofence {} added!".format(name))
         return geofences
-    except IOError as e:
+    except IOError:
         log.error("IOError: Please make sure a file with read/write "
                   + "permissions exist at {}".format(file_path))
     except Exception as e:
