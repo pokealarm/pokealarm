@@ -749,7 +749,7 @@ class Manager(object):
         rules = self.__stop_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                list(self._stop_filters.keys()), list(self._alarms.keys()))}
+                self._stop_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
