@@ -4,11 +4,6 @@ import os
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
-
-# ToDo: Find a better way
-# Reinforce UTF-8 as default
-os.environ["PYTHONIOENCODING"] = 'utf-8'
-
 from tests.filters import MockManager, generic_filter_test, full_filter_test
 
 

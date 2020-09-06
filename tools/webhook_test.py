@@ -8,9 +8,6 @@ import portalocker
 import pickle
 from glob import glob
 
-# Reinforce UTF-8 as default
-os.environ["PYTHONIOENCODING"] = 'utf-8'
-
 
 def get_path(path):
     path = os.path.join(ROOT_PATH, path)

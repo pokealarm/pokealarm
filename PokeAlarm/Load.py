@@ -3,6 +3,7 @@ import logging
 import json
 import traceback
 import sys
+import itertools
 from collections import OrderedDict
 # 3rd Party Imports
 # Local Import
@@ -114,9 +115,9 @@ def parse_filter_section(section):
     default_dts = defaults.pop('custom_dts', {})
     filter_set = OrderedDict()
     for name, settings in section.pop('filters', {}).items():
-        settings = dict(list(defaults.items()) + list(settings.items()))
-        local_dts = dict(list(default_dts.items())
-                         + list(settings.pop('custom_dts', {}).items()))
+        settings = dict(itertools.chain(defaults.items(), settings.items()))
+        local_dts = dict(itertools.chain(
+            default_dts.items(), settings.pop('custom_dts', {}).items()))
         if len(local_dts) > 0:
             settings['custom_dts'] = local_dts
         filter_set[name] = settings

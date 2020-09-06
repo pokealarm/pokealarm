@@ -12,7 +12,7 @@ class PVP:
 
         multipliers = utils.get_cp_multipliers()
 
-        for json_mon in list(stats.keys()):
+        for json_mon in stats.keys():
             for limit in [1500, 2500]:
                 highest, lowest = self.spreads(
                     limit, json_mon, min_level(limit, json_mon),

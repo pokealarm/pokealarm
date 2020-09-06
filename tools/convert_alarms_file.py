@@ -45,8 +45,8 @@ if __name__ == '__main__':
         print("Unable to find file. Please check that the file exists "
               "and the program has the proper privileges then try again.")
     except Exception as e:
-        print(("An unexpected error as occurred: {} - {}"
-               "".format(type(e).__name__, e)))
+        print("An unexpected error as occurred: {} - {}"
+              .format(type(e).__name__, e))
     if not contents:
         exit()
 

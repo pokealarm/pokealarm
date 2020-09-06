@@ -26,9 +26,6 @@ from PokeAlarm.Utils import get_path, parse_boolean
 from PokeAlarm.Load import parse_rules_file, parse_filters_file, \
     parse_alarms_file
 
-# Reinforce UTF-8 as default
-os.environ["PYTHONIOENCODING"] = 'utf-8'
-
 log = logging.getLogger('pokealarm.webserver')
 
 # Global Variables

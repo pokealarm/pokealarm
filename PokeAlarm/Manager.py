@@ -522,8 +522,8 @@ class Manager(object):
         if config['DEBUG'] is True:
             logging.getLogger().setLevel(logging.DEBUG)
 
-        # Conect the alarms and send the start up message
-        for alarm in list(self._alarms.values()):
+        # Connect the alarms and send the start up message
+        for alarm in self._alarms.values():
             alarm.connect()
             alarm.startup_message()
 
