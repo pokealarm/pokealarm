@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 import time
-import os
 import unittest
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
