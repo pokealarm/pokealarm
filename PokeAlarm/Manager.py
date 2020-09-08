@@ -688,8 +688,7 @@ class Manager(object):
         rules = self.__mon_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {
-                "default": Rule(list(self._mon_filters.keys()),
-                                list(self._alarms.keys()))}
+                "default": Rule(self._mon_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -810,7 +809,7 @@ class Manager(object):
         rules = self.__grunt_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                list(self._grunt_filters.keys()), list(self._alarms.keys()))}
+                self._grunt_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -872,7 +871,7 @@ class Manager(object):
         rules = self.__gym_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                list(self._gym_filters.keys()), list(self._alarms.keys()))}
+                self._gym_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -935,8 +934,7 @@ class Manager(object):
         rules = self.__egg_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {
-                "default": Rule(list(self._egg_filters.keys()),
-                                list(self._alarms.keys()))}
+                "default": Rule(self._egg_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -999,7 +997,7 @@ class Manager(object):
         rules = self.__raid_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                list(self._raid_filters.keys()), list(self._alarms.keys()))}
+                self._raid_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -1063,7 +1061,7 @@ class Manager(object):
         rules = self.__weather_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                list(self._weather_filters.keys()), list(self._alarms.keys()))}
+                self._weather_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -1128,7 +1126,7 @@ class Manager(object):
         rules = self.__quest_rules
         if len(rules) == 0:  # If no rules, default to all
             rules = {"default": Rule(
-                list(self._quest_filters.keys()), list(self._alarms.keys()))}
+                self._quest_filters.keys(), self._alarms.keys())}
 
         rule_ct, alarm_ct = 0, 0
         for r_name, rule in rules.items():  # For all rules
@@ -1156,7 +1154,7 @@ class Manager(object):
             return True
         targets = f.geofences
         if len(targets) == 1 and "all" in targets:
-            targets = iter(self.geofences.keys())
+            targets = self.geofences.keys()
         for name in targets:
             gf = self.geofences.get(name)
             if not gf:  # gf doesn't exist

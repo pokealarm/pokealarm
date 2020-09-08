@@ -41,11 +41,6 @@ def parse_boolean(val):
     return None
 
 
-def parse_unicode(bytestring):
-    decoded_string = bytestring.decode(sys.getfilesystemencoding())
-    return decoded_string
-
-
 # Used for lazy installs - installs required module with pip
 def pip_install(req, version):
     import subprocess
@@ -55,7 +50,7 @@ def pip_install(req, version):
     log.info("%s install complete." % target)
 
 
-# Used to exit when leftover parameters are founds
+# Used to exit when leftover parameters are found
 def reject_leftover_parameters(dict_, location):
     if len(dict_) > 0:
         log.error("Unknown parameters at {}: ".format(location))
@@ -489,8 +484,7 @@ def get_cardinal_dir(pt_a, pt_b=None):
     if pt_b is None:
         return '?'
 
-    lat1, lng1, lat2, lng2 = list(map(
-        radians, [pt_b[0], pt_b[1], pt_a[0], pt_a[1]]))
+    lat1, lng1, lat2, lng2 = map(radians, [pt_b[0], pt_b[1], pt_a[0], pt_a[1]])
     directions = ["S", "SE", "E", "NE", "N", "NW", "W", "SW", "S"]
     bearing = (degrees(atan2(
         cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lng2 - lng1),
@@ -577,7 +571,7 @@ def get_seconds_remaining(t, timezone=None):
 
 # Return the default url for images and stuff
 def get_image_url(suffix):
-    return str(not_so_secret_url) + suffix
+    return not_so_secret_url + suffix
 
 
 # Returns the id corresponding with the weather

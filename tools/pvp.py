@@ -19,8 +19,8 @@ class PVP:
                     max_level(limit, json_mon), multipliers, stats)
                 stats[json_mon]["{}_product".format(limit)] \
                     = highest["product"]
-                print(("{}: highest product at {}: {}".format(
-                    json_mon, limit, highest['product'])))
+                print("{}: highest product at {}: {}".format(
+                    json_mon, limit, highest['product']))
 
         with open(pa_root + "/tools/stats_with_products.json", "w+") as f:
             json.dump(stats, f, indent=2)

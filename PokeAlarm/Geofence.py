@@ -32,7 +32,7 @@ def load_geofence_file(file_path):
                     points = []
                 name = match_name.group(0)
             elif coor_patter.match(line):
-                lat, lng = list(map(float, line.split(",")))
+                lat, lng = map(float, line.split(","))
                 points.append([lat, lng])
             else:
                 log.error("Geofence was unable to parse this line: "

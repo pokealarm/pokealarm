@@ -279,7 +279,7 @@ def list_gyms():
     if len(_gym_info) > 50:
         with portalocker.Lock(os.path.join(path, "gyms.txt"), mode="wb+") as f:
             gym_index = 0
-            for key, name in list(_gym_info.items()):
+            for key, name in _gym_info.items():
                 gym_index += 1
                 f.write("[{}] {} : {} \n".format(gym_index, name, key)
                         .encode())
@@ -289,9 +289,9 @@ def list_gyms():
     else:
         print("Here is a list of gyms found in your cache:")
         gym_index = 0
-        for key, name in list(_gym_info.items()):
+        for key, name in _gym_info.items():
             gym_index += 1
-            print("[{}] {} : {} ".format(gym_index, name, key))
+            print("[{}] {} : {} ".format(gym_index, name, key).encode())
         print("Enter gym id for raid (from above)\n>", end=' ')
 
 
@@ -360,7 +360,7 @@ def get_and_validate_team():
 
 def monster_form(webhook_field, monster_id):
     monster_id_formatted = "{:03d}".format(monster_id)
-    if monster_id_formatted in list(data['forms'].keys()):
+    if monster_id_formatted in data['forms'].keys():
         sorted_forms = sorted(data['forms'][monster_id_formatted])
         default_form_id = next(iter(sorted_forms))
         forms_formatted = ', '.join(data['forms'][monster_id_formatted][x]
@@ -371,7 +371,7 @@ def monster_form(webhook_field, monster_id):
               + forms_formatted + '\n>', end=' ')
         form_character = input().lower()
         found = False
-        for key, x in list(data['forms'][monster_id_formatted].items()):
+        for key, x in data['forms'][monster_id_formatted].items():
             if x.lower() == form_character:
                 payload['message'][webhook_field] = int(key)
                 found = True
@@ -380,14 +380,15 @@ def monster_form(webhook_field, monster_id):
             print("Not a valid value, using default")
             payload["message"][webhook_field] = int(default_form_id)
 
-    def stop_info(id_field_name, url_field_name, name_field_name):
-        print("What is the pokestop ID you'd like to have?\n>", end=' ')
-        payload['message'][id_field_name] = input()
-        print("What is the pokestop URL you'd like to show as the image?\n>",
-              end=' ')
-        payload['message'][url_field_name] = input()
-        print("What is the pokestop name?\n>", end=' ')
-        payload['message'][name_field_name] = input()
+
+def stop_info(id_field_name, url_field_name, name_field_name):
+    print("What is the pokestop ID you'd like to have?\n>", end=' ')
+    payload['message'][id_field_name] = input()
+    print("What is the pokestop URL you'd like to show as the image?\n>",
+          end=' ')
+    payload['message'][url_field_name] = input()
+    print("What is the pokestop name?\n>", end=' ')
+    payload['message'][name_field_name] = input()
 
 
 webhooks_formatted = re.sub('[{}",]', '', json.dumps(
@@ -420,7 +421,7 @@ if input() in truthy:
         print("Coordinates not valid. Defaulting to "
               + str(lat) + ',' + str(lng))
     else:
-        lat, lng = list(map(float, coordinates.split(",")))
+        lat, lng = map(float, coordinates.split(","))
     payload["message"]["latitude"] = lat
     payload["message"]["longitude"] = lng
 
@@ -463,6 +464,7 @@ if type == whtypes["1"]:
     if input() in truthy:
         payload["message"]["boosted_weather"] = payload["message"]["weather"]
 elif type == whtypes["2"]:
+    stop_info('pokestop_id', 'url', 'name')
     print("Which lure type?(put in a number)\n" +
           lure_types_formatted + "\n>", end=' ')
     int_or_default('lure_id')
@@ -524,12 +526,9 @@ elif type == whtypes["8"]:
     int_or_default('incident_grunt_type')
 
 if type in ["4", "5"]:
-    print("What level of raid/egg? (1-5)\n>", end=' ')
-    level = check_int(input(), payload["message"]["level"])
-    if 6 > level > 0:
-        payload["message"]["level"] = level
-    else:
-        print("Egg/Raid level invalid. Assuming level 5")
+    print("What level of raid/egg?\n>", end=' ')
+    payload["message"]["level"] = \
+        check_int(input(), payload["message"]["level"])
 
 reset_timers_and_encounters()
 
