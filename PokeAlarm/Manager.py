@@ -1150,6 +1150,14 @@ class Manager(object):
     # TODO: Move this into filters and add unit tests
     def check_geofences(self, f, e):
         """ Returns true if the event passes the filter's geofences. """
+        if f.exclude_geofences is not None:
+            targets = f.exclude_geofences
+            for name in targets:
+                gf = self.geofences.get(name)
+                if gf.contains(e.lat, e.lng):
+                    self._log.debug("%s rejected from filter because of being "
+                        "in excluded geofence %s!", e.name, name)
+                    return False
         if self.geofences is None or f.geofences is None:  # No geofences set
             return True
         targets = f.geofences

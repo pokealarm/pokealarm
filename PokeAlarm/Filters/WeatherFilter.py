@@ -38,6 +38,8 @@ class WeatherFilter(BaseFilter):
 
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.exclude_geofences = BaseFilter.parse_as_list(
+            str, 'exclude_geofences', data)
 
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(
