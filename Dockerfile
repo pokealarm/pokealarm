@@ -6,7 +6,7 @@
 # Change "RocketMap" to the name of your RocketMap docker
 # For newer versions of docker maybe you have to change --net to --network
 
-FROM python:2.7-alpine
+FROM python:3.7-alpine
 
 # Default port the webserver runs on
 EXPOSE 4000

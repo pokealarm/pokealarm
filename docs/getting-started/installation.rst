@@ -13,7 +13,7 @@ Prerequisites
 This guide assumes the following:
 
 - Latest version of
-  `Python 2.7 <https://www.python.org/download/releases/2.7/>`_ installed.
+  `Python 3.7+ <https://www.python.org/downloads/release/python-379/>`_ installed.
 - `Git <https://git-scm.com/downloads>`_ installed.
 - `Monocle <https://github.com/Hydro74000/Monocle>`_,
   `RocketMap <https://github.com/RocketMap/RocketMap>`_, or another supported

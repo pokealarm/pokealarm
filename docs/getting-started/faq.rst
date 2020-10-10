@@ -71,9 +71,9 @@ Formatting" and use a `JSON Editor https://www.jsoneditoronline.org/`__ to
 verify you are in the right format.
 
 
-Error about a 'Queue'?
+Error about a 'module named parse'?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-PA only supports Python2, and not Python3.
+PA only supports Python3 (version 3.7+), and not Python2.
 
 
 ModuleNotFoundError: No module named X
@@ -82,7 +82,7 @@ After updating PA, make sure you always check for updated requirements.
 Run the command ``pip install -r requirements.txt --upgrade`` from the PA
 folder.
 
-Additionally, ensure you are using Python2 and pip2 instead of Python3
+Additionally, ensure you are using Python3 and pip3 instead of Python2
 utilities.
 
 
