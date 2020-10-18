@@ -151,18 +151,18 @@ class TelegramAlarm(Alarm):
 
         alert = TelegramAlarm.Alert(
             bot_token=Alarm.pop_type(
-                settings, 'bot_token', unicode, default['bot_token']),
+                settings, 'bot_token', str, default['bot_token']),
             chat_id=Alarm.pop_type(
-                settings, 'chat_id', unicode, default['chat_id']),
+                settings, 'chat_id', str, default['chat_id']),
             sticker=Alarm.pop_type(
                 settings, 'sticker', utils.parse_bool, default['sticker']),
             sticker_url=Alarm.pop_type(
-                settings, 'sticker_url', unicode, default['sticker_url']),
+                settings, 'sticker_url', str, default['sticker_url']),
             sticker_notify=Alarm.pop_type(
                 settings, 'sticker_notify', utils.parse_bool,
                 default['sticker_notify']),
             message=Alarm.pop_type(
-                settings, 'message', unicode, default['message']),
+                settings, 'message', str, default['message']),
             message_notify=Alarm.pop_type(
                 settings, 'message_notify', utils.parse_bool,
                 default['message_notify']),

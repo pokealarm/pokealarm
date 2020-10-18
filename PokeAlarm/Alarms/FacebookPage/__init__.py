@@ -5,4 +5,4 @@ except ImportError:
 
     pip_install('facebook-sdk', '2.0.0')
 
-from FacebookPageAlarm import FacebookPageAlarm  # noqa 401
+from .FacebookPageAlarm import FacebookPageAlarm  # noqa 401

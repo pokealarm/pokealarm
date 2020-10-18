@@ -41,11 +41,6 @@ def parse_boolean(val):
     return None
 
 
-def parse_unicode(bytestring):
-    decoded_string = bytestring.decode(sys.getfilesystemencoding())
-    return decoded_string
-
-
 # Used for lazy installs - installs required module with pip
 def pip_install(req, version):
     import subprocess
@@ -55,11 +50,11 @@ def pip_install(req, version):
     log.info("%s install complete." % target)
 
 
-# Used to exit when leftover parameters are founds
+# Used to exit when leftover parameters are found
 def reject_leftover_parameters(dict_, location):
     if len(dict_) > 0:
         log.error("Unknown parameters at {}: ".format(location))
-        log.error(dict_.keys())
+        log.error(list(dict_.keys()))
         log.error("Please consult the PokeAlarm wiki for accepted parameters.")
         sys.exit(1)
 
@@ -327,11 +322,11 @@ def get_pokemon_size(pokemon_id, height, weight):
 # Returns the gender symbol of a pokemon:
 def get_pokemon_gender(gender):
     if gender == 1:
-        return u'\u2642'  # male symbol
+        return '\u2642'  # male symbol
     elif gender == 2:
-        return u'\u2640'  # female symbol
+        return '\u2640'  # female symbol
     elif gender == 3:
-        return u'\u26b2'  # neutral
+        return '\u26b2'  # neutral
     return '?'  # catch all
 
 
@@ -373,57 +368,60 @@ def is_weather_boosted(pokemon_id, weather_id):
 
 def get_weather_emoji(weather_id):
     return {
-        1: u'☀️',
-        2: u'☔️',
-        3: u'⛅',
-        4: u'☁️',
-        5: u'💨',
-        6: u'⛄️',
-        7: u'🌁',
+        1: '☀️',
+        2: '☔️',
+        3: '⛅',
+        4: '☁️',
+        5: '💨',
+        6: '⛄️',
+        7: '🌁',
     }.get(weather_id, '')
 
 
 def get_type_emoji(type_id):
     return {
-        1: u'⭕',
-        2: u'🥋',
-        3: u'🐦',
-        4: u'☠',
-        5: u'⛰️',
-        6: u'💎',
-        7: u'🐛',
-        8: u'👻',
-        9: u'⚙',
-        10: u'🔥',
-        11: u'💧',
-        12: u'🍃',
-        13: u'⚡',
-        14: u'🔮',
-        15: u'❄',
-        16: u'🐲',
-        17: u'💫',
-        18: u'🌑'
+        1: '⭕',
+        2: '🥋',
+        3: '🐦',
+        4: '☠',
+        5: '⛰️',
+        6: '💎',
+        7: '🐛',
+        8: '👻',
+        9: '⚙',
+        10: '🔥',
+        11: '💧',
+        12: '🍃',
+        13: '⚡',
+        14: '🔮',
+        15: '❄',
+        16: '🐲',
+        17: '💫',
+        18: '🌑'
     }.get(type_id, '')
+
 
 def get_spawn_verified_emoji(spawn_verified_id):
     return {
-        0: u'❌',
-        1: u'✅',
+        0: '❌',
+        1: '✅',
     }.get(spawn_verified_id, '❔')
 
+
 def get_team_emoji(team_id):
-	return {
-		0: u'⚪',
-		1: u'🔵',
-		2: u'🔴',
-		3: u'🟡',
-	}.get(team_id, '❔')
+    return {
+        0: '⚪',
+        1: '🔵',
+        2: '🔴',
+        3: '🟡',
+    }.get(team_id, '❔')
+
 
 def get_ex_eligible_emoji(ex_eligible):
     return {
-        0: u'',
-        1: u'✉️',
-    }.get(ex_eligible,'')
+        0: '',
+        1: '✉️',
+    }.get(ex_eligible, '')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -580,7 +578,7 @@ def get_image_url(suffix):
 # (use all locales for flexibility)
 def get_weather_id(weather_name):
     try:
-        name = unicode(weather_name).lower()
+        name = str(weather_name).lower()
         if not hasattr(get_weather_id, 'ids'):
             get_weather_id.ids = {}
             files = glob(get_path('locales/*.json'))

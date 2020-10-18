@@ -1,8 +1,8 @@
 try:
-    from twilio.rest import TwilioRestClient  # noqa F401
+    from twilio.rest import Client  # noqa F401
 except ImportError:
     from PokeAlarm.Utils import pip_install
 
-    pip_install('twilio', '5.4.0')
+    pip_install('twilio', '6.45.1')
 
-from TwilioAlarm import TwilioAlarm  # noqa F401
+from .TwilioAlarm import TwilioAlarm  # noqa F401

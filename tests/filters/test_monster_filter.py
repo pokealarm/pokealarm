@@ -1,16 +1,9 @@
 from datetime import datetime, timedelta
 import time
 import unittest
-import sys
 import PokeAlarm.Filters as Filters
 import PokeAlarm.Events as Events
-
-# ToDo: Find a better way
-# Reinforce UTF-8 as default
 from tests.filters import MockManager, generic_filter_test, full_filter_test
-
-reload(sys)
-sys.setdefaultencoding('UTF8')
 
 
 class TestMonsterFilter(unittest.TestCase):

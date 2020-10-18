@@ -33,12 +33,12 @@ def get_team_id(team_name):
 
 # Create case insensitive match
 def create_regex(pattern):
-    return re.compile(unicode(pattern), re.I)
+    return re.compile(str(pattern), re.I)
 
 
 # Returns true if the string matches any given RE objects
 def match_regex_dict(reg_exs, name):
-    name = unicode(name)
+    name = str(name)
     for reg_ex in reg_exs:
         if reg_ex.search(name):
             return True
@@ -47,7 +47,7 @@ def match_regex_dict(reg_exs, name):
 
 # Returns true if the string does not match any given RE objects
 def not_match_regex_dict(reg_exs, name):
-    name = unicode(name)
+    name = str(name)
     for reg_ex in reg_exs:
         if reg_ex.search(name):
             return False

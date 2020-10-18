@@ -7,8 +7,8 @@ from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str,\
     get_type_emoji
-from PokeAlarm.Utilities.GruntUtils import get_grunt_gender, get_grunt_type_id,\
-    get_grunt_gender_sym
+from PokeAlarm.Utilities.GruntUtils import get_grunt_gender, \
+    get_grunt_type_id, get_grunt_gender_sym
 
 
 class GruntEvent(BaseEvent):

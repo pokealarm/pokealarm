@@ -160,7 +160,7 @@ class BaseFilter(object):
                 'key-value pairs. Example: "{0}": '
                 '{{ "key1": "value1", "key2": "value2" }}'.format(param_name))
         out = {}
-        for k, v in values.iteritems():
+        for k, v in values.items():
             try:
                 out[key_type(k)] = value_type(v)
             except Exception:

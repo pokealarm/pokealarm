@@ -5,4 +5,4 @@ except ImportError:
 
     pip_install('slacker', '0.9.24')
 
-from SlackAlarm import SlackAlarm  # noqa 401
+from .SlackAlarm import SlackAlarm  # noqa 401

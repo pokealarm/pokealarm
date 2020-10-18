@@ -142,7 +142,7 @@ class TwitterAlarm(Alarm):
                 word = word[:word_len]  # truncate it
             limit -= word_len + 1  # word + space
             msg += " " + word
-        print msg
+        print(msg)
         return msg[1:]  # Strip the space
 
     def send_alert(self, alert, info):

@@ -116,7 +116,7 @@ class MonFilter(BaseFilter):
         self.costumes = self.evaluate_attribute(  # f.costumes in m.costume_id
             event_attribute='costume_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(int, 'costume_ids', data))
-        
+
         # Exclude Forms - f.forms_ids not contains m.ex_form_id
         self.exclude_form_ids = self.evaluate_attribute(  #
             event_attribute='form_id',

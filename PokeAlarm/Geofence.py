@@ -42,7 +42,7 @@ def load_geofence_file(file_path):
         geofences[name] = Geofence(name, points)
         log.info("Geofence {} added!".format(name))
         return geofences
-    except IOError as e:
+    except IOError:
         log.error("IOError: Please make sure a file with read/write "
                   + "permissions exist at {}".format(file_path))
     except Exception as e:

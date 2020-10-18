@@ -8,7 +8,7 @@ from PokeAlarm.Utils import get_path
 
 def get_grunt_id(grunt_name):
     try:
-        name = unicode(grunt_name).lower()
+        name = str(grunt_name).lower()
         if not hasattr(get_grunt_id, 'ids'):
             get_grunt_id.ids = {}
             files = glob(get_path('locales/*.json'))
@@ -79,10 +79,10 @@ def get_grunt_gender_sym(gender):  # TODO - support other languages
     if gender == '?':
         return '?'
     if gender == '1' or gender == 'male':
-        return u'\u2642'  # male symbol
+        return '\u2642'  # male symbol
     elif gender == '2' or gender == 'female':
-        return u'\u2640'  # female symbol
+        return '\u2640'  # female symbol
     elif gender == '3' or gender == 'neutral':
-        return u'\u26b2'  # neutral
+        return '\u26b2'  # neutral
     else:
         return '?'  # Unknown

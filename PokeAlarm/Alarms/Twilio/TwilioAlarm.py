@@ -1,7 +1,7 @@
 # Standard Library Imports
 
 # 3rd Party Imports
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -100,7 +100,7 @@ class TwilioAlarm(Alarm):
 
     # (Re)establishes Twilio connection
     def connect(self):
-        self.__client = TwilioRestClient(self.__account_sid, self.__auth_token)
+        self.__client = Client(self.__account_sid, self.__auth_token)
 
     # Send a message letting the channel know that this alarm started
     def startup_message(self):
