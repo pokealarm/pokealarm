@@ -2,7 +2,7 @@
 import re
 
 # 3rd Party Imports
-from slacker import Slacker
+from slack import WebClient
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -130,7 +130,7 @@ class SlackAlarm(Alarm):
 
     # Establish connection with Slack
     def connect(self):
-        self.__client = Slacker(self.__api_key)
+        self.__client = WebClient(self.__api_key)
         self.update_channels()
 
     # Send a message letting the channel know that this alarm started
@@ -213,11 +213,8 @@ class SlackAlarm(Alarm):
     # Get a list of channels from Slack to help
     def update_channels(self):
         self.__channels = {}
-        response = self.__client.channels.list(True).body
-        for channel in response['channels']:
-            self.__channels[channel['name']] = channel['id']
-        response = self.__client.groups.list().body
-        for channel in response['groups']:
+        response = self.__client.conversations_list()
+        for channel in response.data['channels']:
             self.__channels[channel['name']] = channel['id']
         self._log.debug("Detected the following Slack channnels: {}" .format(
             self.__channels))
@@ -246,7 +243,7 @@ class SlackAlarm(Alarm):
         if attachments is not None:
             args['attachments'] = attachments
         try_sending(self._log, self.connect, "Slack",
-                    self.__client.chat.post_message, args)
+                    self.__client.chat_postMessage, args)
 
     # Returns a string s that is in proper channel format
     @staticmethod
