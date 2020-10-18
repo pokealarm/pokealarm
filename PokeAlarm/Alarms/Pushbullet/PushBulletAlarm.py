@@ -240,4 +240,3 @@ class PushbulletAlarm(Alarm):
             raise requests.exceptions.RequestException(
                 f'Response received {response.status_code}, '
                 'channel grabbing not successful')
-
