@@ -232,15 +232,15 @@ Example using mapquest where `xxx` is your api key:
 
 .. code-block:: json
 
-"monsters":{
-  "channel":"general",
-  "username":"<mon_name>",
-  "icon_url*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_<form_id_3>.png",
-  "title":"A wild <mon_name> has appeared!",
-  "url":"<gmaps>",
-  "body":"Available until <24h_time> (<time_left>).",
-  "map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
-},
+	"monsters":{
+	  "channel":"general",
+	  "username":"<mon_name>",
+	  "icon_url*":"<YOUR CUSTOM URL HERE>/<mon_id_3>_<form_id_3>.png",
+	  "title":"A wild <mon_name> has appeared!",
+	  "url":"<gmaps>",
+	  "body":"Available until <24h_time> (<time_left>).",
+	  "map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
+	},
 
 Likewise, you can define your map in the alarm-level in order to use this URL across the entire alarm.
 
@@ -250,7 +250,7 @@ Likewise, you can define your map in the alarm-level in order to use this URL ac
   	"active":true,
   	"type":"slack",
   	"webhook_url":"YOUR_WEBHOOK_URL",
-    "map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
+    	"map":"https://www.mapquestapi.com/staticmap/v5/map?size=250,125&type=map&zoom=15&center=<lat>,<lng>&locations=<lat>,<lng>&size=@2x&imagetype=JPEG&key=xxx"
   }
 
 Formatting alarms text
