@@ -1156,7 +1156,7 @@ class Manager(object):
                 gf = self.geofences.get(name)
                 if gf.contains(e.lat, e.lng):
                     self._log.debug("%s rejected from filter because of being "
-                        "in excluded geofence %s!", e.name, name)
+                                    "in excluded geofence %s!", e.name, name)
                     return False
         if self.geofences is None or f.geofences is None:  # No geofences set
             return True
