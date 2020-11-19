@@ -4,8 +4,8 @@ venv
 *.pyc
 
 # IDEs
-.idea
-.vs/*
+.idea/
+.vs/
 
 # sphinx
 _build
@@ -14,13 +14,13 @@ _build
 *.json
 *.ini
 *.txt
+!requirements.txt
 !data/*.json
 !locales/*.json
-docker-compose.yml
 
 # Runtime
-cache/*
-logs/*
+cache/
+logs/
 
 # MacOS
 .DS_Store
