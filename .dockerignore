@@ -14,6 +14,7 @@ _build
 *.json
 *.ini
 *.txt
+!requirements.txt
 !data/*.json
 !locales/*.json
 
