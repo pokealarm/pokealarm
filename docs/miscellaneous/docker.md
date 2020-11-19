@@ -6,24 +6,20 @@
 * [Introduction](#introduction)
 * [Setup](#setup)
   * [Cloning the repo](#cloning-the-repo)
-  * [Configuring the alarm](#configuring-the-alarm)
-  * [Building the docker image](#building-the-docker-image)
+  * [Configuring](#configuring)
   * [Launching PokeAlarm](#launching-pokealarm)
   * [Stopping PokeAlarm](#stopping-pokealarm)
-* [Integrating with RocketMap](#integrating-with-rocketmap)
-  * [Docker network](#docker-network)
-  * [Using links](#using-links)
-  * [RocketMap running without docker](#rocketmap-running-without-docker)
-* [Updating alarms](#updating-alarms)
-* [Running multiple alarm containers](#running-multiple-alarm-containers)
+  * [pdating PokeAlarm](#updating-pokealarm)
+  * [Changing some PokeAlarm values](#changing-some-pokealarm-values)
 
 ## Prerequisites
 
 This guide assumes:
 
 1) You have [Docker](https://docs.docker.com/) installed and running on your machine
-2) You have [Git](https://git-scm.com/downloads) installed and running on your machine
-3) You have read and understood the [Alarms](../configuration/alarms) wiki
+2) You have [Docker Compose](https://docs.docker.com/compose/) installed and running on your machine
+3) You have [Git](https://git-scm.com/downloads) installed and running on your machine
+4) You have read and understood the [Alarms](../configuration/alarms) wiki
 
 Please familiarize yourself with all of the above before proceeding.
 
@@ -47,132 +43,50 @@ the directory you'd like:
 git clone https://github.com/PokeAlarm/PokeAlarm.git
 ```
 
-### Configuring the alarm
+### Configuring 
 
-Now, enter the repository's directory and copy the file called
-`alarms.json.default` to a file named `alarms.json`. Once that is done,
-open `alarms.json` and edit it to your liking. Refer to the alarm
-configuration documentation linked above as needed.
-
-It's also possible, but not required, to edit the configurations file.
-This will allow you to set default values to be used for most of the alarm's
-configuration, reducing the number of arguments when launching the instance.
-To do so, make a copy of the `config.ini.example` file located inside the
-config dir and rename it to `config.ini`. Now, just uncomment the desired
-lines and provide the values.
-
-### Building the docker image
-
-Once alarms.json is edited, we've got to build the docker image that we
-will use to launch our PokeAlarm container. To do so, execute the following
-command from the repository's root directory:
-
-```
-docker build -t pokealarm .
-```
-
-This will create an image with the tag pokealarm, the dot indicates it should
-use the contents from the directory it was executed.
+Copy the `docker-compose.yml.example` file and rename it to `docker-compose.yml`. Configure PA according 
+to the "normal" wiki and comment out the lines in the compose file of the config files 
+(alarms, filters, geofence, rules) you are actually using.
 
 ### Launching PokeAlarm
 
-With the docker image created, we can launch a PokeAlarm container. To do so
-is as simple as executing:
+We can launch a PokeAlarm container by just executing:
 
 ```
-docker run --name alarm -d pokealarm -k YOUR_GMAPS_API_KEY
+docker-compose up -d && docker-compose logs -f
 ```
 
-This will launch a docker container named `alarm` using the image we just
-created and tagged `pokealarm`
+If it's the first time you are executing that command, docker will build the PokeAlarm image first. 
+That may take a while so be patient. 
+
+When a locally built image is available, docker will launch one docker container named `pokealarm`
+in a detached mode (`-d`) and start a second command (`docker-compose logs -f`) to 
+see logs from the container. You can always check the current state of the container by running 
+`docker-compose ps`.
+
 
 ### Stopping PokeAlarm
 
-Simply execute `docker stop alarm` and `docker rm alarm`. The removal of the
-container is a necessary step because we want to reuse its name.
+Simply execute `docker-compose down`.
 
-## Integrating with RocketMap
 
-We will cover 3 scenarios for integration with your RocketMap. For the
-first two scenarios, we will assume that given your interest in PokeAlarm with
-docker, you are already running [RocketMap on docker containers](https://rocketmap.readthedocs.io/en/develop/advanced-install/docker.html).
-For the last, we will assume you have it running locally with python.
+### Updating PokeAlarm
 
-### Docker network
-
-If you have followed the RocketMap documentation for docker, you probably have
-a docker network already setup. All you would need to do is to add the
-network's name to you docker run command that was used before, like this:
+Just run `git pull` to update PokeAlarm and make sure to build and restart the container afterwards:
 
 ```
-docker run --name alarm --net=NETWORK_NAME -d pokealarm -k YOUR_GMAPS_API_KEY
+docker-compose build --no-cache && docker-compose down && docker-compose up -d && docker-compose logs -f
 ```
 
-Once that's done, you are able to reach your PokeAlarm container from any
-other container in the same network, using the container's name as host
-value. For example, you could add `-wh 'http://alarm:4000'` to your RocketMap
-instances.
+### Changing some PokeAlarm values
 
-### Using links
+Some config values can not be changed via the config.ini due to the docker setup.
 
-If you are not running a docker network what you need to do is to link your
-RocketMap container to your PokeAlarm container. To do so, launch you
-PokeAlarm container as we've done before, but this time launch you RocketMap
-container with the added flag `--link alarm` before the image's name on your
-docker run command. With that link declared, you can add
-`-wh 'http://alarm:4000'` to the end of the docker run command and it will
-be able to find your PokeAlarm container.
+#### Port 
+To change the default port (`4000`) of PokeAlarm, change the *left* side of the portnumber in the 
+docker-compose.yml file.
 
-### RocketMap running without docker
-
-If you are not running RocketMap on docker, what we need to do for it to be
-reachable is to bind a port on your host to the container's port. This is
-easily done by adding the `-p` docker flag to your docker run command:
-
-```
-docker run --name alarm -d -p 4000:4000 pokealarm -k YOUR_GMAPS_API_KEY
-```
-
-Once you execute that, you will be able to reach your PokeAlarm container on
-port `4000` by port `4000` on your localhost. This means you could add
-`-wh 'http://127.0.0.1:4000'` to your `./runserver.py` command and it would be
-able to post to the webhook.
-
-## Updating alarms
-
-If you want to update the `alarms.json` or `config.ini` files or wish to
-create any other alarm configuration file, you are free to do so at any time.
-However, you will need to rebuild your docker image afterwards, so that it can
-copy the new/edited files into the image.
-
-## Running multiple alarm containers
-
-All you have to do is to execute the appropriate (described above) docker
-run command multiple times, giving each container a new name. For example,
-this is how we could do that using the docker network approach described before:
-
-```
-docker run --name commons --net=NETWORK_NAME -d pokealarm -k YOUR_GMAPS_API_KEY
-docker run --name rares --net=NETWORK_NAME -d pokealarm -k YOUR_GMAPS_API_KEY -c rares.json
-docker run --name ultra --net=NETWORK_NAME -d pokealarm -k YOUR_GMAPS_API_KEY -c ultra-rares.json
-```
-
-In the above block we are launching 3 containers of the `pokealarm` image in
-a docker network, all of which could be accessed by other containers in the
-network by their names.
-
-* The first is named `commons` and using the default configuration `alarms.json`
-* The second is named `rares` and uses the configuration file named `rares.json`
-* The third is named `ultra` and used the configuration file named `ultra-rares.json`
-
-If running RocketMap without docker, you would simply have to add different
-port bindings to each container, like:
-
-```
-docker run --name commons -p 4000:4000 -d pokealarm -k YOUR_GMAPS_API_KEY
-docker run --name rares -p 4001:4000 -d pokealarm -k YOUR_GMAPS_API_KEY -c rares.json
-docker run --name ultra -p 4002:4000 -d pokealarm -k YOUR_GMAPS_API_KEY -c ultra-rares.json
-```
-
-Meaning that the containers would be reachable on `http://localhost:4000`,
-`http://localhost:4001` and `http://localhost:4002` respectively.
+#### File Settings
+If you want to change the name or path of a config file, change it in the docker-compose.yml instead 
+in the config.ini. The *left* side of the colon is the path on your host machine.

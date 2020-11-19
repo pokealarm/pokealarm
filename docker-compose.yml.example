@@ -1,0 +1,16 @@
+version: '2.4'
+services:
+  pokealarm:
+    build: .
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./config/config.ini:/usr/src/app/config/config.ini
+      #### Uncomment the files you are actually using.
+      #- ./filters.json:/usr/src/app/filters.json
+      #- ./alarms.json:/usr/src/app/alarms.json
+      #- ./rules.json:/usr/src/app/rules.json
+      #- ./geofence.txt:/usr/src/app/geofence.txt
+    ports:
+      - "4000:4000"
