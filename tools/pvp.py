@@ -45,8 +45,8 @@ class PVP:
                     multipliers[str(level)]))
                 defense = ((stats[mon]["defense"] + stat_product[1]) * (
                     multipliers[str(level)]))
-                stamina = ((stats[mon]["stamina"] + stat_product[2]) * (
-                    multipliers[str(level)]))
+                stamina = int(((stats[mon]["stamina"] + stat_product[2]) * (
+                    multipliers[str(level)])))
                 product = (attack * defense * stamina)
                 if product > highest["product"]:
                     highest.update({
