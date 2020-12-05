@@ -302,7 +302,7 @@ class TestMonsterFilter(unittest.TestCase):
                 "pokemon_id": 10,
                 "individual_attack": 15,
                 "individual_defense": 15,
-                "individual_stamina": 8
+                "individual_stamina": 6
             },
             # 94.41% max stat
             {
