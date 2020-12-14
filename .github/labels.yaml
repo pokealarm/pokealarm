@@ -1,0 +1,27 @@
+- name: 'type: bug'
+  description: "Unexpected or incorrect behavior."
+  color: ee0701
+- name: 'type: docs'
+  description: "Incorrect or missing documentation"
+  color: 5319e7
+- name: 'type: feature'
+  description: "Request for a new feature or behavior."
+  color: 1d76db
+- name: 'type: question'
+  color: cc317c
+  description: "Question on usuage or implenementation."
+- name: 'type: duplicate'
+  color: ededed
+  description: "Repeat of an existing issue."
+- color: ee0701
+  description: ""
+  name: 'priority: critical'
+- color: d93f0b
+  description: ""
+  name: 'priority: high'
+- color: 0e8a16
+  description: ""
+  name: 'priority: low'
+- color: fbca04
+  description: ""
+  name: 'priority: medium'
