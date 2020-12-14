@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - dev
+    paths:
+    - .github/labels.yaml
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: micnncim/action-label-syncer@v1
+        with:
+          manifest: .github/labels.yaml
