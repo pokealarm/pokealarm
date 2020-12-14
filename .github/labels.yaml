@@ -2,7 +2,7 @@
   description: "Unexpected or incorrect behavior."
   color: ee0701
 - name: 'type: docs'
-  description: "Incorrect or missing documentation"
+  description: "Incorrect or missing documentation."
   color: 5319e7
 - name: 'type: feature'
   description: "Request for a new feature or behavior."
