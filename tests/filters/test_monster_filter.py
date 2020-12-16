@@ -297,12 +297,12 @@ class TestMonsterFilter(unittest.TestCase):
     def test_pvp_min_max_great(self):
         self.filt = {'min_great': 56, 'max_great': 95}
         self.pass_items = [
-            # 10 -> 11: 95% max stat
+            # 10 -> 11: 94.48% max stat
             {
                 "pokemon_id": 10,
                 "individual_attack": 15,
                 "individual_defense": 15,
-                "individual_stamina": 8
+                "individual_stamina": 6
             },
             # 94.41% max stat
             {
@@ -311,7 +311,7 @@ class TestMonsterFilter(unittest.TestCase):
                 "individual_defense": 0,
                 "individual_stamina": 0
             },
-            # 56.26% max stat
+            # 56.57% max stat
             {
                 "pokemon_id": 235,
                 "individual_attack": 0,
@@ -334,7 +334,7 @@ class TestMonsterFilter(unittest.TestCase):
                 "individual_defense": 2,
                 "individual_stamina": 0
             },
-            # 55.78% max stat
+            # 55.66% max stat
             {
                 "pokemon_id": 235,
                 "individual_attack": 0,
@@ -383,21 +383,21 @@ class TestMonsterFilter(unittest.TestCase):
     def test_pvp_min_max_ultra(self):
         self.filt = {'min_ultra': 56, 'max_ultra': 95}
         self.pass_items = [
-            # 10 -> 12: 94.78% max stat
+            # 10 -> 12: 94.36% max stat
             {
                 "pokemon_id": 10,
                 "individual_attack": 15,
                 "individual_defense": 15,
-                "individual_stamina": 6
+                "individual_stamina": 5
             },
-            # 75.29% max stat
+            # 75.16% max stat
             {
                 "pokemon_id": 15,
                 "individual_attack": 0,
                 "individual_defense": 0,
                 "individual_stamina": 0
             },
-            # 56.26% max stat
+            # 56.57% max stat
             {
                 "pokemon_id": 235,
                 "individual_attack": 0,
@@ -420,7 +420,7 @@ class TestMonsterFilter(unittest.TestCase):
                 "individual_defense": 15,
                 "individual_stamina": 15
             },
-            # 55.78% max stat
+            # 55.66% max stat
             {
                 "pokemon_id": 235,
                 "individual_attack": 0,
