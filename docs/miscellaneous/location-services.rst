@@ -193,3 +193,10 @@ in PokeAlarm may not function correctly. If you find that you are exceeding
 the free daily 2,500 API calls, you may either switch to another valid Google
 Maps API key for the day or sign up for a Google Maps API Premium plan. For
 pricing information, visit the `Google Maps API Pricing and Plans page <https://developers.google.com/maps/pricing-and-plans/#details>`_.
+
+
+Caching
+-------------------------------------
+
+Geocoding results are cached for one month using the configured :doc:`object-caching` method.
+Distance matrix results are never cached.

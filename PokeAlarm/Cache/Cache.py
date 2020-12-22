@@ -35,6 +35,8 @@ class Cache(object):
         self._quest_reward = {}
         self._quest_task = {}
         self._quest_last_modified = {}
+        self._loc_geocode = {}
+        self._loc_rev_geocode = {}
 
     def monster_expiration(self, mon_id, expiration=None):
         """ Update and return the datetime that a monster expires."""
@@ -127,6 +129,18 @@ class Cache(object):
             self._quest_task.get(stop_id, Unknown.REGULAR), \
             self._quest_last_modified.get(stop_id, Unknown.REGULAR)
 
+    def geocode(self, address, latlng=None, expiration=None):
+        """ Update and return the location for an address."""
+        if latlng is not None:
+            self._loc_geocode[address] = (expiration, latlng)
+        return self._loc_geocode.get(address, (None, None))[1]
+
+    def reverse_geocode(self, latlng, dts=None, expiration=None):
+        """ Update and return the address dts for a location."""
+        if dts is not None:
+            self._loc_rev_geocode[latlng] = (expiration, dts)
+        return self._loc_rev_geocode.get(latlng, (None, None))[1]
+
     def clean_and_save(self):
         """ Cleans the cache and saves the contents if capable. """
         self._clean_hist()
@@ -140,10 +154,12 @@ class Cache(object):
         """ Clean expired objects to free up memory. """
         for hist in (
                 self._mon_hist, self._stop_hist, self._egg_hist,
-                self._raid_hist, self._quest_hist, self._grunt_hist):
+                self._raid_hist, self._quest_hist, self._grunt_hist,
+                self._loc_geocode, self._loc_rev_geocode):
             old = []
             now = datetime.utcnow()
-            for key, expiration in hist.items():
+            for key, val in hist.items():
+                expiration = val[0] if type(val) is tuple else val
                 if expiration < now:  # Track expired items
                     old.append(key)
             for key in old:  # Remove expired events

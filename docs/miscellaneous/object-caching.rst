@@ -21,8 +21,8 @@ Introduction
 -------------------------------------
 
 PokeAlarm uses `Cache` objects to store information that is not present on
-runtime. The cached objects store information such as ``gym-info`` and other
-dynamic objects sent into PokeAlarm via webhook. Cached data is used for
+runtime. The cached objects store information such as :doc:`location-service` results,
+``gym-info`` and other dynamic objects sent into PokeAlarm via webhook. Cached data is used for
 internal calculations as well as to provide details for :doc:`../configuration/events/index`
 in :doc:`../configuration/alarms/index`.
 

@@ -216,6 +216,9 @@ def parse_settings(root_path):
         '-k', '--gmaps-key', action='append',
         default=[None], help='Specify a Google API Key to use.')
     parser.add_argument(
+        '--gmaps-cache-fuzz', type=int, action='append',
+        default=[0], help='Max. fuzz in days to add to caching time.')
+    parser.add_argument(
         '--gmaps-rev-geocode', type=parse_boolean, action='append',
         default=[None], help='Enable Walking Distance Matrix DTS.')
     parser.add_argument(
@@ -293,7 +296,7 @@ def parse_settings(root_path):
                 args.timezone, args.gmaps_rev_geocode, args.gmaps_dm_walk,
                 args.gmaps_dm_bike, args.gmaps_dm_drive,
                 args.gmaps_dm_transit, args.mgr_log_lvl, args.mgr_log_size,
-                args.mgr_log_file]:
+                args.mgr_log_file, args.gmaps_cache_fuzz]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -332,6 +335,8 @@ def parse_settings(root_path):
             name=args.manager_name[m_ct],
             google_key=get_from_list(
                 args.gmaps_key, m_ct, args.gmaps_key[0]),
+            gmaps_cache_fuzz=get_from_list(
+                args.gmaps_cache_fuzz, m_ct, args.gmaps_cache_fuzz[0]),
             locale=get_from_list(args.locale, m_ct, args.locale[0]),
             units=get_from_list(args.units, m_ct, args.units[0]),
             timezone=get_from_list(args.timezone, m_ct, args.timezone[0]),

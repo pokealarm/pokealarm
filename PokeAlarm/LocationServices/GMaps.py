@@ -1,6 +1,8 @@
 # Standard Library Imports
 import collections
 from datetime import datetime, timedelta
+import calendar
+import random
 import logging
 import time
 import json
@@ -26,9 +28,11 @@ class GMaps(object):
     # How often to warn about going over query limit
     _warning_window = timedelta(minutes=1)
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, cache_fuzz_days, cache):
         self._key = api_key
         self._lock = Semaphore
+        self._max_fuzz_days = cache_fuzz_days
+        self._cache = cache
 
         # Create a session to handle connections
         self._session = self._create_session()
@@ -37,10 +41,11 @@ class GMaps(object):
         self._window = collections.deque(maxlen=self._queries_per_second)
         self._time_limit = datetime.utcnow()
 
-        # Memoization dicts
-        self._geocode_hist = {}
-        self._reverse_geocode_hist = {}
-        self._dm_hist = {key: dict() for key in self.TRAVEL_MODES}
+    def expiration(self):
+        now = datetime.utcnow()
+        _, month_days = calendar.monthrange(now.year, now.month)
+        fuzz_days = round(self._max_fuzz_days * random.random())
+        return now + timedelta(days=month_days + fuzz_days)
 
     # TODO: Move into utilities
     @staticmethod
@@ -118,10 +123,9 @@ class GMaps(object):
         """ Returns 'lat,lng' associated with the name of the place. """
         # Check for memoized results
         address = address.lower()
-        if address in self._geocode_hist:
-            return self._geocode_hist[address]
-        # Set default in case something happens
-        latlng = None
+        latlng = self._cache.geocode(address)
+        if latlng is not None:
+            return latlng
         try:
             # Set parameters and make the request
             params = {'address': address, 'language': language}
@@ -133,9 +137,8 @@ class GMaps(object):
             response = response.get('location', {})
             if 'lat' in response and 'lng' in response:
                 latlng = float(response['lat']), float(response['lng'])
-
-            # Memoize the results
-            self._geocode_hist[address] = latlng
+                # Memoize the results
+                self._cache.geocode(address, latlng, self.expiration())
         except requests.exceptions.HTTPError as e:
             log.error("Geocode failed with "
                       "HTTPError: {}".format(e.message))
@@ -172,8 +175,9 @@ class GMaps(object):
         """ Returns the reverse geocode DTS associated with 'lat,lng'. """
         latlng = '{:.5f},{:.5f}'.format(latlng[0], latlng[1])
         # Check for memoized results
-        if latlng in self._reverse_geocode_hist:
-            return self._reverse_geocode_hist[latlng]
+        dts = self._cache.reverse_geocode(latlng)
+        if dts is not None:
+            return dts
         # Get defaults in case something happens
         dts = self._reverse_geocode_defaults.copy()
         try:
@@ -207,7 +211,7 @@ class GMaps(object):
             dts['country'] = details.get('country', Unknown.REGULAR)
 
             # Memoize the results
-            self._reverse_geocode_hist[latlng] = dts
+            self._cache.reverse_geocode(latlng, dts, self.expiration())
         except requests.exceptions.HTTPError as e:
             log.error("Reverse Geocode failed with "
                       "HTTPError: {}".format(e.message))
@@ -232,11 +236,6 @@ class GMaps(object):
         # Estimate to about ~1 meter of accuracy
         origin = '{:.5f},{:.5f}'.format(origin[0], origin[1])
         dest = '{:.5f},{:.5f}'.format(dest[0], dest[1])
-
-        # Check for memoized results
-        key = origin + ':' + dest
-        if key in self._dm_hist:
-            return self._dm_hist[key]
 
         # Set defaults in case something happens
         dist_key = '{}_distance'.format(mode)

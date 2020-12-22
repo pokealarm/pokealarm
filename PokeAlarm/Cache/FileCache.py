@@ -45,6 +45,8 @@ class FileCache(Cache):
                 self._day_or_night_id = data.get('day_or_night_id', {})
                 self._quest_reward = data.get('quest_reward', {})
                 self._quest_task = data.get('quest_task', {})
+                self._loc_geocode = data.get('loc_geocode', {})
+                self._loc_rev_geocode = data.get('loc_rev_geocode', {})
 
                 self._log.debug("Cache loaded successfully.")
         except Exception as e:
@@ -70,7 +72,9 @@ class FileCache(Cache):
             'severity_id': self._severity_id,
             'day_or_night_id': self._day_or_night_id,
             'quest_reward': self._quest_reward,
-            'quest_task': self._quest_task
+            'quest_task': self._quest_task,
+            'loc_geocode': self._loc_geocode,
+            'loc_rev_geocode': self._loc_rev_geocode
         }
         try:
             # Write to temporary file and then rename

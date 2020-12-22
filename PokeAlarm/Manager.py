@@ -30,7 +30,8 @@ Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
 class Manager(object):
     def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, cache_type, geofence_file, debug):
+                 max_attempts, location, cache_type, geofence_file, debug,
+                 gmaps_cache_fuzz):
         # Set the name of the Manager
         self.name = str(name).lower()
         self._log = self._create_logger(self.name)
@@ -38,12 +39,16 @@ class Manager(object):
 
         self.__debug = debug
 
+        # Create cache
+        self.__cache = cache_factory(self, cache_type)
+
         # Get the Google Maps AP# TODO: Improve error checking
         self._google_key = None
         self._gmaps_service = None
         if str(google_key).lower() != 'none':
             self._google_key = google_key
-            self._gmaps_service = GMaps(google_key)
+            self._gmaps_service = GMaps(google_key, gmaps_cache_fuzz,
+                                        self.__cache)
         self._gmaps_reverse_geocode = False
         self._gmaps_distance_matrix = set()
 
@@ -61,9 +66,6 @@ class Manager(object):
             self._log.warning(
                 "NO LOCATION SET - this may cause issues "
                 "with distance related DTS.")
-
-        # Create cache
-        self.__cache = cache_factory(self, cache_type)
 
         # Load and Setup the Pokemon Filters
         self._mons_enabled, self._mon_filters = False, OrderedDict()
