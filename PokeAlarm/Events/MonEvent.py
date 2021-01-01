@@ -37,7 +37,11 @@ class MonEvent(BaseEvent):
         self.spawn_end = check_for_none(
             int, data.get('spawn_end'), Unknown.REGULAR)
         self.spawn_verified = check_for_none(
-            int, data.get('verified'), Unknown.REGULAR)
+            int,
+            data.get('verified', data.get('disappear_time_verified')),
+            Unknown.REGULAR)
+        self.spawnpoint_id = check_for_none(
+            str, data.get('spawnpoint_id'), Unknown.REGULAR)
 
         # Location
         self.lat = float(data['latitude'])
@@ -102,11 +106,17 @@ class MonEvent(BaseEvent):
 
         # Catch Probs
         self.base_catch = check_for_none(
-            float, data.get('base_catch'), Unknown.TINY)
+            float,
+            data.get('base_catch', data.get('capture_1')),
+            Unknown.TINY)
         self.great_catch = check_for_none(
-            float, data.get('great_catch'), Unknown.TINY)
+            float,
+            data.get('great_catch', data.get('capture_2')),
+            Unknown.TINY)
         self.ultra_catch = check_for_none(
-            float, data.get('ultra_catch'), Unknown.TINY)
+            float,
+            data.get('ultra_catch', data.get('capture_3')),
+            Unknown.TINY)
 
         # Attack Rating
         self.atk_grade = check_for_none(
@@ -187,6 +197,7 @@ class MonEvent(BaseEvent):
             'spawn_unverified_emoji_or_empty': (
                 '' if self.spawn_verified != 0
                 else get_spawn_verified_emoji(self.spawn_verified)),
+            'spawnpoint_id': self.spawnpoint_id,
 
             # Location
             'lat': self.lat,
