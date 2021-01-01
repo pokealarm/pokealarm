@@ -259,6 +259,7 @@ Miscellaneous
 DTS                             Description
 =============================== ==============================================================
 encounter_id                    The encounter id. Unique per monster spawn.
+spawnpoint_id                   Return the spawnpoint ID that the monster spawned on.
 spawn_start                     Estimated time that the monster spawn starts.
 spawn_end                       Estimated time that the monster spawn ends.
 spawn_verified                  Whether this spawn times have been verified.
