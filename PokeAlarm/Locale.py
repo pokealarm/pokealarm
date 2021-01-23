@@ -160,6 +160,12 @@ class Locale(object):
         for id_, val in default['grunt_genders'].items():
             self.__grunt_genders[int(id_)] = grunt_genders.get(id_, val)
 
+        # Evolution ID -> Evolution Name
+        self.__evolutions_names = {}
+        evolutions = info.get('evolutions', {})
+        for id_, val in default['evolutions'].items():
+            self.__evolutions_names[int(id_)] = evolutions.get(id_, val)
+
         log.debug("Loaded '{}' locale successfully!".format(language))
 
         self.__misc = info.get('misc', {})
@@ -207,6 +213,10 @@ class Locale(object):
     # Returns the name of the form of for the given Pokemon ID and Form ID
     def get_form_name(self, pokemon_id, form_id):
         return self.__form_names.get(pokemon_id, {}).get(form_id, 'unknown')
+
+    # Returns the name of the evolution for the given Evolution ID
+    def get_evolution_name(self, evolution_id):
+        return self.__evolutions_names.get(evolution_id, 'unknown')
 
     # Returns the name of the costume for the given Pokemon ID and Costume ID
     def get_costume_name(self, pokemon_id, costume_id):
