@@ -4525,5 +4525,10 @@
     "005": "Ventoso",
     "006": "La neve",
     "007": "Nebbia"
+  },
+  "evolutions": {
+    "001": "Mega",
+    "002": "Mega X",
+    "003": "Mega Y"
   }
 }

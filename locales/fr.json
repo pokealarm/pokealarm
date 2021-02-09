@@ -4520,5 +4520,10 @@
     "005": "Venteux",
     "006": "Neige",
     "007": "Brouillard"
+  },
+  "evolutions": {
+    "001": "M\u00E9ga",
+    "002": "M\u00E9ga X",
+    "003": "M\u00E9ga Y"
   }
 }

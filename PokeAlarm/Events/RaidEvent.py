@@ -47,6 +47,9 @@ class RaidEvent(BaseEvent):
         # Form
         self.form_id = check_for_none(int, data.get('form'), 0)
 
+        # Evolution
+        self.evolution_id = check_for_none(int, data.get('evolution'), 0)
+
         # Costume
         self.costume_id = check_for_none(int, data.get('costume'), 0)
 
@@ -106,6 +109,8 @@ class RaidEvent(BaseEvent):
         dts = self.custom_dts.copy()
 
         form_name = locale.get_form_name(self.mon_id, self.form_id)
+        evolution_name = locale.get_evolution_name(
+            self.evolution_id)
         costume_name = locale.get_costume_name(
             self.mon_id, self.costume_id)
 
@@ -157,6 +162,13 @@ class RaidEvent(BaseEvent):
             'form_id': self.form_id,
             'form_id_2': "{:02d}".format(self.form_id),
             'form_id_3': "{:03d}".format(self.form_id),
+
+            # Evolution
+            'evolution': evolution_name,
+            'evolution_or_empty': Unknown.or_empty(evolution_name),
+            'evolution_id': self.evolution_id,
+            'evolution_id_2': "{:02d}".format(self.evolution_id),
+            'evolution_id_3': "{:03d}".format(self.evolution_id),
 
             # Costume
             'costume': costume_name,
