@@ -171,6 +171,16 @@ class MonFilter(BaseFilter):
         self.weather_ids = self.evaluate_attribute(
             event_attribute='weather_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
+        self.boosted_weather_ids = self.evaluate_attribute(
+            event_attribute='boosted_weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                get_weather_id, 'boosted_weather', data))
+        self.boosted_weather = self.evaluate_attribute(
+            event_attribute='boosted_weather_id',
+            eval_func=lambda d, v:
+            (d is True and v != 0 and v is not None)
+            or (d is False and (v == 0 or v is None)),
+            limit=BaseFilter.parse_as_type(bool, 'is_boosted_weather', data))
 
         # Rarity
         self.rarity_ids = self.evaluate_attribute(  #

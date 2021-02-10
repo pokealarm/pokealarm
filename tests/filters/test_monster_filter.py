@@ -274,6 +274,20 @@ class TestMonsterFilter(unittest.TestCase):
         self.pass_vals = [1, 5]
         self.fail_vals = [0, 2, 8]
 
+    @generic_filter_test
+    def test_boosted_weather(self):
+        self.filt = {'boosted_weather': [1, 'windy']}
+        self.event_key = 'boosted_weather'
+        self.pass_vals = [1, 5]
+        self.fail_vals = [0, 2, 8]
+
+    @generic_filter_test
+    def test_is_boosted_weather(self):
+        self.filt = {'is_boosted_weather': True}
+        self.event_key = 'boosted_weather'
+        self.pass_vals = [1, 2, 5]
+        self.fail_vals = [0]
+
     def test_time_left(self):
         # Create the filter
         filt = self.gen_filter(
