@@ -262,8 +262,8 @@ class MonEvent(BaseEvent):
                     'att_iv': self.atk_iv,
                     'def_iv': self.def_iv,
                     'hp_iv': self.sta_iv,
-                    'min_iv': '0',
-                    'include-best-buddy': 'false'
+                    'min-iv': '0',
+                    'levelCap': '50'
                 }),
             'great_pvpoke':
                 'https://pvpoke.com/rankings/all/1500/overall/{}{}/'.format(
@@ -292,8 +292,8 @@ class MonEvent(BaseEvent):
                     'att_iv': self.atk_iv,
                     'def_iv': self.def_iv,
                     'hp_iv': self.sta_iv,
-                    'min_iv': '0',
-                    'include-best-buddy': 'false'
+                    'min-iv': '0',
+                    'levelCap': '50'
                 }),
             'ultra_pvpoke':
                 'https://pvpoke.com/rankings/all/2500/overall/{}{}/'.format(
