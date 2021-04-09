@@ -388,8 +388,8 @@ def parse_settings(root_path):
         managers[m_name].start()
 
     # Set up signal handlers for graceful exit
-    signal(signal.SIGINT, exit_gracefully)
-    signal(signal.SIGTERM, exit_gracefully)
+    signal.signal(signal.SIGINT, exit_gracefully)
+    signal.signal(signal.SIGTERM, exit_gracefully)
 
 
 # Because lists are dumb and don't have a failsafe get
