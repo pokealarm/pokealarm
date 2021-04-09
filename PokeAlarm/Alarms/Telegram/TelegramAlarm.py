@@ -24,7 +24,7 @@ class TelegramAlarm(Alarm):
 
     Alert = namedtuple(
         "Alert", ['bot_token', 'chat_id', 'sticker', 'sticker_url',
-                  'sticker_notify', 'message', 'message_notify', 'venue',
+                  'sticker_notify', 'message', 'venue_message', 'message_notify', 'venue',
                   'venue_notify', 'map', 'map_notify', 'max_attempts',
                   'web_preview'])
 
@@ -32,46 +32,54 @@ class TelegramAlarm(Alarm):
         'monsters': {
             'message': "*A wild <mon_name> has appeared!*\n"
                        "Available until <24h_time> (<time_left>).",
+            'venue_message': "",
             'sticker_url': get_image_url(
                 "telegram/monsters/<mon_id_3>_<form_id_3>.webp")
         },
         'stops': {
             'message': "*Someone has placed a lure on a Pokestop!*\n"
                        "Lure will expire at <24h_time> (<time_left>).",
+            'venue_message': "",
             'sticker_url': get_image_url("telegram/stop/<lure_type_id_3>.webp")
         },
         'gyms': {
             'message': "*A Team <old_team> gym has fallen!*\n"
                        "It is now controlled by <new_team>.",
+            'venue_message': "",
             'sticker_url': get_image_url("telegram/gyms/<new_team_id>.webp"),
         },
         'eggs': {
             'message': "*A level <egg_lvl> raid is incoming!*\n"
                        "The egg will hatch <24h_hatch_time> "
                        "(<hatch_time_left>).",
+            'venue_message': "",
             'sticker_url': get_image_url("telegram/eggs/<egg_lvl>.webp")
         },
         'raids': {
             'message': "*A raid is available against <mon_name>!*\n"
                        "The raid is available until <24h_raid_end> "
                        "(<raid_time_left>).",
+            'venue_message': "",
             'sticker_url':
                 get_image_url("telegram/monsters/<mon_id_3>_<form_id_3>.webp")
         },
         'weather': {
             'message': "The weather around <lat>,<lng> has"
                        " changed to <weather>!",
+            'venue_message': "",
             'sticker_url': get_image_url(
                 "telegram/weather/<weather_id_3>_<day_or_night_id_3>.webp")
         },
         'quests': {
             'message': "*New quest for <reward>*\n"
                        "<quest_task>",
+            'venue_message': "",
             'sticker_url': get_image_url("telegram/<quest_image>.webp")
         },
         'invasions': {
             'message': "A Pokestop has been invaded by Team Rocket!\n"
                        "Invasion will expire at <24h_time> (<time_left>).",
+            'venue_message': "",
             'sticker_url':
                 get_image_url("telegram/invasions/<type_id_3>.webp")
         }
@@ -163,6 +171,8 @@ class TelegramAlarm(Alarm):
                 default['sticker_notify']),
             message=Alarm.pop_type(
                 settings, 'message', str, default['message']),
+            venue_message=Alarm.pop_type(
+                settings, 'venue_message', str, default['venue_message']),
             message_notify=Alarm.pop_type(
                 settings, 'message_notify', utils.parse_bool,
                 default['message_notify']),
@@ -203,6 +213,7 @@ class TelegramAlarm(Alarm):
         bot_token = replace(alert.bot_token, dts)
         chat_id = replace(alert.chat_id, dts)
         message = replace(alert.message, dts)
+        venue_message = replace(alert.venue_message, dts)
         lat, lng = dts['lat'], dts['lng']
         max_attempts = alert.max_attempts
         sticker_url = replace(alert.sticker_url, dts)
@@ -210,16 +221,15 @@ class TelegramAlarm(Alarm):
         # Send Sticker
         if alert.sticker and sticker_url is not None:
             self.send_sticker(bot_token, chat_id, sticker_url, max_attempts)
+        # Send Message
+        self.send_message(bot_token, chat_id, replace(message, dts),
+                          web_preview=alert.web_preview)
 
         # Send Venue
         if alert.venue:
             self.send_venue(
-                bot_token, chat_id, lat, lng, message, max_attempts)
-            return  # Don't send message or map
-
-        # Send Message
-        self.send_message(bot_token, chat_id, replace(message, dts),
-                          web_preview=alert.web_preview)
+                bot_token, chat_id, lat, lng, venue_message, max_attempts)
+            #return  # Don't send message or map
 
         # Send Map
         if alert.map:
