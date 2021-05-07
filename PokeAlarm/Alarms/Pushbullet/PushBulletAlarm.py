@@ -102,6 +102,13 @@ class PushbulletAlarm(Alarm):
         reject_leftover_parameters(
             settings, "Alarm level in Pushbullet alarm.")
 
+        # Prepare request session
+        self._session = requests.Session()
+        self._session.headers = {
+          'Access-Token': self.__api_key,
+          'Content-Type': 'application/json'
+        }
+
         self._log.info("Pushbullet Alarm has been created!")
 
     # Establish connection with Pushbullet
@@ -208,36 +215,31 @@ class PushbulletAlarm(Alarm):
         self.push(data)
 
     def push(self, data):
-        res = requests.post(
-            'https://api.pushbullet.com/v2/pushes',
-            headers={
-                'Access-Token': self.__api_key,
-                'Content-Type': 'application/json'
-            },
-            data=json.dumps(data))
-        if res.status_code == requests.codes.ok:
-            self._log.debug('Notification successful '
-                            f'(returned {res.status_code})')
-        else:
+        res = self._session.post(
+            'https://api.pushbullet.com/v2/pushes', data=json.dumps(data))
+        if res.status_code != requests.codes.ok:
             self._log.debug(f'PushBullet response was {res.content}')
             raise requests.exceptions.RequestException(
                 f'Response received {res.status_code}, webhook not accepted.')
 
+        self._log.debug('Notification successful '
+                        f'(returned {res.status_code})')
+
     def update_channels(self):
-        self.__channels = {}
-        response = requests.get(
-            'https://api.pushbullet.com/v2/channels',
-            headers={
-                'Access-Token': self.__api_key
-            }, timeout=30)
-        if response.ok is True:
-            self.__channels = response.json()['channels']
-            self._log.debug('Detected the following PushBullet channels: {}'
-                            .format(self.__channels))
-        else:
-            self._log\
+        response = self._session.get(
+            'https://api.pushbullet.com/v2/channels', timeout=30)
+        if response.ok is not True:
+            self._log \
                 .debug(f'Pushbullet channels response was {response.content}')
             raise requests.exceptions.RequestException(
                 f'Response received {response.status_code}, '
                 'channel grabbing not successful')
+        try:
+            self.__channels = response.json()['channels']
+        except KeyError:
+            self._log.error('Problem with the PushBullet API')
+            self._log.debug(
+                f'PushBullet /v2/channels response:{response.json()}')
+        self._log.debug('Detected the following PushBullet channels: {}'
+                        .format(self.__channels))
 
