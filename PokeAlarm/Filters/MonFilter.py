@@ -4,7 +4,7 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
-from PokeAlarm.Utils import get_weather_id
+from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted
 
 
 class MonFilter(BaseFilter):
@@ -177,9 +177,7 @@ class MonFilter(BaseFilter):
                 get_weather_id, 'boosted_weather', data))
         self.boosted_weather = self.evaluate_attribute(
             event_attribute='boosted_weather_id',
-            eval_func=lambda d, v:
-            (d is True and v != 0 and v is not None)
-            or (d is False and (v == 0 or v is None)),
+            eval_func=weather_id_is_boosted,
             limit=BaseFilter.parse_as_type(bool, 'is_boosted_weather', data))
 
         # Rarity

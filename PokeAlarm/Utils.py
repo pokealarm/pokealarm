@@ -366,6 +366,14 @@ def is_weather_boosted(pokemon_id, weather_id):
     return types[0] in boosted_types or types[1] in boosted_types
 
 
+def weather_id_is_boosted(desired_status, weather_id):
+    if desired_status is True and weather_id != 0 and weather_id is not None:
+        return True
+    if desired_status is False and (weather_id == 0 or weather_id is None):
+        return True
+    return False
+
+
 def get_weather_emoji(weather_id):
     return {
         1: '☀️',
