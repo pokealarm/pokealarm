@@ -105,8 +105,8 @@ class PushbulletAlarm(Alarm):
         # Prepare request session
         self._session = requests.Session()
         self._session.headers = {
-          'Access-Token': self.__api_key,
-          'Content-Type': 'application/json'
+            'Access-Token': self.__api_key,
+            'Content-Type': 'application/json'
         }
 
         self._log.info("Pushbullet Alarm has been created!")
@@ -242,4 +242,3 @@ class PushbulletAlarm(Alarm):
                 f'PushBullet /v2/channels response:{response.json()}')
         self._log.debug('Detected the following PushBullet channels: {}'
                         .format(self.__channels))
-
