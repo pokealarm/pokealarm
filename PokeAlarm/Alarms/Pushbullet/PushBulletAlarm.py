@@ -1,6 +1,7 @@
 # Standard Library Imports
+import requests
+import json
 # 3rd Party Imports
-from pushbullet import PushBullet
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
@@ -71,6 +72,7 @@ class PushbulletAlarm(Alarm):
         self.__api_key = require_and_remove_key(
             'api_key', settings, "'Pushbullet' type alarms.")
         self.__client = None
+        self.__channels = {}
 
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
@@ -100,11 +102,18 @@ class PushbulletAlarm(Alarm):
         reject_leftover_parameters(
             settings, "Alarm level in Pushbullet alarm.")
 
+        # Prepare request session
+        self._session = requests.Session()
+        self._session.headers = {
+            'Access-Token': self.__api_key,
+            'Content-Type': 'application/json'
+        }
+
         self._log.info("Pushbullet Alarm has been created!")
 
     # Establish connection with Pushbullet
     def connect(self):
-        self.__client = PushBullet(self.__api_key)
+        self.update_channels()
         self.__sender = self.get_sender(self.__channel)
         self.__pokemon['sender'] = self.get_sender(self.__pokemon['channel'])
         self.__pokestop['sender'] = self.get_sender(self.__pokestop['channel'])
@@ -182,19 +191,54 @@ class PushbulletAlarm(Alarm):
     # Attempt to get the channel, otherwise default to all devices
     def get_sender(self, channel_tag):
         req_channel = next(
-            (channel for channel in self.__client.channels
-             if channel.channel_tag == channel_tag), self.__client)
-        if req_channel is self.__client and channel_tag is not None:
+            (channel for channel in self.__channels
+             if channel['tag'] == channel_tag), None)
+        if req_channel is None and channel_tag is not None:
             self._log.error(
-                "Unable to find channel.Pushing to all devices instead.")
+                "Unable to find channel. Pushing to all devices instead.")
         else:
             self._log.debug("Setting to channel %s." % channel_tag)
         return req_channel
 
     # Push a link to the given channel
     def push_link(self, sender, title, url, body):
-        sender.push_link(title=title, url=url, body=body)
+        data = {"type": "link", "title": title, "url": url, "body": body}
+        if sender is not None:
+            data.update({'channel_tag': sender['tag']})
+        self.push(data)
 
     # Push a link to the given channel
     def push_note(self, sender, title, message):
-        sender.push_note(title, message)
+        data = {"type": "note", "title": title, "body": message}
+        if sender is not None:
+            data.update({'channel_tag': sender['tag']})
+        self.push(data)
+
+    def push(self, data):
+        res = self._session.post(
+            'https://api.pushbullet.com/v2/pushes', data=json.dumps(data))
+        if res.status_code != requests.codes.ok:
+            self._log.debug(f'PushBullet response was {res.content}')
+            raise requests.exceptions.RequestException(
+                f'Response received {res.status_code}, webhook not accepted.')
+
+        self._log.debug('Notification successful '
+                        f'(returned {res.status_code})')
+
+    def update_channels(self):
+        response = self._session.get(
+            'https://api.pushbullet.com/v2/channels', timeout=30)
+        if response.ok is not True:
+            self._log \
+                .debug(f'Pushbullet channels response was {response.content}')
+            raise requests.exceptions.RequestException(
+                f'Response received {response.status_code}, '
+                'channel grabbing not successful')
+        try:
+            self.__channels = response.json()['channels']
+        except KeyError:
+            self._log.error('Problem with the PushBullet API')
+            self._log.debug(
+                f'PushBullet /v2/channels response:{response.json()}')
+        self._log.debug('Detected the following PushBullet channels: {}'
+                        .format(self.__channels))
