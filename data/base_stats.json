@@ -290,15 +290,15 @@
     ]
   },
   "020": {
-    "attack": 161,
-    "defense": 139,
-    "stamina": 146,
+    "attack": 135,
+    "defense": 154,
+    "stamina": 181,
     "type1": 1,
     "legendary": false,
     "generation": 1,
     "weight": 18.5,
     "height": 0.71,
-    "1500_product": 1812406.9290217655,
+    "1500_product": 2123631.7290217655,
     "2500_product": 2583663.2543269517,
     "evolutions": []
   },
@@ -1967,9 +1967,9 @@
       "470",
       "471",
       "134",
-      "135",
+      "196",
       "136",
-      "196"
+      "135"
     ]
   },
   "134": {
@@ -8072,7 +8072,8 @@
     "height": 0.61,
     "1500_product": 1724433.383196739,
     "2500_product": 1881044.4547227952,
-    "evolutions": []
+    "evolutions": [
+		"555"]
   },
   "555": {
     "attack": 263,
@@ -10416,30 +10417,30 @@
     "evolutions": []
   },
   "716": {
-    "attack": 275,
-    "defense": 203,
-    "stamina": 270,
+    "attack": 246,
+    "defense": 185,
+    "stamina": 246,
     "type1": 17,
     "legendary": true,
     "generation": 6,
     "weight": 215,
     "height": 3,
-    "1500_product": 1729905.7157811641,
-    "2500_product": 3750099.907812573,
+    "1500_product": 1769149.9259824087,
+    "2500_product": 3781086.8089675256,
     "evolutions": []
   },
   "717": {
-    "attack": 275,
-    "defense": 203,
-    "stamina": 270,
+    "attack": 250,
+    "defense": 185,
+    "stamina": 246,
     "type1": 18,
     "type2": 3,
     "legendary": true,
     "generation": 6,
     "weight": 203,
     "height": 5.79,
-    "1500_product": 1729905.7157811641,
-    "2500_product": 3750099.907812573,
+    "1500_product": 1739759.5276835356,
+    "2500_product": 3760013.8641183972,
     "evolutions": []
   },
   "718": {
@@ -10459,15 +10460,15 @@
   "719": {
     "attack": 190,
     "defense": 285,
-    "stamina": 100,
+    "stamina": 137,
     "type1": 6,
     "type2": 17,
     "legendary": true,
     "generation": 6,
     "weight": 8.8,
     "height": 0.71,
-    "1500_product": 1800407.2718751903,
-    "2500_product": 3871190.470716461,
+    "1500_product": 1933505.6507389538,
+    "2500_product": 4175989.096067954,
     "evolutions": []
   },
   "720": {
@@ -10510,7 +10511,10 @@
     "height": 0.3,
     "1500_product": 1217898.288170856,
     "2500_product": 1217898.288170856,
-    "evolutions": []
+    "evolutions": [
+      "723",
+      "724"
+    ]
   },
   "723": {
     "attack": 142,
@@ -10524,7 +10528,9 @@
     "height": 0.71,
     "1500_product": 1968464.1187775794,
     "2500_product": 2488880.778699992,
-    "evolutions": []
+    "evolutions": [
+      "724"
+    ]
   },
   "724": {
     "attack": 210,
@@ -11589,6 +11595,88 @@
     "2500_product": 3584176.5532691283,
     "evolutions": []
   },
+  "802": {
+    "attack": 265,
+    "defense": 190,
+    "stamina": 207,
+    "type1": 2,
+    "type2": 8,
+    "legendary": false,
+    "generation": 7,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1635299.0010036358,
+    "2500_product": 3521243.0258036074,
+    "evolutions": []
+  },
+  "803": {
+    "attack": 145,
+    "defense": 133,
+    "stamina": 167,
+    "type1": 4,
+    "legendary": false,
+    "generation": 7,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1942514.611505972,
+    "2500_product": 2541522.9598731524,
+    "evolutions": []
+  },
+  "804": {
+    "attack": 263,
+    "defense": 159,
+    "stamina": 177,
+    "type1": 4,
+    "type2": 16,
+    "legendary": false,
+    "generation": 7,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1520615.4446439021,
+    "2500_product": 3280741.6740181716,
+    "evolutions": []
+  },
+  "805": {
+    "attack": 213,
+    "defense": 298,
+    "stamina": 156,
+    "type1": 6,
+    "type2": 9,
+    "legendary": false,
+    "generation": 7,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1904024.6340817427,
+    "2500_product": 4102932.2903559892,
+    "evolutions": []
+  },
+  "806": {
+    "attack": 315,
+    "defense": 148,
+    "stamina": 142,
+    "type1": 10,
+    "type2": 8,
+    "legendary": false,
+    "generation": 7,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1297330.0415157499,
+    "2500_product": 2787569.2859390173,
+    "evolutions": []
+  },
+  "807": {
+    "attack": 252,
+    "defense": 177,
+    "stamina": 204,
+    "type1": 13,
+    "legendary": false,
+    "generation": 7,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1644026.1533436794,
+    "2500_product": 3557656.811699721,
+    "evolutions": []
+  },
   "808": {
     "attack": 118,
     "defense": 99,
@@ -11615,6 +11703,809 @@
     "2500_product": 4044479.3821986187,
     "evolutions": []
   },
+  "810": {
+    "attack": 122,
+    "defense": 91,
+    "stamina": 137,
+    "type1": 12,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1302263.6095740062,
+    "2500_product": 1302263.6095740062,
+    "evolutions": [
+      "811",
+      "812"
+    ]
+  },
+  "811": {
+    "attack": 165,
+    "defense": 134,
+    "stamina": 172,
+    "type1": 12,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1835909.4620573022,
+    "2500_product": 2973220.9026205433,
+    "evolutions": [
+      "812"
+    ]
+  },
+  "812": {
+    "attack": 239,
+    "defense": 168,
+    "stamina": 225,
+    "type1": 12,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1709692.646165661,
+    "2500_product": 3673267.440538846,
+    "evolutions": []
+  },
+  "813": {
+    "attack": 132,
+    "defense": 79,
+    "stamina": 137,
+    "type1": 10,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1239132.25155582,
+    "2500_product": 1239132.25155582,
+    "evolutions": [
+      "814",
+      "815"
+    ]
+  },
+  "814": {
+    "attack": 170,
+    "defense": 125,
+    "stamina": 163,
+    "type1": 10,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1755086.5878334376,
+    "2500_product": 2724926.446492288,
+    "evolutions": [
+      "815"
+    ]
+  },
+  "815": {
+    "attack": 238,
+    "defense": 163,
+    "stamina": 190,
+    "type1": 10,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1636316.9386012277,
+    "2500_product": 3525168.5260260245,
+    "evolutions": []
+  },
+  "816": {
+    "attack": 132,
+    "defense": 79,
+    "stamina": 137,
+    "type1": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1239132.25155582,
+    "2500_product": 1239132.25155582,
+    "evolutions": [
+      "817",
+      "818"
+    ]
+  },
+  "817": {
+    "attack": 186,
+    "defense": 113,
+    "stamina": 163,
+    "type1": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1644732.994760435,
+    "2500_product": 2706830.4098592116,
+    "evolutions": [
+      "818"
+    ]
+  },
+  "818": {
+    "attack": 262,
+    "defense": 142,
+    "stamina": 172,
+    "type1": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1473258.2571279008,
+    "2500_product": 3177761.1393615953,
+    "evolutions": []
+  },
+  "819": {
+    "attack": 95,
+    "defense": 86,
+    "stamina": 172,
+    "type1": 1,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1231636.250116116,
+    "2500_product": 1231636.250116116,
+    "evolutions": [
+      "820"
+    ]
+  },
+  "820": {
+    "attack": 160,
+    "defense": 156,
+    "stamina": 260,
+    "type1": 1,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2127153.5177695304,
+    "2500_product": 4546366.533324189,
+    "evolutions": []
+  },
+  "821": {
+    "attack": 88,
+    "defense": 67,
+    "stamina": 116,
+    "type1": 3,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 656013.1026348436,
+    "2500_product": 656013.1026348436,
+    "evolutions": [
+      "822",
+      "823"
+    ]
+  },
+  "822": {
+    "attack": 129,
+    "defense": 110,
+    "stamina": 169,
+    "type1": 3,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1905173.1509749244,
+    "2500_product": 1957320.6472173878,
+    "evolutions": [
+      "823"
+    ]
+  },
+  "823": {
+    "attack": 163,
+    "defense": 192,
+    "stamina": 221,
+    "type1": 3,
+    "type2": 9,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2129968.596260252,
+    "2500_product": 4586689.792709351,
+    "evolutions": []
+  },
+  "824": {
+    "attack": 46,
+    "defense": 67,
+    "stamina": 93,
+    "type1": 7,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 317873.9570578368,
+    "2500_product": 317873.9570578368,
+    "evolutions": [
+      "825",
+      "826"
+    ]
+  },
+  "825": {
+    "attack": 87,
+    "defense": 157,
+    "stamina": 137,
+    "type1": 7,
+    "type2": 14,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1573262.1378850273,
+    "2500_product": 1573262.1378850273,
+    "evolutions": [
+      "826"
+    ]
+  },
+  "826": {
+    "attack": 156,
+    "defense": 240,
+    "stamina": 155,
+    "type1": 7,
+    "type2": 14,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2114271.244516622,
+    "2500_product": 4346565.1905036345,
+    "evolutions": []
+  },
+  "827": {
+    "attack": 85,
+    "defense": 82,
+    "stamina": 120,
+    "type1": 18,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 773960.73644119,
+    "2500_product": 773960.73644119,
+    "evolutions": [
+      "828"
+    ]
+  },
+  "828": {
+    "attack": 172,
+    "defense": 164,
+    "stamina": 172,
+    "type1": 18,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1884013.0760457295,
+    "2500_product": 3710761.494161724,
+    "evolutions": []
+  },
+  "829": {
+    "attack": 70,
+    "defense": 104,
+    "stamina": 120,
+    "type1": 12,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 807073.4895982101,
+    "2500_product": 807073.4895982101,
+    "evolutions": [
+      "830"
+    ]
+  },
+  "830": {
+    "attack": 148,
+    "defense": 211,
+    "stamina": 155,
+    "type1": 12,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2102537.923725357,
+    "2500_product": 3693627.8774572755,
+    "evolutions": []
+  },
+  "831": {
+    "attack": 76,
+    "defense": 97,
+    "stamina": 123,
+    "type1": 1,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 827610.5282072715,
+    "2500_product": 827610.5282072715,
+    "evolutions": [
+      "832"
+    ]
+  },
+  "832": {
+    "attack": 159,
+    "defense": 198,
+    "stamina": 176,
+    "type1": 1,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2055642.0179483755,
+    "2500_product": 4187141.000125301,
+    "evolutions": []
+  },
+  "833": {
+    "attack": 114,
+    "defense": 85,
+    "stamina": 137,
+    "type1": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1156810.3955036965,
+    "2500_product": 1156810.3955036965,
+    "evolutions": [
+      "834"
+    ]
+  },
+  "834": {
+    "attack": 213,
+    "defense": 164,
+    "stamina": 207,
+    "type1": 11,
+    "type2": 6,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1766024.2103207342,
+    "2500_product": 3816998.0407873746,
+    "evolutions": []
+  },
+  "835": {
+    "attack": 80,
+    "defense": 90,
+    "stamina": 153,
+    "type1": 13,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 993117.8056620043,
+    "2500_product": 993117.8056620043,
+    "evolutions": [
+      "836"
+    ]
+  },
+  "836": {
+    "attack": 197,
+    "defense": 131,
+    "stamina": 170,
+    "type1": 13,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1669972.506902224,
+    "2500_product": 3387576.9279452567,
+    "evolutions": []
+  },
+  "837": {
+    "attack": 73,
+    "defense": 91,
+    "stamina": 102,
+    "type1": 6,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 645480.853437912,
+    "2500_product": 645480.853437912,
+    "evolutions": [
+      "838",
+      "839"
+    ]
+  },
+  "838": {
+    "attack": 114,
+    "defense": 157,
+    "stamina": 190,
+    "type1": 6,
+    "type2": 10,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2340014.9633713854,
+    "2500_product": 2694730.609494595,
+    "evolutions": [
+      "839"
+    ]
+  },
+  "839": {
+    "attack": 146,
+    "defense": 198,
+    "stamina": 242,
+    "type1": 6,
+    "type2": 10,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2313527.3491628477,
+    "2500_product": 4892002.386445029,
+    "evolutions": []
+  },
+  "840": {
+    "attack": 71,
+    "defense": 116,
+    "stamina": 120,
+    "type1": 12,
+    "type2": 16,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 898911.5110047885,
+    "2500_product": 898911.5110047885,
+    "evolutions": [
+      "841",
+      "842"
+    ]
+  },
+  "841": {
+    "attack": 214,
+    "defense": 144,
+    "stamina": 172,
+    "type1": 12,
+    "type2": 16,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1640990.4510894387,
+    "2500_product": 3524478.644491191,
+    "evolutions": [
+      "842"
+    ]
+  },
+  "842": {
+    "attack": 178,
+    "defense": 146,
+    "stamina": 242,
+    "type1": 12,
+    "type2": 16,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1950688.3754839841,
+    "2500_product": 4208191.8399239555,
+    "evolutions": []
+  },
+  "843": {
+    "attack": 103,
+    "defense": 123,
+    "stamina": 141,
+    "type1": 5,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1506264.1536532182,
+    "2500_product": 1506264.1536532182,
+    "evolutions": [
+      "844"
+    ]
+  },
+  "844": {
+    "attack": 202,
+    "defense": 207,
+    "stamina": 176,
+    "type1": 5,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1842546.4443204892,
+    "2500_product": 3979252.4561470025,
+    "evolutions": []
+  },
+  "845": {
+    "attack": 173,
+    "defense": 163,
+    "stamina": 172,
+    "type1": 3,
+    "type2": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1873793.8288163012,
+    "2500_product": 3709763.769026616,
+    "evolutions": []
+  },
+  "846": {
+    "attack": 118,
+    "defense": 72,
+    "stamina": 121,
+    "type1": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 931417.7207144926,
+    "2500_product": 931417.7207144926,
+    "evolutions": [
+      "847"
+    ]
+  },
+  "847": {
+    "attack": 258,
+    "defense": 127,
+    "stamina": 156,
+    "type1": 11,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1417745.255581493,
+    "2500_product": 3045818.566297371,
+    "evolutions": []
+  },
+  "848": {
+    "attack": 97,
+    "defense": 65,
+    "stamina": 120,
+    "type1": 13,
+    "type2": 4,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 714916.3091250581,
+    "2500_product": 714916.3091250581,
+    "evolutions": [
+      "849"
+    ]
+  },
+  "849": {
+    "attack": 224,
+    "defense": 140,
+    "stamina": 181,
+    "type1": 13,
+    "type2": 4,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1611807.8000081507,
+    "2500_product": 3469045.139257841,
+    "evolutions": []
+  },
+  "850": {
+    "attack": 118,
+    "defense": 90,
+    "stamina": 137,
+    "type1": 10,
+    "type2": 7,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1252314.5095510948,
+    "2500_product": 1252314.5095510948,
+    "evolutions": [
+      "851"
+    ]
+  },
+  "851": {
+    "attack": 220,
+    "defense": 158,
+    "stamina": 225,
+    "type1": 10,
+    "type2": 7,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1754970.452978792,
+    "2500_product": 3799343.6518563223,
+    "evolutions": []
+  },
+  "852": {
+    "attack": 121,
+    "defense": 103,
+    "stamina": 137,
+    "type1": 2,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1439108.0020963815,
+    "2500_product": 1439108.0020963815,
+    "evolutions": [
+      "853"
+    ]
+  },
+  "853": {
+    "attack": 209,
+    "defense": 162,
+    "stamina": 190,
+    "type1": 2,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1741119.6575237548,
+    "2500_product": 3760897.976634757,
+    "evolutions": []
+  },
+  "854": {
+    "attack": 134,
+    "defense": 96,
+    "stamina": 120,
+    "type1": 8,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1319642.9505155508,
+    "2500_product": 1319642.9505155508,
+    "evolutions": [
+      "855"
+    ]
+  },
+  "855": {
+    "attack": 248,
+    "defense": 189,
+    "stamina": 155,
+    "type1": 8,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1572647.51802816,
+    "2500_product": 3400319.7884351267,
+    "evolutions": []
+  },
+  "856": {
+    "attack": 98,
+    "defense": 93,
+    "stamina": 123,
+    "type1": 14,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 990988.9017112971,
+    "2500_product": 990988.9017112971,
+    "evolutions": [
+      "857",
+      "858"
+    ]
+  },
+  "857": {
+    "attack": 153,
+    "defense": 133,
+    "stamina": 149,
+    "type1": 14,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1850240.1894376494,
+    "2500_product": 2405250.511695743,
+    "evolutions": [
+      "858"
+    ]
+  },
+  "858": {
+    "attack": 245,
+    "defense": 189,
+    "stamina": 156,
+    "type1": 14,
+    "type2": 17,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1593209.2618670166,
+    "2500_product": 3441733.157003826,
+    "evolutions": []
+  },
+  "859": {
+    "attack": 103,
+    "defense": 69,
+    "stamina": 128,
+    "type1": 18,
+    "type2": 17,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 839868.4958969154,
+    "2500_product": 839868.4958969154,
+    "evolutions": [
+      "860",
+      "861"
+    ]
+  },
+  "860": {
+    "attack": 145,
+    "defense": 102,
+    "stamina": 163,
+    "type1": 18,
+    "type2": 17,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1811000.0051800632,
+    "2500_product": 1969522.1265766653,
+    "evolutions": [
+      "861"
+    ]
+  },
+  "861": {
+    "attack": 227,
+    "defense": 139,
+    "stamina": 216,
+    "type1": 18,
+    "type2": 17,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1661626.7285454231,
+    "2500_product": 3582087.643111187,
+    "evolutions": []
+  },
+  "862": {
+    "attack": 180,
+    "defense": 194,
+    "stamina": 212,
+    "type1": 18,
+    "type2": 1,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2010999.8677787643,
+    "2500_product": 4337075.000184331,
+    "evolutions": []
+  },
+  "863": {
+    "attack": 195,
+    "defense": 162,
+    "stamina": 172,
+    "type1": 9,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1760365.5259450017,
+    "2500_product": 3804658.5152101796,
+    "evolutions": []
+  },
+  "864": {
+    "attack": 253,
+    "defense": 182,
+    "stamina": 155,
+    "type1": 8,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1549057.8052577379,
+    "2500_product": 3339439.964345134,
+    "evolutions": []
+  },
   "865": {
     "attack": 248,
     "defense": 176,
@@ -11627,5 +12518,464 @@
     "1500_product": 1560605.6521144493,
     "2500_product": 3372018.570916463,
     "evolutions": []
+  },
+  "866": {
+    "attack": 212,
+    "defense": 179,
+    "stamina": 190,
+    "type1": 15,
+    "type2": 14,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1766887.8763077846,
+    "2500_product": 3811619.535927141,
+    "evolutions": []
+  },
+  "867": {
+    "attack": 163,
+    "defense": 237,
+    "stamina": 151,
+    "type1": 8,
+    "type2": 5,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2041886.6591108593,
+    "2500_product": 4278880.8730578665,
+    "evolutions": []
+  },
+  "868": {
+    "attack": 90,
+    "defense": 97,
+    "stamina": 128,
+    "type1": 17,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 996454.1476743065,
+    "2500_product": 996454.1476743065,
+    "evolutions": [
+      "869"
+    ]
+  },
+  "869": {
+    "attack": 203,
+    "defense": 203,
+    "stamina": 163,
+    "type1": 17,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1791926.437866412,
+    "2500_product": 3876282.486747553,
+    "evolutions": []
+  },
+  "870": {
+    "attack": 193,
+    "defense": 170,
+    "stamina": 163,
+    "type1": 2,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1773866.3884644008,
+    "2500_product": 3795433.2647571154,
+    "evolutions": []
+  },
+  "871": {
+    "attack": 176,
+    "defense": 161,
+    "stamina": 134,
+    "type1": 13,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1761223.4152067665,
+    "2500_product": 2967049.5525279455,
+    "evolutions": []
+  },
+  "872": {
+    "attack": 76,
+    "defense": 59,
+    "stamina": 102,
+    "type1": 15,
+    "type2": 7,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 465980.71044713754,
+    "2500_product": 465980.71044713754,
+    "evolutions": [
+      "873"
+    ]
+  },
+  "873": {
+    "attack": 230,
+    "defense": 155,
+    "stamina": 172,
+    "type1": 15,
+    "type2": 7,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1616265.6426835512,
+    "2500_product": 3468547.852247309,
+    "evolutions": []
+  },
+  "874": {
+    "attack": 222,
+    "defense": 182,
+    "stamina": 225,
+    "type1": 6,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1811560.0762457505,
+    "2500_product": 3893027.04959071,
+    "evolutions": []
+  },
+  "875": {
+    "attack": 148,
+    "defense": 195,
+    "stamina": 181,
+    "type1": 15,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2143170.152306361,
+    "2500_product": 3963870.874349637,
+    "evolutions": []
+  },
+  "876": {
+    "attack": 208,
+    "defense": 166,
+    "stamina": 155,
+    "type1": 14,
+    "type2": 1,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1676850.2626007493,
+    "2500_product": 3613548.797776957,
+    "evolutions": []
+  },
+  "877": {
+    "attack": 192,
+    "defense": 121,
+    "stamina": 151,
+    "type1": 13,
+    "type2": 18,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1616526.961849859,
+    "2500_product": 2763075.840405658,
+    "evolutions": []
+  },
+  "878": {
+    "attack": 140,
+    "defense": 91,
+    "stamina": 176,
+    "type1": 9,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1785672.099504544,
+    "2500_product": 1856206.5358604144,
+    "evolutions": [
+      "879"
+    ]
+  },
+  "879": {
+    "attack": 226,
+    "defense": 126,
+    "stamina": 263,
+    "type1": 9,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1707052.0184519615,
+    "2500_product": 3678617.730264341,
+    "evolutions": []
+  },
+  "880": {
+    "attack": 195,
+    "defense": 165,
+    "stamina": 207,
+    "type1": 13,
+    "type2": 16,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1844912.825127393,
+    "2500_product": 3981929.3928624117,
+    "evolutions": []
+  },
+  "881": {
+    "attack": 190,
+    "defense": 166,
+    "stamina": 207,
+    "type1": 13,
+    "type2": 15,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1876645.2560405855,
+    "2500_product": 4044116.5761078796,
+    "evolutions": []
+  },
+  "882": {
+    "attack": 175,
+    "defense": 185,
+    "stamina": 207,
+    "type1": 11,
+    "type2": 16,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2001081.733128012,
+    "2500_product": 4318948.207107064,
+    "evolutions": []
+  },
+  "883": {
+    "attack": 171,
+    "defense": 185,
+    "stamina": 207,
+    "type1": 11,
+    "type2": 15,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2030418.14121882,
+    "2500_product": 4364447.530310638,
+    "evolutions": []
+  },
+  "884": {
+    "attack": 239,
+    "defense": 185,
+    "stamina": 172,
+    "type1": 9,
+    "type2": 16,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1632392.7056003083,
+    "2500_product": 3535224.7329841615,
+    "evolutions": []
+  },
+  "885": {
+    "attack": 117,
+    "defense": 61,
+    "stamina": 99,
+    "type1": 16,
+    "type2": 8,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 672945.4796623591,
+    "2500_product": 672945.4796623591,
+    "evolutions": [
+      "886",
+      "887"
+    ]
+  },
+  "886": {
+    "attack": 163,
+    "defense": 105,
+    "stamina": 169,
+    "type1": 16,
+    "type2": 8,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1746983.747095518,
+    "2500_product": 2322687.1680313004,
+    "evolutions": [
+      "887"
+    ]
+  },
+  "887": {
+    "attack": 266,
+    "defense": 170,
+    "stamina": 204,
+    "type1": 16,
+    "type2": 8,
+    "legendary": false,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1583063.7200664612,
+    "2500_product": 3414867.0964263817,
+    "evolutions": []
+  },
+  "888": {
+    "attack": 254,
+    "defense": 236,
+    "stamina": 192,
+    "type1": 17,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1732300.4266760293,
+    "2500_product": 3715341.401725356,
+    "evolutions": []
+  },
+  "889": {
+    "attack": 254,
+    "defense": 236,
+    "stamina": 192,
+    "type1": 2,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1732300.4266760293,
+    "2500_product": 3715341.401725356,
+    "evolutions": []
+  },
+  "890": {
+    "attack": 278,
+    "defense": 192,
+    "stamina": 268,
+    "type1": 4,
+    "type2": 16,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1707532.6641568246,
+    "2500_product": 3673272.5093466667,
+    "evolutions": []
+  },
+  "891": {
+    "attack": 170,
+    "defense": 112,
+    "stamina": 155,
+    "type1": 2,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1703413.4515787468,
+    "2500_product": 2355768.146502489,
+    "evolutions": []
+  },
+  "892": {
+    "attack": 254,
+    "defense": 177,
+    "stamina": 225,
+    "type1": 2,
+    "type2": 18,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1682032.6047958161,
+    "2500_product": 3608403.398250274,
+    "evolutions": []
+  },
+  "893": {
+    "attack": 242,
+    "defense": 215,
+    "stamina": 233,
+    "type1": 18,
+    "type2": 12,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1814847.8542294656,
+    "2500_product": 3897646.1111380514,
+    "evolutions": []
+  },
+  "894": {
+    "attack": 250,
+    "defense": 125,
+    "stamina": 190,
+    "type1": 13,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1502136.4212790458,
+    "2500_product": 3239734.080972823,
+    "evolutions": []
+  },
+  "895": {
+    "attack": 202,
+    "defense": 101,
+    "stamina": 400,
+    "type1": 16,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1914646.1285319563,
+    "2500_product": 4106588.8318377556,
+    "evolutions": []
+  },
+  "896": {
+    "attack": 246,
+    "defense": 223,
+    "stamina": 225,
+    "type1": 15,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1795382.094815614,
+    "2500_product": 3870655.2813847354,
+    "evolutions": []
+  },
+  "897": {
+    "attack": 273,
+    "defense": 147,
+    "stamina": 205,
+    "type1": 8,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 1514227.7804994641,
+    "2500_product": 3262796.6683387393,
+    "evolutions": []
+  },
+  "898": {
+    "attack": 162,
+    "defense": 162,
+    "stamina": 225,
+    "type1": 14,
+    "type2": 12,
+    "legendary": true,
+    "generation": 8,
+    "weight": 1,
+    "height": 1,
+    "1500_product": 2059434.368458382,
+    "2500_product": 4299326.824234211,
+    "evolutions": []
   }
 }
+
