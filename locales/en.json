@@ -446,12 +446,14 @@
     "077": {
       "1011": "Normal",
       "1012": "Shadow",
-      "1013": "Purified"
+      "1013": "Purified",
+      "2336": "Galarian"
     },
     "078": {
       "1014": "Normal",
       "1015": "Shadow",
-      "1016": "Purified"
+      "1016": "Purified",
+      "2337": "Galarian"
     },
     "079": {
       "1017": "Normal",
