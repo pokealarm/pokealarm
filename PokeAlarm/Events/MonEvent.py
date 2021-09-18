@@ -145,6 +145,16 @@ class MonEvent(BaseEvent):
         # Rarity
         self.rarity_id = check_for_none(int, data.get('rarity'), Unknown.TINY)
 
+        # Display Monster Information (Generally the real monster is ditto)
+        self.display_monster_id = check_for_none(
+            int, data.get('display_pokemon_id'), 0)
+        self.display_form_id = check_for_none(
+            int, data.get('display_form'), 0)
+        self.display_costume_id = check_for_none(
+            int, data.get('display_costume'), 0)
+        self.display_gender = MonUtils.get_gender_sym(
+            check_for_none(int, data.get('display_gender'), Unknown.TINY))
+
         # Correct this later
         self.name = self.monster_id
         self.geofence = Unknown.REGULAR
@@ -381,6 +391,24 @@ class MonEvent(BaseEvent):
                 "{:.2f}".format(self.weight) if Unknown.is_not(self.weight)
                 else Unknown.SMALL),
             'size': locale.get_size_name(self.size_id),
+
+            # Display Information (Usually when the actual mon is a ditto)
+            'display_mon_id': self.display_monster_id,
+            'display_mon_name': locale.get_pokemon_name(
+                self.display_monster_id),
+            'display_mon_id_3': "{:03}".format(self.display_monster_id),
+            'display_mon_id_2': "{:02}".format(self.display_monster_id),
+            'display_costume_id': self.display_costume_id,
+            'display_costume_id_2': "{:02d}".format(self.display_costume_id),
+            'display_costume_id_3': "{:03d}".format(self.display_costume_id),
+            'display_costume': locale.get_costume_name(
+                self.display_monster_id, self.display_costume_id),
+            'display_form_id': self.display_form_id,
+            'display_form': locale.get_form_name(
+                self.display_monster_id, self.display_form_id),
+            'display_form_id_3': "{:03d}".format(self.display_form_id),
+            'display_form_id_2': "{:02d}".format(self.display_form_id),
+            'display_gender': self.display_gender,
 
             # Misc
             'atk_grade': (
