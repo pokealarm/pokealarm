@@ -126,8 +126,7 @@ class DiscordAlarm(Alarm):
         self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
-        self.__timestamp = parse_boolean(
-            settings.pop('footer_timestamp', "False"))
+        self.__timestamp = settings.pop('footer_timestamp', False)
 
         # Set Alert Parameters
         self.__monsters = self.create_alert_settings(
