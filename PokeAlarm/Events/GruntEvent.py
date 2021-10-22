@@ -88,6 +88,7 @@ class GruntEvent(BaseEvent):
             'time_left_raw_hours': time[6],
             'time_left_raw_minutes': time[7],
             'time_left_raw_seconds': time[8],
+            'expiration_utc': self.expiration,
 
             # Location
             'lat': self.lat,

@@ -30,7 +30,8 @@ class DiscordAlarm(Alarm):
                 "regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
-            'body': "Available until <24h_time> (<time_left>)."
+            'body': "Available until <24h_time> (<time_left>).",
+            'footer_timestamp': '<disappear_time_utc>'
         },
         'stops': {
             'username': "Pokestop",
@@ -39,7 +40,8 @@ class DiscordAlarm(Alarm):
             'avatar_url': get_image_url("regular/stop/<lure_type_id_3>.png"),
             'title': "Someone has placed a lure on a Pokestop!",
             'url': "<gmaps>",
-            'body': "Lure will expire at <24h_time> (<time_left>)."
+            'body': "Lure will expire at <24h_time> (<time_left>).",
+            'footer_timestamp': '<expiration_utc>'
         },
         'gyms': {
             'username': "<new_team> Gym Alerts",
@@ -58,7 +60,8 @@ class DiscordAlarm(Alarm):
             'title': "Raid is incoming!",
             'url': "<gmaps>",
             'body': "A level <egg_lvl> raid will hatch at "
-                    "<24h_hatch_time> (<hatch_time_left>)."
+                    "<24h_hatch_time> (<hatch_time_left>).",
+            'footer_timestamp': '<hatch_time_utc>'
         },
         'raids': {
             'username': "Raid",
@@ -70,7 +73,8 @@ class DiscordAlarm(Alarm):
             'title': "Level <raid_lvl> raid is available against <mon_name>!",
             'url': "<gmaps>",
             'body': "The raid is available until "
-                    "<24h_raid_end> (<raid_time_left>)."
+                    "<24h_raid_end> (<raid_time_left>).",
+            'footer_timestamp': '<raid_end_utc>'
         },
         'weather': {
             'username': "Weather",
@@ -101,7 +105,8 @@ class DiscordAlarm(Alarm):
                 get_image_url("regular/invasions/<type_id_3>.png"),
             'title': "This Pokestop has been invaded by Team Rocket!",
             'url': "<gmaps>",
-            'body': "Invasion will expire at <24h_time> (<time_left>)."
+            'body': "Invasion will expire at <24h_time> (<time_left>).",
+            'footer_timestamp': '<expiration_utc>'
         }
     }
 
@@ -121,6 +126,8 @@ class DiscordAlarm(Alarm):
         self.__avatar_url = settings.pop('avatar_url', "")
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
+        self.__timestamp = parse_boolean(
+            settings.pop('footer_timestamp', "False"))
 
         # Set Alert Parameters
         self.__monsters = self.create_alert_settings(
@@ -182,6 +189,12 @@ class DiscordAlarm(Alarm):
             get_static_map_url(map, self.__static_map_key)
         }
 
+        timestamp = settings.pop('footer_timestamp', self.__timestamp)
+        if isinstance(timestamp, str):
+            alert['timestamp'] = timestamp
+        if timestamp is True and 'footer_timestamp' in default:
+            alert['timestamp'] = default['footer_timestamp']
+
         reject_leftover_parameters(settings, "'Alert level in Discord alarm.")
         return alert
 
@@ -202,6 +215,7 @@ class DiscordAlarm(Alarm):
                 'thumbnail': {'url': replace(alert['icon_url'], info)},
                 'fields': self.replace_fields(alert['fields'], info)
             }]
+
             if alert['map'] is not None:
                 coords = {
                     'lat': info['lat'],
@@ -214,10 +228,15 @@ class DiscordAlarm(Alarm):
                                 isinstance(alert['map'], str)
                                 else info)
                 }
+
+            if 'timestamp' in alert:
+                payload['embeds'][0]['timestamp'] = replace(
+                    alert['timestamp'], info)
         args = {
             'url': replace(alert['webhook_url'], info),
             'payload': payload
         }
+
         try_sending(self._log, self.connect,
                     "Discord", self.send_webhook, args, self.__max_attempts)
 
