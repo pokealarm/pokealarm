@@ -10332,31 +10332,33 @@
     "evolutions": []
   },
   "710": {
-    "attack": 121,
-    "defense": 129,
-    "stamina": 98,
+    "attack": 118,
+    "defense": 120,
+    "stamina": 153,
     "type1": 8,
     "type2": 12,
     "legendary": false,
     "generation": 6,
     "weight": 5,
     "height": 0.41,
-    "1500_product": 1299864.2677416669,
-    "2500_product": 1299864.2677416669,
-    "evolutions": []
+    "1500_product": 1787612.0501916078,
+    "2500_product": 1787612.0501916078,
+    "evolutions": [
+      711
+    ]
   },
   "711": {
-    "attack": 175,
-    "defense": 236,
-    "stamina": 130,
+    "attack": 182,
+    "defense": 200,
+    "stamina": 198,
     "type1": 8,
     "type2": 12,
     "legendary": false,
     "generation": 6,
     "weight": 39,
     "height": 1.7,
-    "1500_product": 1900265.386330144,
-    "2500_product": 3988786.4646662725,
+    "1500_product": 1977465.9385504364,
+    "2500_product": 4267298.485823936,
     "evolutions": []
   },
   "712": {
