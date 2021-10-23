@@ -97,6 +97,7 @@ class EggEvent(BaseEvent):
             'raid_time_raw_minutes': raid_end_time[7],
             'raid_time_raw_seconds': raid_end_time[8],
             'raid_end_utc': self.raid_end,
+            'current_timestamp_utc': datetime.utcnow(),
 
             # Location
             'lat': self.lat,

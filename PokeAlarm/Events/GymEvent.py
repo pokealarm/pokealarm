@@ -1,4 +1,5 @@
 # Standard Library Imports
+from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
@@ -97,5 +98,7 @@ class GymEvent(BaseEvent):
             # Guards
             'slots_available': self.slots_available,
             'guard_count': self.guard_count,
+
+            'current_timestamp_utc': datetime.utcnow(),
         })
         return dts
