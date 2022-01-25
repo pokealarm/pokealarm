@@ -180,7 +180,7 @@ class CheckFunction(object):
 
     def __call__(self, filtr, event):
         value = getattr(event, self._attr_name)  # event.event_attr
-        if Unknown.is_(value):
+        if (type(value) == list and Unknown.is_(*value)) and Unknown.is_(value):
             return Unknown.TINY  # Cannot check - missing attribute
         result = self._eval_func(self._limit, value)  # compare value to limit
 
