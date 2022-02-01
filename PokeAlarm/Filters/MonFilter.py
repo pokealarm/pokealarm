@@ -4,7 +4,8 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
-from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted, match_items_in_array
+from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted, \
+    match_items_in_array
 
 
 class MonFilter(BaseFilter):
@@ -28,7 +29,7 @@ class MonFilter(BaseFilter):
                 MonUtils.get_monster_id, 'monsters_exclude', data))
 
         # Pokemon types
-        self.type_ids = self.evaluate_attribute(  # one arg of mon_types in types       
+        self.type_ids = self.evaluate_attribute(  # one mon_type in types
             event_attribute='types', eval_func=match_items_in_array,
             limit=BaseFilter.parse_as_list(
                 MonUtils.get_type_id, 'types', data))
