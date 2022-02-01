@@ -182,6 +182,8 @@ class MonEvent(BaseEvent):
             'time_left_raw_hours': time[6],
             'time_left_raw_minutes': time[7],
             'time_left_raw_seconds': time[8],
+            'disappear_time_utc': self.disappear_time,
+            'current_timestamp_utc': datetime.utcnow(),
 
             # Spawn Data
             'spawn_start': self.spawn_start,
