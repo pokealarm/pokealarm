@@ -31,138 +31,138 @@
   "forms": {
     "001": {
       "163": "Normal",
-      "164": "Ombre",
+      "164": "Obscur",
       "165": "Purifi\u00E9",
       "604": "NoEvolve",
       "897": "Fall 2019"
     },
     "002": {
       "166": "Normal",
-      "167": "Ombre",
+      "167": "Obscur",
       "168": "Purifi\u00E9"
     },
     "003": {
       "169": "Normal",
-      "170": "Ombre",
+      "170": "Obscur",
       "171": "Purifi\u00E9",
       "950": "Copy 2019"
     },
     "004": {
       "172": "Normal",
-      "173": "Ombre",
+      "173": "Obscur",
       "174": "Purifi\u00E9",
       "605": "NoEvolve",
       "896": "Fall 2019"
     },
     "005": {
       "175": "Normal",
-      "176": "Ombre",
+      "176": "Obscur",
       "177": "Purifi\u00E9",
       "605": "NoEvolve"
     },
     "006": {
       "178": "Normal",
-      "179": "Ombre",
+      "179": "Obscur",
       "180": "Purifi\u00E9",
       "606": "NoEvolve",
       "951": "Copy 2019"
     },
     "007": {
       "181": "Normal",
-      "182": "Ombre",
+      "182": "Obscur",
       "183": "Purifi\u00E9",
       "607": "NoEvolve",
       "895": "Fall 2019"
     },
     "008": {
       "184": "Normal",
-      "185": "Ombre",
+      "185": "Obscur",
       "186": "Purifi\u00E9"
     },
     "009": {
       "187": "Normal",
-      "188": "Ombre",
+      "188": "Obscur",
       "189": "Purifi\u00E9",
       "608": "NoEvolve",
       "952": "Copy 2019"
     },
     "010": {
-      "953": "Normale",
+      "953": "Normal",
       "954": "Obscur",
       "955": "Purifi\u00E9"
     },
     "011": {
-      "956": "Normale",
+      "956": "Normal",
       "957": "Obscur",
       "958": "Purifi\u00E9"
     },
     "012": {
-      "959": "Normale",
+      "959": "Normal",
       "960": "Obscur",
       "961": "Purifi\u00E9"
     },
     "013": {
       "616": "Normal",
-      "617": "Ombre",
+      "617": "Obscur",
       "618": "Purifi\u00E9"
     },
     "014": {
       "619": "Normal",
-      "620": "Ombre",
+      "620": "Obscur",
       "621": "Purifi\u00E9"
     },
     "015": {
       "622": "Normal",
-      "623": "Ombre",
+      "623": "Obscur",
       "624": "Purifi\u00E9"
     },
     "016": {
-      "962": "Normale",
+      "962": "Normal",
       "963": "Obscur",
       "964": "Purifi\u00E9"
     },
     "017": {
-      "965": "Normale",
+      "965": "Normal",
       "966": "Obscur",
       "967": "Purifi\u00E9"
     },
     "018": {
-      "968": "Normale",
+      "968": "Normal",
       "969": "Obscur",
       "970": "Purifi\u00E9"
     },
     "019": {
       "045": "Normal",
       "046": "Alola",
-      "153": "Ombre",
+      "153": "Obscur",
       "154": "Purifi\u00E9"
     },
     "020": {
       "047": "Normal",
       "048": "Alola",
-      "155": "Ombre",
+      "155": "Obscur",
       "156": "Purifi\u00E9",
       "609": "NoEvolve",
       "2329": "Spring 2020"
     },
     "021": {
-      "971": "Normale",
+      "971": "Normal",
       "972": "Obscur",
       "973": "Purifi\u00E9"
     },
     "022": {
-      "974": "Normale",
+      "974": "Normal",
       "975": "Obscur",
       "976": "Purifi\u00E9"
     },
     "023": {
       "697": "Normal",
-      "698": "Ombre",
+      "698": "Obscur",
       "699": "Purifi\u00E9"
     },
     "024": {
       "700": "Normal",
-      "701": "Ombre",
+      "701": "Obscur",
       "702": "Purifi\u00E9"
     },
     "025": {
@@ -184,120 +184,120 @@
     "027": {
       "051": "Normal",
       "052": "Alola",
-      "673": "Ombre",
+      "673": "Obscur",
       "674": "Purifi\u00E9"
     },
     "028": {
       "053": "Normal",
       "054": "Alola",
-      "675": "Ombre",
+      "675": "Obscur",
       "676": "Purifi\u00E9"
     },
     "029": {
       "776": "Normal",
-      "777": "Ombre",
+      "777": "Obscur",
       "778": "Purifi\u00E9"
     },
     "030": {
       "779": "Normal",
-      "780": "Ombre",
+      "780": "Obscur",
       "781": "Purifi\u00E9"
     },
     "031": {
       "782": "Normal",
-      "783": "Ombre",
+      "783": "Obscur",
       "784": "Purifi\u00E9"
     },
     "032": {
-      "776": "Normale",
+      "776": "Normal",
       "777": "Obscur",
       "778": "Purifi\u00E9"
     },
     "033": {
       "785": "Normal",
-      "786": "Ombre",
+      "786": "Obscur",
       "787": "Purifi\u00E9"
     },
     "034": {
       "788": "Normal",
-      "789": "Ombre",
+      "789": "Obscur",
       "790": "Purifi\u00E9"
     },
     "035": {
-      "981": "Normale",
+      "981": "Normal",
       "982": "Obscur",
       "983": "Purifi\u00E9"
     },
     "036": {
-      "984": "Normale",
+      "984": "Normal",
       "985": "Obscur",
       "986": "Purifi\u00E9"
     },
     "037": {
       "055": "Normal",
       "056": "Alola",
-      "725": "Ombre",
+      "725": "Obscur",
       "726": "Purifi\u00E9"
     },
     "038": {
       "057": "Normal",
       "058": "Alola",
-      "727": "Ombre",
+      "727": "Obscur",
       "728": "Purifi\u00E9"
     },
     "039": {
-      "987": "Normale",
+      "987": "Normal",
       "988": "Obscur",
       "989": "Purifi\u00E9"
     },
     "040": {
-      "990": "Normale",
+      "990": "Normal",
       "991": "Obscur",
       "992": "Purifi\u00E9"
     },
     "041": {
       "157": "Normal",
-      "158": "Ombre",
+      "158": "Obscur",
       "159": "Purifi\u00E9"
     },
     "042": {
       "160": "Normal",
-      "161": "Ombre",
+      "161": "Obscur",
       "162": "Purifi\u00E9"
     },
     "043": {
       "265": "Normal",
-      "266": "Ombre",
+      "266": "Obscur",
       "267": "Purifi\u00E9"
     },
     "044": {
       "268": "Normal",
-      "269": "Ombre",
+      "269": "Obscur",
       "270": "Purifi\u00E9"
     },
     "045": {
       "271": "Normal",
-      "272": "Ombre",
+      "272": "Obscur",
       "273": "Purifi\u00E9"
     },
     "046": {
-      "993": "Normale",
+      "993": "Normal",
       "994": "Obscur",
       "995": "Purifi\u00E9"
     },
     "047": {
-      "996": "Normale",
+      "996": "Normal",
       "997": "Obscur",
       "998": "Purifi\u00E9"
     },
     "048": {
       "259": "Normal",
-      "260": "Ombre",
+      "260": "Obscur",
       "261": "Purifi\u00E9"
     },
     "049": {
       "262": "Normal",
-      "263": "Ombre",
+      "263": "Obscur",
       "264": "Purifi\u00E9"
     },
     "050": {
@@ -315,113 +315,113 @@
     "052": {
       "063": "Normal",
       "064": "Alola",
-      "709": "Ombre",
+      "709": "Obscur",
       "710": "Purifi\u00E9",
-      "2335": "Galarian"
+      "2335": "Galar"
     },
     "053": {
       "065": "Normal",
       "066": "Alola",
-      "711": "Ombre",
+      "711": "Obscur",
       "712": "Purifi\u00E9"
     },
     "054": {
       "286": "Normal",
-      "287": "Ombre",
+      "287": "Obscur",
       "288": "Purifi\u00E9"
     },
     "055": {
       "289": "Normal",
-      "290": "Ombre",
+      "290": "Obscur",
       "291": "Purifi\u00E9"
     },
     "056": {
-      "999": "Normale",
+      "999": "Normal",
       "1000": "Obscur",
       "1001": "Purifi\u00E9"
     },
     "057": {
-      "1002": "Normale",
+      "1002": "Normal",
       "1003": "Obscur",
       "1004": "Purifi\u00E9"
     },
     "058": {
       "280": "Normal",
-      "281": "Ombre",
+      "281": "Obscur",
       "282": "Purifi\u00E9"
     },
     "059": {
       "283": "Normal",
-      "284": "Ombre",
+      "284": "Obscur",
       "285": "Purifi\u00E9"
     },
     "060": {
       "235": "Normal",
-      "236": "Ombre",
+      "236": "Obscur",
       "237": "Purifi\u00E9"
     },
     "061": {
       "238": "Normal",
-      "239": "Ombre",
+      "239": "Obscur",
       "240": "Purifi\u00E9"
     },
     "062": {
       "241": "Normal",
-      "242": "Ombre",
+      "242": "Obscur",
       "243": "Purifi\u00E9"
     },
     "063": {
       "304": "Normal",
-      "305": "Ombre",
+      "305": "Obscur",
       "306": "Purifi\u00E9"
     },
     "064": {
       "307": "Normal",
-      "308": "Ombre",
+      "308": "Obscur",
       "309": "Purifi\u00E9"
     },
     "065": {
       "310": "Normal",
-      "311": "Ombre",
+      "311": "Obscur",
       "312": "Purifi\u00E9"
     },
     "066": {
-      "809": "Normale",
+      "809": "Normal",
       "810": "Obscur",
       "811": "Purifi\u00E9"
     },
     "067": {
-      "812": "Normale",
+      "812": "Normal",
       "813": "Obscur",
       "814": "Purifi\u00E9"
     },
     "068": {
-      "815": "Normale",
+      "815": "Normal",
       "816": "Obscur",
       "817": "Purifi\u00E9"
     },
     "069": {
       "664": "Normal",
-      "665": "Ombre",
+      "665": "Obscur",
       "666": "Purifi\u00E9"
     },
     "070": {
       "667": "Normal",
-      "668": "Ombre",
+      "668": "Obscur",
       "669": "Purifi\u00E9"
     },
     "071": {
       "670": "Normal",
-      "671": "Ombre",
+      "671": "Obscur",
       "672": "Purifi\u00E9"
     },
     "072": {
-      "1005": "Normale",
+      "1005": "Normal",
       "1006": "Obscur",
       "1007": "Purifi\u00E9"
     },
     "073": {
-      "1008": "Normale",
+      "1008": "Normal",
       "1009": "Obscur",
       "1010": "Purifi\u00E9"
     },
@@ -444,374 +444,374 @@
       "887": "Purifi\u00E9"
     },
     "077": {
-      "1011": "Normale",
+      "1011": "Normal",
       "1012": "Obscur",
       "1013": "Purifi\u00E9",
-      "2336": "Galarian"
+      "2336": "Galar"
     },
     "078": {
-      "1014": "Normale",
+      "1014": "Normal",
       "1015": "Obscur",
       "1016": "Purifi\u00E9",
-      "2337": "Galarian"
+      "2337": "Galar"
     },
     "079": {
-      "1017": "Normale",
+      "1017": "Normal",
       "1018": "Obscur",
       "1019": "Purifi\u00E9",
-      "2582": "Galarian"
+      "2582": "Galar"
     },
     "080": {
-      "1020": "Normale",
+      "1020": "Normal",
       "1021": "Obscur",
       "1022": "Purifi\u00E9",
-      "2583": "Galarian"
+      "2583": "Galar"
     },
     "081": {
       "655": "Normal",
-      "656": "Ombre",
+      "656": "Obscur",
       "657": "Purifi\u00E9"
     },
     "082": {
       "658": "Normal",
-      "659": "Ombre",
+      "659": "Obscur",
       "660": "Purifi\u00E9"
     },
     "083": {
-      "1023": "Normale",
+      "1023": "Normal",
       "1024": "Obscur",
       "1025": "Purifi\u00E9",
-      "2338": "Galarian"
+      "2338": "Galar"
     },
     "084": {
-      "1026": "Normale",
+      "1026": "Normal",
       "1027": "Obscur",
       "1028": "Purifi\u00E9"
     },
     "085": {
-      "1029": "Normale",
+      "1029": "Normal",
       "1030": "Obscur",
       "1031": "Purifi\u00E9"
     },
     "086": {
-      "1032": "Normale",
+      "1032": "Normal",
       "1033": "Obscur",
       "1034": "Purifi\u00E9"
     },
     "087": {
-      "1035": "Normale",
+      "1035": "Normal",
       "1036": "Obscur",
       "1037": "Purifi\u00E9"
     },
     "088": {
       "073": "Normal",
       "074": "Alola",
-      "220": "Ombre",
+      "220": "Obscur",
       "221": "Purifi\u00E9"
     },
     "089": {
       "075": "Normal",
       "076": "Alola",
-      "222": "Ombre",
+      "222": "Obscur",
       "223": "Purifi\u00E9"
     },
     "090": {
-      "876": "Normale",
+      "876": "Normal",
       "877": "Obscur",
       "878": "Purifi\u00E9"
     },
     "091": {
-      "879": "Normale",
+      "879": "Normal",
       "880": "Obscur",
       "881": "Purifi\u00E9"
     },
     "092": {
-      "1038": "Normale",
+      "1038": "Normal",
       "1039": "Obscur",
       "1040": "Purifi\u00E9"
     },
     "093": {
-      "1041": "Normale",
+      "1041": "Normal",
       "1042": "Obscur",
       "1043": "Purifi\u00E9"
     },
     "094": {
-      "1044": "Normale",
+      "1044": "Normal",
       "1045": "Obscur",
       "1046": "Purifi\u00E9"
     },
     "095": {
-      "902": "Normale",
+      "902": "Normal",
       "903": "Obscur",
       "904": "Purifi\u00E9",
       "2334": "Costume 2020"
     },
     "096": {
       "214": "Normal",
-      "215": "Ombre",
+      "215": "Obscur",
       "216": "Purifi\u00E9"
     },
     "097": {
       "217": "Normal",
-      "218": "Ombre",
+      "218": "Obscur",
       "219": "Purifi\u00E9"
     },
     "098": {
-      "870": "Normale",
+      "870": "Normal",
       "871": "Obscur",
       "872": "Purifi\u00E9"
     },
     "099": {
-      "873": "Normale",
+      "873": "Normal",
       "874": "Obscur",
       "875": "Purifi\u00E9"
     },
     "100": {
-      "1047": "Normale",
+      "1047": "Normal",
       "1048": "Obscur",
       "1049": "Purifi\u00E9"
     },
     "101": {
-      "1050": "Normale",
+      "1050": "Normal",
       "1051": "Obscur",
       "1052": "Purifi\u00E9"
     },
     "102": {
       "729": "Normal",
-      "730": "Ombre",
+      "730": "Obscur",
       "731": "Purifi\u00E9"
     },
     "103": {
       "077": "Normal",
       "078": "Alola",
-      "732": "Ombre",
+      "732": "Obscur",
       "733": "Purifi\u00E9"
     },
     "104": {
       "224": "Normal",
-      "225": "Ombre",
+      "225": "Obscur",
       "226": "Purifi\u00E9"
     },
     "105": {
       "079": "Normal",
       "080": "Alola",
-      "227": "Ombre",
+      "227": "Obscur",
       "228": "Purifi\u00E9"
     },
     "106": {
       "713": "Normal",
-      "714": "Ombre",
+      "714": "Obscur",
       "715": "Purifi\u00E9"
     },
     "107": {
       "277": "Normal",
-      "278": "Ombre",
+      "278": "Obscur",
       "279": "Purifi\u00E9"
     },
     "108": {
-      "1053": "Normale",
+      "1053": "Normal",
       "1054": "Obscur",
       "1055": "Purifi\u00E9"
     },
     "109": {
       "703": "Normal",
-      "704": "Ombre",
+      "704": "Obscur",
       "705": "Purifi\u00E9"
     },
     "110": {
       "706": "Normal",
-      "707": "Ombre",
+      "707": "Obscur",
       "708": "Purifi\u00E9",
-      "944": "Galarian"
+      "944": "Galar"
     },
     "111": {
-      "846": "Normale",
+      "846": "Normal",
       "847": "Obscur",
       "848": "Purifi\u00E9"
     },
     "112": {
-      "849": "Normale",
+      "849": "Normal",
       "850": "Obscur",
       "851": "Purifi\u00E9"
     },
     "113": {
-      "1056": "Normale",
+      "1056": "Normal",
       "1057": "Obscur",
       "1058": "Purifi\u00E9"
     },
     "114": {
-      "1059": "Normale",
+      "1059": "Normal",
       "1060": "Obscur",
       "1061": "Purifi\u00E9"
     },
     "115": {
-      "839": "Normale",
+      "839": "Normal",
       "840": "Obscur",
       "841": "Purifi\u00E9"
     },
     "116": {
-      "1062": "Normale",
+      "1062": "Normal",
       "1063": "Obscur",
       "1064": "Purifi\u00E9"
     },
     "117": {
-      "1065": "Normale",
+      "1065": "Normal",
       "1066": "Obscur",
       "1067": "Purifi\u00E9"
     },
     "118": {
-      "1068": "Normale",
+      "1068": "Normal",
       "1069": "Obscur",
       "1070": "Purifi\u00E9"
     },
     "119": {
-      "1071": "Normale",
+      "1071": "Normal",
       "1072": "Obscur",
       "1073": "Purifi\u00E9"
     },
     "120": {
-      "1074": "Normale",
+      "1074": "Normal",
       "1075": "Obscur",
       "1076": "Purifi\u00E9"
     },
     "121": {
-      "1077": "Normale",
+      "1077": "Normal",
       "1078": "Obscur",
       "1079": "Purifi\u00E9"
     },
     "123": {
       "247": "Normal",
-      "248": "Ombre",
+      "248": "Obscur",
       "249": "Purifi\u00E9"
     },
     "124": {
-      "1083": "Normale",
+      "1083": "Normal",
       "1084": "Obscur",
       "1085": "Purifi\u00E9"
     },
     "125": {
       "640": "Normal",
-      "641": "Ombre",
+      "641": "Obscur",
       "642": "Purifi\u00E9"
     },
     "126": {
       "634": "Normal",
-      "635": "Ombre",
+      "635": "Obscur",
       "636": "Purifi\u00E9"
     },
     "127": {
-      "898": "Normale",
+      "898": "Normal",
       "899": "Obscur",
       "900": "Purifi\u00E9"
     },
     "128": {
-      "1086": "Normale",
+      "1086": "Normal",
       "1087": "Obscur",
       "1088": "Purifi\u00E9"
     },
     "129": {
       "253": "Normal",
-      "254": "Ombre",
+      "254": "Obscur",
       "255": "Purifi\u00E9"
     },
     "130": {
       "256": "Normal",
-      "257": "Ombre",
+      "257": "Obscur",
       "258": "Purifi\u00E9"
     },
     "131": {
       "322": "Normal",
-      "323": "Ombre",
+      "323": "Obscur",
       "324": "Purifi\u00E9"
     },
     "132": {
-      "1089": "Normale",
+      "1089": "Normal",
       "1090": "Obscur",
       "1091": "Purifi\u00E9"
     },
     "133": {
-      "1092": "Normale",
+      "1092": "Normal",
       "1093": "Obscur",
       "1094": "Purifi\u00E9"
     },
     "134": {
-      "1095": "Normale",
+      "1095": "Normal",
       "1096": "Obscur",
       "1097": "Purifi\u00E9"
     },
     "135": {
-      "1098": "Normale",
+      "1098": "Normal",
       "1099": "Obscur",
       "1100": "Purifi\u00E9"
     },
     "136": {
-      "1101": "Normale",
+      "1101": "Normal",
       "1102": "Obscur",
       "1103": "Purifi\u00E9"
     },
     "137": {
       "677": "Normal",
-      "678": "Ombre",
+      "678": "Obscur",
       "679": "Purifi\u00E9"
     },
     "138": {
       "740": "Normal",
-      "741": "Ombre",
+      "741": "Obscur",
       "742": "Purifi\u00E9"
     },
     "139": {
       "743": "Normal",
-      "744": "Ombre",
+      "744": "Obscur",
       "745": "Purifi\u00E9"
     },
     "140": {
-      "1104": "Normale",
+      "1104": "Normal",
       "1105": "Obscur",
       "1106": "Purifi\u00E9"
     },
     "141": {
-      "1107": "Normale",
+      "1107": "Normal",
       "1108": "Obscur",
       "1109": "Purifi\u00E9"
     },
     "142": {
-      "1110": "Normale",
+      "1110": "Normal",
       "1111": "Obscur",
       "1112": "Purifi\u00E9"
     },
     "143": {
       "199": "Normal",
-      "200": "Ombre",
+      "200": "Obscur",
       "201": "Purifi\u00E9"
     },
     "144": {
       "716": "Normal",
-      "717": "Ombre",
+      "717": "Obscur",
       "718": "Purifi\u00E9"
     },
     "145": {
       "773": "Normal",
-      "774": "Ombre",
+      "774": "Obscur",
       "775": "Purifi\u00E9"
     },
     "146": {
       "836": "Normal",
-      "837": "Ombre",
+      "837": "Obscur",
       "838": "Purifi\u00E9"
     },
     "147": {
       "190": "Normal",
-      "191": "Ombre",
+      "191": "Obscur",
       "192": "Purifi\u00E9"
     },
     "148": {
       "193": "Normal",
-      "194": "Ombre",
+      "194": "Obscur",
       "195": "Purifi\u00E9"
     },
     "149": {
       "196": "Normal",
-      "197": "Ombre",
+      "197": "Obscur",
       "198": "Purifi\u00E9",
       "2333": "Costume 2020"
     },
@@ -822,253 +822,253 @@
       "1114": "Purifi\u00E9"
     },
     "151": {
-      "1115": "Normale",
+      "1115": "Normal",
       "1116": "Obscur",
       "1117": "Purifi\u00E9"
     },
     "152": {
-      "1118": "Normale",
+      "1118": "Normal",
       "1119": "Obscur",
       "1120": "Purifi\u00E9"
     },
     "153": {
-      "1121": "Normale",
+      "1121": "Normal",
       "1122": "Obscur",
       "1123": "Purifi\u00E9"
     },
     "154": {
-      "1124": "Normale",
+      "1124": "Normal",
       "1125": "Obscur",
       "1126": "Purifi\u00E9"
     },
     "155": {
-      "1127": "Normale",
+      "1127": "Normal",
       "1128": "Obscur",
       "1129": "Purifi\u00E9"
     },
     "156": {
-      "1130": "Normale",
+      "1130": "Normal",
       "1131": "Obscur",
       "1132": "Purifi\u00E9"
     },
     "157": {
-      "1133": "Normale",
+      "1133": "Normal",
       "1134": "Obscur",
       "1135": "Purifi\u00E9"
     },
     "158": {
-      "1136": "Normale",
+      "1136": "Normal",
       "1137": "Obscur",
       "1138": "Purifi\u00E9"
     },
     "159": {
-      "1139": "Normale",
+      "1139": "Normal",
       "1140": "Obscur",
       "1141": "Purifi\u00E9"
     },
     "160": {
-      "1142": "Normale",
+      "1142": "Normal",
       "1143": "Obscur",
       "1144": "Purifi\u00E9"
     },
     "161": {
-      "1145": "Normale",
+      "1145": "Normal",
       "1146": "Obscur",
       "1147": "Purifi\u00E9"
     },
     "162": {
-      "1148": "Normale",
+      "1148": "Normal",
       "1149": "Obscur",
       "1150": "Purifi\u00E9"
     },
     "163": {
-      "1151": "Normale",
+      "1151": "Normal",
       "1152": "Obscur",
       "1153": "Purifi\u00E9"
     },
     "164": {
-      "1154": "Normale",
+      "1154": "Normal",
       "1155": "Obscur",
       "1156": "Purifi\u00E9"
     },
     "165": {
-      "1157": "Normale",
+      "1157": "Normal",
       "1158": "Obscur",
       "1159": "Purifi\u00E9"
     },
     "166": {
-      "1160": "Normale",
+      "1160": "Normal",
       "1161": "Obscur",
       "1162": "Purifi\u00E9"
     },
     "167": {
-      "1163": "Normale",
+      "1163": "Normal",
       "1164": "Obscur",
       "1165": "Purifi\u00E9"
     },
     "168": {
-      "1166": "Normale",
+      "1166": "Normal",
       "1167": "Obscur",
       "1168": "Purifi\u00E9"
     },
     "169": {
       "202": "Normal",
-      "203": "Ombre",
+      "203": "Obscur",
       "204": "Purifi\u00E9"
     },
     "170": {
-      "1169": "Normale",
+      "1169": "Normal",
       "1170": "Obscur",
       "1171": "Purifi\u00E9"
     },
     "171": {
-      "1172": "Normale",
+      "1172": "Normal",
       "1173": "Obscur",
       "1174": "Purifi\u00E9"
     },
     "172": {
-      "1175": "Normale",
+      "1175": "Normal",
       "1176": "Obscur",
       "1177": "Purifi\u00E9"
     },
     "173": {
-      "1178": "Normale",
+      "1178": "Normal",
       "1179": "Obscur",
       "1180": "Purifi\u00E9"
     },
     "174": {
-      "1181": "Normale",
+      "1181": "Normal",
       "1182": "Obscur",
       "1183": "Purifi\u00E9"
     },
     "175": {
-      "1184": "Normale",
+      "1184": "Normal",
       "1185": "Obscur",
       "1186": "Purifi\u00E9"
     },
     "176": {
-      "1187": "Normale",
+      "1187": "Normal",
       "1188": "Obscur",
       "1189": "Purifi\u00E9"
     },
     "177": {
-      "1190": "Normale",
+      "1190": "Normal",
       "1191": "Obscur",
       "1192": "Purifi\u00E9"
     },
     "178": {
-      "1193": "Normale",
+      "1193": "Normal",
       "1194": "Obscur",
       "1195": "Purifi\u00E9"
     },
     "179": {
       "646": "Normal",
-      "647": "Ombre",
+      "647": "Obscur",
       "648": "Purifi\u00E9"
     },
     "180": {
       "649": "Normal",
-      "650": "Ombre",
+      "650": "Obscur",
       "651": "Purifi\u00E9"
     },
     "181": {
       "652": "Normal",
-      "653": "Ombre",
+      "653": "Obscur",
       "654": "Purifi\u00E9"
     },
     "182": {
       "274": "Normal",
-      "275": "Ombre",
+      "275": "Obscur",
       "276": "Purifi\u00E9"
     },
     "183": {
-      "1196": "Normale",
+      "1196": "Normal",
       "1197": "Obscur",
       "1198": "Purifi\u00E9"
     },
     "184": {
-      "1199": "Normale",
+      "1199": "Normal",
       "1200": "Obscur",
       "1201": "Purifi\u00E9"
     },
     "185": {
-      "1202": "Normale",
+      "1202": "Normal",
       "1203": "Obscur",
       "1204": "Purifi\u00E9"
     },
     "186": {
       "244": "Normal",
-      "245": "Ombre",
+      "245": "Obscur",
       "246": "Purifi\u00E9"
     },
     "187": {
-      "1205": "Normale",
+      "1205": "Normal",
       "1206": "Obscur",
       "1207": "Purifi\u00E9"
     },
     "188": {
-      "1208": "Normale",
+      "1208": "Normal",
       "1209": "Obscur",
       "1210": "Purifi\u00E9"
     },
     "189": {
-      "1211": "Normale",
+      "1211": "Normal",
       "1212": "Obscur",
       "1213": "Purifi\u00E9"
     },
     "190": {
-      "1214": "Normale",
+      "1214": "Normal",
       "1215": "Obscur",
       "1216": "Purifi\u00E9"
     },
     "191": {
-      "1217": "Normale",
+      "1217": "Normal",
       "1218": "Obscur",
       "1219": "Purifi\u00E9"
     },
     "192": {
-      "1220": "Normale",
+      "1220": "Normal",
       "1221": "Obscur",
       "1222": "Purifi\u00E9"
     },
     "193": {
-      "1223": "Normale",
+      "1223": "Normal",
       "1224": "Obscur",
       "1225": "Purifi\u00E9"
     },
     "194": {
-      "1226": "Normale",
+      "1226": "Normal",
       "1227": "Obscur",
       "1228": "Purifi\u00E9"
     },
     "195": {
-      "1229": "Normale",
+      "1229": "Normal",
       "1230": "Obscur",
       "1231": "Purifi\u00E9"
     },
     "196": {
-      "1232": "Normale",
+      "1232": "Normal",
       "1233": "Obscur",
       "1234": "Purifi\u00E9"
     },
     "197": {
-      "1235": "Normale",
+      "1235": "Normal",
       "1236": "Obscur",
       "1237": "Purifi\u00E9"
     },
     "198": {
-      "855": "Normale",
+      "855": "Normal",
       "856": "Obscur",
       "857": "Purifi\u00E9"
     },
     "199": {
-      "1238": "Normale",
+      "1238": "Normal",
       "1239": "Obscur",
       "1240": "Purifi\u00E9"
     },
     "200": {
       "719": "Normal",
-      "720": "Ombre",
+      "720": "Obscur",
       "721": "Purifi\u00E9"
     },
     "201": {
@@ -1104,319 +1104,319 @@
     "202": {
       "602": "Normal",
       "603": "NoEvolve",
-      "686": "Ombre",
+      "686": "Obscur",
       "687": "Purifi\u00E9",
       "2328": "Spring 2020"
     },
     "203": {
-      "1241": "Normale",
+      "1241": "Normal",
       "1242": "Obscur",
       "1243": "Purifi\u00E9"
     },
     "204": {
-      "1244": "Normale",
+      "1244": "Normal",
       "1245": "Obscur",
       "1246": "Purifi\u00E9"
     },
     "205": {
-      "1247": "Normale",
+      "1247": "Normal",
       "1248": "Obscur",
       "1249": "Purifi\u00E9"
     },
     "206": {
-      "1250": "Normale",
+      "1250": "Normal",
       "1251": "Obscur",
       "1252": "Purifi\u00E9"
     },
     "207": {
       "803": "Normal",
-      "804": "Ombre",
+      "804": "Obscur",
       "805": "Purifi\u00E9"
     },
     "208": {
-      "905": "Normale",
+      "905": "Normal",
       "906": "Obscur",
       "907": "Purifi\u00E9"
     },
     "209": {
-      "1253": "Normale",
+      "1253": "Normal",
       "1254": "Obscur",
       "1255": "Purifi\u00E9"
     },
     "210": {
-      "1256": "Normale",
+      "1256": "Normal",
       "1257": "Obscur",
       "1258": "Purifi\u00E9"
     },
     "211": {
-      "1259": "Normale",
+      "1259": "Normal",
       "1260": "Obscur",
       "1261": "Purifi\u00E9"
     },
     "212": {
       "250": "Normal",
-      "251": "Ombre",
+      "251": "Obscur",
       "252": "Purifi\u00E9"
     },
     "213": {
       "827": "Normal",
-      "828": "Ombre",
+      "828": "Obscur",
       "829": "Purifi\u00E9"
     },
     "214": {
-      "1262": "Normale",
+      "1262": "Normal",
       "1263": "Obscur",
       "1264": "Purifi\u00E9"
     },
     "215": {
       "797": "Normal",
-      "798": "Ombre",
+      "798": "Obscur",
       "799": "Purifi\u00E9"
     },
     "216": {
-      "1265": "Normale",
+      "1265": "Normal",
       "1266": "Obscur",
       "1267": "Purifi\u00E9"
     },
     "217": {
-      "1268": "Normale",
+      "1268": "Normal",
       "1269": "Obscur",
       "1270": "Purifi\u00E9"
     },
     "218": {
-      "1271": "Normale",
+      "1271": "Normal",
       "1272": "Obscur",
       "1273": "Purifi\u00E9"
     },
     "219": {
-      "1274": "Normale",
+      "1274": "Normal",
       "1275": "Obscur",
       "1276": "Purifi\u00E9"
     },
     "220": {
-      "1277": "Normale",
+      "1277": "Normal",
       "1278": "Obscur",
       "1279": "Purifi\u00E9"
     },
     "221": {
-      "1280": "Normale",
+      "1280": "Normal",
       "1281": "Obscur",
       "1282": "Purifi\u00E9"
     },
     "222": {
-      "1283": "Normale",
+      "1283": "Normal",
       "1284": "Obscur",
       "1285": "Purifi\u00E9"
     },
     "223": {
-      "1286": "Normale",
+      "1286": "Normal",
       "1287": "Obscur",
       "1288": "Purifi\u00E9"
     },
     "224": {
-      "1289": "Normale",
+      "1289": "Normal",
       "1290": "Obscur",
       "1291": "Purifi\u00E9"
     },
     "225": {
-      "938": "Normale",
+      "938": "Normal",
       "939": "Obscur",
       "940": "Purifi\u00E9"
     },
     "226": {
-      "1292": "Normale",
+      "1292": "Normal",
       "1293": "Obscur",
       "1294": "Purifi\u00E9"
     },
     "227": {
-      "1295": "Normale",
+      "1295": "Normal",
       "1296": "Obscur",
       "1297": "Purifi\u00E9"
     },
     "228": {
       "229": "Normal",
-      "230": "Ombre",
+      "230": "Obscur",
       "231": "Purifi\u00E9"
     },
     "229": {
       "232": "Normal",
-      "233": "Ombre",
+      "233": "Obscur",
       "234": "Purifi\u00E9"
     },
     "230": {
-      "1298": "Normale",
+      "1298": "Normal",
       "1299": "Obscur",
       "1300": "Purifi\u00E9"
     },
     "231": {
-      "1301": "Normale",
+      "1301": "Normal",
       "1302": "Obscur",
       "1303": "Purifi\u00E9"
     },
     "232": {
-      "1304": "Normale",
+      "1304": "Normal",
       "1305": "Obscur",
       "1306": "Purifi\u00E9"
     },
     "233": {
       "680": "Normal",
-      "681": "Ombre",
+      "681": "Obscur",
       "682": "Purifi\u00E9"
     },
     "234": {
-      "941": "Normale",
+      "941": "Normal",
       "942": "Obscur",
       "943": "Purifi\u00E9"
     },
     "235": {
-      "1307": "Normale",
+      "1307": "Normal",
       "1308": "Obscur",
       "1309": "Purifi\u00E9"
     },
     "236": {
-      "1310": "Normale",
+      "1310": "Normal",
       "1311": "Obscur",
       "1312": "Purifi\u00E9"
     },
     "237": {
-      "1313": "Normale",
+      "1313": "Normal",
       "1314": "Obscur",
       "1315": "Purifi\u00E9"
     },
     "238": {
-      "1316": "Normale",
+      "1316": "Normal",
       "1317": "Obscur",
       "1318": "Purifi\u00E9"
     },
     "239": {
-      "1319": "Normale",
+      "1319": "Normal",
       "1320": "Obscur",
       "1321": "Purifi\u00E9"
     },
     "240": {
-      "1322": "Normale",
+      "1322": "Normal",
       "1323": "Obscur",
       "1324": "Purifi\u00E9"
     },
     "241": {
-      "1325": "Normale",
+      "1325": "Normal",
       "1326": "Obscur",
       "1327": "Purifi\u00E9"
     },
     "242": {
-      "1328": "Normale",
+      "1328": "Normal",
       "1329": "Obscur",
       "1330": "Purifi\u00E9"
     },
     "243": {
-      "1331": "Normale",
+      "1331": "Normal",
       "1332": "Obscur",
       "1333": "Purifi\u00E9"
     },
     "244": {
-      "1334": "Normale",
+      "1334": "Normal",
       "1335": "Obscur",
       "1336": "Purifi\u00E9"
     },
     "245": {
-      "1337": "Normale",
+      "1337": "Normal",
       "1338": "Obscur",
       "1339": "Purifi\u00E9"
     },
     "246": {
       "313": "Normal",
-      "314": "Ombre",
+      "314": "Obscur",
       "315": "Purifi\u00E9"
     },
     "247": {
       "316": "Normal",
-      "317": "Ombre",
+      "317": "Obscur",
       "318": "Purifi\u00E9"
     },
     "248": {
       "319": "Normal",
-      "320": "Ombre",
+      "320": "Obscur",
       "321": "Purifi\u00E9"
     },
     "249": {
-      "1340": "Normale",
+      "1340": "Normal",
       "1341": "Obscur",
       "1342": "Purifi\u00E9"
     },
     "250": {
-      "1343": "Normale",
+      "1343": "Normal",
       "1344": "Obscur",
       "1345": "Purifi\u00E9"
     },
     "251": {
-      "1346": "Normale",
+      "1346": "Normal",
       "1347": "Obscur",
       "1348": "Purifi\u00E9"
     },
     "252": {
-      "1349": "Normale",
+      "1349": "Normal",
       "1350": "Obscur",
       "1351": "Purifi\u00E9"
     },
     "253": {
-      "1352": "Normale",
+      "1352": "Normal",
       "1353": "Obscur",
       "1354": "Purifi\u00E9"
     },
     "254": {
-      "1355": "Normale",
+      "1355": "Normal",
       "1356": "Obscur",
       "1357": "Purifi\u00E9"
     },
     "255": {
-      "1358": "Normale",
+      "1358": "Normal",
       "1359": "Obscur",
       "1360": "Purifi\u00E9"
     },
     "256": {
-      "1361": "Normale",
+      "1361": "Normal",
       "1362": "Obscur",
       "1363": "Purifi\u00E9"
     },
     "257": {
-      "1364": "Normale",
+      "1364": "Normal",
       "1365": "Obscur",
       "1366": "Purifi\u00E9"
     },
     "258": {
       "205": "Normal",
-      "206": "Ombre",
+      "206": "Obscur",
       "207": "Purifi\u00E9"
     },
     "259": {
       "208": "Normal",
-      "209": "Ombre",
+      "209": "Obscur",
       "210": "Purifi\u00E9"
     },
     "260": {
       "211": "Normal",
-      "212": "Ombre",
+      "212": "Obscur",
       "213": "Purifi\u00E9"
     },
     "261": {
-      "1367": "Normale",
+      "1367": "Normal",
       "1368": "Obscur",
       "1369": "Purifi\u00E9"
     },
     "262": {
-      "1370": "Normale",
+      "1370": "Normal",
       "1371": "Obscur",
       "1372": "Purifi\u00E9"
     },
     "263": {
-      "945": "Normale",
-      "946": "Galarian",
+      "945": "Normal",
+      "946": "Galar",
       "1373": "Obscur",
       "1374": "Purifi\u00E9"
     },
     "264": {
-      "947": "Normale",
-      "948": "Galarian",
+      "947": "Normal",
+      "948": "Galar",
       "1375": "Obscur",
       "1376": "Purifi\u00E9"
     },
@@ -1428,307 +1428,307 @@
       "2327": "Spring 2020"
     },
     "266": {
-      "1379": "Normale",
+      "1379": "Normal",
       "1380": "Obscur",
       "1381": "Purifi\u00E9"
     },
     "267": {
-      "1382": "Normale",
+      "1382": "Normal",
       "1383": "Obscur",
       "1384": "Purifi\u00E9"
     },
     "268": {
-      "1385": "Normale",
+      "1385": "Normal",
       "1386": "Obscur",
       "1387": "Purifi\u00E9"
     },
     "269": {
-      "1388": "Normale",
+      "1388": "Normal",
       "1389": "Obscur",
       "1390": "Purifi\u00E9"
     },
     "270": {
-      "1391": "Normale",
+      "1391": "Normal",
       "1392": "Obscur",
       "1393": "Purifi\u00E9"
     },
     "271": {
-      "1394": "Normale",
+      "1394": "Normal",
       "1395": "Obscur",
       "1396": "Purifi\u00E9"
     },
     "272": {
-      "1397": "Normale",
+      "1397": "Normal",
       "1398": "Obscur",
       "1399": "Purifi\u00E9"
     },
     "273": {
       "625": "Normal",
-      "626": "Ombre",
+      "626": "Obscur",
       "627": "Purifi\u00E9"
     },
     "274": {
       "628": "Normal",
-      "629": "Ombre",
+      "629": "Obscur",
       "630": "Purifi\u00E9"
     },
     "275": {
       "631": "Normal",
-      "632": "Ombre",
+      "632": "Obscur",
       "633": "Purifi\u00E9"
     },
     "276": {
-      "1400": "Normale",
+      "1400": "Normal",
       "1401": "Obscur",
       "1402": "Purifi\u00E9"
     },
     "277": {
-      "1403": "Normale",
+      "1403": "Normal",
       "1404": "Obscur",
       "1405": "Purifi\u00E9"
     },
     "278": {
-      "1406": "Normale",
+      "1406": "Normal",
       "1407": "Obscur",
       "1408": "Purifi\u00E9"
     },
     "279": {
-      "1409": "Normale",
+      "1409": "Normal",
       "1410": "Obscur",
       "1411": "Purifi\u00E9"
     },
     "280": {
       "292": "Normal",
-      "293": "Ombre",
+      "293": "Obscur",
       "294": "Purifi\u00E9"
     },
     "281": {
       "295": "Normal",
-      "296": "Ombre",
+      "296": "Obscur",
       "297": "Purifi\u00E9"
     },
     "282": {
       "298": "Normal",
-      "299": "Ombre",
+      "299": "Obscur",
       "300": "Purifi\u00E9"
     },
     "283": {
-      "1412": "Normale",
+      "1412": "Normal",
       "1413": "Obscur",
       "1414": "Purifi\u00E9"
     },
     "284": {
-      "1415": "Normale",
+      "1415": "Normal",
       "1416": "Obscur",
       "1417": "Purifi\u00E9"
     },
     "285": {
-      "1418": "Normale",
+      "1418": "Normal",
       "1419": "Obscur",
       "1420": "Purifi\u00E9"
     },
     "286": {
-      "1421": "Normale",
+      "1421": "Normal",
       "1422": "Obscur",
       "1423": "Purifi\u00E9"
     },
     "287": {
-      "1424": "Normale",
+      "1424": "Normal",
       "1425": "Obscur",
       "1426": "Purifi\u00E9"
     },
     "288": {
-      "1427": "Normale",
+      "1427": "Normal",
       "1428": "Obscur",
       "1429": "Purifi\u00E9"
     },
     "289": {
-      "1430": "Normale",
+      "1430": "Normal",
       "1431": "Obscur",
       "1432": "Purifi\u00E9"
     },
     "290": {
-      "1433": "Normale",
+      "1433": "Normal",
       "1434": "Obscur",
       "1435": "Purifi\u00E9"
     },
     "291": {
-      "1436": "Normale",
+      "1436": "Normal",
       "1437": "Obscur",
       "1438": "Purifi\u00E9"
     },
     "292": {
-      "1439": "Normale",
+      "1439": "Normal",
       "1440": "Obscur",
       "1441": "Purifi\u00E9"
     },
     "293": {
-      "1442": "Normale",
+      "1442": "Normal",
       "1443": "Obscur",
       "1444": "Purifi\u00E9"
     },
     "294": {
-      "1445": "Normale",
+      "1445": "Normal",
       "1446": "Obscur",
       "1447": "Purifi\u00E9"
     },
     "295": {
-      "1448": "Normale",
+      "1448": "Normal",
       "1449": "Obscur",
       "1450": "Purifi\u00E9"
     },
     "296": {
-      "1451": "Normale",
+      "1451": "Normal",
       "1452": "Obscur",
       "1453": "Purifi\u00E9"
     },
     "297": {
-      "1454": "Normale",
+      "1454": "Normal",
       "1455": "Obscur",
       "1456": "Purifi\u00E9"
     },
     "298": {
-      "1457": "Normale",
+      "1457": "Normal",
       "1458": "Obscur",
       "1459": "Purifi\u00E9"
     },
     "299": {
-      "1460": "Normale",
+      "1460": "Normal",
       "1461": "Obscur",
       "1462": "Purifi\u00E9"
     },
     "300": {
-      "1463": "Normale",
+      "1463": "Normal",
       "1464": "Obscur",
       "1465": "Purifi\u00E9"
     },
     "301": {
-      "1466": "Normale",
+      "1466": "Normal",
       "1467": "Obscur",
       "1468": "Purifi\u00E9"
     },
     "302": {
-      "923": "Normale",
+      "923": "Normal",
       "924": "Obscur",
       "925": "Purifi\u00E9"
     },
     "303": {
       "833": "Normal",
-      "834": "Ombre",
+      "834": "Obscur",
       "835": "Purifi\u00E9"
     },
     "304": {
-      "1469": "Normale",
+      "1469": "Normal",
       "1470": "Obscur",
       "1471": "Purifi\u00E9"
     },
     "305": {
-      "1472": "Normale",
+      "1472": "Normal",
       "1473": "Obscur",
       "1474": "Purifi\u00E9"
     },
     "306": {
-      "1475": "Normale",
+      "1475": "Normal",
       "1476": "Obscur",
       "1477": "Purifi\u00E9"
     },
     "307": {
-      "1478": "Normale",
+      "1478": "Normal",
       "1479": "Obscur",
       "1480": "Purifi\u00E9"
     },
     "308": {
-      "1481": "Normale",
+      "1481": "Normal",
       "1482": "Obscur",
       "1483": "Purifi\u00E9"
     },
     "309": {
-      "1484": "Normale",
+      "1484": "Normal",
       "1485": "Obscur",
       "1486": "Purifi\u00E9"
     },
     "310": {
-      "1487": "Normale",
+      "1487": "Normal",
       "1488": "Obscur",
       "1489": "Purifi\u00E9"
     },
     "311": {
-      "1490": "Normale",
+      "1490": "Normal",
       "1491": "Obscur",
       "1492": "Purifi\u00E9"
     },
     "312": {
-      "1493": "Normale",
+      "1493": "Normal",
       "1494": "Obscur",
       "1495": "Purifi\u00E9"
     },
     "313": {
-      "1496": "Normale",
+      "1496": "Normal",
       "1497": "Obscur",
       "1498": "Purifi\u00E9"
     },
     "314": {
-      "1499": "Normale",
+      "1499": "Normal",
       "1500": "Obscur",
       "1501": "Purifi\u00E9"
     },
     "315": {
-      "1502": "Normale",
+      "1502": "Normal",
       "1503": "Obscur",
       "1504": "Purifi\u00E9"
     },
     "316": {
-      "1505": "Normale",
+      "1505": "Normal",
       "1506": "Obscur",
       "1507": "Purifi\u00E9"
     },
     "317": {
-      "1508": "Normale",
+      "1508": "Normal",
       "1509": "Obscur",
       "1510": "Purifi\u00E9"
     },
     "318": {
       "734": "Normal",
-      "735": "Ombre",
+      "735": "Obscur",
       "736": "Purifi\u00E9"
     },
     "319": {
       "737": "Normal",
-      "738": "Ombre",
+      "738": "Obscur",
       "739": "Purifi\u00E9"
     },
     "320": {
-      "1511": "Normale",
+      "1511": "Normal",
       "1512": "Obscur",
       "1513": "Purifi\u00E9"
     },
     "321": {
-      "1514": "Normale",
+      "1514": "Normal",
       "1515": "Obscur",
       "1516": "Purifi\u00E9"
     },
     "322": {
-      "1517": "Normale",
+      "1517": "Normal",
       "1518": "Obscur",
       "1519": "Purifi\u00E9"
     },
     "323": {
-      "1520": "Normale",
+      "1520": "Normal",
       "1521": "Obscur",
       "1522": "Purifi\u00E9"
     },
     "324": {
-      "1523": "Normale",
+      "1523": "Normal",
       "1524": "Obscur",
       "1525": "Purifi\u00E9"
     },
     "325": {
-      "1526": "Normale",
+      "1526": "Normal",
       "1527": "Obscur",
       "1528": "Purifi\u00E9"
     },
     "326": {
-      "1529": "Normale",
+      "1529": "Normal",
       "1530": "Obscur",
       "1531": "Purifi\u00E9"
     },
@@ -1756,116 +1756,116 @@
     },
     "328": {
       "746": "Normal",
-      "747": "Ombre",
+      "747": "Obscur",
       "748": "Purifi\u00E9"
     },
     "329": {
       "749": "Normal",
-      "750": "Ombre",
+      "750": "Obscur",
       "751": "Purifi\u00E9"
     },
     "330": {
       "752": "Normal",
-      "753": "Ombre",
+      "753": "Obscur",
       "754": "Purifi\u00E9"
     },
     "331": {
       "610": "Normal",
-      "611": "Ombre",
+      "611": "Obscur",
       "612": "Purifi\u00E9"
     },
     "332": {
       "613": "Normal",
-      "614": "Ombre",
+      "614": "Obscur",
       "615": "Purifi\u00E9"
     },
     "333": {
-      "1532": "Normale",
+      "1532": "Normal",
       "1533": "Obscur",
       "1534": "Purifi\u00E9"
     },
     "334": {
-      "1535": "Normale",
+      "1535": "Normal",
       "1536": "Obscur",
       "1537": "Purifi\u00E9"
     },
     "335": {
-      "1538": "Normale",
+      "1538": "Normal",
       "1539": "Obscur",
       "1540": "Purifi\u00E9"
     },
     "336": {
-      "1541": "Normale",
+      "1541": "Normal",
       "1542": "Obscur",
       "1543": "Purifi\u00E9"
     },
     "337": {
-      "1544": "Normale",
+      "1544": "Normal",
       "1545": "Obscur",
       "1546": "Purifi\u00E9"
     },
     "338": {
-      "1547": "Normale",
+      "1547": "Normal",
       "1548": "Obscur",
       "1549": "Purifi\u00E9"
     },
     "339": {
-      "1550": "Normale",
+      "1550": "Normal",
       "1551": "Obscur",
       "1552": "Purifi\u00E9"
     },
     "340": {
-      "1553": "Normale",
+      "1553": "Normal",
       "1554": "Obscur",
       "1555": "Purifi\u00E9"
     },
     "341": {
-      "1556": "Normale",
+      "1556": "Normal",
       "1557": "Obscur",
       "1558": "Purifi\u00E9"
     },
     "342": {
-      "1559": "Normale",
+      "1559": "Normal",
       "1560": "Obscur",
       "1561": "Purifi\u00E9"
     },
     "343": {
-      "1562": "Normale",
+      "1562": "Normal",
       "1563": "Obscur",
       "1564": "Purifi\u00E9"
     },
     "344": {
-      "1565": "Normale",
+      "1565": "Normal",
       "1566": "Obscur",
       "1567": "Purifi\u00E9"
     },
     "345": {
-      "1568": "Normale",
+      "1568": "Normal",
       "1569": "Obscur",
       "1570": "Purifi\u00E9"
     },
     "346": {
-      "1571": "Normale",
+      "1571": "Normal",
       "1572": "Obscur",
       "1573": "Purifi\u00E9"
     },
     "347": {
-      "1574": "Normale",
+      "1574": "Normal",
       "1575": "Obscur",
       "1576": "Purifi\u00E9"
     },
     "348": {
-      "1577": "Normale",
+      "1577": "Normal",
       "1578": "Obscur",
       "1579": "Purifi\u00E9"
     },
     "349": {
-      "1580": "Normale",
+      "1580": "Normal",
       "1581": "Obscur",
       "1582": "Purifi\u00E9"
     },
     "350": {
-      "1583": "Normale",
+      "1583": "Normal",
       "1584": "Obscur",
       "1585": "Purifi\u00E9"
     },
@@ -1876,172 +1876,172 @@
       "032": "Neige"
     },
     "352": {
-      "1586": "Normale",
+      "1586": "Normal",
       "1587": "Obscur",
       "1588": "Purifi\u00E9"
     },
     "353": {
-      "908": "Normale",
+      "908": "Normal",
       "909": "Obscur",
       "910": "Purifi\u00E9"
     },
     "354": {
-      "911": "Normale",
+      "911": "Normal",
       "912": "Obscur",
       "913": "Purifi\u00E9"
     },
     "355": {
-      "914": "Normale",
+      "914": "Normal",
       "915": "Obscur",
       "916": "Purifi\u00E9"
     },
     "356": {
-      "917": "Normale",
+      "917": "Normal",
       "918": "Obscur",
       "919": "Purifi\u00E9"
     },
     "357": {
-      "1589": "Normale",
+      "1589": "Normal",
       "1590": "Obscur",
       "1591": "Purifi\u00E9"
     },
     "358": {
-      "1592": "Normale",
+      "1592": "Normal",
       "1593": "Obscur",
       "1594": "Purifi\u00E9"
     },
     "359": {
       "830": "Normal",
-      "831": "Ombre",
+      "831": "Obscur",
       "832": "Purifi\u00E9"
     },
     "360": {
-      "1595": "Normale",
+      "1595": "Normal",
       "1596": "Obscur",
       "1597": "Purifi\u00E9"
     },
     "361": {
-      "926": "Normale",
+      "926": "Normal",
       "927": "Obscur",
       "928": "Purifi\u00E9"
     },
     "362": {
-      "929": "Normale",
+      "929": "Normal",
       "930": "Obscur",
       "931": "Purifi\u00E9"
     },
     "363": {
-      "1598": "Normale",
+      "1598": "Normal",
       "1599": "Obscur",
       "1600": "Purifi\u00E9"
     },
     "364": {
-      "1601": "Normale",
+      "1601": "Normal",
       "1602": "Obscur",
       "1603": "Purifi\u00E9"
     },
     "365": {
-      "1604": "Normale",
+      "1604": "Normal",
       "1605": "Obscur",
       "1606": "Purifi\u00E9"
     },
     "366": {
-      "1607": "Normale",
+      "1607": "Normal",
       "1608": "Obscur",
       "1609": "Purifi\u00E9"
     },
     "367": {
-      "1610": "Normale",
+      "1610": "Normal",
       "1611": "Obscur",
       "1612": "Purifi\u00E9"
     },
     "368": {
-      "1613": "Normale",
+      "1613": "Normal",
       "1614": "Obscur",
       "1615": "Purifi\u00E9"
     },
     "369": {
-      "1616": "Normale",
+      "1616": "Normal",
       "1617": "Obscur",
       "1618": "Purifi\u00E9"
     },
     "370": {
-      "1619": "Normale",
+      "1619": "Normal",
       "1620": "Obscur",
       "1621": "Purifi\u00E9"
     },
     "371": {
       "755": "Normal",
-      "756": "Ombre",
+      "756": "Obscur",
       "757": "Purifi\u00E9"
     },
     "372": {
       "758": "Normal",
-      "759": "Ombre",
+      "759": "Obscur",
       "760": "Purifi\u00E9"
     },
     "373": {
       "761": "Normal",
-      "762": "Ombre",
+      "762": "Obscur",
       "763": "Purifi\u00E9"
     },
     "374": {
       "764": "Normal",
-      "765": "Ombre",
+      "765": "Obscur",
       "766": "Purifi\u00E9"
     },
     "375": {
       "767": "Normal",
-      "768": "Ombre",
+      "768": "Obscur",
       "769": "Purifi\u00E9"
     },
     "376": {
       "770": "Normal",
-      "771": "Ombre",
+      "771": "Obscur",
       "772": "Purifi\u00E9"
     },
     "377": {
-      "1622": "Normale",
+      "1622": "Normal",
       "1623": "Obscur",
       "1624": "Purifi\u00E9"
     },
     "378": {
-      "1625": "Normale",
+      "1625": "Normal",
       "1626": "Obscur",
       "1627": "Purifi\u00E9"
     },
     "379": {
-      "1628": "Normale",
+      "1628": "Normal",
       "1629": "Obscur",
       "1630": "Purifi\u00E9"
     },
     "380": {
-      "1631": "Normale",
+      "1631": "Normal",
       "1632": "Obscur",
       "1633": "Purifi\u00E9"
     },
     "381": {
-      "1634": "Normale",
+      "1634": "Normal",
       "1635": "Obscur",
       "1636": "Purifi\u00E9"
     },
     "382": {
-      "1637": "Normale",
+      "1637": "Normal",
       "1638": "Obscur",
       "1639": "Purifi\u00E9"
     },
     "383": {
-      "1640": "Normale",
+      "1640": "Normal",
       "1641": "Obscur",
       "1642": "Purifi\u00E9"
     },
     "384": {
-      "1643": "Normale",
+      "1643": "Normal",
       "1644": "Obscur",
       "1645": "Purifi\u00E9"
     },
     "385": {
-      "1646": "Normale",
+      "1646": "Normal",
       "1647": "Obscur",
       "1648": "Purifi\u00E9"
     },
@@ -2053,126 +2053,126 @@
     },
     "387": {
       "688": "Normal",
-      "689": "Ombre",
+      "689": "Obscur",
       "690": "Purifi\u00E9"
     },
     "388": {
       "691": "Normal",
-      "692": "Ombre",
+      "692": "Obscur",
       "693": "Purifi\u00E9"
     },
     "389": {
       "694": "Normal",
-      "695": "Ombre",
+      "695": "Obscur",
       "696": "Purifi\u00E9"
     },
     "390": {
       "818": "Normal",
-      "819": "Ombre",
+      "819": "Obscur",
       "820": "Purifi\u00E9"
     },
     "391": {
       "821": "Normal",
-      "822": "Ombre",
+      "822": "Obscur",
       "823": "Purifi\u00E9"
     },
     "392": {
       "824": "Normal",
-      "825": "Ombre",
+      "825": "Obscur",
       "826": "Purifi\u00E9"
     },
     "393": {
-      "1649": "Normale",
+      "1649": "Normal",
       "1650": "Obscur",
       "1651": "Purifi\u00E9"
     },
     "394": {
-      "1652": "Normale",
+      "1652": "Normal",
       "1653": "Obscur",
       "1654": "Purifi\u00E9"
     },
     "395": {
-      "1655": "Normale",
+      "1655": "Normal",
       "1656": "Obscur",
       "1657": "Purifi\u00E9"
     },
     "396": {
-      "1658": "Normale",
+      "1658": "Normal",
       "1659": "Obscur",
       "1660": "Purifi\u00E9"
     },
     "397": {
-      "1661": "Normale",
+      "1661": "Normal",
       "1662": "Obscur",
       "1663": "Purifi\u00E9"
     },
     "398": {
-      "1664": "Normale",
+      "1664": "Normal",
       "1665": "Obscur",
       "1666": "Purifi\u00E9"
     },
     "399": {
-      "1667": "Normale",
+      "1667": "Normal",
       "1668": "Obscur",
       "1669": "Purifi\u00E9"
     },
     "400": {
-      "1670": "Normale",
+      "1670": "Normal",
       "1671": "Obscur",
       "1672": "Purifi\u00E9"
     },
     "401": {
-      "1673": "Normale",
+      "1673": "Normal",
       "1674": "Obscur",
       "1675": "Purifi\u00E9"
     },
     "402": {
-      "1676": "Normale",
+      "1676": "Normal",
       "1677": "Obscur",
       "1678": "Purifi\u00E9"
     },
     "403": {
-      "1679": "Normale",
+      "1679": "Normal",
       "1680": "Obscur",
       "1681": "Purifi\u00E9"
     },
     "404": {
-      "1682": "Normale",
+      "1682": "Normal",
       "1683": "Obscur",
       "1684": "Purifi\u00E9"
     },
     "405": {
-      "1685": "Normale",
+      "1685": "Normal",
       "1686": "Obscur",
       "1687": "Purifi\u00E9"
     },
     "406": {
-      "1688": "Normale",
+      "1688": "Normal",
       "1689": "Obscur",
       "1690": "Purifi\u00E9"
     },
     "407": {
-      "1691": "Normale",
+      "1691": "Normal",
       "1692": "Obscur",
       "1693": "Purifi\u00E9"
     },
     "408": {
-      "1694": "Normale",
+      "1694": "Normal",
       "1695": "Obscur",
       "1696": "Purifi\u00E9"
     },
     "409": {
-      "1697": "Normale",
+      "1697": "Normal",
       "1698": "Obscur",
       "1699": "Purifi\u00E9"
     },
     "410": {
-      "1700": "Normale",
+      "1700": "Normal",
       "1701": "Obscur",
       "1702": "Purifi\u00E9"
     },
     "411": {
-      "1703": "Normale",
+      "1703": "Normal",
       "1704": "Obscur",
       "1705": "Purifi\u00E9"
     },
@@ -2180,7 +2180,7 @@
       "118": "Plante",
       "119": "Sable",
       "120": "D\u00E9chet",
-      "1706": "Normale",
+      "1706": "Normal",
       "1707": "Obscur",
       "1708": "Purifi\u00E9"
     },
@@ -2188,410 +2188,410 @@
       "087": "Plante",
       "088": "Sable",
       "089": "D\u00E9chet",
-      "1709": "Normale",
+      "1709": "Normal",
       "1710": "Obscur",
       "1711": "Purifi\u00E9"
     },
     "414": {
-      "1712": "Normale",
+      "1712": "Normal",
       "1713": "Obscur",
       "1714": "Purifi\u00E9"
     },
     "415": {
-      "1715": "Normale",
+      "1715": "Normal",
       "1716": "Obscur",
       "1717": "Purifi\u00E9"
     },
     "416": {
-      "1718": "Normale",
+      "1718": "Normal",
       "1719": "Obscur",
       "1720": "Purifi\u00E9"
     },
     "417": {
-      "1721": "Normale",
+      "1721": "Normal",
       "1722": "Obscur",
       "1723": "Purifi\u00E9"
     },
     "418": {
-      "1724": "Normale",
+      "1724": "Normal",
       "1725": "Obscur",
       "1726": "Purifi\u00E9"
     },
     "419": {
-      "1727": "Normale",
+      "1727": "Normal",
       "1728": "Obscur",
       "1729": "Purifi\u00E9"
     },
     "420": {
-      "1730": "Normale",
+      "1730": "Normal",
       "1731": "Obscur",
       "1732": "Purifi\u00E9"
     },
     "421": {
       "094": "Couvert",
       "095": "Ensoleill\u00E9",
-      "1733": "Normale",
+      "1733": "Normal",
       "1734": "Obscur",
       "1735": "Purifi\u00E9"
     },
     "422": {
       "096": "Mer Occident",
       "097": "Mer Orient",
-      "1736": "Normale",
+      "1736": "Normal",
       "1737": "Obscur",
       "1738": "Purifi\u00E9"
     },
     "423": {
       "098": "Mer Occident",
       "099": "Mer Orient",
-      "1739": "Normale",
+      "1739": "Normal",
       "1740": "Obscur",
       "1741": "Purifi\u00E9"
     },
     "424": {
-      "1742": "Normale",
+      "1742": "Normal",
       "1743": "Obscur",
       "1744": "Purifi\u00E9"
     },
     "425": {
-      "1745": "Normale",
+      "1745": "Normal",
       "1746": "Obscur",
       "1747": "Purifi\u00E9"
     },
     "426": {
-      "1748": "Normale",
+      "1748": "Normal",
       "1749": "Obscur",
       "1750": "Purifi\u00E9"
     },
     "427": {
-      "1751": "Normale",
+      "1751": "Normal",
       "1752": "Obscur",
       "1753": "Purifi\u00E9"
     },
     "428": {
-      "1754": "Normale",
+      "1754": "Normal",
       "1755": "Obscur",
       "1756": "Purifi\u00E9"
     },
     "429": {
       "722": "Normal",
-      "723": "Ombre",
+      "723": "Obscur",
       "724": "Purifi\u00E9"
     },
     "430": {
-      "858": "Normale",
+      "858": "Normal",
       "859": "Obscur",
       "860": "Purifi\u00E9"
     },
     "431": {
-      "1757": "Normale",
+      "1757": "Normal",
       "1758": "Obscur",
       "1759": "Purifi\u00E9"
     },
     "432": {
-      "1760": "Normale",
+      "1760": "Normal",
       "1761": "Obscur",
       "1762": "Purifi\u00E9"
     },
     "433": {
-      "1763": "Normale",
+      "1763": "Normal",
       "1764": "Obscur",
       "1765": "Purifi\u00E9"
     },
     "434": {
       "791": "Normal",
-      "792": "Ombre",
+      "792": "Obscur",
       "793": "Purifi\u00E9"
     },
     "435": {
       "794": "Normal",
-      "795": "Ombre",
+      "795": "Obscur",
       "796": "Purifi\u00E9"
     },
     "436": {
-      "1766": "Normale",
+      "1766": "Normal",
       "1767": "Obscur",
       "1768": "Purifi\u00E9"
     },
     "437": {
-      "1769": "Normale",
+      "1769": "Normal",
       "1770": "Obscur",
       "1771": "Purifi\u00E9"
     },
     "438": {
-      "1772": "Normale",
+      "1772": "Normal",
       "1773": "Obscur",
       "1774": "Purifi\u00E9"
     },
     "440": {
-      "1778": "Normale",
+      "1778": "Normal",
       "1779": "Obscur",
       "1780": "Purifi\u00E9"
     },
     "441": {
-      "1781": "Normale",
+      "1781": "Normal",
       "1782": "Obscur",
       "1783": "Purifi\u00E9"
     },
     "442": {
-      "1784": "Normale",
+      "1784": "Normal",
       "1785": "Obscur",
       "1786": "Purifi\u00E9"
     },
     "443": {
-      "861": "Normale",
+      "861": "Normal",
       "862": "Obscur",
       "863": "Purifi\u00E9"
     },
     "444": {
-      "864": "Normale",
+      "864": "Normal",
       "865": "Obscur",
       "866": "Purifi\u00E9"
     },
     "445": {
-      "867": "Normale",
+      "867": "Normal",
       "868": "Obscur",
       "869": "Purifi\u00E9"
     },
     "446": {
-      "1787": "Normale",
+      "1787": "Normal",
       "1788": "Obscur",
       "1789": "Purifi\u00E9"
     },
     "447": {
-      "1790": "Normale",
+      "1790": "Normal",
       "1791": "Obscur",
       "1792": "Purifi\u00E9"
     },
     "448": {
-      "1793": "Normale",
+      "1793": "Normal",
       "1794": "Obscur",
       "1795": "Purifi\u00E9"
     },
     "449": {
-      "888": "Normale",
+      "888": "Normal",
       "889": "Obscur",
       "890": "Purifi\u00E9"
     },
     "450": {
-      "891": "Normale",
+      "891": "Normal",
       "892": "Obscur",
       "893": "Purifi\u00E9"
     },
     "451": {
-      "1796": "Normale",
+      "1796": "Normal",
       "1797": "Obscur",
       "1798": "Purifi\u00E9"
     },
     "452": {
-      "1799": "Normale",
+      "1799": "Normal",
       "1800": "Obscur",
       "1801": "Purifi\u00E9"
     },
     "453": {
-      "1802": "Normale",
+      "1802": "Normal",
       "1803": "Obscur",
       "1804": "Purifi\u00E9"
     },
     "454": {
-      "1805": "Normale",
+      "1805": "Normal",
       "1806": "Obscur",
       "1807": "Purifi\u00E9"
     },
     "455": {
-      "1808": "Normale",
+      "1808": "Normal",
       "1809": "Obscur",
       "1810": "Purifi\u00E9"
     },
     "456": {
-      "1811": "Normale",
+      "1811": "Normal",
       "1812": "Obscur",
       "1813": "Purifi\u00E9"
     },
     "457": {
-      "1814": "Normale",
+      "1814": "Normal",
       "1815": "Obscur",
       "1816": "Purifi\u00E9"
     },
     "458": {
-      "1817": "Normale",
+      "1817": "Normal",
       "1818": "Obscur",
       "1819": "Purifi\u00E9"
     },
     "459": {
-      "932": "Normale",
+      "932": "Normal",
       "933": "Obscur",
       "934": "Purifi\u00E9"
     },
     "460": {
-      "935": "Normale",
+      "935": "Normal",
       "936": "Obscur",
       "937": "Purifi\u00E9"
     },
     "461": {
       "800": "Normal",
-      "801": "Ombre",
+      "801": "Obscur",
       "802": "Purifi\u00E9"
     },
     "462": {
       "661": "Normal",
-      "662": "Ombre",
+      "662": "Obscur",
       "663": "Purifi\u00E9"
     },
     "463": {
-      "1820": "Normale",
+      "1820": "Normal",
       "1821": "Obscur",
       "1822": "Purifi\u00E9"
     },
     "464": {
-      "852": "Normale",
+      "852": "Normal",
       "853": "Obscur",
       "854": "Purifi\u00E9"
     },
     "465": {
-      "1823": "Normale",
+      "1823": "Normal",
       "1824": "Obscur",
       "1825": "Purifi\u00E9"
     },
     "466": {
       "643": "Normal",
-      "644": "Ombre",
+      "644": "Obscur",
       "645": "Purifi\u00E9"
     },
     "467": {
       "637": "Normal",
-      "638": "Ombre",
+      "638": "Obscur",
       "639": "Purifi\u00E9"
     },
     "468": {
-      "1826": "Normale",
+      "1826": "Normal",
       "1827": "Obscur",
       "1828": "Purifi\u00E9"
     },
     "469": {
-      "1829": "Normale",
+      "1829": "Normal",
       "1830": "Obscur",
       "1831": "Purifi\u00E9"
     },
     "470": {
-      "1832": "Normale",
+      "1832": "Normal",
       "1833": "Obscur",
       "1834": "Purifi\u00E9"
     },
     "471": {
-      "1835": "Normale",
+      "1835": "Normal",
       "1836": "Obscur",
       "1837": "Purifi\u00E9"
     },
     "472": {
       "806": "Normal",
-      "807": "Ombre",
+      "807": "Obscur",
       "808": "Purifi\u00E9"
     },
     "473": {
-      "1838": "Normale",
+      "1838": "Normal",
       "1839": "Obscur",
       "1840": "Purifi\u00E9"
     },
     "474": {
       "683": "Normal",
-      "684": "Ombre",
+      "684": "Obscur",
       "685": "Purifi\u00E9"
     },
     "475": {
       "301": "Normal",
-      "302": "Ombre",
+      "302": "Obscur",
       "303": "Purifi\u00E9"
     },
     "476": {
-      "1841": "Normale",
+      "1841": "Normal",
       "1842": "Obscur",
       "1843": "Purifi\u00E9"
     },
     "477": {
-      "920": "Normale",
+      "920": "Normal",
       "921": "Obscur",
       "922": "Purifi\u00E9"
     },
     "478": {
-      "1844": "Normale",
+      "1844": "Normal",
       "1845": "Obscur",
       "1846": "Purifi\u00E9"
     },
     "479": {
       "081": "Normal",
       "082": "Froid",
-      "083": "Helice",
+      "083": "H\u00e9lice",
       "084": "Tonte",
       "085": "Lavage",
       "086": "Chaleur"
     },
     "480": {
-      "1847": "Normale",
+      "1847": "Normal",
       "1848": "Obscur",
       "1849": "Purifi\u00E9"
     },
     "481": {
-      "1850": "Normale",
+      "1850": "Normal",
       "1851": "Obscur",
       "1852": "Purifi\u00E9"
     },
     "482": {
-      "1853": "Normale",
+      "1853": "Normal",
       "1854": "Obscur",
       "1855": "Purifi\u00E9"
     },
     "483": {
-      "1856": "Normale",
+      "1856": "Normal",
       "1857": "Obscur",
       "1858": "Purifi\u00E9"
     },
     "484": {
-      "1859": "Normale",
+      "1859": "Normal",
       "1860": "Obscur",
       "1861": "Purifi\u00E9"
     },
     "485": {
-      "1862": "Normale",
+      "1862": "Normal",
       "1863": "Obscur",
       "1864": "Purifi\u00E9"
     },
     "486": {
-      "1865": "Normale",
+      "1865": "Normal",
       "1866": "Obscur",
       "1867": "Purifi\u00E9"
     },
     "487": {
       "090": "Altered",
       "091": "Origin",
-      "1868": "Normale",
+      "1868": "Normal",
       "1869": "Obscur",
       "1870": "Purifi\u00E9"
     },
     "488": {
-      "1871": "Normale",
+      "1871": "Normal",
       "1872": "Obscur",
       "1873": "Purifi\u00E9"
     },
     "489": {
-      "1874": "Normale",
+      "1874": "Normal",
       "1875": "Obscur",
       "1876": "Purifi\u00E9"
     },
     "490": {
-      "1877": "Normale",
+      "1877": "Normal",
       "1878": "Obscur",
       "1879": "Purifi\u00E9"
     },
     "491": {
-      "1880": "Normale",
+      "1880": "Normal",
       "1881": "Obscur",
       "1882": "Purifi\u00E9"
     },
     "492": {
-      "092": "Ciel",
-      "093": "Terre",
-      "1883": "Normale",
+      "092": "C\u00e9leste",
+      "093": "Terrestre",
+      "1883": "Normal",
       "1884": "Obscur",
       "1885": "Purifi\u00E9"
     },
@@ -2608,7 +2608,7 @@
       "109": "Feu",
       "110": "Eau",
       "111": "Plante",
-      "112": "Electric",
+      "112": "Electrik",
       "113": "Psy",
       "114": "Glace",
       "115": "Dragon",
@@ -2616,282 +2616,282 @@
       "117": "F\u00E9e"
     },
     "494": {
-      "1886": "Normale",
+      "1886": "Normal",
       "1887": "Obscur",
       "1888": "Purifi\u00E9"
     },
     "495": {
-      "1889": "Normale",
+      "1889": "Normal",
       "1890": "Obscur",
       "1891": "Purifi\u00E9"
     },
     "496": {
-      "1892": "Normale",
+      "1892": "Normal",
       "1893": "Obscur",
       "1894": "Purifi\u00E9"
     },
     "497": {
-      "1895": "Normale",
+      "1895": "Normal",
       "1896": "Obscur",
       "1897": "Purifi\u00E9"
     },
     "498": {
-      "1898": "Normale",
+      "1898": "Normal",
       "1899": "Obscur",
       "1900": "Purifi\u00E9"
     },
     "499": {
-      "1901": "Normale",
+      "1901": "Normal",
       "1902": "Obscur",
       "1903": "Purifi\u00E9"
     },
     "500": {
-      "1904": "Normale",
+      "1904": "Normal",
       "1905": "Obscur",
       "1906": "Purifi\u00E9"
     },
     "501": {
-      "1907": "Normale",
+      "1907": "Normal",
       "1908": "Obscur",
       "1909": "Purifi\u00E9"
     },
     "502": {
-      "1910": "Normale",
+      "1910": "Normal",
       "1911": "Obscur",
       "1912": "Purifi\u00E9"
     },
     "503": {
-      "1913": "Normale",
+      "1913": "Normal",
       "1914": "Obscur",
       "1915": "Purifi\u00E9"
     },
     "504": {
-      "1916": "Normale",
+      "1916": "Normal",
       "1917": "Obscur",
       "1918": "Purifi\u00E9"
     },
     "505": {
-      "1919": "Normale",
+      "1919": "Normal",
       "1920": "Obscur",
       "1921": "Purifi\u00E9"
     },
     "506": {
-      "1922": "Normale",
+      "1922": "Normal",
       "1923": "Obscur",
       "1924": "Purifi\u00E9"
     },
     "507": {
-      "1925": "Normale",
+      "1925": "Normal",
       "1926": "Obscur",
       "1927": "Purifi\u00E9"
     },
     "508": {
-      "1928": "Normale",
+      "1928": "Normal",
       "1929": "Obscur",
       "1930": "Purifi\u00E9"
     },
     "509": {
-      "1931": "Normale",
+      "1931": "Normal",
       "1932": "Obscur",
       "1933": "Purifi\u00E9"
     },
     "510": {
-      "1934": "Normale",
+      "1934": "Normal",
       "1935": "Obscur",
       "1936": "Purifi\u00E9"
     },
     "511": {
-      "1937": "Normale",
+      "1937": "Normal",
       "1938": "Obscur",
       "1939": "Purifi\u00E9"
     },
     "512": {
-      "1940": "Normale",
+      "1940": "Normal",
       "1941": "Obscur",
       "1942": "Purifi\u00E9"
     },
     "513": {
-      "1943": "Normale",
+      "1943": "Normal",
       "1944": "Obscur",
       "1945": "Purifi\u00E9"
     },
     "514": {
-      "1946": "Normale",
+      "1946": "Normal",
       "1947": "Obscur",
       "1948": "Purifi\u00E9"
     },
     "515": {
-      "1949": "Normale",
+      "1949": "Normal",
       "1950": "Obscur",
       "1951": "Purifi\u00E9"
     },
     "516": {
-      "1952": "Normale",
+      "1952": "Normal",
       "1953": "Obscur",
       "1954": "Purifi\u00E9"
     },
     "517": {
-      "1955": "Normale",
+      "1955": "Normal",
       "1956": "Obscur",
       "1957": "Purifi\u00E9"
     },
     "518": {
-      "1958": "Normale",
+      "1958": "Normal",
       "1959": "Obscur",
       "1960": "Purifi\u00E9"
     },
     "519": {
-      "1961": "Normale",
+      "1961": "Normal",
       "1962": "Obscur",
       "1963": "Purifi\u00E9"
     },
     "520": {
-      "1964": "Normale",
+      "1964": "Normal",
       "1965": "Obscur",
       "1966": "Purifi\u00E9"
     },
     "521": {
-      "1967": "Normale",
+      "1967": "Normal",
       "1968": "Obscur",
       "1969": "Purifi\u00E9"
     },
     "522": {
-      "1970": "Normale",
+      "1970": "Normal",
       "1971": "Obscur",
       "1972": "Purifi\u00E9"
     },
     "523": {
-      "1973": "Normale",
+      "1973": "Normal",
       "1974": "Obscur",
       "1975": "Purifi\u00E9"
     },
     "524": {
-      "1976": "Normale",
+      "1976": "Normal",
       "1977": "Obscur",
       "1978": "Purifi\u00E9"
     },
     "525": {
-      "1979": "Normale",
+      "1979": "Normal",
       "1980": "Obscur",
       "1981": "Purifi\u00E9"
     },
     "526": {
-      "1982": "Normale",
+      "1982": "Normal",
       "1983": "Obscur",
       "1984": "Purifi\u00E9"
     },
     "527": {
-      "1985": "Normale",
+      "1985": "Normal",
       "1986": "Obscur",
       "1987": "Purifi\u00E9"
     },
     "528": {
-      "1988": "Normale",
+      "1988": "Normal",
       "1989": "Obscur",
       "1990": "Purifi\u00E9"
     },
     "529": {
-      "1991": "Normale",
+      "1991": "Normal",
       "1992": "Obscur",
       "1993": "Purifi\u00E9"
     },
     "530": {
-      "1994": "Normale",
+      "1994": "Normal",
       "1995": "Obscur",
       "1996": "Purifi\u00E9"
     },
     "531": {
-      "1997": "Normale",
+      "1997": "Normal",
       "1998": "Obscur",
       "1999": "Purifi\u00E9"
     },
     "532": {
-      "2000": "Normale",
+      "2000": "Normal",
       "2001": "Obscur",
       "2002": "Purifi\u00E9"
     },
     "533": {
-      "2003": "Normale",
+      "2003": "Normal",
       "2004": "Obscur",
       "2005": "Purifi\u00E9"
     },
     "534": {
-      "2006": "Normale",
+      "2006": "Normal",
       "2007": "Obscur",
       "2008": "Purifi\u00E9"
     },
     "535": {
-      "2009": "Normale",
+      "2009": "Normal",
       "2010": "Obscur",
       "2011": "Purifi\u00E9"
     },
     "536": {
-      "2012": "Normale",
+      "2012": "Normal",
       "2013": "Obscur",
       "2014": "Purifi\u00E9"
     },
     "537": {
-      "2015": "Normale",
+      "2015": "Normal",
       "2016": "Obscur",
       "2017": "Purifi\u00E9"
     },
     "538": {
-      "2018": "Normale",
+      "2018": "Normal",
       "2019": "Obscur",
       "2020": "Purifi\u00E9"
     },
     "539": {
-      "2021": "Normale",
+      "2021": "Normal",
       "2022": "Obscur",
       "2023": "Purifi\u00E9"
     },
     "540": {
-      "2024": "Normale",
+      "2024": "Normal",
       "2025": "Obscur",
       "2026": "Purifi\u00E9"
     },
     "541": {
-      "2027": "Normale",
+      "2027": "Normal",
       "2028": "Obscur",
       "2029": "Purifi\u00E9"
     },
     "542": {
-      "2030": "Normale",
+      "2030": "Normal",
       "2031": "Obscur",
       "2032": "Purifi\u00E9"
     },
     "543": {
-      "2033": "Normale",
+      "2033": "Normal",
       "2034": "Obscur",
       "2035": "Purifi\u00E9"
     },
     "544": {
-      "2036": "Normale",
+      "2036": "Normal",
       "2037": "Obscur",
       "2038": "Purifi\u00E9"
     },
     "545": {
-      "2039": "Normale",
+      "2039": "Normal",
       "2040": "Obscur",
       "2041": "Purifi\u00E9"
     },
     "546": {
-      "2042": "Normale",
+      "2042": "Normal",
       "2043": "Obscur",
       "2044": "Purifi\u00E9"
     },
     "547": {
-      "2045": "Normale",
+      "2045": "Normal",
       "2046": "Obscur",
       "2047": "Purifi\u00E9"
     },
     "548": {
-      "2048": "Normale",
+      "2048": "Normal",
       "2049": "Obscur",
       "2050": "Purifi\u00E9"
     },
     "549": {
-      "2051": "Normale",
+      "2051": "Normal",
       "2052": "Obscur",
       "2053": "Purifi\u00E9"
     },
@@ -2900,526 +2900,526 @@
       "137": "Blue Striped"
     },
     "551": {
-      "2054": "Normale",
+      "2054": "Normal",
       "2055": "Obscur",
       "2056": "Purifi\u00E9"
     },
     "552": {
-      "2057": "Normale",
+      "2057": "Normal",
       "2058": "Obscur",
       "2059": "Purifi\u00E9"
     },
     "553": {
-      "2060": "Normale",
+      "2060": "Normal",
       "2061": "Obscur",
       "2062": "Purifi\u00E9"
     },
     "554": {
-      "2063": "Normale",
+      "2063": "Normal",
       "2064": "Obscur",
       "2065": "Purifi\u00E9",
-      "2341": "Galarian"
+      "2341": "Galar"
     },
     "555": {
-      "138": "Standard",
-      "139": "Zen",
-      "2342": "Galarian Standard",
-      "2343": "Galarian Zen"
+      "138": "Normal",
+      "139": "Transe",
+      "2342": "Galar Normal",
+      "2343": "Galar Transe"
     },
     "556": {
-      "2066": "Normale",
+      "2066": "Normal",
       "2067": "Obscur",
       "2068": "Purifi\u00E9"
     },
     "557": {
-      "2069": "Normale",
+      "2069": "Normal",
       "2070": "Obscur",
       "2071": "Purifi\u00E9"
     },
     "558": {
-      "2072": "Normale",
+      "2072": "Normal",
       "2073": "Obscur",
       "2074": "Purifi\u00E9"
     },
     "559": {
-      "2075": "Normale",
+      "2075": "Normal",
       "2076": "Obscur",
       "2077": "Purifi\u00E9"
     },
     "560": {
-      "2078": "Normale",
+      "2078": "Normal",
       "2079": "Obscur",
       "2080": "Purifi\u00E9"
     },
     "561": {
-      "2081": "Normale",
+      "2081": "Normal",
       "2082": "Obscur",
       "2083": "Purifi\u00E9"
     },
     "562": {
-      "2084": "Normale",
+      "2084": "Normal",
       "2085": "Obscur",
       "2086": "Purifi\u00E9"
     },
     "563": {
-      "2087": "Normale",
+      "2087": "Normal",
       "2088": "Obscur",
       "2089": "Purifi\u00E9"
     },
     "564": {
-      "2090": "Normale",
+      "2090": "Normal",
       "2091": "Obscur",
       "2092": "Purifi\u00E9"
     },
     "565": {
-      "2093": "Normale",
+      "2093": "Normal",
       "2094": "Obscur",
       "2095": "Purifi\u00E9"
     },
     "566": {
-      "2096": "Normale",
+      "2096": "Normal",
       "2097": "Obscur",
       "2098": "Purifi\u00E9"
     },
     "567": {
-      "2099": "Normale",
+      "2099": "Normal",
       "2100": "Obscur",
       "2101": "Purifi\u00E9"
     },
     "568": {
-      "2102": "Normale",
+      "2102": "Normal",
       "2103": "Obscur",
       "2104": "Purifi\u00E9"
     },
     "569": {
-      "2105": "Normale",
+      "2105": "Normal",
       "2106": "Obscur",
       "2107": "Purifi\u00E9"
     },
     "570": {
-      "2108": "Normale",
+      "2108": "Normal",
       "2109": "Obscur",
       "2110": "Purifi\u00E9"
     },
     "571": {
-      "2111": "Normale",
+      "2111": "Normal",
       "2112": "Obscur",
       "2113": "Purifi\u00E9"
     },
     "572": {
-      "2114": "Normale",
+      "2114": "Normal",
       "2115": "Obscur",
       "2116": "Purifi\u00E9"
     },
     "573": {
-      "2117": "Normale",
+      "2117": "Normal",
       "2118": "Obscur",
       "2119": "Purifi\u00E9"
     },
     "574": {
-      "2120": "Normale",
+      "2120": "Normal",
       "2121": "Obscur",
       "2122": "Purifi\u00E9"
     },
     "575": {
-      "2123": "Normale",
+      "2123": "Normal",
       "2124": "Obscur",
       "2125": "Purifi\u00E9"
     },
     "576": {
-      "2126": "Normale",
+      "2126": "Normal",
       "2127": "Obscur",
       "2128": "Purifi\u00E9"
     },
     "577": {
-      "2129": "Normale",
+      "2129": "Normal",
       "2130": "Obscur",
       "2131": "Purifi\u00E9"
     },
     "578": {
-      "2132": "Normale",
+      "2132": "Normal",
       "2133": "Obscur",
       "2134": "Purifi\u00E9"
     },
     "579": {
-      "2135": "Normale",
+      "2135": "Normal",
       "2136": "Obscur",
       "2137": "Purifi\u00E9"
     },
     "580": {
-      "2138": "Normale",
+      "2138": "Normal",
       "2139": "Obscur",
       "2140": "Purifi\u00E9"
     },
     "581": {
-      "2141": "Normale",
+      "2141": "Normal",
       "2142": "Obscur",
       "2143": "Purifi\u00E9"
     },
     "582": {
-      "2144": "Normale",
+      "2144": "Normal",
       "2145": "Obscur",
       "2146": "Purifi\u00E9"
     },
     "583": {
-      "2147": "Normale",
+      "2147": "Normal",
       "2148": "Obscur",
       "2149": "Purifi\u00E9"
     },
     "584": {
-      "2150": "Normale",
+      "2150": "Normal",
       "2151": "Obscur",
       "2152": "Purifi\u00E9"
     },
     "585": {
-      "585": "Spring",
-      "586": "Summer",
-      "587": "Autumn",
-      "588": "Winter"
+      "585": "Printemps",
+      "586": "\u00c9t\u00e9",
+      "587": "Automne",
+      "588": "Hiver"
     },
     "586": {
-      "589": "Spring",
-      "590": "Summer",
-      "591": "Autumn",
-      "592": "Winter"
+      "589": "Printemps",
+      "590": "\u00c9t\u00e9",
+      "591": "Automne",
+      "592": "Hiver"
     },
     "587": {
-      "2153": "Normale",
+      "2153": "Normal",
       "2154": "Obscur",
       "2155": "Purifi\u00E9"
     },
     "588": {
-      "2156": "Normale",
+      "2156": "Normal",
       "2157": "Obscur",
       "2158": "Purifi\u00E9"
     },
     "589": {
-      "2159": "Normale",
+      "2159": "Normal",
       "2160": "Obscur",
       "2161": "Purifi\u00E9"
     },
     "590": {
-      "2162": "Normale",
+      "2162": "Normal",
       "2163": "Obscur",
       "2164": "Purifi\u00E9"
     },
     "591": {
-      "2165": "Normale",
+      "2165": "Normal",
       "2166": "Obscur",
       "2167": "Purifi\u00E9"
     },
     "592": {
-      "2168": "Normale",
+      "2168": "Normal",
       "2169": "Obscur",
       "2170": "Purifi\u00E9",
       "2330": "Femelle"
     },
     "593": {
-      "2171": "Normale",
+      "2171": "Normal",
       "2172": "Obscur",
       "2173": "Purifi\u00E9",
       "2331": "Femelle"
     },
     "594": {
-      "2174": "Normale",
+      "2174": "Normal",
       "2175": "Obscur",
       "2176": "Purifi\u00E9"
     },
     "595": {
-      "2177": "Normale",
+      "2177": "Normal",
       "2178": "Obscur",
       "2179": "Purifi\u00E9"
     },
     "596": {
-      "2180": "Normale",
+      "2180": "Normal",
       "2181": "Obscur",
       "2182": "Purifi\u00E9"
     },
     "597": {
-      "2183": "Normale",
+      "2183": "Normal",
       "2184": "Obscur",
       "2185": "Purifi\u00E9"
     },
     "598": {
-      "2186": "Normale",
+      "2186": "Normal",
       "2187": "Obscur",
       "2188": "Purifi\u00E9"
     },
     "599": {
-      "2189": "Normale",
+      "2189": "Normal",
       "2190": "Obscur",
       "2191": "Purifi\u00E9"
     },
     "600": {
-      "2192": "Normale",
+      "2192": "Normal",
       "2193": "Obscur",
       "2194": "Purifi\u00E9"
     },
     "601": {
-      "2195": "Normale",
+      "2195": "Normal",
       "2196": "Obscur",
       "2197": "Purifi\u00E9"
     },
     "602": {
-      "2198": "Normale",
+      "2198": "Normal",
       "2199": "Obscur",
       "2200": "Purifi\u00E9"
     },
     "603": {
-      "2201": "Normale",
+      "2201": "Normal",
       "2202": "Obscur",
       "2203": "Purifi\u00E9"
     },
     "604": {
-      "2204": "Normale",
+      "2204": "Normal",
       "2205": "Obscur",
       "2206": "Purifi\u00E9"
     },
     "605": {
-      "2207": "Normale",
+      "2207": "Normal",
       "2208": "Obscur",
       "2209": "Purifi\u00E9"
     },
     "606": {
-      "2210": "Normale",
+      "2210": "Normal",
       "2211": "Obscur",
       "2212": "Purifi\u00E9"
     },
     "607": {
-      "2213": "Normale",
+      "2213": "Normal",
       "2214": "Obscur",
       "2215": "Purifi\u00E9"
     },
     "608": {
-      "2216": "Normale",
+      "2216": "Normal",
       "2217": "Obscur",
       "2218": "Purifi\u00E9"
     },
     "609": {
-      "2219": "Normale",
+      "2219": "Normal",
       "2220": "Obscur",
       "2221": "Purifi\u00E9"
     },
     "610": {
-      "2222": "Normale",
+      "2222": "Normal",
       "2223": "Obscur",
       "2224": "Purifi\u00E9"
     },
     "611": {
-      "2225": "Normale",
+      "2225": "Normal",
       "2226": "Obscur",
       "2227": "Purifi\u00E9"
     },
     "612": {
-      "2228": "Normale",
+      "2228": "Normal",
       "2229": "Obscur",
       "2230": "Purifi\u00E9"
     },
     "613": {
-      "2231": "Normale",
+      "2231": "Normal",
       "2232": "Obscur",
       "2233": "Purifi\u00E9"
     },
     "614": {
-      "2234": "Normale",
+      "2234": "Normal",
       "2235": "Obscur",
       "2236": "Purifi\u00E9"
     },
     "615": {
-      "2237": "Normale",
+      "2237": "Normal",
       "2238": "Obscur",
       "2239": "Purifi\u00E9"
     },
     "616": {
-      "2240": "Normale",
+      "2240": "Normal",
       "2241": "Obscur",
       "2242": "Purifi\u00E9"
     },
     "617": {
-      "2243": "Normale",
+      "2243": "Normal",
       "2244": "Obscur",
       "2245": "Purifi\u00E9"
     },
     "618": {
-      "2246": "Normale",
+      "2246": "Normal",
       "2247": "Obscur",
       "2248": "Purifi\u00E9",
-      "2345": "Galarian"
+      "2345": "Galar"
     },
     "619": {
-      "2249": "Normale",
+      "2249": "Normal",
       "2250": "Obscur",
       "2251": "Purifi\u00E9"
     },
     "620": {
-      "2252": "Normale",
+      "2252": "Normal",
       "2253": "Obscur",
       "2254": "Purifi\u00E9"
     },
     "621": {
-      "2255": "Normale",
+      "2255": "Normal",
       "2256": "Obscur",
       "2257": "Purifi\u00E9"
     },
     "622": {
-      "2258": "Normale",
+      "2258": "Normal",
       "2259": "Obscur",
       "2260": "Purifi\u00E9"
     },
     "623": {
-      "2261": "Normale",
+      "2261": "Normal",
       "2262": "Obscur",
       "2263": "Purifi\u00E9"
     },
     "624": {
-      "2264": "Normale",
+      "2264": "Normal",
       "2265": "Obscur",
       "2266": "Purifi\u00E9"
     },
     "625": {
-      "2267": "Normale",
+      "2267": "Normal",
       "2268": "Obscur",
       "2269": "Purifi\u00E9"
     },
     "626": {
-      "2270": "Normale",
+      "2270": "Normal",
       "2271": "Obscur",
       "2272": "Purifi\u00E9"
     },
     "627": {
-      "2273": "Normale",
+      "2273": "Normal",
       "2274": "Obscur",
       "2275": "Purifi\u00E9"
     },
     "628": {
-      "2276": "Normale",
+      "2276": "Normal",
       "2277": "Obscur",
       "2278": "Purifi\u00E9"
     },
     "629": {
-      "2279": "Normale",
+      "2279": "Normal",
       "2280": "Obscur",
       "2281": "Purifi\u00E9"
     },
     "630": {
-      "2282": "Normale",
+      "2282": "Normal",
       "2283": "Obscur",
       "2284": "Purifi\u00E9"
     },
     "631": {
-      "2285": "Normale",
+      "2285": "Normal",
       "2286": "Obscur",
       "2287": "Purifi\u00E9"
     },
     "632": {
-      "2288": "Normale",
+      "2288": "Normal",
       "2289": "Obscur",
       "2290": "Purifi\u00E9"
     },
     "633": {
-      "2291": "Normale",
+      "2291": "Normal",
       "2292": "Obscur",
       "2293": "Purifi\u00E9"
     },
     "634": {
-      "2294": "Normale",
+      "2294": "Normal",
       "2295": "Obscur",
       "2296": "Purifi\u00E9"
     },
     "635": {
-      "2297": "Normale",
+      "2297": "Normal",
       "2298": "Obscur",
       "2299": "Purifi\u00E9"
     },
     "636": {
-      "2300": "Normale",
+      "2300": "Normal",
       "2301": "Obscur",
       "2302": "Purifi\u00E9"
     },
     "637": {
-      "2303": "Normale",
+      "2303": "Normal",
       "2304": "Obscur",
       "2305": "Purifi\u00E9"
     },
     "638": {
-      "2306": "Normale",
+      "2306": "Normal",
       "2307": "Obscur",
       "2308": "Purifi\u00E9"
     },
     "639": {
-      "2309": "Normale",
+      "2309": "Normal",
       "2310": "Obscur",
       "2311": "Purifi\u00E9"
     },
     "640": {
-      "2312": "Normale",
+      "2312": "Normal",
       "2313": "Obscur",
       "2314": "Purifi\u00E9"
     },
     "641": {
-      "140": "Incarnate",
-      "141": "Therian"
+      "140": "Avatar",
+      "141": "Tot\u00e9mique"
     },
     "642": {
-      "142": "Incarnate",
-      "143": "Therian"
+      "142": "Avatar",
+      "143": "Tot\u00e9mique"
     },
     "643": {
-      "2315": "Normale",
+      "2315": "Normal",
       "2316": "Obscur",
       "2317": "Purifi\u00E9"
     },
     "644": {
-      "2318": "Normale",
+      "2318": "Normal",
       "2319": "Obscur",
       "2320": "Purifi\u00E9"
     },
     "645": {
-      "144": "Incarnate",
-      "145": "Therian"
+      "144": "Avatar",
+      "145": "Tot\u00e9mique"
     },
     "646": {
-      "146": "Normale",
-      "147": "Black",
-      "148": "White"
+      "146": "Normal",
+      "147": "Noir",
+      "148": "Blanc"
     },
     "647": {
-      "149": "Ordinary",
-      "150": "Resolute"
+      "149": "Normal",
+      "150": "D\u00e9cid\u00e9"
     },
     "648": {
-      "151": "Aria",
-      "152": "Pirouette"
+      "151": "Chant",
+      "152": "Danse"
     },
     "649": {
-      "593": "Normale",
-      "594": "Shock",
-      "595": "Burn",
-      "596": "Chill",
-      "597": "Douse"
+      "593": "Normal",
+      "594": "Choc",
+      "595": "Pyro",
+      "596": "Cryo",
+      "597": "Aqua"
     },
     "66": {
       "809": "Normal",
-      "810": "Ombre",
+      "810": "Obscur",
       "811": "Purifi\u00E9"
     },
     "67": {
       "812": "Normal",
-      "813": "Ombre",
+      "813": "Obscur",
       "814": "Purifi\u00E9"
     },
     "68": {
       "815": "Normal",
-      "816": "Ombre",
+      "816": "Obscur",
       "817": "Purifi\u00E9"
     },
     "808": {
-      "2321": "Normale",
+      "2321": "Normal",
       "2322": "Obscur",
       "2323": "Purifi\u00E9"
     },
     "809": {
-      "2324": "Normale",
+      "2324": "Normal",
       "2325": "Obscur",
       "2326": "Purifi\u00E9"
     }
@@ -3465,18 +3465,19 @@
     "038": "Eau",
     "039": "Eau",
     "040": "",
-    "041": "Cliff ex\u00E9cutif",
-    "042": "Arlo ex\u00E9cutif",
-    "043": "Sierra ex\u00E9cutif",
+    "041": "Chef Cliff",
+    "042": "Chef Arlo",
+    "043": "Chef Sierra",
     "044": "Giovanni",
     "045": "Leurre",
     "046": "Leurre",
     "047": "Spectre",
     "048": "Spectre",
-    "049": "\u00e9lectrique",
-    "050": "\u00e9lectrique"
+    "049": "\u00e9lectrik",
+    "050": "\u00e9lectrik"
   },
   "items": {
+    "0000": "Inconnu",
     "0001": "Pok\u00E9 Ball",
     "0002": "Super Ball",
     "0003": "Hyper Ball",
@@ -3490,9 +3491,10 @@
     "0202": "Rappel Max",
     "0301": "\u0152uf Chance",
     "0401": "Encens",
-    "0402": "Incense Spicy",
-    "0403": "Incense Cool",
-    "0404": "Incense Floral",
+    "0402": "Leurre Piquant",
+    "0403": "Leurre Frais",
+    "0404": "Leurre Floral",
+    "0405": "Bo\u00eete Myst\u00e8re",
     "0501": "Module Leurre",
     "0502": "Leurre Glacial",
     "0503": "Leurre Moussu",
@@ -3513,8 +3515,8 @@
     "0901": "Incubateur \u221E",
     "0902": "Incubateur",
     "0903": "Super-Incubateur",
-    "1001": "Pok\u00E9mon Storage Upgrade",
-    "1002": "Item Storage Upgrade",
+    "1001": "Am\u00E9lioration de stockage de Pok\u00E9mon",
+    "1002": "Am\u00E9lioration de sac",
     "1101": "Pierre Soleil",
     "1102": "Roche Royale",
     "1103": "Peau M\u00E9tal",
@@ -3528,9 +3530,9 @@
     "1401": "Passe de Raid",
     "1402": "Passe de Raid Premium",
     "1403": "Passe de Raid EX",
-    "1404": "Morceau d\u2019\u00C9toile",
+    "1404": "Morceau d'\u00C9toile",
     "1405": "Cadeau",
-    "1406": "M\u00E9daillon d\u2019\u00E9quipe",
+    "1406": "M\u00E9daillon d'\u00E9quipe",
     "1501": "\u00E9l\u00E9ment myst\u00E9rieux",
     "1502": "Radar Rocket",
     "1503": "Super Radar Rocket",
@@ -3580,7 +3582,7 @@
     "049": "Bourdon",
     "050": "Crochet Venin",
     "051": "Tranche-Nuit",
-    "053": "Bullesd\u2019O",
+    "053": "Bullesd'O",
     "054": "Sacrifice",
     "056": "Balayette",
     "057": "Aqua-Jet",
@@ -3643,6 +3645,10 @@
     "131": "Plaquage",
     "132": "Repos",
     "133": "Lutte",
+    "134": "\u00c9bullition (Tortank)",
+    "135": "Hydrocanon (Tortank)",
+    "136": "Ligotage (Vert)",
+    "137": "Ligotage (Rose)",
     "200": "Taillade",
     "201": "Piq\u00fbre",
     "202": "Morsure",
@@ -3733,7 +3739,36 @@
     "288": "Psycho Boost",
     "289": "Onde Originelle",
     "290": "Lame Pang\u0351enne",
-    "291": "Cadeau"
+    "291": "Cadeau",
+    "292": "Ball'M\u00e9t\u00e9o Feu",
+    "293": "Ball'M\u00e9t\u00e9o Glace",
+    "294": "Ball'M\u00e9t\u00e9o Roche",
+    "295": "Ball'M\u00e9t\u00e9o Eau",
+    "296": "V\u00e9g\u00e9-Attaque",
+    "297": "Anti-Air",
+    "298": "Rafale Feu",
+    "299": "Hydroblast",
+    "300": "Dernier Recours",
+    "301": "Poing M\u00e9t\u00e9ore",
+    "302": "Coud'Kr\u00e2ne",
+    "303": "Bombe Acide",
+    "304": "Telluriforce",
+    "305": "Pince-Masse",
+    "306": "Furie-Bond",
+    "307": "\u00c9clate Griffe",
+    "308": "Octazooka",
+    "309": "Miroi-Tir",
+    "310": "Surpuissance",
+    "311": "Dard Mortel",
+    "312": "Phytomixeur",
+    "313": "Vampirisme",
+    "314": "Vampi-Poing",
+    "315": "Os Ombre",
+    "316": "Ocroupi",
+    "317": "Pied Br\u00fbleur",
+    "318": "Coqui-Lame",
+    "319": "Poing Boost",
+    "320": "Charme"
   },
   "pokemon": {
     "001": "Bulbizarre",
@@ -4458,11 +4493,11 @@
     "720": "Hoopa",
     "721": "Volcanion",
     "722": "Brindibou",
-    "723": "Efflèche",
-    "724": "Archéduc",
+    "723": "Effl\u00e8che",
+    "724": "Arch\u00e9duc",
     "725": "Flamiaou",
     "726": "Matoufeu",
-    "727": "Félinferno",
+    "727": "F\u00e9linferno",
     "728": "Otaquin",
     "729": "Otarlette",
     "730": "Oratoria",
@@ -4482,8 +4517,8 @@
     "744": "Rocabot",
     "745": "Lougaroc",
     "746": "Froussardine",
-    "747": "Vorastérie",
-    "748": "Prédastérie",
+    "747": "Vorast\u00e9rie",
+    "748": "Pr\u00e9dast\u00e9rie",
     "749": "Tiboudet",
     "750": "Bourrinos",
     "751": "Araqua",
@@ -4499,27 +4534,27 @@
     "761": "Croquine",
     "762": "Candine",
     "763": "Sucreine",
-    "764": "Guérilande",
+    "764": "Gu\u00e9rilande",
     "765": "Gouroutan",
     "766": "Quartermac",
     "767": "Sovkipou",
-    "768": "Sarmuraï",
+    "768": "Sarmura\u00ef",
     "769": "Bacabouh",
-    "770": "Trépassable",
+    "770": "Tr\u00e9passable",
     "771": "Concombaffe",
     "772": "Type:0",
-    "773": "Silvallié",
-    "774": "Météno",
+    "773": "Silvalli\u00e9",
+    "774": "M\u00e9t\u00e9no",
     "775": "Dodoala",
     "776": "Boumata",
     "777": "Togedemaru",
     "778": "Mimiqui",
     "779": "Denticrisse",
-    "780": "Draïeul",
+    "780": "Dra\u00efeul",
     "781": "Sinistrail",
-    "782": "Bébécaille",
-    "783": "Écaïd",
-    "784": "Ékaïser",
+    "782": "B\u00e9b\u00e9caille",
+    "783": "\u00c9ca\u00efd",
+    "784": "\u00c9ka\u00efser",
     "785": "Tokorico",
     "786": "Tokopiyon",
     "787": "Tokotoro",
@@ -4528,17 +4563,17 @@
     "790": "Cosmovum",
     "791": "Solgaleo",
     "792": "Lunala",
-    "793": "Zéroïd",
+    "793": "Z\u00e9ro\u00efd",
     "794": "Mouscoto",
     "795": "Cancrelove",
-    "796": "Câblifère",
+    "796": "C\u00e2blif\u00e8re",
     "797": "Bamboiselle",
     "798": "Katagami",
     "799": "Engloutyran",
     "800": "Necrozma",
     "801": "Magearna",
     "802": "Marshadow",
-    "803": "Vémini",
+    "803": "V\u00e9mini",
     "804": "Mandrillon",
     "805": "Ama-Ama",
     "806": "Pierroteknik",
@@ -4551,16 +4586,16 @@
     "813": "Flambino",
     "814": "Lapyro",
     "815": "Pyrobut",
-    "816": "Larméléon",
+    "816": "Larm\u00e9l\u00e9on",
     "817": "Arrozard",
-    "818": "Lézargus",
+    "818": "L\u00e9zargus",
     "819": "Rongourmand",
     "820": "Rongrigou",
     "821": "Minisange",
     "822": "Bleuseille",
     "823": "Corvaillus",
     "824": "Larvadar",
-    "825": "Coléodôme",
+    "825": "Col\u00e9odôme",
     "826": "Astronelle",
     "827": "Goupilou",
     "828": "Roublenard",
@@ -4568,7 +4603,7 @@
     "830": "Blancoton",
     "831": "Moumouton",
     "832": "Moumouflon",
-    "833": "Khélocrok",
+    "833": "Kh\u00e9locrok",
     "834": "Torgamord",
     "835": "Voltoutou",
     "836": "Fulgudog",
@@ -4589,8 +4624,8 @@
     "851": "Scolocendre",
     "852": "Poulpaf",
     "853": "Krakos",
-    "854": "Théffroi",
-    "855": "Polthégeist",
+    "854": "Th\u00e9ffroi",
+    "855": "Polth\u00e9geist",
     "856": "Bibichut",
     "857": "Chapotus",
     "858": "Sorcilence",
@@ -4602,15 +4637,15 @@
     "864": "Corayôme",
     "865": "Palarticho",
     "866": "M.Glaquette",
-    "867": "Tutétékri",
-    "868": "Crèmy",
+    "867": "Tut\u00e9t\u00e9kri",
+    "868": "Cr\u00e8my",
     "869": "Charmilly",
     "870": "Hexadron",
     "871": "Wattapik",
     "872": "Frissonille",
     "873": "Beldeneige",
     "874": "Dolman",
-    "875": "Bekaglaçon",
+    "875": "Bekagla\u00e7on",
     "876": "Wimessir",
     "877": "Morpeko",
     "878": "Charibari",
@@ -4625,7 +4660,7 @@
     "887": "Lanssorien",
     "888": "Zacian",
     "889": "Zamazenta",
-    "890": "Éthernatos",
+    "890": "\u00c9thernatos",
     "891": "Wushours",
     "892": "Shifours",
     "893": "Zarude",
@@ -4638,15 +4673,15 @@
   "quest_reward_types": {
     "000": "Non d\u00E9fini",
     "001": "Exp\u00E9rience",
-    "002": "Article",
-    "003": "poussi\u00E8re d'\u00E9toiles",
-    "004": "Bonbons",
-    "005": "V\u00EAtements Avatar",
+    "002": "Objet",
+    "003": "Poussi\u00E8re d'\u00E9toiles",
+    "004": "Bonbon",
+    "005": "V\u00EAtements d'vatar",
     "006": "Qu\u00EAte",
-    "007": "Rencontre de monstres"
+    "007": "Rencontre de pok\u00e9mon"
   },
   "rarity": {
-    "000": "Nouveau Spawn",
+    "000": "Nouvelle Apparition",
     "001": "Commun",
     "002": "Peu Commun",
     "003": "Peu Fr\u00E9quent",
@@ -4655,10 +4690,10 @@
   },
   "sizes": {
     "001": "minuscule",
-    "002": "petite",
-    "003": "normale",
+    "002": "petit",
+    "003": "normal",
     "004": "grand",
-    "005": "\u00e9norme"
+    "005": "\u00c9norme"
   },
   "teams": {
     "000": "Neutre",
@@ -4674,31 +4709,31 @@
   },
   "types": {
     "001": "Normal",
-    "002": "Combattre",
-    "003": "Voler",
+    "002": "Combat",
+    "003": "Vol",
     "004": "Poison",
-    "005": "Terre",
+    "005": "Sol",
     "006": "Roche",
     "007": "Insecte",
-    "008": "Fant\u00f4me",
+    "008": "Spectre",
     "009": "Acier",
     "010": "Feu",
     "011": "Eau",
-    "012": "Herbe",
-    "013": "\u00e9lectrique",
-    "014": "Psychique",
+    "012": "Plante",
+    "013": "\u00c9lectrik",
+    "014": "Psy",
     "015": "Glace",
     "016": "Dragon",
     "017": "F\u00e9e",
-    "018": "Sombre"
+    "018": "T\u00e9n\u00e8bres"
   },
   "weather": {
     "000": "Aucun",
-    "001": "Clair",
-    "002": "Pluie",
-    "003": "Partiellement nuageux",
-    "004": "Nuageux",
-    "005": "Venteux",
+    "001": "Temps clair",
+    "002": "Pluvieux",
+    "003": "Quelques nuages",
+    "004": "Couvert",
+    "005": "Vent",
     "006": "Neige",
     "007": "Brouillard"
   },
