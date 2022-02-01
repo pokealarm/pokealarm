@@ -37,6 +37,7 @@ stop_name       The name of the stop.
 stop_image      URL to the image of the stop.
 type_id         The id of the grunt type.
 type_name       The name of the grunt type.
+type_emoji      Emoji for the grunt's type, or empty string if unknown.
 gender_id       The id of the grunt's gender.
 gender          Gender of the grunt, represented as a single character.
 =============== ==========================================================

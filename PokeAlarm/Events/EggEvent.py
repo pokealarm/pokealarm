@@ -83,6 +83,8 @@ class EggEvent(BaseEvent):
             'hatch_time_raw_hours': hatch_time[6],
             'hatch_time_raw_minutes': hatch_time[7],
             'hatch_time_raw_seconds': hatch_time[8],
+            'hatch_time_utc':
+                self.hatch_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
 
             # Raid Time Remaining
             'raid_time_left': raid_end_time[0],
@@ -94,6 +96,8 @@ class EggEvent(BaseEvent):
             'raid_time_raw_hours': raid_end_time[6],
             'raid_time_raw_minutes': raid_end_time[7],
             'raid_time_raw_seconds': raid_end_time[8],
+            'raid_end_utc': self.raid_end,
+            'current_timestamp_utc': datetime.utcnow(),
 
             # Location
             'lat': self.lat,

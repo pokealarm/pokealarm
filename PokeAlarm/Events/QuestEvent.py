@@ -148,6 +148,8 @@ class QuestEvent(BaseEvent):
             'raw_item_type': self.item_type,
             'item': get_item_id(self.item_id),
             'item_id': self.item_id,
-            'item_id_4': "{:04d}".format(self.item_id)
+            'item_id_4': "{:04d}".format(self.item_id),
+
+            'current_timestamp_utc': datetime.utcnow()
         })
         return dts

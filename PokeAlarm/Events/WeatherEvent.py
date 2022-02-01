@@ -1,4 +1,5 @@
 # Standard Library Imports
+from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
@@ -70,6 +71,8 @@ class WeatherEvent(BaseEvent):
                 '' if self.severity_id == 0 else severity_locale,
             'day_or_night_id': self.day_or_night_id,
             'day_or_night_id_3': "{:03}".format(self.day_or_night_id),
-            'day_or_night': locale.get_day_or_night(self.day_or_night_id)
+            'day_or_night': locale.get_day_or_night(self.day_or_night_id),
+
+            'current_timestamp_utc': datetime.utcnow(),
         })
         return dts

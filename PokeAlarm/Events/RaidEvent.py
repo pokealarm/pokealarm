@@ -140,6 +140,9 @@ class RaidEvent(BaseEvent):
             'raid_time_raw_minutes': raid_end_time[7],
             'raid_time_raw_seconds': raid_end_time[8],
 
+            'raid_end_utc': self.raid_end,
+            'current_timestamp_utc': datetime.utcnow(),
+
             # Type
             'type1': type1,
             'type1_or_empty': Unknown.or_empty(type1),
