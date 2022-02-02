@@ -33,7 +33,10 @@ class TelegramAlarm(Alarm):
             'message': "*A wild <mon_name> has appeared!*\n"
                        "Available until <24h_time> (<time_left>).",
             'sticker_url': get_image_url(
-                "telegram/monsters/<mon_id_3>_<form_id_3>.webp")
+                "telegram/monsters/<mon_id_3>_<form_id_3>.webp"),
+            'display_sticker_url': get_image_url(
+                "telegram/monsters/<display_mon_id_3>_<display_form_id_3>.webp"
+            )
         },
         'stops': {
             'message': "*Someone has placed a lure on a Pokestop!*\n"
@@ -205,7 +208,9 @@ class TelegramAlarm(Alarm):
         message = replace(alert.message, dts)
         lat, lng = dts['lat'], dts['lng']
         max_attempts = alert.max_attempts
-        sticker_url = replace(alert.sticker_url, dts)
+        sticker_url = replace(alert.display_sticker_url, dts) \
+            if alert.use_display_sticker is True\
+            else replace(alert.sticker_url, dts)
         self._log.debug(sticker_url)
         # Send Sticker
         if alert.sticker and sticker_url is not None:
