@@ -209,7 +209,7 @@ class TelegramAlarm(Alarm):
         lat, lng = dts['lat'], dts['lng']
         max_attempts = alert.max_attempts
         sticker_url = replace(alert.display_sticker_url, dts) \
-            if alert.use_display_sticker is False\
+            if alert.use_display_sticker is True\
             else replace(alert.sticker_url, dts)
         self._log.debug(sticker_url)
         # Send Sticker
