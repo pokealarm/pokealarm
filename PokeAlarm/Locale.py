@@ -289,3 +289,15 @@ class Locale(object):
 
     def get_item_name(self, item_id):
         return self.__item_names.get(item_id, 'unknown')
+
+    def get_pvpoke_domain(self):
+        if self.name == 'de':
+            return 'de.pvpoke-re.com'
+        elif self.name == 'fr':
+            return 'fr.pvpoke-re.com'
+        elif self.name == 'es':
+            return 'es.pvpoke-re.com'
+        elif self.name == 'pt':
+            return 'pt.pvpoke-re.com'
+        else:
+            return 'pvpoke.com'

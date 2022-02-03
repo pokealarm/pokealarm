@@ -278,7 +278,8 @@ class MonEvent(BaseEvent):
                     'levelCap': '50'
                 }),
             'great_pvpoke':
-                'https://pvpoke.com/rankings/all/1500/overall/{}{}/'.format(
+                'https://{}/rankings/all/1500/overall/{}{}/'.format(
+                    locale.get_pvpoke_domain(),
                     re.sub(r'[^A-Za-z0-9\s]+', '',
                            locale.get_english_pokemon_name(self.great_id))
                     .lower().replace(' ', '_'),
@@ -308,7 +309,8 @@ class MonEvent(BaseEvent):
                     'levelCap': '50'
                 }),
             'ultra_pvpoke':
-                'https://pvpoke.com/rankings/all/2500/overall/{}{}/'.format(
+                'https://{}/rankings/all/2500/overall/{}{}/'.format(
+                    locale.get_pvpoke_domain(),
                     re.sub(r'[^A-Za-z0-9\s]+', '',
                            locale.get_english_pokemon_name(self.ultra_id))
                     .lower().replace(' ', '_'),
