@@ -288,6 +288,13 @@ class TestMonsterFilter(unittest.TestCase):
         self.pass_vals = [1, 2, 5]
         self.fail_vals = [0]
 
+    @generic_filter_test
+    def test_types(self):
+        self.filt = {'types': ["Dark"]}
+        self.event_key = 'pokemon_id'
+        self.pass_vals = [198, 261]
+        self.fail_vals = [1, 4]
+
     def test_time_left(self):
         # Create the filter
         filt = self.gen_filter(

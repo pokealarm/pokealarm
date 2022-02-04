@@ -4,7 +4,8 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
-from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted
+from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted, \
+    match_items_in_array
 
 
 class MonFilter(BaseFilter):
@@ -26,6 +27,12 @@ class MonFilter(BaseFilter):
             eval_func=lambda d, v: not operator.contains(d, v),
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters_exclude', data))
+
+        # Pokemon types
+        self.type_ids = self.evaluate_attribute(  # one mon_type in types
+            event_attribute='types', eval_func=match_items_in_array,
+            limit=BaseFilter.parse_as_list(
+                MonUtils.get_type_id, 'types', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
@@ -214,6 +221,10 @@ class MonFilter(BaseFilter):
             settings['min_dist'] = self.min_dist
         if self.max_dist is not None:
             settings['max_dist'] = self.max_dist
+
+        # Pokemon types
+        if self.type_ids is not None:
+            settings['type_ids'] = self.type_ids
 
         # Level
         if self.min_lvl is not None:
