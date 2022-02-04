@@ -27,8 +27,6 @@ class FacebookPageAlarm(Alarm):
             'message': "A wild <mon_name> has appeared!",
             'image': get_image_url(
                 "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'display_image': get_image_url(
-                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"),
             'link': "<gmaps>",
             'name': "<mon_name>",
             'description': "Available until <24h_time> (<time_left>).",
@@ -150,14 +148,12 @@ class FacebookPageAlarm(Alarm):
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
-        use_display_image = settings.pop('use_display_image', False)
         alert = {
             'message': settings.pop('message', default['message']),
             'link': settings.pop('link', default['link']),
             'caption': settings.pop('caption', default['caption']),
             'description': settings.pop('description', default['description']),
-            'image': settings.pop('image', default['display_image']
-                                  if use_display_image else default['image']),
+            'image': settings.pop('image', default['image']),
             'name': settings.pop('name', default['name'])
         }
         reject_leftover_parameters(

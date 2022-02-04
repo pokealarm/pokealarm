@@ -28,10 +28,6 @@ class DiscordAlarm(Alarm):
                 "regular/monsters/<mon_id_3>_<form_id_3>.png"),
             'avatar_url': get_image_url(
                 "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'display_icon_url': get_image_url(
-                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"),
-            'display_avatar_url': get_image_url(
-                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"),
             'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>).",
@@ -176,23 +172,14 @@ class DiscordAlarm(Alarm):
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
         map = settings.pop('map', self.__map)
-        use_display_icon = settings.pop('use_display_icon', False)
-        use_display_avatar = settings.pop('use_display_avatar', False)
-
         alert = {
             'webhook_url': settings.pop('webhook_url', self.__webhook_url),
             'username': settings.pop('username', default['username']),
-            'avatar_url': settings.pop(
-                'avatar_url',
-                default['display_avatar_url']
-                if use_display_avatar else default['avatar_url']),
+            'avatar_url': settings.pop('avatar_url', default['avatar_url']),
             'disable_embed': parse_boolean(
                 settings.pop('disable_embed', self.__disable_embed)),
             'content': settings.pop('content', default['content']),
-            'icon_url': settings.pop(
-                'icon_url',
-                default['display_icon_url']
-                if use_display_icon else default['icon_url']),
+            'icon_url': settings.pop('icon_url', default['icon_url']),
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
