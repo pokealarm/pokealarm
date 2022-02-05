@@ -27,8 +27,6 @@ class SlackAlarm(Alarm):
             'username': "<mon_name>",
             'icon_url': get_image_url(
                 "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'display_icon_url': get_image_url(
-                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"),
             'title': "A wild <mon_name> has appeared!",
             'url': "<gmaps>",
             'body': "Available until <24h_time> (<time_left>)."
@@ -145,13 +143,10 @@ class SlackAlarm(Alarm):
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
         map = settings.pop('map', self.__map)
-        use_display_icon = settings.pop('use_display_icon', False)
         alert = {
             'channel': settings.pop('channel', self.__default_channel),
             'username': settings.pop('username', default['username']),
-            'icon_url': settings.pop('icon_url', default['display_icon_url']
-                                     if use_display_icon
-                                     else default['icon_url']),
+            'icon_url': settings.pop('icon_url', default['icon_url']),
             'title': settings.pop('title', default['title']),
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),

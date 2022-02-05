@@ -438,20 +438,20 @@ def get_ex_eligible_emoji(ex_eligible):
 
 # Returns a String link to Google Maps Pin at the location
 def get_gmaps_link(lat, lng):
-    latlng = '{:5f},{:5f}'.format(lat, lng)
-    return 'http://maps.google.com/maps?q={}'.format(latlng)
+    latlng = '{:5f}%2C{:5f}'.format(lat, lng)
+    return 'https://www.google.com/maps/dir/?api=1' \
+        + '&destination={}'.format(latlng)
 
 
 # Returns a String link to Apple Maps Pin at the location
 def get_applemaps_link(lat, lng):
-    latlng = '{:5f},{:5f}'.format(lat, lng)
-    return 'http://maps.apple.com/maps?' \
-           + 'daddr={}&z=10&t=s&dirflg=w'.format(latlng)
+    latlng = '{:5f}%2C{:5f}'.format(lat, lng)
+    return 'https://maps.apple.com/maps?daddr={}&t=m'.format(latlng)
 
 
 # Returns a String link to Waze Maps Navigation at the location
 def get_waze_link(lat, lng):
-    latlng = '{:5f},{:5f}'.format(lat, lng)
+    latlng = '{:5f}%2C{:5f}'.format(lat, lng)
     return 'https://waze.com/ul?navigate=yes&ll={}'.format(latlng)
 
 
@@ -464,14 +464,14 @@ def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
     maptype = settings.get('maptype', 'roadmap')
     zoom = settings.get('zoom', '15')
 
-    center = '{},{}'.format('<lat>', '<lng>')
+    center = '{}%2C{}'.format('<lat>', '<lng>')
     query_center = 'center={}'.format(center)
     query_markers = 'markers=color:red%7C{}'.format(center)
     query_size = 'size={}x{}'.format(width, height)
     query_zoom = 'zoom={}'.format(zoom)
     query_maptype = 'maptype={}'.format(maptype)
 
-    map_ = ('https://maps.googleapis.com/maps/api/staticmap?' +
+    map_ = ('https://www.google.com/maps/api/staticmap?maptype=roadmap' +
             query_center + '&' + query_markers + '&' +
             query_maptype + '&' + query_size + '&' + query_zoom)
 
