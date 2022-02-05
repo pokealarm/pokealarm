@@ -114,7 +114,9 @@ class TelegramAlarm(Alarm):
             'max_attempts': self.pop_type(
                 settings, 'max_attempts', int, 3),
             'web_preview': self.pop_type(
-                settings, 'web_preview', utils.parse_bool, False)
+                settings, 'web_preview', utils.parse_bool, False),
+            'use_display_sticker': self.pop_type(
+                settings, 'use_display_sticker', utils.parse_bool, False),
         }
 
         # Alert Settings
@@ -151,6 +153,15 @@ class TelegramAlarm(Alarm):
         default = TelegramAlarm._defaults[kind]
         default.update(alert_defaults)
         settings = Alarm.pop_type(settings, kind, dict, {})
+        try:
+            use_display_sticker = alert_defaults.pop('use_display_sticker') \
+                and TelegramAlarm._defaults[kind]['display_sticker_url'] \
+                is not None
+            display_sticker_url = \
+                TelegramAlarm._defaults[kind]['display_sticker_url']
+        except KeyError:
+            use_display_sticker = False
+            display_sticker_url = ''
 
         alert = TelegramAlarm.Alert(
             bot_token=Alarm.pop_type(
@@ -160,7 +171,9 @@ class TelegramAlarm(Alarm):
             sticker=Alarm.pop_type(
                 settings, 'sticker', utils.parse_bool, default['sticker']),
             sticker_url=Alarm.pop_type(
-                settings, 'sticker_url', str, default['sticker_url']),
+                settings, 'sticker_url', str,
+                display_sticker_url if use_display_sticker
+                else default['sticker_url']),
             sticker_notify=Alarm.pop_type(
                 settings, 'sticker_notify', utils.parse_bool,
                 default['sticker_notify']),
@@ -208,9 +221,7 @@ class TelegramAlarm(Alarm):
         message = replace(alert.message, dts)
         lat, lng = dts['lat'], dts['lng']
         max_attempts = alert.max_attempts
-        sticker_url = replace(alert.display_sticker_url, dts) \
-            if alert.use_display_sticker is True\
-            else replace(alert.sticker_url, dts)
+        sticker_url = replace(alert.sticker_url, dts)
         self._log.debug(sticker_url)
         # Send Sticker
         if alert.sticker and sticker_url is not None:
