@@ -68,6 +68,8 @@ min_time_left   Minimum time (in seconds) until monster despawns.      ``1000``
 max_time_left   Maximum time (in seconds) until monster despawns.      ``2400``
 weather         Accepted weathers, by id or name.                      ``["Clear",2]``
 geofences       See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
+min_time        See :ref:`time_dts_filters` page on 'Time DTS'         ``8:30``
+max_time        See :ref:`time_dts_filters` page on 'Time DTS'         ``22:00``
 custom_dts      See :ref:`custom_dts_filters` page on 'Custom DTS'     ``{"dts1":"substitution"}``
 is_missing_info See :ref:`missing_info_filters` page on 'Missing Info' ``true`` or ``false``
 
