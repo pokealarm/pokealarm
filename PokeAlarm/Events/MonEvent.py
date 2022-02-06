@@ -261,9 +261,9 @@ class MonEvent(BaseEvent):
                                       locale.get_english_pokemon_name(
                                           self.great_id)),
                     'league': '1500',
-                    'att_iv': self.atk_iv,
-                    'def_iv': self.def_iv,
-                    'hp_iv': self.sta_iv,
+                    'att_iv': '"{}"'.format(self.atk_iv),
+                    'def_iv': '"{}"'.format(self.def_iv),
+                    'hp_iv': '"{}"'.format(self.sta_iv),
                     'min-iv': '0',
                     'levelCap': '50'
                 }),
@@ -292,9 +292,9 @@ class MonEvent(BaseEvent):
                                       locale.get_english_pokemon_name(
                                           self.ultra_id)),
                     'league': '2500',
-                    'att_iv': self.atk_iv,
-                    'def_iv': self.def_iv,
-                    'hp_iv': self.sta_iv,
+                    'att_iv': '"{}"'.format(self.atk_iv),
+                    'def_iv': '"{}"'.format(self.def_iv),
+                    'hp_iv': '"{}"'.format(self.sta_iv),
                     'min-iv': '0',
                     'levelCap': '50'
                 }),
