@@ -142,6 +142,10 @@ class RaidFilter(BaseFilter):
         # Geofences
         self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
 
+        # Time
+        self.evaluate_time(BaseFilter.parse_as_time(
+            'min_time', data), BaseFilter.parse_as_time('max_time', data))
+
         # Custom DTS
         self.custom_dts = BaseFilter.parse_as_dict(
             str, str, 'custom_dts', data)
