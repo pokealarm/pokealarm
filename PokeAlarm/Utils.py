@@ -237,6 +237,18 @@ def get_evolutions(pokemon_id):
     return get_evolutions.info.get(pokemon_id)
 
 
+# Return evolution costs
+def get_evolution_costs():
+    if not hasattr(get_evolution_costs, 'info'):
+        get_evolution_costs.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_evolution_costs.info[int(id_)] = j[id_].get('evolution_cost')
+    return get_evolution_costs.info
+
+
 # Return CP multipliers
 def get_cp_multipliers():
     if not hasattr(get_cp_multipliers, 'info'):
