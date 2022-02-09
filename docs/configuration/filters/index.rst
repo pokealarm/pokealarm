@@ -171,7 +171,7 @@ Missing Information
 
 As described on the :doc:`../events/index` page, sometimes an Event is missing
 information. Erring on the side of caution, a Filter will skip a restriction if
-the information needed to check it is missing. If your use the ``min_iv`` info,
+the information needed to check it is missing. If you use the ``min_iv`` info,
 but the IV is ``unknown`` for any reason, then by default Filter will skip
 checking a restriction as if it wasn't specified.
 
@@ -219,6 +219,33 @@ just have to configure the geofences like this:
 
   "filter_name_1":{
       "geofences":["all"]
+  }
+
+.. _time_dts_filters:
+
+Time DTS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Time DTS** is used to filter an alarm depending on the local time of the
+PA server.
+The range can be specified using ``min_time`` and ``max_time`` DTS for any
+filter types.
+``min_time`` is the minimum local time to trigger an alarm
+(default: 00:00 from current day).
+``max_time`` is the maximum local time to trigger an alarm
+(default: 00:00 from next day).
+These DTS use the 24h format time (X:XX) (e.g. 4:00, 10:00, 20:00).
+
+For example, if only ``"min_time": "13:42"`` is specified, an alarm can
+be triggered between 13:42 and 23:59:59.
+If ``"min_time": "23:00"`` and ``"max_time": "1:00"`` are speficied,
+the alarms can be triggered between 23:00:00 from day 1 to 1:00:00 from day 2.
+
+.. code-block:: json
+
+  "filter_daytime":{
+      "min_time": "8:00",
+      "max_time": "22:00"
   }
 
 .. _custom_dts_filters:

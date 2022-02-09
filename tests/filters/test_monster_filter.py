@@ -295,6 +295,55 @@ class TestMonsterFilter(unittest.TestCase):
         self.pass_vals = [198, 261]
         self.fail_vals = [1, 4]
 
+    def test_time_range(self):
+        # Create a time filter with min_time and max_time set
+        filt = self.gen_filter(
+            {'min_time': "22:58", 'max_time': "0:25"})
+
+        # Test passing
+        for t in ["23:15", "22:58", "0:00", "0:25"]:
+            filt._check_list[0].override_time(t)
+            event = self.gen_event({"encounter_id": "1"})
+            self.assertTrue(filt.check_event(event))
+
+        # Test failing
+        for t in ["22:57", "10:00", "20:50", "0:26"]:
+            filt._check_list[0].override_time(t)
+            event = self.gen_event({"encounter_id": "1"})
+            self.assertFalse(filt.check_event(event))
+
+        # Create a time filter with only min_time set
+        filt = self.gen_filter(
+            {'min_time': "22:58"})
+
+        # Test passing
+        for t in ["23:15", "22:58", "23:59"]:
+            filt._check_list[0].override_time(t)
+            event = self.gen_event({"encounter_id": "1"})
+            self.assertTrue(filt.check_event(event))
+
+        # Test failing
+        for t in ["22:57", "10:00", "0:50", "0:00"]:
+            filt._check_list[0].override_time(t)
+            event = self.gen_event({"encounter_id": "1"})
+            self.assertFalse(filt.check_event(event))
+
+        # Create a time filter with only max_time set
+        filt = self.gen_filter(
+            {'max_time': "0:25"})
+
+        # Test passing
+        for t in ["0:00", "0:25"]:
+            filt._check_list[0].override_time(t)
+            event = self.gen_event({"encounter_id": "1"})
+            self.assertTrue(filt.check_event(event))
+
+        # Test failing
+        for t in ["22:57", "10:00", "20:50", "0:26"]:
+            filt._check_list[0].override_time(t)
+            event = self.gen_event({"encounter_id": "1"})
+            self.assertFalse(filt.check_event(event))
+
     def test_time_left(self):
         # Create the filter
         filt = self.gen_filter(
