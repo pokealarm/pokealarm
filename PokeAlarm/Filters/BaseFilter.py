@@ -76,6 +76,9 @@ class BaseFilter(object):
         return limit
 
     def evaluate_time(self, min_time, max_time):
+        if min_time is None and max_time is None:
+            return None  # limit not set
+
         if min_time is None:
             min_time = 0.0
         if max_time is None:
@@ -235,11 +238,15 @@ class CheckTime(object):
     def __init__(self, min_time, max_time):
         self._min_time = min_time
         self._max_time = max_time
+        self._override_time = None
 
     def __call__(self, filtr, event):
-        now = datetime.now()
-        current_time = (now - now.replace(hour=0, minute=0,
-                        second=0)).total_seconds()
+        if self._override_time is not None:
+            current_time = self._override_time
+        else:
+            now = datetime.now()
+            current_time = (now - now.replace(hour=0, minute=0,
+                                              second=0)).total_seconds()
         if self._min_time <= self._max_time:
             result = (self._min_time <=
                       current_time and current_time <= self._max_time)
@@ -254,3 +261,8 @@ class CheckTime(object):
                           str(timedelta(seconds=self._max_time))])
 
         return result
+
+    def override_time(self, current_time):
+        absolute_time_sec = datetime.strptime(current_time, '%H:%M')
+        self._override_time = (absolute_time_sec - absolute_time_sec.replace(
+            hour=0, minute=0)).total_seconds()
