@@ -363,6 +363,45 @@ def get_mon_type(pokemon_id):
     return types['type1'], types['type2']
 
 
+# Return the list of stardust costs for powering up a pokemon
+def get_stardust_costs():
+    if not hasattr(get_stardust_costs, 'info'):
+        get_stardust_costs.info = {}
+        file_ = get_path('data/powerup_costs.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            get_stardust_costs.info[w_id] = j[w_id]
+
+    return get_stardust_costs.info.get('stardust')
+
+
+# Return the list of candy costs for powering up a pokemon
+def get_candy_costs():
+    if not hasattr(get_stardust_costs, 'info'):
+        get_stardust_costs.info = {}
+        file_ = get_path('data/powerup_costs.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            get_stardust_costs.info[w_id] = j[w_id]
+
+    return get_stardust_costs.info.get('candy')
+
+
+# Return the list of xl candy costs for powering up a pokemon
+def get_xl_candy_costs():
+    if not hasattr(get_stardust_costs, 'info'):
+        get_stardust_costs.info = {}
+        file_ = get_path('data/powerup_costs.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            get_stardust_costs.info[w_id] = j[w_id]
+
+    return get_stardust_costs.info.get('xl_candy')
+
+
 # Return a boolean for whether the raid boss will have it's catch CP boosted
 def is_weather_boosted(pokemon_id, weather_id):
     if not hasattr(is_weather_boosted, 'info'):

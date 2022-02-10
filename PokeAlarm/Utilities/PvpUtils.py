@@ -1,6 +1,7 @@
 from math import sqrt
 import PokeAlarm.Utils as utils
 import logging
+import re
 
 log = logging.getLogger('PvpUtils')
 
@@ -62,22 +63,25 @@ def min_level(limit, monster):
 def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
     start_level = float(start_level)
     target_level = float(target_level)
-    candy_table = [1] * 20 + [2] * 20 + [3] * 10 + [4] * 10 + \
-        [6] * 4 + [8] * 4 + [10] * 4 + [12] * 4 + [15] * 2
-    xl_candy_table = [10, 12, 15, 17, 20]
+    candy_table = utils.get_candy_costs()
+    xl_candy_table = utils.get_xl_candy_costs()
     tmp_level = start_level
     candy_cost = evo_candy_cost
     xl_candy_cost = 0
 
     while tmp_level != target_level and tmp_level < 40:
+        for cost_key in candy_table:
+            lvls = re.findall(r"[\.\d]+", cost_key)
+            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
+                candy_cost += candy_table[cost_key]
         tmp_level += 0.5
-        cost_id = int((tmp_level - 1.5) / 0.5)
-        candy_cost += candy_table[cost_id]
 
     while tmp_level != target_level:
+        for cost_key in xl_candy_table:
+            lvls = re.findall(r"[\.\d]+", cost_key)
+            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
+                xl_candy_cost += xl_candy_table[cost_key]
         tmp_level += 0.5
-        cost_id = int((tmp_level - 40.5) // 2)
-        xl_candy_cost += xl_candy_table[cost_id]
 
     if xl_candy_cost != 0:
         return f'{candy_cost:,} + {xl_candy_cost:,} XL'.replace(',', ' ')
@@ -88,16 +92,16 @@ def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
 def calculate_stardust_cost(start_level, target_level):
     start_level = float(start_level)
     target_level = float(target_level)
-    stardust_table = [200, 400, 600, 800, 1000, 1300, 1600, 1900, 2200,
-                      2500, 3000, 3500, 4000, 4500, 5000, 6000, 7000,
-                      8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000]
+    stardust_table = utils.get_stardust_costs()
 
     tmp_level = start_level
     stardust_cost = 0
     while tmp_level != target_level:
+        for cost_key in stardust_table:
+            lvls = re.findall(r"[\.\d]+", cost_key)
+            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
+                stardust_cost += stardust_table[cost_key]
         tmp_level += 0.5
-        cost_id = int(tmp_level - 1.5) // 2
-        stardust_cost += stardust_table[cost_id]
 
     return f'{stardust_cost:,}'.replace(',', ' ')
 
