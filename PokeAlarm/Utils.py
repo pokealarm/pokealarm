@@ -448,14 +448,14 @@ def get_gmaps_link(lat, lng, nav):
 def get_applemaps_link(lat, lng, nav):
     _nav = 'daddr' if nav else 'address'
     latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://maps.apple.com/maps?{}={}&t=m'.format(_nav,latlng)
+    return 'https://maps.apple.com/maps?{}={}&t=m'.format(_nav, latlng)
 
 
 # Returns a String link to Waze Maps Navigation at the location
 def get_waze_link(lat, lng, nav):
     _nav = 'yes' if nav else 'no'
     latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://waze.com/ul?navigate={}&ll={}'.format(_nav,latlng)
+    return 'https://waze.com/ul?navigate={}&ll={}'.format(_nav, latlng)
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
