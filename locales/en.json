@@ -3854,7 +3854,8 @@
     "317": "Blaze Kick",
     "318": "Razor Shell",
     "319": "Power-Up Punch",
-    "320": "Charm"
+    "320": "Charm",
+	"325": "Lock-On"
   },
   "pokemon": {
     "001": "Bulbasaur",
