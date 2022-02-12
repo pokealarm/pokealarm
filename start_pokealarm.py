@@ -11,6 +11,7 @@ import logging
 import json
 import os
 import sys
+import requests
 # 3rd Party Imports
 import configargparse
 from gevent import pywsgi, spawn, signal, pool, queue
@@ -89,10 +90,69 @@ def manage_webhook_data(_queue):
                       obj.id, len(managers))
 
 
+# Check for update
+def check_for_update():
+    version_req = "https://api.github.com/repos/WatWowMap/Masterfile-" \
+        "Generator/commits?path=master-latest-everything.json&per_page=1"
+
+    try:
+        # Get last commit version of the data
+        response = requests.get(version_req)
+        sig = response.json()[0]["sha"]
+
+        # Compare local with remote signature and download new data if needed
+        if os.path.isfile('data/.data_version'):
+            with open("data/.data_version", 'r') as f:
+                current_sig = f.read()
+                if (current_sig == sig and
+                        os.path.isfile('data/pokemon_data.json')):
+                    log.info("PokeAlarm data is up to date!")
+                else:
+                    download_masterfile(sig)
+        else:
+            download_masterfile(sig)
+
+    except Exception as e:
+        log.info("Unable to get PokeAlarm data: {}".format(e))
+        if not os.path.isfile('data/pokemon_data.json'):
+            log.critical("PokeAlarm file data not found.")
+            sys.exit(1)
+
+
+# Download latest PokeAlarm data
+def download_masterfile(sig):
+    master_file = "https://raw.githubusercontent.com/WatWowMap/" \
+        "Masterfile-Generator/master/master-latest-everything.json"
+
+    # Download data and update signature
+    log.info("New PokeAlarm data found! Fetching in progress...")
+    master_file = requests.get(master_file)
+
+    pokemon_data = master_file.json()["pokemon"]
+    with open("data/pokemon_data.json", 'w') as f:
+        json.dump(pokemon_data, f, indent=2)
+        f.close()
+
+    # TODO: Dynamically update data for moves
+    # move_data = master_file.json()["moves"]
+    # with open("data/move_data.json", 'w') as f:
+    #     json.dump(move_data, f, indent=2)
+    #     f.close()
+
+    with open("data/.data_version", 'w') as f:
+        f.write(sig)
+        f.close()
+
+    log.info("PokeAlarm data has been updated!")
+
+
 # Configure and run PokeAlarm
 def start_server():
     # Parse Settings
     parse_settings(os.path.abspath(os.path.dirname(__file__)))
+
+    # Check for a data update
+    check_for_update()
 
     # Start Webhook Manager in a Thread
     spawn(manage_webhook_data, data_queue)

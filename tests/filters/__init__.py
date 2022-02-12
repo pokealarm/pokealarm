@@ -1,10 +1,22 @@
 import logging
+import requests
+import json
 
 
 class MockManager(object):
     """ Mock manager for filter unit testing. """
+
     def get_child_logger(self, name):
         return logging.getLogger('test').getChild(name)
+
+    # Fetch pokemon data
+    master_file = "https://raw.githubusercontent.com/WatWowMap/" \
+        "Masterfile-Generator/master/master-latest-everything.json"
+    master_file = requests.get(master_file)
+    pokemon_data = master_file.json()["pokemon"]
+    with open("data/pokemon_data.json", 'w') as f:
+        json.dump(pokemon_data, f, indent=2)
+        f.close()
 
 
 def generic_filter_test(test):
@@ -58,7 +70,7 @@ def full_filter_test(test):
             self.assertTrue(
                 filt.check_event(event),
                 "pass_val failed check in {}: \n{} passed {}"
-                    .format(test.__name__, event, filt))
+                .format(test.__name__, event, filt))
 
         for val in test.fail_items:
             event = self.gen_event(val)

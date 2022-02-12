@@ -359,6 +359,18 @@ def get_and_validate_team():
 
 
 def monster_form(webhook_field, monster_id):
+    """locales_file = glob(get_path('../data/pokemon_data.json'))[0]
+    forms_data = json.loads(open(locales_file, 'rb+').read())
+    get_raw_form_names.info = {}
+        for id_ in forms_data:
+            get_raw_form_names.info[int(id_)] = {}
+            get_raw_form_names.info[int(id_)][0] = "Normal"
+            for form_id_ in j[id_]["forms"]:
+                if form_id_ != "0":
+                    get_raw_form_names.info[int(id_)][
+                        int(form_id_)] = j[id_]["forms"][form_id_]["name"]
+
+    #return get_raw_form_names.info"""
     monster_id_formatted = "{:03d}".format(monster_id)
     if monster_id_formatted in data['forms'].keys():
         sorted_forms = sorted(data['forms'][monster_id_formatted])

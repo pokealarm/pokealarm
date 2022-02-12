@@ -38,14 +38,12 @@ class RaidEvent(BaseEvent):
         # Monster Info
         self.raid_lvl = int(data['level'])
         self.mon_id = int(data['pokemon_id'])
+        self.form_id = check_for_none(int, data.get('form'), 0)
         self.cp = int(data['cp'])
-        self.types = get_base_types(self.mon_id)
+        self.types = get_base_types(self.mon_id, self.form_id)
         self.boss_level = 20
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
-
-        # Form
-        self.form_id = check_for_none(int, data.get('form'), 0)
 
         # Evolution
         self.evolution_id = check_for_none(int, data.get('evolution'), 0)
@@ -58,7 +56,7 @@ class RaidEvent(BaseEvent):
             int, data.get('weather'), Unknown.TINY)
         self.boosted_weather_id = \
             0 if Unknown.is_not(self.weather_id) else Unknown.TINY
-        if is_weather_boosted(self.mon_id, self.weather_id):
+        if is_weather_boosted(self.weather_id, self.mon_id, self.form_id):
             self.boosted_weather_id = self.weather_id
             self.boss_level = 25
 
@@ -120,7 +118,8 @@ class RaidEvent(BaseEvent):
         type1 = locale.get_type_name(self.types[0])
         type2 = locale.get_type_name(self.types[1])
 
-        cp_range = get_pokemon_cp_range(self.mon_id, self.boss_level)
+        cp_range = get_pokemon_cp_range(
+            self.boss_level, self.mon_id, self.form_id)
         dts.update({
             # Identification
             'gym_id': self.gym_id,
@@ -218,7 +217,6 @@ class RaidEvent(BaseEvent):
             'mon_id': self.mon_id,
             'mon_id_3': "{:03}".format(self.mon_id),
             'gender': self.gender,
-            # TODO: Form?
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_id),

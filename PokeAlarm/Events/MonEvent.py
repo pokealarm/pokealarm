@@ -26,6 +26,7 @@ class MonEvent(BaseEvent):
         # Identification
         self.enc_id = data['encounter_id']
         self.monster_id = int(data['pokemon_id'])
+        self.form_id = check_for_none(int, data.get('form'), 0)
 
         # Time Left
         self.disappear_time = datetime.utcfromtimestamp(data['disappear_time'])
@@ -74,8 +75,8 @@ class MonEvent(BaseEvent):
              self.ultra_product, self.ultra_id, self.ultra_cp,
              self.ultra_level, self.ultra_candy, self.ultra_stardust) = \
                 PvpUtils.get_pvp_info(
-                    self.monster_id, self.atk_iv, self.def_iv, self.sta_iv,
-                    self.mon_lvl)
+                    self.monster_id, self.form_id, self.atk_iv, self.def_iv,
+                    self.sta_iv, self.mon_lvl)
         else:
             self.iv = Unknown.SMALL
             self.great_product = Unknown.SMALL
@@ -139,10 +140,7 @@ class MonEvent(BaseEvent):
                 self.monster_id, self.height, self.weight)
         else:
             self.size_id = Unknown.SMALL
-        self.types = get_base_types(self.monster_id)
-
-        # Form
-        self.form_id = check_for_none(int, data.get('form'), 0)
+        self.types = get_base_types(self.monster_id, self.form_id)
 
         # Costume
         self.costume_id = check_for_none(int, data.get('costume'), 0)

@@ -17,6 +17,8 @@ _build
 !data/*.json
 !locales/*.json
 docker-compose.yml
+data/.data_version
+data/pokemon_data.json
 
 # Runtime
 cache/*
