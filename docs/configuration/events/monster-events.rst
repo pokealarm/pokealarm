@@ -205,9 +205,12 @@ lng                 Longitude of the monster.
 lat_5               Latitude of the monster, truncated to 5 decimal places.
 lng_5               Longitude of the monster, truncated to 5 decimal places.
 gmaps               Google Maps link to the location of the monster.
+gnav                Google Maps Navigation to the location of the monster.
 applemaps           Apple Maps link to the location of the monster.
-Waze                Waze link to the location of the monster.
-geofence            Geofence around the event.
+applenav            Apple Maps Navigation to the location of the monster.
+waze                Waze link to the location of the monster.
+wazenav             Waze Navigation to the location of the monster.
+geofence            Geofence around the monster.
 =================== ============================================================
 
 

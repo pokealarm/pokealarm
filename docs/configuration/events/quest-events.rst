@@ -139,16 +139,19 @@ Location
 =================== =========================================================
 DTS                 Description
 =================== =========================================================
-lat                 Latitude of the egg.
-lng                 Longitude of the egg.
-lat_5               Latitude of the egg, truncated to 5 decimal places.
-lng_5               Longitude of the egg, truncated to 5 decimal places.
-distance            Distance of the egg from the set location.
-direction           Cardinal direction of the egg, from the set location.
-gmaps               Google Maps link to the location of the egg.
-applemaps           Apple Maps link to the location of the egg.
-waze                Waze link to the location of the egg.
-geofence            Geofence around the event.
+lat                 Latitude of the quest.
+lng                 Longitude of the quest.
+lat_5               Latitude of the quest, truncated to 5 decimal places.
+lng_5               Longitude of the quest, truncated to 5 decimal places.
+distance            Distance of the quest from the set location.
+direction           Cardinal direction of the quest, from the set location.
+gmaps               Google Maps link to the location of the quest.
+gnav                Google Maps Navigation to the location of the quest.
+applemaps           Apple Maps link to the location of the quest.
+applenav            Apple Maps Navigation to the location of the quest.
+waze                Waze link to the location of the quest.
+wazenav             Waze Navigation to the location of the quest.
+geofence            Geofence around the quest.
 =================== =========================================================
 
 

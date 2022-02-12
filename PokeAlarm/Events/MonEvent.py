@@ -220,9 +220,12 @@ class MonEvent(BaseEvent):
                 get_dist_as_str(self.distance, units)
                 if Unknown.is_not(self.distance) else Unknown.SMALL),
             'direction': self.direction,
-            'gmaps': get_gmaps_link(self.lat, self.lng),
-            'applemaps': get_applemaps_link(self.lat, self.lng),
-            'waze': get_waze_link(self.lat, self.lng),
+            'gmaps': get_gmaps_link(self.lat, self.lng, False),
+            'gnav': get_gmaps_link(self.lat, self.lng, True),
+            'applemaps': get_applemaps_link(self.lat, self.lng, False),
+            'applenav': get_applemaps_link(self.lat, self.lng, True),
+            'waze': get_waze_link(self.lat, self.lng, False),
+            'wazenav': get_waze_link(self.lat, self.lng, True),
             'geofence': self.geofence,
 
             # Weather
