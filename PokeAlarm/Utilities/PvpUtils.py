@@ -12,7 +12,7 @@ def calculate_cp(monster, atk, de, sta, lvl):
     cp = ((base_stats["attack"] + atk) * sqrt(base_stats["defense"] + de) *
           sqrt(base_stats["stamina"] + sta) * (multipliers[str(lvl)]**2)
           / 10)
-    return int(cp)
+    return int(cp) if int(cp) > 10 else 10
 
 
 def max_cp(monster):
