@@ -74,7 +74,10 @@ lng_5               Longitude of the gym, truncated to 5 decimal places.
 distance            Distance of the gym from the set location.
 direction           Cardinal direction of the gym, from the set location.
 gmaps               Google Maps link to the location of the gym.
+gnav                Google Maps Navigation to the location of the gym.
 applemaps           Apple Maps link to the location of the gym.
+applenav            Apple Maps Navigation to the location of the gym.
 waze                Waze link to the location of the gym.
+wazenav             Waze Navigation to the location of the gym.
 geofence            Geofence around the event.
 =================== =========================================================

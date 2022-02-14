@@ -488,22 +488,26 @@ def get_ex_eligible_emoji(ex_eligible):
 
 
 # Returns a String link to Google Maps Pin at the location
-def get_gmaps_link(lat, lng):
+def get_gmaps_link(lat, lng, nav=False):
+    _api = 'dir' if nav else 'search'
+    _prm = 'destination' if nav else 'query'
     latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://www.google.com/maps/dir/?api=1' \
-        + '&destination={}'.format(latlng)
+    return 'https://www.google.com/maps/{}/?api=1'.format(_api) \
+        + '&{}={}'.format(_prm, latlng)
 
 
 # Returns a String link to Apple Maps Pin at the location
-def get_applemaps_link(lat, lng):
+def get_applemaps_link(lat, lng, nav=False):
+    _prm = 'daddr' if nav else 'address'
     latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://maps.apple.com/maps?daddr={}&t=m'.format(latlng)
+    return 'https://maps.apple.com/maps?{}={}&t=m'.format(_prm, latlng)
 
 
 # Returns a String link to Waze Maps Navigation at the location
-def get_waze_link(lat, lng):
+def get_waze_link(lat, lng, nav=False):
+    _nav = 'yes' if nav else 'no'
     latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://waze.com/ul?navigate=yes&ll={}'.format(latlng)
+    return 'https://waze.com/ul?navigate={}&ll={}'.format(_nav, latlng)
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test

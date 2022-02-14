@@ -138,9 +138,12 @@ lng_5         Longitude of the raid, truncated to 5 decimal places.
 distance      Distance of the raid from the set location.
 direction     Cardinal direction of the raid, from the set location.
 gmaps         Google Maps link to the location of the raid.
+gnav          Google Maps Navigation to the location of the raid.
 applemaps     Apple Maps link to the location of the raid.
+applenav      Apple Maps Navigation to the location of the raid.
 waze          Waze link to the location of the raid.
-geofence      Geofence around the event.
+wazenav       Waze Navigation to the location of the raid.
+geofence      Geofence around the raid.
 ============= =======================================================
 
 
