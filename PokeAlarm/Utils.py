@@ -237,6 +237,18 @@ def get_evolutions(pokemon_id):
     return get_evolutions.info.get(pokemon_id)
 
 
+# Return evolution costs
+def get_evolution_costs():
+    if not hasattr(get_evolution_costs, 'info'):
+        get_evolution_costs.info = {}
+        file_ = get_path('data/base_stats.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for id_ in j:
+            get_evolution_costs.info[int(id_)] = j[id_].get('evolution_cost')
+    return get_evolution_costs.info
+
+
 # Return CP multipliers
 def get_cp_multipliers():
     if not hasattr(get_cp_multipliers, 'info'):
@@ -349,6 +361,45 @@ def get_base_types(pokemon_id):
 def get_mon_type(pokemon_id):
     types = get_base_types(pokemon_id)
     return types['type1'], types['type2']
+
+
+# Return the list of stardust costs for powering up a pokemon
+def get_stardust_costs():
+    if not hasattr(get_stardust_costs, 'info'):
+        get_stardust_costs.info = {}
+        file_ = get_path('data/powerup_costs.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            get_stardust_costs.info[w_id] = j[w_id]
+
+    return get_stardust_costs.info.get('stardust')
+
+
+# Return the list of candy costs for powering up a pokemon
+def get_candy_costs():
+    if not hasattr(get_stardust_costs, 'info'):
+        get_stardust_costs.info = {}
+        file_ = get_path('data/powerup_costs.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            get_stardust_costs.info[w_id] = j[w_id]
+
+    return get_stardust_costs.info.get('candy')
+
+
+# Return the list of xl candy costs for powering up a pokemon
+def get_xl_candy_costs():
+    if not hasattr(get_stardust_costs, 'info'):
+        get_stardust_costs.info = {}
+        file_ = get_path('data/powerup_costs.json')
+        with open(file_, 'r') as f:
+            j = json.loads(f.read())
+        for w_id in j:
+            get_stardust_costs.info[w_id] = j[w_id]
+
+    return get_stardust_costs.info.get('xl_candy')
 
 
 # Return a boolean for whether the raid boss will have it's catch CP boosted
