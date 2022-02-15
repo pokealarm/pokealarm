@@ -58,9 +58,12 @@ lng_5        Longitude of the stop, truncated to 5 decimal places.
 distance     Distance of the stop from the set location.
 direction    Cardinal direction of the stop, from the set location.
 gmaps        Google Maps link to the location of the stop.
+gnav         Google Maps Navigation to the location of the stop.
 applemaps    Apple Maps link to the location of the stop.
+applenav     Apple Maps Navigation to the location of the stop.
 waze         Waze link to the location of the stop.
-geofence     Geofence around the event.
+wazenav      Waze Navigation to the location of the stop.
+geofence     Geofence around the stop.
 ============ ======================================================
 
 

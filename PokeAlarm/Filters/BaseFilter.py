@@ -1,5 +1,6 @@
 # Standard Library Imports
 import logging
+from datetime import datetime, timedelta
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
@@ -73,6 +74,21 @@ class BaseFilter(object):
         # Add check function to our list
         self._check_list.append(check)
         return limit
+
+    def evaluate_time(self, min_time, max_time):
+        if min_time is None and max_time is None:
+            return None  # limit not set
+
+        if min_time is None:
+            min_time = 0.0
+        if max_time is None:
+            max_time = 60.0 * 60.0 * 24.0
+
+        # Create a function to compare the current time to time range
+        check = CheckTime(min_time, max_time)
+
+        # Add check function to our list
+        self._check_list.append(check)
 
     @staticmethod
     def parse_as_type(kind, param_name, data):
@@ -151,6 +167,29 @@ class BaseFilter(object):
         return allowed
 
     @staticmethod
+    def parse_as_time(param_name, data):
+        """ Parse a time with X:XX format (24h) and convert in seconds"""
+        try:
+            value = data.pop(param_name, None)
+            if value is None:
+                return None
+            else:
+                try:
+                    absolute_time_sec = datetime.strptime(value, '%H:%M')
+                    return (absolute_time_sec - absolute_time_sec.replace(
+                        hour=0, minute=0)).total_seconds()
+                except Exception:
+                    raise ValueError(
+                        'Unable to interpret the value "{}" as a '.format(
+                            value) +
+                        'valid X:XX format for parameter {}.", '.format(
+                            param_name))
+        except Exception:
+            raise ValueError(
+                'Unable to interpret the value "{}" as a '.format(value) +
+                'valid  X:XX format for parameter {}.", '.format(param_name))
+
+    @ staticmethod
     def parse_as_dict(key_type, value_type, param_name, data):
         """ Parse and convert a dict of values into a specific types."""
         values = data.pop(param_name, {})
@@ -191,3 +230,39 @@ class CheckFunction(object):
             filtr.reject(event, self._attr_name, value, self._limit)
 
         return result
+
+
+class CheckTime(object):
+    """ Function used to check if a timestamp passes or not. """
+
+    def __init__(self, min_time, max_time):
+        self._min_time = min_time
+        self._max_time = max_time
+        self._override_time = None
+
+    def __call__(self, filtr, event):
+        if self._override_time is not None:
+            current_time = self._override_time
+        else:
+            now = datetime.now()
+            current_time = (now - now.replace(hour=0, minute=0,
+                                              second=0)).total_seconds()
+        if self._min_time <= self._max_time:
+            result = (self._min_time <=
+                      current_time and current_time <= self._max_time)
+        else:
+            result = (self._min_time <=
+                      current_time or current_time <= self._max_time)
+
+        if result is False:  # Log rejection
+            filtr.reject(event, 'time range',
+                         str(timedelta(seconds=current_time)),
+                         [str(timedelta(seconds=self._min_time)),
+                          str(timedelta(seconds=self._max_time))])
+
+        return result
+
+    def override_time(self, current_time):
+        absolute_time_sec = datetime.strptime(current_time, '%H:%M')
+        self._override_time = (absolute_time_sec - absolute_time_sec.replace(
+            hour=0, minute=0)).total_seconds()

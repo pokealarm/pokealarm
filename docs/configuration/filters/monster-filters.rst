@@ -125,6 +125,8 @@ weather            Accepted weather conditions, by id or name.            ``["Cl
 boosted_weather    Accepted boosted weather condition, by id or name.     ``["Clear",2]``
 is_boosted_weather Accepts or denies based off boosted weather condition. ``true``
 geofences          See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
+min_time           See :ref:`time_dts_filters` page on 'Time DTS'         ``8:30``
+max_time           See :ref:`time_dts_filters` page on 'Time DTS'         ``22:00``
 custom_dts         See :ref:`custom_dts_filters` page on 'Custom DTS'     ``{"dts1":"substitution"}``
 is_missing_info    See :ref:`missing_info_filters` page on 'Missing Info' ``true`` or ``false``
 ================== ====================================================== ==============================

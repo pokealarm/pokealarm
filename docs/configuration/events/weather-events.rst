@@ -61,8 +61,11 @@ lat_5        Latitude of the center of the s2 cell, truncated to 5 decimal place
 lng_5        Longitude of the center of the s2 cell, truncated to 5 decimal places.
 distance     Distance to the center of the s2 cell from the set location.
 direction    Cardinal direction of the center of the s2 cell from the set location.
-gmaps        Google Maps link to the center of the s2 cell.
-applemaps    Apple Maps link to the center of the s2 cell.
-waze         Waze link to the center of the s2 cell.
+gmaps        Google Maps link to the location of the s2 cell.
+gnav         Google Maps Navigation to the location of the s2 cell.
+applemaps    Apple Maps link to the location of the s2 cell.
+applenav     Apple Maps Navigation to the location of the s2 cell.
+waze         Waze link to the location of the s2 cell.
+wazenav      Waze Navigation to the location of the s2 cell.
 geofence     Geofence around the event.
 ============ =======================================================================

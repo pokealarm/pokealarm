@@ -70,8 +70,11 @@ lng_5               Longitude of the egg, truncated to 5 decimal places.
 distance            Distance of the egg from the set location.
 direction           Cardinal direction of the egg, from the set location.
 gmaps               Google Maps link to the location of the egg.
+gnav                Google Maps Navigation to the location of the egg.
 applemaps           Apple Maps link to the location of the egg.
+applenav            Apple Maps Navigation to the location of the egg.
 waze                Waze link to the location of the egg.
+wazenav             Waze Navigation to the location of the egg.
 geofence            Geofence around the event.
 =================== =========================================================
 

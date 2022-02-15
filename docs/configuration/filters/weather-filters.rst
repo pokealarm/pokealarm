@@ -46,6 +46,8 @@ min_dist        Min distance of event from set location in miles       ``0.0`` *
 max_dist        Max distance of event from set location in miles       ``1000.0`` *
                 or meters (depending on settings).
 geofences       See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
+min_time        See :ref:`time_dts_filters` page on 'Time DTS'         ``8:30``
+max_time        See :ref:`time_dts_filters` page on 'Time DTS'         ``22:00``
 custom_dts      See :ref:`custom_dts_filters` page on 'Custom DTS'     ``{"dts1":"substitution"}``
 weather         A list of weather by name or ids.                      ``["Clear", 2]``
 day_or_night    A list of the time of day by id or name                ``["Day", 2]``
