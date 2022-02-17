@@ -69,14 +69,14 @@ def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
     candy_cost = evo_candy_cost
     xl_candy_cost = 0
 
-    while tmp_level != target_level and tmp_level < 40:
+    while tmp_level < target_level and tmp_level < 40:
         for cost_key in candy_table:
             lvls = re.findall(r"[\.\d]+", cost_key)
             if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
                 candy_cost += candy_table[cost_key]
         tmp_level += 0.5
 
-    while tmp_level != target_level:
+    while tmp_level < target_level and tmp_level < 50:
         for cost_key in xl_candy_table:
             lvls = re.findall(r"[\.\d]+", cost_key)
             if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
@@ -96,7 +96,7 @@ def calculate_stardust_cost(start_level, target_level):
 
     tmp_level = start_level
     stardust_cost = 0
-    while tmp_level != target_level:
+    while tmp_level < target_level and tmp_level < 50:
         for cost_key in stardust_table:
             lvls = re.findall(r"[\.\d]+", cost_key)
             if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
