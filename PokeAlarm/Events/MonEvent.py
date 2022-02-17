@@ -70,9 +70,8 @@ class MonEvent(BaseEvent):
             self.iv = \
                 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
             (self.great_product, self.great_id, self.great_cp,
-             self.great_level, self.great_candy, self.great_stardust,
-             self.ultra_product, self.ultra_id, self.ultra_cp,
-             self.ultra_level, self.ultra_candy, self.ultra_stardust) = \
+             self.great_level, self.ultra_product, self.ultra_id,
+             self.ultra_cp, self.ultra_level) = \
                 PvpUtils.get_pvp_info(
                     self.monster_id, self.atk_iv, self.def_iv, self.sta_iv,
                     self.mon_lvl)
@@ -86,10 +85,6 @@ class MonEvent(BaseEvent):
             self.ultra_cp = Unknown.SMALL
             self.great_level = Unknown.SMALL
             self.ultra_level = Unknown.SMALL
-            self.great_candy = Unknown.SMALL
-            self.ultra_candy = Unknown.SMALL
-            self.great_stardust = Unknown.SMALL
-            self.ultra_stardust = Unknown.SMALL
 
         # Quick Move
         self.quick_id = check_for_none(
@@ -299,8 +294,6 @@ class MonEvent(BaseEvent):
                         self.great_id, self.form_id)
                         for x in ['unknown', 'Normal'])
                     else ''),
-            'great_candy': self.great_candy,
-            'great_stardust': self.great_stardust,
             'ultra_mon_id': self.ultra_id,
             'ultra_product': self.ultra_product,
             'ultra_mon_name': locale.get_pokemon_name(self.ultra_id),
@@ -332,8 +325,6 @@ class MonEvent(BaseEvent):
                         self.ultra_id, self.form_id)
                         for x in ['unknown', 'Normal'])
                     else ''),
-            'ultra_candy': self.ultra_candy,
-            'ultra_stardust': self.ultra_stardust,
             # Type
             'type1': type1,
             'type1_or_empty': Unknown.or_empty(type1),
