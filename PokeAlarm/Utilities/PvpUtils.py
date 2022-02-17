@@ -112,12 +112,12 @@ def calculate_evolution_cost(monster_id, target_id, evolutions):
         return 0
 
     evolution_candy_costs = utils.get_evolution_costs()
-    evo_candy_cost = evolution_candy_costs.get(int(monster_id), 0)
+    evo_candy_cost = evolution_candy_costs.get(monster_id)
 
     for evolution in evolutions:
         if int(evolution) == target_id:
             return evo_candy_cost
-        evo_candy_cost += evolution_candy_costs.get(int(evolution), 0)
+        evo_candy_cost += evolution_candy_costs.get(int(evolution))
 
 
 def get_pvp_info(monster_id, atk, de, sta, lvl):

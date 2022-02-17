@@ -245,8 +245,7 @@ def get_evolution_costs():
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for id_ in j:
-            get_evolution_costs.info[int(id_)] = j[id_].get(
-                'evolution_cost', 0)
+            get_evolution_costs.info[int(id_)] = j[id_].get('evolution_cost')
     return get_evolution_costs.info
 
 
