@@ -151,9 +151,6 @@ def start_server():
     # Parse Settings
     parse_settings(os.path.abspath(os.path.dirname(__file__)))
 
-    # Check for a data update
-    check_for_update()
-
     # Start Webhook Manager in a Thread
     spawn(manage_webhook_data, data_queue)
 
@@ -382,6 +379,9 @@ def parse_settings(root_path):
     while len(args.manager_name) < args.manager_count:
         m_ct = len(args.manager_name)
         args.manager_name.append("Manager_{}".format(m_ct))
+
+    # Check for a data update before building the managers
+    check_for_update()
 
     # Build the managers
     for m_ct in range(args.manager_count):
