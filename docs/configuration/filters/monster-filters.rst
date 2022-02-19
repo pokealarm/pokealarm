@@ -52,6 +52,7 @@ types               Array of allowed monster types, by name.                    
 genders             Array of acceptable genders. Options: `"male",                   ``["female"]``
                     "female", "neutral"`
 rarity              Array of allowed rarities.                                       ``["common", "uncommon", 3``
+can_be_shiny        Accepts or denies based on shiny availability.                   ``true`` or ``false``
 =================== ================================================================ ================================
 
 
@@ -125,7 +126,7 @@ min_time_left      Minimum time (in seconds) until monster despawns.      ``1000
 max_time_left      Maximum time (in seconds) until monster despawns.      ``2400``
 weather            Accepted weather conditions, by id or name.            ``["Clear",2]``
 boosted_weather    Accepted boosted weather condition, by id or name.     ``["Clear",2]``
-is_boosted_weather Accepts or denies based off boosted weather condition. ``true``
+is_boosted_weather Accepts or denies based on boosted weather conditions. ``true``
 geofences          See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
 min_time           See :ref:`time_dts_filters` page on 'Time DTS'         ``8:30``
 max_time           See :ref:`time_dts_filters` page on 'Time DTS'         ``22:00``

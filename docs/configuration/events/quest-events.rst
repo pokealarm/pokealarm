@@ -103,6 +103,8 @@ type2_emoji                Emoji for the monster's secondary type, or empty stri
 types                      Monster's type formatted as "type1/type2".
 types_emoji                Type emojis for the monster as "type1+type2", or empty
                            string if unknown.
+shiny_emoji                Return shiny emoji if monster can be shiny, or
+                           empty string if unknown.
 ========================== ========================================================
 
 Item Reward Details

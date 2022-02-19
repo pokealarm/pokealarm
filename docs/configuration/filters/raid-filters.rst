@@ -59,6 +59,7 @@ charge_moves      Accepted charge moves, by id or name.            ``["Sludge Bo
 current_teams     List of allowed current teams, by id or name.    ``["Instinct","Mystic"]``
 gym_name_contains List of regex's required to be in the gym name.  ``["Sponsored","West\\sOak"]``
 gym_name_excludes List of regex's rejected to be in the gym name.  ``["Sponsored","West\\sOak"]``
+can_be_shiny      Accepts or denies based on shiny availability.   ``true`` or ``false``
 ================= ================================================ ===============================
 
 

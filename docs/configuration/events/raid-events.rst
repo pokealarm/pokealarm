@@ -62,6 +62,8 @@ type2_emoji                Emoji for the monster's secondary type, or empty stri
 types                      Monster's type formatted as "type1/type2".
 types_emoji                Type emojis for the monster as "type1+type2", or empty
                            string if unknown.
+shiny_emoji                Return shiny emoji if monster can be shiny, or
+                           empty string if unknown.
 gym_name                   The name of the gym. *
 gym_description            The description of the gym. *
 gym_image                  The url to the image of the gym. *
