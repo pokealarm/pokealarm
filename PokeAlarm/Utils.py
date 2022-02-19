@@ -748,6 +748,14 @@ def get_ex_eligible_emoji(ex_eligible):
         1: '✉️',
     }.get(ex_eligible, '')
 
+
+def get_shiny_emoji(can_be_shiny):
+    if can_be_shiny:
+        return '✨'
+    else:
+        return ''
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

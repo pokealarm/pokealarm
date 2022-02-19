@@ -80,6 +80,12 @@ class RaidFilter(BaseFilter):
             eval_func=lambda d, v: not operator.contains(d, v),
             limit=BaseFilter.parse_as_set(int, 'exclude_costumes', data))
 
+        # Cosmetic
+        self.can_be_shiny = self.evaluate_attribute(
+            event_attribute='can_be_shiny',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'can_be_shiny', data))
+
         # Gender
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender
             event_attribute='gender', eval_func=operator.contains,
@@ -200,6 +206,10 @@ class RaidFilter(BaseFilter):
         # Gender
         if self.genders is not None:
             settings['genders'] = self.genders
+
+        # Cosmetic
+        if self.can_be_shiny is not None:
+            settings['can_be_shiny'] = self.can_be_shiny
 
         # Weather
         if self.weather_ids is not None:

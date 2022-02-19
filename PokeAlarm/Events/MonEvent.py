@@ -9,9 +9,10 @@ from PokeAlarm.Utilities import MonUtils, PvpUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_type, get_move_damage, get_move_dps,
     get_move_duration, get_move_energy, get_pokemon_size,
-    get_applemaps_link, get_time_as_str, get_seconds_remaining,
-    get_base_types, get_dist_as_str, get_weather_emoji,
-    get_spawn_verified_emoji, get_type_emoji, get_waze_link)
+    get_applemaps_link, get_shiny_emoji, get_time_as_str,
+    get_seconds_remaining, get_base_types, get_dist_as_str,
+    get_weather_emoji, get_spawn_verified_emoji, get_type_emoji,
+    get_waze_link)
 from . import BaseEvent
 
 
@@ -140,7 +141,9 @@ class MonEvent(BaseEvent):
                 self.monster_id, self.height, self.weight)
         else:
             self.size_id = Unknown.SMALL
+
         self.types = get_base_types(self.monster_id, self.form_id)
+        self.can_be_shiny = MonUtils.get_wild_shiny_status(self.monster_id)
 
         # Costume
         self.costume_id = check_for_none(int, data.get('costume'), 0)
@@ -409,6 +412,7 @@ class MonEvent(BaseEvent):
                 "{:.2f}".format(self.weight) if Unknown.is_not(self.weight)
                 else Unknown.SMALL),
             'size': locale.get_size_name(self.size_id),
+            'shiny_emoji': get_shiny_emoji(self.can_be_shiny),
 
             # Display Information (Usually when the actual mon is a ditto)
             'display_mon_id': self.display_monster_id,
