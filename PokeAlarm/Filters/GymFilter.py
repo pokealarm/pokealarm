@@ -9,9 +9,9 @@ from PokeAlarm.Utilities import GymUtils as GymUtils
 class GymFilter(BaseFilter):
     """ Filter class for limiting which gyms trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(GymFilter, self).__init__(mgr, 'gym', name)
+        super(GymFilter, self).__init__(mgr, 'gym', name, geofences_ref)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= g.distance
@@ -58,7 +58,8 @@ class GymFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_slots', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(

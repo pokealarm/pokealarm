@@ -9,9 +9,9 @@ from PokeAlarm.Utilities import StopUtils as StopUtils
 class StopFilter(BaseFilter):
     """ Filter class for limiting which stops trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(StopFilter, self).__init__(mgr, 'stop', name)
+        super(StopFilter, self).__init__(mgr, 'stop', name, geofences_ref)
 
         # Lures
         self.lure_ids = self.evaluate_attribute(
@@ -45,7 +45,8 @@ class StopFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(

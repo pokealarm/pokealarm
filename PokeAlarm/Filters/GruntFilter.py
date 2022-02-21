@@ -10,9 +10,9 @@ from PokeAlarm.Utilities.GruntUtils import get_grunt_id
 class GruntFilter(BaseFilter):
     """ Filter class for limiting which invasions trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(GruntFilter, self).__init__(mgr, 'invasion', name)
+        super(GruntFilter, self).__init__(mgr, 'invasion', name, geofences_ref)
 
         # Grunts
         self.grunt_ids = self.evaluate_attribute(
@@ -52,7 +52,8 @@ class GruntFilter(BaseFilter):
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(

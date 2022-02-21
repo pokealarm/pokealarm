@@ -9,9 +9,9 @@ from PokeAlarm.Utilities import GymUtils as GymUtils, QuestUtils, MonUtils
 class QuestFilter(BaseFilter):
     """ Filter class for limiting which quests trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(QuestFilter, self).__init__(mgr, 'quest', name)
+        super(QuestFilter, self).__init__(mgr, 'quest', name, geofences_ref)
 
         # Stop Information
         self.stop_name_contains = self.evaluate_attribute(  # f.gn matches g.gn
@@ -100,8 +100,8 @@ class QuestFilter(BaseFilter):
                 QuestUtils.get_item_id, 'items_exclude', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
-
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(
             'min_time', data), BaseFilter.parse_as_time('max_time', data))

@@ -9,9 +9,9 @@ from PokeAlarm.Utilities import GymUtils as GymUtils
 class EggFilter(BaseFilter):
     """ Filter class for limiting which egg trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(EggFilter, self).__init__(mgr, 'egg', name)
+        super(EggFilter, self).__init__(mgr, 'egg', name, geofences_ref)
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= e.distance
@@ -81,7 +81,8 @@ class EggFilter(BaseFilter):
                 GymUtils.get_team_id, 'current_teams', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(
