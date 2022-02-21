@@ -18,6 +18,16 @@ class MockManager(object):
         json.dump(pokemon_data, f, indent=2)
         f.close()
 
+    # Create a geofence.txt for unit tests
+    f = open("tests/filters/test_geofences.txt", 'w')
+    geo_str = """[NewYork]
+40.48683230424025,-74.31541096584718
+40.9655644121444,-73.92951619045655
+40.9053923299183,-73.72489582912843
+40.559904930284,-73.60679280178468"""
+    f.write(geo_str)
+    f.close()
+
 
 def generic_filter_test(test):
     """Decorator used for creating a generic filter test.
