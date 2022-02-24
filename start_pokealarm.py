@@ -11,6 +11,8 @@ import logging
 import json
 import os
 import sys
+import requests
+import traceback
 # 3rd Party Imports
 import configargparse
 from gevent import pywsgi, spawn, signal, pool, queue
@@ -87,6 +89,94 @@ def manage_webhook_data(_queue):
         if not isinstance(obj, list):
             log.debug("Distributed event %s to %s managers.",
                       obj.id, len(managers))
+
+
+# Check for update
+def check_for_update():
+    version_req = "https://api.github.com/repos/WatWowMap/Masterfile-" \
+        "Generator/commits?path=master-latest-everything.json&per_page=1"
+
+    try:
+        # Get last commit version of the data
+        response = requests.get(version_req)
+        sig = response.json()[0]["sha"]
+
+        # Compare local with remote signature and download new data if needed
+        if os.path.isfile('data/.data_version'):
+            with open("data/.data_version", 'r') as f:
+                current_sig = f.read()
+                if (current_sig == sig and
+                        os.path.isfile('data/pokemon_data.json')):
+                    log.info("PokeAlarm data is up to date!")
+                else:
+                    download_masterfile(sig)
+        else:
+            download_masterfile(sig)
+
+    except Exception as e:
+        log.error(f"Unable to update PokeAlarm data: {e}")
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+
+        # Remove the tmp_data if exists and check for a local mon data
+        try:
+            os.remove("data/tmp_pokemon_data.json")
+        except Exception:
+            pass
+        finally:
+            if not os.path.isfile('data/pokemon_data.json'):
+                log.critical("No local pokemon data found.")
+                sys.exit(1)
+
+
+# Download latest PokeAlarm data
+def download_masterfile(sig):
+    master_file = "https://raw.githubusercontent.com/WatWowMap/" \
+        "Masterfile-Generator/master/master-latest-everything.json"
+
+    # Download data and update signature
+    log.info("New PokeAlarm data found! Fetching in progress...")
+    master_file = requests.get(master_file)
+
+    full_data = master_file.json()
+
+    # Check some dict paths which don't have to change
+    if full_data["pokemon"]["255"]["forms"]["1360"]["name"] != "Purified":
+        raise Exception("incorrect remote data")
+    if full_data["types"]["4"]["veryWeakAgainst"][0]["typeName"] != "Steel":
+        raise Exception("incorrect remote data")
+    if full_data["weather"]["0"]["weatherName"] != "Extreme":
+        raise Exception("incorrect remote data")
+
+    # Write a temporary mon data
+    tmp_mon_fsize = 0
+    with open("data/tmp_pokemon_data.json", 'w') as f:
+        json.dump(full_data["pokemon"], f, indent=2)
+        tmp_mon_fsize = f.tell()
+        f.close()
+
+    # File size check
+    if tmp_mon_fsize == 0:
+        raise Exception("empty remote file")
+
+    if os.path.isfile('data/pokemon_data.json'):
+        mon_fsize = os.path.getsize("data/pokemon_data.json")
+        if float(tmp_mon_fsize - mon_fsize) / mon_fsize < -0.01:  # -1% diff
+            raise Exception(
+                f"remote file size is smaller ({tmp_mon_fsize} < {mon_fsize})")
+
+    # TODO: Dynamically update data for moves
+    # Maybe use the data from pogoapi.net/documentation/ to keep the
+    # current infos from move_info.json
+
+    # All's done! Overwrite the old local file data
+    os.replace("data/tmp_pokemon_data.json", "data/pokemon_data.json")
+
+    # Update the local hash
+    with open("data/.data_version", 'w') as f:
+        f.write(sig)
+        f.close()
+
+    log.info("PokeAlarm data has been updated!")
 
 
 # Configure and run PokeAlarm
@@ -322,6 +412,9 @@ def parse_settings(root_path):
     while len(args.manager_name) < args.manager_count:
         m_ct = len(args.manager_name)
         args.manager_name.append("Manager_{}".format(m_ct))
+
+    # Check for a data update before building the managers
+    check_for_update()
 
     # Build the managers
     for m_ct in range(args.manager_count):

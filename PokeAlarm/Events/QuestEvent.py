@@ -56,7 +56,8 @@ class QuestEvent(BaseEvent):
         self.monster_id = data.get('pokemon_id', 0)
         self.monster_form_id = data.get('pokemon_form', 0)
         self.monster_costume_id = data.get('pokemon_costume', 0)
-        self.monster_types = get_base_types(self.monster_id) \
+        self.monster_types = get_base_types(self.monster_id,
+                                            self.monster_form_id) \
             if self.monster_id != 0 else [0, 0]
 
         # Item Reward Details

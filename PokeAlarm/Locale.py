@@ -4,14 +4,13 @@ import json
 import logging
 # 3rd Party Imports
 # Local Imports
-from .Utils import get_path
+from .Utils import get_path, get_raw_form_names
 
 log = logging.getLogger('Locale')
 
 
 # Locale object is used to get different translations in other languages
 class Locale(object):
-
     name = 'en'
 
     # Load in the locale information from the specified json file
@@ -91,25 +90,24 @@ class Locale(object):
                 self.__costume_names[int(pkmn_id)][int(
                     costume_id)] = pkmn_costumes.get(costume_id, costume_name)
 
+        # Pokemon ID -> { Form ID -> Explicitly English Form Name }
+        raw_form_names = get_raw_form_names()
+        self.__english_form_names = {}
+        for id_ in raw_form_names:
+            self.__english_form_names[id_] = {}
+            for form_id_ in raw_form_names[id_]:
+                self.__english_form_names[id_][form_id_] = (default[
+                    'form_names'].get(raw_form_names[id_][form_id_]) or
+                    raw_form_names[id_][form_id_])
+
         # Pokemon ID -> { Form ID -> Form Name}
         self.__form_names = {}
-        all_forms = info.get("forms", {})
-        for pkmn_id, forms in default["forms"].items():
-            self.__form_names[int(pkmn_id)] = {}
-            pkmn_forms = all_forms.get(pkmn_id, {})
-            for form_id, form_name in forms.items():
-                self.__form_names[int(pkmn_id)][int(form_id)] = pkmn_forms.get(
-                    form_id, form_name)
-
-        # Pokemon ID -> { Form ID -> Explicitly English Form Name }
-        self.__english_form_names = {}
-        english_forms = default.get('forms', {})
-        for pkmn_id, forms in default['forms'].items():
-            self.__english_form_names[int(pkmn_id)] = {}
-            pkmn_forms = english_forms.get(pkmn_id, {})
-            for form_id, form_name in forms.items():
-                self.__english_form_names[int(pkmn_id)][int(form_id)] = \
-                    pkmn_forms.get(form_id, form_name)
+        for id_ in raw_form_names:
+            self.__form_names[id_] = {}
+            for form_id_ in raw_form_names[id_]:
+                self.__form_names[id_][form_id_] = (info[
+                    'form_names'].get(raw_form_names[id_][form_id_]) or
+                    self.__english_form_names[id_][form_id_])
 
         # Rarity ID -> Rarity Name
         self.__rarity_names = {}
@@ -262,7 +260,8 @@ class Locale(object):
             #  if monster.costume != 0 else ''),
             # costume=self.get_costume_name(monster.id, monster.costume),
             form=self.get_form_name(monster['id'], monster['form']),
-            form_with_space=self.get_form_name(monster['id'], monster['form'])
+            form_with_space=self.get_form_name(
+                monster['id'], monster['form'])
             + ' '
             if monster['form'] != 0 and self.get_form_name(
                 monster['id'], monster['form']) not in ['Normal', 'Normale']
