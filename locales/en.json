@@ -3885,7 +3885,7 @@
     "352": "Weather Ball",
     "353": "Psychic Fangs",
     "354": "Hyperspace Fury",
-    "355": "Hyperspace Hole"	
+    "355": "Hyperspace Hole"
   },
   "pokemon": {
     "001": "Bulbasaur",
@@ -4806,11 +4806,11 @@
     "005": "Ultra Rare"
   },
   "sizes": {
-    "001": "tiny",
-    "002": "small",
-    "003": "normal",
-    "004": "large",
-    "005": "big"
+    "001": "Tiny",
+    "002": "Small",
+    "003": "Normal",
+    "004": "Large",
+    "005": "Big"
   },
   "teams": {
     "000": "Neutral",

@@ -12,6 +12,7 @@ import json
 import os
 import sys
 import requests
+import traceback
 # 3rd Party Imports
 import configargparse
 from gevent import pywsgi, spawn, signal, pool, queue
@@ -113,10 +114,18 @@ def check_for_update():
             download_masterfile(sig)
 
     except Exception as e:
-        log.info("Unable to get PokeAlarm data: {}".format(e))
-        if not os.path.isfile('data/pokemon_data.json'):
-            log.critical("PokeAlarm file data not found.")
-            sys.exit(1)
+        log.error(f"Unable to update PokeAlarm data: {e}")
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+
+        # Remove the tmp_data if exists and check for a local mon data
+        try:
+            os.remove("data/tmp_pokemon_data.json")
+        except Exception:
+            pass
+        finally:
+            if not os.path.isfile('data/pokemon_data.json'):
+                log.critical("No local pokemon data found.")
+                sys.exit(1)
 
 
 # Download latest PokeAlarm data
@@ -128,17 +137,41 @@ def download_masterfile(sig):
     log.info("New PokeAlarm data found! Fetching in progress...")
     master_file = requests.get(master_file)
 
-    pokemon_data = master_file.json()["pokemon"]
-    with open("data/pokemon_data.json", 'w') as f:
-        json.dump(pokemon_data, f, indent=2)
+    full_data = master_file.json()
+
+    # Check some dict paths which don't have to change
+    if full_data["pokemon"]["255"]["forms"]["1360"]["name"] != "Purified":
+        raise Exception("incorrect remote data")
+    if full_data["types"]["4"]["veryWeakAgainst"][0]["typeName"] != "Steel":
+        raise Exception("incorrect remote data")
+    if full_data["weather"]["0"]["weatherName"] != "Extreme":
+        raise Exception("incorrect remote data")
+
+    # Write a temporary mon data
+    tmp_mon_fsize = 0
+    with open("data/tmp_pokemon_data.json", 'w') as f:
+        json.dump(full_data["pokemon"], f, indent=2)
+        tmp_mon_fsize = f.tell()
         f.close()
 
-    # TODO: Dynamically update data for moves
-    # move_data = master_file.json()["moves"]
-    # with open("data/move_data.json", 'w') as f:
-    #     json.dump(move_data, f, indent=2)
-    #     f.close()
+    # File size check
+    if tmp_mon_fsize == 0:
+        raise Exception("empty remote file")
 
+    if os.path.isfile('data/pokemon_data.json'):
+        mon_fsize = os.path.getsize("data/pokemon_data.json")
+        if float(tmp_mon_fsize - mon_fsize) / mon_fsize < -0.01:  # -1% diff
+            raise Exception(
+                f"remote file size is smaller ({tmp_mon_fsize} < {mon_fsize})")
+
+    # TODO: Dynamically update data for moves
+    # Maybe use the data from pogoapi.net/documentation/ to keep the
+    # current infos from move_info.json
+
+    # All's done! Overwrite the old local file data
+    os.replace("data/tmp_pokemon_data.json", "data/pokemon_data.json")
+
+    # Update the local hash
     with open("data/.data_version", 'w') as f:
         f.write(sig)
         f.close()
