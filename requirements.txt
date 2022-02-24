@@ -5,3 +5,4 @@ pytz==2019.3
 portalocker==1.5.2
 requests==2.22.0
 greenlet==0.4.13
+itsdangerous==2.0.1
