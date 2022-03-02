@@ -129,16 +129,32 @@ def get_team_id(team_name):
     return get_team_id.ids.get(name)
 
 
+# Returns type id corresponding with the type name
+def get_type_id(type_name):
+    if not hasattr(get_type_id, 'info'):
+        get_type_id.info = {}
+        file_ = get_path('locales/en.json')
+        with open(file_, 'r') as f:
+            j = json.load(f)
+            f.close()
+        for id_, name_ in j["types"].items():
+            get_type_id.info[name_.lower()] = int(id_)
+
+    return get_type_id.info.get(type_name.lower(), 0)
+
+
 # Returns the types of a move when requesting
 def get_move_type(move_id):
     if not hasattr(get_move_type, 'info'):
         get_move_type.info = {}
-        file_ = get_path('data/move_info.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            get_move_type.info[int(id_)] = j[id_]['type']
+        file1_ = get_path('data/fast_moves.json')
+        file2_ = get_path('data/charged_moves.json')
+        for file_ in [file1_, file2_]:
+            with open(file_, 'r') as f:
+                j = json.load(f)
+                f.close()
+            for mv in j:
+                get_move_type.info[mv['move_id']] = get_type_id(mv['type'])
 
     return get_move_type.info.get(move_id, Unknown.SMALL)
 
@@ -147,12 +163,14 @@ def get_move_type(move_id):
 def get_move_damage(move_id):
     if not hasattr(get_move_damage, 'info'):
         get_move_damage.info = {}
-        file_ = get_path('data/move_info.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            get_move_damage.info[int(id_)] = j[id_]['damage']
+        file1_ = get_path('data/fast_moves.json')
+        file2_ = get_path('data/charged_moves.json')
+        for file_ in [file1_, file2_]:
+            with open(file_, 'r') as f:
+                j = json.load(f)
+                f.close()
+            for mv in j:
+                get_move_damage.info[mv['move_id']] = mv['power']
 
     return get_move_damage.info.get(move_id, 'unkn')
 
@@ -161,12 +179,15 @@ def get_move_damage(move_id):
 def get_move_dps(move_id):
     if not hasattr(get_move_dps, 'info'):
         get_move_dps.info = {}
-        file_ = get_path('data/move_info.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            get_move_dps.info[int(id_)] = j[id_]['dps']
+        file1_ = get_path('data/fast_moves.json')
+        file2_ = get_path('data/charged_moves.json')
+        for file_ in [file1_, file2_]:
+            with open(file_, 'r') as f:
+                j = json.load(f)
+                f.close()
+            for mv in j:
+                get_move_dps.info[mv['move_id']] = round(
+                    (mv['power'] / mv['duration']) * 1000, 2)
 
     return get_move_dps.info.get(move_id, 'unkn')
 
@@ -175,12 +196,14 @@ def get_move_dps(move_id):
 def get_move_duration(move_id):
     if not hasattr(get_move_duration, 'info'):
         get_move_duration.info = {}
-        file_ = get_path('data/move_info.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            get_move_duration.info[int(id_)] = j[id_]['duration']
+        file1_ = get_path('data/fast_moves.json')
+        file2_ = get_path('data/charged_moves.json')
+        for file_ in [file1_, file2_]:
+            with open(file_, 'r') as f:
+                j = json.load(f)
+                f.close()
+            for mv in j:
+                get_move_duration.info[mv['move_id']] = mv['duration']
 
     return get_move_duration.info.get(move_id, 'unkn')
 
@@ -189,12 +212,14 @@ def get_move_duration(move_id):
 def get_move_energy(move_id):
     if not hasattr(get_move_energy, 'info'):
         get_move_energy.info = {}
-        file_ = get_path('data/move_info.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            get_move_energy.info[int(id_)] = j[id_]['energy']
+        file1_ = get_path('data/fast_moves.json')
+        file2_ = get_path('data/charged_moves.json')
+        for file_ in [file1_, file2_]:
+            with open(file_, 'r') as f:
+                j = json.load(f)
+                f.close()
+            for mv in j:
+                get_move_energy.info[mv['move_id']] = abs(mv['energy_delta'])
 
     return get_move_energy.info.get(move_id, 'unkn')
 
