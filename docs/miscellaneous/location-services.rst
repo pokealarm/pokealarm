@@ -176,11 +176,11 @@ Starting PokeAlarm with a Google Maps API Key
 
 There are 2 methods to start **PokeAlarm** with your Google Maps API key:
 
-1. Run the command ``python start_pokealarm.py -k YOUR_GOOGLE_MAPS_API_KEY``
+1. Run the command ``python3 start_pokealarm.py -k YOUR_GOOGLE_MAPS_API_KEY``
 
 2. Add ``key:YOUR_GOOGLE_MAPS_API_KEY`` to ``config.ini`` located in the
    ``config`` subfolder of your PokeAlarm installation, then run the command
-   ``python start_pokealarm.py``.
+   ``python3 start_pokealarm.py``.
 
 
 Google API Daily Limit

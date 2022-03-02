@@ -83,12 +83,13 @@ every Geofence attached to a Manager:
 Notes
 -------------------------------------
 
-Differences from Rocketmap
+Differences from scanners
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are using the same Geofences for both Rocketmap and PokeAlarm, it's
+If you are using the same Geofences for both the scanner and PokeAlarm, it's
 possible that you may see an event get rejected by PokeAlarm. This is because
-RM and PA use Geofences differently. RM uses them to rescrit work movement, but
-PA uses them to restrict events. As a result, RM will occasionally send
-an Event that PA will reject. If this is a problem, you can either
-increase the size of your PA geofences, or remove them all together.
+the scanner and PA could use Geofences differently. The scanners use them to
+rescrit work movement, but PA uses them to restrict events. As a result,
+the scanners could occasionally send an Event that PA will reject.
+If this is a problem, you can either increase the size of your PA geofences,
+or remove them all together.

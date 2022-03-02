@@ -17,7 +17,7 @@ Introduction
 
 In PokeAlarm, an **Event** represents something of interest that has happened
 in the World. Events can be several different things - a new monster spawning,
-a gym changing teams, or a new raid appearing. There are 5 different categories
+a gym changing teams, or a new raid appearing. There are different categories
 for Events, each with different information:
 
 .. toctree::
