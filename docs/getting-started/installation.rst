@@ -83,7 +83,7 @@ Running
      `RealDeviceMap wiki <https://realdevicemap.readthedocs.io/en/latest/realdevicemap/dashboard/settings.html#webhook>`_.
 
    Finally, start your scanner. If everything is set up correctly, PA will start
-   logging informations about what it is doing to the console.
+   logging information about what it is doing to the console.
 
 Updating
 -------------------------------------

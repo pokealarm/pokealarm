@@ -89,7 +89,7 @@ Differences from scanners
 If you are using the same Geofences for both the scanner and PokeAlarm, it's
 possible that you may see an event get rejected by PokeAlarm. This is because
 the scanner and PA could use Geofences differently. The scanners use them to
-rescrit work movement, but PA uses them to restrict events. As a result,
+restrict work movement but PA uses them to restrict events. As a result,
 the scanners could occasionally send an Event that PA will reject.
 If this is a problem, you can either increase the size of your PA geofences,
 or remove them all together.
