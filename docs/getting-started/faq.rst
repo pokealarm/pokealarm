@@ -25,8 +25,8 @@ to use the correct template and to fill out all the information!
 What scanner should I use?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We have support a wide variety of scanners and forks - including Monocle,
-Monocle-Alt, Rocketmap-Stock, and RocketMap-Alt. PA relies on information from
+We have support a wide variety of scanners and forks - including Map'A'Droid
+and RealDeviceMap. PA relies on information from
 your scanner via webhook - as a result, certain features may be supported by
 certain scanners.
 
@@ -79,7 +79,7 @@ PA only supports Python3 (version 3.7+), and not Python2.
 ModuleNotFoundError: No module named X
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 After updating PA, make sure you always check for updated requirements.
-Run the command ``pip install -r requirements.txt --upgrade`` from the PA
+Run the command ``pip3 install -r requirements.txt --upgrade`` from the PA
 folder.
 
 Additionally, ensure you are using Python3 and pip3 instead of Python2
@@ -98,7 +98,7 @@ the value, or else it doesn't support the DTS.
 
 Gym Name DTS reporting "Unknown"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Some scanners (Stock-RM in particular) do not send relevant gym details through
+Some scanners do not send relevant gym details through
 each webhook - to compensate up for this, PA caches information between
 different webhooks. However this cache can take a while to build up. You can
 also use the ``file`` cache, which will save and load it's contents to a file
@@ -109,7 +109,7 @@ Why didn't I get an alert for this Event that is on my Map?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Make sure that your filters are set up exactly as you want them - in
 particular, make sure you understand the "is_missing_info" restriction. You
-can use the webhook tester (``python tools/webhook_test.py``) to recreate an
+can use the webhook tester (``python3 tools/webhook_test.py``) to recreate an
 event to verify they are working correctly.
 
 Finally, check your both PA and your scanner for any errors related to
@@ -118,13 +118,6 @@ webhooks. If your scanner doesn't send the info, PA can't process it.
 
 Error 10053 (Windows) or Error 53 (Linux)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. warning::
-
-    The PA team has identified a number of issues with RM's webhook handling
-    that can lead to an overloaded web server and dropped connections. Since
-    these problems mean a significant chance of dropped or missed events, the
-    PA team has created repos with fixes applied under our Github org - you can
-    find them at PokeAlarm/RM-Stock and PokeAlarm//RM-Alt.
 
 This error means that PA tried to use a connection that has already been
 closed. It often happens when the server PA is running on is overloaded. Check
@@ -133,8 +126,6 @@ is under heavy load. There some things you can still do:
 
 + If on Windows, use Linux (Even a VM will see huge improvements).
 + Optimize PA and your scanner setup (see below).
-+ Switch to a more efficient scanner (While Monocle is typically harder to set
-  up, it is significantly more efficient than RocketMap)
 + Run PA, your scanner, or your database on separate machines if possible.
 + If all else fails, upgrade your hardware.
 
@@ -164,31 +155,8 @@ For the most part, you should consult the maintainer of your scanner for tips.
 Generally, you want to follow the same logic and work towards consolidating
 instances.
 
-.. warning::
-
-    The PA team has identified a number of issues with RM's webhook handling
-    that can lead to an overloaded web server and dropped connections. Since
-    these problems mean a significant chance of dropped or missed events, the
-    PA team is hosting repos with fixes applied under our Github org - you can
-    find them at PokeAlarm/RM-Stock and PokeAlarm//RM-Alt.
-
-For RM in particular, there are default values you can adjust (particularly
+For Map'A'Droid in particular, there are default values you can adjust (particularly
 around sending webhooks):
-+ Disable extra webhooks - Use the blacklist/whitelist and disable types you
-  don't need.
-+ ``wh-frame-interval`` - (increase to 1000) - decreases the frequency in
-  which RM sends events. There is currently a bug in RM flavor maps that make
-  setting this below 1000 equivalent to disabling it.
-+ ``wh-connect-timeout`` and ``wh-read-timeout`` - (PA recommends between 5 to
-  10 seconds). Increasing the timeouts allows for more robust connections and
-  decrease issues you may encounter with latency, transient network errors, or
-  periodic spikes of cpu or disk io. Do **NOT** follow advice to lower this
-  value below the default - lowering this value increases the chance of a
-  connection expiring early due to the above reasons, which can lead to dropped
-  or missed events.
-+ ``wh-lfu-size`` - (increase to 10000 or more) - this will increase RM's cache
-  size and cause it to send less repeats. The ideal value for this is roughly
-  around the number of events you scan in an hour.
-+ ``wh-backoff-factor`` - (increase to .5 to 1)- if a connection does fail,
-  this gives more time between retries.
-+ ``wh-threads`` and ``db-threads`` should be as low as possible (generally 1)
++ ``webhook_excluded_areas`` - list of area names to exclude elements from within
+  an area to be sent to a webhook.
++ ``webhook_max_payload_size`` - Split up the payload into chunks.

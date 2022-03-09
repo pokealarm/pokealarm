@@ -106,7 +106,7 @@ Parameters    Description                                  Default
 `title`       Notification text to begin the message       ``A wild <mon_name> has appeared!``
 `url`         Link to be added to notification text        ``<gmaps>``
 `body`        Additional text to be added to the message   ``Available until <24h_time> (<time_left>).``
-`map`         Specify a json object to describe the map    See Mini Map Configuration for more details
+`map`         Specify a JSON object to describe the map    See Mini Map Configuration for more details
 ============= ============================================ ===========================================
 
 .. note::

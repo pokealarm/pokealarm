@@ -26,7 +26,7 @@ When PA finds a matching Filter, it triggers a notification.
          filters file and only triggers on the first match. You can override
          this behavior by using the advanced :doc:`../rules-overview` feature.
 
-There are 5 different types of Filters, each matching a category of Events:
+There are different types of Filters, each matching a category of Events:
 
 
 .. toctree::
@@ -86,7 +86,7 @@ carefully.
 Filters File
 -------------------------------------
 
-A *filters file* (often refereed to as ``filters.json``) is a file containing
+A *filters file* is a file containing
 the Filters that PA uses. By default, PA loads the Filter from the
 ``filters.json`` located in the base folder of the project. See the
 :doc:`../server-settings` page for instructions on specifying the file by
