@@ -72,37 +72,38 @@ reward_amount     The amount of the reward
 Monster Reward Details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-================= ========================================================
-DTS               Description
-================= ========================================================
-mon_id            The ID of the monster
-mon_name          The name of the monster's species.
-mon_id            ID of the monster's species.
-mon_id_3          ID of the monster's species, padded to 3 digits.
-form              Form name of the monster.
-form_or_empty     Form name of the monster, or empty string if unknown.
-form_id           Form ID for the monster.
-form_id_3         Form ID of the monster, padded to 3 digits.
-costume           The name of the monster's costume.
-costume_or_empty  The name of the monsters costume or an empty string if
-                  unknown.
-costume_id        The costume ID of the monster.
-costume_id_2      The costume ID of the monster, padded to 2 digits.
-costume_id_3      The costume ID of the monster, padded to 3 digits.
-type1             Name of the monster's primary type.
-type1_or_empty    Name of the monster's primary type, or empty string
-                  if unknown.
-type1_emoji       Emoji for the monster's primary type, or empty string
-                  if unknown.
-type2             Name of the monster's secondary type.
-type2_or_empty    Name of the monster's secondary type, or empty string
-                  if unknown.
-type2_emoji       Emoji for the monster's secondary type, or empty string
-                  if unknown.
-types             Monster's type formatted as "type1/type2".
-types_emoji       Type emojis for the monster as "type1+type2", or empty
-                  string if unknown.
-================= ========================================================
+========================== ========================================================
+DTS                        Description
+========================== ========================================================
+mon_id                     The ID of the monster
+mon_name                   The name of the monster's species.
+mon_id                     ID of the monster's species.
+mon_id_3                   ID of the monster's species, padded to 3 digits.
+form                       Form name of the monster.
+form_or_empty              Form name of the monster, or empty string if unknown.
+nonnormal_form_or_empty    Form name of the monster, or empty string if Normal or unknown.
+form_id                    Form ID for the monster.
+form_id_3                  Form ID of the monster, padded to 3 digits.
+costume                    The name of the monster's costume.
+costume_or_empty           The name of the monsters costume or an empty string if
+                           unknown.
+costume_id                 The costume ID of the monster.
+costume_id_2               The costume ID of the monster, padded to 2 digits.
+costume_id_3               The costume ID of the monster, padded to 3 digits.
+type1                      Name of the monster's primary type.
+type1_or_empty             Name of the monster's primary type, or empty string
+                           if unknown.
+type1_emoji                Emoji for the monster's primary type, or empty string
+                           if unknown.
+type2                      Name of the monster's secondary type.
+type2_or_empty             Name of the monster's secondary type, or empty string
+                           if unknown.
+type2_emoji                Emoji for the monster's secondary type, or empty string
+                           if unknown.
+types                      Monster's type formatted as "type1/type2".
+types_emoji                Type emojis for the monster as "type1+type2", or empty
+                           string if unknown.
+========================== ========================================================
 
 Item Reward Details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

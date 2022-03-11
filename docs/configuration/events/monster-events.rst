@@ -27,31 +27,32 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ==========================================================
-DTS                 Description
-=================== ==========================================================
-mon_name            The name of the monster's species.
-mon_id              ID of the monster's species.
-mon_id_3            ID of the monster's species, padded to 3 digits.
-form                Form name of the monster.
-form_or_empty       Form name of the monster, or empty string if unknown.
-form_id             Form ID for the monster.
-form_id_2           Form ID of the monster, padded to 2 digits.
-form_id_3           Form ID of the monster, padded to 3 digits.
-type1               Name of the monster's primary type.
-type1_or_empty      Name of the monster's primary type, or empty string
-                    if unknown.
-type1_emoji         Emoji for the monster's primary type, or empty string
-                    if unknown.
-type2               Name of the monster's secondary type.
-type2_or_empty      Name of the monster's secondary type, or empty string
-                    if unknown.
-type2_emoji         Emoji for the monster's secondary type, or empty string
-                    if unknown.
-types               Monster's type formatted as "type1/type2".
-types_emoji         Type emojis for the monster as "type1+type2", or empty
-                    string if unknown.
-=================== ==========================================================
+========================== ==========================================================
+DTS                        Description
+========================== ==========================================================
+mon_name                   The name of the monster's species.
+mon_id                     ID of the monster's species.
+mon_id_3                   ID of the monster's species, padded to 3 digits.
+form                       Form name of the monster.
+form_or_empty              Form name of the monster, or empty string if unknown.
+nonnormal_form_or_empty    Form name of the monster, or empty string if Normal or unknown.
+form_id                    Form ID for the monster.
+form_id_2                  Form ID of the monster, padded to 2 digits.
+form_id_3                  Form ID of the monster, padded to 3 digits.
+type1                      Name of the monster's primary type.
+type1_or_empty             Name of the monster's primary type, or empty string
+                           if unknown.
+type1_emoji                Emoji for the monster's primary type, or empty string
+                           if unknown.
+type2                      Name of the monster's secondary type.
+type2_or_empty             Name of the monster's secondary type, or empty string
+                           if unknown.
+type2_emoji                Emoji for the monster's secondary type, or empty string
+                           if unknown.
+types                      Monster's type formatted as "type1/type2".
+types_emoji                Type emojis for the monster as "type1+type2", or empty
+                           string if unknown.
+========================== ==========================================================
 
 
 Stats
