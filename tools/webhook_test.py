@@ -101,8 +101,7 @@ def set_init(webhook_type):
                 "spawn_start": 2153,
                 "spawn_end": 3264,
                 "verified": False,
-                "weather": None,
-                "boosted_weather": None
+                "weather": None
             }
         }
     elif webhook_type == whtypes["2"]:
@@ -508,9 +507,6 @@ if type == whtypes["1"]:
     print("Weather type (default: 0)")
     print(weather_formatted, end='\n> ')
     int_or_default('weather')
-    print("Pokemon weather boosted? (y/n)", end='\n> ')
-    if input() in truthy:
-        payload["message"]["boosted_weather"] = payload["message"]["weather"]
 elif type == whtypes["2"]:
     stop_info('pokestop_id', 'url', 'name')
     print("Lure type (default: 501)")

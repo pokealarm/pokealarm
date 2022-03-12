@@ -12,7 +12,7 @@ from PokeAlarm.Utils import (
     get_applemaps_link, get_shiny_emoji, get_time_as_str,
     get_seconds_remaining, get_base_types, get_dist_as_str,
     get_weather_emoji, get_spawn_verified_emoji, get_type_emoji,
-    get_waze_link, get_gender_sym)
+    get_waze_link, get_gender_sym, is_weather_boosted)
 from . import BaseEvent
 from PokeAlarm.Utilities import MonUtils
 
@@ -52,10 +52,12 @@ class MonEvent(BaseEvent):
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
         self.weather_id = check_for_none(
-            int, data.get('weather'), Unknown.TINY)
-        self.boosted_weather_id = check_for_none(
-            int, data.get('boosted_weather')
-            or data.get('weather_boosted_condition'), 0)
+            int, (data.get('weather') or data.get('boosted_weather') or
+                  data.get('weather_boosted_condition')), Unknown.TINY)
+        self.boosted_weather_id = \
+            0 if Unknown.is_not(self.weather_id) else Unknown.TINY
+        if is_weather_boosted(self.weather_id, self.monster_id, self.form_id):
+            self.boosted_weather_id = self.weather_id
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
