@@ -5,7 +5,7 @@ import operator
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
-from PokeAlarm.Utils import get_weather_id
+from PokeAlarm.Utils import get_weather_id, match_items_in_array
 
 
 class RaidFilter(BaseFilter):
@@ -27,6 +27,12 @@ class RaidFilter(BaseFilter):
             eval_func=lambda d, v: not operator.contains(d, v),
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters_exclude', data))
+
+        # Pokemon types
+        self.type_ids = self.evaluate_attribute(  # one mon_type in types
+            event_attribute='types', eval_func=match_items_in_array,
+            limit=BaseFilter.parse_as_list(
+                MonUtils.get_type_id, 'types', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= r.distance
@@ -165,6 +171,10 @@ class RaidFilter(BaseFilter):
         # Monster ID
         if self.mon_ids is not None:
             settings['monster_ids'] = self.mon_ids
+
+        # Pokemon types
+        if self.type_ids is not None:
+            settings['type_ids'] = self.type_ids
 
         # Distance
         if self.min_dist is not None:

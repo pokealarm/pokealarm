@@ -4,6 +4,7 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import GymUtils as GymUtils, QuestUtils, MonUtils
+from PokeAlarm.Utils import match_items_in_array
 
 
 class QuestFilter(BaseFilter):
@@ -81,6 +82,14 @@ class QuestFilter(BaseFilter):
             eval_func=lambda d, v: not operator.contains(d, v),
             limit=BaseFilter.parse_as_set(
                 MonUtils.get_monster_id, 'monsters_exclude', data))
+
+        # Pokemon types
+        self.type_ids = self.evaluate_attribute(  # one mon_type in types
+            event_attribute='monster_types', eval_func=match_items_in_array,
+            limit=BaseFilter.parse_as_list(
+                MonUtils.get_type_id, 'types', data))
+
+        # Forms and costumes
         self.forms = self.evaluate_attribute(  # f.forms in m.form_id
             event_attribute='monster_form_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(int, 'form_ids', data))
@@ -158,6 +167,8 @@ class QuestFilter(BaseFilter):
             settings['forms'] = self.forms
         if self.costumes is not None:
             settings['costumes'] = self.costumes
+        if self.type_ids is not None:
+            settings['type_ids'] = self.type_ids
 
         # Item Rewards
         if self.item_ids is not None:
