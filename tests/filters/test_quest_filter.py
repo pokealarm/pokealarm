@@ -128,6 +128,13 @@ class TestQuestFilter(unittest.TestCase):
         self.fail_vals = [3, 999]
 
     @generic_filter_test
+    def test_types(self):
+        self.filt = {'types': ["Dark"]}
+        self.event_key = 'pokemon_id'
+        self.pass_vals = [198, 261]
+        self.fail_vals = [1, 4]
+
+    @generic_filter_test
     def test_item_id(self):
         self.filt = {'items': ['Great Ball', 'Max Revive', 'Razz Berry', 501]}
         self.event_key = 'item_id'
