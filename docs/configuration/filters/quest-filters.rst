@@ -69,6 +69,7 @@ monsters           Array of allowed monsters, by id or name.  ``["Bulbasaur","2"
 monsters_exclude   Array of excluded monsters, by id or name. ``["Bulbasaur","2",3]``
 form_ids           Array of allowed form ids for a monster.   ``[0,"1"]``
 costume_ids        Array of allowed costume ids for a monster ``[0,"1"]``
+types              Array of allowed monster types, by name.   ``["Dark", "Dragon", "Grass"]``
 ================== ========================================== ====================================
 
 Item Rewards
