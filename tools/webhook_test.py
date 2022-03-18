@@ -36,6 +36,10 @@ whtypes = {
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 locales_file = glob(get_path('../locales/en.json'))[0]
 data = json.loads(open(locales_file, 'rb+').read())
+master_file = "https://raw.githubusercontent.com/WatWowMap/" \
+    "Masterfile-Generator/master/master-latest-everything.json"
+master_file = requests.get(master_file)
+pokemon_data = master_file.json()["pokemon"]
 
 teams_formatted = re.sub(
     r'[{}",]', '', json.dumps(data['teams'], indent=2, sort_keys=True))
@@ -358,25 +362,60 @@ def get_and_validate_team():
 
 def monster_form(webhook_field, monster_id):
     monster_id_formatted = f"{monster_id:03d}"
-    if monster_id_formatted in data['forms'].keys():
-        sorted_forms = sorted(data['forms'][monster_id_formatted])
+
+    raw_form_names = get_raw_form_names()
+    english_form_names = {}
+    for id_ in raw_form_names:
+        english_form_names[id_] = {}
+        for form_id_ in raw_form_names[id_]:
+            english_form_names[id_][form_id_] = (data[
+                'form_names'].get(raw_form_names[id_][form_id_]) or
+                raw_form_names[id_][form_id_])
+
+    sorted_forms = []
+    default_form_id = 0
+    monster_forms_dict = english_form_names[monster_id]
+    if len(monster_forms_dict) > 1:
+        monster_forms_dict.pop(0)
+        sorted_forms = sorted(monster_forms_dict)
         default_form_id = next(iter(sorted_forms))
-        forms_formatted = ', '.join(data['forms'][monster_id_formatted][x]
+        forms_formatted = ', '.join(monster_forms_dict[x]
                                     for x in sorted_forms)
-        print(f"Which form of {data['pokemon'][monster_id_formatted]}"
-              " would you like? (default:"
-              f" {data['forms'][monster_id_formatted][default_form_id]})")
-        print(forms_formatted, end='\n> ')
-        form_character = input().lower()
-        found = False
-        for key, x in data['forms'][monster_id_formatted].items():
-            if x.lower() == form_character:
-                payload['message'][webhook_field] = int(key)
-                found = True
-                break
-        if not found:
-            print("Invalid value, using default")
-            payload["message"][webhook_field] = int(default_form_id)
+    else:
+        sorted_forms = sorted(monster_forms_dict)
+        default_form_id = next(iter(sorted_forms))
+        forms_formatted = ', '.join(monster_forms_dict[x]
+                                    for x in sorted_forms)
+
+    print(f"Which form of {data['pokemon'][monster_id_formatted]}"
+          " would you like? (default:"
+          f" {monster_forms_dict[default_form_id]})")
+    print(forms_formatted, end='\n> ')
+    form_character = input().lower()
+    found = False
+    for key, x in monster_forms_dict.items():
+        if x.lower() == form_character:
+            payload['message'][webhook_field] = int(key)
+            found = True
+            break
+    if not found:
+        print("Invalid value, using default")
+        payload["message"][webhook_field] = int(default_form_id)
+
+
+def get_raw_form_names():
+    if not hasattr(get_raw_form_names, 'info'):
+        get_raw_form_names.info = {}
+        for id_ in pokemon_data:
+            get_raw_form_names.info[int(id_)] = {}
+            get_raw_form_names.info[int(id_)][0] = "Normal"
+            for form_id_ in pokemon_data[id_]["forms"]:
+                if form_id_ != "0":
+                    get_raw_form_names.info[int(id_)][
+                        int(form_id_)] = pokemon_data[id_]["forms"
+                                                           ][form_id_]["name"]
+
+    return get_raw_form_names.info
 
 
 def stop_info(id_field_name, url_field_name, name_field_name):
