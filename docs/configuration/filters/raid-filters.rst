@@ -65,21 +65,22 @@ gym_name_excludes List of regex's rejected to be in the gym name.  ``["Sponsored
 Miscellaneous
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=============== ====================================================== ==============================
-Parameter       Description                                            Example
-=============== ====================================================== ==============================
-min_dist        Min distance of event from set location in miles       ``0.0`` *
-                or meters (depending on settings).
-max_dist        Max distance of event from set location in miles       ``1000.0`` *
-                or meters (depending on settings).
-min_time_left   Minimum time (in seconds) until monster despawns.      ``1000``
-max_time_left   Maximum time (in seconds) until monster despawns.      ``2400``
-weather         Accepted weathers, by id or name.                      ``["Clear",2]``
-geofences       See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
-min_time        See :ref:`time_dts_filters` page on 'Time DTS'         ``8:30``
-max_time        See :ref:`time_dts_filters` page on 'Time DTS'         ``22:00``
-custom_dts      See :ref:`custom_dts_filters` page on 'Custom DTS'     ``{"dts1":"substitution"}``
-is_missing_info See :ref:`missing_info_filters` page on 'Missing Info' ``true`` or ``false``
-=============== ====================================================== ==============================
+=================== ================================================================ ==============================
+Parameter           Description                                                      Example
+=================== ================================================================ ==============================
+min_dist            Min distance of event from set location in miles                 ``0.0`` *
+                    or meters (depending on settings).
+max_dist            Max distance of event from set location in miles                 ``1000.0`` *
+                    or meters (depending on settings).
+min_time_left       Minimum time (in seconds) until monster despawns.                ``1000``
+max_time_left       Maximum time (in seconds) until monster despawns.                ``2400``
+weather             Accepted weathers, by id or name.                                ``["Clear",2]``
+geofences           See :ref:`geofences_filters` page on 'Geofences'                 ``["geofence1","geofence2"]``
+exclude_geofences   Opposite of `geofences`. See :ref:`geofences_filters` page.      ``["geofence1","geofence2"]``
+min_time            See :ref:`time_dts_filters` page on 'Time DTS'                   ``8:30``
+max_time            See :ref:`time_dts_filters` page on 'Time DTS'                   ``22:00``
+custom_dts          See :ref:`custom_dts_filters` page on 'Custom DTS'               ``{"dts1":"substitution"}``
+is_missing_info     See :ref:`missing_info_filters` page on 'Missing Info'           ``true`` or ``false``
+=================== ================================================================ ==============================
 
 + Floats can use ``"inf"`` to represent infinity
