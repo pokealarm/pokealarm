@@ -464,7 +464,7 @@ def calculate_cp(monster_id, form_id, atk, de, sta, lvl):
           sqrt(base_stats["stamina"] + sta) * (multipliers[str(lvl)]**2)
           / 10)
 
-    return int(cp)
+    return max(int(cp), 10)
 
 
 # Returns the highest possible stat product for PvP great league for a pkmn
