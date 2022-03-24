@@ -11,9 +11,9 @@ from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted, \
 class MonFilter(BaseFilter):
     """ Filter class for limiting which monsters trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(MonFilter, self).__init__(mgr, 'monster', name)
+        super(MonFilter, self).__init__(mgr, 'monster', name, geofences_ref)
 
         # Monster ID - f.monster_ids contains m.monster_id
         self.monster_ids = self.evaluate_attribute(  #
@@ -194,7 +194,8 @@ class MonFilter(BaseFilter):
                 MonUtils.get_rarity_id, 'rarity', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(

@@ -225,7 +225,7 @@ class Manager(object):
         if name in self._mon_filters:
             raise ValueError("Unable to add Monster Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.MonFilter(self, name, settings)
+        f = Filters.MonFilter(self, name, settings, self.geofences)
         self._mon_filters[name] = f
         self._log.debug("Monster filter '%s' set: %s", name, f)
 
@@ -240,7 +240,7 @@ class Manager(object):
         if name in self._stop_filters:
             raise ValueError("Unable to add Stop Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.StopFilter(self, name, settings)
+        f = Filters.StopFilter(self, name, settings, self.geofences)
         self._stop_filters[name] = f
         self._log.debug("Stop filter '%s' set: %s", name, f)
 
@@ -260,7 +260,7 @@ class Manager(object):
         if name in self._gym_filters:
             raise ValueError("Unable to add Gym Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.GymFilter(self, name, settings)
+        f = Filters.GymFilter(self, name, settings, self.geofences)
         self._gym_filters[name] = f
         self._log.debug("Gym filter '%s' set: %s", name, f)
 
@@ -275,7 +275,7 @@ class Manager(object):
         if name in self._egg_filters:
             raise ValueError("Unable to add Egg Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.EggFilter(self, name, settings)
+        f = Filters.EggFilter(self, name, settings, self.geofences)
         self._egg_filters[name] = f
         self._log.debug("Egg filter '%s' set: %s", name, f)
 
@@ -290,7 +290,7 @@ class Manager(object):
         if name in self._raid_filters:
             raise ValueError("Unable to add Raid Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.RaidFilter(self, name, settings)
+        f = Filters.RaidFilter(self, name, settings, self.geofences)
         self._raid_filters[name] = f
         self._log.debug("Raid filter '%s' set: %s", name, f)
 
@@ -305,7 +305,7 @@ class Manager(object):
         if name in self._weather_filters:
             raise ValueError("Unable to add Weather Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.WeatherFilter(self, name, settings)
+        f = Filters.WeatherFilter(self, name, settings, self.geofences)
         self._weather_filters[name] = f
         self._log.debug("Weather filter '%s' set: %s", name, f)
 
@@ -320,7 +320,7 @@ class Manager(object):
         if name in self._quest_filters:
             raise ValueError("Unable to add Quest Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.QuestFilter(self, name, settings)
+        f = Filters.QuestFilter(self, name, settings, self.geofences)
         self._quest_filters[name] = f
         self._log.debug("Quest filter '%s' set: %s", name, f)
 
@@ -335,7 +335,7 @@ class Manager(object):
         if name in self._grunt_filters:
             raise ValueError("Unable to add Invasion Filter: Filter with the "
                              "name {} already exists!".format(name))
-        f = Filters.GruntFilter(self, name, settings)
+        f = Filters.GruntFilter(self, name, settings, self.geofences)
         self._grunt_filters[name] = f
         self._log.debug("Invasion filter '%s' set: %s", name, f)
 
@@ -612,7 +612,7 @@ class Manager(object):
             # Filter should always exist, but sanity check anyway
             if f:
                 # If the Event passes, return True
-                if f.check_event(event) and self.check_geofences(f, event):
+                if f.check_event(event):
                     event.custom_dts = f.custom_dts
                     return True
             else:
@@ -1145,29 +1145,3 @@ class Manager(object):
         else:
             self._rule_log.info(
                 'Quest %s rejected by all rules.', quest.name)
-
-    # Check to see if a notification is within the given range
-    # TODO: Move this into filters and add unit tests
-    def check_geofences(self, f, e):
-        """ Returns true if the event passes the filter's geofences. """
-        if self.geofences is None or f.geofences is None:  # No geofences set
-            return True
-        targets = f.geofences
-        if len(targets) == 1 and "all" in targets:
-            targets = self.geofences.keys()
-        for name in targets:
-            gf = self.geofences.get(name)
-            if not gf:  # gf doesn't exist
-                self._log.error("Cannot check geofence %s: "
-                                "does not exist!", name)
-            elif gf.contains(e.lat, e.lng):  # e in gf
-                self._log.debug("{} is in geofence {}!".format(
-                    e.name, gf.get_name()))
-                e.geofence = name  # Set the geofence for dts
-                return True
-            else:  # e not in gf
-                self._log.debug("%s not in %s.", e.name, name)
-        self._log.debug("%s rejected from filter by geofences.", e.name)
-        return False
-
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -10,9 +10,10 @@ from PokeAlarm.Utils import get_weather_id
 class WeatherFilter(BaseFilter):
     """ Filter class for limiting which stops trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(WeatherFilter, self).__init__(mgr, 'weather', name)
+        super(WeatherFilter, self).__init__(
+            mgr, 'weather', name, geofences_ref)
 
         # Distance to center of cell
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance
@@ -37,7 +38,8 @@ class WeatherFilter(BaseFilter):
                 WeatherUtils.get_severity_id, 'severity', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(

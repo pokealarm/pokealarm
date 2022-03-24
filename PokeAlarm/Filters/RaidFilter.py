@@ -11,9 +11,9 @@ from PokeAlarm.Utils import get_weather_id
 class RaidFilter(BaseFilter):
     """ Filter class for limiting which egg trigger a notification. """
 
-    def __init__(self, mgr, name, data):
+    def __init__(self, mgr, name, data, geofences_ref=None):
         """ Initializes base parameters for a filter. """
-        super(RaidFilter, self).__init__(mgr, 'egg', name)
+        super(RaidFilter, self).__init__(mgr, 'egg', name, geofences_ref)
 
         # Monster ID - f.mon_ids in r.mon_id
         self.mon_ids = self.evaluate_attribute(  #
@@ -140,7 +140,8 @@ class RaidFilter(BaseFilter):
             limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
 
         # Geofences
-        self.geofences = BaseFilter.parse_as_list(str, 'geofences', data)
+        self.geofences = self.evaluate_geofences(
+            BaseFilter.parse_as_list(str, 'geofences', data))
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(

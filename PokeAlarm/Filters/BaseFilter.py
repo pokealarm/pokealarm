@@ -11,7 +11,7 @@ log = logging.getLogger('Filter')
 class BaseFilter(object):
     """ Abstract class representing details related to different events. """
 
-    def __init__(self, mgr, kind, name):
+    def __init__(self, mgr, kind, name, geofences_ref):
         """ Initializes base parameters for a filter. """
 
         # Logger for rejecting items
@@ -28,6 +28,9 @@ class BaseFilter(object):
 
         # Missing Info
         self.is_missing_info = None
+
+        # Geofence references (loaded from the local file)
+        self.geofences_ref = geofences_ref
 
     def __str__(self):
         return str(self.to_dict())
@@ -86,6 +89,16 @@ class BaseFilter(object):
 
         # Create a function to compare the current time to time range
         check = CheckTime(min_time, max_time)
+
+        # Add check function to our list
+        self._check_list.append(check)
+
+    def evaluate_geofences(self, geofences):
+        if geofences is None:
+            return None  # limit not set
+
+        # Create a function to compare the current time to time range
+        check = CheckGeofence(geofences, self.geofences_ref)
 
         # Add check function to our list
         self._check_list.append(check)
@@ -263,6 +276,45 @@ class CheckTime(object):
         return result
 
     def override_time(self, current_time):
+        """ For unit tests purposes """
         absolute_time_sec = datetime.strptime(current_time, '%H:%M')
         self._override_time = (absolute_time_sec - absolute_time_sec.replace(
             hour=0, minute=0)).total_seconds()
+
+
+class CheckGeofence(object):
+    """ Function used to check if an event passes or not. """
+
+    def __init__(self, limit, geofences_ref):
+        self._limit = limit
+        self._geofences_ref = geofences_ref
+
+    def __call__(self, filtr, event):
+        lat = getattr(event, 'lat')
+        lng = getattr(event, 'lng')
+
+        if Unknown.is_(lat) or Unknown.is_(lng):
+            return Unknown.TINY  # Cannot check - missing attribute
+
+        if self._geofences_ref is None:  # no local geofence file
+            return True
+
+        targets = self._limit
+        if len(targets) == 1 and "all" in targets:
+            targets = self._geofences_ref.keys()
+        for name in targets:
+            gf = self._geofences_ref.get(name)
+            if not gf:  # gf doesn't exist
+                filtr.reject(event, 'geofence name',
+                             f'{name} not', 'geofence list')
+            elif gf.contains(lat, lng):  # event in gf
+                event.geofence = name  # Set the geofence for dts
+                return True
+            else:  # event not in gf
+                filtr.reject(event, 'location',
+                             f'{lat},{lng} not', f'\'{name}\' geofence')
+        return False
+
+    def override_geofences_ref(self, geofences_ref):
+        """ For unit tests purposes """
+        self._geofences_ref = geofences_ref
