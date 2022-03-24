@@ -93,12 +93,12 @@ class BaseFilter(object):
         # Add check function to our list
         self._check_list.append(check)
 
-    def evaluate_geofences(self, geofences):
+    def evaluate_geofences(self, geofences, exclude_mode):
         if geofences is None:
             return None  # limit not set
 
         # Create a function to compare the current time to time range
-        check = CheckGeofence(geofences, self.geofences_ref)
+        check = CheckGeofence(geofences, self.geofences_ref, exclude_mode)
 
         # Add check function to our list
         self._check_list.append(check)
@@ -285,9 +285,10 @@ class CheckTime(object):
 class CheckGeofence(object):
     """ Function used to check if an event passes or not. """
 
-    def __init__(self, limit, geofences_ref):
+    def __init__(self, limit, geofences_ref, exclude_mode):
         self._limit = limit
         self._geofences_ref = geofences_ref
+        self._exclude_mode = exclude_mode
 
     def __call__(self, filtr, event):
         lat = getattr(event, 'lat')
@@ -304,15 +305,23 @@ class CheckGeofence(object):
             targets = self._geofences_ref.keys()
         for name in targets:
             gf = self._geofences_ref.get(name)
-            if not gf:  # gf doesn't exist
+            if not gf:  # gf doesn't exist :'(
                 filtr.reject(event, 'geofence name',
                              f'{name} not', 'geofence list')
             elif gf.contains(lat, lng):  # event in gf
-                event.geofence = name  # Set the geofence for dts
-                return True
+                if self._exclude_mode:
+                    filtr.reject(event, 'location',
+                                 f'{lat},{lng}', f'\'{name}\' geofence')
+                else:
+                    event.geofence = name  # Set the geofence for dts
+                    return True
             else:  # event not in gf
-                filtr.reject(event, 'location',
-                             f'{lat},{lng} not', f'\'{name}\' geofence')
+                if self._exclude_mode:
+                    event.geofence = name  # Set the geofence for dts
+                    return True
+                else:
+                    filtr.reject(event, 'location',
+                                 f'{lat},{lng} not', f'\'{name}\' geofence')
         return False
 
     def override_geofences_ref(self, geofences_ref):
