@@ -13,6 +13,7 @@ import os
 import sys
 import requests
 import traceback
+from glob import glob
 # 3rd Party Imports
 import configargparse
 from gevent import pywsgi, spawn, signal, pool, queue
@@ -93,90 +94,196 @@ def manage_webhook_data(_queue):
 
 # Check for update
 def check_for_update():
-    version_req = "https://api.github.com/repos/WatWowMap/Masterfile-" \
+    masterfile_vreq = "https://api.github.com/repos/WatWowMap/Masterfile-" \
         "Generator/commits?path=master-latest-everything.json&per_page=1"
+    pogoapi_vreq = "https://pogoapi.net/api/v1/api_hashes.json"
 
     try:
-        # Get last commit version of the data
-        response = requests.get(version_req)
-        sig = response.json()[0]["sha"]
+        # Get last sig of the data
+        masterfile_response = requests.get(masterfile_vreq)
+        masterfile_sig = masterfile_response.json()[0]['sha']
+
+        pogoapi_response = requests.get(pogoapi_vreq)
+        fast_moves_sig = pogoapi_response.json()[
+            'fast_moves.json']['hash_sha1']
+        charged_moves_sig = pogoapi_response.json()[
+            'charged_moves.json']['hash_sha1']
 
         # Compare local with remote signature and download new data if needed
         if os.path.isfile('data/.data_version'):
-            with open("data/.data_version", 'r') as f:
-                current_sig = f.read()
-                if (current_sig == sig and
-                        os.path.isfile('data/pokemon_data.json')):
-                    log.info("PokeAlarm data is up to date!")
-                else:
-                    download_masterfile(sig)
+            update_needed = False
+            sigdiff = {}
+            try:
+                with open("data/.data_version", 'r') as f_sig:
+                    sig = json.load(f_sig)
+
+                # Check the files to update
+                sigdiff = {
+                    'masterfile': (sig['masterfile'] != masterfile_sig or not
+                                   os.path.isfile('data/pokemon_data.json')),
+                    'fast_moves': (sig['fast_moves'] != fast_moves_sig or
+                                   not os.path.isfile('data/fast_moves.json')),
+                    'charged_moves': (sig['charged_moves'] != charged_moves_sig
+                                      or not os.path.isfile(
+                        'data/charged_moves.json'))
+                }
+
+                for k, differ in sigdiff.items():
+                    if differ:
+                        update_needed = True
+            except Exception:
+                os.remove(get_path("data/.data_version"))
+                sigdiff = None
+                update_needed = True
+
+            if update_needed:
+                download_data(sigdiff)
+
+                # Update the local signatures
+                sig = {}
+                sig['masterfile'] = masterfile_sig
+                sig['fast_moves'] = fast_moves_sig
+                sig['charged_moves'] = charged_moves_sig
+                with open("data/.data_version", 'w') as f_sig:
+                    json.dump(sig, f_sig, indent=2)
+
+                log.info("PokeAlarm data has been updated!")
+
+            else:
+                log.info("PokeAlarm data is up to date!")
         else:
-            download_masterfile(sig)
+            download_data()
+
+            # Update the local signatures
+            sig = {}
+            sig['masterfile'] = masterfile_sig
+            sig['fast_moves'] = fast_moves_sig
+            sig['charged_moves'] = charged_moves_sig
+            with open("data/.data_version", 'w') as f_sig:
+                json.dump(sig, f_sig, indent=2)
+
+            log.info("PokeAlarm data has been updated!")
 
     except Exception as e:
         log.error(f"Unable to update PokeAlarm data: {e}")
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))
 
-        # Remove the tmp_data if exists and check for a local mon data
-        try:
-            os.remove("data/tmp_pokemon_data.json")
-        except Exception:
-            pass
-        finally:
-            if not os.path.isfile('data/pokemon_data.json'):
-                log.critical("No local pokemon data found.")
-                sys.exit(1)
+    # Remove the tmp_data if exists and check for a local mon data
+    tmp_files = glob(get_path('data/tmp_*.json'))
+    for file_ in tmp_files:
+        os.remove(file_)
+
+    if (not os.path.isfile('data/pokemon_data.json') or
+        not os.path.isfile('data/fast_moves.json') or
+            not os.path.isfile('data/charged_moves.json')):
+        log.critical("Missing PokeAlarm data")
+        sys.exit(1)
 
 
 # Download latest PokeAlarm data
-def download_masterfile(sig):
-    master_file = "https://raw.githubusercontent.com/WatWowMap/" \
-        "Masterfile-Generator/master/master-latest-everything.json"
+def download_data(sigdiff=None):
+    if sigdiff is None or sigdiff['masterfile']:
+        log.info("New Masterfile data found! Fetching in progress...")
 
-    # Download data and update signature
-    log.info("New PokeAlarm data found! Fetching in progress...")
-    master_file = requests.get(master_file)
+        # Fetch data
+        masterfile_url = "https://raw.githubusercontent.com/WatWowMap/" \
+            "Masterfile-Generator/master/master-latest-everything.json"
+        masterfile_data = requests.get(masterfile_url).json()
 
-    full_data = master_file.json()
+        # Check some dict paths which don't have to change
+        if masterfile_data["pokemon"]["255"]["forms"]["1360"][
+                "name"] != "Purified":
+            raise Exception("incorrect remote masterfile")
+        if masterfile_data["types"]["4"]["veryWeakAgainst"][0][
+                "typeName"] != "Steel":
+            raise Exception("incorrect remote masterfile")
+        if masterfile_data["weather"]["0"]["weatherName"] != "Extreme":
+            raise Exception("incorrect remote masterfile")
 
-    # Check some dict paths which don't have to change
-    if full_data["pokemon"]["255"]["forms"]["1360"]["name"] != "Purified":
-        raise Exception("incorrect remote data")
-    if full_data["types"]["4"]["veryWeakAgainst"][0]["typeName"] != "Steel":
-        raise Exception("incorrect remote data")
-    if full_data["weather"]["0"]["weatherName"] != "Extreme":
-        raise Exception("incorrect remote data")
+        # Write a temporary file data
+        tmp_mon_fsize = 0
+        with open("data/tmp_pokemon_data.json", 'w') as f:
+            json.dump(masterfile_data["pokemon"], f, indent=2)
+            tmp_mon_fsize = f.tell()
+            f.close()
 
-    # Write a temporary mon data
-    tmp_mon_fsize = 0
-    with open("data/tmp_pokemon_data.json", 'w') as f:
-        json.dump(full_data["pokemon"], f, indent=2)
-        tmp_mon_fsize = f.tell()
-        f.close()
+        # File size checks
+        if tmp_mon_fsize == 0:
+            raise Exception("empty remote pokemon_data")
+        if os.path.isfile('data/pokemon_data.json'):
+            mon_fsize = os.path.getsize("data/pokemon_data.json")
+            if (float(tmp_mon_fsize - mon_fsize) /
+                    mon_fsize < -0.01):  # -1% diff
+                raise Exception(
+                    "remote pokemon_data is smaller "
+                    f"({tmp_mon_fsize} < {mon_fsize})")
 
-    # File size check
-    if tmp_mon_fsize == 0:
-        raise Exception("empty remote file")
+        # All's done! Overwrite the old local file data
+        os.replace("data/tmp_pokemon_data.json", "data/pokemon_data.json")
 
-    if os.path.isfile('data/pokemon_data.json'):
-        mon_fsize = os.path.getsize("data/pokemon_data.json")
-        if float(tmp_mon_fsize - mon_fsize) / mon_fsize < -0.01:  # -1% diff
-            raise Exception(
-                f"remote file size is smaller ({tmp_mon_fsize} < {mon_fsize})")
+    if sigdiff is None or sigdiff['fast_moves']:
+        log.info("New fast_moves data found! Fetching in progress...")
 
-    # TODO: Dynamically update data for moves
-    # Maybe use the data from pogoapi.net/documentation/ to keep the
-    # current infos from move_info.json
+        # Fetch data
+        fast_moves_url = "https://pogoapi.net/api/v1/fast_moves.json"
+        fast_moves_data = requests.get(fast_moves_url).json()
 
-    # All's done! Overwrite the old local file data
-    os.replace("data/tmp_pokemon_data.json", "data/pokemon_data.json")
+        # Check some dict paths which don't have to change
+        if fast_moves_data[0]["name"] != "Fury Cutter":
+            raise Exception("incorrect remote fast_moves")
 
-    # Update the local hash
-    with open("data/.data_version", 'w') as f:
-        f.write(sig)
-        f.close()
+        # Write a temporary file data
+        tmp_fast_moves_fsize = 0
+        with open("data/tmp_fast_moves.json", 'w') as f:
+            json.dump(fast_moves_data, f, indent=2)
+            tmp_fast_moves_fsize = f.tell()
+            f.close()
 
-    log.info("PokeAlarm data has been updated!")
+        # File size checks
+        if tmp_fast_moves_fsize == 0:
+            raise Exception("empty remote fast_moves")
+        if os.path.isfile('data/fast_moves.json'):
+            fast_moves_fsize = os.path.getsize("data/fast_moves.json")
+            if (float(tmp_fast_moves_fsize - fast_moves_fsize) /
+                    fast_moves_fsize < -0.01):  # -1% diff
+                raise Exception(
+                    "remote fast_moves is smaller "
+                    f"({tmp_fast_moves_fsize} < {fast_moves_fsize})")
+
+        # All's done! Overwrite the old local file data
+        os.replace("data/tmp_fast_moves.json", "data/fast_moves.json")
+
+    if sigdiff is None or sigdiff['charged_moves']:
+        log.info("New charged_moves data found! Fetching in progress...")
+
+        # Fetch data
+        charged_moves_url = "https://pogoapi.net/api/v1/charged_moves.json"
+        charged_moves_data = requests.get(charged_moves_url).json()
+
+        # Check some dict paths which don't have to change
+        if charged_moves_data[0]["name"] != "Wrap":
+            raise Exception("incorrect remote charged_moves")
+
+        # Write a temporary file data
+        tmp_charged_moves_fsize = 0
+        with open("data/tmp_charged_moves.json", 'w') as f:
+            json.dump(charged_moves_data, f, indent=2)
+            tmp_charged_moves_fsize = f.tell()
+            f.close()
+
+        # File size checks
+        if tmp_charged_moves_fsize == 0:
+            raise Exception("empty remote charged_moves")
+        if os.path.isfile('data/charged_moves.json'):
+            charged_moves_fsize = os.path.getsize("data/charged_moves.json")
+            if (float(tmp_charged_moves_fsize - charged_moves_fsize) /
+                    charged_moves_fsize < -0.01):  # -1% diff
+                raise Exception(
+                    "remote charged_moves is smaller "
+                    f"({tmp_charged_moves_fsize} < {charged_moves_fsize})")
+
+        # All's done! Overwrite the old local file data
+        os.replace("data/tmp_charged_moves.json", "data/charged_moves.json")
 
 
 # Configure and run PokeAlarm

@@ -9,13 +9,22 @@ class MockManager(object):
     def get_child_logger(self, name):
         return logging.getLogger('test').getChild(name)
 
-    # Fetch pokemon data
-    master_file = "https://raw.githubusercontent.com/WatWowMap/" \
+    # Fetch data
+    masterfile_url = "https://raw.githubusercontent.com/WatWowMap/" \
         "Masterfile-Generator/master/master-latest-everything.json"
-    master_file = requests.get(master_file)
-    pokemon_data = master_file.json()["pokemon"]
+    fast_moves_url = "https://pogoapi.net/api/v1/fast_moves.json"
+    charged_moves_url = "https://pogoapi.net/api/v1/charged_moves.json"
+    masterfile_data = requests.get(masterfile_url).json()
+    fast_moves_data = requests.get(fast_moves_url).json()
+    charged_moves_data = requests.get(fast_moves_url).json()
     with open("data/pokemon_data.json", 'w') as f:
-        json.dump(pokemon_data, f, indent=2)
+        json.dump(masterfile_data['pokemon'], f, indent=2)
+        f.close()
+    with open("data/fast_moves.json", 'w') as f:
+        json.dump(fast_moves_data, f, indent=2)
+        f.close()
+    with open("data/charged_moves.json", 'w') as f:
+        json.dump(charged_moves_data, f, indent=2)
         f.close()
 
     # Create a geofence.txt for unit tests
