@@ -509,6 +509,9 @@ def parse_settings(root_path):
         '-k', '--gmaps-key', action='append',
         default=[None], help='Specify a Google API Key to use.')
     parser.add_argument(
+        '--gmaps-signing-secret', action='append',
+        default=[None], help='Specify a Google API Signing Secret')
+    parser.add_argument(
         '--gmaps-rev-geocode', type=parse_boolean, action='append',
         default=[None], help='Enable Walking Distance Matrix DTS.')
     parser.add_argument(
@@ -586,7 +589,7 @@ def parse_settings(root_path):
                 args.timezone, args.gmaps_rev_geocode, args.gmaps_dm_walk,
                 args.gmaps_dm_bike, args.gmaps_dm_drive,
                 args.gmaps_dm_transit, args.mgr_log_lvl, args.mgr_log_size,
-                args.mgr_log_file]:
+                args.mgr_log_file, args.gmaps_signing_secret]:
         if len(arg) > 1:  # Remove defaults from the list
             arg.pop(0)
         size = len(arg)
@@ -628,6 +631,8 @@ def parse_settings(root_path):
             name=args.manager_name[m_ct],
             google_key=get_from_list(
                 args.gmaps_key, m_ct, args.gmaps_key[0]),
+            google_signing_key=get_from_list(
+                args.gmaps_signing_secret, m_ct, args.gmaps_signing_secret[0]),
             locale=get_from_list(args.locale, m_ct, args.locale[0]),
             units=get_from_list(args.units, m_ct, args.units[0]),
             timezone=get_from_list(args.timezone, m_ct, args.timezone[0]),

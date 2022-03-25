@@ -8,6 +8,10 @@ from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
 import re
+import hashlib
+import hmac
+import base64
+import urllib.parse as urlparse
 # 3rd Party Imports
 from s2cell import s2cell
 # Local Imports
@@ -822,57 +826,80 @@ def get_shiny_emoji(can_be_shiny):
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GMAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAPS API UTILITIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 # Returns a String link to Google Maps Pin at the location
 def get_gmaps_link(lat, lng, nav=False):
     _api = 'dir' if nav else 'search'
     _prm = 'destination' if nav else 'query'
-    latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://www.google.com/maps/{}/?api=1'.format(_api) \
-        + '&{}={}'.format(_prm, latlng)
+    latlng = f'{lat:5f}%2C{lng:5f}'
+    return f'https://www.google.com/maps/{_api}/?api=1&{_prm}={latlng}'
 
 
 # Returns a String link to Apple Maps Pin at the location
 def get_applemaps_link(lat, lng, nav=False):
     _prm = 'daddr' if nav else 'address'
-    latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://maps.apple.com/maps?{}={}&t=m'.format(_prm, latlng)
+    latlng = f'{lat:5f}%2C{lng:5f}'
+    return f'https://maps.apple.com/maps?{_prm}={latlng}&t=m'
 
 
 # Returns a String link to Waze Maps Navigation at the location
 def get_waze_link(lat, lng, nav=False):
     _nav = 'yes' if nav else 'no'
-    latlng = '{:5f}%2C{:5f}'.format(lat, lng)
-    return 'https://waze.com/ul?navigate={}&ll={}'.format(_nav, latlng)
+    latlng = f'{lat:5f}%2C{lng:5f}'
+    return f'https://waze.com/ul?navigate={_nav}&ll={latlng}'
 
 
 # Returns a static map url with <lat> and <lng> parameters for dynamic test
-def get_static_map_url(settings, api_key=None):  # TODO: optimize formatting
-    if not parse_boolean(settings.get('enabled', 'True')):
+def get_gmaps_static_url(settings, api_key=None):
+    if api_key is None or not parse_boolean(settings.get('enabled', 'True')):
         return None
     width = settings.get('width', '250')
     height = settings.get('height', '125')
     maptype = settings.get('maptype', 'roadmap')
     zoom = settings.get('zoom', '15')
 
-    center = '{}%2C{}'.format('<lat>', '<lng>')
-    query_center = 'center={}'.format(center)
-    query_markers = 'markers=color:red%7C{}'.format(center)
-    query_size = 'size={}x{}'.format(width, height)
-    query_zoom = 'zoom={}'.format(zoom)
-    query_maptype = 'maptype={}'.format(maptype)
+    center = '<lat>%2C<lng>'
+    query_center = f'center={center}'
+    query_markers = f'markers=color:red%7C{center}'
+    query_size = f'size={width}x{height}'
+    query_zoom = f'zoom={zoom}'
+    query_maptype = f'maptype={maptype}'
+    query_key = f'key={api_key}'
 
-    map_ = ('https://www.google.com/maps/api/staticmap?maptype=roadmap' +
-            query_center + '&' + query_markers + '&' +
-            query_maptype + '&' + query_size + '&' + query_zoom)
+    map_ = ('https://www.google.com/maps/api/staticmap?maptype=roadmap'
+            f'{query_center}&{query_markers}&{query_maptype}&'
+            f'{query_size}&{query_zoom}&{query_key}')
 
-    if api_key is not None:
-        map_ += ('&key=%s' % api_key)
-        # log.debug("API_KEY added to static map url.")
     return map_
 
+
+# Signs the Static Map URL using a URL signing secret
+def sign_gmaps_static_url(input_url=None, secret=None):
+    if not input_url or not secret:
+        raise Exception("Both input_url and secret are required")
+
+    url = urlparse.urlparse(input_url)
+
+    # We only need to sign the path+query part of the string
+    url_to_sign = f'{url.path}?{url.query}'
+
+    # Decode the private key into its binary format
+    # We need to decode the URL-encoded private key
+    decoded_key = base64.urlsafe_b64decode(secret)
+
+    # Create a signature using the private key and the URL-encoded
+    # string using HMAC SHA1. This signature will be binary.
+    signature = hmac.new(decoded_key, str.encode(url_to_sign), hashlib.sha1)
+
+    # Encode the binary signature into base64 for use within a URL
+    encoded_signature = base64.urlsafe_b64encode(signature.digest())
+
+    original_url = f'{url.scheme}://{url.netloc}{url.path}?{url.query}'
+
+    # Return signed URL
+    return f'{original_url}&signature={encoded_signature.decode()}'
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

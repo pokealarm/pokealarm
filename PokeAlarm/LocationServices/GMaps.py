@@ -6,8 +6,8 @@ import time
 import json
 import traceback
 # 3rd Party Imports
+from requests.packages.urllib3.util import Retry
 import requests
-from requests.packages.urllib3.util.retry import Retry
 from gevent.lock import Semaphore
 # Local Imports
 from PokeAlarm import Unknown
@@ -168,7 +168,7 @@ class GMaps(object):
 
     @synchronize_with()
     def reverse_geocode(self, latlng, language='en'):
-        # type: (tuple) -> dict
+        # type: (tuple, str) -> dict
         """ Returns the reverse geocode DTS associated with 'lat,lng'. """
         latlng = '{:.5f},{:.5f}'.format(latlng[0], latlng[1])
         # Check for memoized results
