@@ -312,17 +312,17 @@ class CheckGeofence(object):
                 if self._exclude_mode:
                     filtr.reject(event, 'location',
                                  f'{lat},{lng}', f'\'{name}\' geofence')
+                    return False
                 else:
                     event.geofence = name  # Set the geofence for dts
                     return True
             else:  # event not in gf
-                if self._exclude_mode:
-                    event.geofence = name  # Set the geofence for dts
-                    return True
-                else:
-                    filtr.reject(event, 'location',
-                                 f'{lat},{lng} not', f'\'{name}\' geofence')
-        return False
+                filtr.reject(event, 'location',
+                             f'{lat},{lng} not', f'\'{name}\' geofence')
+        if self._exclude_mode:
+            return True
+        else:
+            return False
 
     def override_geofences_ref(self, geofences_ref):
         """ For unit tests purposes """
