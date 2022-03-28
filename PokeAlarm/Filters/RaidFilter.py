@@ -5,7 +5,8 @@ import operator
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utilities import GymUtils as GymUtils
-from PokeAlarm.Utils import get_weather_id, match_items_in_array
+from PokeAlarm.Utils import get_weather_id, match_items_in_array, \
+    get_gender_sym
 
 
 class RaidFilter(BaseFilter):
@@ -90,7 +91,7 @@ class RaidFilter(BaseFilter):
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender
             event_attribute='gender', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                MonUtils.get_gender_sym, 'genders', data))
+                get_gender_sym, 'genders', data))
 
         # CP
         self.min_cp = self.evaluate_attribute(  # f.min_cp <= r.cp

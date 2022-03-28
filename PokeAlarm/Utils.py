@@ -573,15 +573,20 @@ def get_pokemon_size(pokemon_id, height, weight):
         return 5
 
 
-# Returns the gender symbol of a pokemon:
-def get_pokemon_gender(gender):
-    if gender == 1:
+# Returns the gender symbol:
+def get_gender_sym(gender):  # TODO - support other languages
+    gender = str(gender).lower()
+    if gender == '?':
+        return '?'
+    if gender == '1' or gender == 'male':
         return '\u2642'  # male symbol
-    elif gender == 2:
+    elif gender == '2' or gender == 'female':
         return '\u2640'  # female symbol
-    elif gender == 3:
+    elif gender == '3' or gender == 'neutral':
         return '\u26b2'  # neutral
-    return '?'  # catch all
+    else:
+        raise ValueError("Unable to interpret `{}` as a supported "
+                         " gender name or id.".format(gender))
 
 
 # Returns the types for a pokemon and its forms
@@ -721,8 +726,8 @@ def get_type_emoji(type_id):
         14: '🔮',
         15: '❄',
         16: '🐲',
-        17: '💫',
-        18: '🌑'
+        17: '🌑',
+        18: '💫'
     }.get(type_id, '')
 
 

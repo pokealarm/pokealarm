@@ -6,9 +6,9 @@ from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str,\
-    get_type_emoji
-from PokeAlarm.Utilities.GruntUtils import get_grunt_gender, \
-    get_grunt_type_id, get_grunt_gender_sym
+    get_type_emoji, get_gender_sym
+from PokeAlarm.Utilities.GruntUtils import get_grunt_gender_id, \
+    get_grunt_mon_type_id, get_grunt_reward_mon_id, get_grunt_mon_battle
 
 
 class GruntEvent(BaseEvent):
@@ -33,17 +33,30 @@ class GruntEvent(BaseEvent):
         self.expiration = datetime.utcfromtimestamp(
             data.get('incident_expiration',
                      data.get('incident_expire_timestamp')))
-        self.type_id = check_for_none(
-            int, data.get('incident_grunt_type', data.get('grunt_type')),
-            0)
-        # Convert to standard grunt type ID
-        # self.type = int(math.floor(int(self.type_id) / 2)) * 2
-        self.gender_id = get_grunt_gender(self.type_id)
-        self.gender = get_grunt_gender_sym(self.gender_id)
 
         self.time_left = None
         if self.expiration is not None:
             self.time_left = get_seconds_remaining(self.expiration)
+
+        # Grunt type ID
+        self.grunt_type_id = check_for_none(
+            int, data.get('incident_grunt_type', data.get('grunt_type')),
+            0)
+
+        # Grunt gender
+        self.gender_id = get_grunt_gender_id(self.grunt_type_id)
+        self.gender = get_gender_sym(self.gender_id)
+
+        # Mon type
+        self.mon_type_id = get_grunt_mon_type_id(self.grunt_type_id)
+
+        # Possible mon reward
+        self.reward_mon_ids = get_grunt_reward_mon_id(self.grunt_type_id)
+
+        # Possible mon battle
+        self.mon_battle1_ids = get_grunt_mon_battle(self.grunt_type_id, 1)
+        self.mon_battle2_ids = get_grunt_mon_battle(self.grunt_type_id, 2)
+        self.mon_battle3_ids = get_grunt_mon_battle(self.grunt_type_id, 3)
 
         # Location
         self.lat = float(data['latitude'])
@@ -62,7 +75,6 @@ class GruntEvent(BaseEvent):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration, timezone)
         dts = self.custom_dts.copy()
-        type_name = locale.get_grunt_type_name(self.type_id)
         dts.update({
             # Identification
             'stop_id': self.stop_id,
@@ -70,13 +82,32 @@ class GruntEvent(BaseEvent):
             # Details
             'stop_name': self.stop_name,
             'stop_image': self.stop_image,
-            'type_id': self.type_id,
-            'type_id_3': "{:03}".format(self.type_id),
-            'type_name': type_name,
-            'type_emoji': get_type_emoji(get_grunt_type_id(type_name)),
+            'grunt_id': self.grunt_type_id,
+            'grunt_id_3': f'{self.grunt_type_id:03}',
+            'type_name': locale.get_type_name(self.mon_type_id),
+            'type_emoji': get_type_emoji(self.mon_type_id),
             'gender_id': self.gender_id,
             'gender': self.gender,
-            # ToDo: Add reward (should probably be sent via webhook)
+
+            # Rewards
+            'reward_ids': ', '.join(map(str, self.reward_mon_ids)),
+            'reward_names': ', '.join(map(str,
+                                          [locale.get_pokemon_name(x)
+                                           for x in self.reward_mon_ids])),
+
+            # Battle
+            'battle1_ids': ', '.join(map(str, self.mon_battle1_ids)),
+            'battle2_ids': ', '.join(map(str, self.mon_battle2_ids)),
+            'battle3_ids': ', '.join(map(str, self.mon_battle3_ids)),
+            'battle1_names': ', '.join(map(str,
+                                           [locale.get_pokemon_name(x)
+                                            for x in self.mon_battle1_ids])),
+            'battle2_names': ', '.join(map(str,
+                                           [locale.get_pokemon_name(x)
+                                            for x in self.mon_battle2_ids])),
+            'battle3_names': ', '.join(map(str,
+                                           [locale.get_pokemon_name(x)
+                                            for x in self.mon_battle3_ids])),
 
             # Time left
             'time_left': time[0],
@@ -94,8 +125,8 @@ class GruntEvent(BaseEvent):
             # Location
             'lat': self.lat,
             'lng': self.lng,
-            'lat_5': "{:.5f}".format(self.lat),
-            'lng_5': "{:.5f}".format(self.lng),
+            'lat_5': f'{self.lat:.5f}',
+            'lng_5': f'{self.lng:.5f}',
             'distance': (
                 get_dist_as_str(self.distance, units)
                 if Unknown.is_not(self.distance) else Unknown.SMALL),

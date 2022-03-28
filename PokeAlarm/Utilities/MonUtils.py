@@ -53,22 +53,6 @@ def get_move_id(move_name):
                          " move name or id.".format(move_name))
 
 
-# Returns the gender symbol of a pokemon:
-def get_gender_sym(gender):  # TODO - support other languages
-    gender = str(gender).lower()
-    if gender == '?':
-        return '?'
-    if gender == '1' or gender == 'male':
-        return '\u2642'  # male symbol
-    elif gender == '2' or gender == 'female':
-        return '\u2640'  # female symbol
-    elif gender == '3' or gender == 'neutral':
-        return '\u26b2'  # neutral
-    else:
-        raise ValueError("Unable to interpret `{}` as a supported "
-                         " gender name or id.".format(gender))
-
-
 # Returns the id corresponding with the move (use all locales for flexibility)
 def get_size_id(size_name):
     try:

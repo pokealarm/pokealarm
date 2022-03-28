@@ -4,7 +4,7 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils
-from PokeAlarm.Utilities.GruntUtils import get_grunt_id
+from PokeAlarm.Utils import get_gender_sym, match_items_in_array
 
 
 class GruntFilter(BaseFilter):
@@ -16,22 +16,41 @@ class GruntFilter(BaseFilter):
 
         # Grunts
         self.grunt_ids = self.evaluate_attribute(
-            event_attribute='type_id', eval_func=operator.contains,
-            limit=BaseFilter.parse_as_nested_set(
-                get_grunt_id, 'grunt_types', data))
+            event_attribute='grunt_type_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                int, 'grunt_ids', data))
 
         # Exclude Grunts
         self.exclude_grunt_ids = self.evaluate_attribute(
-            event_attribute='type_id',
+            event_attribute='grunt_type_id',
             eval_func=lambda d, v: not operator.contains(d, v),
-            limit=BaseFilter.parse_as_nested_set(
-                get_grunt_id, 'grunt_types_exclude', data))
+            limit=BaseFilter.parse_as_set(
+                int, 'grunts_exclude', data))
+
+        # Monster types
+        self.type_ids = self.evaluate_attribute(
+            event_attribute='mon_type_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_list(
+                MonUtils.get_type_id, 'types', data))
+
+        # Monster ID
+        self.monster_ids = self.evaluate_attribute(  #
+            event_attribute='reward_mon_ids', eval_func=match_items_in_array,
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_monster_id, 'monsters', data))
+
+        # Exclude Monsters
+        self.exclude_monster_ids = self.evaluate_attribute(  #
+            event_attribute='reward_mon_ids',
+            eval_func=lambda d, v: not match_items_in_array(d, v),
+            limit=BaseFilter.parse_as_set(
+                MonUtils.get_monster_id, 'monsters_exclude', data))
 
         # Gender
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender
-            event_attribute='gender', eval_func=operator.contains,
+            event_attribute='gender', eval_func=match_items_in_array,
             limit=BaseFilter.parse_as_set(
-                MonUtils.get_gender_sym, 'grunt_genders', data))
+                get_gender_sym, 'grunt_genders', data))
 
         # Distance
         self.min_dist = self.evaluate_attribute(  # f.min_dist <= m.distance

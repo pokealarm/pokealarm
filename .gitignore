@@ -22,6 +22,7 @@ data/pokemon_data.json
 data/fast_moves.json
 data/charged_moves.json
 data/shiny_data.json
+data/invasions.json
 
 # Runtime
 cache/*

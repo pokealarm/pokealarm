@@ -5,15 +5,16 @@ from urllib.parse import urlencode
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from PokeAlarm.Utilities import MonUtils, PvpUtils
+from PokeAlarm.Utilities import PvpUtils
 from PokeAlarm.Utils import (
     get_gmaps_link, get_move_type, get_move_damage, get_move_dps,
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_shiny_emoji, get_time_as_str,
     get_seconds_remaining, get_base_types, get_dist_as_str,
     get_weather_emoji, get_spawn_verified_emoji, get_type_emoji,
-    get_waze_link)
+    get_waze_link, get_gender_sym)
 from . import BaseEvent
+from PokeAlarm.Utilities import MonUtils
 
 
 class MonEvent(BaseEvent):
@@ -132,7 +133,7 @@ class MonEvent(BaseEvent):
             str, data.get('def_grade'), Unknown.TINY)
 
         # Cosmetic
-        self.gender = MonUtils.get_gender_sym(
+        self.gender = get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
         self.height = check_for_none(float, data.get('height'), Unknown.SMALL)
         self.weight = check_for_none(float, data.get('weight'), Unknown.SMALL)
@@ -159,7 +160,7 @@ class MonEvent(BaseEvent):
             int, data.get('display_form'), 0)
         self.display_costume_id = check_for_none(
             int, data.get('display_costume'), 0)
-        self.display_gender = MonUtils.get_gender_sym(
+        self.display_gender = get_gender_sym(
             check_for_none(int, data.get('display_gender'), Unknown.TINY))
 
         # Correct this later
