@@ -38,13 +38,16 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ======================================== ===========================
-Parameter           Description                              Example
-=================== ======================================== ===========================
-grunt_types         Array of allowed grunts, by id or name.  ``["Dragon","4",39]``
-grunt_types_exclude Array of excluded grunts, by id or name. ``["Normal","4",39]``
-grunt_genders       Array of allowed genders, by id or name. ``["Male", 2]``
-=================== ======================================== ===========================
+=================== ============================================================== ===============================
+Parameter           Description                                                    Example
+=================== ============================================================== ===============================
+grunt_ids           Array of allowed grunts, by id.                                ``["4", 39]``
+grunts_exclude      Array of excluded grunts, by id.                               ``["4", 39]``
+grunt_genders       Array of allowed genders, by id or name.                       ``["Male", 2]``
+types               Array of allowed monster types, by name.                       ``["Dark", "Dragon", "Grass"]`` 
+monsters            Array of allowed monsters possibly rewarded, by  or name.      ``["Bulbasaur","2",3]``
+monsters_exclude    Array of excluded monsters possibly rewarded, by id or name.   ``["Bulbasaur","2",3]``
+=================== ============================================================== ===============================
 
 
 Miscellaneous
