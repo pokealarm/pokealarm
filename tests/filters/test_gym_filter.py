@@ -196,6 +196,28 @@ class TestGymFilter(unittest.TestCase):
                                     "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
+    def test_exclude_geofences(self):
+        # Create the filter
+        filt = self.gen_filter(
+            {'exclude_geofences': ['NewYork']})
+
+        geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
+        filt._check_list[0].override_geofences_ref(geofences_ref)
+
+        # Test passing
+        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
+                           (-37.809022, 144.959003)]:
+            event = self.gen_event({"latitude": lat,
+                                    "longitude": lng})
+            self.assertTrue(filt.check_event(event))
+
+        # Test failing
+        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
+                           (40.686905, -73.853559)]:
+            event = self.gen_event({"latitude": lat,
+                                    "longitude": lng})
+            self.assertFalse(filt.check_event(event))
+
 
 if __name__ == '__main__':
     unittest.main()

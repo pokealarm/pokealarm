@@ -147,7 +147,11 @@ class RaidFilter(BaseFilter):
 
         # Geofences
         self.geofences = self.evaluate_geofences(
-            BaseFilter.parse_as_list(str, 'geofences', data))
+            geofences=BaseFilter.parse_as_list(str, 'geofences', data),
+            exclude_mode=False)
+        self.exclude_geofences = self.evaluate_geofences(
+            geofences=BaseFilter.parse_as_list(str, 'exclude_geofences', data),
+            exclude_mode=True)
 
         # Time
         self.evaluate_time(BaseFilter.parse_as_time(
@@ -219,6 +223,8 @@ class RaidFilter(BaseFilter):
         # Geofences
         if self.geofences is not None:
             settings['geofences'] = self.geofences
+        if self.exclude_geofences is not None:
+            settings['exclude_geofences'] = self.exclude_geofences
 
         # Missing Info
         if self.is_missing_info is not None:
