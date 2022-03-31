@@ -8,7 +8,8 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_waze_link, get_dist_as_str, get_base_types, get_type_emoji, \
     get_shiny_emoji
 from PokeAlarm.Utilities.QuestUtils import reward_string, get_item_id, \
-    get_quest_image, get_research_shiny_status
+    get_quest_image
+from PokeAlarm.Utilities.MonUtils import get_shiny_status
 
 
 class QuestEvent(BaseEvent):
@@ -60,8 +61,8 @@ class QuestEvent(BaseEvent):
         self.monster_types = get_base_types(self.monster_id,
                                             self.monster_form_id) \
             if self.monster_id != 0 else [0, 0]
-        self.monster_can_be_shiny = get_research_shiny_status(
-            self.monster_id) \
+        self.monster_can_be_shiny = get_shiny_status(
+            self.monster_id, self.monster_form_id) \
             if self.monster_id != 0 else False
 
         # Item Reward Details

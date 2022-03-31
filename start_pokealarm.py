@@ -97,6 +97,8 @@ def check_for_update():
     masterfile_vreq = "https://api.github.com/repos/WatWowMap/Masterfile-" \
         "Generator/commits?path=master-latest-everything.json&per_page=1"
     pogoapi_vreq = "https://pogoapi.net/api/v1/api_hashes.json"
+    shiny_possible_vreq = "https://api.github.com/repos/jms412/PkmnShinyMap/" \
+        "commits?path=shinyPossible.json&per_page=1"
 
     try:
         # Get last sig of the data
@@ -108,6 +110,9 @@ def check_for_update():
             'fast_moves.json']['hash_sha1']
         charged_moves_sig = pogoapi_response.json()[
             'charged_moves.json']['hash_sha1']
+
+        shiny_possible_response = requests.get(shiny_possible_vreq)
+        shiny_possible_sig = shiny_possible_response.json()[0]['sha']
 
         # Compare local with remote signature and download new data if needed
         if os.path.isfile('data/.data_version'):
@@ -125,7 +130,10 @@ def check_for_update():
                                    not os.path.isfile('data/fast_moves.json')),
                     'charged_moves': (sig['charged_moves'] != charged_moves_sig
                                       or not os.path.isfile(
-                        'data/charged_moves.json'))
+                        'data/charged_moves.json')),
+                    'shiny_possible': (not os.path.isfile(
+                        'data/shiny_data.json')
+                        or sig['shiny_possible'] != shiny_possible_sig)
                 }
 
                 for k, differ in sigdiff.items():
@@ -144,6 +152,7 @@ def check_for_update():
                 sig['masterfile'] = masterfile_sig
                 sig['fast_moves'] = fast_moves_sig
                 sig['charged_moves'] = charged_moves_sig
+                sig['shiny_possible'] = shiny_possible_sig
                 with open("data/.data_version", 'w') as f_sig:
                     json.dump(sig, f_sig, indent=2)
 
@@ -159,6 +168,7 @@ def check_for_update():
             sig['masterfile'] = masterfile_sig
             sig['fast_moves'] = fast_moves_sig
             sig['charged_moves'] = charged_moves_sig
+            sig['shiny_possible'] = shiny_possible_sig
             with open("data/.data_version", 'w') as f_sig:
                 json.dump(sig, f_sig, indent=2)
 
@@ -175,7 +185,8 @@ def check_for_update():
 
     if (not os.path.isfile('data/pokemon_data.json') or
         not os.path.isfile('data/fast_moves.json') or
-            not os.path.isfile('data/charged_moves.json')):
+            not os.path.isfile('data/charged_moves.json') or
+            not os.path.isfile('data/shiny_data.json')):
         log.critical("Missing PokeAlarm data")
         sys.exit(1)
 
@@ -284,6 +295,42 @@ def download_data(sigdiff=None):
 
         # All's done! Overwrite the old local file data
         os.replace("data/tmp_charged_moves.json", "data/charged_moves.json")
+
+    if sigdiff is None or sigdiff['shiny_possible']:
+        log.info("New shiny_possible data found! Fetching in progress...")
+
+        # Fetch data
+        shiny_possible_url = "https://raw.githubusercontent.com/jms412/" \
+            "PkmnShinyMap/main/shinyPossible.json"
+        shiny_possible_data = requests.get(shiny_possible_url).json()
+
+        # Check some dict paths which don't have to change
+        if shiny_possible_data["map"]["1"] != " \u2728":
+            raise Exception("incorrect remote shiny_possible")
+        if shiny_possible_data["map"]["80_2674"] != " \u2728":
+            raise Exception("incorrect remote shiny_possible")
+
+        # Write a temporary file data
+        tmp_shiny_possible_fsize = 0
+        with open("data/tmp_shiny_data.json", 'w') as f:
+            json.dump(shiny_possible_data["map"], f, indent=2)
+            tmp_shiny_possible_fsize = f.tell()
+            f.close()
+
+        # File size checks
+        if tmp_shiny_possible_fsize == 0:
+            raise Exception("empty remote shiny_data")
+        if os.path.isfile('data/shiny_data.json'):
+            shiny_possible_fsize = os.path.getsize("data/shiny_data.json")
+            if (float(tmp_shiny_possible_fsize - shiny_possible_fsize) /
+                    shiny_possible_fsize < -0.1):  # -10% diff
+                raise Exception(
+                    "remote shiny_data is smaller "
+                    f"({tmp_shiny_possible_fsize} < {shiny_possible_fsize})")
+
+        # All's done! Overwrite the old local file data
+        os.replace("data/tmp_shiny_data.json", "data/shiny_data.json")
+        # https://github.com/jms412/PkmnShinyMap/blob/main/shinyPossible.json
 
 
 # Configure and run PokeAlarm

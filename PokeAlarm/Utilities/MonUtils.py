@@ -150,22 +150,24 @@ def get_pokemon_gender(gender):
 
 
 # Returns True if the pokemon is shiny in the wild
-def get_wild_shiny_status(pokemon_id):
-    if not hasattr(get_wild_shiny_status, 'info'):
-        get_wild_shiny_status.info = {}
+def get_shiny_status(pokemon_id, form_id):
+    if not hasattr(get_shiny_status, 'info'):
+        get_shiny_status.info = {}
         file_ = get_path('data/shiny_data.json')
         with open(file_, 'r') as f:
             j = json.load(f)
             f.close()
-        for id_ in j:
-            get_wild_shiny_status.info[int(id_)] = j[id_].get('found_wild')
+        for id_form_id_ in j:
+            if '*' not in id_form_id_ and j[id_form_id_] == ' \u2728':
+                get_shiny_status.info[id_form_id_] = True
 
-    return get_wild_shiny_status.info.get(pokemon_id, False)
+    return (get_shiny_status.info.get(f'{pokemon_id}', False)
+            or get_shiny_status.info.get(f'{pokemon_id}_{form_id}', False))
 
 
 # Returns shiny symbol if the pokemon is shiny in the wild
-def get_wild_shiny_emoji(pokemon_id):
-    if get_wild_shiny_status(pokemon_id):
+def get_wild_shiny_emoji(pokemon_id, form_id):
+    if get_shiny_status(pokemon_id, form_id):
         return '✨'
     else:
         return ''

@@ -3,7 +3,7 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from PokeAlarm.Utilities import MonUtils, RaidUtils
+from PokeAlarm.Utilities import MonUtils
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
@@ -44,7 +44,8 @@ class RaidEvent(BaseEvent):
         self.boss_level = 20
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
-        self.can_be_shiny = RaidUtils.get_raid_shiny_status(self.mon_id)
+        self.can_be_shiny = MonUtils.get_shiny_status(
+            self.mon_id, self.form_id)
 
         # Evolution
         self.evolution_id = check_for_none(int, data.get('evolution'), 0)

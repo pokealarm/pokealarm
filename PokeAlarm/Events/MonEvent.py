@@ -143,7 +143,8 @@ class MonEvent(BaseEvent):
             self.size_id = Unknown.SMALL
 
         self.types = get_base_types(self.monster_id, self.form_id)
-        self.can_be_shiny = MonUtils.get_wild_shiny_status(self.monster_id)
+        self.can_be_shiny = MonUtils.get_shiny_status(
+            self.monster_id, self.form_id)
 
         # Costume
         self.costume_id = check_for_none(int, data.get('costume'), 0)
