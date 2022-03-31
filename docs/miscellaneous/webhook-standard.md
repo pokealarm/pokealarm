@@ -11,7 +11,7 @@
 
 ## Pokemon
 
-Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://github.com/RocketMap/PokeAlarm/commit/0c1b4cce80e0ceb3cc6dbb2d802204af4dd3ce60).
+Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://github.com/pokealarm/pokealarm/commit/0c1b4cce80e0ceb3cc6dbb2d802204af4dd3ce60).
 
 #### Example:
 
@@ -173,7 +173,7 @@ Pokemon standard now includes moveset and IVs as of commit [oc1b4](https://githu
 ## Egg example
 
 Take note that the type for egg is `raid` because it is collected from the same
-webhook event from RocketMap as raids are.
+webhook event from the scanners as raids are.
 
 ```json
 {
