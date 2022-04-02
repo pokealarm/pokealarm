@@ -88,11 +88,13 @@ alarm layout for Slack.
 
 These optional parameters are entered at the same level as ``"type":"slack"``.
 
-+-------------------+-----------------------------------------------+----------+
-| Parameters        | Description                                   | Default  |
-+-------------------+-----------------------------------------------+----------+
-| `startup_message` | Confirmation post when PokeAlarm initialized  | ``true`` |
-+-------------------+-----------------------------------------------+----------+
++-------------------+----------------------------------------------+----------+
+| Parameters        | Description                                  | Default  |
++-------------------+----------------------------------------------+----------+
+| `startup_message` | Confirmation post when PokeAlarm initialized | ``true`` |
++-------------------+----------------------------------------------+----------+
+| `startup_text`    | Custom message post when PA initialized      |          |
++-------------------+----------------------------------------------+----------+
 
 These optional parameters below are applicable to the ``monsters``, ``stops``,
 ``gyms``, ``eggs``, and ``raids`` sections of the JSON file.

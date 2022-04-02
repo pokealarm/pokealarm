@@ -102,6 +102,28 @@ alarm configuration.
 Optional Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Startup parameters
+..................
+
+In addition to the required parameters, several ``alarms.json`` optional
+parameters are available to personalize your notifications. Below is an
+example of these optional parameters and how they are incorporated into a
+functional alarm layout.
+
+These optional parameters are entered at the same level as ``"type":"twilio"``.
+
++-------------------+----------------------------------------------+----------+
+| Parameters        | Description                                  | Default  |
++-------------------+----------------------------------------------+----------+
+| `startup_message` | Confirmation post when PokeAlarm initialized | ``true`` |
++-------------------+----------------------------------------------+----------+
+| `startup_text`    | Custom message post when PA initialized      |          |
++-------------------+----------------------------------------------+----------+
+
+
+Event parameters
+................
+
 These optional parameters below are applicable to the ``monsters``, ``stops``,
 ``gyms``, ``eggs``, and ``raids`` sections of the JSON file.
 
