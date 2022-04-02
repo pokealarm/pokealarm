@@ -77,6 +77,7 @@ class PushbulletAlarm(Alarm):
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
             settings.pop('startup_message', "True"))
+        self.__startup_text = settings.pop('startup_text', "")
         self.__channel = settings.pop('channel', "True")
         self.__sender = None
 
@@ -127,7 +128,9 @@ class PushbulletAlarm(Alarm):
             args = {
                 "sender": self.__sender,
                 "title": "PokeAlarm activated!",
-                "message": "PokeAlarm has successully started!"
+                "message": ("PokeAlarm has successully started!"
+                            if self.__startup_text == ""
+                            else self.__startup_text)
             }
             try_sending(
                 self._log, self.connect, "PushBullet", self.push_note, args)

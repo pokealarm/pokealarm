@@ -125,6 +125,7 @@ class DiscordAlarm(Alarm):
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
             settings.pop('startup_message', "True"))
+        self.__startup_text = settings.pop('startup_text', "")
         self.__disable_embed = parse_boolean(
             settings.pop('disable_embed', "False"))
         self.__avatar_url = settings.pop('avatar_url', "")
@@ -166,7 +167,9 @@ class DiscordAlarm(Alarm):
                 'url': self.__webhook_url,
                 'payload': {
                     'username': 'PokeAlarm',
-                    'content': 'PokeAlarm activated!'
+                    'content': ('PokeAlarm activated!'
+                                if self.__startup_text == ""
+                                else self.__startup_text)
                 }
             }
             try_sending(self._log, self.connect, "Discord",

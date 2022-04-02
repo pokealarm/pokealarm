@@ -104,6 +104,7 @@ class SlackAlarm(Alarm):
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
             settings.pop('startup_message', "True"))
+        self.__startup_text = settings.pop('startup_text', "")
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
 
@@ -139,7 +140,9 @@ class SlackAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             self.send_message(self.__default_channel, username="PokeAlarm",
-                              text="PokeAlarm activated!")
+                              text=("PokeAlarm activated!"
+                                    if self.__startup_text == ""
+                                    else self.__startup_text))
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
