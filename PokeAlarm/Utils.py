@@ -8,6 +8,7 @@ from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
 # 3rd Party Imports
+from s2cell import s2cell
 # Local Imports
 from PokeAlarm import not_so_secret_url
 from PokeAlarm import config
@@ -671,8 +672,8 @@ def get_xl_candy_costs():
     return get_stardust_costs.info.get('xl_candy')
 
 
-# Return a boolean for whether the raid boss will have it's catch CP boosted
-def is_weather_boosted(weather_id, pokemon_id, form_id=0):
+# Return a boolean for whether the monster or the type is weather boosted
+def is_weather_boosted(weather_id, pokemon_id=0, form_id=0, mon_type=None):
     if not hasattr(is_weather_boosted, 'info'):
         is_weather_boosted.info = {}
         file_ = get_path('data/weather_boosts.json')
@@ -683,9 +684,11 @@ def is_weather_boosted(weather_id, pokemon_id, form_id=0):
             is_weather_boosted.info[w_id] = j[w_id]
 
     boosted_types = is_weather_boosted.info.get(str(weather_id), {})
-    types = get_base_types(pokemon_id, form_id)
-
-    return types[0] in boosted_types or types[1] in boosted_types
+    if mon_type is None:
+        types = get_base_types(pokemon_id, form_id)
+        return types[0] in boosted_types or types[1] in boosted_types
+    else:
+        return mon_type in boosted_types
 
 
 def weather_id_is_boosted(desired_status, weather_id):
@@ -939,6 +942,12 @@ def get_weather_id(weather_name):
     except ValueError:
         raise ValueError("Unable to interpret `{}` as a valid "
                          " weather name or id.".format(weather_name))
+
+
+# Returns the id of the cached weather from (lat,lng)
+def get_cached_weather_id_from_coord(lat, lng, cache):
+    cell_id = s2cell.lat_lon_to_cell_id(lat, lng, 10)
+    return cache.cell_weather_id(str(cell_id))
 
 
 # Returns true if any item is in the provided list

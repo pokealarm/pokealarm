@@ -70,6 +70,12 @@ class QuestEvent(BaseEvent):
         self.item_type = data.get('item_type')
         self.item_id = data.get('item_id', 0)
 
+    def update_with_cache(self, cache):
+        """ Update event infos using cached data from previous events. """
+
+        # Nothing to update
+        pass
+
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         form_name = locale.get_form_name(self.monster_id, self.monster_form_id)

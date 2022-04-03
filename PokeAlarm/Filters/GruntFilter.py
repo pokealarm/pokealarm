@@ -70,6 +70,19 @@ class GruntFilter(BaseFilter):
             event_attribute='time_left', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
 
+        # Weather
+        # self.weather_ids = self.evaluate_attribute(
+        #    event_attribute='weather_id', eval_func=operator.contains,
+        #    limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
+        # self.boosted_weather_ids = self.evaluate_attribute(
+        #    event_attribute='boosted_weather_id', eval_func=operator.contains,
+        #    limit=BaseFilter.parse_as_set(
+        #        get_weather_id, 'boosted_weather', data))
+        # self.boosted_weather = self.evaluate_attribute(
+        #    event_attribute='boosted_weather_id',
+        #    eval_func=weather_id_is_boosted,
+        #    limit=BaseFilter.parse_as_type(bool, 'is_boosted_weather', data))
+
         # Geofences
         self.geofences = self.evaluate_geofences(
             geofences=BaseFilter.parse_as_list(str, 'geofences', data),

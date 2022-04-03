@@ -7,6 +7,7 @@ requests==2.22.0
 greenlet==0.4.13
 jinja2==3.0.3; python_version >= '3'
 werkzeug==2.0.3; python_version >= '3'
+s2cell==1.6.0
 itsdangerous==2.0.1; python_version >= '3'
 jinja2==2.11.3; python_version < '3'
 werkzeug==1.0.1; python_version < '3'

@@ -6,7 +6,8 @@ from PokeAlarm import Unknown
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str,\
-    get_type_emoji, get_gender_sym
+    get_type_emoji, get_gender_sym, is_weather_boosted, \
+    get_cached_weather_id_from_coord, get_weather_emoji
 from PokeAlarm.Utilities.GruntUtils import get_grunt_gender_id, \
     get_grunt_mon_type_id, get_grunt_reward_mon_id, get_grunt_mon_battle, \
     get_grunt_name
@@ -73,10 +74,33 @@ class GruntEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
+        # Weather (updated later with cache)
+        self.weather_id = None
+        self.boosted_weather_id = None
+
+    def update_with_cache(self, cache):
+        """ Update event infos using cached data from previous events. """
+
+        # Update weather
+        weather_id = get_cached_weather_id_from_coord(
+            self.lat, self.lng, cache)
+        if Unknown.is_not(weather_id):
+            self.weather_id = BaseEvent.check_for_none(
+                int, weather_id, Unknown.TINY)
+            self.boosted_weather_id = \
+                0 if Unknown.is_not(self.weather_id) else Unknown.TINY
+            if is_weather_boosted(
+                    weather_id=self.weather_id,
+                    mon_type=self.mon_type_id):
+                self.boosted_weather_id = self.weather_id
+
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration, timezone)
         dts = self.custom_dts.copy()
+        weather_name = locale.get_weather_name(self.weather_id)
+        boosted_weather_name = locale.get_weather_name(
+            self.boosted_weather_id)
         dts.update({
             # Identification
             'stop_id': self.stop_id,
@@ -86,10 +110,10 @@ class GruntEvent(BaseEvent):
             'stop_image': self.stop_image,
             'grunt_id': self.grunt_type_id,
             'grunt_id_3': f'{self.grunt_type_id:03}',
-            'grunt_name': self.grunt_name,
             'type_name': locale.get_type_name(self.mon_type_id),
             'type_emoji': get_type_emoji(self.mon_type_id),
             'gender_id': self.gender_id,
+            'grunt_name': self.grunt_name,
             'gender': self.gender,
 
             # Rewards
@@ -140,6 +164,22 @@ class GruntEvent(BaseEvent):
             'applenav': get_applemaps_link(self.lat, self.lng, True),
             'waze': get_waze_link(self.lat, self.lng, False),
             'wazenav': get_waze_link(self.lat, self.lng, True),
-            'geofence': self.geofence
+            'geofence': self.geofence,
+
+            # Weather
+            'weather_id': self.weather_id,
+            'weather': weather_name,
+            'weather_or_empty': Unknown.or_empty(weather_name),
+            'weather_emoji': get_weather_emoji(self.weather_id),
+            'boosted_weather_id': self.boosted_weather_id,
+            'boosted_weather': boosted_weather_name,
+            'boosted_weather_or_empty': (
+                '' if self.boosted_weather_id == 0
+                else Unknown.or_empty(boosted_weather_name)),
+            'boosted_weather_emoji':
+                get_weather_emoji(self.boosted_weather_id),
+            'boosted_or_empty': locale.get_boosted_text() if \
+                Unknown.is_not(self.boosted_weather_id) and
+                self.boosted_weather_id != 0 else '',
         })
         return dts
