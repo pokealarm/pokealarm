@@ -190,6 +190,31 @@ big_karp            Return `big` if Magikarp weight is >=13.13.
 tiny_rat            Return `tiny` if Rattata weight is <=2.41.
 =================== ============================================================
 
+Ditto disguise
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    The DTS in this section are only relevant if your scanner encountered a
+    Ditto. This allows you to know different display informations about it.
+
+======================= ============================================================================
+DTS                     Description
+======================= ============================================================================
+display_mon_name        Name of the displayed monster.
+display_mon_id          ID of the displayed monster.
+display_mon_id_2        ID of the displayed monster, padded to 2 digits.
+display_mon_id_3        ID of the displayed monster, padded to 3 digits.
+display_costume         Name of the displayed monster's costume.
+display_costume_id      ID of the displayed monster's costume.
+display_costume_id_2    ID of the displayed monster's costume, padded to 2 digits.
+display_costume_id_3    ID of the displayed monster's costume, padded to 3 digits.
+display_form            Name of the displayed monster's form.
+display_form_id         ID of the displayed monster's form.
+display_form_id_2       ID of the displayed monster's form, padded to 2 digits.
+display_form_id_3       ID of the displayed monster's form, padded to 3 digits.
+display_gender          Gender of the displayed monster, represented as a single character.
+======================= ============================================================================
 
 Location
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
