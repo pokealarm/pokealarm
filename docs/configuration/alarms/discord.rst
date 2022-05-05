@@ -102,6 +102,7 @@ These optional parameters are entered at the same level as ``"type":"discord"``.
 ================= ============================================== =========
 Parameters        Description                                    Default
 `startup_message` Confirmation post when PokeAlarm initialized   ``true``
+`startup_text`    Custom message post when PA initialized        
 `disable_embed`   Remove embed from message                      ``false``
 ================= ============================================== =========
 

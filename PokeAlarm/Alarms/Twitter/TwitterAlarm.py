@@ -78,6 +78,7 @@ class TwitterAlarm(Alarm):
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
             settings.pop('startup_message', "True"))
+        self.__startup_text = settings.pop('startup_text', "")
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
@@ -113,7 +114,10 @@ class TwitterAlarm(Alarm):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
             args = {
-                "status": "{}- PokeAlarm activated!" .format(timestamps[2])
+                "status": (f"{timestamps[2]} - " +
+                           ("PokeAlarm has initialized!"
+                               if self.__startup_text == ""
+                               else self.__startup_text))
             }
             try_sending(
                 self._log, self.connect, "Twitter", self.send_tweet, args)

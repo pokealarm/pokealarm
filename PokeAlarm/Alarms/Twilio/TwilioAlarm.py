@@ -74,6 +74,7 @@ class TwilioAlarm(Alarm):
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
             settings.pop('startup_message', "True"))
+        self.__startup_text = settings.pop('startup_text', "")
 
         # Optional Alert Parameters
         self.__pokemon = self.set_alert(
@@ -108,7 +109,9 @@ class TwilioAlarm(Alarm):
             self.send_sms(
                 to_num=self.__to_number,
                 from_num=self.__from_number,
-                body="PokeAlarm activated!"
+                body=("PokeAlarm activated!"
+                      if self.__startup_text == ""
+                      else self.__startup_text)
             )
             self._log.info("Startup message sent!")
 

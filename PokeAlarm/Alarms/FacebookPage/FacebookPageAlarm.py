@@ -111,6 +111,7 @@ class FacebookPageAlarm(Alarm):
         # Optional Alarm Parameters
         self.__startup_message = parse_boolean(
             settings.pop('startup_message', "True"))
+        self.__startup_text = settings.pop('startup_text', "")
 
         # Set Alerts
         self.__monsters = self.create_alert_settings(
@@ -144,8 +145,10 @@ class FacebookPageAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
-            self.post_to_wall("{} - PokeAlarm has initialized!".format(
-                timestamps[2]))
+            self.post_to_wall(f"{timestamps[2]} - " +
+                              ("PokeAlarm has initialized!"
+                               if self.__startup_text == ""
+                               else self.__startup_text))
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert

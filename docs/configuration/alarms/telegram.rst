@@ -102,6 +102,7 @@ Parameters        Description                                            Default
 `max_attempts`    Max attempts to send for each message.                 ``"3"``
 `web_preview`     Enables web preview for links in message.              ``false``
 `startup_message` Confirmation post when PokeAlarm initialized           ``true``
+`startup_text`    Custom message post when PA initialized                
 ================= ====================================================== ============
 
 These optional parameters below are applicable to the ``monsters``, ``stops``,
