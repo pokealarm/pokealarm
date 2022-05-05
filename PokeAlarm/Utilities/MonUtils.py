@@ -163,11 +163,3 @@ def get_shiny_status(pokemon_id, form_id):
 
     return (get_shiny_status.info.get(f'{pokemon_id}', False)
             or get_shiny_status.info.get(f'{pokemon_id}_{form_id}', False))
-
-
-# Returns shiny symbol if the pokemon is shiny in the wild
-def get_wild_shiny_emoji(pokemon_id, form_id):
-    if get_shiny_status(pokemon_id, form_id):
-        return '✨'
-    else:
-        return ''
