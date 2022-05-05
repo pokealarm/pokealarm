@@ -172,7 +172,7 @@ class TestGruntFilter(unittest.TestCase):
     def test_monster_reward(self):
         self.filt = {'monsters': ["Chikorita", "Voltorb"]}
         self.event_key = 'grunt_type'
-        self.pass_vals = [4, 23, 49]
+        self.pass_vals = [23, 49]
         self.fail_vals = [1, 39, 50]
 
     @generic_filter_test
@@ -180,7 +180,7 @@ class TestGruntFilter(unittest.TestCase):
         self.filt = {'monsters_exclude': ["Chikorita", "Voltorb"]}
         self.event_key = 'grunt_type'
         self.pass_vals = [1, 39, 50]
-        self.fail_vals = [4, 23, 49]
+        self.fail_vals = [23, 49]
 
 
 if __name__ == '__main__':
