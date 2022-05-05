@@ -8,7 +8,8 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_waze_link, get_time_as_str, get_seconds_remaining, get_dist_as_str,\
     get_type_emoji, get_gender_sym
 from PokeAlarm.Utilities.GruntUtils import get_grunt_gender_id, \
-    get_grunt_mon_type_id, get_grunt_reward_mon_id, get_grunt_mon_battle
+    get_grunt_mon_type_id, get_grunt_reward_mon_id, get_grunt_mon_battle, \
+    get_grunt_name
 
 
 class GruntEvent(BaseEvent):
@@ -42,6 +43,7 @@ class GruntEvent(BaseEvent):
         self.grunt_type_id = check_for_none(
             int, data.get('incident_grunt_type', data.get('grunt_type')),
             0)
+        self.grunt_name = get_grunt_name(self.grunt_type_id)
 
         # Grunt gender
         self.gender_id = get_grunt_gender_id(self.grunt_type_id)
@@ -84,6 +86,7 @@ class GruntEvent(BaseEvent):
             'stop_image': self.stop_image,
             'grunt_id': self.grunt_type_id,
             'grunt_id_3': f'{self.grunt_type_id:03}',
+            'grunt_name': self.grunt_name,
             'type_name': locale.get_type_name(self.mon_type_id),
             'type_emoji': get_type_emoji(self.mon_type_id),
             'gender_id': self.gender_id,

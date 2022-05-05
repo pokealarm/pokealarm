@@ -37,6 +37,7 @@ stop_name       Name of the stop.
 stop_image      URL to the image of the stop.
 grunt_id        Grunt ID.
 grunt_id_3      Grunt ID, padded to 3 digits.
+grunt_name      Name of the grunt (ex: Sierra, Giovanni, Male...)
 type_name       Name of the monster's type used by the grunt.
 type_emoji      Emoji for monster's type, or empty string if unknown.
 gender_id       ID of the grunt's gender.

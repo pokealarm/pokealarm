@@ -387,9 +387,6 @@ def start_server():
     # Parse Settings
     parse_settings(os.path.abspath(os.path.dirname(__file__)))
 
-    # import PokeAlarm.Utilities.GruntUtils as gu
-    # print(gu.get_grunt_mon_battle(4, 0))
-    # exit()
     # Start Webhook Manager in a Thread
     spawn(manage_webhook_data, data_queue)
 

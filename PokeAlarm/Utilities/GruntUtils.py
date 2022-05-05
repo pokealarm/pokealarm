@@ -39,6 +39,20 @@ def get_grunt_mon_type_id(grunt_id):
     return get_grunt_mon_type_id.info.get(grunt_id, Unknown.TINY)
 
 
+# Returns the grunt name
+def get_grunt_name(grunt_id):
+    if not hasattr(get_grunt_name, 'info'):
+        get_grunt_name.info = {}
+        file_ = get_path('data/invasions.json')
+        with open(file_, 'r') as f:
+            j = json.load(f)
+            f.close()
+        for id_ in j:
+            get_grunt_name.info[int(id_)] = j[id_]["grunt"]
+
+    return get_grunt_name.info.get(grunt_id, Unknown.REGULAR)
+
+
 # Returns the possible mon id rewards
 def get_grunt_reward_mon_id(grunt_id):
     if not hasattr(get_grunt_reward_mon_id, 'info'):
