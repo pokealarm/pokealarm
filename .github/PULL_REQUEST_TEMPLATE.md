@@ -39,7 +39,7 @@
 ## Wiki Update
 <!--
  Does this feature require an update to the wiki? If so, please submit
- the required change to https://github.com/RocketMap/PokeAlarmWiki.
+ the required change in doc/*.rst files.
  If your feature requires a wiki update, you may submit it for review
  but it will not be accepted until the wiki update is complete.
 --->
