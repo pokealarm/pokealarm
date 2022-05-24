@@ -142,6 +142,13 @@ class TestRaidFilter(unittest.TestCase):
         self.pass_vals = [198, 261]
         self.fail_vals = [1, 4]
 
+    @generic_filter_test
+    def test_shiny(self):
+        self.filt = {"can_be_shiny": True}
+        self.event_key = "pokemon_id"
+        self.pass_vals = [3, 95, 384]
+        self.fail_vals = [2, 5, 151]
+
     def test_sponsored(self):
         # Create the filters
         filter1 = self.gen_filter({"sponsored": False})

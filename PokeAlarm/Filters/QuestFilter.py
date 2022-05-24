@@ -97,6 +97,12 @@ class QuestFilter(BaseFilter):
             event_attribute='monster_costume_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(int, 'costume_ids', data))
 
+        # Monster Cosmetics
+        self.can_be_shiny = self.evaluate_attribute(
+            event_attribute='monster_can_be_shiny',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'can_be_shiny', data))
+
         # Item Rewards
         self.item_ids = self.evaluate_attribute(
             event_attribute='item_id', eval_func=operator.contains,

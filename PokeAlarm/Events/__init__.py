@@ -49,4 +49,5 @@ def event_factory(data):
     except Exception as e:
         log.error("Encountered error while converting webhook data"
                   + "({}: {})".format(type(e).__name__, e))
+        print("Stack trace: \n {}".format(traceback.format_exc()))
         log.debug("Stack trace: \n {}".format(traceback.format_exc()))

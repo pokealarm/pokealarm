@@ -10,7 +10,7 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_move_duration, get_move_energy, get_seconds_remaining, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
     get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
-    get_team_emoji, get_ex_eligible_emoji
+    get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji
 
 
 class RaidEvent(BaseEvent):
@@ -44,6 +44,8 @@ class RaidEvent(BaseEvent):
         self.boss_level = 20
         self.gender = MonUtils.get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
+        self.can_be_shiny = MonUtils.get_shiny_status(
+            self.mon_id, self.form_id)
 
         # Evolution
         self.evolution_id = check_for_none(int, data.get('evolution'), 0)
@@ -221,6 +223,7 @@ class RaidEvent(BaseEvent):
             'mon_id': self.mon_id,
             'mon_id_3': "{:03}".format(self.mon_id),
             'gender': self.gender,
+            'shiny_emoji': get_shiny_emoji(self.can_be_shiny),
 
             # Quick Move
             'quick_move': locale.get_move_name(self.quick_id),

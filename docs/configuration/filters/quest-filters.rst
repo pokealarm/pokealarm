@@ -62,15 +62,16 @@ max_reward_amount  Maximum amount of the reward             ``3000``
 Monster Rewards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-================== ========================================== ====================================
-Parameter          Description                                Example
-================== ========================================== ====================================
-monsters           Array of allowed monsters, by id or name.  ``["Bulbasaur","2",3]``
-monsters_exclude   Array of excluded monsters, by id or name. ``["Bulbasaur","2",3]``
-form_ids           Array of allowed form ids for a monster.   ``[0,"1"]``
-costume_ids        Array of allowed costume ids for a monster ``[0,"1"]``
-types              Array of allowed monster types, by name.   ``["Dark", "Dragon", "Grass"]``
-================== ========================================== ====================================
+================== =============================================== ====================================
+Parameter          Description                                     Example
+================== =============================================== ====================================
+monsters           Array of allowed monsters, by id or name.       ``["Bulbasaur","2",3]``
+monsters_exclude   Array of excluded monsters, by id or name.      ``["Bulbasaur","2",3]``
+form_ids           Array of allowed form ids for a monster.        ``[0,"1"]``
+costume_ids        Array of allowed costume ids for a monster      ``[0,"1"]``
+types              Array of allowed monster types, by name.        ``["Dark", "Dragon", "Grass"]``
+can_be_shiny       Accepts or denies based on shiny availability.  ``true`` or ``false``
+================== =============================================== ====================================
 
 Item Rewards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

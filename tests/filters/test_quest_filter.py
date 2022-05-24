@@ -177,6 +177,13 @@ class TestQuestFilter(unittest.TestCase):
         self.pass_vals = ['eee', 'fff', 'ggg']
         self.fail_vals = ['aaa', 'bbb', 'ccc']
 
+    @generic_filter_test
+    def test_shiny(self):
+        self.filt = {"can_be_shiny": True}
+        self.event_key = "pokemon_id"
+        self.pass_vals = [1, 19, 193]
+        self.fail_vals = [2, 5, 34]
+
     def test_reward_string(self):
         # Test monster reward
         quest = self.gen_event({

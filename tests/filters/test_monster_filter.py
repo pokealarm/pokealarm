@@ -81,6 +81,13 @@ class TestMonsterFilter(unittest.TestCase):
         self.pass_vals = [5, 7, 10]
         self.fail_vals = [4, 11, 100]
 
+    @generic_filter_test
+    def test_shiny(self):
+        self.filt = {"can_be_shiny": True}
+        self.event_key = "pokemon_id"
+        self.pass_vals = [1, 19, 152]
+        self.fail_vals = [2, 5, 151]
+
     def test_iv(self):
         filt = self.gen_filter({"min_iv": 50, "max_iv": 75})
 

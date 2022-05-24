@@ -14,9 +14,12 @@ class MockManager(object):
         "Masterfile-Generator/master/master-latest-everything.json"
     fast_moves_url = "https://pogoapi.net/api/v1/fast_moves.json"
     charged_moves_url = "https://pogoapi.net/api/v1/charged_moves.json"
+    shiny_possible_url = "https://raw.githubusercontent.com/jms412/" \
+        "PkmnShinyMap/main/shinyPossible.json"
     masterfile_data = requests.get(masterfile_url).json()
     fast_moves_data = requests.get(fast_moves_url).json()
     charged_moves_data = requests.get(fast_moves_url).json()
+    shiny_possible_data = requests.get(shiny_possible_url).json()
     with open("data/pokemon_data.json", 'w') as f:
         json.dump(masterfile_data['pokemon'], f, indent=2)
         f.close()
@@ -25,6 +28,9 @@ class MockManager(object):
         f.close()
     with open("data/charged_moves.json", 'w') as f:
         json.dump(charged_moves_data, f, indent=2)
+        f.close()
+    with open("data/shiny_data.json", 'w') as f:
+        json.dump(shiny_possible_data['map'], f, indent=2)
         f.close()
 
     # Create a geofence.txt for unit tests

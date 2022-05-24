@@ -119,6 +119,7 @@ class MonFilter(BaseFilter):
         self.forms = self.evaluate_attribute(  # f.forms in m.form_id
             event_attribute='form_id', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(int, 'form_ids', data))
+
         # Costume  TODO: names
         self.costumes = self.evaluate_attribute(  # f.costumes in m.costume_id
             event_attribute='costume_id', eval_func=operator.contains,
@@ -149,6 +150,11 @@ class MonFilter(BaseFilter):
                 MonUtils.get_move_id, 'charge_moves', data))
 
         # Cosmetic
+        self.can_be_shiny = self.evaluate_attribute(
+            event_attribute='can_be_shiny',
+            eval_func=operator.eq,
+            limit=BaseFilter.parse_as_type(bool, 'can_be_shiny', data))
+
         # Gender
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender
             event_attribute='gender', eval_func=operator.contains,
@@ -286,6 +292,9 @@ class MonFilter(BaseFilter):
         # Cosmetic
         if self.genders is not None:
             settings['genders'] = self.genders
+        if self.can_be_shiny is not None:
+            settings['can_be_shiny'] = self.can_be_shiny
+
         # Height
         if self.min_height is not None:
             settings['min_height'] = self.min_height
