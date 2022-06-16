@@ -103,6 +103,7 @@
     "0502": "Leurre Glacial",
     "0503": "Leurre Moussu",
     "0504": "Leurre Magn\u00E9tique",
+    "0505": "Leurre Pluvieux",
     "0602": "Attaque +",
     "0603": "D\u00E9fense +",
     "0604": "X Miracle",
@@ -152,7 +153,8 @@
     "501": "Standard",
     "502": "Glacial",
     "503": "Moussu",
-    "504": "Magn\u00e9tique"
+    "504": "Magn\u00e9tique",
+    "505": "Pluvieux"
   },
   "misc": {
     "boosted": "boost\u00e9"
