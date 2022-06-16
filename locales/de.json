@@ -49,6 +49,7 @@
     "0502": "Gletscher-Lockmodul",
     "0503": "Moos-Lockmodul",
     "0504": "Magnet-Lockmodul",
+    "0505": "Regen-Lockmodul",
     "0602": "X Attack",
     "0603": "X Defense",
     "0604": "X Miracle",
@@ -98,7 +99,8 @@
     "501": "Standard",
     "502": "Gletscher",
     "503": "Moos",
-    "504": "Magnet"
+    "504": "Magnet",
+    "505": "Regen"
   },
   "misc": {
     "boosted": "verst\u00e4rktes"

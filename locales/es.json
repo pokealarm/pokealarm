@@ -51,6 +51,7 @@
     "0502": "M\u00F3dulo Cebo Glaciar",
     "0503": "M\u00F3dulo Cebo Musgoso",
     "0504": "M\u00F3dulo Cebo Magn\u00E9tico",
+    "0505": "M\u00F3dulo Cebo Lluvioso",
     "0602": "Ataque X",
     "0603": "Defensa X",
     "0604": "Milagro X",
@@ -100,7 +101,8 @@
     "501": "Est\u00e1ndar",
     "502": "Glaciar",
     "503": "Musgoso",
-    "504": "Magn\u00e9tico"
+    "504": "Magn\u00e9tico",
+    "505": "Lluvioso"
   },
   "misc": {
     "boosted": "potenciado"

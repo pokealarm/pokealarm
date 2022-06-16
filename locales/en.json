@@ -51,6 +51,7 @@
     "0502": "Glacial Lure Module",
     "0503": "Mossy Lure Module",
     "0504": "Magnetic Lure Module",
+    "0505": "Rainy Lure Module",
     "0602": "X-Attack",
     "0603": "X-Defense",
     "0604": "X-Miracle",
@@ -100,7 +101,8 @@
     "501": "Standard",
     "502": "Glacial",
     "503": "Mossy",
-    "504": "Magnetic"
+    "504": "Magnetic",
+    "505": "Rainy"
   },
   "misc": {
     "boosted": "boosted"
