@@ -5,7 +5,7 @@ import operator
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils as MonUtils
 from PokeAlarm.Utils import get_weather_id, weather_id_is_boosted, \
-    match_items_in_array
+    match_items_in_array, get_gender_sym
 
 
 class MonFilter(BaseFilter):
@@ -159,7 +159,7 @@ class MonFilter(BaseFilter):
         self.genders = self.evaluate_attribute(  # f.genders contains m.gender
             event_attribute='gender', eval_func=operator.contains,
             limit=BaseFilter.parse_as_set(
-                MonUtils.get_gender_sym, 'genders', data))
+                get_gender_sym, 'genders', data))
         # Height
         self.min_height = self.evaluate_attribute(  # f.min_height <= m.height
             event_attribute='height', eval_func=operator.le,

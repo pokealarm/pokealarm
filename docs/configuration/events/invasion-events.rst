@@ -32,14 +32,24 @@ General
 =============== ==========================================================
 DTS             Description
 =============== ==========================================================
-stop_id         The stop id. Unique per stop.
-stop_name       The name of the stop.
+stop_id         Stop ID, unique per stop.
+stop_name       Name of the stop.
 stop_image      URL to the image of the stop.
-type_id         The id of the grunt type.
-type_name       The name of the grunt type.
-type_emoji      Emoji for the grunt's type, or empty string if unknown.
-gender_id       The id of the grunt's gender.
+grunt_id        Grunt ID.
+grunt_id_3      Grunt ID, padded to 3 digits.
+grunt_name      Name of the grunt (ex: Sierra, Giovanni, Male...)
+type_name       Name of the monster's type used by the grunt.
+type_emoji      Emoji for monster's type, or empty string if unknown.
+gender_id       ID of the grunt's gender.
 gender          Gender of the grunt, represented as a single character.
+reward_ids      List of possible rewarded monster IDs.
+reward_names    List of possible rewarded monsters.
+battle1_ids     List of possible monster IDs for the 1st battle.
+battle1_names   List of possible monsters for the 1st battle.
+battle2_ids     List of possible monster IDs for the 2nd battle.
+battle2_names   List of possible monsters for the 2nd battle.
+battle3_ids     List of possible monster IDs for the 3rd battle.
+battle3_names   List of possible monsters for the 3rd battle.
 =============== ==========================================================
 
 

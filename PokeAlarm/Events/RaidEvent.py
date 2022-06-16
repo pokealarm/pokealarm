@@ -3,14 +3,15 @@ from datetime import datetime
 # 3rd Party Imports
 # Local Imports
 from PokeAlarm import Unknown
-from PokeAlarm.Utilities import MonUtils
 from . import BaseEvent
 from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_time_as_str, get_move_type, get_move_damage, get_move_dps, \
     get_move_duration, get_move_energy, get_seconds_remaining, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
     get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
-    get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji
+    get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji, \
+    get_gender_sym
+from PokeAlarm.Utilities import MonUtils
 
 
 class RaidEvent(BaseEvent):
@@ -42,7 +43,7 @@ class RaidEvent(BaseEvent):
         self.cp = int(data['cp'])
         self.types = get_base_types(self.mon_id, self.form_id)
         self.boss_level = 20
-        self.gender = MonUtils.get_gender_sym(
+        self.gender = get_gender_sym(
             check_for_none(int, data.get('gender'), Unknown.TINY))
         self.can_be_shiny = MonUtils.get_shiny_status(
             self.mon_id, self.form_id)

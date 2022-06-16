@@ -36,10 +36,15 @@ whtypes = {
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 locales_file = glob(get_path('../locales/en.json'))[0]
 data = json.loads(open(locales_file, 'rb+').read())
+# Mon data
 master_file = "https://raw.githubusercontent.com/WatWowMap/" \
     "Masterfile-Generator/master/master-latest-everything.json"
 master_file = requests.get(master_file)
 pokemon_data = master_file.json()["pokemon"]
+# Invasion data
+invasions_file = "https://raw.githubusercontent.com/cecpk/RocketMAD/" \
+    "master/static/data/invasions.json"
+invasions_data = requests.get(invasions_file).json()
 
 teams_formatted = re.sub(
     r'[{}",]', '', json.dumps(data['teams'], indent=2, sort_keys=True))
@@ -59,9 +64,6 @@ quest_reward_types_formatted = re.sub(
 
 items_formatted = re.sub(
     r'[{}",]', '', json.dumps(data['items'], indent=2, sort_keys=True))
-
-grunt_types_formatted = re.sub(
-    '[{}",]', '', json.dumps(data['grunt_types'], indent=2, sort_keys=True))
 
 lure_types_formatted = re.sub(
     '[{}",]', '', json.dumps(data['lure_types'], indent=2, sort_keys=True))
@@ -418,6 +420,14 @@ def get_raw_form_names():
     return get_raw_form_names.info
 
 
+def get_invasion_list_str():
+    invasions_str = ""
+    for id_ in invasions_data:
+        invasions_str += f"{id_}: {invasions_data[id_]['type']}\n"
+
+    return invasions_str
+
+
 def stop_info(id_field_name, url_field_name, name_field_name):
     print("Pokestop ID", end='\n> ')
     payload['message'][id_field_name] = input()
@@ -562,8 +572,8 @@ elif type == whtypes["7"]:
         print(items_formatted, end='\n> ')
         int_or_default('item_id')
 elif type == whtypes["8"]:
-    print("Grunt type (default: 30")
-    print(grunt_types_formatted, end='\n> ')
+    print("Grunt ID (default: 30)")
+    print(get_invasion_list_str(), end='\n> ')
     int_or_default('incident_grunt_type')
 
 if type in ["4", "5"]:

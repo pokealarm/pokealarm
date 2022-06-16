@@ -100,6 +100,8 @@ def check_for_update():
     shiny_possible_vreq = "https://api.github.com/repos/jms412/PkmnShinyMap/" \
         "commits?path=shinyPossible.json&per_page=1"
 
+    invasions_vreq = "https://api.github.com/repos/cecpk/RocketMAD/" \
+        "commits?path=static/data/invasions.json&per_page=1"
     try:
         # Get last sig of the data
         masterfile_response = requests.get(masterfile_vreq)
@@ -113,6 +115,8 @@ def check_for_update():
 
         shiny_possible_response = requests.get(shiny_possible_vreq)
         shiny_possible_sig = shiny_possible_response.json()[0]['sha']
+        invasions_response = requests.get(invasions_vreq)
+        invasions_sig = invasions_response.json()[0]['sha']
 
         # Compare local with remote signature and download new data if needed
         if os.path.isfile('data/.data_version'):
@@ -124,22 +128,28 @@ def check_for_update():
 
                 # Check the files to update
                 sigdiff = {
-                    'masterfile': (sig['masterfile'] != masterfile_sig or not
-                                   os.path.isfile('data/pokemon_data.json')),
-                    'fast_moves': (sig['fast_moves'] != fast_moves_sig or
-                                   not os.path.isfile('data/fast_moves.json')),
-                    'charged_moves': (sig['charged_moves'] != charged_moves_sig
-                                      or not os.path.isfile(
-                        'data/charged_moves.json')),
+                    'masterfile': (not os.path.isfile('data/pokemon_data.json')
+                                   or sig['masterfile'] != masterfile_sig),
+                    'fast_moves': (not os.path.isfile('data/fast_moves.json')
+                                   or sig['fast_moves'] != fast_moves_sig),
+                    'charged_moves': (not os.path.isfile(
+                        'data/charged_moves.json')
+                        or sig['charged_moves'] != charged_moves_sig),
                     'shiny_possible': (not os.path.isfile(
                         'data/shiny_data.json')
-                        or sig['shiny_possible'] != shiny_possible_sig)
+                        or sig['shiny_possible'] != shiny_possible_sig),
+                    'invasions': (not os.path.isfile('data/invasions.json')
+                                  or sig['invasions'] != invasions_sig)
                 }
 
                 for k, differ in sigdiff.items():
                     if differ:
                         update_needed = True
-            except Exception:
+            except Exception as e:
+                log.error(f"Failed to update PokeAlarm data: {e}")
+                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                log.error("Starting to clean PokeAlarm data cache...")
+
                 os.remove(get_path("data/.data_version"))
                 sigdiff = None
                 update_needed = True
@@ -153,6 +163,7 @@ def check_for_update():
                 sig['fast_moves'] = fast_moves_sig
                 sig['charged_moves'] = charged_moves_sig
                 sig['shiny_possible'] = shiny_possible_sig
+                sig['invasions'] = invasions_sig
                 with open("data/.data_version", 'w') as f_sig:
                     json.dump(sig, f_sig, indent=2)
 
@@ -169,6 +180,7 @@ def check_for_update():
             sig['fast_moves'] = fast_moves_sig
             sig['charged_moves'] = charged_moves_sig
             sig['shiny_possible'] = shiny_possible_sig
+            sig['invasions'] = invasions_sig
             with open("data/.data_version", 'w') as f_sig:
                 json.dump(sig, f_sig, indent=2)
 
@@ -186,7 +198,8 @@ def check_for_update():
     if (not os.path.isfile('data/pokemon_data.json') or
         not os.path.isfile('data/fast_moves.json') or
             not os.path.isfile('data/charged_moves.json') or
-            not os.path.isfile('data/shiny_data.json')):
+            not os.path.isfile('data/shiny_data.json') or
+            not os.path.isfile('data/invasions.json')):
         log.critical("Missing PokeAlarm data")
         sys.exit(1)
 
@@ -330,7 +343,43 @@ def download_data(sigdiff=None):
 
         # All's done! Overwrite the old local file data
         os.replace("data/tmp_shiny_data.json", "data/shiny_data.json")
-        # https://github.com/jms412/PkmnShinyMap/blob/main/shinyPossible.json
+
+    if sigdiff is None or sigdiff['invasions']:
+        log.info("New Invasions data found! Fetching in progress...")
+
+        # Fetch data
+        invasions_url = "https://raw.githubusercontent.com/cecpk/RocketMAD/" \
+            "master/static/data/invasions.json"
+        invasions_data = requests.get(invasions_url).json()
+
+        # Check some dict paths which don't have to change
+        if invasions_data["1"]["grunt"] != "Blanche":
+            raise Exception("incorrect remote invasions")
+        if invasions_data["2"]["grunt"] != "Candela":
+            raise Exception("incorrect remote invasions")
+        if invasions_data["3"]["grunt"] != "Spark":
+            raise Exception("incorrect remote invasions")
+
+        # Write a temporary file data
+        tmp_invasions_fsize = 0
+        with open("data/tmp_invasions.json", 'w') as f:
+            json.dump(invasions_data, f, indent=2)
+            tmp_invasions_fsize = f.tell()
+            f.close()
+
+        # File size checks
+        if tmp_invasions_fsize == 0:
+            raise Exception("empty remote invasions")
+        if os.path.isfile('data/invasions.json'):
+            invasions_fsize = os.path.getsize("data/invasions.json")
+            if (float(tmp_invasions_fsize - invasions_fsize) /
+                    invasions_fsize < -0.1):  # -10% diff
+                raise Exception(
+                    "remote invasions is smaller "
+                    f"({tmp_invasions_fsize} < {invasions_fsize})")
+
+        # All's done! Overwrite the old local file data
+        os.replace("data/tmp_invasions.json", "data/invasions.json")
 
 
 # Configure and run PokeAlarm
