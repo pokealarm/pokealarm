@@ -103,6 +103,7 @@
     "0502": "Modulo esca glaciale",
     "0503": "Modulo esca silvestre",
     "0504": "Modulo esca magnetico",
+    "0505": "Modulo esca piovosa",
     "0602": "Attacco X",
     "0603": "Difesa X",
     "0604": "Miracolo X",
@@ -151,7 +152,8 @@
     "501": "Standard",
     "502": "Glaciale",
     "503": "Silvestre",
-    "504": "Magnetico"
+    "504": "Magnetico",
+    "505": "Piovosa"
   },
   "misc": {
     "boosted": "potenziato"
