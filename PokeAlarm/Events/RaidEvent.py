@@ -9,13 +9,9 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_move_duration, get_move_energy, get_seconds_remaining, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
     get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
-<<<<<<< HEAD
     get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji, \
-    get_gender_sym
+    get_gender_sym, get_cached_weather_id_from_coord
 from PokeAlarm.Utilities import MonUtils
-=======
-    get_team_emoji, get_ex_eligible_emoji, get_cached_weather_id_from_coord
->>>>>>> introduce cache use to update event infos
 
 
 class RaidEvent(BaseEvent):

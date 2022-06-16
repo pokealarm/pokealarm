@@ -54,11 +54,8 @@ class MonEvent(BaseEvent):
         self.direction = Unknown.TINY  # Completed by Manager
 
         # Weather Infos
-        # TODO: remove 'boosted_weather' and 'weather_boosted_condition' once
-        # all the scanners migrate to 'weather'
         self.weather_id = check_for_none(
-            int, (data.get('weather') or data.get('boosted_weather') or
-                  data.get('weather_boosted_condition')), Unknown.TINY)
+            int, data.get('weather'), Unknown.TINY)
         self.boosted_weather_id = \
             0 if Unknown.is_not(self.weather_id) else Unknown.TINY
         if is_weather_boosted(self.weather_id, self.monster_id, self.form_id):

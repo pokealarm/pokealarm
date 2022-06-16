@@ -110,10 +110,10 @@ class GruntEvent(BaseEvent):
             'stop_image': self.stop_image,
             'grunt_id': self.grunt_type_id,
             'grunt_id_3': f'{self.grunt_type_id:03}',
+            'grunt_name': self.grunt_name,
             'type_name': locale.get_type_name(self.mon_type_id),
             'type_emoji': get_type_emoji(self.mon_type_id),
             'gender_id': self.gender_id,
-            'grunt_name': self.grunt_name,
             'gender': self.gender,
 
             # Rewards
