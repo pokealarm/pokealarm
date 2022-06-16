@@ -153,6 +153,7 @@ ID    Name
 502   Glacial Lure Module
 503   Mossy Lure Module
 504   Magnetic Lure Module
+505   Rainy Lure Module
 602   X-Attack
 603   X-Defense
 604   X-Miracle
