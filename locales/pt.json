@@ -103,6 +103,7 @@
     "0502": "M\u00F3d. Atrair Glacial",
     "0503": "M\u00F3d. Atrair Musgoso",
     "0504": "M\u00F3d. Atrair Magn\u00E9tico",
+    "0505": "M\u00F3d. Atrair Chuvoso",
     "0602": "Ataque X",
     "0603": "Defesa X",
     "0604": "Milagre X",
@@ -151,7 +152,8 @@
     "501": "Padr\u00e3o",
     "502": "Glacial",
     "503": "Musgoso",
-    "504": "Magn\u00e9tico"
+    "504": "Magn\u00e9tico",
+    "505": "Chuvoso"
   },
   "misc": {
     "boosted": "impulsionado"
