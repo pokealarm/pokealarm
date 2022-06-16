@@ -103,6 +103,7 @@
     "0502": "\uC544\uC774\uC2A4 \uB8E8\uC5B4\uBAA8\uB4C8",
     "0503": "\uD5C8\uBE0C \uB8E8\uC5B4\uBAA8\uB4C8",
     "0504": "\uB9C8\uADF8\uB124\uD2F1 \uB8E8\uC5B4\uBAA8\uB4C8",
+    "0505": "\ube44\uc624\ub294\u0020\ub8e8\uc5b4\u0020\ubaa8\ub4c8",
     "0602": "\uD50C\uB7EC\uC2A4\uD30C\uC6CC",
     "0603": "\uB514\uD39C\uB4DC\uC5C5",
     "0604": "\uBBF8\uB77C\uD074",
@@ -152,7 +153,8 @@
     "501": "\ud45c\uc900",
     "502": "\uc544\uc774\uc2a4",
     "503": "\ud5c8\ube0c",
-    "504": "\ub9c8\uadf8\ub124\ud2f1"
+    "504": "\ub9c8\uadf8\ub124\ud2f1",
+    "505": "\ube44\uc624\ub294\u0020\ub0a0"
   },
   "misc": {
     "boosted": "\ubd80\uc591 \ub41c"
