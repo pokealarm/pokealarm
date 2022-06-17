@@ -96,3 +96,25 @@ time_left_raw_hours   Hours only until the lure expires.                        
 time_left_raw_minutes Minutes only until the lure expires.                                15
 time_left_raw_seconds Seconds only until the lure expires.                                52
 ===================== =================================================================== ===========
+
+Weather
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+======================== =======================================================
+DTS                      Description
+======================== =======================================================
+weather_id               Weather ID of the shadow monster.
+weather                  Weather name of the shadow monster.
+weather_or_empty         Weather name of the shadow monster, or empty string if
+                         unknown.
+weather_emoji            Weather emoji of the shadow monster, or empty string if
+                         unknown.
+boosted_weather_id       Return weather ID if shadow monster is boosted.
+boosted_weather          Return weather name if shadow monster is boosted.
+boosted_weather_or_empty Return weather name if shadow monster is boosted, or
+                         empty string if unknown.
+boosted_weather_emoji    Return weather emoji if shadow monster is boosted, or
+                         empty string if unknown.
+boosted_or_empty         Return `boosted` if shadow monster is boosted, or empty
+                         string if not.
+======================== =======================================================
