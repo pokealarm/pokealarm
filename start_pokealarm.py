@@ -99,9 +99,11 @@ def check_for_update():
     pogoapi_vreq = "https://pogoapi.net/api/v1/api_hashes.json"
     shiny_possible_vreq = "https://api.github.com/repos/jms412/PkmnShinyMap/" \
         "commits?path=shinyPossible.json&per_page=1"
-
     invasions_vreq = "https://api.github.com/repos/cecpk/RocketMAD/" \
         "commits?path=static/data/invasions.json&per_page=1"
+    rankings_vreq = "https://api.github.com/repos/pvpoke/pvpoke/" \
+        "commits?path=src/data/rankings/gobattleleague/overall/" \
+        "rankings-1500.json&per_page=1"
     try:
         # Get last sig of the data
         masterfile_response = requests.get(masterfile_vreq)
@@ -115,8 +117,12 @@ def check_for_update():
 
         shiny_possible_response = requests.get(shiny_possible_vreq)
         shiny_possible_sig = shiny_possible_response.json()[0]['sha']
+
         invasions_response = requests.get(invasions_vreq)
         invasions_sig = invasions_response.json()[0]['sha']
+
+        rankings_response = requests.get(rankings_vreq)
+        rankings_sig = rankings_response.json()[0]['sha']
 
         # Compare local with remote signature and download new data if needed
         if os.path.isfile('data/.data_version'):
@@ -139,7 +145,13 @@ def check_for_update():
                         'data/shiny_data.json')
                         or sig['shiny_possible'] != shiny_possible_sig),
                     'invasions': (not os.path.isfile('data/invasions.json')
-                                  or sig['invasions'] != invasions_sig)
+                                  or sig['invasions'] != invasions_sig),
+                    'rankings': (
+                        not os.path.isfile('data/rankings-1500.json') or
+                        not os.path.isfile('data/rankings-2500.json') or
+                        not os.path.isfile('data/rankings-10000.json') or
+                        sig['rankings'] != rankings_sig
+                    )
                 }
 
                 for k, differ in sigdiff.items():
@@ -164,6 +176,7 @@ def check_for_update():
                 sig['charged_moves'] = charged_moves_sig
                 sig['shiny_possible'] = shiny_possible_sig
                 sig['invasions'] = invasions_sig
+                sig['rankings'] = rankings_sig
                 with open("data/.data_version", 'w') as f_sig:
                     json.dump(sig, f_sig, indent=2)
 
@@ -181,6 +194,7 @@ def check_for_update():
             sig['charged_moves'] = charged_moves_sig
             sig['shiny_possible'] = shiny_possible_sig
             sig['invasions'] = invasions_sig
+            sig['rankings'] = rankings_sig
             with open("data/.data_version", 'w') as f_sig:
                 json.dump(sig, f_sig, indent=2)
 
@@ -195,12 +209,15 @@ def check_for_update():
     for file_ in tmp_files:
         os.remove(file_)
 
-    if (not os.path.isfile('data/pokemon_data.json') or
-        not os.path.isfile('data/fast_moves.json') or
-            not os.path.isfile('data/charged_moves.json') or
-            not os.path.isfile('data/shiny_data.json') or
-            not os.path.isfile('data/invasions.json')):
-        log.critical("Missing PokeAlarm data")
+    missing_data_detected = False
+    for dataname in ['pokemon_data', 'fast_moves', 'charged_moves',
+                     'shiny_data', 'invasions', 'rankings-1500',
+                     'rankings-2500', 'rankings-10000']:
+        if not os.path.isfile(f'data/{dataname}.json'):
+            log.critical(f"Missing PokeAlarm data: {dataname}")
+            missing_data_detected = True
+
+    if missing_data_detected:
         sys.exit(1)
 
 
@@ -376,10 +393,50 @@ def download_data(sigdiff=None):
                     invasions_fsize < -0.1):  # -10% diff
                 raise Exception(
                     "remote invasions is smaller "
-                    f"({tmp_invasions_fsize} < {invasions_fsize})")
+                    f"({tmp_invasions_fsize} < {invasions_fsize})"
+                )
 
         # All's done! Overwrite the old local file data
         os.replace("data/tmp_invasions.json", "data/invasions.json")
+
+    if sigdiff is None or sigdiff['rankings']:
+        log.info("New rankings data found! Fetching in progress...")
+
+        # Fetch data
+        for maxcp in [1500, 2500, 10000]:
+            rankings_url = "https://raw.githubusercontent.com/pvpoke/pvpoke/" \
+                "master/src/data/rankings/gobattleleague/overall/" \
+                f"rankings-{maxcp}.json"
+            rankings_data = requests.get(rankings_url).json()
+
+            # Check some dict paths which don't have to change
+            if len(rankings_data[0].get('speciesName', '')) == 0:
+                raise Exception("incorrect remote rankings")
+
+            # Write a temporary file data
+            tmp_rankings_fsize = 0
+            with open(f"data/tmp_rankings-{maxcp}.json", 'w') as f:
+                json.dump(rankings_data, f, indent=2)
+                tmp_rankings_fsize = f.tell()
+                f.close()
+
+            # File size checks
+            if tmp_rankings_fsize == 0:
+                raise Exception("empty remote rankings")
+            if os.path.isfile('data/rankings.json'):
+                rankings_fsize = os.path.getsize("data/rankings.json")
+                if (float(tmp_rankings_fsize - rankings_fsize) /
+                        rankings_fsize < -0.3):  # -10% diff
+                    raise Exception(
+                        f"remote rankings-{maxcp} is smaller "
+                        f"({tmp_rankings_fsize} < {rankings_fsize})"
+                    )
+
+            # All's done! Overwrite the old local file data
+            os.replace(
+                f"data/tmp_rankings-{maxcp}.json",
+                f"data/rankings-{maxcp}.json"
+            )
 
 
 # Configure and run PokeAlarm

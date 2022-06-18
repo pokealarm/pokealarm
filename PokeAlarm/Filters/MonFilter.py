@@ -105,6 +105,12 @@ class MonFilter(BaseFilter):
         self.min_cp_great = self.evaluate_attribute(
             event_attribute='great_cp', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(float, 'min_cp_great', data))
+        self.min_rank_great = self.evaluate_attribute(
+            event_attribute='great_rank', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(float, 'min_rank_great', data))
+        self.max_rank_great = self.evaluate_attribute(
+            event_attribute='great_rank', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(float, 'max_rank_great', data))
         self.min_ultra = self.evaluate_attribute(
             event_attribute='ultra_product', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(float, 'min_ultra', data))
@@ -114,6 +120,12 @@ class MonFilter(BaseFilter):
         self.min_cp_ultra = self.evaluate_attribute(
             event_attribute='ultra_cp', eval_func=operator.le,
             limit=BaseFilter.parse_as_type(float, 'min_cp_ultra', data))
+        self.min_rank_ultra = self.evaluate_attribute(
+            event_attribute='ultra_rank', eval_func=operator.le,
+            limit=BaseFilter.parse_as_type(float, 'min_rank_ultra', data))
+        self.max_rank_ultra = self.evaluate_attribute(
+            event_attribute='ultra_rank', eval_func=operator.ge,
+            limit=BaseFilter.parse_as_type(float, 'max_rank_ultra', data))
 
         # Form  TODO: names
         self.forms = self.evaluate_attribute(  # f.forms in m.form_id
