@@ -156,6 +156,7 @@ great_cp            CP at the highest possible level in great league for the mon
 great_level         The level at which the mon will reach the highest possible CP in great league
 great_candy         Candy cost to power up the mon or its evolution in great league
 great_stardust      Stardust cost to power up the mon or its evolution in great league
+great_rank          The current rank of the monster in great league
 great_url           Individual link to gostadium.club to further analyze the mon or its evolution in great league
 great_pvpoke        Individual link to pvpoke.com to further analyze the mon or its evolution in great league
 ultra_mon_id        The ID of the monster or its evolution that reaches the highest stat product in ultra league
@@ -165,6 +166,7 @@ ultra_cp            CP at the highest possible level in ultra league for the mon
 ultra_level         The level at which the mon will reach the highest possible CP in ultra league
 ultra_candy         Candy cost to power up the mon or its evolution in ultra league
 ultra_stardust      Stardust cost to power up the mon or its evolution in ultra league
+ultra_rank          The current rank of the monster in ultra league
 ultra_url           Individual link to gostadium.club to further analyze the mon or its evolution in ultra league
 ultra_pvpoke        Individual link to pvpoke.com to further analyze the mon or its evolution in ultra league
 =================== =========================================================
