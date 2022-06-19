@@ -204,10 +204,12 @@ def get_pvp_rank(monster_id, form_id, maxcp):
             f.close()
             rank_number = 1
             for id_ in j:
-                mon_and_form_array = re.findall(
-                    r'[\w\d]+', id_.get('speciesName'))
+                mon_and_form_array = re.split(
+                    r' \(|\)', id_.get('speciesName'))
                 if len(mon_and_form_array) == 1:
                     mon_and_form_array.append("Normal")
+                elif len(mon_and_form_array) == 3:
+                    mon_and_form_array.pop(2)
                 mon_and_form_str = '_'.join(mon_and_form_array)
                 get_pvp_rank.info[f'cp{maxcp}'][mon_and_form_str] = rank_number
                 rank_number += 1
@@ -215,5 +217,7 @@ def get_pvp_rank(monster_id, form_id, maxcp):
     loc = locale.Locale('en')
     mon_name = loc.get_english_pokemon_name(monster_id)
     form_name = loc.get_english_form_name(monster_id, form_id)
+    form_name = form_name.replace("Alola", "Alolan")
+
     return get_pvp_rank.info[f'cp{maxcp}'].get(
         f"{mon_name}_{form_name}", '\u221E')
