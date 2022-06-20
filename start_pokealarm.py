@@ -214,7 +214,8 @@ def check_for_update():
                      'shiny_data', 'invasions', 'rankings-1500',
                      'rankings-2500', 'rankings-10000']:
         if not os.path.isfile(f'data/{dataname}.json'):
-            log.critical(f"Missing PokeAlarm data: {dataname}")
+            log.critical(
+                f"Missing required external PokeAlarm data: {dataname}")
             missing_data_detected = True
 
     if missing_data_detected:
@@ -393,8 +394,7 @@ def download_data(sigdiff=None):
                     invasions_fsize < -0.1):  # -10% diff
                 raise Exception(
                     "remote invasions is smaller "
-                    f"({tmp_invasions_fsize} < {invasions_fsize})"
-                )
+                    f"({tmp_invasions_fsize} < {invasions_fsize})")
 
         # All's done! Overwrite the old local file data
         os.replace("data/tmp_invasions.json", "data/invasions.json")
@@ -429,8 +429,7 @@ def download_data(sigdiff=None):
                         rankings_fsize < -0.3):  # -10% diff
                     raise Exception(
                         f"remote rankings-{maxcp} is smaller "
-                        f"({tmp_rankings_fsize} < {rankings_fsize})"
-                    )
+                        f"({tmp_rankings_fsize} < {rankings_fsize})")
 
             # All's done! Overwrite the old local file data
             os.replace(

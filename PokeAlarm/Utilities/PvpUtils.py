@@ -122,7 +122,7 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
     ultra_id = monster_id
     ultra_candy = calculate_candy_cost(lvl, ultra_level)
     ultra_stardust = calculate_stardust_cost(lvl, ultra_level)
-    ultra_rank = get_pvp_rank(monster_id, form_id, 1500)
+    ultra_rank = get_pvp_rank(monster_id, form_id, 2500)
 
     if float(great_level) < lvl:
         great_rating = 0
