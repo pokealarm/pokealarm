@@ -423,7 +423,11 @@ def get_raw_form_names():
 def get_invasion_list_str():
     invasions_str = ""
     for id_ in invasions_data:
-        invasions_str += f"{id_}: {invasions_data[id_]['type']}\n"
+        grunt_info = invasions_data[id_].get('type')
+        if grunt_info == "":
+            grunt_info = invasions_data[id_].get('grunt')
+        if grunt_info != "":
+            invasions_str += f"{id_}: {grunt_info}\n"
 
     return invasions_str
 

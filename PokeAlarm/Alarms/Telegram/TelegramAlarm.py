@@ -76,7 +76,7 @@ class TelegramAlarm(Alarm):
             'message': "A Pokestop has been invaded by Team Rocket!\n"
                        "Invasion will expire at <24h_time> (<time_left>).",
             'sticker_url':
-                get_image_url("telegram/invasions/<type_id_3>.webp")
+                get_image_url("telegram/invasions/<grunt_id_3>.webp")
         }
     }
 

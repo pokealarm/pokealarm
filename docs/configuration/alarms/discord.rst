@@ -190,8 +190,8 @@ Example: Alarm Configuration Using Optional Parameters
       "invasions":{
           "webhook_url":"DISCORD_WEBHOOK_URL_FOR_INVASION_CHANNEL",
           "username":"Invasion",
-          "icon_url*":"YOUR CUSTOM URL HERE/<type_id>_<gender_id>.png",
-          "avatar_url*":"YOUR CUSTOM URL HERE/<type_id>_<gender_id>.png",
+          "icon_url*":"YOUR CUSTOM URL HERE/<grunt_id>_<gender_id>.png",
+          "avatar_url*":"YOUR CUSTOM URL HERE/<grunt_id>_<gender_id>.png",
           "title":"This Pokestop has been invaded by Team Rocket!",
           "url":"<gmaps>",
           "body":"Invasion will expire at <24h_time> (<time_left>)"

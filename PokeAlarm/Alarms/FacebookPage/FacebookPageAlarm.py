@@ -91,7 +91,7 @@ class FacebookPageAlarm(Alarm):
         'invasions': {
             'message': 'This Pokestop has been invaded by Team Rocket!',
             'image':
-                get_image_url("regular/invasions/<type_id_3>.png"),
+                get_image_url("regular/invasions/<grunt_id_3>.png"),
             'link': '<gmaps>',
             'name': 'Invasion',
             'description': 'Invasion will expire at <24h_time> (<time_left>).',
