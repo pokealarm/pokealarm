@@ -12,7 +12,8 @@ from PokeAlarm.Utils import (
     get_applemaps_link, get_shiny_emoji, get_time_as_str,
     get_seconds_remaining, get_base_types, get_dist_as_str,
     get_weather_emoji, get_spawn_verified_emoji, get_type_emoji,
-    get_waze_link, get_gender_sym)
+    get_waze_link, get_gender_sym, is_weather_boosted,
+    get_cached_weather_id_from_coord)
 from . import BaseEvent
 from PokeAlarm.Utilities import MonUtils
 
@@ -51,11 +52,14 @@ class MonEvent(BaseEvent):
         self.lng = float(data['longitude'])
         self.distance = Unknown.SMALL  # Completed by Manager
         self.direction = Unknown.TINY  # Completed by Manager
+
+        # Weather Infos
         self.weather_id = check_for_none(
             int, data.get('weather'), Unknown.TINY)
-        self.boosted_weather_id = check_for_none(
-            int, data.get('boosted_weather')
-            or data.get('weather_boosted_condition'), 0)
+        self.boosted_weather_id = \
+            0 if Unknown.is_not(self.weather_id) else Unknown.TINY
+        if is_weather_boosted(self.weather_id, self.monster_id, self.form_id):
+            self.boosted_weather_id = self.weather_id
 
         # Encounter Stats
         self.mon_lvl = check_for_none(
@@ -167,6 +171,21 @@ class MonEvent(BaseEvent):
         self.name = self.monster_id
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
+
+    def update_with_cache(self, cache):
+        """ Update event infos using cached data from previous events. """
+
+        # Update weather
+        weather_id = get_cached_weather_id_from_coord(
+            self.lat, self.lng, cache)
+        if Unknown.is_not(weather_id):
+            self.weather_id = BaseEvent.check_for_none(
+                int, weather_id, Unknown.TINY)
+            self.boosted_weather_id = \
+                0 if Unknown.is_not(self.weather_id) else Unknown.TINY
+            if is_weather_boosted(self.weather_id, self.monster_id,
+                                  self.form_id):
+                self.boosted_weather_id = self.weather_id
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """

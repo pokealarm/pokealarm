@@ -18,6 +18,10 @@ class BaseEvent(object):
         # Create an id for this event to be recognized as
         self.id = time.time()
 
+    def update_with_cache(self, cache):
+        """ Update event infos using cached data from previous events. """
+        raise NotImplementedError("This is an abstract method.")
+
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         raise NotImplementedError("This is an abstract method.")

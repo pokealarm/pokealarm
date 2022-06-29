@@ -48,6 +48,12 @@ class StopEvent(BaseEvent):
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
 
+    def update_with_cache(self, cache):
+        """ Update event infos using cached data from previous events. """
+
+        # Nothing to update
+        pass
+
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
         time = get_time_as_str(self.expiration, timezone)

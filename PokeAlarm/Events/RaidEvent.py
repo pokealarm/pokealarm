@@ -10,7 +10,7 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
     get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
     get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji, \
-    get_gender_sym
+    get_gender_sym, get_cached_weather_id_from_coord
 from PokeAlarm.Utilities import MonUtils
 
 
@@ -103,6 +103,21 @@ class RaidEvent(BaseEvent):
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
+
+    def update_with_cache(self, cache):
+        """ Update event infos using cached data from previous events. """
+
+        # Update weather
+        weather_id = get_cached_weather_id_from_coord(
+            self.lat, self.lng, cache)
+        if Unknown.is_not(weather_id):
+            self.weather_id = BaseEvent.check_for_none(
+                int, weather_id, Unknown.TINY)
+            self.boosted_weather_id = \
+                0 if Unknown.is_not(self.weather_id) else Unknown.TINY
+            if is_weather_boosted(self.weather_id, self.mon_id, self.form_id):
+                self.boosted_weather_id = self.weather_id
+                self.boss_level = 25
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """

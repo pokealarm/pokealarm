@@ -62,6 +62,9 @@ max_dist            Max distance of event from set location in miles            
                     or meters (depending on settings).
 min_time_left       Minimum time (in seconds) until monster despawns.                ``1000``
 max_time_left       Maximum time (in seconds) until monster despawns.                ``2400``
+weather             Accepted weather conditions, by id or name.                      ``["Clear",2]``
+boosted_weather     Accepted boosted weather conditions, by id or name.               ``["Clear",2]``
+is_boosted_weather  Accepts or denies based on boosted weather conditions.           ``true``
 geofences           See :ref:`geofences_filters` page on 'Geofences'                 ``["geofence1","geofence2"]``
 exclude_geofences   Opposite of `geofences`. See :ref:`geofences_filters` page.      ``["geofence1","geofence2"]``
 min_time            See :ref:`time_dts_filters` page on 'Time DTS'                   ``8:30``

@@ -4,7 +4,8 @@ import operator
 # Local Imports
 from . import BaseFilter
 from PokeAlarm.Utilities import MonUtils
-from PokeAlarm.Utils import get_gender_sym, match_items_in_array
+from PokeAlarm.Utils import get_gender_sym, match_items_in_array, \
+    get_weather_id, weather_id_is_boosted
 
 
 class GruntFilter(BaseFilter):
@@ -69,6 +70,19 @@ class GruntFilter(BaseFilter):
             # f.max_time_left >= r.time_left
             event_attribute='time_left', eval_func=operator.ge,
             limit=BaseFilter.parse_as_type(int, 'max_time_left', data))
+
+        # Weather
+        self.weather_ids = self.evaluate_attribute(
+            event_attribute='weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(get_weather_id, 'weather', data))
+        self.boosted_weather_ids = self.evaluate_attribute(
+            event_attribute='boosted_weather_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_set(
+                get_weather_id, 'boosted_weather', data))
+        self.boosted_weather = self.evaluate_attribute(
+            event_attribute='boosted_weather_id',
+            eval_func=weather_id_is_boosted,
+            limit=BaseFilter.parse_as_type(bool, 'is_boosted_weather', data))
 
         # Geofences
         self.geofences = self.evaluate_geofences(

@@ -541,6 +541,7 @@ class Manager(object):
 
             try:  # Get next object to process
                 event = self.__queue.get(block=True, timeout=5)
+                event.update_with_cache(self.__cache)
             except gevent.queue.Empty:
                 # Check if the process should exit process
                 if self.__event.is_set():
@@ -661,13 +662,14 @@ class Manager(object):
         mon.name = self.__locale.get_pokemon_name(mon.monster_id)
 
         # Check if previously processed and update expiration
-        if self.__cache.monster_expiration(str(mon.enc_id) +
-                                           str(mon.weight)) is not None:
+        if self.__cache.monster_expiration(
+                f'{mon.enc_id}{mon.weight}_{mon.weather_id}') is not None:
             self._log.debug("{} monster was skipped because it was "
                             "previously processed.".format(mon.name))
             return
-        self.__cache.monster_expiration(str(mon.enc_id) + str(mon.weight),
-                                        mon.disappear_time)
+        self.__cache.monster_expiration(
+            f'{mon.enc_id}{mon.weight}_{mon.weather_id}',
+            mon.disappear_time)
 
         # Check the time remaining
         seconds_left = (mon.disappear_time
@@ -1020,19 +1022,6 @@ class Manager(object):
         # type: (Events.WeatherEvent) -> None
         """ Process a weather event and notify alarms if it passes. """
 
-        # Make sure that weather changes are enabled
-        if self._weather_enabled is False:
-            self._log.debug("Weather ignored: weather change "
-                            "notifications are disabled.")
-            return
-
-        # Calculate distance and direction
-        if self.__location is not None:
-            weather.distance = get_earth_dist(
-                [weather.lat, weather.lng], self.__location, self.__units)
-            weather.direction = get_cardinal_dir(
-                [weather.lat, weather.lng], self.__location)
-
         # Store copy of cache info
         cache_weather_id = self.__cache.cell_weather_id(weather.s2_cell_id)
         cache_day_or_night_id = self.__cache.day_or_night_id(
@@ -1045,6 +1034,19 @@ class Manager(object):
         self.__cache.day_or_night_id(
             weather.s2_cell_id, weather.day_or_night_id)
         self.__cache.severity_id(weather.s2_cell_id, weather.severity_id)
+
+        # Make sure that weather changes are enabled
+        if self._weather_enabled is False:
+            self._log.debug("Weather ignored: weather change "
+                            "notifications are disabled.")
+            return
+
+        # Calculate distance and direction
+        if self.__location is not None:
+            weather.distance = get_earth_dist(
+                [weather.lat, weather.lng], self.__location, self.__units)
+            weather.direction = get_cardinal_dir(
+                [weather.lat, weather.lng], self.__location)
 
         # Check and see if the weather hasn't changed and ignore
         if weather.weather_id == cache_weather_id and \
