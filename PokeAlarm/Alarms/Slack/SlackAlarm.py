@@ -82,7 +82,7 @@ class SlackAlarm(Alarm):
             'username': "Invasion",
             'content': "",
             'icon_url':
-                get_image_url("regular/invasions/<type_id_3>.png"),
+                get_image_url("regular/invasions/<grunt_id_3>.png"),
             'title': "This Pokestop has been invaded by Team Rocket!",
             'url': "<gmaps>",
             'body': "Invasion will expire at <24h_time> (<time_left>)."
