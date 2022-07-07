@@ -3,7 +3,7 @@
 # Monkey Patch to allow Gevent's Concurrency
 from datetime import timedelta, datetime
 
-from gevent import monkey
+from gevent import monkey, signal_handler
 monkey.patch_all()
 
 # Standard Library Imports
@@ -684,8 +684,8 @@ def parse_settings(root_path):
         managers[m_name].start()
 
     # Set up signal handlers for graceful exit
-    signal(signal.SIGINT, exit_gracefully)
-    signal(signal.SIGTERM, exit_gracefully)
+    signal_handler(signal.SIGINT, exit_gracefully, signal.SIGINT, None)
+    signal_handler(signal.SIGTERM, exit_gracefully, signal.SIGTERM, None)
 
 
 # Because lists are dumb and don't have a failsafe get
@@ -693,7 +693,7 @@ def get_from_list(arg, i, default):
     return arg[i] if len(arg) > 1 else default
 
 
-def exit_gracefully():
+def exit_gracefully(signum, frame):
     log.info("PokeAlarm is closing down!")
     server.stop()
     for m_name in managers:
