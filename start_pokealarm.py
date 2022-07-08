@@ -694,6 +694,7 @@ def get_from_list(arg, i, default):
 
 
 def exit_gracefully(signum, frame):
+    log.debug(f"Signal {signal.Signals(signum).name} received")
     log.info("PokeAlarm is closing down!")
     server.stop()
     for m_name in managers:
