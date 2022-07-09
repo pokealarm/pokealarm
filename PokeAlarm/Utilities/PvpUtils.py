@@ -1,5 +1,4 @@
 import PokeAlarm.Utils as utils
-import PokeAlarm.Locale as locale
 import logging
 import re
 import json
@@ -203,21 +202,15 @@ def get_pvp_rank(monster_id, form_id, maxcp):
             j = json.load(f)
             f.close()
             rank_number = 1
-            for id_ in j:
-                mon_and_form_array = re.split(
-                    r' \(|\)', id_.get('speciesName'))
-                if len(mon_and_form_array) == 1:
-                    mon_and_form_array.append("Normal")
-                elif len(mon_and_form_array) == 3:
-                    mon_and_form_array.pop(2)
-                mon_and_form_str = '_'.join(mon_and_form_array)
-                get_pvp_rank.info[f'cp{maxcp}'][mon_and_form_str] = rank_number
-                rank_number += 1
+        for id_ in j:
+            if '(' in id_.get('speciesName'):
+                get_pvp_rank.info[f'cp{maxcp}'][
+                    id_.get('speciesId')] = rank_number
+            else:
+                get_pvp_rank.info[f'cp{maxcp}'][
+                    f"{id_.get('speciesId')}_normal"] = rank_number
+            rank_number += 1
 
-    loc = locale.Locale('en')
-    mon_name = loc.get_english_pokemon_name(monster_id)
-    form_name = loc.get_english_form_name(monster_id, form_id)
-    form_name = form_name.replace("Alola", "Alolan")
+    mon_proto = utils.get_proto_name(monster_id, form_id)
 
-    return get_pvp_rank.info[f'cp{maxcp}'].get(
-        f"{mon_name}_{form_name}", '\u221E')
+    return get_pvp_rank.info[f'cp{maxcp}'].get(mon_proto, '\u221E')
