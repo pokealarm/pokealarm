@@ -331,37 +331,40 @@ def get_evolution_chain(j, id_, form_id_, a=None, evolution_details=None):
             pass
         else:
             for evo_id in j[id_].get('forms').get(form_id_).get('evolutions'):
-                if evolution_details:
-                    evo_form_id = j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('form')
-                    a.append(f"{evo_id}_{evo_form_id}")
-                else:
-                    a.append(int(evo_id))
-                get_evolution_chain(
-                    j,
-                    str(j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('pokemon')),
-                    str(j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('form')),
-                    a,
-                    evolution_details)
+                if int(evo_id) <= 898:  # block unreleased generations
+                    if evolution_details:
+                        evo_form_id = j[id_].get('forms').get(form_id_).get(
+                            'evolutions').get(evo_id).get('form')
+                        a.append(f"{evo_id}_{evo_form_id}")
+                    else:
+                        a.append(int(evo_id))
+                    get_evolution_chain(
+                        j,
+                        str(j[id_].get('forms').get(form_id_).get(
+                            'evolutions').get(evo_id).get('pokemon')),
+                        str(j[id_].get('forms').get(form_id_).get(
+                            'evolutions').get(evo_id).get('form')),
+                        a,
+                        evolution_details)
     else:
         if j[id_].get('evolutions') is None:
             pass
         else:
             for evo_id in j[id_].get('evolutions'):
-                if evolution_details:
-                    evo_form_id = j[id_].get(
-                        'evolutions').get(evo_id).get('form')
-                    a.append(f"{evo_id}_{evo_form_id}")
-                else:
-                    a.append(int(evo_id))
-                get_evolution_chain(
-                    j,
-                    str(j[id_].get('evolutions').get(evo_id).get('pokemon')),
-                    "0",
-                    a,
-                    evolution_details)
+                if int(evo_id) <= 898:  # block unreleased generations
+                    if evolution_details:
+                        evo_form_id = j[id_].get(
+                            'evolutions').get(evo_id).get('form')
+                        a.append(f"{evo_id}_{evo_form_id}")
+                    else:
+                        a.append(int(evo_id))
+                    get_evolution_chain(
+                        j,
+                        str(j[id_].get('evolutions').get(
+                            evo_id).get('pokemon')),
+                        "0",
+                        a,
+                        evolution_details)
     return a
 
 
@@ -405,28 +408,34 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
             pass
         else:
             for evo_id in j[id_].get('forms').get(form_id_).get('evolutions'):
-                a.append(int(j[id_].get('forms').get(form_id_).get(
-                    'evolutions').get(evo_id).get('candyCost')))
-                get_evolution_cost_chain(
-                    j,
-                    str(j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('pokemon')),
-                    str(j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('form')),
-                    a)
+
+                candy_cost = int(j[id_].get('forms').get(form_id_).get(
+                    'evolutions').get(evo_id).get('candyCost', 0))
+                if candy_cost != 0:  # block unreleased generations
+                    a.append(int(j[id_].get('forms').get(form_id_).get(
+                        'evolutions').get(evo_id).get('candyCost')))
+                    get_evolution_cost_chain(
+                        j,
+                        str(j[id_].get('forms').get(form_id_).get(
+                            'evolutions').get(evo_id).get('pokemon')),
+                        str(j[id_].get('forms').get(form_id_).get(
+                            'evolutions').get(evo_id).get('form')),
+                        a)
     else:
         if j[id_].get('evolutions') is None:
             pass
         else:
             for evo_id in j[id_].get('evolutions'):
-                a.append(
-                    int((j[id_].get('evolutions').get(
-                        evo_id).get('candyCost', 0))))
-                get_evolution_cost_chain(
-                    j,
-                    str(j[id_].get('evolutions').get(evo_id).get('pokemon')),
-                    "0",
-                    a)
+                candy_cost = int((j[id_].get('evolutions').get(
+                    evo_id).get('candyCost', 0)))
+                if candy_cost != 0:  # block unreleased generations
+                    a.append(candy_cost)
+                    get_evolution_cost_chain(
+                        j,
+                        str(j[id_].get('evolutions').get(
+                            evo_id).get('pokemon')),
+                        "0",
+                        a)
     return a
 
 
