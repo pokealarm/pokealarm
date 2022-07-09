@@ -88,6 +88,8 @@ class RaidEvent(BaseEvent):
             str, data.get('description'), Unknown.REGULAR).strip()
         self.gym_image = check_for_none(
             str, data.get('url'), Unknown.REGULAR)
+        self.slots_available = Unknown.TINY
+        self.guard_count = Unknown.TINY
 
         self.sponsor_id = check_for_none(
             int, data.get('sponsor'), Unknown.TINY)
@@ -118,6 +120,13 @@ class RaidEvent(BaseEvent):
             if is_weather_boosted(self.weather_id, self.mon_id, self.form_id):
                 self.boosted_weather_id = self.weather_id
                 self.boss_level = 25
+
+        # Update available slots
+        self.slots_available = cache.gym_slots(self.gym_id)
+        self.guard_count = (
+            (6 - self.slots_available)
+            if Unknown.is_not(self.slots_available)
+            else Unknown.TINY)
 
     def generate_dts(self, locale, timezone, units):
         """ Return a dict with all the DTS for this event. """
@@ -272,6 +281,8 @@ class RaidEvent(BaseEvent):
             'gym_name': self.gym_name,
             'gym_description': self.gym_description,
             'gym_image': self.gym_image,
+            'slots_available': self.slots_available,
+            'guard_count': self.guard_count,
             'sponsor_id': self.sponsor_id,
             'sponsored':
                 self.sponsor_id > 0 if Unknown.is_not(self.sponsor_id)

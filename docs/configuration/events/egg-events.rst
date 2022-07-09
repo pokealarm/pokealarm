@@ -35,6 +35,8 @@ egg_lvl           The tier level of the egg.
 gym_name          The name of the gym. *
 gym_description   The description of the gym. *
 gym_image         The url to the image of the gym. *
+slots_available   Number of open guard slots available in a gym.
+guard_count       Number of guards assigned to a gym.
 ex_eligible       True if the gym currently has an ex tag, False if not.
 is_exclusive      True if the egg is for an ex raid, False if not.
 park              The name of the park the gym is located in.

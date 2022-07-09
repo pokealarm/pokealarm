@@ -850,6 +850,7 @@ class Manager(object):
         # Update Team Information
         gym.old_team_id = self.__cache.gym_team(gym.gym_id)
         self.__cache.gym_team(gym.gym_id, gym.new_team_id)
+        self.__cache.gym_slots(gym.gym_id, gym.slots_available)
 
         # Check if notifications are on
         if self._gyms_enabled is False:

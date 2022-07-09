@@ -67,6 +67,8 @@ shiny_emoji                Return shiny emoji if monster can be shiny, or
 gym_name                   The name of the gym. *
 gym_description            The description of the gym. *
 gym_image                  The url to the image of the gym. *
+slots_available            Number of open guard slots available in a gym.
+guard_count                Number of guards assigned to a gym.
 team_id                    The id of the team currently in control of the gym.
 team_emoji                 The team color currently in control of the gym.
 team_name                  The team currently in control of the gym.

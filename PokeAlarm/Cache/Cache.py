@@ -26,6 +26,7 @@ class Cache(object):
         self._quest_hist = {}
         self._grunt_hist = {}
         self._gym_team = {}
+        self._gym_slots = {}
         self._gym_name = {}
         self._gym_desc = {}
         self._gym_image = {}
@@ -77,6 +78,12 @@ class Cache(object):
         if Unknown.is_not(team_id):
             self._gym_team[gym_id] = team_id
         return self._gym_team.get(gym_id, Unknown.TINY)
+
+    def gym_slots(self, gym_id, available_slots=Unknown.TINY):
+        """ Update and return the team_id of a gym. """
+        if Unknown.is_not(available_slots):
+            self._gym_slots[gym_id] = available_slots
+        return self._gym_slots.get(gym_id, Unknown.TINY)
 
     def gym_name(self, gym_id, gym_name=Unknown.REGULAR):
         """ Update and return the gym_name for a gym. """
