@@ -41,6 +41,24 @@ class GymFilter(BaseFilter):
             eval_func=GymUtils.not_match_regex_dict,
             limit=BaseFilter.parse_as_set(
                 GymUtils.create_regex, 'gym_name_excludes', data))
+
+        # Gym ID
+        self.gym_ids = self.evaluate_attribute(  # f.gn in g.gn
+            event_attribute='gym_id', eval_func=operator.contains,
+            limit=BaseFilter.parse_as_type(
+                str, 'gym_ids', data))
+        self.gym_ids_exclude = self.evaluate_attribute(  # f.gn in g.gn
+            event_attribute='gym_id',
+            eval_func=lambda d, v: not operator.contains(d, v),
+            limit=BaseFilter.parse_as_type(
+                str, 'gym_ids_exclude', data))
+
+        # Gym sponsor
+        self.sponsored = self.evaluate_attribute(  #
+            event_attribute='sponsor_id', eval_func=lambda y, x: (x > 0) == y,
+            limit=BaseFilter.parse_as_type(bool, 'sponsored', data))
+
+        # Ex-raid
         self.is_ex_eligible = self.evaluate_attribute(
             event_attribute='ex_eligible',
             eval_func=operator.eq,
@@ -100,7 +118,21 @@ class GymFilter(BaseFilter):
 
         # Gym Name
         if self.gym_name_contains is not None:
-            settings['gym_name_matches'] = self.gym_name_contains
+            settings['gym_name_contains'] = self.gym_name_contains
+
+        if self.gym_name_excludes is not None:
+            settings['gym_name_excludes'] = self.gym_name_excludes
+
+        # Gym ID
+        if self.gym_ids is not None:
+            settings['gym_ids'] = self.gym_ids
+
+        if self.gym_ids_exclude is not None:
+            settings['gym_ids_exclude'] = self.gym_ids_exclude
+
+        # Gym Sponsor
+        if self.sponsored is not None:
+            settings['sponsored'] = self.sponsored
 
         # Geofences
         if self.geofences is not None:
