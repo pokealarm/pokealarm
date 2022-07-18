@@ -474,6 +474,9 @@ def get_proto_name(pokemon_id, form_id=0):
                     proto_name = proto_name.replace(
                         '_ALOLA', '_ALOLAN').lower()
                     get_proto_name.info[f'{id_}_{form_id_}'] = proto_name
+                else:
+                    get_proto_name.info[
+                        f'{id_}_0'] = f'{j[id_]["name"]}_normal'.lower()
 
     return get_proto_name.info.get(f'{pokemon_id}_{form_id}', Unknown.REGULAR)
 
