@@ -458,29 +458,6 @@ def get_raw_form_names():
     return get_raw_form_names.info
 
 
-# Returns proto names for all the pokemon
-def get_proto_name(pokemon_id, form_id=0):
-    if not hasattr(get_proto_name, 'info'):
-        get_proto_name.info = {}
-        file_ = get_path('data/pokemon_data.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            get_proto_name.info[int(id_)] = {}
-            for form_id_ in j[id_]["forms"]:
-                if form_id_ != "0":
-                    proto_name = j[id_]["forms"][form_id_]["proto"]
-                    proto_name = proto_name.replace(
-                        '_ALOLA', '_ALOLAN').lower()
-                    get_proto_name.info[f'{id_}_{form_id_}'] = proto_name
-                else:
-                    get_proto_name.info[
-                        f'{id_}_0'] = f'{j[id_]["name"]}_normal'.lower()
-
-    return get_proto_name.info.get(f'{pokemon_id}_{form_id}', Unknown.REGULAR)
-
-
 # Return CP multipliers
 def get_cp_multipliers():
     if not hasattr(get_cp_multipliers, 'info'):
