@@ -1,7 +1,6 @@
 import PokeAlarm.Utils as utils
 import logging
 import re
-import json
 
 log = logging.getLogger('PvpUtils')
 
@@ -111,7 +110,6 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
     great_id = monster_id
     great_candy = calculate_candy_cost(lvl, great_level)
     great_stardust = calculate_stardust_cost(lvl, great_level)
-    great_rank = get_pvp_rank(monster_id, form_id, 1500)
 
     ultra_product, ultra_cp, ultra_level = pokemon_rating(
         2500, monster_id, form_id, atk, de, sta, utils.min_level(
@@ -121,7 +119,6 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
     ultra_id = monster_id
     ultra_candy = calculate_candy_cost(lvl, ultra_level)
     ultra_stardust = calculate_stardust_cost(lvl, ultra_level)
-    ultra_rank = get_pvp_rank(monster_id, form_id, 2500)
 
     if float(great_level) < lvl:
         great_rating = 0
@@ -149,9 +146,6 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
                 2500, evo_id, evo_form_id),
             utils.max_level(2500, evo_id, evo_form_id))
 
-        evo_great_rank = get_pvp_rank(evo_id, evo_form_id, 1500)
-        evo_ultra_rank = get_pvp_rank(evo_id, evo_form_id, 2500)
-
         evo_great = 100 * (great_product / best_great_product)
         evo_ultra = 100 * (ultra_product / best_ultra_product)
 
@@ -165,7 +159,6 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
             great_cp = evo_great_cp
             great_level = evo_great_level
             great_id = evo_id
-            great_rank = evo_great_rank
             evo_candy_cost = calculate_evolution_cost(
                 monster_id, evo_id, evolutions, evolution_costs)
             great_candy = calculate_candy_cost(
@@ -178,7 +171,6 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
             ultra_cp = evo_ultra_cp
             ultra_level = evo_ultra_level
             ultra_id = evo_id
-            ultra_rank = evo_ultra_rank
             evo_candy_cost = calculate_evolution_cost(
                 monster_id, evo_id, evolutions, evolution_costs)
             ultra_candy = calculate_candy_cost(
@@ -187,30 +179,6 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
                 lvl, ultra_level)
 
     return (float("{0:.2f}".format(great_rating)), great_id, great_cp,
-            great_level, great_candy, great_stardust, great_rank,
-            float("{0:.2f}".format(ultra_rating)), ultra_id, ultra_cp,
-            ultra_level, ultra_candy, ultra_stardust, ultra_rank)
-
-
-def get_pvp_rank(monster_id, form_id, maxcp):
-    if not hasattr(get_pvp_rank, 'info'):
-        get_pvp_rank.info = {}
-    if not hasattr(get_pvp_rank.info, f'cp{maxcp}'):
-        get_pvp_rank.info[f'cp{maxcp}'] = {}
-        file_ = utils.get_path(f'data/rankings-{maxcp}.json')
-        with open(file_, 'r') as f:
-            j = json.load(f)
-            f.close()
-            rank_number = 1
-        for id_ in j:
-            if '(' in id_.get('speciesName'):
-                get_pvp_rank.info[f'cp{maxcp}'][
-                    id_.get('speciesId')] = rank_number
-            else:
-                get_pvp_rank.info[f'cp{maxcp}'][
-                    f"{id_.get('speciesId')}_normal"] = rank_number
-            rank_number += 1
-
-    mon_proto = utils.get_proto_name(monster_id, form_id)
-
-    return get_pvp_rank.info[f'cp{maxcp}'].get(mon_proto, '\u221E')
+            great_level, great_candy, great_stardust,
+            float("{0:.2f}".format(ultra_rating)), ultra_id,
+            ultra_cp, ultra_level, ultra_candy, ultra_stardust)

@@ -14,13 +14,15 @@ _build
 *.json
 *.ini
 *.txt
+!data/*.json
 !locales/*.json
 docker-compose.yml
 data/.data_version
-!data/cp_multipliers.json
-!data/powerup_costs.json
-!data/stat_products.json
-!data/weather_boosts.json
+data/pokemon_data.json
+data/fast_moves.json
+data/charged_moves.json
+data/shiny_data.json
+data/invasions.json
 
 # Runtime
 cache/*

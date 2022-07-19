@@ -106,13 +106,9 @@ Parameter       Description                                                     
 min_great       Minimum stat product percentage of the mon for great league     ``95``
 max_great       Maximum stat product percentage of the mon for great league     ``99``
 min_cp_great    Minimum resulting great league CP for the mon                   ``1300``
-min_rank_great  Minimum current rank of the mon for great league                ``1``
-max_rank_great  Maximum current rank of the mon for great league                ``50``
 min_ultra       Minimum stat product percentage of the mon for ultra league     ``95``
 max_ultra       Maximum stat product percentage of the mon for ultra league     ``99``
 min_cp_ultra    Minimum resulting ultra league CP for the mon                   ``1300``
-min_rank_ultra  Minimum current rank of the mon for ultra league                ``1``
-max_rank_ultra  Maximum current rank of the mon for ultra league                ``50``
 =============== =============================================================== ==============================
 
 

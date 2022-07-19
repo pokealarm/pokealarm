@@ -39,16 +39,6 @@ class MockManager(object):
         json.dump(invasions_data, f, indent=2)
         f.close()
 
-    for maxcp in [1500, 2500, 10000]:
-        rankings_url = "https://raw.githubusercontent.com/pvpoke/pvpoke/" \
-            "master/src/data/rankings/gobattleleague/overall/" \
-            f"rankings-{maxcp}.json"
-        rankings_data = requests.get(rankings_url).json()
-
-        with open(f"data/rankings-{maxcp}.json", 'w') as f:
-            json.dump(rankings_data, f, indent=2)
-            f.close()
-
     # Create a geofence.txt for unit tests
     f = open("tests/filters/test_geofences.txt", 'w')
     geo_str = """[NewYork]
