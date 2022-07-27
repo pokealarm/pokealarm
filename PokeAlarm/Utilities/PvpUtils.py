@@ -106,7 +106,8 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
         1500, monster_id, form_id, atk, de, sta, utils.min_level(
             1500, monster_id, form_id),
         utils.max_level(1500, monster_id, form_id))
-    great_rating = 100 * (great_product / best_great_product)
+    great_rating = 0 if best_great_product == 0 else \
+        100 * (great_product / best_great_product)
     great_id = monster_id
     great_candy = calculate_candy_cost(lvl, great_level)
     great_stardust = calculate_stardust_cost(lvl, great_level)
@@ -115,7 +116,8 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
         2500, monster_id, form_id, atk, de, sta, utils.min_level(
             2500, monster_id, form_id),
         utils.max_level(2500, monster_id, form_id))
-    ultra_rating = 100 * (ultra_product / best_ultra_product)
+    ultra_rating = 0 if best_ultra_product == 0 else \
+        100 * (ultra_product / best_ultra_product)
     ultra_id = monster_id
     ultra_candy = calculate_candy_cost(lvl, ultra_level)
     ultra_stardust = calculate_stardust_cost(lvl, ultra_level)
@@ -146,8 +148,11 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
                 2500, evo_id, evo_form_id),
             utils.max_level(2500, evo_id, evo_form_id))
 
-        evo_great = 100 * (great_product / best_great_product)
-        evo_ultra = 100 * (ultra_product / best_ultra_product)
+        evo_great = 0 if best_great_product == 0 else \
+            100 * (great_product / best_great_product)
+
+        evo_ultra = 0 if best_ultra_product == 0 else \
+            100 * (ultra_product / best_ultra_product)
 
         if float(evo_great_level) < lvl:
             evo_great = 0

@@ -515,7 +515,8 @@ def get_best_great_product(pokemon_id, form_id=0):
                 get_best_great_product.info[f"{id_}_{form_id_}"] = j[id_][
                     form_id_].get('1500_highest_product')
 
-    return get_best_great_product.info.get(f"{pokemon_id}_{form_id}")
+    return (get_best_great_product.info.get(f"{pokemon_id}_{form_id}",
+            get_best_great_product.info.get(f"{pokemon_id}_0", 0)))
 
 
 # Returns the highest possible stat product for PvP ultra league for a pkmn
@@ -531,7 +532,8 @@ def get_best_ultra_product(pokemon_id, form_id=0):
                 get_best_ultra_product.info[f"{id_}_{form_id_}"] = j[id_][
                     form_id_].get('2500_highest_product')
 
-    return get_best_ultra_product.info.get(f"{pokemon_id}_{form_id}")
+    return (get_best_ultra_product.info.get(f"{pokemon_id}_{form_id}",
+            get_best_ultra_product.info.get(f"{pokemon_id}_0", 0)))
 
 
 # Returns a cp range for a certain level of a pokemon caught in a raid
