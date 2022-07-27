@@ -351,7 +351,7 @@ def get_evolution_chain(j, id_, form_id_, a=None, evolution_details=None):
             pass
         else:
             for evo_id in j[id_].get('evolutions'):
-                if int(evo_id) <= 898:  # block unreleased generations
+                if int(evo_id) <= 905:  # block unreleased generations
                     if evolution_details:
                         evo_form_id = j[id_].get(
                             'evolutions').get(evo_id).get('form')
