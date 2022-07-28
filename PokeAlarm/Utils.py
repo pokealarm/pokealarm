@@ -331,7 +331,7 @@ def get_evolution_chain(j, id_, form_id_, a=None, evolution_details=None):
             pass
         else:
             for evo_id in j[id_].get('forms').get(form_id_).get('evolutions'):
-                if int(evo_id) <= 898:  # block unreleased generations
+                if int(evo_id) <= 905:  # block unreleased generations
                     if evolution_details:
                         evo_form_id = j[id_].get('forms').get(form_id_).get(
                             'evolutions').get(evo_id).get('form')
@@ -408,12 +408,10 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
             pass
         else:
             for evo_id in j[id_].get('forms').get(form_id_).get('evolutions'):
-
-                candy_cost = int(j[id_].get('forms').get(form_id_).get(
-                    'evolutions').get(evo_id).get('candyCost', 0))
-                if candy_cost != 0:  # block unreleased generations
-                    a.append(int(j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('candyCost')))
+                if int(evo_id) <= 905:  # block unreleased generations
+                    candy_cost = int(j[id_].get('forms').get(form_id_).get(
+                        'evolutions').get(evo_id).get('candyCost', 0))
+                    a.append(candy_cost)
                     get_evolution_cost_chain(
                         j,
                         str(j[id_].get('forms').get(form_id_).get(
@@ -426,9 +424,9 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
             pass
         else:
             for evo_id in j[id_].get('evolutions'):
-                candy_cost = int((j[id_].get('evolutions').get(
-                    evo_id).get('candyCost', 0)))
-                if candy_cost != 0:  # block unreleased generations
+                if int(evo_id) <= 905:  # block unreleased generations
+                    candy_cost = int((j[id_].get('evolutions').get(
+                        evo_id).get('candyCost', 0)))
                     a.append(candy_cost)
                     get_evolution_cost_chain(
                         j,
