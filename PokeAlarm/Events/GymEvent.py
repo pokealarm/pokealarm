@@ -47,6 +47,9 @@ class GymEvent(BaseEvent):
             if Unknown.is_not(self.slots_available)
             else Unknown.TINY)
 
+        self.sponsor_id = check_for_none(
+            int, data.get('sponsor'), Unknown.TINY)
+
         self.name = self.gym_id
         self.geofence = Unknown.REGULAR
         self.custom_dts = {}
@@ -107,6 +110,12 @@ class GymEvent(BaseEvent):
             # Guards
             'slots_available': self.slots_available,
             'guard_count': self.guard_count,
+
+            # Sponsor
+            'sponsor_id': self.sponsor_id,
+            'sponsored':
+                self.sponsor_id > 0 if Unknown.is_not(self.sponsor_id)
+                else Unknown.REGULAR,
 
             'current_timestamp_utc': datetime.utcnow(),
         })

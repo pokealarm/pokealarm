@@ -62,6 +62,20 @@ class TestEggFilter(unittest.TestCase):
         self.fail_vals = ["fail1", "failpas", "pasfail"]
 
     @generic_filter_test
+    def test_gym_ids(self):
+        self.filt = {"gym_ids": ["123456789", "987654321"]}
+        self.event_key = "gym_id"
+        self.pass_vals = ["123456789", "987654321"]
+        self.fail_vals = ["012345678", "876543210", "Yjg0Y2I1N2JlZj"]
+
+    @generic_filter_test
+    def test_gym_ids_exclude(self):
+        self.filt = {"gym_ids_exclude": ["123456789", "987654321"]}
+        self.event_key = "gym_id"
+        self.pass_vals = ["012345678", "876543210", "Yjg0Y2I1N2JlZj"]
+        self.fail_vals = ["123456789", "987654321"]
+
+    @generic_filter_test
     def test_park_contains(self):
         self.filt = {"park_contains": ["pass"]}
         self.event_key = "park"
