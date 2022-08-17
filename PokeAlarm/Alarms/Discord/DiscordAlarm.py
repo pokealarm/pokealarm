@@ -235,17 +235,19 @@ class DiscordAlarm(Alarm):
             }]
 
             if alert['map'] is not None:
-                coords = {
-                    'lat': info['lat'],
-                    'lng': info['lng']
-                }
-                static_map_url = replace(alert['map'],
-                                         coords if not
-                                         isinstance(alert['map'], str)
-                                         else info)
-                if self.__signing_secret_key is not None:
-                    static_map_url = sign_gmaps_static_url(
-                        static_map_url, self.__signing_secret_key)
+                static_map_url = ""
+                if not isinstance(alert['map'], str):
+                    coords = {
+                        'lat': info['lat'],
+                        'lng': info['lng']
+                    }
+                    static_map_url = replace(alert['map'], coords)
+                else:
+                    static_map_url = replace(alert['map'], info)
+                    if self.__signing_secret_key is not None:
+                        static_map_url = sign_gmaps_static_url(
+                            static_map_url, self.__signing_secret_key)
+
                 payload['embeds'][0]['image'] = {
                     'url': static_map_url
                 }

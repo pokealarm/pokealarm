@@ -12,6 +12,7 @@ import hashlib
 import hmac
 import base64
 import urllib.parse as urlparse
+import traceback
 # 3rd Party Imports
 from s2cell import s2cell
 # Local Imports
@@ -877,29 +878,42 @@ def get_gmaps_static_url(settings, api_key=None):
 
 # Signs the Static Map URL using a URL signing secret
 def sign_gmaps_static_url(input_url=None, secret=None):
-    if not input_url or not secret:
-        raise Exception("Both input_url and secret are required")
+    if input_url is None:
+        log.error("Maps static url is required is to sign it")
 
-    url = urlparse.urlparse(input_url)
+    # If there is no signing secret, return the unsigned url
+    if secret is None:
+        log.debug("Signing secret is not defined. Using unsigned url.")
+        return input_url
 
-    # We only need to sign the path+query part of the string
-    url_to_sign = f'{url.path}?{url.query}'
+    try:
+        url = urlparse.urlparse(input_url)
 
-    # Decode the private key into its binary format
-    # We need to decode the URL-encoded private key
-    decoded_key = base64.urlsafe_b64decode(secret)
+        # We only need to sign the path+query part of the string
+        url_to_sign = f'{url.path}?{url.query}'
 
-    # Create a signature using the private key and the URL-encoded
-    # string using HMAC SHA1. This signature will be binary.
-    signature = hmac.new(decoded_key, str.encode(url_to_sign), hashlib.sha1)
+        # Decode the private key into its binary format
+        # We need to decode the URL-encoded private key
+        decoded_key = base64.urlsafe_b64decode(secret)
 
-    # Encode the binary signature into base64 for use within a URL
-    encoded_signature = base64.urlsafe_b64encode(signature.digest())
+        # Create a signature using the private key and the URL-encoded
+        # string using HMAC SHA1. This signature will be binary.
+        signature = hmac.new(
+            decoded_key, str.encode(url_to_sign), hashlib.sha1)
 
-    original_url = f'{url.scheme}://{url.netloc}{url.path}?{url.query}'
+        # Encode the binary signature into base64 for use within a URL
+        encoded_signature = base64.urlsafe_b64encode(signature.digest())
 
-    # Return signed URL
-    return f'{original_url}&signature={encoded_signature.decode()}'
+        original_url = f'{url.scheme}://{url.netloc}{url.path}?{url.query}'
+
+        # Return signed URL
+        return f'{original_url}&signature={encoded_signature.decode()}'
+
+    except Exception as e:
+        log.error(f"Unable to sign maps static url: {e}. Using unsigned url.")
+        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+
+        return input_url
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -168,23 +168,26 @@ class SlackAlarm(Alarm):
 
     # Send Alert to Slack
     def send_alert(self, alert, info):
-        coords = {
-            'lat': info['lat'],
-            'lng': info['lng']
-        }
         attachments = None
         if alert['map'] is not None:
-            static_map_url = replace(alert['map'],
-                                     info if
-                                     isinstance(map, str)
-                                     else coords)
-            if self.__signing_secret_key is not None:
-                static_map_url = sign_gmaps_static_url(
-                    static_map_url, self.__signing_secret_key)
+            static_map_url = ""
+            if not isinstance(alert['map'], str):
+                coords = {
+                    'lat': info['lat'],
+                    'lng': info['lng']
+                }
+                static_map_url = replace(alert['map'], coords)
+            else:
+                static_map_url = replace(alert['map'], info)
+                if self.__signing_secret_key is not None:
+                    static_map_url = sign_gmaps_static_url(
+                        static_map_url, self.__signing_secret_key)
+
             attachments = [{
                 'fallback': 'Map_Preview',
                 'image_url': static_map_url
             }]
+
         self.send_message(
             channel=replace(alert['channel'], info),
             username=replace(alert['username'], info),
