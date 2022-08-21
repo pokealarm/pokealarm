@@ -331,7 +331,7 @@ def get_evolution_chain(j, id_, form_id_, a=None, evolution_details=None):
             pass
         else:
             for evo_id in j[id_].get('forms').get(form_id_).get('evolutions'):
-                if int(evo_id) <= 898:  # block unreleased generations
+                if int(evo_id) <= 905:  # block unreleased generations
                     if evolution_details:
                         evo_form_id = j[id_].get('forms').get(form_id_).get(
                             'evolutions').get(evo_id).get('form')
@@ -351,7 +351,7 @@ def get_evolution_chain(j, id_, form_id_, a=None, evolution_details=None):
             pass
         else:
             for evo_id in j[id_].get('evolutions'):
-                if int(evo_id) <= 898:  # block unreleased generations
+                if int(evo_id) <= 905:  # block unreleased generations
                     if evolution_details:
                         evo_form_id = j[id_].get(
                             'evolutions').get(evo_id).get('form')
@@ -408,12 +408,10 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
             pass
         else:
             for evo_id in j[id_].get('forms').get(form_id_).get('evolutions'):
-
-                candy_cost = int(j[id_].get('forms').get(form_id_).get(
-                    'evolutions').get(evo_id).get('candyCost', 0))
-                if candy_cost != 0:  # block unreleased generations
-                    a.append(int(j[id_].get('forms').get(form_id_).get(
-                        'evolutions').get(evo_id).get('candyCost')))
+                if int(evo_id) <= 905:  # block unreleased generations
+                    candy_cost = int(j[id_].get('forms').get(form_id_).get(
+                        'evolutions').get(evo_id).get('candyCost', 0))
+                    a.append(candy_cost)
                     get_evolution_cost_chain(
                         j,
                         str(j[id_].get('forms').get(form_id_).get(
@@ -426,9 +424,9 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
             pass
         else:
             for evo_id in j[id_].get('evolutions'):
-                candy_cost = int((j[id_].get('evolutions').get(
-                    evo_id).get('candyCost', 0)))
-                if candy_cost != 0:  # block unreleased generations
+                if int(evo_id) <= 905:  # block unreleased generations
+                    candy_cost = int((j[id_].get('evolutions').get(
+                        evo_id).get('candyCost', 0)))
                     a.append(candy_cost)
                     get_evolution_cost_chain(
                         j,
@@ -515,7 +513,8 @@ def get_best_great_product(pokemon_id, form_id=0):
                 get_best_great_product.info[f"{id_}_{form_id_}"] = j[id_][
                     form_id_].get('1500_highest_product')
 
-    return get_best_great_product.info.get(f"{pokemon_id}_{form_id}")
+    return (get_best_great_product.info.get(f"{pokemon_id}_{form_id}",
+            get_best_great_product.info.get(f"{pokemon_id}_0", 0)))
 
 
 # Returns the highest possible stat product for PvP ultra league for a pkmn
@@ -531,7 +530,8 @@ def get_best_ultra_product(pokemon_id, form_id=0):
                 get_best_ultra_product.info[f"{id_}_{form_id_}"] = j[id_][
                     form_id_].get('2500_highest_product')
 
-    return get_best_ultra_product.info.get(f"{pokemon_id}_{form_id}")
+    return (get_best_ultra_product.info.get(f"{pokemon_id}_{form_id}",
+            get_best_ultra_product.info.get(f"{pokemon_id}_0", 0)))
 
 
 # Returns a cp range for a certain level of a pokemon caught in a raid
