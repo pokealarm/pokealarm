@@ -78,6 +78,10 @@ iv_2                IVs, rounded to 2 decimal places.
 atk                 Attack IV of the monster.
 def                 Defense IV of the monster.
 sta                 Stamina IV of the monster.
+max_cp              Final CP after maxed out the monster.
+max_perfect_cp      Final CP after maxed out a perfect IV monster.
+stardust_cost       Stardust cost to power up the monster to its max level.
+candy_cost          Candy cost to power up the monster to its max level.
 base_catch          Catch rate of the monster when using a poke ball.
 base_catch_0        Catch rate of the monster when using a poke ball, rounded to the nearest integer.
 base_catch_2        Catch rate of the monster when using a poke ball, rounded to 2 decimal places.

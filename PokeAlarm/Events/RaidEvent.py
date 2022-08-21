@@ -10,7 +10,8 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_dist_as_str, get_pokemon_cp_range, is_weather_boosted, \
     get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
     get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji, \
-    get_gender_sym, get_cached_weather_id_from_coord
+    get_gender_sym, get_cached_weather_id_from_coord, max_cp, \
+    calculate_candy_cost, calculate_stardust_cost
 from PokeAlarm.Utilities import MonUtils
 
 
@@ -276,6 +277,11 @@ class RaidEvent(BaseEvent):
             'cp': self.cp,
             'min_cp': cp_range[0],
             'max_cp': cp_range[1],
+
+            # Max out
+            'max_perfect_cp': max_cp(self.mon_id, self.form_id),
+            'stardust_cost': calculate_stardust_cost(self.raid_lvl, 50),
+            'candy_cost': calculate_candy_cost(self.raid_lvl, 50),
 
             # Gym Details
             'gym_name': self.gym_name,

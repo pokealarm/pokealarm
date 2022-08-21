@@ -28,52 +28,6 @@ def pokemon_rating(limit, monster_id, form_id, atk, de, sta,
     return highest_rating, highest_cp, highest_level
 
 
-def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
-    start_level = float(start_level)
-    target_level = float(target_level)
-    candy_table = utils.get_candy_costs()
-    xl_candy_table = utils.get_xl_candy_costs()
-    tmp_level = start_level
-    candy_cost = evo_candy_cost
-    xl_candy_cost = 0
-
-    while tmp_level < target_level and tmp_level < 40:
-        for cost_key in candy_table:
-            lvls = re.findall(r"[\.\d]+", cost_key)
-            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
-                candy_cost += candy_table[cost_key]
-        tmp_level += 0.5
-
-    while tmp_level < target_level and tmp_level < 50:
-        for cost_key in xl_candy_table:
-            lvls = re.findall(r"[\.\d]+", cost_key)
-            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
-                xl_candy_cost += xl_candy_table[cost_key]
-        tmp_level += 0.5
-
-    if xl_candy_cost != 0:
-        return f'{candy_cost:,} + {xl_candy_cost:,} XL'.replace(',', ' ')
-    else:
-        return f'{candy_cost:,}'.replace(',', ' ')
-
-
-def calculate_stardust_cost(start_level, target_level):
-    start_level = float(start_level)
-    target_level = float(target_level)
-    stardust_table = utils.get_stardust_costs()
-
-    tmp_level = start_level
-    stardust_cost = 0
-    while tmp_level < target_level and tmp_level < 50:
-        for cost_key in stardust_table:
-            lvls = re.findall(r"[\.\d]+", cost_key)
-            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
-                stardust_cost += stardust_table[cost_key]
-        tmp_level += 0.5
-
-    return f'{stardust_cost:,}'.replace(',', ' ')
-
-
 def calculate_evolution_cost(monster_id, target_id, evolutions,
                              evolution_costs):
     if monster_id == target_id or not ([True for s in evolutions
@@ -109,8 +63,8 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
     great_rating = 0 if best_great_product == 0 else \
         100 * (great_product / best_great_product)
     great_id = monster_id
-    great_candy = calculate_candy_cost(lvl, great_level)
-    great_stardust = calculate_stardust_cost(lvl, great_level)
+    great_candy = utils.calculate_candy_cost(lvl, great_level)
+    great_stardust = utils.calculate_stardust_cost(lvl, great_level)
 
     ultra_product, ultra_cp, ultra_level = pokemon_rating(
         2500, monster_id, form_id, atk, de, sta, utils.min_level(
@@ -119,8 +73,8 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
     ultra_rating = 0 if best_ultra_product == 0 else \
         100 * (ultra_product / best_ultra_product)
     ultra_id = monster_id
-    ultra_candy = calculate_candy_cost(lvl, ultra_level)
-    ultra_stardust = calculate_stardust_cost(lvl, ultra_level)
+    ultra_candy = utils.calculate_candy_cost(lvl, ultra_level)
+    ultra_stardust = utils.calculate_stardust_cost(lvl, ultra_level)
 
     if float(great_level) < lvl:
         great_rating = 0
@@ -166,9 +120,9 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
             great_id = evo_id
             evo_candy_cost = calculate_evolution_cost(
                 monster_id, evo_id, evolutions, evolution_costs)
-            great_candy = calculate_candy_cost(
+            great_candy = utils.calculate_candy_cost(
                 lvl, great_level, evo_candy_cost)
-            great_stardust = calculate_stardust_cost(
+            great_stardust = utils.calculate_stardust_cost(
                 lvl, great_level)
 
         if evo_ultra > ultra_rating:
@@ -178,9 +132,9 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
             ultra_id = evo_id
             evo_candy_cost = calculate_evolution_cost(
                 monster_id, evo_id, evolutions, evolution_costs)
-            ultra_candy = calculate_candy_cost(
+            ultra_candy = utils.calculate_candy_cost(
                 lvl, ultra_level, evo_candy_cost)
-            ultra_stardust = calculate_stardust_cost(
+            ultra_stardust = utils.calculate_stardust_cost(
                 lvl, ultra_level)
 
     return (float("{0:.2f}".format(great_rating)), great_id, great_cp,

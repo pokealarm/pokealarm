@@ -7,13 +7,14 @@ from urllib.parse import urlencode
 from PokeAlarm import Unknown
 from PokeAlarm.Utilities import PvpUtils
 from PokeAlarm.Utils import (
+    calculate_candy_cost, calculate_cp, calculate_stardust_cost,
     get_gmaps_link, get_move_type, get_move_damage, get_move_dps,
     get_move_duration, get_move_energy, get_pokemon_size,
     get_applemaps_link, get_shiny_emoji, get_time_as_str,
     get_seconds_remaining, get_base_types, get_dist_as_str,
     get_weather_emoji, get_spawn_verified_emoji, get_type_emoji,
     get_waze_link, get_gender_sym, is_weather_boosted,
-    get_cached_weather_id_from_coord)
+    get_cached_weather_id_from_coord, max_cp)
 from . import BaseEvent
 from PokeAlarm.Utilities import MonUtils
 
@@ -274,6 +275,14 @@ class MonEvent(BaseEvent):
             # Encounter Stats
             'mon_lvl': self.mon_lvl,
             'cp': self.cp,
+
+            # Max out
+            'max_cp': calculate_cp(self.monster_id, self.form_id,
+                                   self.atk_iv, self.def_iv, self.sta_iv,
+                                   self.mon_lvl),
+            'max_perfect_cp': max_cp(self.monster_id, self.form_id),
+            'stardust_cost': calculate_stardust_cost(self.mon_lvl, 50),
+            'candy_cost': calculate_candy_cost(self.mon_lvl, 50),
 
             # IVs
             'iv_0': (

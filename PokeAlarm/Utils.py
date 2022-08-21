@@ -7,6 +7,7 @@ import logging
 from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
+import re
 # 3rd Party Imports
 from s2cell import s2cell
 # Local Imports
@@ -655,30 +656,76 @@ def get_stardust_costs():
     return get_stardust_costs.info.get('stardust')
 
 
+def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
+    start_level = float(start_level)
+    target_level = float(target_level)
+    candy_table = get_candy_costs()
+    xl_candy_table = get_xl_candy_costs()
+    tmp_level = start_level
+    candy_cost = evo_candy_cost
+    xl_candy_cost = 0
+
+    while tmp_level < target_level and tmp_level < 40:
+        for cost_key in candy_table:
+            lvls = re.findall(r"[\.\d]+", cost_key)
+            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
+                candy_cost += candy_table[cost_key]
+        tmp_level += 0.5
+
+    while tmp_level < target_level and tmp_level < 50:
+        for cost_key in xl_candy_table:
+            lvls = re.findall(r"[\.\d]+", cost_key)
+            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
+                xl_candy_cost += xl_candy_table[cost_key]
+        tmp_level += 0.5
+
+    if xl_candy_cost != 0:
+        return f'{candy_cost:,} + {xl_candy_cost:,} XL'.replace(',', ' ')
+    else:
+        return f'{candy_cost:,}'.replace(',', ' ')
+
+
+def calculate_stardust_cost(start_level, target_level):
+    start_level = float(start_level)
+    target_level = float(target_level)
+    stardust_table = get_stardust_costs()
+
+    tmp_level = start_level
+    stardust_cost = 0
+    while tmp_level < target_level and tmp_level < 50:
+        for cost_key in stardust_table:
+            lvls = re.findall(r"[\.\d]+", cost_key)
+            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
+                stardust_cost += stardust_table[cost_key]
+        tmp_level += 0.5
+
+    return f'{stardust_cost:,}'.replace(',', ' ')
+
+
 # Return the list of candy costs for powering up a pokemon
 def get_candy_costs():
-    if not hasattr(get_stardust_costs, 'info'):
-        get_stardust_costs.info = {}
+    if not hasattr(get_candy_costs, 'info'):
+        get_candy_costs.info = {}
         file_ = get_path('data/powerup_costs.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for w_id in j:
-            get_stardust_costs.info[w_id] = j[w_id]
+            get_candy_costs.info[w_id] = j[w_id]
 
-    return get_stardust_costs.info.get('candy')
+    return get_candy_costs.info.get('candy')
 
 
 # Return the list of xl candy costs for powering up a pokemon
 def get_xl_candy_costs():
-    if not hasattr(get_stardust_costs, 'info'):
-        get_stardust_costs.info = {}
+    if not hasattr(get_xl_candy_costs, 'info'):
+        get_xl_candy_costs.info = {}
         file_ = get_path('data/powerup_costs.json')
         with open(file_, 'r') as f:
             j = json.loads(f.read())
         for w_id in j:
-            get_stardust_costs.info[w_id] = j[w_id]
+            get_xl_candy_costs.info[w_id] = j[w_id]
 
-    return get_stardust_costs.info.get('xl_candy')
+    return get_xl_candy_costs.info.get('xl_candy')
 
 
 # Return a boolean for whether the monster or the type is weather boosted
