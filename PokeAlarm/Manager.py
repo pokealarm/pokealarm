@@ -23,7 +23,8 @@ from .LocationServices import GMaps
 from PokeAlarm import Unknown
 from PokeAlarm.Utilities.Logging import ContextFilter, setup_file_handler
 from PokeAlarm.Utilities.GenUtils import parse_bool
-from .Utils import (get_earth_dist, get_path, get_cardinal_dir)
+from .Utils import (get_earth_dist, get_path,
+                    get_cardinal_dir, is_weather_boosted)
 from . import config
 Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
@@ -665,15 +666,17 @@ class Manager(object):
 
         # Set the name for this event so we can log rejects better
         mon.name = self.__locale.get_pokemon_name(mon.monster_id)
+        boosted_status = int(is_weather_boosted(
+            mon.weather_id, mon.monster_id, mon.form_id))
 
         # Check if previously processed and update expiration
         if self.__cache.monster_expiration(
-                f'{mon.enc_id}{mon.weight}_{mon.weather_id}') is not None:
+                f'{mon.enc_id}{mon.weight}{boosted_status}') is not None:
             self._log.debug("{} monster was skipped because it was "
                             "previously processed.".format(mon.name))
             return
         self.__cache.monster_expiration(
-            f'{mon.enc_id}{mon.weight}_{mon.weather_id}',
+            f'{mon.enc_id}{mon.weight}{boosted_status}',
             mon.disappear_time)
 
         # Check the time remaining
