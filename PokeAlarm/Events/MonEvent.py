@@ -279,7 +279,7 @@ class MonEvent(BaseEvent):
             # Max out
             'max_cp': calculate_cp(self.monster_id, self.form_id,
                                    self.atk_iv, self.def_iv, self.sta_iv,
-                                   self.mon_lvl),
+                                   50),
             'max_perfect_cp': max_cp(self.monster_id, self.form_id),
             'stardust_cost': calculate_stardust_cost(self.mon_lvl, 50),
             'candy_cost': calculate_candy_cost(self.mon_lvl, 50),
