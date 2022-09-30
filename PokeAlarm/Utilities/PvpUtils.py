@@ -146,7 +146,7 @@ def get_pvp_rank(monster_id, form_id, maxcp):
         get_pvp_rank.info = {}
     try:
         get_pvp_rank.info[maxcp]
-    except IndexError:
+    except KeyError:
         get_pvp_rank.info[maxcp] = {}
         file_ = utils.get_path(f"data/rankings-{maxcp}.json")
         with open(file_, "r") as f:
@@ -161,4 +161,4 @@ def get_pvp_rank(monster_id, form_id, maxcp):
             rank_number += 1
 
     mon_proto = utils.get_proto_name(monster_id, form_id)
-    return get_pvp_rank.info[maxcp].get(mon_proto, 9999)
+    return get_pvp_rank.info[maxcp].get(mon_proto, "\u221e")
