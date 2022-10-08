@@ -294,14 +294,14 @@ class MonEvent(BaseEvent):
             'max_cp': calculate_cp(self.monster_id, self.form_id,
                                    self.atk_iv, self.def_iv, self.sta_iv, 50),
             'max_perfect_cp': max_cp(self.monster_id, self.form_id),
-
+            'stardust_cost': calculate_stardust_cost(self.mon_lvl, 50),
+            'candy_cost': calculate_candy_cost(self.mon_lvl, 50),
             'max_evo_cp': calculate_cp(last_evo_id, last_evo_form_id,
                                        self.atk_iv, self.def_iv, self.sta_iv,
                                        50),
             'max_perfect_evo_cp': max_cp(last_evo_id, last_evo_form_id),
-            'stardust_cost': calculate_stardust_cost(self.mon_lvl, 50),
-            'candy_cost': calculate_candy_cost(self.mon_lvl, 50,
-                                               evo_candy_cost),
+            'candy_cost_with_evo': calculate_candy_cost(self.mon_lvl, 50,
+                                                        evo_candy_cost),
 
             # IVs
             'iv_0': (
