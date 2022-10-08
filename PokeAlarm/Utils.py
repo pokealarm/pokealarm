@@ -702,6 +702,25 @@ def calculate_stardust_cost(start_level, target_level):
     return f'{stardust_cost:,}'.replace(',', ' ')
 
 
+def calculate_evolution_cost(monster_id, target_id, evolutions,
+                             evolution_costs):
+    if monster_id == target_id or not ([True for s in evolutions
+                                        if f"{target_id}_" in s]):
+        return 0
+    evo_candy_cost = evolution_costs[0]
+
+    for evolution in evolutions:
+        evo_id, evo_form_id = re.findall(r"[\.\d]+", evolution)
+        evo_id = int(evo_id)
+        evo_form_id = int(evo_form_id)
+
+        if evo_id == target_id:
+            return evo_candy_cost
+        evo_candy_cost += evolution_costs[1]
+
+    return evo_candy_cost
+
+
 # Return the list of candy costs for powering up a pokemon
 def get_candy_costs():
     if not hasattr(get_candy_costs, 'info'):

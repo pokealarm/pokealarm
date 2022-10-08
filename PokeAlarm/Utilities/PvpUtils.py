@@ -28,25 +28,6 @@ def pokemon_rating(limit, monster_id, form_id, atk, de, sta,
     return highest_rating, highest_cp, highest_level
 
 
-def calculate_evolution_cost(monster_id, target_id, evolutions,
-                             evolution_costs):
-    if monster_id == target_id or not ([True for s in evolutions
-                                        if f"{target_id}_" in s]):
-        return 0
-    evo_candy_cost = evolution_costs[0]
-
-    for evolution in evolutions:
-        evo_id, evo_form_id = re.findall(r"[\.\d]+", evolution)
-        evo_id = int(evo_id)
-        evo_form_id = int(evo_form_id)
-
-        if evo_id == target_id:
-            return evo_candy_cost
-        evo_candy_cost += evolution_costs[1]
-
-    return evo_candy_cost
-
-
 def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
     lvl = float(lvl)
 
@@ -118,7 +99,7 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
             great_cp = evo_great_cp
             great_level = evo_great_level
             great_id = evo_id
-            evo_candy_cost = calculate_evolution_cost(
+            evo_candy_cost = utils.calculate_evolution_cost(
                 monster_id, evo_id, evolutions, evolution_costs)
             great_candy = utils.calculate_candy_cost(
                 lvl, great_level, evo_candy_cost)
@@ -130,7 +111,7 @@ def get_pvp_info(monster_id, form_id, atk, de, sta, lvl):
             ultra_cp = evo_ultra_cp
             ultra_level = evo_ultra_level
             ultra_id = evo_id
-            evo_candy_cost = calculate_evolution_cost(
+            evo_candy_cost = utils.calculate_evolution_cost(
                 monster_id, evo_id, evolutions, evolution_costs)
             ultra_candy = utils.calculate_candy_cost(
                 lvl, ultra_level, evo_candy_cost)

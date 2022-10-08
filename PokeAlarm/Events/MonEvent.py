@@ -14,7 +14,8 @@ from PokeAlarm.Utils import (
     get_seconds_remaining, get_base_types, get_dist_as_str,
     get_weather_emoji, get_spawn_verified_emoji, get_type_emoji,
     get_waze_link, get_gender_sym, is_weather_boosted,
-    get_cached_weather_id_from_coord, max_cp)
+    get_cached_weather_id_from_coord, max_cp, get_evolutions,
+    get_evolution_costs, calculate_evolution_cost)
 from . import BaseEvent
 from PokeAlarm.Utilities import MonUtils
 
@@ -202,6 +203,19 @@ class MonEvent(BaseEvent):
         type1 = locale.get_type_name(self.types[0])
         type2 = locale.get_type_name(self.types[1])
 
+        evo_details = get_evolutions(
+            self.monster_id, self.form_id, True)
+        evolution_costs = get_evolution_costs(self.monster_id, self.form_id)
+
+        last_evo_id = self.monster_id
+        last_evo_form_id = self.form_id
+        if len(evo_details) > 0:
+            last_evo_id = evo_details[-1][:evo_details[-1].find('_')]
+            last_evo_form_id = evo_details[-1][evo_details[-1].find('_') + 1:]
+
+        evo_candy_cost = calculate_evolution_cost(
+            self.monster_id, last_evo_id, evo_details, evolution_costs)
+
         dts = self.custom_dts.copy()
         dts.update({
             # Identification
@@ -278,11 +292,16 @@ class MonEvent(BaseEvent):
 
             # Max out
             'max_cp': calculate_cp(self.monster_id, self.form_id,
-                                   self.atk_iv, self.def_iv, self.sta_iv,
-                                   50),
+                                   self.atk_iv, self.def_iv, self.sta_iv, 50),
             'max_perfect_cp': max_cp(self.monster_id, self.form_id),
+
+            'max_evo_cp': calculate_cp(last_evo_id, last_evo_form_id,
+                                       self.atk_iv, self.def_iv, self.sta_iv,
+                                       50),
+            'max_perfect_evo_cp': max_cp(last_evo_id, last_evo_form_id),
             'stardust_cost': calculate_stardust_cost(self.mon_lvl, 50),
-            'candy_cost': calculate_candy_cost(self.mon_lvl, 50),
+            'candy_cost': calculate_candy_cost(self.mon_lvl, 50,
+                                               evo_candy_cost),
 
             # IVs
             'iv_0': (

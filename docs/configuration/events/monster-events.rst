@@ -80,6 +80,8 @@ def                 Defense IV of the monster.
 sta                 Stamina IV of the monster.
 max_cp              Final CP after maxed out the monster.
 max_perfect_cp      Final CP after maxed out a perfect IV monster.
+max_evo_cp          Final CP after evolved and maxed out the monster.
+max_perfect_evo_cp  Final CP after evolved and maxed out a perfect IV monster.
 stardust_cost       Stardust cost to power up the monster to its max level.
 candy_cost          Candy cost to power up the monster to its max level.
 base_catch          Catch rate of the monster when using a poke ball.
