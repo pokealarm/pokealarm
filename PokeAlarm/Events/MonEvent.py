@@ -210,8 +210,9 @@ class MonEvent(BaseEvent):
         last_evo_id = self.monster_id
         last_evo_form_id = self.form_id
         if len(evo_details) > 0:
-            last_evo_id = evo_details[-1][:evo_details[-1].find('_')]
-            last_evo_form_id = evo_details[-1][evo_details[-1].find('_') + 1:]
+            last_evo_id = int(evo_details[-1][:evo_details[-1].find('_')])
+            last_evo_form_id = int(
+                evo_details[-1][evo_details[-1].find('_') + 1:])
 
         evo_candy_cost = calculate_evolution_cost(
             self.monster_id, last_evo_id, evo_details, evolution_costs)
