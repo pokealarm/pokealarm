@@ -2,12 +2,13 @@ from PokeAlarm.Utils import require_and_remove_key
 from .Alarm import Alarm  # noqa F401
 
 
-def alarm_factory(mgr, settings, max_attempts, api_key):
+def alarm_factory(mgr, settings, max_attempts, api_key, signing_secret_key):
     kind = require_and_remove_key(
         'type', settings, "Alarm objects in Alarms file.")
     if kind == 'discord':
         from PokeAlarm.Alarms.Discord import DiscordAlarm
-        return DiscordAlarm(mgr, settings, max_attempts, api_key)
+        return DiscordAlarm(mgr, settings, max_attempts, api_key,
+                            signing_secret_key)
     elif kind == 'facebook_page':
         from PokeAlarm.Alarms.FacebookPage import FacebookPageAlarm
         return FacebookPageAlarm(mgr, settings)
@@ -16,7 +17,7 @@ def alarm_factory(mgr, settings, max_attempts, api_key):
         return PushbulletAlarm(mgr, settings)
     elif kind == 'slack':
         from PokeAlarm.Alarms.Slack import SlackAlarm
-        return SlackAlarm(mgr, settings, api_key)
+        return SlackAlarm(mgr, settings, api_key, signing_secret_key)
     elif kind == 'telegram':
         from PokeAlarm.Alarms.Telegram import TelegramAlarm
         return TelegramAlarm(mgr, settings)

@@ -112,6 +112,8 @@ optional arguments:
                         "America/Los_Angeles"
   -k GMAPS_KEY, --gmaps-key GMAPS_KEY
                         Specify a Google API Key to use.
+  --gmaps-signing-secret SIGNING_SECRET
+                        Specify a Google API Signing Secret.
   --gmaps-rev-geocode GMAPS_REV_GEOCODE
                         Enable Walking Distance Matrix DTS.
   --gmaps-dm-walk GMAPS_DM_WALK
@@ -211,6 +213,7 @@ You can manually specify a configuration file with either the `-cf` or
 # GMaps Settings
 ################
 #gmaps-key:                     # Google Maps API Key (default=None)
+#gmaps-signing-secret:          # Google Maps Signing Secret (default=None)
 #gmaps-rev-geocode: yes         # Enable Reverse Geocoded DTS. (default='no')
                                 # Note: This requires the Reverse Geocoding API to be enabled on your GMAPs key.
 #gmaps-dm-walk: yes             # Enable Walking DM DTS. (default='no')

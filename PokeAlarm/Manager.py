@@ -29,8 +29,9 @@ Rule = namedtuple('Rule', ['filter_names', 'alarm_names'])
 
 
 class Manager(object):
-    def __init__(self, name, google_key, locale, units, timezone, time_limit,
-                 max_attempts, location, cache_type, geofence_file, debug):
+    def __init__(self, name, google_key, google_signing_key, locale, units,
+                 timezone, time_limit, max_attempts, location, cache_type,
+                 geofence_file, debug):
         # Set the name of the Manager
         self.name = str(name).lower()
         self._log = self._create_logger(self.name)
@@ -40,10 +41,13 @@ class Manager(object):
 
         # Get the Google Maps AP# TODO: Improve error checking
         self._google_key = None
+        self._google_signing_key = None
         self._gmaps_service = None
         if str(google_key).lower() != 'none':
             self._google_key = google_key
             self._gmaps_service = GMaps(google_key)
+            if str(google_signing_key).lower() != 'none':
+                self._google_signing_key = google_signing_key
         self._gmaps_reverse_geocode = False
         self._gmaps_distance_matrix = set()
 
@@ -348,7 +352,8 @@ class Manager(object):
             raise ValueError("Unable to add new Alarm: Alarm with the name "
                              "{} already exists!".format(name))
         alarm = Alarms.alarm_factory(
-            self, settings, self._max_attempts, self._google_key)
+            self, settings, self._max_attempts, self._google_key,
+            self._google_signing_key)
         self._alarms[name] = alarm
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

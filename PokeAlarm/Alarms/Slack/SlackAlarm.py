@@ -6,8 +6,9 @@ from slack import WebClient
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
-from PokeAlarm.Utils import parse_boolean, get_static_map_url, \
-    require_and_remove_key, reject_leftover_parameters, get_image_url
+from PokeAlarm.Utils import parse_boolean, get_gmaps_static_url, \
+    require_and_remove_key, reject_leftover_parameters, get_image_url, \
+    sign_gmaps_static_url
 
 try_sending = Alarm.try_sending
 replace = Alarm.replace
@@ -90,7 +91,7 @@ class SlackAlarm(Alarm):
     }
 
     # Gather settings and create alarm
-    def __init__(self, mgr, settings, static_map_key):
+    def __init__(self, mgr, settings, static_map_key, signing_secret_key):
         self._log = mgr.get_child_logger("alarms")
 
         # Required Parameters
@@ -107,6 +108,7 @@ class SlackAlarm(Alarm):
         self.__startup_text = settings.pop('startup_text', "")
         self.__map = settings.pop('map', {})
         self.__static_map_key = static_map_key
+        self.__signing_secret_key = signing_secret_key
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
@@ -159,23 +161,33 @@ class SlackAlarm(Alarm):
             'url': settings.pop('url', default['url']),
             'body': settings.pop('body', default['body']),
             'map': map if isinstance(map, str) else
-            get_static_map_url(map, self.__static_map_key)
+            get_gmaps_static_url(map, self.__static_map_key)
         }
         reject_leftover_parameters(settings, "'Alert level in Slack alarm.")
         return alert
 
     # Send Alert to Slack
     def send_alert(self, alert, info):
-        coords = {
-            'lat': info['lat'],
-            'lng': info['lng']
-        }
-        attachments = [{
-            'fallback': 'Map_Preview',
-            'image_url':
-                replace(alert['map'],
-                        info if isinstance(map, str) else coords)
-        }] if alert['map'] is not None else None
+        attachments = None
+        if alert['map'] is not None:
+            static_map_url = ""
+            if not isinstance(alert['map'], str):
+                coords = {
+                    'lat': info['lat'],
+                    'lng': info['lng']
+                }
+                static_map_url = replace(alert['map'], coords)
+            else:
+                static_map_url = replace(alert['map'], info)
+                if self.__signing_secret_key is not None:
+                    static_map_url = sign_gmaps_static_url(
+                        static_map_url, self.__signing_secret_key)
+
+            attachments = [{
+                'fallback': 'Map_Preview',
+                'image_url': static_map_url
+            }]
+
         self.send_message(
             channel=replace(alert['channel'], info),
             username=replace(alert['username'], info),

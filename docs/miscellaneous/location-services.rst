@@ -126,7 +126,7 @@ API** at the middle bottom.
 
 .. image:: ../images/14_here_is_your_key.png
 
-To find your key later, click on the blue **Credentials** button at the left.
+14. To find your key later, click on the blue **Credentials** button at the left.
 
 .. image:: ../images/15_find_your_key.png
 
@@ -181,6 +181,24 @@ There are 2 methods to start **PokeAlarm** with your Google Maps API key:
 2. Add ``key:YOUR_GOOGLE_MAPS_API_KEY`` to ``config.ini`` located in the
    ``config`` subfolder of your PokeAlarm installation, then run the command
    ``python3 start_pokealarm.py``.
+
+
+Securing your API requests
+-------------------------------------
+
+PokeAlarm supports the signed requests to secure your Static Maps API requests using a secret hash.
+This step is optional but recommended as it will prevent someone to use your API key to generate
+additional requests for his own use.
+
+The signing secret can be found in the `Credentials <https://console.cloud.google.com/google/maps-apis/credentials>`_
+page by selecting **Generate Secret**. Once you got it, add it to ``gmaps-signing-secret`` in your
+config file. All the static maps requests will now be signed.
+
+Now you can disable the unsigned requests to prevent someone to use your key. To do so, go to
+`Google Maps Quotas <https://console.cloud.google.com/google/maps-apis/quotas>`_ and select
+**Maps Static API**. Open **Unsigned requests (if URL signing secret is defined)** and set the 3 limits
+('par day', 'per minute' and 'per minute per user') to 0. Now, anyone who want to make a request
+with your key need to know your signing secret (which obviously doesn't appear in the static map URL).
 
 
 Google API Daily Limit
