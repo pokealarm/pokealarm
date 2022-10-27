@@ -76,6 +76,7 @@ team_leader                The leader of the team currently in control of the gy
 sponsor_id                 The sponsor if of the gym. 0 if not sponsored.
 sponsored                  True if sponsored, False if not.
 max_perfect_cp             Final CP after maxed out a perfect IV monster.
+max_perfect_evo_cp         Final CP after evolved and maxed out a perfect IV monster.
 stardust_cost              Stardust cost to power up the monster to its max level.
 candy_cost                 Candy cost to power up the monster to its max level.
 ========================== ============================================================

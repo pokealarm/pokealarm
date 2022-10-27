@@ -11,7 +11,7 @@ from PokeAlarm.Utils import get_gmaps_link, get_applemaps_link, \
     get_base_types, get_weather_emoji, get_type_emoji, get_waze_link, \
     get_team_emoji, get_ex_eligible_emoji, get_shiny_emoji, \
     get_gender_sym, get_cached_weather_id_from_coord, max_cp, \
-    calculate_candy_cost, calculate_stardust_cost
+    calculate_candy_cost, calculate_stardust_cost, get_evolutions
 from PokeAlarm.Utilities import MonUtils
 
 
@@ -148,6 +148,15 @@ class RaidEvent(BaseEvent):
 
         cp_range = get_pokemon_cp_range(
             self.boss_level, self.mon_id, self.form_id)
+
+        evo_details = get_evolutions(
+            self.mon_id, self.form_id, True)
+        last_evo_id = self.mon_id
+        last_evo_form_id = self.form_id
+        if len(evo_details) > 0:
+            last_evo_id = evo_details[-1][:evo_details[-1].find('_')]
+            last_evo_form_id = evo_details[-1][evo_details[-1].find('_') + 1:]
+
         dts.update({
             # Identification
             'gym_id': self.gym_id,
@@ -280,6 +289,7 @@ class RaidEvent(BaseEvent):
 
             # Max out
             'max_perfect_cp': max_cp(self.mon_id, self.form_id),
+            'max_perfect_evo_cp': max_cp(last_evo_id, last_evo_form_id),
             'stardust_cost': calculate_stardust_cost(self.raid_lvl, 50),
             'candy_cost': calculate_candy_cost(self.raid_lvl, 50),
 

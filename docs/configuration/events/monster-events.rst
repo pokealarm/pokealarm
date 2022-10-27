@@ -67,32 +67,35 @@ Stats
     settings and accounts - see the documentation for your scanner for
     specifics.
 
-=================== =========================================================
-DTS                 Description
-=================== =========================================================
-mon_lvl             Level of the monster.
-cp                  Combat Points of the monster.
-iv                  Individual Values percentage of the monster.
-iv_0                IVs, rounded to the nearest integer.
-iv_2                IVs, rounded to 2 decimal places.
-atk                 Attack IV of the monster.
-def                 Defense IV of the monster.
-sta                 Stamina IV of the monster.
-max_cp              Final CP after maxed out the monster.
-max_perfect_cp      Final CP after maxed out a perfect IV monster.
-stardust_cost       Stardust cost to power up the monster to its max level.
-candy_cost          Candy cost to power up the monster to its max level.
-base_catch          Catch rate of the monster when using a poke ball.
-base_catch_0        Catch rate of the monster when using a poke ball, rounded to the nearest integer.
-base_catch_2        Catch rate of the monster when using a poke ball, rounded to 2 decimal places.
-great_catch         Catch rate of the monster when using a great ball.
-great_catch_0       Catch rate of the monster when using a great ball, rounded to the nearest integer.
-great_catch_2       Catch rate of the monster when using a great ball, rounded to 2 decimal places.
-ultra_catch         Catch rate of the monster when using an ultra ball.
-ultra_catch_0       Catch rate of the monster when using an ultra ball, rounded to the nearest integer.
-ultra_catch_2       Catch rate of the monster when using an ultra ball, rounded to 2 decimal places.
-rarity              Rarity of the monster, as supplied by the scanner.
-=================== =========================================================
+===================== =========================================================
+DTS                   Description
+===================== =========================================================
+mon_lvl               Level of the monster.
+cp                    Combat Points of the monster.
+iv                    Individual Values percentage of the monster.
+iv_0                  IVs, rounded to the nearest integer.
+iv_2                  IVs, rounded to 2 decimal places.
+atk                   Attack IV of the monster.
+def                   Defense IV of the monster.
+sta                   Stamina IV of the monster.
+max_cp                Final CP after maxed out the monster.
+max_perfect_cp        Final CP after maxed out a perfect IV monster.
+max_evo_cp            Final CP after evolved and maxed out the monster.
+max_perfect_evo_cp    Final CP after evolved and maxed out a perfect IV monster.
+stardust_cost         Stardust cost to power up the monster to its max level.
+candy_cost            Candy cost to power up the monster to its max level.
+candy_cost_with_evo   Candy cost to evolve and power up the monster to its max level.
+base_catch            Catch rate of the monster when using a poke ball.
+base_catch_0          Catch rate of the monster when using a poke ball, rounded to the nearest integer.
+base_catch_2          Catch rate of the monster when using a poke ball, rounded to 2 decimal places.
+great_catch           Catch rate of the monster when using a great ball.
+great_catch_0         Catch rate of the monster when using a great ball, rounded to the nearest integer.
+great_catch_2         Catch rate of the monster when using a great ball, rounded to 2 decimal places.
+ultra_catch           Catch rate of the monster when using an ultra ball.
+ultra_catch_0         Catch rate of the monster when using an ultra ball, rounded to the nearest integer.
+ultra_catch_2         Catch rate of the monster when using an ultra ball, rounded to 2 decimal places.
+rarity                Rarity of the monster, as supplied by the scanner.
+===================== =========================================================
 
 Moves
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
