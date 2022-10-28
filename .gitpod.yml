@@ -1,22 +1,21 @@
-
 tasks:
   - init: pip install -r requirements.txt
   - name: Configuration
     init: |
-      | # enable discord alarms
-      | cp alarms.json.example alarms.json
-      | sed 's/"active":false,/"active":true,' alarms.json # enable discord alarm
-      | sed 's/"webhook_url":"YOUR_WEBHOOK_URL"/"webhook_url":"$pokealarm_discord_webhook_url"' alarms.json # set discord alarm webhook_url from gitpod variables
-      |
-      | # defaults-on filter configuration into filters_temp.json
-      | echo '{"monsters":{"enabled":false,"defaults":{},"filters":{"all_monsters":{}}},"stops":{"enabled":false,"defaults":{},"filters":{"all_stops":{}}},"gyms":{"enabled":false,"ignore_neutral":true,"defaults":{},"filters":{"all_gyms":{}}},"eggs":{"enabled":false,"defaults":{},"filters":{"all_eggs":{}}},"raids":{"enabled":false,"defaults":{},"filters":{"all_raids":{}}},"weather":{"enabled":false,"defaults":{},"filters":{"all_weather":{}}}}' > filters_temp.json
-      | python -m json.tool filters_temp.json filters.json # pretty print the above line into filters.json; https://bugs.python.org/issue33927
-      | rm filters_temp.json
-      |
-      | # all-on for discord rule configuration into rules_temp.json
-      | echo '{"monsters":{"all_monsters":{"filters":["all_monsters"],"alarms":["discord_alarm"]}},"stops":{"all_stops":{"filters":["all_stops"],"alarms":["discord_alarm"]}},"gyms":{"all_gyms":{"filters":["all_gyms"],"alarms":["discord_alarm"]}},"eggs":{"all_eggs":{"filters":["all_eggs"],"alarms":["discord_alarm"]}},"raids":{"all_raids":{"filters":["all_raids"],"alarms":["discord_alarm"]}},"weather":{"all_weather":{"filters":["all_weather"],"alarms":["discord_alarm"]}}}' > rules_temp.json
-      | python -m json.tool rules_temp.json rules.json # pretty print the above line into rules.json; https://bugs.python.org/issue33927
-      | rm rules_temp.json
+      # enable discord alarms
+      cp alarms.json.example alarms.json
+      sed 's/"active":false,/"active":true,' alarms.json # enable discord alarm
+      sed 's/"webhook_url":"YOUR_WEBHOOK_URL"/"webhook_url":"$pokealarm_discord_webhook_url"' alarms.json # set discord alarm webhook_url from gitpod variables
+      
+      # defaults-on filter configuration into filters_temp.json
+      echo '{"monsters":{"enabled":false,"defaults":{},"filters":{"all_monsters":{}}},"stops":{"enabled":false,"defaults":{},"filters":{"all_stops":{}}},"gyms":{"enabled":false,"ignore_neutral":true,"defaults":{},"filters":{"all_gyms":{}}},"eggs":{"enabled":false,"defaults":{},"filters":{"all_eggs":{}}},"raids":{"enabled":false,"defaults":{},"filters":{"all_raids":{}}},"weather":{"enabled":false,"defaults":{},"filters":{"all_weather":{}}}}' > filters_temp.json
+      python -m json.tool filters_temp.json filters.json # pretty print the above line into filters.json; https://bugs.python.org/issue33927
+      rm filters_temp.json
+      
+      # all-on for discord rule configuration into rules_temp.json
+      echo '{"monsters":{"all_monsters":{"filters":["all_monsters"],"alarms":["discord_alarm"]}},"stops":{"all_stops":{"filters":["all_stops"],"alarms":["discord_alarm"]}},"gyms":{"all_gyms":{"filters":["all_gyms"],"alarms":["discord_alarm"]}},"eggs":{"all_eggs":{"filters":["all_eggs"],"alarms":["discord_alarm"]}},"raids":{"all_raids":{"filters":["all_raids"],"alarms":["discord_alarm"]}},"weather":{"all_weather":{"filters":["all_weather"],"alarms":["discord_alarm"]}}}' > rules_temp.json
+      python -m json.tool rules_temp.json rules.json # pretty print the above line into rules.json; https://bugs.python.org/issue33927
+      rm rules_temp.json
 vscode:
   extensions:
     - ms-python.python
