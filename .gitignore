@@ -16,6 +16,7 @@ _build
 *.txt
 !data/*.json
 !locales/*.json
+!.vscode/launch.json
 docker-compose.yml
 data/.data_version
 data/pokemon_data.json
@@ -30,3 +31,6 @@ logs/*
 
 # MacOS
 .DS_Store
+
+# Development
+!.vscode/launch.json
