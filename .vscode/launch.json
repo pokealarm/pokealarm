@@ -8,7 +8,7 @@
             "name": "Start PokeAlarm",
             "type": "python",
             "request": "launch",
-            "program": "/workspace/pokealarm/start_pokealarm.py",
+            "program": "/${workspaceFolder}/start_pokealarm.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["-d"], // debug mode
