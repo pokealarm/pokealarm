@@ -1,6 +1,6 @@
 # Standard Library Imports
 import logging
-import json
+import json5 as json
 import traceback
 import sys
 import itertools

@@ -12,6 +12,7 @@ _build
 
 # Config
 *.json
+*.json5
 *.ini
 *.txt
 !data/*.json
