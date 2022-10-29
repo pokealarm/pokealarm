@@ -3,9 +3,10 @@ tasks:
   - name: Configuration
     init: |
       # enable discord alarms
-      cp alarms.json.example alarms.json
-      sed 's/"active":false,/"active":true,' alarms.json # enable discord alarm
-      sed 's/"webhook_url":"YOUR_WEBHOOK_URL"/"webhook_url":"$pokealarm_discord_webhook_url"' alarms.json # set discord alarm webhook_url from gitpod variables
+      cp alarms.json.example alarms_temp.json
+      sed -ir '0,/"active":false,/s//"active":true,/' alarms_temp.json # enable discord alarm
+      jq ".discord_alarm.webhook_url = \"$pokealarm_discord_webhook_url\"" alarms_temp.json > alarms.json # set discord alarm webhook_url from gitpod variables
+      rm alarms_temp.json
       
       # defaults-on filter configuration into filters_temp.json
       echo '{"monsters":{"enabled":false,"defaults":{},"filters":{"all_monsters":{}}},"stops":{"enabled":false,"defaults":{},"filters":{"all_stops":{}}},"gyms":{"enabled":false,"ignore_neutral":true,"defaults":{},"filters":{"all_gyms":{}}},"eggs":{"enabled":false,"defaults":{},"filters":{"all_eggs":{}}},"raids":{"enabled":false,"defaults":{},"filters":{"all_raids":{}}},"weather":{"enabled":false,"defaults":{},"filters":{"all_weather":{}}}}' > filters_temp.json
