@@ -2,6 +2,8 @@ tasks:
   - init: pip install -r requirements.txt
   - name: Configuration
     init: |
+      cp config/config.ini.example config/config.ini # no changes made, but easier for devs
+    
       # enable discord alarms
       cp alarms.json.example alarms_temp.json
       sed -ir '0,/"active":false,/s//"active":true,/' alarms_temp.json # enable discord alarm
