@@ -47,8 +47,8 @@ old_teams          List of allowed previous teams, by id or name.   ``["Instinct
 new_teams          List of allowed new teams, by id or name.        ``["Valor","Mystic"]``
 gym_name_contains  List of regex's required to be in the gym name.  ``["Sponsored","West\\sOak"]``
 gym_name_excludes  List of regex's rejected to be in the gym name.  ``["Sponsored","West\\sOak"]``
-gym_ids            List of allowed gym ID.                          ``["123456789","987654321"]``
-gym_ids_exclude    List of excluded gym ID.                         ``["123456789","987654321"]``
+gym_ids            List of allowed gym IDs.                         ``["123456789","987654321"]``
+gym_ids_exclude    List of excluded gym IDs.                        ``["123456789","987654321"]``
 is_ex_eligible     Restrict ex-raid eligible gyms.                  ``true`` or ``false``
 min_slots          Minimum number of guard slots available.         ``2``
 max_slots          Maximum number of guard slots available.         ``6``

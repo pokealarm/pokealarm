@@ -41,12 +41,12 @@ General
 =================== ================================================================ ================================
 Parameter           Description                                                      Example
 =================== ================================================================ ================================
-monsters            Array of allowed monsters, by id or name.                        ``["Bulbasaur","2",3]``
-monsters_exclude    Array of excluded monsters, by id or name.                       ``["Bulbasaur","2",3]``
-form_ids            Array of allowed form ids for the monster.                       ``[0,"1"]``
-exclude_forms       Array of excluded forms, by id.                                  ``[0,"1"]``
-costume_ids         Array of allowed costume ids for the monster.                    ``[0,"1"]``
-exclude_costumes    Array of excluded costumes, by id.                               ``[0,"1"]``
+monsters            Array of allowed monsters, by ID or name.                        ``["Bulbasaur","2",3]``
+monsters_exclude    Array of excluded monsters, by ID or name.                       ``["Bulbasaur","2",3]``
+form_ids            Array of allowed form IDs for the monster.                       ``[0,"1"]``
+exclude_forms       Array of excluded forms, by ID.                                  ``[0,"1"]``
+costume_ids         Array of allowed costume IDs for the monster.                    ``[0,"1"]``
+exclude_costumes    Array of excluded costumes, by ID.                               ``[0,"1"]``
 exclude_geofences   Opposite of `geofences`. See :ref:`geofences_filters` page.      ``["geofence1","geofence2"]``
 types               Array of allowed monster types, by name.                         ``["Dark", "Dragon", "Grass"]``
 genders             Array of acceptable genders. Options: `"male",                   ``["female"]``
@@ -80,8 +80,8 @@ min_iv         Minimum total IV percentage of the monster.        ``0.0`` *
 max_iv         Maximum total IV percentage of the monster.        ``100.0`` *
 min_cp         Minimum CP of the monster.                         ``0``
 max_cp         Maximum CP of the monster.                         ``10000``
-quick_moves    Accepted quick moves, by id or name.               ``["Vine Whip","Tackle"]``
-charge_moves   Accepted charge moves, by id or name.              ``["Sludge Bomb","Seed Bomb"]``
+quick_moves    Accepted quick moves, by ID or name.               ``["Vine Whip","Tackle"]``
+charge_moves   Accepted charge moves, by ID or name.              ``["Sludge Bomb","Seed Bomb"]``
 min_height     Minimum height of the monster.                     ``0.0`` *
 max_height     Maximum height of the monster.                     ``250.0`` *
 min_weight     Minimum weight of the monster.                     ``0.0`` *
@@ -96,7 +96,7 @@ PvP / Trainer Battles
 
 .. note::
     A more detailed explanation about the Trainer Battle calculations
-    and the resulting DTS can be found in Other -> PvP / Trainer Battles.
+    and the resulting DTS can be found in :doc:`../../miscellaneous/trainer-battles`.
     Trainer Battle calculations also require encounter information - see
     the note above.
 
@@ -124,8 +124,8 @@ max_dist           Max distance of event from set location in miles       ``1000
                    or meters (depending on settings).
 min_time_left      Minimum time (in seconds) until monster despawns.      ``1000``
 max_time_left      Maximum time (in seconds) until monster despawns.      ``2400``
-weather            Accepted weather conditions, by id or name.            ``["Clear",2]``
-boosted_weather    Accepted boosted weather conditions, by id or name.     ``["Clear",2]``
+weather            Accepted weather conditions, by ID or name.            ``["Clear",2]``
+boosted_weather    Accepted boosted weather conditions, by ID or name.     ``["Clear",2]``
 is_boosted_weather Accepts or denies based on boosted weather conditions. ``true``
 geofences          See :ref:`geofences_filters` page on 'Geofences'       ``["geofence1","geofence2"]``
 min_time           See :ref:`time_dts_filters` page on 'Time DTS'         ``8:30``
