@@ -32,3 +32,6 @@ logs/*
 
 # MacOS
 .DS_Store
+
+# Development
+!.vscode/launch.json
