@@ -12,6 +12,8 @@ _build
 
 # Config
 *.json
+*.json5
+*.jsonc
 *.ini
 *.txt
 !data/*.json
