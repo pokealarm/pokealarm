@@ -22,7 +22,9 @@ A **Quest Event** represents when a quest appears in a pokestop.
 
 This currently only works with one scanner.
 
-+ If you're unsure as to which reward your alarm will be reporting, use the generic `reward` DTS, this will make it so you don't have any unused or unnecessary space
+.. note::
+     If you're unsure as to which reward type your alarm will be reporting, use the generic 
+     `reward` DTS, this will make it so you don't have any unused or unnecessary space
 
 .. warning::
     Monster and item information is always sent with defaults, so including DTS
@@ -49,25 +51,27 @@ quest_image       The relative image based on the quest reward.
                   See below for more information.
 ================= ========================================================
 
-+ The `quest_image` will be one of the following based on the reward type
-* When a monster, will link to the appropriate monster image
-* When an item, will link to the appropriate item image
-* When anything else (such as stardust), it will link to the generic image for that type
+quest_image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The `quest_image` will be one of the following based on the reward type
+* When the type is a monster, this will link to the appropriate monster image
+* When the type is an item, this will link to the appropriate item image
+* When the type is anything else (such as stardust), this will link to the generic image for that type
 
 Reward Details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-================= ========================================================
+================= ==============================================================
 DTS               Description
-================= ========================================================
+================= ==============================================================
 reward            The amount and reward information in detail
                   - changed per locale
-reward_type_id    The ID of the reward type, see :ref:`quest_filters`
+reward_type_id    The ID of the reward type, see :doc:`../filters/quest-filters`
                   for more info
 reward_type       The reward type name
 reward_type_raw   The name of the reward interpreted by the scanner
 reward_amount     The amount of the reward
-================= ========================================================
+================= ==============================================================
 
 Monster Reward Details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,7 +107,7 @@ type2_emoji                Emoji for the monster's secondary type, or empty stri
 types                      Monster's type formatted as "type1/type2".
 types_emoji                Type emojis for the monster as "type1+type2", or empty
                            string if unknown.
-shiny_emoji                Return shiny emoji if monster can be shiny, or
+shiny_emoji                Return shiny emoji (✨) if monster can be shiny, or
                            empty string if unknown.
 ========================== ========================================================
 

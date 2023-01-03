@@ -52,7 +52,7 @@ type2_emoji                Emoji for the monster's secondary type, or empty stri
 types                      Monster's type formatted as "type1/type2".
 types_emoji                Type emojis for the monster as "type1+type2", or empty
                            string if unknown.
-shiny_emoji                Return shiny emoji if monster can be shiny, or
+shiny_emoji                Return shiny emoji (✨) if monster can be shiny, or
                            empty string if unknown.
 ========================== ==========================================================
 
@@ -78,10 +78,10 @@ iv_2                  IVs, rounded to 2 decimal places.
 atk                   Attack IV of the monster.
 def                   Defense IV of the monster.
 sta                   Stamina IV of the monster.
-max_cp                Final CP after maxed out the monster.
-max_perfect_cp        Final CP after maxed out a perfect IV monster.
-max_evo_cp            Final CP after evolved and maxed out the monster.
-max_perfect_evo_cp    Final CP after evolved and maxed out a perfect IV monster.
+max_cp                Final CP after maxing out the monster.
+max_perfect_cp        Final CP after maxing out a perfect IV monster.
+max_evo_cp            Final CP after evolving and maxing out the monster.
+max_perfect_evo_cp    Final CP after evolving and maxing out a perfect IV monster.
 stardust_cost         Stardust cost to power up the monster to its max level.
 candy_cost            Candy cost to power up the monster to its max level.
 candy_cost_with_evo   Candy cost to evolve and power up the monster to its max level.
@@ -144,7 +144,7 @@ PvP / Trainer Battles
 
 .. note::
     A more detailed explanation about the Trainer Battle calculations
-    and the resulting DTS can be found in Other -> PvP / Trainer Battles.
+    and the resulting DTS can be found in :doc:`../../miscellaneous/trainer-battles`.
 
 =================== =========================================================
 DTS                 Description
@@ -205,7 +205,7 @@ Ditto disguise
 .. note::
 
     The DTS in this section are only relevant if your scanner encountered a
-    Ditto. This allows you to know different display informations about it.
+    Ditto. This allows you to know information on the monster displayed in the overworld.
 
 ======================= ============================================================================
 DTS                     Description
@@ -297,15 +297,15 @@ boosted_or_empty         Return `boosted` if monster is boosted, or empty
 Miscellaneous
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=============================== ==============================================================
+=============================== ===================================================================================================
 DTS                             Description
-=============================== ==============================================================
+=============================== ===================================================================================================
 encounter_id                    The encounter id. Unique per monster spawn.
 spawnpoint_id                   Return the spawnpoint ID that the monster spawned on.
 spawn_start                     Estimated time that the monster spawn starts.
 spawn_end                       Estimated time that the monster spawn ends.
-spawn_verified                  Whether this spawn times have been verified.
-spawn_verified_emoji            Return spawn verified emoji for unknown, verified, unverified.
-spawn_verified_emoji_or_empty   Return spawn verified emoji for verified or empty string.
-spawn_unverified_emoji_or_empty Return spawn verified emoji for unverified or empty string.
-=============================== ==============================================================
+spawn_verified                  *True* or *False* based on if spawns have been verified.
+spawn_verified_emoji            An unknown (❔), verified (✅), or unverified (❌) emoji based on if spawns have been verified.
+spawn_verified_emoji_or_empty   When the spawn is verified, this gives the above verified emoji. Otherwise, it will be empty.
+spawn_unverified_emoji_or_empty When the spawn is not verified, this gives the above unverified emoji. Otherwise, it will be empty.
+=============================== ===================================================================================================

@@ -28,10 +28,10 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-========================== ============================================================
+========================== ===========================================================================
 DTS                        Description
-========================== ============================================================
-gym_id                     The gym id. Unique per gym.
+========================== ===========================================================================
+gym_id                     The gym ID. Unique per gym.
 mon_name                   The name of the monster's species.
 mon_id                     ID of the monster's species.
 mon_id_3                   ID of the monster's species, padded to 3 digits.
@@ -42,11 +42,11 @@ nonnormal_form_or_empty    Form name of the monster, or empty string if Normal o
 form_id                    Form ID for the monster.
 form_id_2                  Form ID of the monster, padded to 2 digits.
 form_id_3                  Form ID of the monster, padded to 3 digits.
-evolution                  Evolution name of the monster.
-evolution_or_empty         Evolution name of the monster, or empty string if unknown.
-evolution_id               Evolution ID for the monster.
-evolution_id_2             Evolution ID of the monster, padded to 2 digits.
-evolution_id_3             Evolution ID of the monster, padded to 3 digits.
+evolution                  Name of the monster's final evolution.
+evolution_or_empty         Name of the monster's final evolution, or empty string if unknown.
+evolution_id               ID of the monster's final evolution.
+evolution_id_2             ID of the monster's final evolution, padded to 2 digits.
+evolution_id_3             ID of the monster's final evolution, padded to 3 digits.
 min_cp                     Minimum potential CP of the monster.
 max_cp                     Maximum potential CP of the monster.
 type1                      Name of the monster's primary type.
@@ -62,24 +62,24 @@ type2_emoji                Emoji for the monster's secondary type, or empty stri
 types                      Monster's type formatted as "type1/type2".
 types_emoji                Type emojis for the monster as "type1+type2", or empty
                            string if unknown.
-shiny_emoji                Return shiny emoji if monster can be shiny, or
+shiny_emoji                Return shiny emoji (✨) if monster can be shiny, or
                            empty string if unknown.
 gym_name                   The name of the gym. *
 gym_description            The description of the gym. *
 gym_image                  The url to the image of the gym. *
 slots_available            Number of open guard slots available in a gym.
 guard_count                Number of guards assigned to a gym.
-team_id                    The id of the team currently in control of the gym.
+team_id                    The ID of the team currently in control of the gym.
 team_emoji                 The team color currently in control of the gym.
 team_name                  The team currently in control of the gym.
 team_leader                The leader of the team currently in control of the gym.
-sponsor_id                 The sponsor if of the gym. 0 if not sponsored.
-sponsored                  True if sponsored, False if not.
-max_perfect_cp             Final CP after maxed out a perfect IV monster.
-max_perfect_evo_cp         Final CP after evolved and maxed out a perfect IV monster.
+sponsor_id                 The sponsor ID of the gym. 0 if not sponsored.
+sponsored                  *True* if sponsored, *False* if not.
+max_perfect_cp             Max CP of the perfect IV version of the current monster.
+max_perfect_evo_cp         Max CP of the perfect IV and fully evolved version of the current monster.
 stardust_cost              Stardust cost to power up the monster to its max level.
 candy_cost                 Candy cost to power up the monster to its max level.
-========================== ============================================================
+========================== ===========================================================================
 
 .. note::
 

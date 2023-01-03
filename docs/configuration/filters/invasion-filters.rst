@@ -38,16 +38,16 @@ Available DTS
 General
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ============================================================== ===============================
-Parameter           Description                                                    Example
-=================== ============================================================== ===============================
-grunt_ids           Array of allowed grunts, by id.                                ``["4", 39]``
-grunts_exclude      Array of excluded grunts, by id.                               ``["4", 39]``
-grunt_genders       Array of allowed genders, by id or name.                       ``["Male", 2]``
-types               Array of allowed monster types, by name.                       ``["Dark", "Dragon", "Grass"]`` 
-monsters            Array of allowed monsters possibly rewarded, by  or name.      ``["Bulbasaur","2",3]``
-monsters_exclude    Array of excluded monsters possibly rewarded, by id or name.   ``["Bulbasaur","2",3]``
-=================== ============================================================== ===============================
+=================== =============================================================== ===============================
+Parameter           Description                                                     Example
+=================== =============================================================== ===============================
+grunt_ids           Array of allowed grunts, by ID.                                 ``["4", 39]``
+grunts_exclude      Array of excluded grunts, by ID.                                ``["4", 39]``
+grunt_genders       Array of allowed genders, by ID or name.                        ``["Male", 2]``
+types               Array of allowed monster types, by name.                        ``["Dark", "Dragon", "Grass"]`` 
+monsters            Array of allowed reward monster possibilities, by ID or name.   ``["Bulbasaur","2",3]``
+monsters_exclude    Array of excluded reward monster possiblilities, by ID or name. ``["Bulbasaur","2",3]``
+=================== =============================================================== ===============================
 
 
 Miscellaneous
@@ -62,8 +62,8 @@ max_dist            Max distance of event from set location in miles            
                     or meters (depending on settings).
 min_time_left       Minimum time (in seconds) until monster despawns.                ``1000``
 max_time_left       Maximum time (in seconds) until monster despawns.                ``2400``
-weather             Accepted weather conditions, by id or name.                      ``["Clear",2]``
-boosted_weather     Accepted boosted weather conditions, by id or name.               ``["Clear",2]``
+weather             Accepted weather conditions, by ID or name.                      ``["Clear",2]``
+boosted_weather     Accepted boosted weather conditions, by ID or name.               ``["Clear",2]``
 is_boosted_weather  Accepts or denies based on boosted weather conditions.           ``true``
 geofences           See :ref:`geofences_filters` page on 'Geofences'                 ``["geofence1","geofence2"]``
 exclude_geofences   Opposite of `geofences`. See :ref:`geofences_filters` page.      ``["geofence1","geofence2"]``

@@ -47,8 +47,8 @@ max_egg_lvl        Maximum level of the egg when hatched.           ``5``
 current_teams      List of allowed current teams, by id or name.    ``["Instinct","Mystic"]``
 gym_name_contains  List of regex's required to be in the gym name.  ``["Sponsored","West\\sOak"]``
 gym_name_excludes  List of regex's rejected to be in the gym name.  ``["Sponsored","West\\sOak"]``
-gym_ids            List of allowed gym ID.                          ``["123456789","987654321"]``
-gym_ids_exclude    List of excluded gym ID.                         ``["123456789","987654321"]``
+gym_ids            List of allowed gym IDs.                         ``["123456789","987654321"]``
+gym_ids_exclude    List of excluded gym IDs.                        ``["123456789","987654321"]``
 is_ex_eligible     Restrict ex-raid eligible gyms.                  ``true`` or ``false``
 is_exclusive       Restrict exclusive raids.                        ``true`` or ``false``
 park_contains      List of regex's required to be in the park name. ``["Sponsored","Park\\sName"]``

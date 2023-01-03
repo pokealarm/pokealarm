@@ -59,8 +59,8 @@ charge_moves      Accepted charge moves, by id or name.            ``["Sludge Bo
 current_teams     List of allowed current teams, by id or name.    ``["Instinct","Mystic"]``
 gym_name_contains List of regex's required to be in the gym name.  ``["Sponsored","West\\sOak"]``
 gym_name_excludes List of regex's rejected to be in the gym name.  ``["Sponsored","West\\sOak"]``
-gym_ids           List of allowed gym ID.                          ``["123456789","987654321"]``
-gym_ids_exclude   List of excluded gym ID.                         ``["123456789","987654321"]``
+gym_ids           List of allowed gym IDs.                          ``["123456789","987654321"]``
+gym_ids_exclude   List of excluded gym IDs.                         ``["123456789","987654321"]``
 is_ex_eligible    Restrict ex-raid eligible gyms.                  ``true`` or ``false``
 sponsored         Restrict sponsored gyms.                         ``true`` or ``false``
 can_be_shiny      Accepts or denies based on shiny availability.   ``true`` or ``false``
