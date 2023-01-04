@@ -1,47 +1,492 @@
 {
-    "stardust": {
-        "1-2.5": 200,
-        "3-4.5": 400,
-        "5-6.5": 600,
-        "7-8.5": 800,
-        "9-10.5": 1000,
-        "11-12.5": 1300,
-        "13-14.5": 1600,
-        "15-16.5": 1900,
-        "17-18.5": 2200,
-        "19-20.5": 2500,
-        "21-22.5": 3000,
-        "23-24.5": 3500,
-        "25-26.5": 4000,
-        "27-28.5": 4500,
-        "29-30.5": 5000,
-        "31-32.5": 6000,
-        "33-34.5": 7000,
-        "35-36.5": 8000,
-        "37-38.5": 9000,
-        "39-40.5": 10000,
-        "41-42.5": 11000,
-        "43-44.5": 12000,
-        "45-46.5": 13000,
-        "47-48.5": 14000,
-        "49-49.5": 15000
+    "1": {
+        "stardust_cost": 200,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
     },
-    "candy": {
-        "1-10.5": 1,
-        "11-20.5": 2,
-        "21-25.5": 3,
-        "26-30.5": 4,
-        "31-32.5": 6,
-        "33-34.5": 8,
-        "35-36.5": 10,
-        "37-38.5": 12,
-        "39-39.5": 15
+    "1.5": {
+        "stardust_cost": 200,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
     },
-    "xl_candy": {
-        "40-41.5": 10,
-        "42-43.5": 12,
-        "44-45.5": 15,
-        "46-47.5": 17,
-        "48-49.5": 20
+    "2": {
+        "stardust_cost": 200,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "2.5": {
+        "stardust_cost": 200,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "3": {
+        "stardust_cost": 400,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "3.5": {
+        "stardust_cost": 400,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "4": {
+        "stardust_cost": 400,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "4.5": {
+        "stardust_cost": 400,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "5": {
+        "stardust_cost": 600,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "5.5": {
+        "stardust_cost": 600,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "6": {
+        "stardust_cost": 600,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "6.5": {
+        "stardust_cost": 600,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "7": {
+        "stardust_cost": 800,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "7.5": {
+        "stardust_cost": 800,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "8": {
+        "stardust_cost": 800,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "8.5": {
+        "stardust_cost": 800,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "9": {
+        "stardust_cost": 1000,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "9.5": {
+        "stardust_cost": 1000,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "10": {
+        "stardust_cost": 1000,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "10.5": {
+        "stardust_cost": 1000,
+        "candy_cost": 1,
+        "xl_candy_cost": 0
+    },
+    "11": {
+        "stardust_cost": 1300,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "11.5": {
+        "stardust_cost": 1300,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "12": {
+        "stardust_cost": 1300,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "12.5": {
+        "stardust_cost": 1300,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "13": {
+        "stardust_cost": 1600,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "13.5": {
+        "stardust_cost": 1600,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "14": {
+        "stardust_cost": 1600,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "14.5": {
+        "stardust_cost": 1600,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "15": {
+        "stardust_cost": 1900,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "15.5": {
+        "stardust_cost": 1900,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "16": {
+        "stardust_cost": 1900,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "16.5": {
+        "stardust_cost": 1900,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "17": {
+        "stardust_cost": 2200,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "17.5": {
+        "stardust_cost": 2200,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "18": {
+        "stardust_cost": 2200,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "18.5": {
+        "stardust_cost": 2200,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "19": {
+        "stardust_cost": 2500,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "19.5": {
+        "stardust_cost": 2500,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "20": {
+        "stardust_cost": 2500,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "20.5": {
+        "stardust_cost": 2500,
+        "candy_cost": 2,
+        "xl_candy_cost": 0
+    },
+    "21": {
+        "stardust_cost": 3000,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "21.5": {
+        "stardust_cost": 3000,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "22": {
+        "stardust_cost": 3000,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "22.5": {
+        "stardust_cost": 3000,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "23": {
+        "stardust_cost": 3500,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "23.5": {
+        "stardust_cost": 3500,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "24": {
+        "stardust_cost": 3500,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "24.5": {
+        "stardust_cost": 3500,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "25": {
+        "stardust_cost": 4000,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "25.5": {
+        "stardust_cost": 4000,
+        "candy_cost": 3,
+        "xl_candy_cost": 0
+    },
+    "26": {
+        "stardust_cost": 4000,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "26.5": {
+        "stardust_cost": 4000,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "27": {
+        "stardust_cost": 4500,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "27.5": {
+        "stardust_cost": 4500,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "28": {
+        "stardust_cost": 4500,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "28.5": {
+        "stardust_cost": 4500,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "29": {
+        "stardust_cost": 5000,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "29.5": {
+        "stardust_cost": 5000,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "30": {
+        "stardust_cost": 5000,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "30.5": {
+        "stardust_cost": 5000,
+        "candy_cost": 4,
+        "xl_candy_cost": 0
+    },
+    "31": {
+        "stardust_cost": 6000,
+        "candy_cost": 6,
+        "xl_candy_cost": 0
+    },
+    "31.5": {
+        "stardust_cost": 6000,
+        "candy_cost": 6,
+        "xl_candy_cost": 0
+    },
+    "32": {
+        "stardust_cost": 6000,
+        "candy_cost": 6,
+        "xl_candy_cost": 0
+    },
+    "32.5": {
+        "stardust_cost": 6000,
+        "candy_cost": 6,
+        "xl_candy_cost": 0
+    },
+    "33": {
+        "stardust_cost": 7000,
+        "candy_cost": 8,
+        "xl_candy_cost": 0
+    },
+    "33.5": {
+        "stardust_cost": 7000,
+        "candy_cost": 8,
+        "xl_candy_cost": 0
+    },
+    "34": {
+        "stardust_cost": 7000,
+        "candy_cost": 8,
+        "xl_candy_cost": 0
+    },
+    "34.5": {
+        "stardust_cost": 7000,
+        "candy_cost": 8,
+        "xl_candy_cost": 0
+    },
+    "35": {
+        "stardust_cost": 8000,
+        "candy_cost": 10,
+        "xl_candy_cost": 0
+    },
+    "35.5": {
+        "stardust_cost": 8000,
+        "candy_cost": 10,
+        "xl_candy_cost": 0
+    },
+    "36": {
+        "stardust_cost": 8000,
+        "candy_cost": 10,
+        "xl_candy_cost": 0
+    },
+    "36.5": {
+        "stardust_cost": 8000,
+        "candy_cost": 10,
+        "xl_candy_cost": 0
+    },
+    "37": {
+        "stardust_cost": 9000,
+        "candy_cost": 12,
+        "xl_candy_cost": 0
+    },
+    "37.5": {
+        "stardust_cost": 9000,
+        "candy_cost": 12,
+        "xl_candy_cost": 0
+    },
+    "38": {
+        "stardust_cost": 9000,
+        "candy_cost": 12,
+        "xl_candy_cost": 0
+    },
+    "38.5": {
+        "stardust_cost": 9000,
+        "candy_cost": 12,
+        "xl_candy_cost": 0
+    },
+    "39": {
+        "stardust_cost": 10000,
+        "candy_cost": 15,
+        "xl_candy_cost": 0
+    },
+    "39.5": {
+        "stardust_cost": 10000,
+        "candy_cost": 15,
+        "xl_candy_cost": 0
+    },
+    "40": {
+        "stardust_cost": 10000,
+        "candy_cost": 0,
+        "xl_candy_cost": 10
+    },
+    "40.5": {
+        "stardust_cost": 10000,
+        "candy_cost": 0,
+        "xl_candy_cost": 10
+    },
+    "41": {
+        "stardust_cost": 11000,
+        "candy_cost": 0,
+        "xl_candy_cost": 10
+    },
+    "41.5": {
+        "stardust_cost": 11000,
+        "candy_cost": 0,
+        "xl_candy_cost": 10
+    },
+    "42": {
+        "stardust_cost": 11000,
+        "candy_cost": 0,
+        "xl_candy_cost": 12
+    },
+    "42.5": {
+        "stardust_cost": 11000,
+        "candy_cost": 0,
+        "xl_candy_cost": 12
+    },
+    "43": {
+        "stardust_cost": 12000,
+        "candy_cost": 0,
+        "xl_candy_cost": 12
+    },
+    "43.5": {
+        "stardust_cost": 12000,
+        "candy_cost": 0,
+        "xl_candy_cost": 12
+    },
+    "44": {
+        "stardust_cost": 12000,
+        "candy_cost": 0,
+        "xl_candy_cost": 15
+    },
+    "44.5": {
+        "stardust_cost": 12000,
+        "candy_cost": 0,
+        "xl_candy_cost": 15
+    },
+    "45": {
+        "stardust_cost": 13000,
+        "candy_cost": 0,
+        "xl_candy_cost": 15
+    },
+    "45.5": {
+        "stardust_cost": 13000,
+        "candy_cost": 0,
+        "xl_candy_cost": 15
+    },
+    "46": {
+        "stardust_cost": 13000,
+        "candy_cost": 0,
+        "xl_candy_cost": 17
+    },
+    "46.5": {
+        "stardust_cost": 13000,
+        "candy_cost": 0,
+        "xl_candy_cost": 17
+    },
+    "47": {
+        "stardust_cost": 14000,
+        "candy_cost": 0,
+        "xl_candy_cost": 17
+    },
+    "47.5": {
+        "stardust_cost": 14000,
+        "candy_cost": 0,
+        "xl_candy_cost": 17
+    },
+    "48": {
+        "stardust_cost": 14000,
+        "candy_cost": 0,
+        "xl_candy_cost": 20
+    },
+    "48.5": {
+        "stardust_cost": 14000,
+        "candy_cost": 0,
+        "xl_candy_cost": 20
+    },
+    "49": {
+        "stardust_cost": 15000,
+        "candy_cost": 0,
+        "xl_candy_cost": 20
+    },
+    "49.5": {
+        "stardust_cost": 15000,
+        "candy_cost": 0,
+        "xl_candy_cost": 20
     }
 }

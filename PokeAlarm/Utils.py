@@ -648,41 +648,18 @@ def get_mon_type(pokemon_id, form_id=0):
     return types['type1'], types['type2']
 
 
-# Return the list of stardust costs for powering up a pokemon
-def get_stardust_costs():
-    if not hasattr(get_stardust_costs, 'info'):
-        get_stardust_costs.info = {}
-        file_ = get_path('data/powerup_costs.json')
-        with open(file_, 'r') as f:
-            j = json.loads(f.read())
-        for w_id in j:
-            get_stardust_costs.info[w_id] = j[w_id]
-
-    return get_stardust_costs.info.get('stardust')
-
-
+# Returns the amount of candies necessary to level up a monster from its level
+# to a target one
 def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
-    start_level = float(start_level)
-    target_level = float(target_level)
-    candy_table = get_candy_costs()
-    xl_candy_table = get_xl_candy_costs()
-    tmp_level = start_level
     candy_cost = evo_candy_cost
     xl_candy_cost = 0
 
-    while tmp_level < target_level and tmp_level < 40:
-        for cost_key in candy_table:
-            lvls = re.findall(r"[\.\d]+", cost_key)
-            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
-                candy_cost += candy_table[cost_key]
-        tmp_level += 0.5
+    start_level = float(start_level)
+    target_level = float(target_level)
 
-    while tmp_level < target_level and tmp_level < 50:
-        for cost_key in xl_candy_table:
-            lvls = re.findall(r"[\.\d]+", cost_key)
-            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
-                xl_candy_cost += xl_candy_table[cost_key]
-        tmp_level += 0.5
+    for lvl_x2 in range(int(start_level * 2), int(target_level * 2)):
+        candy_cost += get_candy_cost(lvl_x2 / 2)
+        xl_candy_cost += get_xl_candy_cost(lvl_x2 / 2)
 
     if xl_candy_cost != 0:
         return f'{candy_cost:,} + {xl_candy_cost:,} XL'.replace(',', ' ')
@@ -690,19 +667,16 @@ def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
         return f'{candy_cost:,}'.replace(',', ' ')
 
 
+# Returns the amount of stardust necessary to level up a monster from its
+# level to a target one
 def calculate_stardust_cost(start_level, target_level):
+    stardust_cost = 0
+
     start_level = float(start_level)
     target_level = float(target_level)
-    stardust_table = get_stardust_costs()
 
-    tmp_level = start_level
-    stardust_cost = 0
-    while tmp_level < target_level and tmp_level < 50:
-        for cost_key in stardust_table:
-            lvls = re.findall(r"[\.\d]+", cost_key)
-            if float(lvls[0]) <= tmp_level and tmp_level <= float(lvls[1]):
-                stardust_cost += stardust_table[cost_key]
-        tmp_level += 0.5
+    for lvl_x2 in range(int(start_level * 2), int(target_level * 2)):
+        stardust_cost += get_stardust_cost(lvl_x2 / 2)
 
     return f'{stardust_cost:,}'.replace(',', ' ')
 
@@ -726,33 +700,51 @@ def calculate_evolution_cost(monster_id, target_id, evolutions,
     return evo_candy_cost
 
 
-# Return the list of candy costs for powering up a pokemon
-def get_candy_costs():
-    if not hasattr(get_candy_costs, 'info'):
-        get_candy_costs.info = {}
-        file_ = get_path('data/powerup_costs.json')
-        with open(file_, 'r') as f:
-            j = json.loads(f.read())
-        for w_id in j:
-            get_candy_costs.info[w_id] = j[w_id]
+# Returns the candy cost for a given monster level
+def get_candy_cost(monster_level):
+    if not hasattr(get_candy_cost, "info"):
+        get_candy_cost.info = {}
+        file_ = get_path("data/powerup_costs.json")
+        with open(file_, "r") as f:
+            j = json.load(f)
+            f.close()
+        for level_ in j:
+            get_candy_cost.info[float(level_)] = int(j[level_]["candy_cost"])
 
-    return get_candy_costs.info.get('candy')
-
-
-# Return the list of xl candy costs for powering up a pokemon
-def get_xl_candy_costs():
-    if not hasattr(get_xl_candy_costs, 'info'):
-        get_xl_candy_costs.info = {}
-        file_ = get_path('data/powerup_costs.json')
-        with open(file_, 'r') as f:
-            j = json.loads(f.read())
-        for w_id in j:
-            get_xl_candy_costs.info[w_id] = j[w_id]
-
-    return get_xl_candy_costs.info.get('xl_candy')
+    return get_candy_cost.info.get(monster_level)
 
 
-# Return a boolean for whether the monster or the type is weather boosted
+# Returns the XL candy cost for a given monster level
+def get_xl_candy_cost(monster_level):
+    if not hasattr(get_xl_candy_cost, "info"):
+        get_xl_candy_cost.info = {}
+        file_ = get_path("data/powerup_costs.json")
+        with open(file_, "r") as f:
+            j = json.load(f)
+            f.close()
+        for level_ in j:
+            get_xl_candy_cost.info[float(level_)] = int(j[level_][
+                "xl_candy_cost"])
+
+    return get_xl_candy_cost.info.get(monster_level)
+
+
+# Returns the stardust cost for a given monster level
+def get_stardust_cost(monster_level):
+    if not hasattr(get_stardust_cost, "info"):
+        get_stardust_cost.info = {}
+        file_ = get_path("data/powerup_costs.json")
+        with open(file_, "r") as f:
+            j = json.load(f)
+            f.close()
+        for level_ in j:
+            get_stardust_cost.info[float(level_)] = int(j[level_][
+                "stardust_cost"])
+
+    return get_stardust_cost.info.get(monster_level)
+
+
+# Returns a boolean for whether the monster or the type is weather boosted
 def is_weather_boosted(weather_id, pokemon_id=0, form_id=0, mon_type=None):
     if not hasattr(is_weather_boosted, 'info'):
         is_weather_boosted.info = {}
