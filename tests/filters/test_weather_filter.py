@@ -23,7 +23,7 @@ class TestWeatherFilter(unittest.TestCase):
             "s2_cell_id": 0,
             "latitude": 37.7876146,
             "longitude": -122.390624,
-            "gameplay_weather": 1,
+            "condition": 1,
             "severity": 0,
             "world_time": 1,
         }
@@ -106,7 +106,7 @@ class TestWeatherFilter(unittest.TestCase):
     @generic_filter_test
     def test_weather(self):
         self.filt = {"weather": [1, 5, "Cloudy"]}
-        self.event_key = "gameplay_weather"
+        self.event_key = "condition"
         self.pass_vals = [1]
         self.fail_vals = [2]
 
