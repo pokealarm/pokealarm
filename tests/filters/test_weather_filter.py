@@ -6,7 +6,6 @@ from tests.filters import MockManager, generic_filter_test
 
 
 class TestWeatherFilter(unittest.TestCase):
-
     @classmethod
     def setUp(cls):
         cls._mgr = MockManager()
@@ -26,15 +25,14 @@ class TestWeatherFilter(unittest.TestCase):
             "longitude": -122.390624,
             "gameplay_weather": 1,
             "severity": 0,
-            "world_time": 1
+            "world_time": 1,
         }
         weather_settings.update(values)
         return Events.WeatherEvent(weather_settings)
 
     def test_distance(self):
         # Create filter
-        filt = self.gen_filter(
-            {'min_dist': 5, 'max_dist': 2000})
+        filt = self.gen_filter({"min_dist": 5, "max_dist": 2000})
 
         # Test passing
         weather = self.gen_event({})
@@ -50,69 +48,75 @@ class TestWeatherFilter(unittest.TestCase):
 
     def test_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'geofences': ['NewYork']})
+        filt = self.gen_filter({"geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
     def test_exclude_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'exclude_geofences': ['NewYork']})
+        filt = self.gen_filter({"exclude_geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
     @generic_filter_test
     def test_severity(self):
-        self.filt = {'severity': [1, "Extreme"]}
-        self.event_key = 'severity'
+        self.filt = {"severity": [1, "Extreme"]}
+        self.event_key = "severity"
         self.pass_vals = [1]
         self.fail_vals = [0]
 
     @generic_filter_test
     def test_weather(self):
-        self.filt = {'weather': [1, 5, "Cloudy"]}
-        self.event_key = 'gameplay_weather'
+        self.filt = {"weather": [1, 5, "Cloudy"]}
+        self.event_key = "gameplay_weather"
         self.pass_vals = [1]
         self.fail_vals = [2]
 
     @generic_filter_test
     def test_day_or_night(self):
-        self.filt = {'day_or_night': ['Day']}
-        self.event_key = 'world_time'
+        self.filt = {"day_or_night": ["Day"]}
+        self.event_key = "world_time"
         self.pass_vals = [1]
         self.fail_vals = [2]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
