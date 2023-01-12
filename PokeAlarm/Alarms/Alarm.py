@@ -1,6 +1,7 @@
 # Standard Library Imports
 import time
 import traceback
+
 # 3rd Party Imports
 # Local Imports
 
@@ -17,7 +18,7 @@ class Alarm(object):
     _defaults = {  # These are the default values for the 'Alerts'
         "pokemon": {},
         "lures": {},
-        "gyms": {}
+        "gyms": {},
     }
 
     # Gather settings and create alarm
@@ -58,19 +59,19 @@ class Alarm(object):
 
     # Trigger an alert when a raid egg is HATCHED (active raid)
     def raid_alert(self, pokeraid_info):
-        raise NotImplementedError('Raid Alert is not implemented.')
+        raise NotImplementedError("Raid Alert is not implemented.")
 
     # Trigger an alert when the weather has changed for an s2 cell
     def weather_alert(self, pokeweather_info):
-        raise NotImplementedError('Weather Alert is not implemented.')
+        raise NotImplementedError("Weather Alert is not implemented.")
 
     # Trigger an alert when a quest is reported
     def quest_alert(self, pokequest_info):
-        raise NotImplementedError('Quest Alert is not implemented.')
+        raise NotImplementedError("Quest Alert is not implemented.")
 
     # Trigger an alert when a Pokestop is invaded
     def invasion_alert(self, invasion_info):
-        raise NotImplementedError('Invasion Alert is not implemented.')
+        raise NotImplementedError("Invasion Alert is not implemented.")
 
     # Return a version of the string with the correct substitutions made
     @staticmethod
@@ -85,14 +86,15 @@ class Alarm(object):
 
     @staticmethod
     def pop_type(data, param_name, kind, default=None):
-        """ Pops a parameter as a certain type. """
+        """Pops a parameter as a certain type."""
         try:
             value = data.pop(param_name, default)
             return kind(value)
         except Exception:
             raise ValueError(
                 'Unable to interpret the value "{}" as a valid {} '
-                'for parameter {}.", '.format(value, kind, param_name))
+                'for parameter {}.", '.format(value, kind, param_name)
+            )
 
     # Attempts to send the alert multiple times
     @staticmethod
@@ -102,12 +104,16 @@ class Alarm(object):
                 send_alert(**args)
                 return  # message sent successfully
             except Exception as e:
-                log.error("Encountered error while sending notification"
-                          + " ({}: {})".format(type(e).__name__, e))
+                log.error(
+                    "Encountered error while sending notification"
+                    + " ({}: {})".format(type(e).__name__, e)
+                )
                 log.debug("Stack trace: \n {}".format(traceback.format_exc()))
                 log.info(
                     "{} is having connection issues. {} attempt of {}.".format(
-                        name, i + 1, max_attempts))
+                        name, i + 1, max_attempts
+                    )
+                )
                 time.sleep(3)
                 reconnect()
         log.error("Could not send notification... Giving up.")

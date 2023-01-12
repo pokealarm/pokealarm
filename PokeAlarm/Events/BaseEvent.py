@@ -1,15 +1,16 @@
 # Standard Library Imports
 import logging
 import time
+
 # 3rd Party Imports
 # Local Imports
 
 
 class BaseEvent(object):
-    """ Abstract class representing details related to different events. """
+    """Abstract class representing details related to different events."""
 
     def __init__(self, kind):
-        """ Initializes base parameters for an event. """
+        """Initializes base parameters for an event."""
         self._log = logging.getLogger(kind)
 
         # Owner of event (set when passed to manager)
@@ -19,14 +20,14 @@ class BaseEvent(object):
         self.id = time.time()
 
     def update_with_cache(self, cache):
-        """ Update event infos using cached data from previous events. """
+        """Update event infos using cached data from previous events."""
         raise NotImplementedError("This is an abstract method.")
 
     def generate_dts(self, locale, timezone, units):
-        """ Return a dict with all the DTS for this event. """
+        """Return a dict with all the DTS for this event."""
         raise NotImplementedError("This is an abstract method.")
 
     @classmethod
     def check_for_none(cls, cast, val, default):
-        """ Returns val as type cast or default if val is None """
+        """Returns val as type cast or default if val is None"""
         return cast(val) if val is not None else default

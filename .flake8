@@ -2,3 +2,6 @@
 [flake8]
 ignore = E402, W503, W504
 exclude = env, env2, env3, .git
+max-line-length = 88
+select = C,E,F,W,B,B950
+extend-ignore = E203, E501
