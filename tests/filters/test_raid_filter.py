@@ -8,7 +8,6 @@ from tests.filters import MockManager, generic_filter_test
 
 
 class TestRaidFilter(unittest.TestCase):
-
     @classmethod
     def setUp(cls):
         cls._mgr = MockManager()
@@ -18,11 +17,11 @@ class TestRaidFilter(unittest.TestCase):
         pass
 
     def gen_filter(self, settings):
-        """ Generate a generic filter with given settings. """
+        """Generate a generic filter with given settings."""
         return Filters.RaidFilter(self._mgr, "testfilter", settings)
 
     def gen_event(self, values):
-        """ Generate a generic raid, overriding with an specific values. """
+        """Generate a generic raid, overriding with an specific values."""
         settings = {
             "gym_id": "OWNmOTFmMmM0YTY3NGQwYjg0Y2I1N2JlZjU4OWRkMTYuMTY=",
             "url": "???",
@@ -39,7 +38,7 @@ class TestRaidFilter(unittest.TestCase):
             "longitude": -122.390624,
             "sponsor": None,
             "park": None,
-            "is_ex_raid_eligible": None
+            "is_ex_raid_eligible": None,
         }
         settings.update(values)
         return Events.RaidEvent(settings)
@@ -123,36 +122,36 @@ class TestRaidFilter(unittest.TestCase):
 
     @generic_filter_test
     def test_form_id(self):
-        self.filt = {'form_ids': [1, '2', 67]}
-        self.event_key = 'form'
+        self.filt = {"form_ids": [1, "2", 67]}
+        self.event_key = "form"
         self.pass_vals = [1, 2, 67]
         self.fail_vals = [0]
 
     @generic_filter_test
     def test_form_exclude(self):
-        self.filt = {'exclude_forms': [1, 3, '55']}
-        self.event_key = 'form'
-        self.pass_vals = [2, 4, '111']
-        self.fail_vals = [1, 3, '55']
+        self.filt = {"exclude_forms": [1, 3, "55"]}
+        self.event_key = "form"
+        self.pass_vals = [2, 4, "111"]
+        self.fail_vals = [1, 3, "55"]
 
     @generic_filter_test
     def test_costume_id(self):
-        self.filt = {'costume_ids': ['123', 1, 2]}
-        self.event_key = 'costume'
-        self.pass_vals = [2, 1, '123']
-        self.fail_vals = [0, 3, '111']
+        self.filt = {"costume_ids": ["123", 1, 2]}
+        self.event_key = "costume"
+        self.pass_vals = [2, 1, "123"]
+        self.fail_vals = [0, 3, "111"]
 
     @generic_filter_test
     def test_costume_exclude(self):
-        self.filt = {'exclude_costumes': ['123', 1, 2]}
-        self.event_key = 'costume'
-        self.pass_vals = [111, 3, '1234']
-        self.fail_vals = [1, 2, '123']
+        self.filt = {"exclude_costumes": ["123", 1, 2]}
+        self.event_key = "costume"
+        self.pass_vals = [111, 3, "1234"]
+        self.fail_vals = [1, 2, "123"]
 
     @generic_filter_test
     def test_types(self):
-        self.filt = {'types': ["Dark"]}
-        self.event_key = 'pokemon_id'
+        self.filt = {"types": ["Dark"]}
+        self.event_key = "pokemon_id"
         self.pass_vals = [198, 261]
         self.fail_vals = [1, 4]
 
@@ -182,10 +181,8 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_missing_info(self):
         # Create the filters
-        missing = self.gen_filter(
-            {"max_dist": "inf", "is_missing_info": True})
-        not_missing = self.gen_filter(
-            {"max_dist": "inf", "is_missing_info": False})
+        missing = self.gen_filter({"max_dist": "inf", "is_missing_info": True})
+        not_missing = self.gen_filter({"max_dist": "inf", "is_missing_info": False})
 
         # Test missing
         miss_event = self.gen_event({})
@@ -200,8 +197,7 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_raid_distance(self):
         # Create the filter
-        filt = self.gen_filter(
-            {"max_dist": 2000, "min_dist": 400})
+        filt = self.gen_filter({"max_dist": 2000, "min_dist": 400})
 
         # Test passing
         egg = self.gen_event({})
@@ -217,26 +213,25 @@ class TestRaidFilter(unittest.TestCase):
 
     @generic_filter_test
     def test_cp(self):
-        self.filt = {'min_cp': 5000, 'max_cp': 9000}
+        self.filt = {"min_cp": 5000, "max_cp": 9000}
         self.event_key = "cp"
         self.pass_vals = [5000, 8000, 9000]
         self.fail_vals = [4999, 9001, 999999]
 
     def test_time_left(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'min_time_left': 1000, 'max_time_left': 8000})
+        filt = self.gen_filter({"min_time_left": 1000, "max_time_left": 8000})
 
         # Test passing
         for s in [2000, 4000, 6000]:
-            d = (datetime.now() + timedelta(seconds=s))
+            d = datetime.now() + timedelta(seconds=s)
             t = time.mktime(d.timetuple())
             event = self.gen_event({"end": t})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
         for s in [200, 999, 8001]:
-            d = (datetime.now() + timedelta(seconds=s))
+            d = datetime.now() + timedelta(seconds=s)
             t = time.mktime(d.timetuple())
             event = self.gen_event({"end": t})
             self.assertFalse(filt.check_event(event))
@@ -259,48 +254,54 @@ class TestRaidFilter(unittest.TestCase):
 
     def test_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'geofences': ['NewYork']})
+        filt = self.gen_filter({"geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
     def test_exclude_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'exclude_geofences': ['NewYork']})
+        filt = self.gen_filter({"exclude_geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

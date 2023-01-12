@@ -6,8 +6,13 @@ import facebook
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
-from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
-    reject_leftover_parameters, require_and_remove_key, get_image_url
+from PokeAlarm.Utils import (
+    parse_boolean,
+    get_time_as_str,
+    reject_leftover_parameters,
+    require_and_remove_key,
+    get_image_url,
+)
 
 try_sending = Alarm.try_sending
 replace = Alarm.replace
@@ -23,80 +28,78 @@ replace = Alarm.replace
 class FacebookPageAlarm(Alarm):
 
     _defaults = {
-        'monsters': {
-            'message': "A wild <mon_name> has appeared!",
-            'image': get_image_url(
-                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'display_image': get_image_url(
-                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"),
-            'link': "<gmaps>",
-            'name': "<mon_name>",
-            'description': "Available until <24h_time> (<time_left>).",
-            'caption': None
-        },
-        'stops': {
-            'message': "Someone has placed a lure on a Pokestop!",
-            'image': get_image_url("regular/stop/<lure_type_id_3>.png"),
-            'link': "<gmaps>",
-            'name': "Lured Pokestop",
-            'description': "Lure will expire at <24h_time> (<time_left>).",
-            'caption': None
-        },
-        'gyms': {
-            'message': "A Team <old_team> gym has fallen!",
-            'image': get_image_url("regular/gyms/<new_team_id>.png"),
-            'link': "<gmaps>",
-            'name': "<old_team> gym fallen",
-            'description': "It is now controlled by <new_team>.",
-            'caption': None
-        },
-        'eggs': {
-            'message': "A level <egg_lvl> raid is upcoming!",
-            'image': get_image_url("regular/eggs/<egg_lvl>.png"),
-            'link': "<gmaps>",
-            'name': 'Egg',
-            'description': "A level <egg_lvl> raid will hatch at "
-                           "<24h_hatch_time> (<hatch_time_left>).",
-            'caption': None
-        },
-        'raids': {
-            'message': "Level <raid_lvl> raid available against <mon_name>!",
-            'image': get_image_url(
-                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'link': "<gmaps>",
-            'name': 'Raid',
-            'description':
-                "The raid is available until <24h_raid_end>"
-                " (<raid_time_left>).",
-            'caption': None
-        },
-        'weather': {
-            'message': 'The weather has changed!',
-            "image": get_image_url("regular/weather/<weather_id_3>"
-                                   "_<day_or_night_id_3>.png"),
+        "monsters": {
+            "message": "A wild <mon_name> has appeared!",
+            "image": get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
+            "display_image": get_image_url(
+                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"
+            ),
             "link": "<gmaps>",
-            'name': "Weather",
-            'description': "The weather around <lat>,<lng>"
-                           " has changed to <weather>!",
-            'caption': None
+            "name": "<mon_name>",
+            "description": "Available until <24h_time> (<time_left>).",
+            "caption": None,
         },
-        'quests': {
-            'message': "*New quest for <reward>*",
-            'image': get_image_url('regular/<quest_image>.png'),
-            'link': '<gmaps>',
-            'name': 'Quest',
-            'description': '<quest_task>',
-            'caption': None
+        "stops": {
+            "message": "Someone has placed a lure on a Pokestop!",
+            "image": get_image_url("regular/stop/<lure_type_id_3>.png"),
+            "link": "<gmaps>",
+            "name": "Lured Pokestop",
+            "description": "Lure will expire at <24h_time> (<time_left>).",
+            "caption": None,
         },
-        'invasions': {
-            'message': 'This Pokestop has been invaded by Team Rocket!',
-            'image':
-                get_image_url("regular/invasions/<grunt_id_3>.png"),
-            'link': '<gmaps>',
-            'name': 'Invasion',
-            'description': 'Invasion will expire at <24h_time> (<time_left>).',
-            'caption': None
-        }
+        "gyms": {
+            "message": "A Team <old_team> gym has fallen!",
+            "image": get_image_url("regular/gyms/<new_team_id>.png"),
+            "link": "<gmaps>",
+            "name": "<old_team> gym fallen",
+            "description": "It is now controlled by <new_team>.",
+            "caption": None,
+        },
+        "eggs": {
+            "message": "A level <egg_lvl> raid is upcoming!",
+            "image": get_image_url("regular/eggs/<egg_lvl>.png"),
+            "link": "<gmaps>",
+            "name": "Egg",
+            "description": "A level <egg_lvl> raid will hatch at "
+            "<24h_hatch_time> (<hatch_time_left>).",
+            "caption": None,
+        },
+        "raids": {
+            "message": "Level <raid_lvl> raid available against <mon_name>!",
+            "image": get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
+            "link": "<gmaps>",
+            "name": "Raid",
+            "description": "The raid is available until <24h_raid_end>"
+            " (<raid_time_left>).",
+            "caption": None,
+        },
+        "weather": {
+            "message": "The weather has changed!",
+            "image": get_image_url(
+                "regular/weather/<weather_id_3>" "_<day_or_night_id_3>.png"
+            ),
+            "link": "<gmaps>",
+            "name": "Weather",
+            "description": "The weather around <lat>,<lng>"
+            " has changed to <weather>!",
+            "caption": None,
+        },
+        "quests": {
+            "message": "*New quest for <reward>*",
+            "image": get_image_url("regular/<quest_image>.png"),
+            "link": "<gmaps>",
+            "name": "Quest",
+            "description": "<quest_task>",
+            "caption": None,
+        },
+        "invasions": {
+            "message": "This Pokestop has been invaded by Team Rocket!",
+            "image": get_image_url("regular/invasions/<grunt_id_3>.png"),
+            "link": "<gmaps>",
+            "name": "Invasion",
+            "description": "Invasion will expire at <24h_time> (<time_left>).",
+            "caption": None,
+        },
     }
 
     # Gather settings and create alarm
@@ -105,35 +108,42 @@ class FacebookPageAlarm(Alarm):
 
         # Required Parameters
         self.__page_access_token = require_and_remove_key(
-            'page_access_token', settings, "'FacebookPage' type alarms.")
+            "page_access_token", settings, "'FacebookPage' type alarms."
+        )
         self.__client = None
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(
-            settings.pop('startup_message', "True"))
-        self.__startup_text = settings.pop('startup_text', "")
+        self.__startup_message = parse_boolean(settings.pop("startup_message", "True"))
+        self.__startup_text = settings.pop("startup_text", "")
 
         # Set Alerts
         self.__monsters = self.create_alert_settings(
-            settings.pop('monsters', {}), self._defaults['monsters'])
+            settings.pop("monsters", {}), self._defaults["monsters"]
+        )
         self.__stops = self.create_alert_settings(
-            settings.pop('stops', {}), self._defaults['stops'])
+            settings.pop("stops", {}), self._defaults["stops"]
+        )
         self.__gyms = self.create_alert_settings(
-            settings.pop('gyms', {}), self._defaults['gyms'])
+            settings.pop("gyms", {}), self._defaults["gyms"]
+        )
         self.__eggs = self.create_alert_settings(
-            settings.pop('eggs', {}), self._defaults['eggs'])
+            settings.pop("eggs", {}), self._defaults["eggs"]
+        )
         self.__raids = self.create_alert_settings(
-            settings.pop('raids', {}), self._defaults['raids'])
+            settings.pop("raids", {}), self._defaults["raids"]
+        )
         self.__weather = self.create_alert_settings(
-            settings.pop('weather', {}), self._defaults['weather'])
+            settings.pop("weather", {}), self._defaults["weather"]
+        )
         self.__quests = self.create_alert_settings(
-            settings.pop('quests', {}), self._defaults['quests'])
+            settings.pop("quests", {}), self._defaults["quests"]
+        )
         self.__invasions = self.create_alert_settings(
-            settings.pop('invasions', {}), self._defaults['invasions'])
+            settings.pop("invasions", {}), self._defaults["invasions"]
+        )
 
         #  Warn user about leftover parameters
-        reject_leftover_parameters(
-            settings, "Alarm level in FacebookPage alarm.")
+        reject_leftover_parameters(settings, "Alarm level in FacebookPage alarm.")
 
         self._log.info("FacebookPage Alarm has been created!")
 
@@ -145,42 +155,46 @@ class FacebookPageAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
-            self.post_to_wall(f"{timestamps[2]} - " +
-                              ("PokeAlarm has initialized!"
-                               if self.__startup_text == ""
-                               else self.__startup_text))
+            self.post_to_wall(
+                f"{timestamps[2]} - "
+                + (
+                    "PokeAlarm has initialized!"
+                    if self.__startup_text == ""
+                    else self.__startup_text
+                )
+            )
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
-        use_display_image = settings.pop('use_display_image', False)
+        use_display_image = settings.pop("use_display_image", False)
         alert = {
-            'message': settings.pop('message', default['message']),
-            'link': settings.pop('link', default['link']),
-            'caption': settings.pop('caption', default['caption']),
-            'description': settings.pop('description', default['description']),
-            'image': settings.pop('image', default['display_image']
-                                  if use_display_image else default['image']),
-            'name': settings.pop('name', default['name'])
+            "message": settings.pop("message", default["message"]),
+            "link": settings.pop("link", default["link"]),
+            "caption": settings.pop("caption", default["caption"]),
+            "description": settings.pop("description", default["description"]),
+            "image": settings.pop(
+                "image",
+                default["display_image"] if use_display_image else default["image"],
+            ),
+            "name": settings.pop("name", default["name"]),
         }
-        reject_leftover_parameters(
-            settings, "Alert level in FacebookPage alarm.")
+        reject_leftover_parameters(settings, "Alert level in FacebookPage alarm.")
         return alert
 
     # Post Pokemon Message
     def send_alert(self, alert, info):
-        attachment = {"link": replace(alert['link'], info)}
-        if alert['caption']:
-            attachment['caption'] = replace(alert['caption'], info)
-        if alert['description']:
-            attachment['description'] = replace(alert['description'], info)
-        if alert['image']:
-            attachment['picture'] = replace(alert['image'], info)
-        if alert['name']:
-            attachment['name'] = replace(alert['name'], info)
+        attachment = {"link": replace(alert["link"], info)}
+        if alert["caption"]:
+            attachment["caption"] = replace(alert["caption"], info)
+        if alert["description"]:
+            attachment["description"] = replace(alert["description"], info)
+        if alert["image"]:
+            attachment["picture"] = replace(alert["image"], info)
+        if alert["name"]:
+            attachment["name"] = replace(alert["name"], info)
         self.post_to_wall(
-            message=replace(alert['message'], info),
-            attachment=attachment
+            message=replace(alert["message"], info), attachment=attachment
         )
 
     # Trigger an alert based on Pokemon info
@@ -219,6 +233,7 @@ class FacebookPageAlarm(Alarm):
     def post_to_wall(self, message, attachment=None):
         args = {"message": message}
         if attachment is not None:
-            args['attachment'] = attachment
-        try_sending(self._log, self.connect, "FacebookPage",
-                    self.__client.put_wall_post, args)
+            args["attachment"] = attachment
+        try_sending(
+            self._log, self.connect, "FacebookPage", self.__client.put_wall_post, args
+        )

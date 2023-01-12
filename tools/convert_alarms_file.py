@@ -26,27 +26,32 @@ def exchange_set(settings):
     return new_settings
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("usage: convert_alarms_file.py /path/to/alarms.json")
-        print("This utility will rename your old file and write "
-              "a converted one in it's place")
+        print(
+            "This utility will rename your old file and write "
+            "a converted one in it's place"
+        )
         exit(0)
 
     contents = None
     try:
         print("Loading alarms file from {}.".format(sys.argv[1]))
-        with open(sys.argv[1], 'r') as f:
+        with open(sys.argv[1], "r") as f:
             contents = json.load(f, object_pairs_hook=OrderedDict)
     except ValueError:
-        print("Encounter a ValueError while loading the file. Make sure "
-              "your file is in the correct JSON format then try again.")
+        print(
+            "Encounter a ValueError while loading the file. Make sure "
+            "your file is in the correct JSON format then try again."
+        )
     except IOError:
-        print("Unable to find file. Please check that the file exists "
-              "and the program has the proper privileges then try again.")
+        print(
+            "Unable to find file. Please check that the file exists "
+            "and the program has the proper privileges then try again."
+        )
     except Exception as e:
-        print("An unexpected error as occurred: {} - {}"
-              .format(type(e).__name__, e))
+        print("An unexpected error as occurred: {} - {}".format(type(e).__name__, e))
     if not contents:
         exit()
 
@@ -60,16 +65,21 @@ if __name__ == '__main__':
         print("Renaming old file to {}.".format(old_path))
         os.rename(sys.argv[1], old_path)
         print("Writing to new file at {}.".format(sys.argv[1]))
-        with open(sys.argv[1], 'w') as f:
+        with open(sys.argv[1], "w") as f:
             json.dump(output, f, indent=4)
     except IOError:
-        print("Unable to write to file. Please check that the "
-              "program has the proper privileges then try again.")
+        print(
+            "Unable to write to file. Please check that the "
+            "program has the proper privileges then try again."
+        )
         exit(1)
     except Exception as e:
-        print(("An unexpected error as occurred: {} - {}"
-               "".format(type(e).__name__, e)))
+        print(
+            ("An unexpected error as occurred: {} - {}" "".format(type(e).__name__, e))
+        )
         exit(1)
 
-    print("Conversion finished! If you are a telegram user, verify your"
-          "settings as some of them have inversed.")
+    print(
+        "Conversion finished! If you are a telegram user, verify your"
+        "settings as some of them have inversed."
+    )

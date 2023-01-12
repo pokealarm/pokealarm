@@ -5,8 +5,11 @@ from twilio.rest import Client
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
-from PokeAlarm.Utils import parse_boolean, require_and_remove_key, \
-    reject_leftover_parameters
+from PokeAlarm.Utils import (
+    parse_boolean,
+    require_and_remove_key,
+    reject_leftover_parameters,
+)
 
 try_sending = Alarm.try_sending
 replace = Alarm.replace
@@ -22,38 +25,37 @@ replace = Alarm.replace
 class TwilioAlarm(Alarm):
 
     _defaults = {
-        'monsters': {
-            'message': "A wild <mon_name> has appeared! <gmaps> "
-                       "Available until <24h_time> (<time_left>)."
+        "monsters": {
+            "message": "A wild <mon_name> has appeared! <gmaps> "
+            "Available until <24h_time> (<time_left>)."
         },
-        'stops': {
-            'message': "Someone has placed a lure on a Pokestop! <gmaps>"
-                       "Lure will expire at <24h_time> (<time_left>)."
+        "stops": {
+            "message": "Someone has placed a lure on a Pokestop! <gmaps>"
+            "Lure will expire at <24h_time> (<time_left>)."
         },
-        'gyms': {
-            'message': "A Team <old_team> gym has fallen! <gmaps>"
-                       "It is now controlled by <new_team>."
+        "gyms": {
+            "message": "A Team <old_team> gym has fallen! <gmaps>"
+            "It is now controlled by <new_team>."
         },
-        'eggs': {
-            'message': "A level <egg_lvl> raid is incoming! <gmaps>"
-                       "Egg hatches <24h_hatch_time> (<hatch_time_left>)."
+        "eggs": {
+            "message": "A level <egg_lvl> raid is incoming! <gmaps>"
+            "Egg hatches <24h_hatch_time> (<hatch_time_left>)."
         },
-        'raids': {
-            'message': "Level <raid_lvl> raid against <mon_name>! <gmaps>"
-                       " Available until <24h_raid_end> (<raid_time_left>)."
+        "raids": {
+            "message": "Level <raid_lvl> raid against <mon_name>! <gmaps>"
+            " Available until <24h_raid_end> (<raid_time_left>)."
         },
-        'weather': {
-            'message': "The weather around <lat>,<lng> has"
-                       " changed to <weather>!"
+        "weather": {
+            "message": "The weather around <lat>,<lng> has" " changed to <weather>!"
         },
-        'quests': {
-            'message': "*New quest for <reward>*\n<quest_task>\n<gmaps>",
+        "quests": {
+            "message": "*New quest for <reward>*\n<quest_task>\n<gmaps>",
         },
-        'invasions': {
-            'message': "*A Pokestop has been invaded by Team Rocket!*\n"
-                       "Invasion will expire at <24h_time> (<time_left>).\n"
-                       "<gmaps>",
-        }
+        "invasions": {
+            "message": "*A Pokestop has been invaded by Team Rocket!*\n"
+            "Invasion will expire at <24h_time> (<time_left>).\n"
+            "<gmaps>",
+        },
     }
 
     # Gather settings and create alarm
@@ -62,37 +64,42 @@ class TwilioAlarm(Alarm):
 
         # Required Parameters
         self.__account_sid = require_and_remove_key(
-            'account_sid', settings, "'Twilio' type alarms.")
+            "account_sid", settings, "'Twilio' type alarms."
+        )
         self.__auth_token = require_and_remove_key(
-            'auth_token', settings, "'Twilio' type alarms.")
+            "auth_token", settings, "'Twilio' type alarms."
+        )
         self.__from_number = require_and_remove_key(
-            'from_number', settings, "'Twilio' type alarms.")
+            "from_number", settings, "'Twilio' type alarms."
+        )
         self.__to_number = require_and_remove_key(
-            'to_number', settings, "'Twilio' type alarms.")
+            "to_number", settings, "'Twilio' type alarms."
+        )
         self.__client = None
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(
-            settings.pop('startup_message', "True"))
-        self.__startup_text = settings.pop('startup_text', "")
+        self.__startup_message = parse_boolean(settings.pop("startup_message", "True"))
+        self.__startup_text = settings.pop("startup_text", "")
 
         # Optional Alert Parameters
         self.__pokemon = self.set_alert(
-            settings.pop('monsters', {}), self._defaults['monsters'])
+            settings.pop("monsters", {}), self._defaults["monsters"]
+        )
         self.__pokestop = self.set_alert(
-            settings.pop('stops', {}), self._defaults['stops'])
-        self.__gym = self.set_alert(
-            settings.pop('gyms', {}), self._defaults['gyms'])
-        self.__egg = self.set_alert(
-            settings.pop('eggs', {}), self._defaults['eggs'])
-        self.__raid = self.set_alert(
-            settings.pop('raids', {}), self._defaults['raids'])
+            settings.pop("stops", {}), self._defaults["stops"]
+        )
+        self.__gym = self.set_alert(settings.pop("gyms", {}), self._defaults["gyms"])
+        self.__egg = self.set_alert(settings.pop("eggs", {}), self._defaults["eggs"])
+        self.__raid = self.set_alert(settings.pop("raids", {}), self._defaults["raids"])
         self.__weather = self.set_alert(
-            settings.pop('weather', {}), self._defaults['weather'])
+            settings.pop("weather", {}), self._defaults["weather"]
+        )
         self.__quest = self.set_alert(
-            settings.pop('quests', {}), self._defaults['quests'])
+            settings.pop("quests", {}), self._defaults["quests"]
+        )
         self.__invasion = self.set_alert(
-            settings.pop('invasions', {}), self._defaults['invasions'])
+            settings.pop("invasions", {}), self._defaults["invasions"]
+        )
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twilio alarm.")
@@ -109,18 +116,20 @@ class TwilioAlarm(Alarm):
             self.send_sms(
                 to_num=self.__to_number,
                 from_num=self.__from_number,
-                body=("PokeAlarm activated!"
-                      if self.__startup_text == ""
-                      else self.__startup_text)
+                body=(
+                    "PokeAlarm activated!"
+                    if self.__startup_text == ""
+                    else self.__startup_text
+                ),
             )
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def set_alert(self, settings, default):
         alert = {
-            'to_number': settings.pop('to_number', self.__to_number),
-            'from_number': settings.pop('from_number', self.__from_number),
-            'message': settings.pop('message', default['message'])
+            "to_number": settings.pop("to_number", self.__to_number),
+            "from_number": settings.pop("from_number", self.__from_number),
+            "message": settings.pop("message", default["message"]),
         }
         reject_leftover_parameters(settings, "'Alert level in Twilio alarm.")
         return alert
@@ -128,9 +137,9 @@ class TwilioAlarm(Alarm):
     # Send Pokemon Info
     def send_alert(self, alert, info):
         self.send_sms(
-            to_num=alert['to_number'],
-            from_num=alert['from_number'],
-            body=replace(alert['message'], info)
+            to_num=alert["to_number"],
+            from_num=alert["from_number"],
+            body=replace(alert["message"], info),
         )
 
     # Trigger an alert based on Pokemon info
@@ -170,11 +179,7 @@ class TwilioAlarm(Alarm):
         if not isinstance(to_num, list):
             to_num = [to_num]
         for num in to_num:
-            args = {
-                'to': num,
-                'from_': from_num,
-                'body': body
-            }
+            args = {"to": num, "from_": from_num, "body": body}
             try_sending(
-                self._log, self.connect, "Twilio",
-                self.__client.messages.create, args)
+                self._log, self.connect, "Twilio", self.__client.messages.create, args
+            )

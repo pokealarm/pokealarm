@@ -6,7 +6,6 @@ from tests.filters import MockManager, generic_filter_test
 
 
 class TestGymFilter(unittest.TestCase):
-
     @classmethod
     def setUp(cls):
         cls._mgr = MockManager()
@@ -16,11 +15,11 @@ class TestGymFilter(unittest.TestCase):
         pass
 
     def gen_filter(self, settings):
-        """ Generate a gym filter with given settings. """
+        """Generate a gym filter with given settings."""
         return Filters.GymFilter(self._mgr, "testfilter", settings)
 
     def gen_event(self, values):
-        """ Generate a generic gym, overriding with an specific values. """
+        """Generate a generic gym, overriding with an specific values."""
         settings = {
             "id": "OWNmOTFmMmM0YTY3NGQwYjg0Y2I1N2JlZjU4OWRkMTYuMTY=",
             "url": "???",
@@ -29,68 +28,72 @@ class TestGymFilter(unittest.TestCase):
             "team": 1,
             "latitude": 37.7876146,
             "longitude": -122.390624,
-            "pokemon": [{
-                "num_upgrades": 0,
-                "move_1": 234,
-                "move_2": 99,
-                "additional_cp_multiplier": 0,
-                "iv_defense": 11,
-                "weight": 14.138585090637207,
-                "pokemon_id": 63,
-                "stamina_max": 46,
-                "cp_multiplier": 0.39956727623939514,
-                "height": 0.7160492539405823,
-                "stamina": 46,
-                "pokemon_uid": 9278614152997308833,
-                "deployment_time": 1506894280,
-                "iv_attack": 12,
-                "trainer_name": "SportyGator",
-                "trainer_level": 18,
-                "cp": 138,
-                "iv_stamina": 8,
-                "cp_decayed": 125
-            }, {
-                "num_upgrades": 0,
-                "move_1": 234,
-                "move_2": 87,
-                "additional_cp_multiplier": 0,
-                "iv_defense": 12,
-                "weight": 3.51259708404541,
-                "pokemon_id": 36,
-                "stamina_max": 250,
-                "cp_multiplier": 0.6121572852134705,
-                "height": 1.4966495037078857,
-                "stamina": 250,
-                "pokemon_uid": 6103380929145641793,
-                "deployment_time": 1506894733,
-                "iv_attack": 5,
-                "trainer_name": "Meckelangelo",
-                "trainer_level": 22,
-                "cp": 1353,
-                "iv_stamina": 15,
-                "cp_decayed": 1024
-            }, {
-                "num_upgrades": 9,
-                "move_1": 224,
-                "move_2": 32,
-                "additional_cp_multiplier": 0.06381925195455551,
-                "iv_defense": 13,
-                "weight": 60.0,
-                "pokemon_id": 31,
-                "stamina_max": 252,
-                "cp_multiplier": 0.5974000096321106,
-                "height": 1.0611374378204346,
-                "stamina": 252,
-                "pokemon_uid": 3580711458547635980,
-                "deployment_time": 1506894763,
-                "iv_attack": 10,
-                "trainer_name": "Plaidflamingo",
-                "trainer_level": 23,
-                "cp": 1670,
-                "iv_stamina": 11,
-                "cp_decayed": 1435,
-                "is_ex_raid_eligible": None
-            }]
+            "pokemon": [
+                {
+                    "num_upgrades": 0,
+                    "move_1": 234,
+                    "move_2": 99,
+                    "additional_cp_multiplier": 0,
+                    "iv_defense": 11,
+                    "weight": 14.138585090637207,
+                    "pokemon_id": 63,
+                    "stamina_max": 46,
+                    "cp_multiplier": 0.39956727623939514,
+                    "height": 0.7160492539405823,
+                    "stamina": 46,
+                    "pokemon_uid": 9278614152997308833,
+                    "deployment_time": 1506894280,
+                    "iv_attack": 12,
+                    "trainer_name": "SportyGator",
+                    "trainer_level": 18,
+                    "cp": 138,
+                    "iv_stamina": 8,
+                    "cp_decayed": 125,
+                },
+                {
+                    "num_upgrades": 0,
+                    "move_1": 234,
+                    "move_2": 87,
+                    "additional_cp_multiplier": 0,
+                    "iv_defense": 12,
+                    "weight": 3.51259708404541,
+                    "pokemon_id": 36,
+                    "stamina_max": 250,
+                    "cp_multiplier": 0.6121572852134705,
+                    "height": 1.4966495037078857,
+                    "stamina": 250,
+                    "pokemon_uid": 6103380929145641793,
+                    "deployment_time": 1506894733,
+                    "iv_attack": 5,
+                    "trainer_name": "Meckelangelo",
+                    "trainer_level": 22,
+                    "cp": 1353,
+                    "iv_stamina": 15,
+                    "cp_decayed": 1024,
+                },
+                {
+                    "num_upgrades": 9,
+                    "move_1": 224,
+                    "move_2": 32,
+                    "additional_cp_multiplier": 0.06381925195455551,
+                    "iv_defense": 13,
+                    "weight": 60.0,
+                    "pokemon_id": 31,
+                    "stamina_max": 252,
+                    "cp_multiplier": 0.5974000096321106,
+                    "height": 1.0611374378204346,
+                    "stamina": 252,
+                    "pokemon_uid": 3580711458547635980,
+                    "deployment_time": 1506894763,
+                    "iv_attack": 10,
+                    "trainer_name": "Plaidflamingo",
+                    "trainer_level": 23,
+                    "cp": 1670,
+                    "iv_stamina": 11,
+                    "cp_decayed": 1435,
+                    "is_ex_raid_eligible": None,
+                },
+            ],
         }
         settings.update(values)
         return Events.GymEvent(settings)
@@ -139,10 +142,8 @@ class TestGymFilter(unittest.TestCase):
 
     def test_missing_info(self):
         # Create the filters
-        missing = self.gen_filter(
-            {"max_dist": "inf", "is_missing_info": True})
-        not_missing = self.gen_filter(
-            {"max_dist": "inf", "is_missing_info": False})
+        missing = self.gen_filter({"max_dist": "inf", "is_missing_info": True})
+        not_missing = self.gen_filter({"max_dist": "inf", "is_missing_info": False})
 
         # Test missing
         miss_event = self.gen_event({})
@@ -157,8 +158,7 @@ class TestGymFilter(unittest.TestCase):
 
     def test_gym_distance(self):
         # Create the filter
-        filt = self.gen_filter(
-            {"max_dist": 2000, "min_dist": 400})
+        filt = self.gen_filter({"max_dist": 2000, "min_dist": 400})
 
         # Test passing
         gym = self.gen_event({})
@@ -190,48 +190,54 @@ class TestGymFilter(unittest.TestCase):
 
     def test_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'geofences': ['NewYork']})
+        filt = self.gen_filter({"geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
     def test_exclude_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'exclude_geofences': ['NewYork']})
+        filt = self.gen_filter({"exclude_geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

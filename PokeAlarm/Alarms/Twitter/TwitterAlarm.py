@@ -7,14 +7,19 @@ from twitter import Twitter, OAuth
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
-from PokeAlarm.Utils import parse_boolean, get_time_as_str, \
-    require_and_remove_key, reject_leftover_parameters
+from PokeAlarm.Utils import (
+    parse_boolean,
+    get_time_as_str,
+    require_and_remove_key,
+    reject_leftover_parameters,
+)
 
 try_sending = Alarm.try_sending
 replace = Alarm.replace
 url_regex = re.compile(
-    r"(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]"
-    r"@!\$&'\(\)\*\+,;=.]+", re.I)
+    r"(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]" r"@!\$&'\(\)\*\+,;=.]+",
+    re.I,
+)
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ATTENTION! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -27,37 +32,36 @@ url_regex = re.compile(
 class TwitterAlarm(Alarm):
 
     _defaults = {
-        'monsters': {
-            'status': "A wild <mon_name> has appeared! "
-                      "Available until <24h_time> (<time_left>). <gmaps>"
+        "monsters": {
+            "status": "A wild <mon_name> has appeared! "
+            "Available until <24h_time> (<time_left>). <gmaps>"
         },
-        'stops': {
-            'status': "Someone has placed a lure on a Pokestop! "
-                      "Lure will expire at <24h_time> (<time_left>). <gmaps>"
+        "stops": {
+            "status": "Someone has placed a lure on a Pokestop! "
+            "Lure will expire at <24h_time> (<time_left>). <gmaps>"
         },
-        'gyms': {
-            'status': "A Team <old_team> gym has fallen! "
-                      "It is now controlled by <new_team>. <gmaps>"
+        "gyms": {
+            "status": "A Team <old_team> gym has fallen! "
+            "It is now controlled by <new_team>. <gmaps>"
         },
-        'eggs': {
-            'status': "Level <egg_lvl> raid incoming! Hatches at "
-                      "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
+        "eggs": {
+            "status": "Level <egg_lvl> raid incoming! Hatches at "
+            "<24h_hatch_time> (<hatch_time_left>). <gmaps>"
         },
-        'raids': {
-            'status': "Raid <raid_lvl> against <mon_name>! Available until "
-                      "<24h_raid_end> (<raid_time_left>). <gmaps>"
+        "raids": {
+            "status": "Raid <raid_lvl> against <mon_name>! Available until "
+            "<24h_raid_end> (<raid_time_left>). <gmaps>"
         },
-        'weather': {
-            'status': "The weather around <lat>,<lng> has changed"
-                      " to <weather>!"
+        "weather": {
+            "status": "The weather around <lat>,<lng> has changed" " to <weather>!"
         },
-        'quests': {
-            'status': "*New quest for <reward>*\n<quest_task>\n<gmaps>",
+        "quests": {
+            "status": "*New quest for <reward>*\n<quest_task>\n<gmaps>",
         },
         "invasions": {
-            'status': "A Pokestop has been invaded by Team Rocket!\n"
-                      "Invasion will expire at <24h_time> (<time_left>).",
-        }
+            "status": "A Pokestop has been invaded by Team Rocket!\n"
+            "Invasion will expire at <24h_time> (<time_left>).",
+        },
     }
 
     # Gather settings and create alarm
@@ -66,37 +70,48 @@ class TwitterAlarm(Alarm):
 
         # Required Parameters
         self.__token = require_and_remove_key(
-            'access_token', settings, "'Twitter' type alarms.")
+            "access_token", settings, "'Twitter' type alarms."
+        )
         self.__token_key = require_and_remove_key(
-            'access_secret', settings, "'Twitter' type alarms.")
+            "access_secret", settings, "'Twitter' type alarms."
+        )
         self.__con_secret = require_and_remove_key(
-            'consumer_key', settings, "'Twitter' type alarms.")
+            "consumer_key", settings, "'Twitter' type alarms."
+        )
         self.__con_secret_key = require_and_remove_key(
-            'consumer_secret', settings, "'Twitter' type alarms.")
+            "consumer_secret", settings, "'Twitter' type alarms."
+        )
         self.__client = None
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(
-            settings.pop('startup_message', "True"))
-        self.__startup_text = settings.pop('startup_text', "")
+        self.__startup_message = parse_boolean(settings.pop("startup_message", "True"))
+        self.__startup_text = settings.pop("startup_text", "")
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('monsters', {}), self._defaults['monsters'])
+            settings.pop("monsters", {}), self._defaults["monsters"]
+        )
         self.__pokestop = self.create_alert_settings(
-            settings.pop('stops', {}), self._defaults['stops'])
+            settings.pop("stops", {}), self._defaults["stops"]
+        )
         self.__gym = self.create_alert_settings(
-            settings.pop('gyms', {}), self._defaults['gyms'])
+            settings.pop("gyms", {}), self._defaults["gyms"]
+        )
         self.__egg = self.create_alert_settings(
-            settings.pop('eggs', {}), self._defaults['eggs'])
+            settings.pop("eggs", {}), self._defaults["eggs"]
+        )
         self.__raid = self.create_alert_settings(
-            settings.pop('raids', {}), self._defaults['raids'])
+            settings.pop("raids", {}), self._defaults["raids"]
+        )
         self.__weather = self.create_alert_settings(
-            settings.pop('weather', {}), self._defaults['weather'])
+            settings.pop("weather", {}), self._defaults["weather"]
+        )
         self.__quest = self.create_alert_settings(
-            settings.pop('quests', {}), self._defaults['quests'])
+            settings.pop("quests", {}), self._defaults["quests"]
+        )
         self.__invasion = self.create_alert_settings(
-            settings.pop('invasions', {}), self._defaults['invasions'])
+            settings.pop("invasions", {}), self._defaults["invasions"]
+        )
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Twitter alarm.")
@@ -106,36 +121,39 @@ class TwitterAlarm(Alarm):
     # Establish connection with Twitter
     def connect(self):
         self.__client = Twitter(
-            auth=OAuth(self.__token, self.__token_key, self.__con_secret,
-                       self.__con_secret_key))
+            auth=OAuth(
+                self.__token, self.__token_key, self.__con_secret, self.__con_secret_key
+            )
+        )
 
     # Send a start up tweet
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
             args = {
-                "status": (f"{timestamps[2]} - " +
-                           ("PokeAlarm has initialized!"
-                               if self.__startup_text == ""
-                               else self.__startup_text))
+                "status": (
+                    f"{timestamps[2]} - "
+                    + (
+                        "PokeAlarm has initialized!"
+                        if self.__startup_text == ""
+                        else self.__startup_text
+                    )
+                )
             }
-            try_sending(
-                self._log, self.connect, "Twitter", self.send_tweet, args)
+            try_sending(self._log, self.connect, "Twitter", self.send_tweet, args)
 
             self._log.info("Startup tweet sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
-        alert = {
-            'status': settings.pop('status', default['status'])
-        }
+        alert = {"status": settings.pop("status", default["status"])}
         reject_leftover_parameters(settings, "'Alert level in Twitter alarm.")
         return alert
 
     # Shortens the tweet down, calculating for urls being shortened
     def shorten(self, message, limit=280, url_length=23):
         msg = ""
-        for word in re.split(r'\s', message):
+        for word in re.split(r"\s", message):
             word_len = len(word)
             if url_regex.match(word):  # If it's a url
                 if limit <= url_length:  # if the whole thing doesn't fit
@@ -150,9 +168,7 @@ class TwitterAlarm(Alarm):
         return msg[1:]  # Strip the space
 
     def send_alert(self, alert, info):
-        args = {
-            "status": self.shorten(replace(alert['status'], info))
-        }
+        args = {"status": self.shorten(replace(alert["status"], info))}
         try_sending(self._log, self.connect, "Twitter", self.send_tweet, args)
 
     # Trigger an alert based on Pokemon info

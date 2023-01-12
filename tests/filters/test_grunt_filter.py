@@ -8,7 +8,6 @@ from tests.filters import MockManager  # , generic_filter_test
 
 
 class TestGruntFilter(unittest.TestCase):
-
     @classmethod
     def setUp(cls):
         cls._mgr = MockManager()
@@ -18,7 +17,7 @@ class TestGruntFilter(unittest.TestCase):
         pass
 
     def gen_filter(self, settings):
-        """ Generate a generic filter with given settings. """
+        """Generate a generic filter with given settings."""
         return Filters.GruntFilter(self._mgr, "testfilter", settings)
 
     def gen_event(self, values):
@@ -32,15 +31,14 @@ class TestGruntFilter(unittest.TestCase):
             "longitude": -122.390624,
             "last_modified_time": 1572241600,
             "incident_expiration": 1572241600,
-            "grunt_type": 6
+            "grunt_type": 6,
         }
         settings.update(values)
         return Events.GruntEvent(settings)
 
     def test_distance(self):
         # Create the filter
-        filt = self.gen_filter(
-            {"max_dist": 2000, "min_dist": 400})
+        filt = self.gen_filter({"max_dist": 2000, "min_dist": 400})
 
         # Test passing
         egg = self.gen_event({})
@@ -56,10 +54,8 @@ class TestGruntFilter(unittest.TestCase):
 
     def test_missing_info(self):
         # Create the filters
-        missing = self.gen_filter(
-            {"max_dist": "inf", "is_missing_info": True})
-        not_missing = self.gen_filter(
-            {"max_dist": "inf", "is_missing_info": False})
+        missing = self.gen_filter({"max_dist": "inf", "is_missing_info": True})
+        not_missing = self.gen_filter({"max_dist": "inf", "is_missing_info": False})
 
         # Test missing
         miss_event = self.gen_event({})
@@ -74,65 +70,70 @@ class TestGruntFilter(unittest.TestCase):
 
     def test_time_left(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'min_time_left': 1000, 'max_time_left': 8000})
+        filt = self.gen_filter({"min_time_left": 1000, "max_time_left": 8000})
 
         # Test passing
         for s in [2000, 4000, 6000]:
-            d = (datetime.now() + timedelta(seconds=s))
+            d = datetime.now() + timedelta(seconds=s)
             t = time.mktime(d.timetuple())
             event = self.gen_event({"incident_expiration": t})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
         for s in [200, 999, 8001]:
-            d = (datetime.now() + timedelta(seconds=s))
+            d = datetime.now() + timedelta(seconds=s)
             t = time.mktime(d.timetuple())
             event = self.gen_event({"incident_expiration": t})
             self.assertFalse(filt.check_event(event))
 
     def test_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'geofences': ['NewYork']})
+        filt = self.gen_filter({"geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
     def test_exclude_geofences(self):
         # Create the filter
-        filt = self.gen_filter(
-            {'exclude_geofences': ['NewYork']})
+        filt = self.gen_filter({"exclude_geofences": ["NewYork"]})
 
         geofences_ref = load_geofence_file("tests/filters/test_geofences.txt")
         filt._check_list[0].override_geofences_ref(geofences_ref)
 
         # Test passing
-        for (lat, lng) in [(38.920936, -77.047371), (48.858093, 2.294694),
-                           (-37.809022, 144.959003)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (38.920936, -77.047371),
+            (48.858093, 2.294694),
+            (-37.809022, 144.959003),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertTrue(filt.check_event(event))
 
         # Test failing
-        for (lat, lng) in [(40.689256, -74.044510), (40.630720, -74.087673),
-                           (40.686905, -73.853559)]:
-            event = self.gen_event({"latitude": lat,
-                                    "longitude": lng})
+        for (lat, lng) in [
+            (40.689256, -74.044510),
+            (40.630720, -74.087673),
+            (40.686905, -73.853559),
+        ]:
+            event = self.gen_event({"latitude": lat, "longitude": lng})
             self.assertFalse(filt.check_event(event))
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,5 +192,5 @@ class TestGruntFilter(unittest.TestCase):
         self.fail_vals = [23, 49]"""
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

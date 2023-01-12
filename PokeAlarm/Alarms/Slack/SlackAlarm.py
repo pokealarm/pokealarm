@@ -6,9 +6,14 @@ from slack import WebClient
 
 # Local Imports
 from PokeAlarm.Alarms import Alarm
-from PokeAlarm.Utils import parse_boolean, get_gmaps_static_url, \
-    require_and_remove_key, reject_leftover_parameters, get_image_url, \
-    sign_gmaps_static_url
+from PokeAlarm.Utils import (
+    parse_boolean,
+    get_gmaps_static_url,
+    require_and_remove_key,
+    reject_leftover_parameters,
+    get_image_url,
+    sign_gmaps_static_url,
+)
 
 try_sending = Alarm.try_sending
 replace = Alarm.replace
@@ -24,70 +29,68 @@ replace = Alarm.replace
 class SlackAlarm(Alarm):
 
     _defaults = {
-        'monsters': {
-            'username': "<mon_name>",
-            'icon_url': get_image_url(
-                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'display_icon_url': get_image_url(
-                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"),
-            'title': "A wild <mon_name> has appeared!",
-            'url': "<gmaps>",
-            'body': "Available until <24h_time> (<time_left>)."
+        "monsters": {
+            "username": "<mon_name>",
+            "icon_url": get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
+            "display_icon_url": get_image_url(
+                "regular/monsters/<display_mon_id_3>_<display_form_id_3>.png"
+            ),
+            "title": "A wild <mon_name> has appeared!",
+            "url": "<gmaps>",
+            "body": "Available until <24h_time> (<time_left>).",
         },
-        'stops': {
-            'username': "Pokestop",
-            'icon_url': get_image_url("regular/stop/<lure_type_id_3>.png"),
-            'title': "Someone has placed a lure on a Pokestop!",
-            'url': "<gmaps>",
-            'body': "Lure will expire at <24h_time> (<time_left>)."
+        "stops": {
+            "username": "Pokestop",
+            "icon_url": get_image_url("regular/stop/<lure_type_id_3>.png"),
+            "title": "Someone has placed a lure on a Pokestop!",
+            "url": "<gmaps>",
+            "body": "Lure will expire at <24h_time> (<time_left>).",
         },
-        'gyms': {
-            'username': "<new_team> Gym Alerts",
-            'icon_url': get_image_url("regular/gyms/<new_team_id>.png"),
-            'title': "A Team <old_team> gym has fallen!",
-            'url': "<gmaps>",
-            'body': "It is now controlled by <new_team>."
+        "gyms": {
+            "username": "<new_team> Gym Alerts",
+            "icon_url": get_image_url("regular/gyms/<new_team_id>.png"),
+            "title": "A Team <old_team> gym has fallen!",
+            "url": "<gmaps>",
+            "body": "It is now controlled by <new_team>.",
         },
-        'eggs': {
-            'username': "Egg",
-            'icon_url': get_image_url("regular/eggs/<egg_lvl>.png"),
-            'title': "A level <egg_lvl> raid is incoming!",
-            'url': "<gmaps>",
-            'body': "The egg will hatch <24h_hatch_time> (<hatch_time_left>)."
+        "eggs": {
+            "username": "Egg",
+            "icon_url": get_image_url("regular/eggs/<egg_lvl>.png"),
+            "title": "A level <egg_lvl> raid is incoming!",
+            "url": "<gmaps>",
+            "body": "The egg will hatch <24h_hatch_time> (<hatch_time_left>).",
         },
-        'raids': {
-            'username': "<mon_name> Raid",
-            'icon_url': get_image_url(
-                "regular/monsters/<mon_id_3>_<form_id_3>.png"),
-            'title': "Level <raid_lvl> raid is available against <mon_name>!",
-            'url': "<gmaps>",
-            'body': "The raid is available until <24h_raid_end> "
-                    "(<raid_time_left>)."
+        "raids": {
+            "username": "<mon_name> Raid",
+            "icon_url": get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
+            "title": "Level <raid_lvl> raid is available against <mon_name>!",
+            "url": "<gmaps>",
+            "body": "The raid is available until <24h_raid_end> " "(<raid_time_left>).",
         },
-        'weather': {
-            'username': "Weather",
-            'icon_url': get_image_url("regular/weather/<weather_id_3>_"
-                                      "<day_or_night_id_3>.png"),
-            'title': "The weather has changed!",
-            'url': "<gmaps>",
-            'body': "The weather around <lat>,<lng> has changed to <weather>!"
+        "weather": {
+            "username": "Weather",
+            "icon_url": get_image_url(
+                "regular/weather/<weather_id_3>_" "<day_or_night_id_3>.png"
+            ),
+            "title": "The weather has changed!",
+            "url": "<gmaps>",
+            "body": "The weather around <lat>,<lng> has changed to <weather>!",
         },
-        'quests': {
-            'username': "Quest",
-            'icon_url': get_image_url("regular/<quest_image>.png"),
-            'title': "New Quest Found!",
-            'url': "<gmaps>",
-            'body': "New quest for <reward>\nTask: <quest_task>"
+        "quests": {
+            "username": "Quest",
+            "icon_url": get_image_url("regular/<quest_image>.png"),
+            "title": "New Quest Found!",
+            "url": "<gmaps>",
+            "body": "New quest for <reward>\nTask: <quest_task>",
         },
-        'invasions': {
-            'username': "Invasion",
-            'content': "",
-            'icon_url':
-                get_image_url("regular/invasions/<grunt_id_3>.png"),
-            'title': "This Pokestop has been invaded by Team Rocket!",
-            'url': "<gmaps>",
-            'body': "Invasion will expire at <24h_time> (<time_left>)."
-        }
+        "invasions": {
+            "username": "Invasion",
+            "content": "",
+            "icon_url": get_image_url("regular/invasions/<grunt_id_3>.png"),
+            "title": "This Pokestop has been invaded by Team Rocket!",
+            "url": "<gmaps>",
+            "body": "Invasion will expire at <24h_time> (<time_left>).",
+        },
     }
 
     # Gather settings and create alarm
@@ -96,37 +99,46 @@ class SlackAlarm(Alarm):
 
         # Required Parameters
         self.__api_key = require_and_remove_key(
-            'api_key', settings, "'Slack' type alarms.")
-        self.__default_channel = self.channel_format(require_and_remove_key(
-            'channel', settings, "'Slack' type alarms."))
+            "api_key", settings, "'Slack' type alarms."
+        )
+        self.__default_channel = self.channel_format(
+            require_and_remove_key("channel", settings, "'Slack' type alarms.")
+        )
         self.__client = None
         self.__channels = {}
 
         # Optional Alarm Parameters
-        self.__startup_message = parse_boolean(
-            settings.pop('startup_message', "True"))
-        self.__startup_text = settings.pop('startup_text', "")
-        self.__map = settings.pop('map', {})
+        self.__startup_message = parse_boolean(settings.pop("startup_message", "True"))
+        self.__startup_text = settings.pop("startup_text", "")
+        self.__map = settings.pop("map", {})
         self.__static_map_key = static_map_key
         self.__signing_secret_key = signing_secret_key
 
         # Optional Alert Parameters
         self.__pokemon = self.create_alert_settings(
-            settings.pop('monsters', {}), self._defaults['monsters'])
+            settings.pop("monsters", {}), self._defaults["monsters"]
+        )
         self.__pokestop = self.create_alert_settings(
-            settings.pop('stops', {}), self._defaults['stops'])
+            settings.pop("stops", {}), self._defaults["stops"]
+        )
         self.__gym = self.create_alert_settings(
-            settings.pop('gyms', {}), self._defaults['gyms'])
+            settings.pop("gyms", {}), self._defaults["gyms"]
+        )
         self.__egg = self.create_alert_settings(
-            settings.pop('eggs', {}), self._defaults['eggs'])
+            settings.pop("eggs", {}), self._defaults["eggs"]
+        )
         self.__raid = self.create_alert_settings(
-            settings.pop('raids', {}), self._defaults['raids'])
+            settings.pop("raids", {}), self._defaults["raids"]
+        )
         self.__weather = self.create_alert_settings(
-            settings.pop('weather', {}), self._defaults['weather'])
+            settings.pop("weather", {}), self._defaults["weather"]
+        )
         self.__quests = self.create_alert_settings(
-            settings.pop('quests', {}), self._defaults['quests'])
+            settings.pop("quests", {}), self._defaults["quests"]
+        )
         self.__invasions = self.create_alert_settings(
-            settings.pop('invasions', {}), self._defaults['invasions'])
+            settings.pop("invasions", {}), self._defaults["invasions"]
+        )
 
         # Warn user about leftover parameters
         reject_leftover_parameters(settings, "'Alarm level in Slack alarm.")
@@ -141,27 +153,36 @@ class SlackAlarm(Alarm):
     # Send a message letting the channel know that this alarm started
     def startup_message(self):
         if self.__startup_message:
-            self.send_message(self.__default_channel, username="PokeAlarm",
-                              text=("PokeAlarm activated!"
-                                    if self.__startup_text == ""
-                                    else self.__startup_text))
+            self.send_message(
+                self.__default_channel,
+                username="PokeAlarm",
+                text=(
+                    "PokeAlarm activated!"
+                    if self.__startup_text == ""
+                    else self.__startup_text
+                ),
+            )
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert
     def create_alert_settings(self, settings, default):
-        map = settings.pop('map', self.__map)
-        use_display_icon = settings.pop('use_display_icon', False)
+        map = settings.pop("map", self.__map)
+        use_display_icon = settings.pop("use_display_icon", False)
         alert = {
-            'channel': settings.pop('channel', self.__default_channel),
-            'username': settings.pop('username', default['username']),
-            'icon_url': settings.pop('icon_url', default['display_icon_url']
-                                     if use_display_icon
-                                     else default['icon_url']),
-            'title': settings.pop('title', default['title']),
-            'url': settings.pop('url', default['url']),
-            'body': settings.pop('body', default['body']),
-            'map': map if isinstance(map, str) else
-            get_gmaps_static_url(map, self.__static_map_key)
+            "channel": settings.pop("channel", self.__default_channel),
+            "username": settings.pop("username", default["username"]),
+            "icon_url": settings.pop(
+                "icon_url",
+                default["display_icon_url"]
+                if use_display_icon
+                else default["icon_url"],
+            ),
+            "title": settings.pop("title", default["title"]),
+            "url": settings.pop("url", default["url"]),
+            "body": settings.pop("body", default["body"]),
+            "map": map
+            if isinstance(map, str)
+            else get_gmaps_static_url(map, self.__static_map_key),
         }
         reject_leftover_parameters(settings, "'Alert level in Slack alarm.")
         return alert
@@ -169,33 +190,30 @@ class SlackAlarm(Alarm):
     # Send Alert to Slack
     def send_alert(self, alert, info):
         attachments = None
-        if alert['map'] is not None:
+        if alert["map"] is not None:
             static_map_url = ""
-            if not isinstance(alert['map'], str):
-                coords = {
-                    'lat': info['lat'],
-                    'lng': info['lng']
-                }
-                static_map_url = replace(alert['map'], coords)
+            if not isinstance(alert["map"], str):
+                coords = {"lat": info["lat"], "lng": info["lng"]}
+                static_map_url = replace(alert["map"], coords)
             else:
-                static_map_url = replace(alert['map'], info)
+                static_map_url = replace(alert["map"], info)
                 if self.__signing_secret_key is not None:
                     static_map_url = sign_gmaps_static_url(
-                        static_map_url, self.__signing_secret_key)
+                        static_map_url, self.__signing_secret_key
+                    )
 
-            attachments = [{
-                'fallback': 'Map_Preview',
-                'image_url': static_map_url
-            }]
+            attachments = [{"fallback": "Map_Preview", "image_url": static_map_url}]
 
         self.send_message(
-            channel=replace(alert['channel'], info),
-            username=replace(alert['username'], info),
-            text='<{}|{}> - {}'.format(
-                replace(alert['url'], info), replace(alert['title'], info),
-                replace(alert['body'], info)),
-            icon_url=replace(alert['icon_url'], info),
-            attachments=attachments
+            channel=replace(alert["channel"], info),
+            username=replace(alert["username"], info),
+            text="<{}|{}> - {}".format(
+                replace(alert["url"], info),
+                replace(alert["title"], info),
+                replace(alert["body"], info),
+            ),
+            icon_url=replace(alert["icon_url"], info),
+            attachments=attachments,
         )
 
     # Trigger an alert based on Pokemon info
@@ -234,10 +252,11 @@ class SlackAlarm(Alarm):
     def update_channels(self):
         self.__channels = {}
         response = self.__client.conversations_list()
-        for channel in response.data['channels']:
-            self.__channels[channel['name']] = channel['id']
-        self._log.debug("Detected the following Slack channnels: {}" .format(
-            self.__channels))
+        for channel in response.data["channels"]:
+            self.__channels[channel["name"]] = channel["id"]
+        self._log.debug(
+            "Detected the following Slack channnels: {}".format(self.__channels)
+        )
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
@@ -246,29 +265,30 @@ class SlackAlarm(Alarm):
             self._log.error(
                 "Detected no channel with the name '{}'. "
                 "Trying the default channel '{}' instead."
-                "".format(channel, self.__default_channel))
+                "".format(channel, self.__default_channel)
+            )
             return self.__default_channel
         return channel
 
     # Send a message to Slack
-    def send_message(self, channel, username, text,
-                     icon_url=None, attachments=None):
+    def send_message(self, channel, username, text, icon_url=None, attachments=None):
         args = {
             "channel": self.get_channel(channel),
             "username": username,
-            "text": text
+            "text": text,
         }
         if icon_url is not None:
-            args['icon_url'] = icon_url
+            args["icon_url"] = icon_url
         if attachments is not None:
-            args['attachments'] = attachments
-        try_sending(self._log, self.connect, "Slack",
-                    self.__client.chat_postMessage, args)
+            args["attachments"] = attachments
+        try_sending(
+            self._log, self.connect, "Slack", self.__client.chat_postMessage, args
+        )
 
     # Returns a string s that is in proper channel format
     @staticmethod
     def channel_format(name):
-        if name[0] == '#':  # Remove # if added
+        if name[0] == "#":  # Remove # if added
             name = name[1:]
         name = name.replace("\u2642", "m").replace("\u2640", "f").lower()
         return re.sub("[^_a-z0-9-]+", "", name)

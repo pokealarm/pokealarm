@@ -4,11 +4,12 @@ import logging
 import sys
 import traceback
 from collections import OrderedDict
+
 # 3rd Party Imports
 # Local Imports
 
 
-log = logging.getLogger('Geofence')
+log = logging.getLogger("Geofence")
 
 
 # Load in a geofence file
@@ -16,9 +17,10 @@ def load_geofence_file(file_path):
     try:
         geofences = OrderedDict()
         name_pattern = re.compile(r"(?<=\[)([^]]+)(?=\])")
-        coor_patter = re.compile(r"[-+]?[0-9]*\.?[0-9]*"
-                                 + r"[ \t]*,[ \t]*" + r"[-+]?[0-9]*\.?[0-9]*")
-        with open(file_path, 'r') as f:
+        coor_patter = re.compile(
+            r"[-+]?[0-9]*\.?[0-9]*" + r"[ \t]*,[ \t]*" + r"[-+]?[0-9]*\.?[0-9]*"
+        )
+        with open(file_path, "r") as f:
             lines = f.read().splitlines()
         name = "geofence"
         points = []
@@ -35,19 +37,24 @@ def load_geofence_file(file_path):
                 lat, lng = map(float, line.split(","))
                 points.append([lat, lng])
             else:
-                log.error("Geofence was unable to parse this line: "
-                          + "  {}".format(line))
+                log.error(
+                    "Geofence was unable to parse this line: " + "  {}".format(line)
+                )
                 log.error("All lines should be either '[name]' or 'lat,lng'.")
                 sys.exit(1)
         geofences[name] = Geofence(name, points)
         log.info("Geofence {} added!".format(name))
         return geofences
     except IOError:
-        log.error("IOError: Please make sure a file with read/write "
-                  + "permissions exist at {}".format(file_path))
+        log.error(
+            "IOError: Please make sure a file with read/write "
+            + "permissions exist at {}".format(file_path)
+        )
     except Exception as e:
-        log.error("Encountered error while loading Geofence: "
-                  + "{}: {}".format(type(e).__name__, e))
+        log.error(
+            "Encountered error while loading Geofence: "
+            + "{}: {}".format(type(e).__name__, e)
+        )
     log.debug("Stack trace: \n {}".format(traceback.format_exc()))
     sys.exit(1)
 
@@ -75,8 +82,7 @@ class Geofence(object):
     # is inside the polygon, else false
     def contains(self, x, y):
         # Quick check the boundary box of the entire polygon
-        if self.__max_x < x or x < self.__min_x \
-                or self.__max_y < y or y < self.__min_y:
+        if self.__max_x < x or x < self.__min_x or self.__max_y < y or y < self.__min_y:
             return False
 
         # If it is inside the boundary box, use a raycast
