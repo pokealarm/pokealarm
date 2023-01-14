@@ -253,10 +253,13 @@ class DiscordAlarm(Alarm):
                     "title": replace(alert["title"], info),
                     "url": replace(alert["url"], info),
                     "description": replace(alert["body"], info),
-                    "thumbnail": {"url": replace(alert["icon_url"], info)},
                     "fields": self.replace_fields(alert["fields"], info),
                 }
             ]
+
+            thumbnail_url = replace(alert["icon_url"], info)
+            if thumbnail_url != "":
+                payload["embeds"][0]["thumbnail"] = {"url": thumbnail_url}
 
             if alert["map"] is not None:
                 static_map_url = ""
@@ -270,10 +273,22 @@ class DiscordAlarm(Alarm):
                             static_map_url, self.__signing_secret_key
                         )
 
-                payload["embeds"][0]["image"] = {"url": static_map_url}
+                if static_map_url != "":
+                    payload["embeds"][0]["image"] = {"url": static_map_url}
 
             if "timestamp" in alert:
                 payload["embeds"][0]["timestamp"] = replace(alert["timestamp"], info)
+
+        # Remove empty keys because Discord doesn't accept them
+        for key in list(payload):
+            if payload[key] == "":
+                payload.pop(key)
+
+        if "embeds" in payload:
+            for key in list(payload["embeds"]):
+                if payload["embeds"][key] == "":
+                    payload["embeds"].pop(key)
+
         args = {"url": replace(alert["webhook_url"], info), "payload": payload}
 
         try_sending(
