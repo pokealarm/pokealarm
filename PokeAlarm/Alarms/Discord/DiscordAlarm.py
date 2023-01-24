@@ -285,9 +285,9 @@ class DiscordAlarm(Alarm):
                 payload.pop(key)
 
         if "embeds" in payload:
-            for key in list(payload["embeds"]):
-                if payload["embeds"][key] == "":
-                    payload["embeds"].pop(key)
+            for key in list(payload["embeds"][0]):
+                if payload["embeds"][0][key] == "":
+                    payload["embeds"][0].pop(key)
 
         args = {"url": replace(alert["webhook_url"], info), "payload": payload}
 

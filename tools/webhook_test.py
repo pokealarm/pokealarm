@@ -425,7 +425,7 @@ def get_raw_form_names():
         for id_ in pokemon_data:
             get_raw_form_names.info[int(id_)] = {}
             get_raw_form_names.info[int(id_)][0] = "Normal"
-            for form_id_ in pokemon_data[id_]["forms"]:
+            for form_id_ in pokemon_data[id_].get("forms", {}):
                 if form_id_ != "0":
                     get_raw_form_names.info[int(id_)][int(form_id_)] = pokemon_data[
                         id_
