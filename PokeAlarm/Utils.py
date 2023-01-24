@@ -276,8 +276,8 @@ def get_base_stats(pokemon_id, form_id=0):
             f.close()
             for id_ in j:
                 get_base_stats.info[f"{id_}_0"] = j[id_].get("stats")
-                if not (len(j[id_]["forms"]) == 1 and j[id_]["forms"].get("0")):
-                    for form_id_ in j[id_]["forms"]:
+                if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
+                    for form_id_ in j[id_].get("forms", {}):
                         if (
                             j[id_]["forms"][form_id_]["name"] == "Shadow"
                             or j[id_]["forms"][form_id_]["name"] == "Purified"
@@ -309,8 +309,8 @@ def get_evolutions(base_pokemon_id, base_form_id=0, evolution_details=None):
             get_evolutions.info[f"{id_}_0"] = get_evolution_chain(
                 j, id_, "0", None, evolution_details
             )
-            if not (len(j[id_]["forms"]) == 1 and j[id_]["forms"].get("0")):
-                for form_id_ in j[id_]["forms"]:
+            if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
+                for form_id_ in j[id_].get("forms", {}):
                     if (
                         j[id_]["forms"][form_id_]["name"] == "Shadow"
                         or j[id_]["forms"][form_id_]["name"] == "Purified"
@@ -403,8 +403,8 @@ def get_evolution_costs(pokemon_id, form_id=0):
             get_evolution_costs.info[f"{id_}_0"] = get_evolution_cost_chain(
                 j, str(id_), "0"
             )
-            if not (len(j[id_]["forms"]) == 1 and j[id_]["forms"].get("0")):
-                for form_id_ in j[id_]["forms"]:
+            if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
+                for form_id_ in j[id_].get("forms", {}):
                     if (
                         j[id_]["forms"][form_id_]["name"] == "Shadow"
                         or j[id_]["forms"][form_id_]["name"] == "Purified"
@@ -429,7 +429,7 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
         if j[id_].get("forms").get(form_id_).get("evolutions") is None:
             pass
         else:
-            for evo_id in j[id_].get("forms").get(form_id_).get("evolutions"):
+            for evo_id in j[id_].get("forms", {}).get(form_id_).get("evolutions", {}):
                 if int(evo_id) <= 905:  # block unreleased generations
                     candy_cost = int(
                         j[id_]
@@ -490,7 +490,7 @@ def get_raw_form_names():
         for id_ in j:
             get_raw_form_names.info[int(id_)] = {}
             get_raw_form_names.info[int(id_)][0] = "Normal"
-            for form_id_ in j[id_]["forms"]:
+            for form_id_ in j[id_].get("forms", {}):
                 if form_id_ != "0":
                     get_raw_form_names.info[int(id_)][int(form_id_)] = j[id_]["forms"][
                         form_id_
@@ -677,8 +677,8 @@ def get_base_types(pokemon_id, form_id=0):
                     [int(k) for k in j[id_].get("types")] + [0] * 2
                 )[:2]
 
-                if not (len(j[id_]["forms"]) == 1 and j[id_]["forms"].get("0")):
-                    for form_id_ in j[id_]["forms"]:
+                if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
+                    for form_id_ in j[id_].get("forms", {}):
                         if (
                             j[id_]["forms"][form_id_]["name"] == "Shadow"
                             or j[id_]["forms"][form_id_]["name"] == "Purified"
