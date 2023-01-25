@@ -22,16 +22,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(100.0, g_rating, msg="great league rating")
         self.assertEqual(134, g_id, msg="great league pokemon")
         self.assertEqual(1500, g_cp, msg="great league combat power")
-        self.assertEqual("18", g_level, msg="great league level")
-        self.assertEqual("41", g_candy, msg="great league candy / xl")
-        self.assertEqual("15 200", g_stardust, msg="great league stardust")
+        self.assertEqual(18, g_level, msg="great league level")
+        self.assertEqual((41, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(15200, g_stardust, msg="great league stardust")
 
         self.assertEqual(100.0, u_rating, msg="ultra league rating")
         self.assertEqual(136, u_id, msg="ultra league pokemon")
         self.assertEqual(2498, u_cp, msg="ultra league combat power")
-        self.assertEqual("31", u_level, msg="ultra league level")
-        self.assertEqual("173", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("109 600", u_stardust, msg="ultra league stardust")
+        self.assertEqual(31, u_level, msg="ultra league level")
+        self.assertEqual((173, 0), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(109600, u_stardust, msg="ultra league stardust")
 
     def test_umbreon_a0_d15_s14_l25(self):
         (
@@ -52,16 +52,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(100.0, g_rating, msg="great league rating")
         self.assertEqual(197, g_id, msg="great league pokemon")
         self.assertEqual(1497, g_cp, msg="great league combat power")
-        self.assertEqual("27.5", g_level, msg="great league level")
-        self.assertEqual("18", g_candy, msg="great league candy / xl")
-        self.assertEqual("20 500", g_stardust, msg="great league stardust")
+        self.assertEqual(27.5, g_level, msg="great league level")
+        self.assertEqual((18, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(20500, g_stardust, msg="great league stardust")
 
         self.assertEqual(88.9, u_rating, msg="ultra league rating")
         self.assertEqual(197, u_id, msg="ultra league pokemon")
         self.assertEqual(2154, u_cp, msg="ultra league combat power")
-        self.assertEqual("50", u_level, msg="ultra league level")
-        self.assertEqual("220 + 296 XL", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("444 000", u_stardust, msg="ultra league stardust")
+        self.assertEqual(50, u_level, msg="ultra league level")
+        self.assertEqual((220, 296), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(444000, u_stardust, msg="ultra league stardust")
 
     def test_toxicroak_a0_d15_s12_l5(self):
         (
@@ -82,16 +82,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(98.03, g_rating, msg="great league rating")
         self.assertEqual(454, g_id, msg="great league pokemon")
         self.assertEqual(1482, g_cp, msg="great league combat power")
-        self.assertEqual("22.5", g_level, msg="great league level")
-        self.assertEqual("61", g_candy, msg="great league candy / xl")
-        self.assertEqual("56 600", g_stardust, msg="great league stardust")
+        self.assertEqual(22.5, g_level, msg="great league level")
+        self.assertEqual((61, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(56600, g_stardust, msg="great league stardust")
 
         self.assertEqual(100.0, u_rating, msg="ultra league rating")
         self.assertEqual(454, u_id, msg="ultra league pokemon")
         self.assertEqual(2500, u_cp, msg="ultra league combat power")
-        self.assertEqual("46.5", u_level, msg="ultra league level")
-        self.assertEqual("296 + 165 XL", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("418 600", u_stardust, msg="ultra league stardust")
+        self.assertEqual(46.5, u_level, msg="ultra league level")
+        self.assertEqual((296, 165), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(418600, u_stardust, msg="ultra league stardust")
 
     def test_marill_a0_d15_s15_l9(self):
         (
@@ -112,16 +112,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(100.0, g_rating, msg="great league rating")
         self.assertEqual(184, g_id, msg="great league pokemon")
         self.assertEqual(1499, g_cp, msg="great league combat power")
-        self.assertEqual("45.5", g_level, msg="great league level")
-        self.assertEqual("313 + 133 XL", g_candy, msg="great league candy / xl")
-        self.assertEqual("387 000", g_stardust, msg="great league stardust")
+        self.assertEqual(45.5, g_level, msg="great league level")
+        self.assertEqual((313, 133), g_candy, msg="great league candy / xl")
+        self.assertEqual(387000, g_stardust, msg="great league stardust")
 
         self.assertEqual(88.19, u_rating, msg="ultra league rating")
         self.assertEqual(184, u_id, msg="ultra league pokemon")
         self.assertEqual(1583, u_cp, msg="ultra league combat power")
-        self.assertEqual("50", u_level, msg="ultra league level")
-        self.assertEqual("313 + 296 XL", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("512 000", u_stardust, msg="ultra league stardust")
+        self.assertEqual(50, u_level, msg="ultra league level")
+        self.assertEqual((313, 296), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(512000, u_stardust, msg="ultra league stardust")
 
     def test_burmy_plant_a0_d15_s15_l23(self):
         (
@@ -142,16 +142,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(100.0, g_rating, msg="great league rating")
         self.assertEqual(413, g_id, msg="great league pokemon")
         self.assertEqual(1500, g_cp, msg="great league combat power")
-        self.assertEqual("35.5", g_level, msg="great league level")
-        self.assertEqual("174", g_candy, msg="great league candy / xl")
-        self.assertEqual("128 000", g_stardust, msg="great league stardust")
+        self.assertEqual(35.5, g_level, msg="great league level")
+        self.assertEqual((174, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(128000, g_stardust, msg="great league stardust")
 
         self.assertEqual(92.5, u_rating, msg="ultra league rating")
         self.assertEqual(414, u_id, msg="ultra league pokemon")
         self.assertEqual(1898, u_cp, msg="ultra league combat power")
-        self.assertEqual("50", u_level, msg="ultra league level")
-        self.assertEqual("332 + 296 XL", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("458 000", u_stardust, msg="ultra league stardust")
+        self.assertEqual(50, u_level, msg="ultra league level")
+        self.assertEqual((332, 296), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(458000, u_stardust, msg="ultra league stardust")
 
     def test_burmy_unknown_form(self):
         (
@@ -172,16 +172,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(0.0, g_rating, msg="great league rating")
         self.assertEqual(412, g_id, msg="great league pokemon")
         self.assertEqual(0, g_cp, msg="great league combat power")
-        self.assertEqual("0", str(g_level), msg="great league level")
-        self.assertEqual("0", g_candy, msg="great league candy / xl")
-        self.assertEqual("0", g_stardust, msg="great league stardust")
+        self.assertEqual(0, g_level, msg="great league level")
+        self.assertEqual((0, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(0, g_stardust, msg="great league stardust")
 
         self.assertEqual(0.0, u_rating, msg="ultra league rating")
         self.assertEqual(412, u_id, msg="ultra league pokemon")
         self.assertEqual(0, u_cp, msg="ultra league combat power")
-        self.assertEqual("0", str(u_level), msg="ultra league level")
-        self.assertEqual("0", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("0", u_stardust, msg="ultra league stardust")
+        self.assertEqual(0, u_level, msg="ultra league level")
+        self.assertEqual((0, 0), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(0, u_stardust, msg="ultra league stardust")
 
     def test_giratina_altered_a0_d14_s15_l20(self):
         (
@@ -202,16 +202,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(0.0, g_rating, msg="great league rating")
         self.assertEqual(487, g_id, msg="great league pokemon")
         self.assertEqual(1471, g_cp, msg="great league combat power")
-        self.assertEqual("16.5", str(g_level), msg="great league level")
-        self.assertEqual("0", g_candy, msg="great league candy / xl")
-        self.assertEqual("0", g_stardust, msg="great league stardust")
+        self.assertEqual(16.5, g_level, msg="great league level")
+        self.assertEqual((0, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(0, g_stardust, msg="great league stardust")
 
         self.assertEqual(100.0, u_rating, msg="ultra league rating")
         self.assertEqual(487, u_id, msg="ultra league pokemon")
         self.assertEqual(2497, u_cp, msg="ultra league combat power")
-        self.assertEqual("28", str(u_level), msg="ultra league level")
-        self.assertEqual("50", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("56 000", u_stardust, msg="ultra league stardust")
+        self.assertEqual(28, u_level, msg="ultra league level")
+        self.assertEqual((50, 0), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(56000, u_stardust, msg="ultra league stardust")
 
     def test_giratina_origin_a0_d14_s15_l20(self):
         (
@@ -232,16 +232,16 @@ class TestGetPvpInfo(unittest.TestCase):
         self.assertEqual(0.0, g_rating, msg="great league rating")
         self.assertEqual(487, g_id, msg="great league pokemon")
         self.assertEqual(1476, g_cp, msg="great league combat power")
-        self.assertEqual("15", str(g_level), msg="great league level")
-        self.assertEqual("0", g_candy, msg="great league candy / xl")
-        self.assertEqual("0", g_stardust, msg="great league stardust")
+        self.assertEqual(15, g_level, msg="great league level")
+        self.assertEqual((0, 0), g_candy, msg="great league candy / xl")
+        self.assertEqual(0, g_stardust, msg="great league stardust")
 
         self.assertEqual(97.55, u_rating, msg="ultra league rating")
         self.assertEqual(487, u_id, msg="ultra league pokemon")
         self.assertEqual(2460, u_cp, msg="ultra league combat power")
-        self.assertEqual("25", str(u_level), msg="ultra league level")
-        self.assertEqual("28", u_candy, msg="ultra league candy / xl")
-        self.assertEqual("31 000", u_stardust, msg="ultra league stardust")
+        self.assertEqual(25, u_level, msg="ultra league level")
+        self.assertEqual((28, 0), u_candy, msg="ultra league candy / xl")
+        self.assertEqual(31000, u_stardust, msg="ultra league stardust")
 
 
 if __name__ == "__main__":

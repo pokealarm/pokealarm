@@ -162,12 +162,9 @@ class RaidEvent(BaseEvent):
 
         cp_range = get_pokemon_cp_range(self.boss_level, self.mon_id, self.form_id)
 
-        evo_details = get_evolutions(self.mon_id, self.form_id, True)
-        last_evo_id = self.mon_id
-        last_evo_form_id = self.form_id
-        if len(evo_details) > 0:
-            last_evo_id = evo_details[-1][: evo_details[-1].find("_")]
-            last_evo_form_id = evo_details[-1][evo_details[-1].find("_") + 1 :]
+        evolutions = get_evolutions(self.mon_id, self.form_id)
+        last_evo_id = evolutions[-1][0] if evolutions else self.mon_id
+        last_evo_form_id = evolutions[-1][1] if evolutions else self.form_id
 
         dts.update(
             {
