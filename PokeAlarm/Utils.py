@@ -7,7 +7,6 @@ import logging
 from math import radians, sin, cos, atan2, sqrt, degrees
 import os
 import sys
-import re
 import hashlib
 import hmac
 import base64
@@ -89,62 +88,71 @@ def require_and_remove_key(key, _dict, location):
 # Returns the id corresponding with the pokemon name
 # (use all locales for flexibility)
 def get_pkmn_id(pokemon_name):
-    name = pokemon_name.lower()
-    if not hasattr(get_pkmn_id, "ids"):
+    try:
+        name = pokemon_name.lower()
+        return get_pkmn_id.ids.get(name)
+    except AttributeError:
         get_pkmn_id.ids = {}
         files = glob(get_path("locales/*.json"))
         for file_ in files:
             with open(file_, "r") as f:
                 j = json.load(f)
                 f.close()
-                j = j["pokemon"]
-                for id_ in j:
-                    nm = j[id_].lower()
-                    get_pkmn_id.ids[nm] = int(id_)
+            j = j["pokemon"]
+            for id_ in j:
+                nm = j[id_].lower()
+                get_pkmn_id.ids[nm] = int(id_)
 
-    return get_pkmn_id.ids.get(name)
+        return get_pkmn_id.ids.get(name)
 
 
 # Returns the id corresponding with the move (use all locales for flexibility)
 def get_move_id(move_name):
-    name = move_name.lower()
-    if not hasattr(get_move_id, "ids"):
+    try:
+        name = move_name.lower()
+        return get_move_id.ids.get(name)
+    except AttributeError:
         get_move_id.ids = {}
         files = glob(get_path("locales/*.json"))
         for file_ in files:
             with open(file_, "r") as f:
                 j = json.load(f)
                 f.close()
-                j = j["moves"]
-                for id_ in j:
-                    nm = j[id_].lower()
-                    get_move_id.ids[nm] = int(id_)
+            j = j["moves"]
+            for id_ in j:
+                nm = j[id_].lower()
+                get_move_id.ids[nm] = int(id_)
 
-    return get_move_id.ids.get(name)
+        return get_move_id.ids.get(name)
 
 
 # Returns the id corresponding with the pokemon name
 # (use all locales for flexibility)
 def get_team_id(team_name):
-    name = team_name.lower()
-    if not hasattr(get_team_id, "ids"):
+    try:
+        name = team_name.lower()
+        return get_team_id.ids.get(name)
+    except AttributeError:
         get_team_id.ids = {}
         files = glob(get_path("locales/*.json"))
         for file_ in files:
             with open(file_, "r") as f:
                 j = json.load(f)
                 f.close()
-                j = j["teams"]
-                for id_ in j:
-                    nm = j[id_].lower()
-                    get_team_id.ids[nm] = int(id_)
+            j = j["teams"]
+            for id_ in j:
+                nm = j[id_].lower()
+                get_team_id.ids[nm] = int(id_)
 
-    return get_team_id.ids.get(name)
+        return get_team_id.ids.get(name)
 
 
 # Returns type id corresponding with the type name
 def get_type_id(type_name):
-    if not hasattr(get_type_id, "info"):
+    try:
+        name = type_name.lower()
+        return get_type_id.info.get(name, 0)
+    except AttributeError:
         get_type_id.info = {}
         file_ = get_path("locales/en.json")
         with open(file_, "r") as f:
@@ -153,12 +161,14 @@ def get_type_id(type_name):
         for id_, name_ in j["types"].items():
             get_type_id.info[name_.lower()] = int(id_)
 
-    return get_type_id.info.get(type_name.lower(), 0)
+        return get_type_id.info.get(name, 0)
 
 
 # Returns the types of a move when requesting
 def get_move_type(move_id):
-    if not hasattr(get_move_type, "info"):
+    try:
+        return get_move_type.info.get(move_id, Unknown.SMALL)
+    except AttributeError:
         get_move_type.info = {}
         file1_ = get_path("data/fast_moves.json")
         file2_ = get_path("data/charged_moves.json")
@@ -169,12 +179,14 @@ def get_move_type(move_id):
             for mv in j:
                 get_move_type.info[mv["move_id"]] = get_type_id(mv["type"])
 
-    return get_move_type.info.get(move_id, Unknown.SMALL)
+        return get_move_type.info.get(move_id, Unknown.SMALL)
 
 
 # Returns the damage of a move when requesting
 def get_move_damage(move_id):
-    if not hasattr(get_move_damage, "info"):
+    try:
+        return get_move_damage.info.get(move_id, "unkn")
+    except AttributeError:
         get_move_damage.info = {}
         file1_ = get_path("data/fast_moves.json")
         file2_ = get_path("data/charged_moves.json")
@@ -185,12 +197,14 @@ def get_move_damage(move_id):
             for mv in j:
                 get_move_damage.info[mv["move_id"]] = mv["power"]
 
-    return get_move_damage.info.get(move_id, "unkn")
+        return get_move_damage.info.get(move_id, "unkn")
 
 
 # Returns the dps of a move when requesting
 def get_move_dps(move_id):
-    if not hasattr(get_move_dps, "info"):
+    try:
+        return get_move_dps.info.get(move_id, "unkn")
+    except AttributeError:
         get_move_dps.info = {}
         file1_ = get_path("data/fast_moves.json")
         file2_ = get_path("data/charged_moves.json")
@@ -203,12 +217,14 @@ def get_move_dps(move_id):
                     (mv["power"] / mv["duration"]) * 1000, 2
                 )
 
-    return get_move_dps.info.get(move_id, "unkn")
+        return get_move_dps.info.get(move_id, "unkn")
 
 
 # Returns the duration of a move when requesting
 def get_move_duration(move_id):
-    if not hasattr(get_move_duration, "info"):
+    try:
+        return get_move_duration.info.get(move_id, "unkn")
+    except AttributeError:
         get_move_duration.info = {}
         file1_ = get_path("data/fast_moves.json")
         file2_ = get_path("data/charged_moves.json")
@@ -219,12 +235,14 @@ def get_move_duration(move_id):
             for mv in j:
                 get_move_duration.info[mv["move_id"]] = mv["duration"]
 
-    return get_move_duration.info.get(move_id, "unkn")
+        return get_move_duration.info.get(move_id, "unkn")
 
 
 # Returns the duration of a move when requesting
 def get_move_energy(move_id):
-    if not hasattr(get_move_energy, "info"):
+    try:
+        return get_move_energy.info.get(move_id, "unkn")
+    except AttributeError:
         get_move_energy.info = {}
         file1_ = get_path("data/fast_moves.json")
         file2_ = get_path("data/charged_moves.json")
@@ -235,12 +253,14 @@ def get_move_energy(move_id):
             for mv in j:
                 get_move_energy.info[mv["move_id"]] = abs(mv["energy_delta"])
 
-    return get_move_energy.info.get(move_id, "unkn")
+        return get_move_energy.info.get(move_id, "unkn")
 
 
 # Returns the base height for a pokemon
 def get_base_height(pokemon_id):
-    if not hasattr(get_base_height, "info"):
+    try:
+        return get_base_height.info.get(pokemon_id, 0)
+    except AttributeError:
         get_base_height.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
@@ -249,12 +269,14 @@ def get_base_height(pokemon_id):
         for id_ in j:
             get_base_height.info[int(id_)] = j[id_].get("height")
 
-    return get_base_height.info.get(pokemon_id, 0)
+        return get_base_height.info.get(pokemon_id, 0)
 
 
 # Returns the base weight for a pokemon
 def get_base_weight(pokemon_id):
-    if not hasattr(get_base_weight, "info"):
+    try:
+        return get_base_weight.info.get(pokemon_id, 0)
+    except AttributeError:
         get_base_weight.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
@@ -263,162 +285,136 @@ def get_base_weight(pokemon_id):
         for id_ in j:
             get_base_weight.info[int(id_)] = j[id_].get("weight")
 
-    return get_base_weight.info.get(pokemon_id, 0)
+        return get_base_weight.info.get(pokemon_id, 0)
 
 
 # Returns the types for a pokemon and its forms
 def get_base_stats(pokemon_id, form_id=0):
-    if not hasattr(get_base_stats, "info"):
+    try:
+        get_base_stats.info
+    except AttributeError:
         get_base_stats.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
             j = json.load(f)
             f.close()
-            for id_ in j:
-                get_base_stats.info[f"{id_}_0"] = j[id_].get("stats")
-                if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
-                    for form_id_ in j[id_].get("forms", {}):
-                        if (
-                            j[id_]["forms"][form_id_]["name"] == "Shadow"
-                            or j[id_]["forms"][form_id_]["name"] == "Purified"
-                            or j[id_]["forms"][form_id_]["name"] == "Normal"
-                            or j[id_].get("forms").get(form_id_).get("stats") is None
-                        ):
-                            get_base_stats.info[
-                                f"{id_}_{form_id_}"
-                            ] = get_base_stats.info[f"{id_}_0"]
-                        else:
-                            get_base_stats.info[f"{id_}_{form_id_}"] = (
-                                j[id_].get("forms").get(form_id_).get("stats")
-                            )
+        for id_ in j:
+            normal_form_stats = j[id_].get("stats")
+            get_base_stats.info[int(id_) * 100_000] = normal_form_stats
 
-    return get_base_stats.info.get(
-        f"{pokemon_id}_{form_id}", {"attack": 0, "defense": 0, "stamina": 0}
-    )
+            for form_id_ in j[id_].get("forms", {}):
+                if form_id_ == "0":
+                    continue
+                form_ = j[id_]["forms"][form_id_]
+                if (
+                    form_["name"] in ("Shadow", "Purified", "Normal")
+                    or form_.get("stats") is None
+                ):
+                    form_stats = normal_form_stats
+                else:
+                    form_stats = form_["stats"]
+                stats_key = int(id_) * 100_000 + int(form_id_)
+                get_base_stats.info[stats_key] = form_stats
+
+    stats_key = pokemon_id * 100_000 + form_id
+    default_stats = {"attack": 0, "defense": 0, "stamina": 0}
+    return get_base_stats.info.get(stats_key, default_stats)
 
 
 # Returns possible evolutions for a pokemon and its forms
-def get_evolutions(base_pokemon_id, base_form_id=0, evolution_details=None):
-    if not hasattr(get_evolutions, "info"):
+def get_evolutions(base_pokemon_id, base_form_id=0):
+    try:
+        get_evolutions.info
+    except AttributeError:
         get_evolutions.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
             j = json.load(f)
             f.close()
         for id_ in j:
-            get_evolutions.info[f"{id_}_0"] = get_evolution_chain(
-                j, id_, "0", None, evolution_details
-            )
-            if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
-                for form_id_ in j[id_].get("forms", {}):
-                    if (
-                        j[id_]["forms"][form_id_]["name"] == "Shadow"
-                        or j[id_]["forms"][form_id_]["name"] == "Purified"
-                        or j[id_]["forms"][form_id_]["name"] == "Normal"
-                    ):
-                        get_evolutions.info[f"{id_}_{form_id_}"] = get_evolutions.info[
-                            f"{id_}_0"
-                        ]
-                    else:
-                        get_evolutions.info[f"{id_}_{form_id_}"] = get_evolution_chain(
-                            j, id_, form_id_, None, evolution_details
-                        )
+            normal_form_chain = get_evolution_chain(j, id_, "0")
+            get_evolutions.info[int(id_) * 100_000] = normal_form_chain
+            for form_id_ in j[id_].get("forms", {}):
+                if form_id_ == "0":
+                    continue
+                if j[id_]["forms"][form_id_]["name"] in (
+                    "Shadow",
+                    "Purified",
+                    "Normal",
+                ):
+                    evo_chain = normal_form_chain
+                else:
+                    evo_chain = get_evolution_chain(j, id_, form_id_)
 
-    return get_evolutions.info.get(f"{base_pokemon_id}_{base_form_id}", [])
+                evo_key = int(id_) * 100_000 + int(form_id_)
+                get_evolutions.info[evo_key] = evo_chain
+
+    evo_key = base_pokemon_id * 100_000 + base_form_id
+    return get_evolutions.info.get(evo_key, [])
 
 
 # Return the list of evolutions depending on the form of the pokemon
-def get_evolution_chain(j, id_, form_id_, a=None, evolution_details=None):
+def get_evolution_chain(j, id_, form_id_, a=None):
     if a is None:
         a = []
     if form_id_ != "0":
-        if j[id_].get("forms").get(form_id_).get("evolutions") is None:
-            pass
-        else:
-            for evo_id in j[id_].get("forms").get(form_id_).get("evolutions"):
-                if int(evo_id) <= 905:  # block unreleased generations
-                    if evolution_details:
-                        evo_form_id = (
-                            j[id_]
-                            .get("forms")
-                            .get(form_id_)
-                            .get("evolutions")
-                            .get(evo_id)
-                            .get("form")
-                        )
-                        a.append(f"{evo_id}_{evo_form_id}")
-                    else:
-                        a.append(int(evo_id))
-                    get_evolution_chain(
-                        j,
-                        str(
-                            j[id_]
-                            .get("forms")
-                            .get(form_id_)
-                            .get("evolutions")
-                            .get(evo_id)
-                            .get("pokemon")
-                        ),
-                        str(
-                            j[id_]
-                            .get("forms")
-                            .get(form_id_)
-                            .get("evolutions")
-                            .get(evo_id)
-                            .get("form")
-                        ),
-                        a,
-                        evolution_details,
-                    )
+        evolutions = j[id_]["forms"][form_id_].get("evolutions")
+        if evolutions is not None:
+            for evo_id in evolutions:
+                if int(evo_id) > 905:  # block unreleased generations
+                    continue
+
+                evo_form_id = evolutions[evo_id]["form"]
+                a.append((int(evo_id), int(evo_form_id)))
+
+                next_id_ = str(evolutions[evo_id]["pokemon"])
+                next_form_id_ = str(evolutions[evo_id]["form"])
+                get_evolution_chain(j, next_id_, next_form_id_, a)
     else:
-        if j[id_].get("evolutions") is None:
-            pass
-        else:
-            for evo_id in j[id_].get("evolutions"):
-                if int(evo_id) <= 905:  # block unreleased generations
-                    if evolution_details:
-                        evo_form_id = j[id_].get("evolutions").get(evo_id).get("form")
-                        a.append(f"{evo_id}_{evo_form_id}")
-                    else:
-                        a.append(int(evo_id))
-                    get_evolution_chain(
-                        j,
-                        str(j[id_].get("evolutions").get(evo_id).get("pokemon")),
-                        "0",
-                        a,
-                        evolution_details,
-                    )
+        evolutions = j[id_].get("evolutions")
+        if evolutions is not None:
+            for evo_id in evolutions:
+                if int(evo_id) > 905:  # block unreleased generations
+                    continue
+
+                evo_form_id = evolutions[evo_id]["form"]
+                a.append((int(evo_id), int(evo_form_id)))
+
+                next_id_ = str(evolutions[evo_id]["pokemon"])
+                get_evolution_chain(j, next_id_, "0", a)
     return a
 
 
 # Returns evolution costs from a pokemon and its forms
 def get_evolution_costs(pokemon_id, form_id=0):
-    if not hasattr(get_evolution_costs, "info"):
+    try:
+        get_evolution_costs.info
+    except AttributeError:
         get_evolution_costs.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
             j = json.load(f)
             f.close()
         for id_ in j:
-            get_evolution_costs.info[f"{id_}_0"] = get_evolution_cost_chain(
-                j, str(id_), "0"
-            )
-            if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
-                for form_id_ in j[id_].get("forms", {}):
-                    if (
-                        j[id_]["forms"][form_id_]["name"] == "Shadow"
-                        or j[id_]["forms"][form_id_]["name"] == "Purified"
-                        or j[id_]["forms"][form_id_]["name"] == "Normal"
-                    ):
-                        get_evolution_costs.info[
-                            f"{id_}_{form_id_}"
-                        ] = get_evolution_costs.info[f"{id_}_0"]
-                    else:
-                        get_evolution_costs.info[
-                            f"{id_}_{form_id_}"
-                        ] = get_evolution_cost_chain(j, str(id_), str(form_id_))
+            normal_form_chain = get_evolution_cost_chain(j, id_, "0")
+            get_evolution_costs.info[int(id_) * 100_000] = normal_form_chain
+            for form_id_ in j[id_].get("forms", {}):
+                if form_id_ == "0":
+                    continue
+                if j[id_]["forms"][form_id_]["name"] in (
+                    "Shadow",
+                    "Purified",
+                    "Normal",
+                ):
+                    cost_chain = normal_form_chain
+                else:
+                    cost_chain = get_evolution_cost_chain(j, id_, form_id_)
 
-    return get_evolution_costs.info.get(f"{pokemon_id}_{form_id}", [])
+                mon_key = int(id_) * 100_000 + int(form_id_)
+                get_evolution_costs.info[mon_key] = cost_chain
+
+    mon_key = pokemon_id * 100_000 + form_id
+    return get_evolution_costs.info.get(mon_key, [])
 
 
 # Return the list of evolution costs depending on the form of the pokemon
@@ -426,62 +422,43 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
     if a is None:
         a = []
     if form_id_ != "0":
-        if j[id_].get("forms").get(form_id_).get("evolutions") is None:
-            pass
-        else:
-            for evo_id in j[id_].get("forms", {}).get(form_id_).get("evolutions", {}):
-                if int(evo_id) <= 905:  # block unreleased generations
-                    candy_cost = int(
-                        j[id_]
-                        .get("forms")
-                        .get(form_id_)
-                        .get("evolutions")
-                        .get(evo_id)
-                        .get("candyCost", 0)
-                    )
-                    a.append(candy_cost)
-                    get_evolution_cost_chain(
-                        j,
-                        str(
-                            j[id_]
-                            .get("forms")
-                            .get(form_id_)
-                            .get("evolutions")
-                            .get(evo_id)
-                            .get("pokemon")
-                        ),
-                        str(
-                            j[id_]
-                            .get("forms")
-                            .get(form_id_)
-                            .get("evolutions")
-                            .get(evo_id)
-                            .get("form")
-                        ),
-                        a,
-                    )
+        evolutions = j[id_]["forms"][form_id_].get("evolutions", {})
+        for evo_id in evolutions:
+            if int(evo_id) > 905:  # block unreleased generations
+                continue
+
+            candy_cost = int(evolutions[evo_id].get("candyCost", 0))
+            a.append(candy_cost)
+
+            get_evolution_cost_chain(
+                j,
+                str(evolutions[evo_id]["pokemon"]),
+                str(evolutions[evo_id]["form"]),
+                a,
+            )
     else:
-        if j[id_].get("evolutions") is None:
-            pass
-        else:
-            for evo_id in j[id_].get("evolutions"):
-                if int(evo_id) <= 905:  # block unreleased generations
-                    candy_cost = int(
-                        (j[id_].get("evolutions").get(evo_id).get("candyCost", 0))
-                    )
-                    a.append(candy_cost)
-                    get_evolution_cost_chain(
-                        j,
-                        str(j[id_].get("evolutions").get(evo_id).get("pokemon")),
-                        "0",
-                        a,
-                    )
+        evolutions = j[id_].get("evolutions", {})
+        for evo_id in evolutions:
+            if int(evo_id) > 905:  # block unreleased generations
+                continue
+
+            candy_cost = int(evolutions[evo_id].get("candyCost", 0))
+            a.append(candy_cost)
+
+            get_evolution_cost_chain(
+                j,
+                str(evolutions[evo_id]["pokemon"]),
+                "0",
+                a,
+            )
     return a
 
 
 # Returns default form names for all the pokemon
 def get_raw_form_names():
-    if not hasattr(get_raw_form_names, "info"):
+    try:
+        return get_raw_form_names.info
+    except AttributeError:
         get_raw_form_names.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
@@ -496,34 +473,64 @@ def get_raw_form_names():
                         form_id_
                     ]["name"]
 
-    return get_raw_form_names.info
+        return get_raw_form_names.info
 
 
 # Return CP multipliers
 def get_cp_multipliers():
-    if not hasattr(get_cp_multipliers, "info"):
+    try:
+        return get_cp_multipliers.info
+    except AttributeError:
         file_ = get_path("data/cp_multipliers.json")
         with open(file_, "r") as f:
-            get_cp_multipliers.info = json.load(f)
-    return get_cp_multipliers.info
+            j = json.load(f)
+            get_cp_multipliers.info = {}
+            for lvl in j:
+                get_cp_multipliers.info[float(lvl)] = j[lvl]
+        return get_cp_multipliers.info
 
 
-def max_level(limit, monster_id, form_id=0):
-    if not max_cp(monster_id, form_id) > limit:
-        return float(50)
-    for x in range(100, 2, -1):
-        x = x * 0.5
-        if calculate_cp(monster_id, form_id, 0, 0, 0, x) <= limit:
-            return min(x + 1, 50)
+def get_cp_multiplier_squares():
+    try:
+        return get_cp_multiplier_squares.info
+    except AttributeError:
+        multipliers = get_cp_multipliers()
+        get_cp_multiplier_squares.info = {}
+        for lvl in multipliers:
+            get_cp_multiplier_squares.info[lvl] = multipliers[lvl] ** 2
+        return get_cp_multiplier_squares.info
 
 
-def min_level(limit, monster_id, form_id=0):
-    if not max_cp(monster_id, form_id) > limit:
-        return float(50)
-    for x in range(100, 2, -1):
-        x = x * 0.5
-        if calculate_cp(monster_id, form_id, 15, 15, 15, x) <= limit:
-            return max(x - 1, 1)
+def bisect_levels(cp_limit, cp_base, first, last):
+    try:
+        bisect_levels.levels
+    except AttributeError:
+        # Generate levels tuple (1.0, 1.5, 2.0, ... , 49.5, 50.0)
+        bisect_levels.levels = tuple(x / 10 for x in range(10, 501, 5))
+
+    multiplier_squares = get_cp_multiplier_squares()
+
+    best_cp = 0
+    best_level = 0
+    range_first = int(first * 2 - 2)
+    range_last = int(last * 2 - 2)
+
+    while range_first <= range_last:
+        range_mid = (range_first + range_last) // 2
+        level = bisect_levels.levels[range_mid]
+        cp = max(10, int(cp_base * multiplier_squares[level]))
+
+        if cp > cp_limit:
+            range_last = range_mid - 1
+        else:
+            best_level = level
+            best_cp = cp
+            if cp < cp_limit:
+                range_first = range_mid + 1
+            else:
+                break  # found exact limit
+
+    return best_cp, best_level
 
 
 # Get the max CP of a pokemon
@@ -533,72 +540,75 @@ def max_cp(monster_id, form_id=0):
 
 # Calculate CP using pokemon IV
 def calculate_cp(monster_id, form_id, atk, de, sta, lvl):
-    multipliers = get_cp_multipliers()
+    multipliers = get_cp_multiplier_squares()
+    cp_base = calculate_cp_base(monster_id, form_id, atk, de, sta)
+    return max(10, int(cp_base * multipliers[lvl]))
+
+
+def calculate_cp_base(monster_id, form_id, atk, de, sta):
     base_stats = get_base_stats(monster_id, form_id)
-    lvl = str(lvl).replace(".0", "")
-    cp = (
+    return (
         (base_stats["attack"] + atk)
         * sqrt(base_stats["defense"] + de)
         * sqrt(base_stats["stamina"] + sta)
-        * (multipliers[str(lvl)] ** 2)
         / 10
     )
 
-    return max(int(cp), 10)
+
+def get_best_product(league, pokemon_id, form_id):
+    try:
+        get_best_product.info
+    except AttributeError:
+        get_best_product.info = {
+            "great": {},
+            "ultra": {},
+        }
+        file_ = get_path("data/stat_products.json")
+        with open(file_, "r") as f:
+            j = json.load(f)
+            f.close()
+        for id_ in j:
+            for form_id_ in j[id_]:
+                key_ = int(id_) * 100_000 + int(form_id_)
+                get_best_product.info["great"][key_] = j[id_][form_id_].get(
+                    "1500_highest_product"
+                )
+                get_best_product.info["ultra"][key_] = j[id_][form_id_].get(
+                    "2500_highest_product"
+                )
+
+    base_key = pokemon_id * 100_000
+    return get_best_product.info[league].get(
+        base_key + form_id, get_best_product.info[league].get(base_key, 0)
+    )
 
 
 # Returns the highest possible stat product for PvP great league for a pkmn
 def get_best_great_product(pokemon_id, form_id=0):
-    if not hasattr(get_best_great_product, "info"):
-        get_best_great_product.info = {}
-        file_ = get_path("data/stat_products.json")
-        with open(file_, "r") as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            for form_id_ in j[id_]:
-                get_best_great_product.info[f"{id_}_{form_id_}"] = j[id_][form_id_].get(
-                    "1500_highest_product"
-                )
-
-    return get_best_great_product.info.get(
-        f"{pokemon_id}_{form_id}", get_best_great_product.info.get(f"{pokemon_id}_0", 0)
-    )
+    return get_best_product("great", pokemon_id, form_id)
 
 
 # Returns the highest possible stat product for PvP ultra league for a pkmn
 def get_best_ultra_product(pokemon_id, form_id=0):
-    if not hasattr(get_best_ultra_product, "info"):
-        get_best_ultra_product.info = {}
-        file_ = get_path("data/stat_products.json")
-        with open(file_, "r") as f:
-            j = json.load(f)
-            f.close()
-        for id_ in j:
-            for form_id_ in j[id_]:
-                get_best_ultra_product.info[f"{id_}_{form_id_}"] = j[id_][form_id_].get(
-                    "2500_highest_product"
-                )
-
-    return get_best_ultra_product.info.get(
-        f"{pokemon_id}_{form_id}", get_best_ultra_product.info.get(f"{pokemon_id}_0", 0)
-    )
+    return get_best_product("ultra", pokemon_id, form_id)
 
 
 # Returns a cp range for a certain level of a pokemon caught in a raid
 def get_pokemon_cp_range(level, pokemon_id, form_id=0):
     stats = get_base_stats(pokemon_id, form_id)
 
-    if not hasattr(get_pokemon_cp_range, "info"):
+    try:
+        cp_multi = get_pokemon_cp_range.info[level]
+    except AttributeError:
         get_pokemon_cp_range.info = {}
         file_ = get_path("data/cp_multipliers.json")
         with open(file_, "r") as f:
             j = json.load(f)
             f.close()
         for lvl_ in j:
-            get_pokemon_cp_range.info[lvl_] = j[lvl_]
+            get_pokemon_cp_range.info[float(lvl_)] = j[lvl_]
 
-    cp_multi = get_pokemon_cp_range.info["{}".format(level)]
+        cp_multi = get_pokemon_cp_range.info[level]
 
     # minimum IV for a egg/raid pokemon is 10/10/10
     min_cp = int(
@@ -666,41 +676,35 @@ def get_gender_sym(gender):  # TODO - support other languages
 
 # Returns the types for a pokemon and its forms
 def get_base_types(pokemon_id, form_id=0):
-    if not hasattr(get_base_types, "info"):
+    try:
+        get_base_types.info
+    except AttributeError:
         get_base_types.info = {}
         file_ = get_path("data/pokemon_data.json")
         with open(file_, "r") as f:
             j = json.load(f)
             f.close()
-            for id_ in j:
-                get_base_types.info[f"{id_}_0"] = (
-                    [int(k) for k in j[id_].get("types")] + [0] * 2
-                )[:2]
+        for id_ in j:
+            normal_form_types = ([int(k) for k in j[id_].get("types")] + [0] * 2)[:2]
+            get_base_types.info[int(id_) * 100_000] = normal_form_types
 
-                if not (len(j[id_].get("forms", {})) == 1 and j[id_]["forms"].get("0")):
-                    for form_id_ in j[id_].get("forms", {}):
-                        if (
-                            j[id_]["forms"][form_id_]["name"] == "Shadow"
-                            or j[id_]["forms"][form_id_]["name"] == "Purified"
-                            or j[id_]["forms"][form_id_]["name"] == "Normal"
-                            or j[id_].get("forms").get(form_id_).get("types") is None
-                        ):
-                            get_base_types.info[
-                                f"{id_}_{form_id_}"
-                            ] = get_base_types.info[f"{id_}_0"]
-                        else:
-                            get_base_types.info[f"{id_}_{form_id_}"] = (
-                                [
-                                    int(k)
-                                    for k in j[id_]
-                                    .get("forms")
-                                    .get(form_id_)
-                                    .get("types")
-                                ]
-                                + [0] * 2
-                            )[:2]
+            for form_id_ in j[id_].get("forms", {}):
+                if form_id_ == "0":
+                    continue
+                form_ = j[id_]["forms"][form_id_]
+                if (
+                    form_["name"] in ("Shadow", "Purified", "Normal")
+                    or form_.get("types") is None
+                ):
+                    base_types = normal_form_types
+                else:
+                    base_types = ([int(k) for k in form_["types"]] + [0] * 2)[:2]
 
-    return get_base_types.info.get(f"{pokemon_id}_{form_id}", [0, 0])
+                mon_key = int(id_) * 100_000 + int(form_id_)
+                get_base_types.info[mon_key] = base_types
+
+    mon_key = pokemon_id * 100_000 + form_id
+    return get_base_types.info.get(mon_key, [0, 0])
 
 
 # Returns the types for a pokemon
@@ -709,51 +713,81 @@ def get_mon_type(pokemon_id, form_id=0):
     return types["type1"], types["type2"]
 
 
-# Returns the amount of candies necessary to level up a monster from its level
-# to a target one
+def get_powerup_costs(type):
+    try:
+        return get_powerup_costs.info.get(type)
+    except AttributeError:
+        get_powerup_costs.info = {}
+        file_ = get_path("data/powerup_costs.json")
+        with open(file_, "r") as f:
+            j = json.loads(f.read())
+            f.close()
+        for type_ in j:
+            get_powerup_costs.info[type_] = []
+            for key in j[type_]:
+                levels = key.split("-")
+                level = float(levels[0])
+                endlevel = float(levels[1])
+                while level <= endlevel:
+                    get_powerup_costs.info[type_].append(int(j[type_][key]))
+                    level += 0.5
+
+        return get_powerup_costs.info.get(type)
+
+
+# Return the list of stardust costs for powering up a pokemon
+def get_stardust_costs():
+    return get_powerup_costs("stardust")
+
+
+# Return the list of candy costs for powering up a pokemon
+def get_candy_costs():
+    return get_powerup_costs("candy")
+
+
+# Return the list of xl candy costs for powering up a pokemon
+def get_xl_candy_costs():
+    return get_powerup_costs("xl_candy")
+
+
 def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
-    candy_cost = evo_candy_cost
-    xl_candy_cost = 0
+    if start_level >= target_level:
+        return (0, 0)
 
-    start_level = float(start_level)
-    target_level = float(target_level)
+    candy_costs = get_candy_costs()
+    xl_candy_costs = get_xl_candy_costs()
 
-    for lvl_x2 in range(int(start_level * 2), int(target_level * 2)):
-        candy_cost += get_candy_cost(lvl_x2 / 2)
-        xl_candy_cost += get_xl_candy_cost(lvl_x2 / 2)
+    # Calculate indices from levels
+    start = int(float(start_level) / 0.5 - 2)
+    end = int(float(target_level) / 0.5 - 2)
 
-    if xl_candy_cost != 0:
-        return f"{candy_cost:,} + {xl_candy_cost:,} XL".replace(",", " ")
-    else:
-        return f"{candy_cost:,}".replace(",", " ")
+    candy_cost = sum(candy_costs[start : min(80, end)], evo_candy_cost)
+    xl_candy_cost = (
+        sum(xl_candy_costs[0 : end - len(candy_costs)]) if target_level > 40 else 0
+    )
+
+    return (candy_cost, xl_candy_cost)
 
 
-# Returns the amount of stardust necessary to level up a monster from its
-# level to a target one
 def calculate_stardust_cost(start_level, target_level):
-    stardust_cost = 0
+    if start_level >= target_level:
+        return 0
 
-    start_level = float(start_level)
-    target_level = float(target_level)
+    stardust_costs = get_stardust_costs()
 
-    for lvl_x2 in range(int(start_level * 2), int(target_level * 2)):
-        stardust_cost += get_stardust_cost(lvl_x2 / 2)
+    # Calculate indices from levels
+    start = int(float(start_level) / 0.5 - 2)
+    end = int(float(target_level) / 0.5 - 2)
 
-    return f"{stardust_cost:,}".replace(",", " ")
+    return sum(stardust_costs[start:end])
 
 
 def calculate_evolution_cost(monster_id, target_id, evolutions, evolution_costs):
-    if monster_id == target_id or not (
-        [True for s in evolutions if f"{target_id}_" in s]
-    ):
+    if monster_id == target_id or not ([True for s in evolutions if target_id == s[0]]):
         return 0
     evo_candy_cost = evolution_costs[0]
 
-    for evolution in evolutions:
-        evo_id, evo_form_id = re.findall(r"[\.\d]+", evolution)
-        evo_id = int(evo_id)
-        evo_form_id = int(evo_form_id)
-
+    for evo_id, evo_form_id in evolutions:
         if evo_id == target_id:
             return evo_candy_cost
         evo_candy_cost += evolution_costs[1]
@@ -761,51 +795,11 @@ def calculate_evolution_cost(monster_id, target_id, evolutions, evolution_costs)
     return evo_candy_cost
 
 
-# Returns the candy cost for a given monster level
-def get_candy_cost(monster_level):
-    if not hasattr(get_candy_cost, "info"):
-        get_candy_cost.info = {}
-        file_ = get_path("data/powerup_costs.json")
-        with open(file_, "r") as f:
-            j = json.load(f)
-            f.close()
-        for level_ in j:
-            get_candy_cost.info[float(level_)] = int(j[level_]["candy_cost"])
-
-    return get_candy_cost.info.get(monster_level)
-
-
-# Returns the XL candy cost for a given monster level
-def get_xl_candy_cost(monster_level):
-    if not hasattr(get_xl_candy_cost, "info"):
-        get_xl_candy_cost.info = {}
-        file_ = get_path("data/powerup_costs.json")
-        with open(file_, "r") as f:
-            j = json.load(f)
-            f.close()
-        for level_ in j:
-            get_xl_candy_cost.info[float(level_)] = int(j[level_]["xl_candy_cost"])
-
-    return get_xl_candy_cost.info.get(monster_level)
-
-
-# Returns the stardust cost for a given monster level
-def get_stardust_cost(monster_level):
-    if not hasattr(get_stardust_cost, "info"):
-        get_stardust_cost.info = {}
-        file_ = get_path("data/powerup_costs.json")
-        with open(file_, "r") as f:
-            j = json.load(f)
-            f.close()
-        for level_ in j:
-            get_stardust_cost.info[float(level_)] = int(j[level_]["stardust_cost"])
-
-    return get_stardust_cost.info.get(monster_level)
-
-
-# Returns a boolean for whether the monster or the type is weather boosted
+# Return a boolean for whether the monster or the type is weather boosted
 def is_weather_boosted(weather_id, pokemon_id=0, form_id=0, mon_type=None):
-    if not hasattr(is_weather_boosted, "info"):
+    try:
+        boosted_types = is_weather_boosted.info.get(str(weather_id), {})
+    except AttributeError:
         is_weather_boosted.info = {}
         file_ = get_path("data/weather_boosts.json")
         with open(file_, "r") as f:
@@ -814,7 +808,8 @@ def is_weather_boosted(weather_id, pokemon_id=0, form_id=0, mon_type=None):
         for w_id in j:
             is_weather_boosted.info[w_id] = j[w_id]
 
-    boosted_types = is_weather_boosted.info.get(str(weather_id), {})
+        boosted_types = is_weather_boosted.info.get(str(weather_id), {})
+
     if mon_type is None:
         types = get_base_types(pokemon_id, form_id)
         return types[0] in boosted_types or types[1] in boosted_types
@@ -1108,25 +1103,29 @@ def get_image_url(suffix):
 def get_weather_id(weather_name):
     try:
         name = str(weather_name).lower()
-        if not hasattr(get_weather_id, "ids"):
-            get_weather_id.ids = {}
-            files = glob(get_path("locales/*.json"))
-            for file_ in files:
-                with open(file_, "r") as f:
-                    j = json.load(f)
-                    f.close()
-                    j = j["weather"]
-                    for id_ in j:
-                        nm = j[id_].lower()
-                        get_weather_id.ids[nm] = int(id_)
-        if name in get_weather_id.ids:
+        id_found = name in get_weather_id.ids
+    except AttributeError:
+        get_weather_id.ids = {}
+        files = glob(get_path("locales/*.json"))
+        for file_ in files:
+            with open(file_, "r") as f:
+                j = json.load(f)
+                f.close()
+            j = j["weather"]
+            for id_ in j:
+                nm = j[id_].lower()
+                get_weather_id.ids[nm] = int(id_)
+
+        id_found = name in get_weather_id.ids
+
+    try:
+        if id_found:
             return get_weather_id.ids[name]
         else:
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid "
-            " weather name or id.".format(weather_name)
+            f"Unable to interpret `{weather_name}` as a valid weather name or id."
         )
 
 

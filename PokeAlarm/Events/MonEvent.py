@@ -122,8 +122,8 @@ class MonEvent(BaseEvent):
             self.ultra_cp = Unknown.SMALL
             self.great_level = Unknown.SMALL
             self.ultra_level = Unknown.SMALL
-            self.great_candy = Unknown.SMALL
-            self.ultra_candy = Unknown.SMALL
+            self.great_candy = (Unknown.SMALL, 0)
+            self.ultra_candy = (Unknown.SMALL, 0)
             self.great_stardust = Unknown.SMALL
             self.ultra_stardust = Unknown.SMALL
 
@@ -217,18 +217,31 @@ class MonEvent(BaseEvent):
         type1 = locale.get_type_name(self.types[0])
         type2 = locale.get_type_name(self.types[1])
 
-        evo_details = get_evolutions(self.monster_id, self.form_id, True)
+        evolutions = get_evolutions(self.monster_id, self.form_id)
         evolution_costs = get_evolution_costs(self.monster_id, self.form_id)
 
-        last_evo_id = self.monster_id
-        last_evo_form_id = self.form_id
-        if len(evo_details) > 0:
-            last_evo_id = int(evo_details[-1][: evo_details[-1].find("_")])
-            last_evo_form_id = int(evo_details[-1][evo_details[-1].find("_") + 1 :])
+        last_evo_id = evolutions[-1][0] if evolutions else self.monster_id
+        last_evo_form_id = evolutions[-1][1] if evolutions else self.form_id
 
         evo_candy_cost = calculate_evolution_cost(
-            self.monster_id, last_evo_id, evo_details, evolution_costs
+            self.monster_id, last_evo_id, evolutions, evolution_costs
         )
+
+        # Remove ".0" from full PvP levels
+        if int(self.great_level) == self.great_level:
+            self.great_level = int(self.great_level)
+        if int(self.ultra_level) == self.ultra_level:
+            self.ultra_level = int(self.ultra_level)
+
+        # Stringify PvP candy costs
+        if self.great_candy[1] > 0:
+            great_candy = f"{self.great_candy[0]} + {self.great_candy[1]} XL"
+        else:
+            great_candy = str(self.great_candy[0])
+        if self.ultra_candy[1] > 0:
+            ultra_candy = f"{self.ultra_candy[0]} + {self.ultra_candy[1]} XL"
+        else:
+            ultra_candy = str(self.ultra_candy[0])
 
         dts = self.custom_dts.copy()
         dts.update(
@@ -354,7 +367,7 @@ class MonEvent(BaseEvent):
                 "great_product": self.great_product,
                 "great_mon_name": locale.get_pokemon_name(self.great_id),
                 "great_cp": self.great_cp,
-                "great_level": self.great_level,
+                "great_level": str(self.great_level),
                 "great_url": "https://www.stadiumgaming.gg/rank-checker?"
                 + urlencode(
                     {
@@ -394,13 +407,13 @@ class MonEvent(BaseEvent):
                     )
                     else "",
                 ),
-                "great_candy": self.great_candy,
-                "great_stardust": self.great_stardust,
+                "great_candy": great_candy,
+                "great_stardust": f"{self.great_stardust:,}".replace(",", " "),
                 "ultra_mon_id": self.ultra_id,
                 "ultra_product": self.ultra_product,
                 "ultra_mon_name": locale.get_pokemon_name(self.ultra_id),
                 "ultra_cp": self.ultra_cp,
-                "ultra_level": self.ultra_level,
+                "ultra_level": str(self.ultra_level),
                 "ultra_url": "https://www.stadiumgaming.gg/rank-checker?"
                 + urlencode(
                     {
@@ -440,8 +453,8 @@ class MonEvent(BaseEvent):
                     )
                     else "",
                 ),
-                "ultra_candy": self.ultra_candy,
-                "ultra_stardust": self.ultra_stardust,
+                "ultra_candy": ultra_candy,
+                "ultra_stardust": f"{self.ultra_stardust:,}".replace(",", " "),
                 # Type
                 "type1": type1,
                 "type1_or_empty": Unknown.or_empty(type1),

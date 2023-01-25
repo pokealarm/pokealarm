@@ -29,31 +29,21 @@ class PVP:
             for form_id_ in monster_forms[id_]:
                 monster_products[id_][form_id_] = {}
                 for limit in [1500, 2500]:
-                    highest, lowest = self.spreads(
+                    highest_product = self.spreads(
                         limit,
                         id_,
                         form_id_,
-                        utils.min_level(limit, id_, form_id_),
-                        utils.max_level(limit, id_, form_id_),
+                        self.min_level(limit, id_, form_id_),
+                        self.max_level(limit, id_, form_id_),
                         cp_multipliers,
                     )
 
                     monster_products[id_][form_id_][
-                        "{}_highest_product".format(limit)
-                    ] = highest["product"]
-                    monster_products[id_][form_id_][
-                        "{}_lowest_product".format(limit)
-                    ] = lowest["product"]
+                        f"{limit}_highest_product"
+                    ] = highest_product
 
                     print(
-                        "{}_{}: highest product at {}: {}".format(
-                            id_, form_id_, limit, highest["product"]
-                        )
-                    )
-                    print(
-                        "{}_{}: lowest product at {}: {}".format(
-                            id_, form_id_, limit, lowest["product"]
-                        )
+                        f"{id_}_{form_id_}: highest product at {limit}: {highest_product}"
                     )
 
         with open(pa_root + "/tools/generated_stat_products.json", "w+") as f:
@@ -61,67 +51,43 @@ class PVP:
             f.close()
 
     @staticmethod
+    def max_level(cp_limit, monster_id, form_id=0):
+        if utils.max_cp(monster_id, form_id) <= cp_limit:
+            return 50.0
+
+        cp_base = utils.calculate_cp_base(monster_id, form_id, 0, 0, 0)
+        cp, lvl = utils.bisect_levels(cp_limit, cp_base, 1, 50)
+        return min(lvl + 1, 50)
+
+    @staticmethod
+    def min_level(cp_limit, monster_id, form_id=0):
+        if utils.max_cp(monster_id, form_id) <= cp_limit:
+            return 50.0
+
+        cp_base = utils.calculate_cp_base(monster_id, form_id, 15, 15, 15)
+        cp, lvl = utils.bisect_levels(cp_limit, cp_base, 1, 50)
+        return max(lvl - 1, 1)
+
+    @staticmethod
     def spreads(limit, monster_id, form_id, min_level, max_level, cp_multipliers):
-        smallest = {"product": 999999999}
-        highest = {"product": 0}
+        base_stats = utils.get_base_stats(monster_id, form_id)
+        highest_product = 0
 
-        for level in range(int(min_level * 2), int((max_level + 0.5) * 2)):
-            level = str(level / 2).replace(".0", "")
+        for iv in itertools.product(range(16), range(16), range(16)):
+            cp_base = utils.calculate_cp_base(monster_id, form_id, iv[0], iv[1], iv[2])
+            cp, level = utils.bisect_levels(limit, cp_base, min_level, max_level)
+            if cp == 0:
+                continue
 
-            for stat_product in itertools.product(range(16), range(16), range(16)):
-                cp = utils.calculate_cp(
-                    monster_id,
-                    form_id,
-                    stat_product[0],
-                    stat_product[1],
-                    stat_product[2],
-                    level,
-                )
-                if cp > limit:
-                    continue
-                base_stats = utils.get_base_stats(monster_id, form_id)
-                attack = (base_stats["attack"] + stat_product[0]) * (
-                    cp_multipliers[str(level)]
-                )
-                defense = (base_stats["defense"] + stat_product[1]) * (
-                    cp_multipliers[str(level)]
-                )
-                stamina = int(
-                    (
-                        (base_stats["stamina"] + stat_product[2])
-                        * (cp_multipliers[str(level)])
-                    )
-                )
-                product = attack * defense * stamina
-                if product > highest["product"]:
-                    highest.update(
-                        {
-                            "product": product,
-                            "attack": attack,
-                            "defense": defense,
-                            "stamina": stamina,
-                            "atk": stat_product[0],
-                            "de": stat_product[1],
-                            "sta": stat_product[2],
-                            "cp": cp,
-                            "level": level,
-                        }
-                    )
-                if product < smallest["product"]:
-                    smallest.update(
-                        {
-                            "product": product,
-                            "attack": attack,
-                            "defense": defense,
-                            "stamina": stamina,
-                            "atk": stat_product[0],
-                            "de": stat_product[1],
-                            "sta": stat_product[2],
-                            "cp": cp,
-                            "level": level,
-                        }
-                    )
-        return highest, smallest
+            attack = (base_stats["attack"] + iv[0]) * cp_multipliers[level]
+            defense = (base_stats["defense"] + iv[1]) * cp_multipliers[level]
+            stamina = int((base_stats["stamina"] + iv[2]) * cp_multipliers[level])
+            product = attack * defense * stamina
+
+            if product > highest_product:
+                highest_product = product
+
+        return highest_product
 
 
 if __name__ == "__main__" and __package__ is None:
