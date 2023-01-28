@@ -29,7 +29,7 @@ log = logging.getLogger("Utils")
 # Checks is a line contains any substitutions located in args
 def contains_arg(line, args):
     for word in args:
-        if ("<" + word + ">") in line:
+        if (f"<{word}>") in line:
             return True
     return False
 
@@ -53,16 +53,16 @@ def parse_boolean(val):
 def pip_install(req, version):
     import subprocess
 
-    target = "{}=={}".format(req, version)
-    log.info("Attempting to pip install %s..." % target)
+    target = f"{req}=={version}"
+    log.info(f"Attempting to pip install {target}...")
     subprocess.call(["pip", "install", target])
-    log.info("%s install complete." % target)
+    log.info(f"{target} install complete.")
 
 
 # Used to exit when leftover parameters are found
 def reject_leftover_parameters(dict_, location):
     if len(dict_) > 0:
-        log.error("Unknown parameters at {}: ".format(location))
+        log.error(f"Unknown parameters at {location}: ")
         log.error(list(dict_.keys()))
         log.error("Please consult the PokeAlarm wiki for accepted parameters.")
         sys.exit(1)
@@ -74,8 +74,8 @@ def require_and_remove_key(key, _dict, location):
         return _dict.pop(key)
     else:
         log.error(
-            "The parameter '{}' is required for {}".format(key, location)
-            + " Please check the PokeAlarm wiki for correct formatting."
+            f"The parameter '{key}' is required for {location}. "
+            "Please check the PokeAlarm wiki for correct formatting."
         )
         sys.exit(1)
 
@@ -669,8 +669,7 @@ def get_gender_sym(gender):  # TODO - support other languages
         return "\u26b2"  # neutral
     else:
         raise ValueError(
-            "Unable to interpret `{}` as a supported "
-            " gender name or id.".format(gender)
+            f"Unable to interpret '{gender}' as a supported gender name or id."
         )
 
 
@@ -977,7 +976,7 @@ def sign_gmaps_static_url(input_url=None, secret=None):
 
     except Exception as e:
         log.error(f"Unable to sign maps static url: {e}. Using unsigned url.")
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        log.debug(f"Stack trace: \n {traceback.format_exc()}")
 
         return input_url
 
@@ -1011,14 +1010,14 @@ def get_cardinal_dir(pt_a, pt_b=None):
 def get_dist_as_str(dist, units):
     if units == "imperial":
         if dist > 1760:  # yards per mile
-            return "{:.1f}mi".format(dist / 1760.0)
+            return f"{dist / 1760.0:.1f}mi"
         else:
-            return "{:.1f}yd".format(dist)
+            return f"{dist:.1f}yd"
     else:  # Metric
         if dist > 1000:  # meters per km
-            return "{:.1f}km".format(dist / 1000.0)
+            return f"{dist / 1000.0:.1f}km"
         else:
-            return "{:.1f}m".format(dist)
+            return f"{dist:.1f}m"
 
 
 # Returns an integer representing the distance between A and B
@@ -1053,7 +1052,7 @@ def get_time_as_str(t, timezone=None):
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds
-    time = "%dm %ds" % (m, s) if h == 0 else "%dh %dm" % (h, m)
+    time = f"{m}m {s}s" if h == 0 else f"{h}h {m}m"
     # Disappear time in 12h format, eg "2:30:16 PM"
     time_12h = (
         disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
@@ -1062,7 +1061,7 @@ def get_time_as_str(t, timezone=None):
     time_24h = disappear_time.strftime("%H:%M:%S")
 
     # Get the same as above but without seconds
-    time_no_sec = "%dm" % m if h == 0 else "%dh %dm" % (h, m)
+    time_no_sec = f"{m}m" if h == 0 else f"{h}h {m}m"
     time_12h_no_sec = (
         disappear_time.strftime("%I:%M") + disappear_time.strftime("%p").lower()
     )
@@ -1095,7 +1094,7 @@ def get_seconds_remaining(t, timezone=None):
 
 # Return the default url for images and stuff
 def get_image_url(suffix):
-    return not_so_secret_url + suffix
+    return f"{not_so_secret_url}{suffix}"
 
 
 # Returns the id corresponding with the weather
@@ -1125,7 +1124,7 @@ def get_weather_id(weather_name):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            f"Unable to interpret `{weather_name}` as a valid weather name or id."
+            f"Unable to interpret '{weather_name}' as a valid weather name or id."
         )
 
 

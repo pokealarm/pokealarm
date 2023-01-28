@@ -230,9 +230,7 @@ class RaidFilter(BaseFilter):
 
         # Reject leftover parameters
         for key in data:
-            raise ValueError(
-                "'{}' is not a recognized parameter for" " Raid filters".format(key)
-            )
+            raise ValueError(f"'{key}' is not a recognized parameter for Raid filters")
 
     def to_dict(self):
         """Create a dict representation of this Filter."""

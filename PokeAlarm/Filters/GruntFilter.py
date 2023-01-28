@@ -132,7 +132,7 @@ class GruntFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError(
-                "'{}' is not a recognized parameter for" " Invasion filters".format(key)
+                f"'{key}' is not a recognized parameter for Invasion filters"
             )
 
     def to_dict(self):

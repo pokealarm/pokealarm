@@ -46,7 +46,7 @@ class TwilioAlarm(Alarm):
             " Available until <24h_raid_end> (<raid_time_left>)."
         },
         "weather": {
-            "message": "The weather around <lat>,<lng> has" " changed to <weather>!"
+            "message": "The weather around <lat>,<lng> has changed to <weather>!"
         },
         "quests": {
             "message": "*New quest for <reward>*\n<quest_task>\n<gmaps>",

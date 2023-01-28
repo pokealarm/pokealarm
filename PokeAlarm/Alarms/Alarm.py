@@ -81,7 +81,7 @@ class Alarm(object):
 
         s = string
         for key in pkinfo:
-            s = s.replace("<{}>".format(key), str(pkinfo[key]))
+            s = s.replace(f"<{key}>", str(pkinfo[key]))
         return s
 
     @staticmethod
@@ -92,8 +92,7 @@ class Alarm(object):
             return kind(value)
         except Exception:
             raise ValueError(
-                'Unable to interpret the value "{}" as a valid {} '
-                'for parameter {}.", '.format(value, kind, param_name)
+                f"Unable to interpret the value '{value}' as a valid {kind} for parameter {param_name}."
             )
 
     # Attempts to send the alert multiple times
@@ -105,14 +104,11 @@ class Alarm(object):
                 return  # message sent successfully
             except Exception as e:
                 log.error(
-                    "Encountered error while sending notification"
-                    + " ({}: {})".format(type(e).__name__, e)
+                    f"Encountered error while sending notification ({type(e).__name__}: {e})"
                 )
-                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                log.debug(f"Stack trace: \n {traceback.format_exc()}")
                 log.info(
-                    "{} is having connection issues. {} attempt of {}.".format(
-                        name, i + 1, max_attempts
-                    )
+                    f"{name} is having connection issues. {i+1} attempt of {max_attempts}."
                 )
                 time.sleep(3)
                 reconnect()

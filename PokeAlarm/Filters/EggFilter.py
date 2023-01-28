@@ -139,9 +139,7 @@ class EggFilter(BaseFilter):
 
         # Reject leftover parameters
         for key in data:
-            raise ValueError(
-                "'{}' is not a recognized parameter for" " Egg filters".format(key)
-            )
+            raise ValueError(f"'{key}' is not a recognized parameter for Egg filters")
 
     def to_dict(self):
         """Create a dict representation of this Filter."""

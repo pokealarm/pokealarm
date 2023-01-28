@@ -10,20 +10,13 @@ class MockManager(object):
         return logging.getLogger("test").getChild(name)
 
     # Fetch data
-    masterfile_url = (
-        "https://raw.githubusercontent.com/WatWowMap/"
-        "Masterfile-Generator/master/master-latest-everything.json"
-    )
+    masterfile_url = "https://raw.githubusercontent.com/WatWowMap/Masterfile-Generator/master/master-latest-everything.json"
     fast_moves_url = "https://pogoapi.net/api/v1/fast_moves.json"
     charged_moves_url = "https://pogoapi.net/api/v1/charged_moves.json"
     shiny_possible_url = (
-        "https://raw.githubusercontent.com/jms412/"
-        "PkmnShinyMap/main/shinyPossible.json"
+        "https://raw.githubusercontent.com/jms412/PkmnShinyMap/main/shinyPossible.json"
     )
-    invasions_url = (
-        "https://raw.githubusercontent.com/cecpk/RocketMAD/"
-        "master/static/data/invasions.json"
-    )
+    invasions_url = "https://raw.githubusercontent.com/cecpk/RocketMAD/master/static/data/invasions.json"
     masterfile_data = requests.get(masterfile_url).json()
     fast_moves_data = requests.get(fast_moves_url).json()
     charged_moves_data = requests.get(fast_moves_url).json()
@@ -76,16 +69,14 @@ def generic_filter_test(test):
             event = self.gen_event({test.event_key: val})
             self.assertTrue(
                 filt.check_event(event),
-                "pass_val failed check in {}: \n{} passed {}"
-                "".format(test.__name__, event, filt),
+                f"pass_val failed check in {test.__name__}: \n{event} passed {filt}",
             )
         # Test failing
         for val in test.fail_vals:
             event = self.gen_event({test.event_key: val})
             self.assertFalse(
                 filt.check_event(event),
-                "fail_val  passed check in {}: \n{} passed {}"
-                "".format(test.__name__, event, filt),
+                f"fail_val  passed check in {test.__name__}: \n{event} passed {filt}",
             )
 
     return generic_test
@@ -109,17 +100,14 @@ def full_filter_test(test):
             event = self.gen_event(val)
             self.assertTrue(
                 filt.check_event(event),
-                "pass_val failed check in {}: \n{} passed {}".format(
-                    test.__name__, event, filt
-                ),
+                f"pass_val failed check in {test.__name__}: \n{event} passed {filt}",
             )
 
         for val in test.fail_items:
             event = self.gen_event(val)
             self.assertFalse(
                 filt.check_event(event),
-                "fail_val  passed check in {}: \n{} passed {}"
-                "".format(test.__name__, event, filt),
+                f"fail_val  passed check in {test.__name__}: \n{event} passed {filt}",
             )
 
     return full_test

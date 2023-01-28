@@ -8,9 +8,7 @@ import sys
 # Local Imports
 from PokeAlarm.Utils import get_path
 
-FORMAT = (
-    "%(asctime)s [%(levelname)5.5s]" "[%(parent)10.10s][%(child)10.10s] %(message)s"
-)
+FORMAT = "%(asctime)s [%(levelname)5.5s][%(parent)10.10s][%(child)10.10s] %(message)s"
 
 FORMATTER = logging.Formatter(FORMAT)
 
@@ -65,9 +63,7 @@ def setup_file_handler(logger, path, max_size=100, backup_ct=5):
     path = get_path(path)
     folder = os.path.dirname(path)
     if not os.path.exists(folder):
-        raise IOError(
-            "Unable to create file logger " "- path '{}' doesn't exist".format(folder)
-        )
+        raise IOError(f"Unable to create file logger - path '{folder}' doesn't exist")
     # Create the handler
     handler = logging.handlers.RotatingFileHandler(
         filename=path,

@@ -48,7 +48,7 @@ class PushbulletAlarm(Alarm):
         "raids": {
             "title": "Level <raid_lvl> raid is available against <mon_name>!",
             "url": "<gmaps>",
-            "body": "The raid is available until <24h_raid_end>" " (<raid_time_left>).",
+            "body": "The raid is available until <24h_raid_end> (<raid_time_left>).",
         },
         "weather": {
             "title": "The weather has changed!",
@@ -209,7 +209,7 @@ class PushbulletAlarm(Alarm):
         if req_channel is None and channel_tag is not None:
             self._log.error("Unable to find channel. Pushing to all devices instead.")
         else:
-            self._log.debug("Setting to channel %s." % channel_tag)
+            self._log.debug(f"Setting to channel {channel_tag}.")
         return req_channel
 
     # Push a link to the given channel
@@ -236,7 +236,7 @@ class PushbulletAlarm(Alarm):
                 f"Response received {res.status_code}, webhook not accepted."
             )
 
-        self._log.debug("Notification successful " f"(returned {res.status_code})")
+        self._log.debug("Notification successful (returned {res.status_code})")
 
     def update_channels(self):
         response = self._session.get(
@@ -245,8 +245,7 @@ class PushbulletAlarm(Alarm):
         if response.ok is not True:
             self._log.debug(f"Pushbullet channels response was {response.content}")
             raise requests.exceptions.RequestException(
-                f"Response received {response.status_code}, "
-                "channel grabbing not successful"
+                f"Response received {response.status_code} channel grabbing not successful"
             )
         try:
             self.__channels = response.json()["channels"]
@@ -254,5 +253,5 @@ class PushbulletAlarm(Alarm):
             self._log.error("Problem with the PushBullet API")
             self._log.debug(f"PushBullet /v2/channels response:{response.json()}")
         self._log.debug(
-            "Detected the following PushBullet channels: {}".format(self.__channels)
+            f"Detected the following PushBullet channels: {self.__channels}"
         )

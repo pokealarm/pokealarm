@@ -57,7 +57,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "PokeAlarm"
-copyright = "{0}, PokeAlarm Team".format(datetime.datetime.now().year)
+copyright = f"{datetime.datetime.now().year}, PokeAlarm Team"
 author = "PokeAlarm Team"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -84,7 +84,7 @@ exclude_patterns = [".build", "Thumbs.db", ".DS_Store"]
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
 
-# If true, `todo` and `todoList` produce output, else they produce nothing.
+# If true, 'todo' and 'todoList' produce output, else they produce nothing.
 todo_include_todos = False
 
 

@@ -23,7 +23,7 @@ class Locale(object):
             default = json.loads(f.read())
         # Now load in the actual language we want
         # (unnecessary for English but we don't want to discriminate)
-        with open(os.path.join(get_path("locales"), "{}.json".format(language))) as f:
+        with open(os.path.join(get_path("locales"), f"{language}.json")) as f:
             info = json.loads(f.read())
 
         # Pokemon ID -> Name
@@ -154,7 +154,7 @@ class Locale(object):
         for id_, val in default["evolutions"].items():
             self.__evolutions_names[int(id_)] = evolutions.get(id_, val)
 
-        log.debug("Loaded '{}' locale successfully!".format(language))
+        log.debug(f"Loaded '{language}' locale successfully!")
 
         self.__misc = info.get("misc", {})
 
@@ -233,41 +233,29 @@ class Locale(object):
         return self.name in ["en", "de"]
 
     def get_quest_monster_reward(self, monster):
-        reward_template = "{form_with_space}{monster}"
-        if not self.adjective_placement():
-            reward_template = "{monster} {form}"
-        return reward_template.format(
-            # costume_with_space=
-            # (self.get_costume_name(monster.id, monster.costume) + ' '
-            #  if monster.costume != 0 else ''),
-            # costume=self.get_costume_name(monster.id, monster.costume),
-            form=self.get_form_name(monster["id"], monster["form"]),
-            form_with_space=self.get_form_name(monster["id"], monster["form"]) + " "
-            if monster["form"] != 0
-            and self.get_form_name(monster["id"], monster["form"])
-            not in ["Normal", "Normale"]
-            else "",
-            monster=self.get_pokemon_name(monster["id"]),
-        )
+        monster_name = self.get_pokemon_name(monster["id"])
+        form_name = self.get_form_name(monster["id"], monster["form"])
+
+        if monster["form"] != 0 and form_name not in ["Normal", "Normale"]:
+            if self.adjective_placement():
+                return f"{form_name} {monster_name}"
+            else:
+                return f"{monster_name} {form_name}"
+        else:
+            return f"{monster_name}"
 
     def get_quest_item_reward(self, item):
         item_name = self.get_item_name(item["id"])
-        reward_template = "{amount} {item}"
-        if not self.adjective_placement():
-            reward_template = "{item} {amount}"
-        return reward_template.format(
-            amount=item["amount"], type=item["type"], item=item_name
-        )
+        if self.adjective_placement():
+            return f'{item["amount"]} {item_name}'
+        else:
+            return f'{item_name} {item["amount"]}'
 
     def get_quest_generic_reward(self, reward_type_id, reward_amount):
         reward_name = self.get_quest_type_name(reward_type_id)
         if self.adjective_placement():
-            return "{reward_amount} {reward_name}".format(
-                reward_amount=reward_amount, reward_name=reward_name
-            )
-        return "{reward_name} {reward_amount}".format(
-            reward_name=reward_name, reward_amount=reward_amount
-        )
+            return f"{reward_amount} {reward_name}"
+        return f"{reward_name} {reward_amount}"
 
     def get_item_name(self, item_id):
         return self.__item_names.get(item_id, "unknown")

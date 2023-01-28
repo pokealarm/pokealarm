@@ -27,8 +27,7 @@ def get_reward_type(reward_type):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid "
-            " quest reward type or id.".format(reward_type)
+            f"Unable to interpret '{reward_type}' as a valid quest reward type or id."
         )
 
 
@@ -71,18 +70,16 @@ def get_item_id(item_name):
             return int(name)  # try as an integer
     except Exception:
         raise ValueError(
-            "Unable to interpret `{}` as a valid" " item name or id.".format(item_name)
+            f"Unable to interpret '{item_name}' as a valid item name or id."
         )
 
 
 def get_quest_image(quest):
     image = ""
     if quest.reward_type_id == 7:  # reward type is monster
-        return image + "monsters/{:03}_{:03d}".format(
-            quest.monster_id, quest.monster_form_id
-        )
+        return f"{image}monsters/{quest.monster_id:03}_{quest.monster_form_id:03d}"
     elif quest.reward_type_id == 2:  # reward type is item
-        return image + "items/{:04d}".format(quest.item_id)
+        return f"{image}items/{quest.item_id:04d}"
 
     # Assume generic reward type
-    return image + "quests/{:03d}".format(quest.reward_type_id)
+    return f"{image}quests/{quest.reward_type_id:03d}"

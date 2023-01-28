@@ -53,7 +53,7 @@ class TwitterAlarm(Alarm):
             "<24h_raid_end> (<raid_time_left>). <gmaps>"
         },
         "weather": {
-            "status": "The weather around <lat>,<lng> has changed" " to <weather>!"
+            "status": "The weather around <lat>,<lng> has changed to <weather>!"
         },
         "quests": {
             "status": "*New quest for <reward>*\n<quest_task>\n<gmaps>",
@@ -130,16 +130,11 @@ class TwitterAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
-            args = {
-                "status": (
-                    f"{timestamps[2]} - "
-                    + (
-                        "PokeAlarm has initialized!"
-                        if self.__startup_text == ""
-                        else self.__startup_text
-                    )
-                )
-            }
+            args = {}
+            if self.__startup_text == "":
+                args = {"status": f"{timestamps[2]} - PokeAlarm has initialized!"}
+            else:
+                args = {"status": f"{timestamps[2]} - {self.__startup_text}"}
             try_sending(self._log, self.connect, "Twitter", self.send_tweet, args)
 
             self._log.info("Startup tweet sent!")

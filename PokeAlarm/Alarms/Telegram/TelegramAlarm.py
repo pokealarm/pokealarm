@@ -77,13 +77,13 @@ class TelegramAlarm(Alarm):
             ),
         },
         "weather": {
-            "message": "The weather around <lat>,<lng> has" " changed to <weather>!",
+            "message": "The weather around <lat>,<lng> has changed to <weather>!",
             "sticker_url": get_image_url(
                 "telegram/weather/<weather_id_3>_<day_or_night_id_3>.webp"
             ),
         },
         "quests": {
-            "message": "*New quest for <reward>*\n" "<quest_task>",
+            "message": "*New quest for <reward>*\n<quest_task>",
             "sticker_url": get_image_url("telegram/<quest_image>.webp"),
         },
         "invasions": {
@@ -158,8 +158,7 @@ class TelegramAlarm(Alarm):
         # Reject leftover parameters
         for key in settings:
             raise ValueError(
-                "'{}' is not a recognized parameter for the Alarm"
-                " level in a Telegram Alarm".format(key)
+                f"'{key}' is not a recognized parameter for the Alarm level in a Telegram Alarm"
             )
 
         self._log.info("Telegram Alarm has been created!")
@@ -221,8 +220,7 @@ class TelegramAlarm(Alarm):
         # Reject leftover parameters
         for key in settings:
             raise ValueError(
-                "'{}' is not a recognized parameter for the Alert"
-                " level in a Telegram Alarm".format(key)
+                f"'{key}' is not a recognized parameter for the Alert level in a Telegram Alarm"
             )
 
         return alert
@@ -292,7 +290,7 @@ class TelegramAlarm(Alarm):
 
     def send_sticker(self, token, chat_id, sticker_url, max_attempts=3, notify=False):
         args = {
-            "url": "https://api.telegram.org/bot{}/sendSticker".format(token),
+            "url": f"https://api.telegram.org/bot{token}/sendSticker",
             "payload": {
                 "chat_id": chat_id,
                 "sticker": sticker_url,
@@ -312,7 +310,7 @@ class TelegramAlarm(Alarm):
         self, token, chat_id, message, max_attempts=3, notify=True, web_preview=False
     ):
         args = {
-            "url": "https://api.telegram.org/bot{}/sendMessage".format(token),
+            "url": f"https://api.telegram.org/bot{token}/sendMessage",
             "payload": {
                 "chat_id": chat_id,
                 "text": message,
@@ -332,7 +330,7 @@ class TelegramAlarm(Alarm):
 
     def send_location(self, token, chat_id, lat, lng, max_attempts=3, notify=False):
         args = {
-            "url": "https://api.telegram.org/bot{}/sendLocation".format(token),
+            "url": f"https://api.telegram.org/bot{token}/sendLocation",
             "payload": {
                 "chat_id": chat_id,
                 "latitude": lat,
@@ -352,7 +350,7 @@ class TelegramAlarm(Alarm):
     def send_venue(self, token, chat_id, lat, lng, message, max_attempts):
         msg = message.split("\n", 1)
         args = {
-            "url": "https://api.telegram.org/bot{}/sendVenue".format(token),
+            "url": f"https://api.telegram.org/bot{token}/sendVenue",
             "payload": {
                 "chat_id": chat_id,
                 "latitude": lat,
@@ -377,11 +375,9 @@ class TelegramAlarm(Alarm):
         self._log.debug(payload)
         resp = requests.post(url, json=payload, timeout=30)
         if resp.ok is True:
-            self._log.debug(
-                "Notification successful (returned {})".format(resp.status_code)
-            )
+            self._log.debug(f"Notification successful (returned {resp.status_code})")
         else:
-            self._log.debug("Telegram response was {}".format(resp.content))
+            self._log.debug(f"Telegram response was {resp.content}")
             raise requests.exceptions.RequestException(
-                "Response received {}, webhook not accepted.".format(resp.status_code)
+                f"Response received {resp.status_code}, webhook not accepted."
             )

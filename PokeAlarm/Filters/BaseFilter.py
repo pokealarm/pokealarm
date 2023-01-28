@@ -57,12 +57,12 @@ class BaseFilter(object):
 
     def reject(self, event, attr_name, value, required):
         """Log the reason for rejecting the Event."""
-        self._log.info("'%s' %s rejected by '%s'", event.name, self._type, self._name)
-        self._log.debug("%s incorrect: (%s to %s)", attr_name, value, required)
+        self._log.info(f"'{event.name}' {self._type} rejected by '{self._name}'")
+        self._log.debug(f"{attr_name} incorrect: ({value} to {required})")
 
     def accept(self, event):
         """Log that the Event was accepted."""
-        self._log.info("'%s' %s accepted by '%s'", event.name, self._type, self._name)
+        self._log.info(f"'{event.name}' {self._type} accepted by '{self._name}'")
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """Evaluates a parameter and generate a check if needed."""
@@ -112,8 +112,7 @@ class BaseFilter(object):
                 return kind(value)
         except Exception:
             raise ValueError(
-                'Unable to interpret the value "{}" as a '.format(value)
-                + 'valid {} for parameter {}.", '.format(kind, param_name)
+                f"Unable to interpret the value '{value}' as a valid {kind} for parameter {param_name}."
             )
 
     @staticmethod
@@ -125,9 +124,9 @@ class BaseFilter(object):
             return None
         if not isinstance(values, list):
             raise ValueError(
-                'The "{0}" parameter must formatted as a list containing '
-                'different values. Example: "{0}": '
-                '[ "value1", "value2", "value3" ] '.format(param_name)
+                f"The '{param_name}' parameter must formatted as a list containing "
+                f'different values. Example: "{param_name}": '
+                '[ "value1", "value2", "value3" ] '
             )
         # Generate Allowed Set
         allowed = []
@@ -145,9 +144,9 @@ class BaseFilter(object):
             return None
         if not isinstance(values, list):
             raise ValueError(
-                'The "{0}" parameter must formatted as a list containing '
-                'different values. Example: "{0}": '
-                '[ "value1", "value2", "value3" ] '.format(param_name)
+                f"The '{param_name}' parameter must formatted as a list containing "
+                f'different values. Example: "{param_name}": '
+                '[ "value1", "value2", "value3" ] '
             )
         # Generate Allowed Set
         allowed = set()
@@ -165,9 +164,9 @@ class BaseFilter(object):
             return None
         if not isinstance(values, list):
             raise ValueError(
-                'The "{0}" parameter must formatted as a list containing '
-                'different values. Example: "{0}": '
-                '[ "value1", "value2", "value3" ] '.format(param_name)
+                f"The '{param_name}' parameter must formatted as a list containing "
+                f'different values. Example: "{param_name}": '
+                '[ "value1", "value2", "value3" ] '
             )
         # Generate Allowed Set
         allowed = set()
@@ -196,13 +195,11 @@ class BaseFilter(object):
                     ).total_seconds()
                 except Exception:
                     raise ValueError(
-                        'Unable to interpret the value "{}" as a '.format(value)
-                        + 'valid X:XX format for parameter {}.", '.format(param_name)
+                        f"Unable to interpret the value '{value}' as a valid X:XX format for parameter {param_name}."
                     )
         except Exception:
             raise ValueError(
-                'Unable to interpret the value "{}" as a '.format(value)
-                + 'valid  X:XX format for parameter {}.", '.format(param_name)
+                f"Unable to interpret the value '{value}' as a valid X:XX format for parameter {param_name}."
             )
 
     @staticmethod
@@ -211,9 +208,9 @@ class BaseFilter(object):
         values = data.pop(param_name, {})
         if not isinstance(values, dict):
             raise ValueError(
-                'The "{0}" parameter must formatted as a dict containing '
-                'key-value pairs. Example: "{0}": '
-                '{{ "key1": "value1", "key2": "value2" }}'.format(param_name)
+                f"The '{param_name}' parameter must formatted as a dict containing "
+                f'key-value pairs. Example: "{param_name}": '
+                '{{ "key1": "value1", "key2": "value2" }}'
             )
         out = {}
         for k, v in values.items():
@@ -221,8 +218,7 @@ class BaseFilter(object):
                 out[key_type(k)] = value_type(v)
             except Exception:
                 raise ValueError(
-                    'There was an error while parsing \'"{}": "{}"\' in '
-                    'parameter name "{}"'.format(k, v, param_name)
+                    f"There was an error while parsing '\"{k}\": \"{v}\"' in parameter name '{param_name}'"
                 )
         return out
 
