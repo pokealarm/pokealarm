@@ -54,15 +54,15 @@ def pip_install(req, version):
     import subprocess
 
     target = f"{req}=={version}"
-    log.info(f"Attempting to pip install {target}...")
+    log.info("Attempting to pip install %s...", target)
     subprocess.call(["pip", "install", target])
-    log.info(f"{target} install complete.")
+    log.info("%s install complete.", target)
 
 
 # Used to exit when leftover parameters are found
 def reject_leftover_parameters(dict_, location):
     if len(dict_) > 0:
-        log.error(f"Unknown parameters at {location}: ")
+        log.error("Unknown parameters at %s: ", location)
         log.error(list(dict_.keys()))
         log.error("Please consult the PokeAlarm wiki for accepted parameters.")
         sys.exit(1)
@@ -74,8 +74,10 @@ def require_and_remove_key(key, _dict, location):
         return _dict.pop(key)
     else:
         log.error(
-            f"The parameter '{key}' is required for {location}. "
-            "Please check the PokeAlarm wiki for correct formatting."
+            "The parameter '%s' is required for %s. "
+            "Please check the PokeAlarm wiki for correct formatting.",
+            key,
+            location,
         )
         sys.exit(1)
 
@@ -975,8 +977,8 @@ def sign_gmaps_static_url(input_url=None, secret=None):
         return f"{original_url}&signature={encoded_signature.decode()}"
 
     except Exception as e:
-        log.error(f"Unable to sign maps static url: {e}. Using unsigned url.")
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.error("Unable to sign maps static url: %s. Using unsigned url.", e)
+        log.debug("Stack trace: \n %s", traceback.format_exc())
 
         return input_url
 

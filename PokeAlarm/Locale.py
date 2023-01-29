@@ -154,7 +154,7 @@ class Locale(object):
         for id_, val in default["evolutions"].items():
             self.__evolutions_names[int(id_)] = evolutions.get(id_, val)
 
-        log.debug(f"Loaded '{language}' locale successfully!")
+        log.debug("Loaded '%s' locale successfully!", language)
 
         self.__misc = info.get("misc", {})
 

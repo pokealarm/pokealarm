@@ -17,7 +17,7 @@ log = logging.getLogger("pokealarm.setup")
 def parse_filters_file(mgr, filename):
     try:
         filepath = utils.get_path(filename)
-        log.info(f"Loading Filters from file at {filepath}")
+        log.info("Loading Filters from file at %s", filepath)
         with open(filepath, "r") as f:
             filters_file = json.load(f, object_pairs_hook=OrderedDict)
         if type(filters_file) is not OrderedDict:
@@ -26,22 +26,26 @@ def parse_filters_file(mgr, filename):
             )
             raise ValueError("Filter file did not contain a dict.")
     except ValueError as e:
-        log.error(f"Encountered error while loading Filters: {type(e).__name__}: {e}")
+        log.error(
+            "Encountered error while loading Filters: %s: %s", type(e).__name__, e
+        )
         log.error(
             "PokeAlarm has encountered a 'ValueError' while loading the "
             "Filters file. This typically means the file isn't in the "
             "correct json format. Try loading the file contents into a "
             "json validator."
         )
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
     except IOError as e:
-        log.error(f"Encountered error while loading Filters: {type(e).__name__}: {e}")
+        log.error(
+            "Encountered error while loading Filters: %s: %s", type(e).__name__, e
+        )
         log.error(
             "PokeAlarm was unable to find a filters file at {filepath}. "
             "Please check that this file exists and that PA has read permissions."
         )
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
 
     try:
@@ -109,8 +113,8 @@ def parse_filters_file(mgr, filename):
             "Encountered error while parsing Filters. "
             "This is because of a mistake in your Filters file."
         )
-        log.error(f"{type(e).__name__}: {e}")
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.error("%s: %s", type(e).__name__, e)
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
 
 
@@ -132,7 +136,7 @@ def parse_filter_section(section):
 def parse_alarms_file(manager, filename):
     try:
         filepath = utils.get_path(filename)
-        log.info(f"Loading Alarms from file at {filepath}")
+        log.info("Loading Alarms from file at %s", filepath)
         with open(filepath, "r") as f:
             alarm_settings = json.load(f, object_pairs_hook=OrderedDict)
         if type(alarm_settings) is not OrderedDict:
@@ -141,14 +145,14 @@ def parse_alarms_file(manager, filename):
             )
             sys.exit(1)
     except ValueError as e:
-        log.error(f"Encountered error while loading Alarms: {type(e).__name__}: {e}")
+        log.error("Encountered error while loading Alarms: %s: %s", type(e).__name__, e)
         log.error(
             "PokeAlarm has encountered a 'ValueError' while loading the "
             "Alarms file. This typically means the file isn't in the "
             "correct json format. Try loading the file contents into a "
             "json validator."
         )
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
 
     try:
@@ -159,10 +163,10 @@ def parse_alarms_file(manager, filename):
             if active:
                 manager.add_alarm(name, alarm)
             else:
-                log.debug(f"{name} alarm ignored: active is set to 'false'")
+                log.debug("%s alarm ignored: active is set to 'false'", name)
     except Exception as e:
-        log.error(f"Encountered error while loading Alarms: {type(e).__name__}: {e}")
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.error("Encountered error while loading Alarms: %s: %s", type(e).__name__, e)
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
 
 
@@ -172,21 +176,21 @@ def parse_rules_file(manager, filename):
     filepath = utils.get_path(filename)
     rules = OrderedDict()
     try:
-        log.info(f"Loading Rules from file at {filepath}")
+        log.info("Loading Rules from file at %s", filepath)
         with open(filepath, "r") as f:
             rules = json.load(f, object_pairs_hook=OrderedDict)
         if type(rules) is not OrderedDict:
             log.critical('Rules files must be a JSON object: { "monsters":[...],... }')
             raise ValueError("Rules file did not contain a dict.")
     except ValueError as e:
-        log.error(f"Encountered error while loading Rules: {type(e).__name__}: {e}")
+        log.error("Encountered error while loading Rules: %s: %s", type(e).__name__, e)
         log.error(
             "PokeAlarm has encountered a 'ValueError' while loading the "
             "Rules file. This typically means the file isn't in the "
             "correct json format. Try loading the file contents into a "
             "json validator."
         )
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
 
     try:
@@ -219,8 +223,8 @@ def parse_rules_file(manager, filename):
             "Encountered error while parsing Rules. "
             "This is because of a mistake in your Rules file."
         )
-        log.error(f"{type(e).__name__}: {e}")
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.error("%s: %s", type(e).__name__, e)
+        log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)
 
 

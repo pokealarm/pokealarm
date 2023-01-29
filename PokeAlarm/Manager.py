@@ -129,7 +129,9 @@ class Manager(object):
     # Tell the process to finish up and go home
     def stop(self):
         self._log.info(
-            f"Manager {self.name} shutting down... {self.__queue.qsize()} items in queue."
+            "Manager %s shutting down... %s items in queue.",
+            self.name,
+            self.__queue.qsize(),
         )
         self.__event.set()
 
@@ -137,11 +139,12 @@ class Manager(object):
         self.__process.join(timeout=20)
         if not self.__process.ready():
             self._log.warning(
-                f"Manager {self.name} could not be stopped in time! Forcing process to stop."
+                "Manager %s could not be stopped in time! Forcing process to stop.",
+                self.name,
             )
             self.__process.kill(timeout=2, block=True)  # Force stop
         else:
-            self._log.info(f"Manager {self.name} successfully stopped!")
+            self._log.info("Manager %s successfully stopped!", self.name)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -230,11 +233,11 @@ class Manager(object):
             raise ValueError(
                 "Unable to set verbosity, must be an integer between 1 and 5."
             )
-        self._log.debug(f"Verbosity set to {log_level}")
+        self._log.debug("Verbosity set to %s", log_level)
 
     def add_file_logger(self, path, max_size_mb, ct):
         setup_file_handler(self._log, path, max_size_mb, ct)
-        self._log.debug(f"Added new file logger to {path}")
+        self._log.debug("Added new file logger to %s", path)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -256,7 +259,7 @@ class Manager(object):
             )
         f = Filters.MonFilter(self, name, settings, self.geofences)
         self._mon_filters[name] = f
-        self._log.debug(f"Monster filter '{name}' set: {f}")
+        self._log.debug("Monster filter '%s' set: %s", name, f)
 
     # Enable/Disable Stops notifications
     def set_stops_enabled(self, boolean):
@@ -274,7 +277,7 @@ class Manager(object):
             )
         f = Filters.StopFilter(self, name, settings, self.geofences)
         self._stop_filters[name] = f
-        self._log.debug(f"Stop filter '{name}' set: {f}")
+        self._log.debug("Stop filter '%s' set: %s", name, f)
 
     # Enable/Disable Gym notifications
     def set_gyms_enabled(self, boolean):
@@ -287,7 +290,7 @@ class Manager(object):
     # Enable/Disable Stops notifications
     def set_ignore_neutral(self, boolean):
         self._ignore_neutral = parse_bool(boolean)
-        self._log.debug(f"Ignore neutral set to {self._ignore_neutral}!")
+        self._log.debug("Ignore neutral set to %s!", self._ignore_neutral)
 
     # Add new Gym Filter
     def add_gym_filter(self, name, settings):
@@ -297,7 +300,7 @@ class Manager(object):
             )
         f = Filters.GymFilter(self, name, settings, self.geofences)
         self._gym_filters[name] = f
-        self._log.debug(f"Gym filter '{name}' set: {f}")
+        self._log.debug("Gym filter '%s' set: %s", name, f)
 
     # Enable/Disable Egg notifications
     def set_eggs_enabled(self, boolean):
@@ -315,7 +318,7 @@ class Manager(object):
             )
         f = Filters.EggFilter(self, name, settings, self.geofences)
         self._egg_filters[name] = f
-        self._log.debug(f"Egg filter '{name}' set: {f}")
+        self._log.debug("Egg filter '%s' set: %s", name, f)
 
     # Enable/Disable Stops notifications
     def set_raids_enabled(self, boolean):
@@ -333,7 +336,7 @@ class Manager(object):
             )
         f = Filters.RaidFilter(self, name, settings, self.geofences)
         self._raid_filters[name] = f
-        self._log.debug(f"Raid filter '{name}' set: {f}")
+        self._log.debug("Raid filter '%s' set: %s", name, f)
 
     # Enable/Disable Weather notifications
     def set_weather_enabled(self, boolean):
@@ -351,7 +354,7 @@ class Manager(object):
             )
         f = Filters.WeatherFilter(self, name, settings, self.geofences)
         self._weather_filters[name] = f
-        self._log.debug(f"Weather filter '{name}' set: {f}")
+        self._log.debug("Weather filter '%s' set: %s", name, f)
 
     # Enable/Disable Quest notifications
     def set_quest_enabled(self, boolean):
@@ -369,7 +372,7 @@ class Manager(object):
             )
         f = Filters.QuestFilter(self, name, settings, self.geofences)
         self._quest_filters[name] = f
-        self._log.debug(f"Quest filter '{name}' set: {f}")
+        self._log.debug("Quest filter '%s' set: %s", name, f)
 
     # Enable/Disable Invasion notifications
     def set_grunts_enabled(self, boolean):
@@ -387,7 +390,7 @@ class Manager(object):
             )
         f = Filters.GruntFilter(self, name, settings, self.geofences)
         self._grunt_filters[name] = f
-        self._log.debug(f"Invasion filter '{name}' set: {f}")
+        self._log.debug("Invasion filter '%s' set: %s", name, f)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -607,7 +610,7 @@ class Manager(object):
 
             try:
                 kind = type(event)
-                self._log.debug(f"Processing event: {event.id}")
+                self._log.debug("Processing event: %s", event.id)
                 if kind == Events.MonEvent:
                     self.process_monster(event)
                 elif kind == Events.StopEvent:
@@ -625,13 +628,13 @@ class Manager(object):
                 elif kind == Events.QuestEvent:
                     self.process_quest(event)
                 else:
-                    self._log.error(f"!!! Manager does not support {kind} events!")
-                self._log.debug(f"Finished event: {event.id}")
+                    self._log.error("!!! Manager does not support %s events!", kind)
+                self._log.debug("Finished event: %s", event.id)
             except Exception as e:
                 self._log.error(
-                    f"Encountered error during processing: {type(e).__name__}: {e}"
+                    "Encountered error during processing: %s: %s", type(e).__name__, e
                 )
-                self._log.error(f"Stack trace: \n {traceback.format_exc()}")
+                self._log.error("Stack trace: \n %s", traceback.format_exc())
             # Explict context yield
             gevent.sleep(0)
         # Save cache and exit
@@ -660,7 +663,7 @@ class Manager(object):
 
             self.__location = location
             self._log.info(
-                f"Location successfully set to '{location[0]},{location[1]}'."
+                "Location successfully set to '%s,%s'.", location[0], location[1]
             )
 
     def _check_filters(self, event, filter_set, filter_names):
@@ -674,7 +677,7 @@ class Manager(object):
                     event.custom_dts = f.custom_dts
                     return True
             else:
-                self._log.critical(f"ERROR: No filter named {name} found!")
+                self._log.critical("ERROR: No filter named %s found!", name)
         return False
 
     def _notify_alarms(self, event, alarm_names, func_name):
@@ -705,7 +708,7 @@ class Manager(object):
         for name in alarm_names:
             alarm = self._alarms.get(name)
             if not alarm:
-                self._log.critical(f"ERROR: No alarm named {name} found!")
+                self._log.critical("ERROR: No alarm named %s found!", name)
                 continue
             func = getattr(alarm, func_name)
             threads.append(gevent.spawn(func, dts))
@@ -733,7 +736,7 @@ class Manager(object):
         monster_cache_id = f"{mon.enc_id}{mon.weight}{boosted_status}"
         if self.__cache.monster_expiration(monster_cache_id) is not None:
             self._log.debug(
-                f"{mon.name} monster was skipped because it was previously processed."
+                "%s monster was skipped because it was previously processed.", mon.name
             )
             return
         self.__cache.monster_expiration(monster_cache_id, mon.disappear_time)
@@ -742,7 +745,9 @@ class Manager(object):
         seconds_left = (mon.disappear_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                f"{mon.name} monster was skipped because only {seconds_left} seconds remained"
+                "%s monster was skipped because only %s seconds remained",
+                mon.name,
+                seconds_left,
             )
             return
 
@@ -768,10 +773,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Monster {mon.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Monster %s passed %s rule(s) and triggered %s alarm(s).",
+                mon.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Monster {mon.name} rejected by all rules.")
+            self._rule_log.info("Monster %s rejected by all rules.", mon.name)
 
     def process_stop(self, stop):
         # type: (Events.StopEvent) -> None
@@ -791,7 +799,7 @@ class Manager(object):
         stop_cache_id = f"{stop.stop_id}{stop.lure_type_id}"
         if self.__cache.stop_expiration(stop_cache_id) is not None:
             self._log.debug(
-                f"Stop {stop.name} was skipped because it was previously processed."
+                "Stop %s was skipped because it was previously processed.", stop.name
             )
             return
         self.__cache.stop_expiration(stop_cache_id, stop.expiration)
@@ -800,7 +808,9 @@ class Manager(object):
         seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                f"Stop {stop.name} was skipped because only {seconds_left} seconds remained"
+                "Stop %s was skipped because only %s seconds remained",
+                stop.name,
+                seconds_left,
             )
             return
 
@@ -826,10 +836,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Stop {stop.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Stop %s passed %s rule(s) and triggered %s alarm(s).",
+                stop.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Stop {stop.name} rejected by all rules.")
+            self._rule_log.info("Stop %s rejected by all rules.", stop.name)
 
     def process_grunt(self, grunt):
         # type: (Events.GruntEvent) -> None
@@ -849,7 +862,8 @@ class Manager(object):
         grunt_cache_id = f"{grunt.stop_id}{grunt.grunt_type_id}"
         if self.__cache.grunt_expiration(grunt_cache_id) is not None:
             self._log.debug(
-                f"Invasion {grunt.name} was skipped because it was previously processed."
+                "Invasion %s was skipped because it was previously processed.",
+                grunt.name,
             )
             return
         self.__cache.grunt_expiration(grunt_cache_id, grunt.expiration)
@@ -858,7 +872,9 @@ class Manager(object):
         seconds_left = (grunt.expiration - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                f"Invasion {grunt.name} was skipped because only {seconds_left} seconds remained"
+                "Invasion %s was skipped because only %s seconds remained",
+                grunt.name,
+                seconds_left,
             )
             return
 
@@ -884,10 +900,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Invasion {grunt.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Invasion %s passed %s rule(s) and triggered %s alarm(s).",
+                grunt.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Invasion {grunt.name} rejected by all rules.")
+            self._rule_log.info("Invasion %s rejected by all rules.", grunt.name)
 
     def process_gym(self, gym):
         # type: (Events.GymEvent) -> None
@@ -900,7 +919,7 @@ class Manager(object):
 
         # Ignore changes to neutral
         if self._ignore_neutral and gym.new_team_id == 0:
-            self._log.debug(f"{gym.name} gym update skipped: new team was neutral")
+            self._log.debug("%s gym update skipped: new team was neutral", gym.name)
             return
 
         # Update Team Information
@@ -915,7 +934,7 @@ class Manager(object):
 
         # Doesn't look like anything to me
         if gym.new_team_id == gym.old_team_id:
-            self._log.debug(f"{gym.gym_id} gym update skipped: no change detected")
+            self._log.debug("%s gym update skipped: no change detected", gym.gym_id)
             return
 
         # Calculate distance and direction
@@ -940,10 +959,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Gym {gym.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Gym %s passed %s rule(s) and triggered %s alarm(s).",
+                gym.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Gym {gym.name} rejected by all rules.")
+            self._rule_log.info("Gym %s rejected by all rules.", gym.name)
 
     def process_egg(self, egg):
         # type: (Events.EggEvent) -> None
@@ -966,7 +988,7 @@ class Manager(object):
         # Skip if previously processed
         if self.__cache.egg_expiration(egg.gym_id) is not None:
             self._log.debug(
-                f"Egg {egg.name} was skipped because it was previously processed."
+                "Egg %s was skipped because it was previously processed.", egg.name
             )
             return
         self.__cache.egg_expiration(egg.gym_id, egg.hatch_time)
@@ -975,7 +997,9 @@ class Manager(object):
         seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                f"Egg {egg.name} was skipped because only {seconds_left} seconds remained"
+                "Egg %s was skipped because only %s seconds remained",
+                egg.name,
+                seconds_left,
             )
             return
 
@@ -1001,10 +1025,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Egg {egg.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Egg %s passed %s rule(s) and triggered %s alarm(s).",
+                egg.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Egg {egg.name} rejected by all rules.")
+            self._rule_log.info("Egg %s rejected by all rules.", egg.name)
 
     def process_raid(self, raid):
         # type: (Events.RaidEvent) -> None
@@ -1027,7 +1054,7 @@ class Manager(object):
         # Skip if previously processed
         if self.__cache.raid_expiration(raid.gym_id) is not None:
             self._log.debug(
-                f"Raid {raid.name} was skipped because it was previously processed."
+                "Raid %s was skipped because it was previously processed.", raid.name
             )
             return
         self.__cache.raid_expiration(raid.gym_id, raid.raid_end)
@@ -1036,7 +1063,9 @@ class Manager(object):
         seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                f"Raid {raid.name} was skipped because only {seconds_left} seconds remained"
+                "Raid %s was skipped because only %s seconds remained",
+                raid.name,
+                seconds_left,
             )
             return
 
@@ -1062,10 +1091,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Raid {raid.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Raid %s passed %s rule(s) and triggered %s alarm(s).",
+                raid.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Raid {raid.name} rejected by all rules.")
+            self._rule_log.info("Raid %s rejected by all rules.", raid.name)
 
     def process_weather(self, weather):
         # type: (Events.WeatherEvent) -> None
@@ -1104,7 +1136,10 @@ class Manager(object):
             and weather.severity_id == cache_severity_id
         ):
             self._log.debug(
-                f"weather of {weather.weather_id}, alert of {weather.severity_id}, and day or night of {weather.day_or_night_id} skipped: no change detected"
+                "weather of %s, alert of %s, and day or night of %s skipped: no change detected",
+                weather.weather_id,
+                weather.severity_id,
+                weather.day_or_night_id,
             )
             return
 
@@ -1125,10 +1160,13 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Weather {weather.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Weather %s passed %s rule(s) and triggered %s alarm(s).",
+                weather.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Weather {weather.name} rejected by all rules.")
+            self._rule_log.info("Weather %s rejected by all rules.", weather.name)
 
     def process_quest(self, quest):
         # type: (Events.QuestEvent) -> None
@@ -1158,7 +1196,7 @@ class Manager(object):
             == previous_modified
         ):
             self._log.debug(
-                f"Quest {quest.name} was skipped because it was previously processed."
+                "Quest %s was skipped because it was previously processed.", quest.name
             )
             return
 
@@ -1193,7 +1231,10 @@ class Manager(object):
 
         if rule_ct > 0:
             self._rule_log.info(
-                f"Quest {quest.name} passed {rule_ct} rule(s) and triggered {alarm_ct} alarm(s)."
+                "Quest %s passed %s rule(s) and triggered %s alarm(s).",
+                quest.name,
+                rule_ct,
+                alarm_ct,
             )
         else:
-            self._rule_log.info(f"Quest {quest.name} rejected by all rules.")
+            self._rule_log.info("Quest %s rejected by all rules.", quest.name)

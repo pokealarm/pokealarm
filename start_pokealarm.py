@@ -56,10 +56,13 @@ def accept_webhook():
             count = len(data)
             for frame in data:
                 data_queue.put(frame)
-        log.debug(f"Received {count} event(s) from {request.remote_addr}.")
+        log.debug("Received %s event(s) from %s.", count, request.remote_addr)
     except Exception as e:
         log.error(
-            f"Encountered error while receiving webhook from {request.remote_addr}: ({type(e).__name__}: {e.message})"
+            "Encountered error while receiving webhook from %s: (%s: %s)",
+            request.remote_addr,
+            type(e).__name__,
+            e.message,
         )
         # Send back 400
         abort(400)
@@ -76,7 +79,8 @@ def manage_webhook_data(_queue):
             size = _queue.qsize()
             if size > 2000:
                 log.warning(
-                    f"Queue length at {size}! This may be causing a significant delay in notifications."
+                    "Queue length at %s! This may be causing a significant delay in notifications.",
+                    size,
                 )
         # Distribute events to the other managers
         data = _queue.get(block=True)
@@ -88,12 +92,12 @@ def manage_webhook_data(_queue):
                 for event in obj:
                     mgr.update(event)
                     log.debug(
-                        f"Distributed event {event.id} to {len(managers)} managers."
+                        "Distributed event %s to %s managers.", event.id, len(managers)
                     )
             else:
                 mgr.update(obj)
         if not isinstance(obj, list):
-            log.debug(f"Distributed event {obj.id} to {len(managers)} managers.")
+            log.debug("Distributed event %s to %s managers.", obj.id, len(managers))
 
 
 # Check for update
@@ -152,8 +156,8 @@ def check_for_update():
                     if differ:
                         update_needed = True
             except Exception as e:
-                log.error(f"Failed to update PokeAlarm data: {e}")
-                log.debug(f"Stack trace: \n {traceback.format_exc()}")
+                log.error("Failed to update PokeAlarm data: %s", e)
+                log.debug("Stack trace: \n %s", traceback.format_exc())
                 log.error("Starting to clean PokeAlarm data cache...")
 
                 os.remove(get_path("data/.data_version"))
@@ -193,8 +197,8 @@ def check_for_update():
             log.info("PokeAlarm data has been updated!")
 
     except Exception as e:
-        log.error(f"Unable to update PokeAlarm data: {e}")
-        log.debug(f"Stack trace: \n {traceback.format_exc()}")
+        log.error("Unable to update PokeAlarm data: %s", e)
+        log.debug("Stack trace: \n %s", traceback.format_exc())
 
     # Remove the tmp_data if exists and check for a local mon data
     tmp_files = glob(get_path("data/tmp_*.json"))
@@ -407,7 +411,9 @@ def start_server():
 
     # Start up Server
     log.info(
-        f"PokeAlarm is listening for webhooks on http://{config['HOST']}:{config['PORT']}"
+        "PokeAlarm is listening for webhooks on http://%s:%s",
+        config["HOST"],
+        config["PORT"],
     )
 
     threads = pool.Pool(config["CONCURRENCY"])
@@ -774,7 +780,7 @@ def parse_settings(root_path):
     # Build the managers
     for m_ct in range(args.manager_count):
         # TODO: Fix this mess better next time
-        log.info(f"----------- Setting up '{args.manager_name[m_ct]}'")
+        log.info("----------- Setting up '%s'", args.manager_name[m_ct])
         config["UNITS"] = get_from_list(args.units, m_ct, args.units[0])
         m = Manager(
             name=args.manager_name[m_ct],
@@ -825,7 +831,7 @@ def parse_settings(root_path):
                 "Names of Manager processes must be unique (not case sensitive)! Process will exit."
             )
             sys.exit(1)
-        log.info(f"----------- Finished setting up '{args.manager_name[m_ct]}'")
+        log.info("----------- Finished setting up '%s'", args.manager_name[m_ct])
     for m_name in managers:
         managers[m_name].start()
 
@@ -840,7 +846,7 @@ def get_from_list(arg, i, default):
 
 
 def exit_gracefully(signum, frame):
-    log.debug(f"Signal {signal.Signals(signum).name} received")
+    log.debug("Signal %s received", signal.Signals(signum).name)
     log.info("PokeAlarm is closing down!")
     server.stop()
     for m_name in managers:

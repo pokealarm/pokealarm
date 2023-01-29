@@ -57,12 +57,12 @@ class BaseFilter(object):
 
     def reject(self, event, attr_name, value, required):
         """Log the reason for rejecting the Event."""
-        self._log.info(f"'{event.name}' {self._type} rejected by '{self._name}'")
-        self._log.debug(f"{attr_name} incorrect: ({value} to {required})")
+        self._log.info("'%s' %s rejected by '%s'", event.name, self._type, self._name)
+        self._log.debug("%s incorrect: (%s to %s)", attr_name, value, required)
 
     def accept(self, event):
         """Log that the Event was accepted."""
-        self._log.info(f"'{event.name}' {self._type} accepted by '{self._name}'")
+        self._log.info("'%s' %s accepted by '%s'", event.name, self._type, self._name)
 
     def evaluate_attribute(self, limit, eval_func, event_attribute):
         """Evaluates a parameter and generate a check if needed."""

@@ -89,19 +89,22 @@ class GMaps(object):
         params["key"] = self._key
 
         # Use the session to send the request
-        log.debug(f"{service} request sending.")
+        log.debug("%s request sending.", service)
         self._window.append(time.time())
         request = self._session.get(url, params=params, timeout=3)
 
         if not request.ok:
             log.debug(
-                f"Response body: {json.dumps(request.json(), indent=4, sort_keys=True)}"
+                "Response body: %s",
+                json.dumps(request.json(), indent=4, sort_keys=True),
             )
             # Raise HTTPError
             request.raise_for_status()
 
         log.debug(
-            f"{service} request completed successfully with response {request.status_code}."
+            "%s request completed successfully with response %s.",
+            service,
+            request.status_code,
         )
         body = request.json()
         if body["status"] == "OK" or body["status"] == "ZERO_RESULTS":
@@ -136,16 +139,18 @@ class GMaps(object):
             # Memoize the results
             self._geocode_hist[address] = latlng
         except requests.exceptions.HTTPError as e:
-            log.error(f"Geocode failed with HTTPError: {e.message}")
+            log.error("Geocode failed with HTTPError: %s", e.message)
         except requests.exceptions.Timeout as e:
-            log.error(f"Geocode failed with connection issues: {e.message}")
+            log.error("Geocode failed with connection issues: %s", e.message)
         except UserWarning:
             log.error("Geocode failed because of exceeded quota.")
         except Exception as e:
             log.error(
-                f"Geocode failed because unexpected error has occurred: {type(e).__name__} - {e}"
+                "Geocode failed because unexpected error has occurred: %s - %s",
+                type(e).__name__,
+                e,
             )
-            log.error(f"Stack trace: \n {traceback.format_exc()}")
+            log.error("Stack trace: \n %s", traceback.format_exc())
         # Send back tuple
         return latlng
 
@@ -205,16 +210,18 @@ class GMaps(object):
             # Memoize the results
             self._reverse_geocode_hist[latlng] = dts
         except requests.exceptions.HTTPError as e:
-            log.error(f"Reverse Geocode failed with HTTPError: {e.message}")
+            log.error("Reverse Geocode failed with HTTPError: %s", e.message)
         except requests.exceptions.Timeout as e:
-            log.error(f"Reverse Geocode failed with connection issues: {e.message}")
+            log.error("Reverse Geocode failed with connection issues: %s", e.message)
         except UserWarning:
             log.error("Reverse Geocode failed because of exceeded quota.")
         except Exception as e:
             log.error(
-                f"Reverse Geocode failed because unexpected error has occurred: {type(e).__name__} - {e}"
+                "Reverse Geocode failed because unexpected error has occurred: %s - %s",
+                type(e).__name__,
+                e,
             )
-            log.error(f"Stack trace: \n {traceback.format_exc()}")
+            log.error("Stack trace: \n %s", traceback.format_exc())
         # Send back dts
         return dts
 
@@ -257,15 +264,17 @@ class GMaps(object):
             dts[dist_key] = response.get("distance", {}).get("text", Unknown.REGULAR)
             dts[dur_key] = response.get("duration", {}).get("text", Unknown.REGULAR)
         except requests.exceptions.HTTPError as e:
-            log.error(f"Distance Matrix failed with HTTPError: {e.message}")
+            log.error("Distance Matrix failed with HTTPError: %s", e.message)
         except requests.exceptions.Timeout as e:
-            log.error(f"Distance Matrix failed with connection issues: {e.message}")
+            log.error("Distance Matrix failed with connection issues: %s", e.message)
         except UserWarning:
             log.error("Distance Matrix failed because of exceeded quota.")
         except Exception as e:
             log.error(
-                f"Distance Matrix failed because unexpected error has occurred: {type(e).__name__} - {e}"
+                "Distance Matrix failed because unexpected error has occurred: %s - %s",
+                type(e).__name__,
+                e,
             )
-            log.error(f"Stack trace: \n {traceback.format_exc()}")
+            log.error("Stack trace: \n %s", traceback.format_exc())
         # Send back DTS
         return dts

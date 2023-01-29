@@ -341,9 +341,9 @@ class DiscordAlarm(Alarm):
         self._log.debug(payload)
         resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
-            self._log.debug(f"Notification successful (returned {resp.status_code})")
+            self._log.debug("Notification successful (returned %s)", resp.status_code)
         else:
-            self._log.debug(f"Discord response was {resp.content}")
+            self._log.debug("Discord response was %s", resp.content)
             raise requests.exceptions.RequestException(
                 f"Response received {resp.status_code}, webhook not accepted."
             )

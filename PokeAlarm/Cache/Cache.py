@@ -162,4 +162,4 @@ class Cache(object):
                     old.append(key)
             for key in old:  # Remove expired events
                 del hist[key]
-        self._log.debug(f"Cleared {len(old)} items from cache.")
+        self._log.debug("Cleared %s items from cache.", len(old))

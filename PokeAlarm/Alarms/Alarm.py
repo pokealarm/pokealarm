@@ -104,11 +104,16 @@ class Alarm(object):
                 return  # message sent successfully
             except Exception as e:
                 log.error(
-                    f"Encountered error while sending notification ({type(e).__name__}: {e})"
+                    "Encountered error while sending notification (%s: %s)",
+                    type(e).__name__,
+                    e,
                 )
-                log.debug(f"Stack trace: \n {traceback.format_exc()}")
+                log.debug("Stack trace: \n %s", traceback.format_exc())
                 log.info(
-                    f"{name} is having connection issues. {i+1} attempt of {max_attempts}."
+                    "%s is having connection issues. %s attempt of %s.",
+                    name,
+                    i + 1,
+                    max_attempts,
                 )
                 time.sleep(3)
                 reconnect()

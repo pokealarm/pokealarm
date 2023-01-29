@@ -253,14 +253,16 @@ class SlackAlarm(Alarm):
         response = self.__client.conversations_list()
         for channel in response.data["channels"]:
             self.__channels[channel["name"]] = channel["id"]
-        self._log.debug(f"Detected the following Slack channnels: {self.__channels}")
+        self._log.debug("Detected the following Slack channnels: %s", self.__channels)
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
         channel = SlackAlarm.channel_format(name)
         if channel not in self.__channels:
             self._log.error(
-                f"Detected no channel with the name '{channel}'. Trying the default channel '{self.__default_channel}' instead."
+                "Detected no channel with the name '%s'. Trying the default channel '%s' instead.",
+                channel,
+                self.__default_channel,
             )
             return self.__default_channel
         return channel
