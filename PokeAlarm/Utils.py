@@ -1052,7 +1052,7 @@ def get_time_as_str(t, timezone=None):
     else:
         disappear_time = datetime.now() + d
     # Time remaining in minutes and seconds
-    time = f"{m}m {s}s" if h == 0 else f"{h}h {m}m"
+    time = f"{m:.0f}m {s:.0f}s" if h == 0 else f"{h:.0f}h {m:.0f}m"
     # Disappear time in 12h format, eg "2:30:16 PM"
     time_12h = (
         disappear_time.strftime("%I:%M:%S") + disappear_time.strftime("%p").lower()
@@ -1061,7 +1061,7 @@ def get_time_as_str(t, timezone=None):
     time_24h = disappear_time.strftime("%H:%M:%S")
 
     # Get the same as above but without seconds
-    time_no_sec = f"{m}m" if h == 0 else f"{h}h {m}m"
+    time_no_sec = f"{m:.0f}m" if h == 0 else f"{h:.0f}h {m:.0f}m"
     time_12h_no_sec = (
         disappear_time.strftime("%I:%M") + disappear_time.strftime("%p").lower()
     )
