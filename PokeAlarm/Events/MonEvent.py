@@ -228,9 +228,9 @@ class MonEvent(BaseEvent):
         )
 
         # Remove ".0" from full PvP levels
-        if int(self.great_level) == self.great_level:
+        if Unknown.is_not(self.great_level) and int(self.great_level) == self.great_level:
             self.great_level = int(self.great_level)
-        if int(self.ultra_level) == self.ultra_level:
+        if Unknown.is_not(self.ultra_level) and int(self.ultra_level) == self.ultra_level:
             self.ultra_level = int(self.ultra_level)
 
         # Stringify PvP candy costs
