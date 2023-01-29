@@ -130,7 +130,6 @@ class TwitterAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
-            args = {}
             if self.__startup_text == "":
                 args = {"status": f"{timestamps[2]} - PokeAlarm has initialized!"}
             else:

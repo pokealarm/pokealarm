@@ -204,10 +204,13 @@ class SlackAlarm(Alarm):
 
             attachments = [{"fallback": "Map_Preview", "image_url": static_map_url}]
 
+        alert_url = replace(alert["url"], info)
+        alert_title = replace(alert["title"], info)
+        alert_body = replace(alert["body"], info)
         self.send_message(
             channel=replace(alert["channel"], info),
             username=replace(alert["username"], info),
-            text=f'<{replace(alert["url"], info)}|{replace(alert["title"], info)}> - {replace(alert["body"], info)}',
+            text=f"<{alert_url}|{alert_title}> - {alert_body}",
             icon_url=replace(alert["icon_url"], info),
             attachments=attachments,
         )

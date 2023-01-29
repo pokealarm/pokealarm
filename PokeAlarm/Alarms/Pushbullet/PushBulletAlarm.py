@@ -236,7 +236,7 @@ class PushbulletAlarm(Alarm):
                 f"Response received {res.status_code}, webhook not accepted."
             )
 
-        self._log.debug("Notification successful (returned {res.status_code})")
+        self._log.debug(f"Notification successful (returned {res.status_code})")
 
     def update_channels(self):
         response = self._session.get(
