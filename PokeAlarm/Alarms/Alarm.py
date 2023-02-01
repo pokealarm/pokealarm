@@ -1,6 +1,7 @@
 # Standard Library Imports
 import time
 import traceback
+import re
 
 # 3rd Party Imports
 # Local Imports
@@ -79,10 +80,11 @@ class Alarm(object):
         if string is None:
             return None
 
-        s = string
-        for key in pkinfo:
-            s = s.replace(f"<{key}>", str(pkinfo[key]))
-        return s
+        return re.sub(
+            r"<([^<>\n]+)>",
+            lambda m: str(pkinfo.get(m.group(1), f"<{m.group(1)}>")),
+            string,
+        )
 
     @staticmethod
     def pop_type(data, param_name, kind, default=None):
