@@ -28,8 +28,7 @@ def get_monster_id(pokemon_name):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid "
-            " monster name or id.".format(pokemon_name)
+            f"Unable to interpret '{pokemon_name}' as a valid monster name or id."
         )
 
 
@@ -53,7 +52,7 @@ def get_move_id(move_name):
             return int(name)  # try as an integer
     except Exception:
         raise ValueError(
-            "Unable to interpret `{}` as a valid " " move name or id.".format(move_name)
+            f"Unable to interpret '{move_name}' as a valid move name or id."
         )
 
 
@@ -77,7 +76,7 @@ def get_size_id(size_name):
             return int(name)  # try as an integer
     except Exception:
         raise ValueError(
-            "Unable to interpret `{}` as a valid" " size name or id.".format(size_name)
+            f"Unable to interpret '{size_name}' as a valid size name or id."
         )
 
 
@@ -101,7 +100,7 @@ def get_type_id(type_name):
             return int(name)  # try as an integer
     except Exception:
         raise ValueError(
-            "Unable to interpret `{}` as a valid" " type name or id.".format(type_name)
+            f"Unable to interpret '{type_name}' as a valid type name or id."
         )
 
 
@@ -125,8 +124,7 @@ def get_rarity_id(rarity_name):
             return int(name)  # try as an integer
     except Exception:
         raise ValueError(
-            "Unable to interpret `{}` as a valid"
-            " rarity name or id.".format(rarity_name)
+            f"Unable to interpret '{rarity_name}' as a valid rarity name or id."
         )
 
 

@@ -59,7 +59,7 @@ def accept_webhook():
         log.debug("Received %s event(s) from %s.", count, request.remote_addr)
     except Exception as e:
         log.error(
-            "Encountered error while receiving webhook from %s: " "(%s: %s)",
+            "Encountered error while receiving webhook from %s: (%s: %s)",
             request.remote_addr,
             type(e).__name__,
             e.message,
@@ -79,8 +79,7 @@ def manage_webhook_data(_queue):
             size = _queue.qsize()
             if size > 2000:
                 log.warning(
-                    "Queue length at %s! This may be causing a"
-                    "significant delay in notifications.",
+                    "Queue length at %s! This may be causing a significant delay in notifications.",
                     size,
                 )
         # Distribute events to the other managers
@@ -103,20 +102,10 @@ def manage_webhook_data(_queue):
 
 # Check for update
 def check_for_update():
-    masterfile_vreq = (
-        "https://api.github.com/repos/WatWowMap/Masterfile-"
-        "Generator/commits?path=master-latest-everything.json&per_page=1"
-    )
+    masterfile_vreq = "https://api.github.com/repos/WatWowMap/Masterfile-Generator/commits?path=master-latest-everything.json&per_page=1"
     pogoapi_vreq = "https://pogoapi.net/api/v1/api_hashes.json"
-    shiny_possible_vreq = (
-        "https://api.github.com/repos/jms412/PkmnShinyMap/"
-        "commits?path=shinyPossible.json&per_page=1"
-    )
-
-    invasions_vreq = (
-        "https://api.github.com/repos/cecpk/RocketMAD/"
-        "commits?path=static/data/invasions.json&per_page=1"
-    )
+    shiny_possible_vreq = "https://api.github.com/repos/jms412/PkmnShinyMap/commits?path=shinyPossible.json&per_page=1"
+    invasions_vreq = "https://api.github.com/repos/cecpk/RocketMAD/commits?path=static/data/invasions.json&per_page=1"
     try:
         # Get last sig of the data
         masterfile_response = requests.get(masterfile_vreq)
@@ -167,8 +156,8 @@ def check_for_update():
                     if differ:
                         update_needed = True
             except Exception as e:
-                log.error(f"Failed to update PokeAlarm data: {e}")
-                log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+                log.error("Failed to update PokeAlarm data: %s", e)
+                log.debug("Stack trace: \n %s", traceback.format_exc())
                 log.error("Starting to clean PokeAlarm data cache...")
 
                 os.remove(get_path("data/.data_version"))
@@ -208,8 +197,8 @@ def check_for_update():
             log.info("PokeAlarm data has been updated!")
 
     except Exception as e:
-        log.error(f"Unable to update PokeAlarm data: {e}")
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        log.error("Unable to update PokeAlarm data: %s", e)
+        log.debug("Stack trace: \n %s", traceback.format_exc())
 
     # Remove the tmp_data if exists and check for a local mon data
     tmp_files = glob(get_path("data/tmp_*.json"))
@@ -233,10 +222,7 @@ def download_data(sigdiff=None):
         log.info("New Masterfile data found! Fetching in progress...")
 
         # Fetch data
-        masterfile_url = (
-            "https://raw.githubusercontent.com/WatWowMap/"
-            "Masterfile-Generator/master/master-latest-everything.json"
-        )
+        masterfile_url = "https://raw.githubusercontent.com/WatWowMap/Masterfile-Generator/master/master-latest-everything.json"
         masterfile_data = requests.get(masterfile_url).json()
 
         # Check some dict paths which don't have to change
@@ -261,7 +247,7 @@ def download_data(sigdiff=None):
             mon_fsize = os.path.getsize("data/pokemon_data.json")
             if float(tmp_mon_fsize - mon_fsize) / mon_fsize < -0.01:  # -1% diff
                 raise Exception(
-                    "remote pokemon_data is smaller " f"({tmp_mon_fsize} < {mon_fsize})"
+                    f"remote pokemon_data is smaller ({tmp_mon_fsize} < {mon_fsize})"
                 )
 
         # All's done! Overwrite the old local file data
@@ -342,10 +328,7 @@ def download_data(sigdiff=None):
         log.info("New shiny_possible data found! Fetching in progress...")
 
         # Fetch data
-        shiny_possible_url = (
-            "https://raw.githubusercontent.com/jms412/"
-            "PkmnShinyMap/main/shinyPossible.json"
-        )
+        shiny_possible_url = "https://raw.githubusercontent.com/jms412/PkmnShinyMap/main/shinyPossible.json"
         shiny_possible_data = requests.get(shiny_possible_url).json()
 
         # Check some dict paths which don't have to change
@@ -383,10 +366,7 @@ def download_data(sigdiff=None):
         log.info("New Invasions data found! Fetching in progress...")
 
         # Fetch data
-        invasions_url = (
-            "https://raw.githubusercontent.com/cecpk/RocketMAD/"
-            "master/static/data/invasions.json"
-        )
+        invasions_url = "https://raw.githubusercontent.com/cecpk/RocketMAD/master/static/data/invasions.json"
         invasions_data = requests.get(invasions_url).json()
 
         # Check some dict paths which don't have to change
@@ -431,9 +411,11 @@ def start_server():
 
     # Start up Server
     log.info(
-        "PokeAlarm is listening for webhooks on http://{}:{}"
-        "".format(config["HOST"], config["PORT"])
+        "PokeAlarm is listening for webhooks on http://%s:%s",
+        config["HOST"],
+        config["PORT"],
     )
+
     threads = pool.Pool(config["CONCURRENCY"])
     global server
     server = pywsgi.WSGIServer(
@@ -500,8 +482,7 @@ def parse_settings(root_path):
         "-lf",
         "--log-file",
         default="logs/pokealarm.log",
-        help="Path of a file to attach to a manager's logger. "
-        "None to disable logging to file.",
+        help="Path of a file to attach to a manager's logger. None to disable logging to file.",
     )
     parser.add_argument(
         "-ls",
@@ -605,8 +586,7 @@ def parse_settings(root_path):
         action="append",
         default=["en"],
         choices=["de", "en", "es", "fr", "it", "ko", "pt", "zh_hk"],
-        help='Locale for Pokemon and Move names: default en," '
-        '+ " check locale folder for more options',
+        help="Locale for Pokemon and Move names: default en, check locale folder for more options",
     )
     parser.add_argument(
         "-u",
@@ -614,8 +594,7 @@ def parse_settings(root_path):
         default=["imperial"],
         action="append",
         choices=["metric", "imperial"],
-        help='Specify either metric or imperial units to use for distance " '
-        '+ "measurements. ',
+        help="Specify either metric or imperial units to use for distance measurements.",
     )
     parser.add_argument(
         "-tz",
@@ -682,8 +661,7 @@ def parse_settings(root_path):
         action="append",
         default=["mem"],
         choices=cache_options,
-        help="Specify the type of cache to use. Options: "
-        + "['mem', 'file'] (Default: 'mem')",
+        help="Specify the type of cache to use. Options: ['mem', 'file'] (Default: 'mem')",
     )
     parser.add_argument(
         "-tl",
@@ -772,9 +750,7 @@ def parse_settings(root_path):
         size = len(arg)
         if size != 1 and size != args.manager_count:
             log.critical(
-                "Number of arguments must be either 1 for all "
-                + "managers or equal to Manager Count. Please "
-                + "provided the correct number of arguments."
+                "Number of arguments must be either 1 for all managers or equal to Manager Count. Please provided the correct number of arguments."
             )
             log.critical(arg)
             sys.exit(1)
@@ -789,16 +765,14 @@ def parse_settings(root_path):
             args.timezone[i] = pytz.timezone(args.timezone[i])
         except pytz.exceptions.UnknownTimeZoneError:
             log.error(
-                "Invalid timezone. For a list of valid timezones, see "
-                + "https://en.wikipedia.org/wiki"
-                + "/List_of_tz_database_time_zones"
+                "Invalid timezone. For a list of valid timezones, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
             )
             sys.exit(1)
 
     # Pad manager_name to match manager_count
     while len(args.manager_name) < args.manager_count:
         m_ct = len(args.manager_name)
-        args.manager_name.append("Manager_{}".format(m_ct))
+        args.manager_name.append(f"Manager_{m_ct}")
 
     # Check for a data update before building the managers
     check_for_update()
@@ -806,7 +780,7 @@ def parse_settings(root_path):
     # Build the managers
     for m_ct in range(args.manager_count):
         # TODO: Fix this mess better next time
-        log.info("----------- Setting up '{}'".format(args.manager_name[m_ct]))
+        log.info("----------- Setting up '%s'", args.manager_name[m_ct])
         config["UNITS"] = get_from_list(args.units, m_ct, args.units[0])
         m = Manager(
             name=args.manager_name[m_ct],
@@ -854,11 +828,10 @@ def parse_settings(root_path):
             managers[m.get_name()] = m
         else:
             log.critical(
-                "Names of Manager processes must be unique "
-                + "(not case sensitive)! Process will exit."
+                "Names of Manager processes must be unique (not case sensitive)! Process will exit."
             )
             sys.exit(1)
-        log.info("----------- Finished setting up '{}'".format(args.manager_name[m_ct]))
+        log.info("----------- Finished setting up '%s'", args.manager_name[m_ct])
     for m_name in managers:
         managers[m_name].start()
 
@@ -873,7 +846,7 @@ def get_from_list(arg, i, default):
 
 
 def exit_gracefully(signum, frame):
-    log.debug(f"Signal {signal.Signals(signum).name} received")
+    log.debug("Signal %s received", signal.Signals(signum).name)
     log.info("PokeAlarm is closing down!")
     server.stop()
     for m_name in managers:

@@ -29,7 +29,7 @@ def get_team_id(team_name):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid " " team name or id.".format(team_name)
+            f"Unable to interpret '{team_name}' as a valid team name or id."
         )
 
 

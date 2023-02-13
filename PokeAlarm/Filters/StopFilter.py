@@ -78,9 +78,7 @@ class StopFilter(BaseFilter):
 
         # Reject leftover parameters
         for key in data:
-            raise ValueError(
-                "'{}' is not a recognized parameter for" " Stop filters".format(key)
-            )
+            raise ValueError(f"'{key}' is not a recognized parameter for Stop filters")
 
     def to_dict(self):
         """Create a dict representation of this Filter."""

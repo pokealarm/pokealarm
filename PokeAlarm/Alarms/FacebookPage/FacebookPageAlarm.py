@@ -76,7 +76,7 @@ class FacebookPageAlarm(Alarm):
         "weather": {
             "message": "The weather has changed!",
             "image": get_image_url(
-                "regular/weather/<weather_id_3>" "_<day_or_night_id_3>.png"
+                "regular/weather/<weather_id_3>_<day_or_night_id_3>.png"
             ),
             "link": "<gmaps>",
             "name": "Weather",
@@ -155,14 +155,10 @@ class FacebookPageAlarm(Alarm):
     def startup_message(self):
         if self.__startup_message:
             timestamps = get_time_as_str(datetime.utcnow())
-            self.post_to_wall(
-                f"{timestamps[2]} - "
-                + (
-                    "PokeAlarm has initialized!"
-                    if self.__startup_text == ""
-                    else self.__startup_text
-                )
-            )
+            if self.__startup_text == "":
+                self.post_to_wall(f"{timestamps[2]} - PokeAlarm has initialized!")
+            else:
+                self.post_to_wall(f"{timestamps[2]} - {self.__startup_text}")
             self._log.info("Startup message sent!")
 
     # Set the appropriate settings for each alert

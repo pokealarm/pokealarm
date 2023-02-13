@@ -191,13 +191,9 @@ class RaidEvent(BaseEvent):
                 "type2": type2,
                 "type2_or_empty": Unknown.or_empty(type2),
                 "type2_emoji": Unknown.or_empty(get_type_emoji(self.types[1])),
-                "types": (
-                    "{}/{}".format(type1, type2) if Unknown.is_not(type2) else type1
-                ),
+                "types": (f"{type1}/{type2}" if Unknown.is_not(type2) else type1),
                 "types_emoji": (
-                    "{}{}".format(
-                        get_type_emoji(self.types[0]), get_type_emoji(self.types[1])
-                    )
+                    f"{get_type_emoji(self.types[0])}{get_type_emoji(self.types[1])}"
                     if Unknown.is_not(type2)
                     else get_type_emoji(self.types[0])
                 ),
@@ -211,25 +207,25 @@ class RaidEvent(BaseEvent):
                     else Unknown.or_empty(form_name)
                 ),
                 "form_id": self.form_id,
-                "form_id_2": "{:02d}".format(self.form_id),
-                "form_id_3": "{:03d}".format(self.form_id),
+                "form_id_2": f"{self.form_id:02d}",
+                "form_id_3": f"{self.form_id:03d}",
                 # Evolution
                 "evolution": evolution_name,
                 "evolution_or_empty": Unknown.or_empty(evolution_name),
                 "evolution_id": self.evolution_id,
-                "evolution_id_2": "{:02d}".format(self.evolution_id),
-                "evolution_id_3": "{:03d}".format(self.evolution_id),
+                "evolution_id_2": f"{self.evolution_id:02d}",
+                "evolution_id_3": f"{self.evolution_id:03d}",
                 # Costume
                 "costume": costume_name,
                 "costume_or_empty": Unknown.or_empty(costume_name),
                 "costume_id": self.costume_id,
-                "costume_id_2": "{:02d}".format(self.costume_id),
-                "costume_id_3": "{:03d}".format(self.costume_id),
+                "costume_id_2": f"{self.costume_id:02d}",
+                "costume_id_3": f"{self.costume_id:03d}",
                 # Location
                 "lat": self.lat,
                 "lng": self.lng,
-                "lat_5": "{:.5f}".format(self.lat),
-                "lng_5": "{:.5f}".format(self.lng),
+                "lat_5": f"{self.lat:.5f}",
+                "lng_5": f"{self.lng:.5f}",
                 "distance": (
                     get_dist_as_str(self.distance, units)
                     if Unknown.is_not(self.distance)
@@ -263,7 +259,7 @@ class RaidEvent(BaseEvent):
                 "raid_lvl": self.raid_lvl,
                 "mon_name": locale.get_pokemon_name(self.mon_id),
                 "mon_id": self.mon_id,
-                "mon_id_3": "{:03}".format(self.mon_id),
+                "mon_id_3": f"{self.mon_id:03}",
                 "gender": self.gender,
                 "shiny_emoji": get_shiny_emoji(self.can_be_shiny),
                 # Quick Move

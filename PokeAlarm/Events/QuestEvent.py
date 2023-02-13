@@ -104,8 +104,8 @@ class QuestEvent(BaseEvent):
                 # Location
                 "lat": self.lat,
                 "lng": self.lng,
-                "lat_5": "{:.5f}".format(self.lat),
-                "lng_5": "{:.5f}".format(self.lng),
+                "lat_5": f"{self.lat:.5f}",
+                "lng_5": f"{self.lng:.5f}",
                 "distance": (
                     get_dist_as_str(self.distance, units)
                     if Unknown.is_not(self.distance)
@@ -120,10 +120,10 @@ class QuestEvent(BaseEvent):
                 "wazenav": get_waze_link(self.lat, self.lng, True),
                 "geofence": self.geofence,
                 # Quest Details
-                # ToDo: Interpret the `quest_condition` field and use that instead
-                #  of `quest_type`
+                # ToDo: Interpret the 'quest_condition' field and use that instead
+                #  of 'quest_type'
                 #  Will be able to better serve manager specific locales
-                #  also do this for `quest_task`
+                #  also do this for 'quest_task'
                 "quest_type": self.quest_type_raw,
                 "quest_type_id": self.quest_type_id,
                 "quest_target": self.quest_target,
@@ -141,7 +141,7 @@ class QuestEvent(BaseEvent):
                 # Monster Reward Details
                 "mon_name": locale.get_pokemon_name(self.monster_id),
                 "mon_id": self.monster_id,
-                "mon_id_3": "{:03}".format(self.monster_id),
+                "mon_id_3": f"{self.monster_id:03}",
                 "form": form_name,
                 "form_or_empty": Unknown.or_empty(form_name),
                 "nonnormal_form_or_empty": (
@@ -153,27 +153,22 @@ class QuestEvent(BaseEvent):
                     else Unknown.or_empty(form_name)
                 ),
                 "form_id": self.monster_form_id,
-                "form_id_2": "{:02d}".format(self.monster_form_id),
-                "form_id_3": "{:03d}".format(self.monster_form_id),
+                "form_id_2": f"{self.monster_form_id:02d}",
+                "form_id_3": f"{self.monster_form_id:03d}",
                 "costume": costume_name,
                 "costume_or_empty": Unknown.or_empty(costume_name),
                 "costume_id": self.monster_costume_id,
-                "costume_id_2": "{:02d}".format(self.monster_costume_id),
-                "costume_id_3": "{:03d}".format(self.monster_costume_id),
+                "costume_id_2": f"{self.monster_costume_id:02d}",
+                "costume_id_3": f"{self.monster_costume_id:03d}",
                 "type1": type1,
                 "type1_or_empty": Unknown.or_empty(type1),
                 "type1_emoji": Unknown.or_empty(get_type_emoji(self.monster_types[0])),
                 "type2": type2,
                 "type2_or_empty": Unknown.or_empty(type2),
                 "type2_emoji": Unknown.or_empty(get_type_emoji(self.monster_types[1])),
-                "types": (
-                    "{}/{}".format(type1, type2) if Unknown.is_not(type2) else type1
-                ),
+                "types": (f"{type1}/{type2}" if Unknown.is_not(type2) else type1),
                 "types_emoji": (
-                    "{}{}".format(
-                        get_type_emoji(self.monster_types[0]),
-                        get_type_emoji(self.monster_types[1]),
-                    )
+                    f"{get_type_emoji(self.monster_types[0])}{get_type_emoji(self.monster_types[1])}"
                     if Unknown.is_not(type2)
                     else get_type_emoji(self.monster_types[0])
                 ),
@@ -182,7 +177,7 @@ class QuestEvent(BaseEvent):
                 "raw_item_type": self.item_type,
                 "item": get_item_id(self.item_id),
                 "item_id": self.item_id,
-                "item_id_4": "{:04d}".format(self.item_id),
+                "item_id_4": f"{self.item_id:04d}",
                 "current_timestamp_utc": datetime.utcnow(),
             }
         )

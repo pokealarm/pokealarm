@@ -301,7 +301,7 @@ class MonFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError(
-                "'{}' is not a recognized parameter for" " Monster filters".format(key)
+                f"'{key}' is not a recognized parameter for Monster filters"
             )
 
     def to_dict(self):

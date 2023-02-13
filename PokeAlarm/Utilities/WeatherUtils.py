@@ -26,8 +26,7 @@ def get_severity_id(severity):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid "
-            " severity name or id.".format(severity)
+            f"Unable to interpret '{severity}' as a valid severity name or id."
         )
 
 
@@ -50,6 +49,5 @@ def get_day_or_night_id(day_or_night):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid "
-            " day or night name or id.".format(day_or_night)
+            f"Unable to interpret '{day_or_night}' as a valid day or night name or id."
         )

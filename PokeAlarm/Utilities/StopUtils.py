@@ -28,5 +28,5 @@ def get_lure_id(lure_name):
             return int(name)  # try as an integer
     except ValueError:
         raise ValueError(
-            "Unable to interpret `{}` as a valid " " lure name or id.".format(lure_name)
+            f"Unable to interpret '{lure_name}' as a valid lure name or id."
         )

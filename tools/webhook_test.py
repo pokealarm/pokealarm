@@ -13,8 +13,8 @@ def get_path(path):
     path = os.path.join(ROOT_PATH, path)
     if not os.path.exists(path):
         print(
-            "The webhook_test.py file has moved from the PokeAlarm/tools"
-            " folder!\nPlease put it back or re-download PokeAlarm."
+            "The webhook_test.py file has moved from the PokeAlarm/tools folder!\n"
+            "Please put it back or re-download PokeAlarm."
         )
         sys.exit(1)
     return path
@@ -37,17 +37,11 @@ ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 locales_file = glob(get_path("../locales/en.json"))[0]
 data = json.loads(open(locales_file, "rb+").read())
 # Mon data
-master_file = (
-    "https://raw.githubusercontent.com/WatWowMap/"
-    "Masterfile-Generator/master/master-latest-everything.json"
-)
+master_file = "https://raw.githubusercontent.com/WatWowMap/Masterfile-Generator/master/master-latest-everything.json"
 master_file = requests.get(master_file)
 pokemon_data = master_file.json()["pokemon"]
 # Invasion data
-invasions_file = (
-    "https://raw.githubusercontent.com/cecpk/RocketMAD/"
-    "master/static/data/invasions.json"
-)
+invasions_file = "https://raw.githubusercontent.com/cecpk/RocketMAD/master/static/data/invasions.json"
 invasions_data = requests.get(invasions_file).json()
 
 teams_formatted = re.sub(
@@ -257,7 +251,7 @@ def cache_or_invalid():
     path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cache_input = input()
     if os.path.exists(os.path.join(path, "cache", f"{cache_input}.cache")):
-        file = os.path.join(path, "cache", "{cache_input}.cache")
+        file = os.path.join(path, "cache", f"{cache_input}.cache")
         print(f"Valid file: {file}")
     elif os.path.exists(os.path.join(path, "cache", "manager_0.cache")):
         file = os.path.join(path, "cache", "manager_0.cache")
@@ -313,7 +307,7 @@ def gym_cache():
         if not list_cache():
             return False
         print(
-            "Enter cache file name to verify the gym" " (default: manager_0)",
+            "Enter cache file name to verify the gym (default: manager_0)",
             end="\n> ",
         )
         cache_or_invalid()
@@ -402,9 +396,9 @@ def monster_form(webhook_field, monster_id):
         forms_formatted = ", ".join(monster_forms_dict[x] for x in sorted_forms)
 
     print(
-        f"Which form of {data['pokemon'][monster_id_formatted]}"
-        " would you like? (default:"
-        f" {monster_forms_dict[default_form_id]})"
+        f"Which form of {data['pokemon'][monster_id_formatted]} "
+        "would you like? (default: "
+        f"{monster_forms_dict[default_form_id]})"
     )
     print(forms_formatted, end="\n> ")
     form_character = input().lower()
@@ -604,17 +598,17 @@ while True:
         for i in range(3):
             resp = requests.post(url, json=payload, timeout=5)
             if resp.ok is True:
-                print("Notification successful." + f" Returned code {resp.status_code}")
+                print(f"Notification successful. Returned code {resp.status_code}")
                 break
             else:
                 print(f"Discord response was {resp.content}")
                 raise requests.exceptions.RequestException(
-                    f"Response received {resp.status_code}, " + "webhook not accepted."
+                    f"Response received {resp.status_code}, webhook not accepted."
                 )
     except requests.exceptions.ConnectionError:
         print(
-            f"Cannot send webhook to {url}. Check the webhook URL"
-            " or if your PA server is running."
+            f"Cannot send webhook to {url}. "
+            "Check the webhook URL or if your PA server is running."
         )
     print("Send again? (y/n)", end="\n> ")
     if input() not in truthy:

@@ -69,8 +69,7 @@ class DiscordAlarm(Alarm):
             "avatar_url": get_image_url("regular/eggs/<egg_lvl>.png"),
             "title": "Raid is incoming!",
             "url": "<gmaps>",
-            "body": "A level <egg_lvl> raid will hatch at "
-            "<24h_hatch_time> (<hatch_time_left>).",
+            "body": "A level <egg_lvl> raid will hatch at <24h_hatch_time> (<hatch_time_left>).",
             "footer_timestamp": "<hatch_time_utc>",
         },
         "raids": {
@@ -80,17 +79,17 @@ class DiscordAlarm(Alarm):
             "avatar_url": get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
             "title": "Level <raid_lvl> raid is available against <mon_name>!",
             "url": "<gmaps>",
-            "body": "The raid is available until " "<24h_raid_end> (<raid_time_left>).",
+            "body": "The raid is available until <24h_raid_end> (<raid_time_left>).",
             "footer_timestamp": "<raid_end_utc>",
         },
         "weather": {
             "username": "Weather",
             "content": "",
             "icon_url": get_image_url(
-                "regular/weather/<weather_id_3>" "_<day_or_night_id_3>.png"
+                "regular/weather/<weather_id_3>_<day_or_night_id_3>.png"
             ),
             "avatar_url": get_image_url(
-                "regular/weather/<weather_id_3>" "_<day_or_night_id_3>.png"
+                "regular/weather/<weather_id_3>_<day_or_night_id_3>.png"
             ),
             "title": "The weather has changed!",
             "url": "<gmaps>",
@@ -342,13 +341,11 @@ class DiscordAlarm(Alarm):
         self._log.debug(payload)
         resp = requests.post(url, json=payload, timeout=5)
         if resp.ok is True:
-            self._log.debug(
-                "Notification successful (returned {})".format(resp.status_code)
-            )
+            self._log.debug("Notification successful (returned %s)", resp.status_code)
         else:
-            self._log.debug("Discord response was {}".format(resp.content))
+            self._log.debug("Discord response was %s", resp.content)
             raise requests.exceptions.RequestException(
-                "Response received {}, webhook not accepted.".format(resp.status_code)
+                f"Response received {resp.status_code}, webhook not accepted."
             )
 
     @staticmethod

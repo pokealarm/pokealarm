@@ -46,13 +46,13 @@ def event_factory(data):
         elif kind == "quest":
             return QuestEvent(message)
         elif kind in ["captcha", "scheduler"]:
-            log.debug("{} data ignored - unsupported webhook type.".format(kind))
+            log.debug("%s data ignored - unsupported webhook type.", kind)
         else:
             raise ValueError("Webhook kind was not an expected value.")
     except Exception as e:
         log.error(
-            "Encountered error while converting webhook data"
-            + "({}: {})".format(type(e).__name__, e)
+            "Encountered error while converting webhook data (%s: %s)",
+            type(e).__name__,
+            e,
         )
-        print("Stack trace: \n {}".format(traceback.format_exc()))
-        log.debug("Stack trace: \n {}".format(traceback.format_exc()))
+        log.debug("Stack trace: \n %s", traceback.format_exc())

@@ -8,10 +8,7 @@ import requests
 class PVP:
     def __init__(self, pa_root):
         # Fetch pokemon data
-        master_file = (
-            "https://raw.githubusercontent.com/WatWowMap/"
-            "Masterfile-Generator/master/master-latest-everything.json"
-        )
+        master_file = "https://raw.githubusercontent.com/WatWowMap/Masterfile-Generator/master/master-latest-everything.json"
         master_file = requests.get(master_file)
         monster_data = master_file.json()["pokemon"]
         with open(pa_root + "/data/pokemon_data.json", "w") as f:
@@ -46,7 +43,7 @@ class PVP:
                         f"{id_}_{form_id_}: highest product at {limit}: {highest_product}"
                     )
 
-        with open(pa_root + "/tools/generated_stat_products.json", "w+") as f:
+        with open(f"{pa_root}/tools/generated_stat_products.json", "w+") as f:
             json.dump(monster_products, f, indent=2)
             f.close()
 

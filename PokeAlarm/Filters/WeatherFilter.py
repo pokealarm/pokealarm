@@ -70,7 +70,7 @@ class WeatherFilter(BaseFilter):
         # Reject leftover parameters
         for key in data:
             raise ValueError(
-                "'{}' is not a recognized parameter for" " Weather filters".format(key)
+                f"'{key}' is not a recognized parameter for Weather filters"
             )
 
     def to_dict(self):

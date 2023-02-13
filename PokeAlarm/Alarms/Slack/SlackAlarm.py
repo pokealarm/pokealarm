@@ -65,12 +65,12 @@ class SlackAlarm(Alarm):
             "icon_url": get_image_url("regular/monsters/<mon_id_3>_<form_id_3>.png"),
             "title": "Level <raid_lvl> raid is available against <mon_name>!",
             "url": "<gmaps>",
-            "body": "The raid is available until <24h_raid_end> " "(<raid_time_left>).",
+            "body": "The raid is available until <24h_raid_end> (<raid_time_left>).",
         },
         "weather": {
             "username": "Weather",
             "icon_url": get_image_url(
-                "regular/weather/<weather_id_3>_" "<day_or_night_id_3>.png"
+                "regular/weather/<weather_id_3>_<day_or_night_id_3>.png"
             ),
             "title": "The weather has changed!",
             "url": "<gmaps>",
@@ -204,14 +204,13 @@ class SlackAlarm(Alarm):
 
             attachments = [{"fallback": "Map_Preview", "image_url": static_map_url}]
 
+        alert_url = replace(alert["url"], info)
+        alert_title = replace(alert["title"], info)
+        alert_body = replace(alert["body"], info)
         self.send_message(
             channel=replace(alert["channel"], info),
             username=replace(alert["username"], info),
-            text="<{}|{}> - {}".format(
-                replace(alert["url"], info),
-                replace(alert["title"], info),
-                replace(alert["body"], info),
-            ),
+            text=f"<{alert_url}|{alert_title}> - {alert_body}",
             icon_url=replace(alert["icon_url"], info),
             attachments=attachments,
         )
@@ -254,18 +253,16 @@ class SlackAlarm(Alarm):
         response = self.__client.conversations_list()
         for channel in response.data["channels"]:
             self.__channels[channel["name"]] = channel["id"]
-        self._log.debug(
-            "Detected the following Slack channnels: {}".format(self.__channels)
-        )
+        self._log.debug("Detected the following Slack channnels: %s", self.__channels)
 
     # Checks for valid channel, otherwise defaults to general
     def get_channel(self, name):
         channel = SlackAlarm.channel_format(name)
         if channel not in self.__channels:
             self._log.error(
-                "Detected no channel with the name '{}'. "
-                "Trying the default channel '{}' instead."
-                "".format(channel, self.__default_channel)
+                "Detected no channel with the name '%s'. Trying the default channel '%s' instead.",
+                channel,
+                self.__default_channel,
             )
             return self.__default_channel
         return channel

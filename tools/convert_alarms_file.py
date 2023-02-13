@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     contents = None
     try:
-        print("Loading alarms file from {}.".format(sys.argv[1]))
+        print(f"Loading alarms file from {sys.argv[1]}.")
         with open(sys.argv[1], "r") as f:
             contents = json.load(f, object_pairs_hook=OrderedDict)
     except ValueError:
@@ -51,20 +51,20 @@ if __name__ == "__main__":
             "and the program has the proper privileges then try again."
         )
     except Exception as e:
-        print("An unexpected error as occurred: {} - {}".format(type(e).__name__, e))
+        print(f"An unexpected error as occurred: {type(e).__name__} - {e}")
     if not contents:
         exit()
 
     output = OrderedDict()
     print("Processing file...")
     for i in range(len(contents)):
-        output["alarm_{}".format(i)] = exchange_set(contents[i])
+        output[f"alarm_{i}"] = exchange_set(contents[i])
 
     try:
-        old_path = sys.argv[1] + ".old"
-        print("Renaming old file to {}.".format(old_path))
+        old_path = f"{sys.argv[1]}.old"
+        print(f"Renaming old file to {old_path}.")
         os.rename(sys.argv[1], old_path)
-        print("Writing to new file at {}.".format(sys.argv[1]))
+        print(f"Writing to new file at {sys.argv[1]}.")
         with open(sys.argv[1], "w") as f:
             json.dump(output, f, indent=4)
     except IOError:
@@ -74,9 +74,7 @@ if __name__ == "__main__":
         )
         exit(1)
     except Exception as e:
-        print(
-            ("An unexpected error as occurred: {} - {}" "".format(type(e).__name__, e))
-        )
+        print((f"An unexpected error as occurred: {type(e).__name__} - {e}"))
         exit(1)
 
     print(

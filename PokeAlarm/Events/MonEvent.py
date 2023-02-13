@@ -243,6 +243,52 @@ class MonEvent(BaseEvent):
         else:
             ultra_candy = str(self.ultra_candy[0])
 
+        # PvP misc
+        pvpoke_domain = locale.get_pvpoke_domain()
+        great_monster_name_formatted = (
+            re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_pokemon_name(self.great_id),
+            )
+            .lower()
+            .replace(" ", "_")
+        )
+        great_pvpoke_monster_formatted = great_monster_name_formatted
+        if not any(
+            x in locale.get_english_form_name(self.great_id, self.form_id)
+            for x in ["unknown", "Normal"]
+        ):
+            great_pvpoke_monster_formatted += "_" + re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_form_name(self.great_id, self.form_id)
+                .lower()
+                .replace(" ", "_"),
+            )
+
+        ultra_monster_name_formatted = (
+            re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_pokemon_name(self.ultra_id),
+            )
+            .lower()
+            .replace(" ", "_")
+        )
+        ultra_pvpoke_monster_formatted = ultra_monster_name_formatted
+        if not any(
+            x in locale.get_english_form_name(self.ultra_id, self.form_id)
+            for x in ["unknown", "Normal"]
+        ):
+            ultra_pvpoke_monster_formatted += "_" + re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_form_name(self.ultra_id, self.form_id)
+                .lower()
+                .replace(" ", "_"),
+            )
+
         dts = self.custom_dts.copy()
         dts.update(
             {
@@ -250,7 +296,7 @@ class MonEvent(BaseEvent):
                 "encounter_id": self.enc_id,
                 "mon_name": locale.get_pokemon_name(self.monster_id),
                 "mon_id": self.monster_id,
-                "mon_id_3": "{:03}".format(self.monster_id),
+                "mon_id_3": f"{self.monster_id:03}",
                 # Time Remaining
                 "time_left": time[0],
                 "12h_time": time[1],
@@ -284,8 +330,8 @@ class MonEvent(BaseEvent):
                 # Location
                 "lat": self.lat,
                 "lng": self.lng,
-                "lat_5": "{:.5f}".format(self.lat),
-                "lng_5": "{:.5f}".format(self.lng),
+                "lat_5": f"{self.lat:.5f}",
+                "lng_5": f"{self.lng:.5f}",
                 "distance": (
                     get_dist_as_str(self.distance, units)
                     if Unknown.is_not(self.distance)
@@ -344,20 +390,10 @@ class MonEvent(BaseEvent):
                     self.mon_lvl, 50, evo_candy_cost
                 ),
                 # IVs
-                "iv_0": (
-                    "{:.0f}".format(self.iv)
-                    if Unknown.is_not(self.iv)
-                    else Unknown.TINY
-                ),
-                "iv": (
-                    "{:.1f}".format(self.iv)
-                    if Unknown.is_not(self.iv)
-                    else Unknown.SMALL
-                ),
+                "iv_0": (f"{self.iv:.0f}" if Unknown.is_not(self.iv) else Unknown.TINY),
+                "iv": (f"{self.iv:.1f}" if Unknown.is_not(self.iv) else Unknown.SMALL),
                 "iv_2": (
-                    "{:.2f}".format(self.iv)
-                    if Unknown.is_not(self.iv)
-                    else Unknown.SMALL
+                    f"{self.iv:.2f}" if Unknown.is_not(self.iv) else Unknown.SMALL
                 ),
                 "atk": self.atk_iv,
                 "def": self.def_iv,
@@ -371,42 +407,16 @@ class MonEvent(BaseEvent):
                 "great_url": "https://www.stadiumgaming.gg/rank-checker?"
                 + urlencode(
                     {
-                        "pokemon": re.sub(
-                            r"[^A-Za-z0-9\s]+",
-                            "",
-                            locale.get_english_pokemon_name(self.great_id),
-                        ),
+                        "pokemon": great_monster_name_formatted,
                         "league": "1500",
-                        "att_iv": '"{}"'.format(self.atk_iv),
-                        "def_iv": '"{}"'.format(self.def_iv),
-                        "hp_iv": '"{}"'.format(self.sta_iv),
+                        "att_iv": f'"{self.atk_iv}"',
+                        "def_iv": f'"{self.def_iv}"',
+                        "hp_iv": f'"{self.sta_iv}"',
                         "min-iv": "0",
                         "levelCap": "50",
                     }
                 ),
-                "great_pvpoke": "https://{}/rankings/all/1500/overall/{}{}/".format(
-                    locale.get_pvpoke_domain(),
-                    re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_pokemon_name(self.great_id),
-                    )
-                    .lower()
-                    .replace(" ", "_"),
-                    "_"
-                    + re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_form_name(self.great_id, self.form_id)
-                        .lower()
-                        .replace(" ", "_"),
-                    )
-                    if not any(
-                        x in locale.get_english_form_name(self.great_id, self.form_id)
-                        for x in ["unknown", "Normal"]
-                    )
-                    else "",
-                ),
+                "great_pvpoke": f"https://{pvpoke_domain}/rankings/all/1500/overall/{great_pvpoke_monster_formatted}/",
                 "great_candy": great_candy,
                 "great_stardust": f"{self.great_stardust:,}".replace(",", " "),
                 "ultra_mon_id": self.ultra_id,
@@ -417,42 +427,16 @@ class MonEvent(BaseEvent):
                 "ultra_url": "https://www.stadiumgaming.gg/rank-checker?"
                 + urlencode(
                     {
-                        "pokemon": re.sub(
-                            r"[^A-Za-z0-9\s]+",
-                            "",
-                            locale.get_english_pokemon_name(self.ultra_id),
-                        ),
+                        "pokemon": ultra_monster_name_formatted,
                         "league": "2500",
-                        "att_iv": '"{}"'.format(self.atk_iv),
-                        "def_iv": '"{}"'.format(self.def_iv),
-                        "hp_iv": '"{}"'.format(self.sta_iv),
+                        "att_iv": f'"{self.atk_iv}"',
+                        "def_iv": f'"{self.def_iv}"',
+                        "hp_iv": f'"{self.sta_iv}"',
                         "min-iv": "0",
                         "levelCap": "50",
                     }
                 ),
-                "ultra_pvpoke": "https://{}/rankings/all/2500/overall/{}{}/".format(
-                    locale.get_pvpoke_domain(),
-                    re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_pokemon_name(self.ultra_id),
-                    )
-                    .lower()
-                    .replace(" ", "_"),
-                    "_"
-                    + re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_form_name(self.ultra_id, self.form_id)
-                        .lower()
-                        .replace(" ", "_"),
-                    )
-                    if not any(
-                        x in locale.get_english_form_name(self.ultra_id, self.form_id)
-                        for x in ["unknown", "Normal"]
-                    )
-                    else "",
-                ),
+                "ultra_pvpoke": f"https://{pvpoke_domain}/rankings/all/2500/overall/{ultra_pvpoke_monster_formatted}/",
                 "ultra_candy": ultra_candy,
                 "ultra_stardust": f"{self.ultra_stardust:,}".replace(",", " "),
                 # Type
@@ -462,13 +446,9 @@ class MonEvent(BaseEvent):
                 "type2": type2,
                 "type2_or_empty": Unknown.or_empty(type2),
                 "type2_emoji": Unknown.or_empty(get_type_emoji(self.types[1])),
-                "types": (
-                    "{}/{}".format(type1, type2) if Unknown.is_not(type2) else type1
-                ),
+                "types": (f"{type1}/{type2}" if Unknown.is_not(type2) else type1),
                 "types_emoji": (
-                    "{}{}".format(
-                        get_type_emoji(self.types[0]), get_type_emoji(self.types[1])
-                    )
+                    f"{get_type_emoji(self.types[0])}{get_type_emoji(self.types[1])}"
                     if Unknown.is_not(type2)
                     else get_type_emoji(self.types[0])
                 ),
@@ -482,14 +462,14 @@ class MonEvent(BaseEvent):
                     else Unknown.or_empty(form_name)
                 ),
                 "form_id": self.form_id,
-                "form_id_2": "{:02d}".format(self.form_id),
-                "form_id_3": "{:03d}".format(self.form_id),
+                "form_id_2": f"{self.form_id:02d}",
+                "form_id_3": f"{self.form_id:03d}",
                 # Costume
                 "costume": costume_name,
                 "costume_or_empty": Unknown.or_empty(costume_name),
                 "costume_id": self.costume_id,
-                "costume_id_2": "{:02d}".format(self.costume_id),
-                "costume_id_3": "{:03d}".format(self.costume_id),
+                "costume_id_2": f"{self.costume_id:02d}",
+                "costume_id_3": f"{self.costume_id:03d}",
                 # Quick Move
                 "quick_move": locale.get_move_name(self.quick_id),
                 "quick_id": self.quick_id,
@@ -513,32 +493,32 @@ class MonEvent(BaseEvent):
                 # Cosmetic
                 "gender": self.gender,
                 "height_0": (
-                    "{:.0f}".format(self.height)
+                    f"{self.height:.0f}"
                     if Unknown.is_not(self.height)
                     else Unknown.TINY
                 ),
                 "height": (
-                    "{:.1f}".format(self.height)
+                    f"{self.height:.1f}"
                     if Unknown.is_not(self.height)
                     else Unknown.SMALL
                 ),
                 "height_2": (
-                    "{:.2f}".format(self.height)
+                    f"{self.height:.2f}"
                     if Unknown.is_not(self.height)
                     else Unknown.SMALL
                 ),
                 "weight_0": (
-                    "{:.0f}".format(self.weight)
+                    f"{self.weight:.0f}"
                     if Unknown.is_not(self.weight)
                     else Unknown.TINY
                 ),
                 "weight": (
-                    "{:.1f}".format(self.weight)
+                    f"{self.weight:.1f}"
                     if Unknown.is_not(self.weight)
                     else Unknown.SMALL
                 ),
                 "weight_2": (
-                    "{:.2f}".format(self.weight)
+                    f"{self.weight:.2f}"
                     if Unknown.is_not(self.weight)
                     else Unknown.SMALL
                 ),
@@ -547,11 +527,11 @@ class MonEvent(BaseEvent):
                 # Display Information (Usually when the actual mon is a ditto)
                 "display_mon_id": self.display_monster_id,
                 "display_mon_name": locale.get_pokemon_name(self.display_monster_id),
-                "display_mon_id_3": "{:03}".format(self.display_monster_id),
-                "display_mon_id_2": "{:02}".format(self.display_monster_id),
+                "display_mon_id_3": f"{self.display_monster_id:03}",
+                "display_mon_id_2": f"{self.display_monster_id:02}",
                 "display_costume_id": self.display_costume_id,
-                "display_costume_id_2": "{:02d}".format(self.display_costume_id),
-                "display_costume_id_3": "{:03d}".format(self.display_costume_id),
+                "display_costume_id_2": f"{self.display_costume_id:02d}",
+                "display_costume_id_3": f"{self.display_costume_id:03d}",
                 "display_costume": locale.get_costume_name(
                     self.display_monster_id, self.display_costume_id
                 ),
@@ -559,8 +539,8 @@ class MonEvent(BaseEvent):
                 "display_form": locale.get_form_name(
                     self.display_monster_id, self.display_form_id
                 ),
-                "display_form_id_3": "{:03d}".format(self.display_form_id),
-                "display_form_id_2": "{:02d}".format(self.display_form_id),
+                "display_form_id_3": f"{self.display_form_id:03d}",
+                "display_form_id_2": f"{self.display_form_id:02d}",
                 "display_gender": self.display_gender,
                 # Misc
                 "atk_grade": (Unknown.or_empty(self.atk_grade, Unknown.TINY)),
@@ -569,47 +549,47 @@ class MonEvent(BaseEvent):
                 "rarity": locale.get_rarity_name(self.rarity_id),
                 # Catch Prob
                 "base_catch_0": (
-                    "{:.0f}".format(self.base_catch * 100)
+                    f"{self.base_catch * 100:.0f}"
                     if Unknown.is_not(self.base_catch)
                     else Unknown.TINY
                 ),
                 "base_catch": (
-                    "{:.1f}".format(self.base_catch * 100)
+                    f"{self.base_catch * 100:.1f}"
                     if Unknown.is_not(self.base_catch)
                     else Unknown.SMALL
                 ),
                 "base_catch_2": (
-                    "{:.2f}".format(self.base_catch * 100)
+                    f"{self.base_catch * 100:.2f}"
                     if Unknown.is_not(self.base_catch)
                     else Unknown.SMALL
                 ),
                 "great_catch_0": (
-                    "{:.0f}".format(self.great_catch * 100)
+                    f"{self.great_catch * 100:.0f}"
                     if Unknown.is_not(self.great_catch)
                     else Unknown.TINY
                 ),
                 "great_catch": (
-                    "{:.1f}".format(self.great_catch * 100)
+                    f"{self.great_catch * 100:.1f}"
                     if Unknown.is_not(self.great_catch)
                     else Unknown.SMALL
                 ),
                 "great_catch_2": (
-                    "{:.2f}".format(self.great_catch * 100)
+                    f"{self.great_catch * 100:.2f}"
                     if Unknown.is_not(self.great_catch)
                     else Unknown.SMALL
                 ),
                 "ultra_catch_0": (
-                    "{:.0f}".format(self.ultra_catch * 100)
+                    f"{self.ultra_catch * 100:.0f}"
                     if Unknown.is_not(self.ultra_catch)
                     else Unknown.TINY
                 ),
                 "ultra_catch": (
-                    "{:.1f}".format(self.ultra_catch * 100)
+                    f"{self.ultra_catch * 100:.1f}"
                     if Unknown.is_not(self.ultra_catch)
                     else Unknown.SMALL
                 ),
                 "ultra_catch_2": (
-                    "{:.2f}".format(self.ultra_catch * 100)
+                    f"{self.ultra_catch * 100:.2f}"
                     if Unknown.is_not(self.ultra_catch)
                     else Unknown.SMALL
                 ),

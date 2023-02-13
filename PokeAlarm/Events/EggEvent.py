@@ -122,8 +122,8 @@ class EggEvent(BaseEvent):
                 # Location
                 "lat": self.lat,
                 "lng": self.lng,
-                "lat_5": "{:.5f}".format(self.lat),
-                "lng_5": "{:.5f}".format(self.lng),
+                "lat_5": f"{self.lat:.5f}",
+                "lng_5": f"{self.lng:.5f}",
                 "distance": (
                     get_dist_as_str(self.distance, units)
                     if Unknown.is_not(self.distance)

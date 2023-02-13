@@ -16,9 +16,9 @@ class FileCache(Cache):
         """Initializes a new cache object for storing data between events."""
         super(FileCache, self).__init__(mgr)
         self._name = mgr.get_name()
-        self._file = get_path(os.path.join("cache", "{}.cache".format(self._name)))
+        self._file = get_path(os.path.join("cache", f"{self._name}.cache"))
 
-        self._log.debug("Checking for previous cache at {}".format(self._file))
+        self._log.debug("Checking for previous cache at %s", self._file)
         cache_folder = get_path("cache")
         if not os.path.exists(cache_folder):
             os.makedirs(cache_folder)
@@ -52,7 +52,7 @@ class FileCache(Cache):
                 "There was an error attempting to load the cache. "
                 "The old cache will be overwritten."
             )
-            self._log.error("{}: {}".format(type(e).__name__, e))
+            self._log.error("%s: %s", type(e).__name__, e)
 
     def _save(self):
         """Export the data to a more permanent location."""
@@ -75,8 +75,8 @@ class FileCache(Cache):
         }
         try:
             # Write to temporary file and then rename
-            temp = self._file + ".new"
-            with portalocker.Lock(self._file + ".lock", timeout=5, mode="wb+"):
+            temp = f"{self._file}.new"
+            with portalocker.Lock(f"{self._file}.lock", timeout=5, mode="wb+"):
                 with portalocker.Lock(temp, timeout=5, mode="wb+") as f:
                     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
                 if os.path.exists(self._file):
@@ -85,7 +85,6 @@ class FileCache(Cache):
             self._log.debug("Cache saved successfully.")
         except Exception as e:
             self._log.error(
-                "Encountered error while saving cache: "
-                "{}: {}".format(type(e).__name__, e)
+                "Encountered error while saving cache: %s: %s", type(e).__name__, e
             )
-            self._log.error("Stack trace: \n {}".format(traceback.format_exc()))
+            self._log.error("Stack trace: \n %s", traceback.format_exc())

@@ -76,7 +76,7 @@ class Manager(object):
             self.set_location(location)
         else:
             self._log.warning(
-                "NO LOCATION SET - this may cause issues " "with distance related DTS."
+                "NO LOCATION SET - this may cause issues with distance related DTS."
             )
 
         # Create cache
@@ -129,8 +129,9 @@ class Manager(object):
     # Tell the process to finish up and go home
     def stop(self):
         self._log.info(
-            "Manager {} shutting down... {} items in queue."
-            "".format(self.name, self.__queue.qsize())
+            "Manager %s shutting down... %s items in queue.",
+            self.name,
+            self.__queue.qsize(),
         )
         self.__event.set()
 
@@ -138,12 +139,12 @@ class Manager(object):
         self.__process.join(timeout=20)
         if not self.__process.ready():
             self._log.warning(
-                "Manager {} could not be stopped in time! "
-                "Forcing process to stop.".format(self.name)
+                "Manager %s could not be stopped in time! Forcing process to stop.",
+                self.name,
             )
             self.__process.kill(timeout=2, block=True)  # Force stop
         else:
-            self._log.info("Manager {} successfully stopped!".format(self.name))
+            self._log.info("Manager %s successfully stopped!", self.name)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -153,7 +154,7 @@ class Manager(object):
         """Enable GMaps Reverse Geocoding DTS for triggered Events."""
         if not self._gmaps_service:
             raise ValueError(
-                "Unable to enable Google Maps Reverse Geocoding."
+                "Unable to enable Google Maps Reverse Geocoding. "
                 "No GMaps API key has been set."
             )
         self._gmaps_reverse_geocode = True
@@ -166,18 +167,17 @@ class Manager(object):
         """Enable 'mode' Distance Matrix DTS for triggered Events."""
         if not self.__location:
             raise ValueError(
-                "Unable to enable Google Maps Reverse Geocoding."
+                "Unable to enable Google Maps Reverse Geocoding. "
                 "No Manager location has been set."
             )
         elif not self._gmaps_service:
             raise ValueError(
-                "Unable to enable Google Maps Reverse Geocoding."
+                "Unable to enable Google Maps Reverse Geocoding. "
                 "No GMaps API key has been provided."
             )
         elif mode not in GMaps.TRAVEL_MODES:
             raise ValueError(
-                "Unable to enable distance matrix mode: "
-                "{} is not a valid mode.".format(mode)
+                f"Unable to enable distance matrix mode: {mode} is not a valid mode."
             )
         self._gmaps_distance_matrix.add(mode)
 
@@ -185,7 +185,7 @@ class Manager(object):
         """Disable 'mode' Distance Matrix DTS for triggered Events."""
         if mode not in GMaps.TRAVEL_MODES:
             raise ValueError(
-                "Unable to disable distance matrix mode: " "Invalid mode specified."
+                "Unable to disable distance matrix mode: Invalid mode specified."
             )
         self._gmaps_distance_matrix.discard(mode)
 
@@ -197,7 +197,7 @@ class Manager(object):
     def _create_logger(mgr_name):
         """Internal method for initializing manager loggers."""
         # Create a Filter to pass on manager name
-        log = logging.getLogger("pokealarm.{}".format(mgr_name))
+        log = logging.getLogger(f"pokealarm.{mgr_name}")
         return log
 
     def get_child_logger(self, name):
@@ -231,7 +231,7 @@ class Manager(object):
             self._log.getChild("alarms").setLevel(logging.DEBUG)
         else:
             raise ValueError(
-                "Unable to set verbosity, must be an " "integer between 1 and 5."
+                "Unable to set verbosity, must be an integer between 1 and 5."
             )
         self._log.debug("Verbosity set to %s", log_level)
 
@@ -246,16 +246,16 @@ class Manager(object):
     # Enable/Disable Monster notifications
     def set_monsters_enabled(self, boolean):
         self._mons_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Monster notifications %s", "enabled" if self._mons_enabled else "disabled"
-        )
+        if self._mons_enabled:
+            self._log.debug("Monster notifications enabled")
+        else:
+            self._log.debug("Monster notifications disabled")
 
     # Add new Monster Filter
     def add_monster_filter(self, name, settings):
         if name in self._mon_filters:
             raise ValueError(
-                "Unable to add Monster Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Monster Filter: Filter with the name {name} already exists!"
             )
         f = Filters.MonFilter(self, name, settings, self.geofences)
         self._mon_filters[name] = f
@@ -264,16 +264,16 @@ class Manager(object):
     # Enable/Disable Stops notifications
     def set_stops_enabled(self, boolean):
         self._stops_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Stops notifications %s!", "enabled" if self._stops_enabled else "disabled"
-        )
+        if self._stops_enabled:
+            self._log.debug("Stops notifications enabled")
+        else:
+            self._log.debug("Stops notifications disabled")
 
     # Add new Stop Filter
     def add_stop_filter(self, name, settings):
         if name in self._stop_filters:
             raise ValueError(
-                "Unable to add Stop Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Stop Filter: Filter with the name {name} already exists!"
             )
         f = Filters.StopFilter(self, name, settings, self.geofences)
         self._stop_filters[name] = f
@@ -282,9 +282,10 @@ class Manager(object):
     # Enable/Disable Gym notifications
     def set_gyms_enabled(self, boolean):
         self._gyms_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Gyms notifications %s!", "enabled" if self._gyms_enabled else "disabled"
-        )
+        if self._gyms_enabled:
+            self._log.debug("Gyms notifications enabled!")
+        else:
+            self._log.debug("Gyms notifications disabled!")
 
     # Enable/Disable Stops notifications
     def set_ignore_neutral(self, boolean):
@@ -295,8 +296,7 @@ class Manager(object):
     def add_gym_filter(self, name, settings):
         if name in self._gym_filters:
             raise ValueError(
-                "Unable to add Gym Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Gym Filter: Filter with the name {name} already exists!"
             )
         f = Filters.GymFilter(self, name, settings, self.geofences)
         self._gym_filters[name] = f
@@ -305,16 +305,16 @@ class Manager(object):
     # Enable/Disable Egg notifications
     def set_eggs_enabled(self, boolean):
         self._eggs_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Egg notifications %s!", "enabled" if self._eggs_enabled else "disabled"
-        )
+        if self._eggs_enabled:
+            self._log.debug("Egg notifications enabled!")
+        else:
+            self._log.debug("Egg notifications disabled!")
 
     # Add new Egg Filter
     def add_egg_filter(self, name, settings):
         if name in self._egg_filters:
             raise ValueError(
-                "Unable to add Egg Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Egg Filter: Filter with the name {name} already exists!"
             )
         f = Filters.EggFilter(self, name, settings, self.geofences)
         self._egg_filters[name] = f
@@ -323,16 +323,16 @@ class Manager(object):
     # Enable/Disable Stops notifications
     def set_raids_enabled(self, boolean):
         self._raids_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Raid notifications %s!", "enabled" if self._raids_enabled else "disabled"
-        )
+        if self._raids_enabled:
+            self._log.debug("Raid notifications enabled!")
+        else:
+            self._log.debug("Raid notifications disabled!")
 
     # Add new Raid Filter
     def add_raid_filter(self, name, settings):
         if name in self._raid_filters:
             raise ValueError(
-                "Unable to add Raid Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Raid Filter: Filter with the name {name} already exists!"
             )
         f = Filters.RaidFilter(self, name, settings, self.geofences)
         self._raid_filters[name] = f
@@ -341,17 +341,16 @@ class Manager(object):
     # Enable/Disable Weather notifications
     def set_weather_enabled(self, boolean):
         self._weather_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Weather notifications %s!",
-            "enabled" if self._weather_enabled else "disabled",
-        )
+        if self._weather_enabled:
+            self._log.debug("Weather notifications enabled!")
+        else:
+            self._log.debug("Weather notifications disabled!")
 
     # Add new Weather Filter
     def add_weather_filter(self, name, settings):
         if name in self._weather_filters:
             raise ValueError(
-                "Unable to add Weather Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Weather Filter: Filter with the name {name} already exists!"
             )
         f = Filters.WeatherFilter(self, name, settings, self.geofences)
         self._weather_filters[name] = f
@@ -360,16 +359,16 @@ class Manager(object):
     # Enable/Disable Quest notifications
     def set_quest_enabled(self, boolean):
         self._quest_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Quest notifications %s!", "enabled" if self._quest_enabled else "disabled"
-        )
+        if self._quest_enabled:
+            self._log.debug("Quest notifications enabled!")
+        else:
+            self._log.debug("Quest notifications disabled!")
 
     # Add new Quest Filter
     def add_quest_filter(self, name, settings):
         if name in self._quest_filters:
             raise ValueError(
-                "Unable to add Quest Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Quest Filter: Filter with the name {name} already exists!"
             )
         f = Filters.QuestFilter(self, name, settings, self.geofences)
         self._quest_filters[name] = f
@@ -378,17 +377,16 @@ class Manager(object):
     # Enable/Disable Invasion notifications
     def set_grunts_enabled(self, boolean):
         self._grunts_enabled = parse_bool(boolean)
-        self._log.debug(
-            "Invasion notifications %s!",
-            "enabled" if self._grunts_enabled else "disabled",
-        )
+        if self._grunts_enabled:
+            self._log.debug("Invasion notifications enabled!")
+        else:
+            self._log.debug("Invasion notifications disabled!")
 
     # Add new Invasion Filter
     def add_grunt_filter(self, name, settings):
         if name in self._grunt_filters:
             raise ValueError(
-                "Unable to add Invasion Filter: Filter with the "
-                "name {} already exists!".format(name)
+                f"Unable to add Invasion Filter: Filter with the name {name} already exists!"
             )
         f = Filters.GruntFilter(self, name, settings, self.geofences)
         self._grunt_filters[name] = f
@@ -401,8 +399,7 @@ class Manager(object):
     def add_alarm(self, name, settings):
         if name in self._alarms:
             raise ValueError(
-                "Unable to add new Alarm: Alarm with the name "
-                "{} already exists!".format(name)
+                f"Unable to add new Alarm: Alarm with the name {name} already exists!"
             )
         alarm = Alarms.alarm_factory(
             self,
@@ -421,21 +418,18 @@ class Manager(object):
     def add_monster_rule(self, name, filters, alarms):
         if name in self.__mon_rules:
             raise ValueError(
-                "Unable to add Rule: Monster Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Monster Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._mon_filters:
                 raise ValueError(
-                    "Unable to create Rule: No Monster Filter " "named {}!".format(filt)
+                    f"Unable to create Rule: No Monster Filter named {filt}!"
                 )
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__mon_rules[name] = Rule(filters, alarms)
 
@@ -443,21 +437,16 @@ class Manager(object):
     def add_stop_rule(self, name, filters, alarms):
         if name in self.__stop_rules:
             raise ValueError(
-                "Unable to add Rule: Stop Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Stop Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._stop_filters:
-                raise ValueError(
-                    "Unable to create Rule: No Stop Filter " "named {}!".format(filt)
-                )
+                raise ValueError(f"Unable to create Rule: No Stop Filter named {filt}!")
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__stop_rules[name] = Rule(filters, alarms)
 
@@ -465,22 +454,18 @@ class Manager(object):
     def add_grunt_rule(self, name, filters, alarms):
         if name in self.__grunt_rules:
             raise ValueError(
-                "Unable to add Rule: Invasion Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Invasion Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._grunt_filters:
                 raise ValueError(
-                    "Unable to create Rule: No Invasion Filter "
-                    "named {}!".format(filt)
+                    f"Unable to create Rule: No Invasion Filter named {filt}!"
                 )
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__grunt_rules[name] = Rule(filters, alarms)
 
@@ -488,21 +473,16 @@ class Manager(object):
     def add_gym_rule(self, name, filters, alarms):
         if name in self.__gym_rules:
             raise ValueError(
-                "Unable to add Rule: Gym Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Gym Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._gym_filters:
-                raise ValueError(
-                    "Unable to create Rule: No Gym Filter " "named {}!".format(filt)
-                )
+                raise ValueError(f"Unable to create Rule: No Gym Filter named {filt}!")
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__gym_rules[name] = Rule(filters, alarms)
 
@@ -510,21 +490,16 @@ class Manager(object):
     def add_egg_rule(self, name, filters, alarms):
         if name in self.__egg_rules:
             raise ValueError(
-                "Unable to add Rule: Egg Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Egg Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._egg_filters:
-                raise ValueError(
-                    "Unable to create Rule: No Egg Filter " "named {}!".format(filt)
-                )
+                raise ValueError(f"Unable to create Rule: No Egg Filter named {filt}!")
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__egg_rules[name] = Rule(filters, alarms)
 
@@ -532,21 +507,16 @@ class Manager(object):
     def add_raid_rule(self, name, filters, alarms):
         if name in self.__raid_rules:
             raise ValueError(
-                "Unable to add Rule: Raid Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Raid Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._raid_filters:
-                raise ValueError(
-                    "Unable to create Rule: No Raid Filter " "named {}!".format(filt)
-                )
+                raise ValueError(f"Unable to create Rule: No Raid Filter named {filt}!")
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__raid_rules[name] = Rule(filters, alarms)
 
@@ -554,21 +524,18 @@ class Manager(object):
     def add_weather_rule(self, name, filters, alarms):
         if name in self.__weather_rules:
             raise ValueError(
-                "Unable to add Rule: Weather Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Weather Rule with the name {name} already exists!"
             )
 
         for filt in filters:
             if filt not in self._weather_filters:
                 raise ValueError(
-                    "Unable to create Rule: No Weather Filter " "named {}!".format(filt)
+                    f"Unable to create Rule: No Weather Filter named {filt}!"
                 )
 
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
 
         self.__weather_rules[name] = Rule(filters, alarms)
 
@@ -576,19 +543,16 @@ class Manager(object):
     def add_quest_rule(self, name, filters, alarms):
         if name in self.__quest_rules:
             raise ValueError(
-                "Unable to add Rule: Quest Rule with the name "
-                "{} already exists!".format(name)
+                f"Unable to add Rule: Quest Rule with the name {name} already exists!"
             )
         for filt in filters:
             if filt not in self._quest_filters:
                 raise ValueError(
-                    "Unable to create Rule: No quest Filter " "named {}!".format(filt)
+                    f"Unable to create Rule: No quest Filter named {filt}!"
                 )
         for alarm in alarms:
             if alarm not in self._alarms:
-                raise ValueError(
-                    "Unable to create Rule: No Alarm " "named {}!".format(alarm)
-                )
+                raise ValueError(f"Unable to create Rule: No Alarm named {alarm}!")
         self.__quest_rules[name] = Rule(filters, alarms)
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -607,7 +571,7 @@ class Manager(object):
 
         # Update config
         config["DEBUG"] = self.__debug
-        config["ROOT_PATH"] = os.path.abspath("{}/..".format(os.path.dirname(__file__)))
+        config["ROOT_PATH"] = os.path.abspath(f"{os.path.dirname(__file__)}/..")
 
         # Hush some new loggers
         logging.getLogger("requests").setLevel(logging.WARNING)
@@ -664,16 +628,13 @@ class Manager(object):
                 elif kind == Events.QuestEvent:
                     self.process_quest(event)
                 else:
-                    self._log.error(
-                        "!!! Manager does not support {} events!".format(kind)
-                    )
+                    self._log.error("!!! Manager does not support %s events!", kind)
                 self._log.debug("Finished event: %s", event.id)
             except Exception as e:
                 self._log.error(
-                    "Encountered error during processing: "
-                    "{}: {}".format(type(e).__name__, e)
+                    "Encountered error during processing: %s: %s", type(e).__name__, e
                 )
-                self._log.error("Stack trace: \n {}" "".format(traceback.format_exc()))
+                self._log.error("Stack trace: \n %s", traceback.format_exc())
             # Explict context yield
             gevent.sleep(0)
         # Save cache and exit
@@ -691,20 +652,18 @@ class Manager(object):
             # Check if key was provided
             if self._gmaps_service is None:
                 raise ValueError(
-                    "Unable to find location coordinates by name"
-                    " - no Google API key was provided."
+                    "Unable to find location coordinates by name - no Google API key was provided."
                 )
             # Attempt to geocode location
             location = self._gmaps_service.geocode(location)
             if location is None:
                 raise ValueError(
-                    "Unable to geocode coordinates from {}. "
-                    "Location will not be set.".format(location)
+                    f"Unable to geocode coordinates from {location}. Location will not be set."
                 )
 
             self.__location = location
             self._log.info(
-                "Location successfully set to '{},{}'.".format(location[0], location[1])
+                "Location successfully set to '%s,%s'.", location[0], location[1]
             )
 
     def _check_filters(self, event, filter_set, filter_names):
@@ -764,7 +723,7 @@ class Manager(object):
 
         # Make sure that monsters are enabled
         if self._mons_enabled is False:
-            self._log.debug("Monster ignored: monster notifications " "are disabled.")
+            self._log.debug("Monster ignored: monster notifications are disabled.")
             return
 
         # Set the name for this event so we can log rejects better
@@ -774,25 +733,21 @@ class Manager(object):
         )
 
         # Check if previously processed and update expiration
-        if (
-            self.__cache.monster_expiration(f"{mon.enc_id}{mon.weight}{boosted_status}")
-            is not None
-        ):
+        monster_cache_id = f"{mon.enc_id}{mon.weight}{boosted_status}"
+        if self.__cache.monster_expiration(monster_cache_id) is not None:
             self._log.debug(
-                "{} monster was skipped because it was "
-                "previously processed.".format(mon.name)
+                "%s monster was skipped because it was previously processed.", mon.name
             )
             return
-        self.__cache.monster_expiration(
-            f"{mon.enc_id}{mon.weight}{boosted_status}", mon.disappear_time
-        )
+        self.__cache.monster_expiration(monster_cache_id, mon.disappear_time)
 
         # Check the time remaining
         seconds_left = (mon.disappear_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                "{} monster was skipped because only {} seconds "
-                "remained".format(mon.name, seconds_left)
+                "%s monster was skipped because only %s seconds remained",
+                mon.name,
+                seconds_left,
             )
             return
 
@@ -841,25 +796,21 @@ class Manager(object):
             return
 
         # Check if previously processed and update expiration
-        if (
-            self.__cache.stop_expiration(str(stop.stop_id) + str(stop.lure_type_id))
-            is not None
-        ):
+        stop_cache_id = f"{stop.stop_id}{stop.lure_type_id}"
+        if self.__cache.stop_expiration(stop_cache_id) is not None:
             self._log.debug(
-                "Stop {} was skipped because it was "
-                "previously processed.".format(stop.name)
+                "Stop %s was skipped because it was previously processed.", stop.name
             )
             return
-        self.__cache.stop_expiration(
-            str(stop.stop_id) + str(stop.lure_type_id), stop.expiration
-        )
+        self.__cache.stop_expiration(stop_cache_id, stop.expiration)
 
         # Check the time remaining
         seconds_left = (stop.expiration - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                "Stop {} was skipped because only {} seconds "
-                "remained".format(stop.name, seconds_left)
+                "Stop %s was skipped because only %s seconds remained",
+                stop.name,
+                seconds_left,
             )
             return
 
@@ -899,7 +850,7 @@ class Manager(object):
 
         # Make sure that stops are enabled
         if self._grunts_enabled is False:
-            self._log.debug("Invasion ignored: invasion notifications are " "disabled.")
+            self._log.debug("Invasion ignored: invasion notifications are disabled.")
             return
 
         # Check for lured
@@ -908,25 +859,22 @@ class Manager(object):
             return
 
         # Check if previously processed and update expiration
-        if (
-            self.__cache.grunt_expiration(str(grunt.stop_id) + str(grunt.grunt_type_id))
-            is not None
-        ):
+        grunt_cache_id = f"{grunt.stop_id}{grunt.grunt_type_id}"
+        if self.__cache.grunt_expiration(grunt_cache_id) is not None:
             self._log.debug(
-                "Invasion {} was skipped because it was "
-                "previously processed.".format(grunt.name)
+                "Invasion %s was skipped because it was previously processed.",
+                grunt.name,
             )
             return
-        self.__cache.grunt_expiration(
-            str(grunt.stop_id) + str(grunt.grunt_type_id), grunt.expiration
-        )
+        self.__cache.grunt_expiration(grunt_cache_id, grunt.expiration)
 
         # Check the time remaining
         seconds_left = (grunt.expiration - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                "Invasion {} was skipped because only {} seconds "
-                "remained".format(grunt.name, seconds_left)
+                "Invasion %s was skipped because only %s seconds remained",
+                grunt.name,
+                seconds_left,
             )
             return
 
@@ -1040,8 +988,7 @@ class Manager(object):
         # Skip if previously processed
         if self.__cache.egg_expiration(egg.gym_id) is not None:
             self._log.debug(
-                "Egg {} was skipped because it was "
-                "previously processed.".format(egg.name)
+                "Egg %s was skipped because it was previously processed.", egg.name
             )
             return
         self.__cache.egg_expiration(egg.gym_id, egg.hatch_time)
@@ -1050,8 +997,9 @@ class Manager(object):
         seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                "Egg {} was skipped because only {} seconds "
-                "remained".format(egg.name, seconds_left)
+                "Egg %s was skipped because only %s seconds remained",
+                egg.name,
+                seconds_left,
             )
             return
 
@@ -1106,8 +1054,7 @@ class Manager(object):
         # Skip if previously processed
         if self.__cache.raid_expiration(raid.gym_id) is not None:
             self._log.debug(
-                "Raid {} was skipped because it was "
-                "previously processed.".format(raid.name)
+                "Raid %s was skipped because it was previously processed.", raid.name
             )
             return
         self.__cache.raid_expiration(raid.gym_id, raid.raid_end)
@@ -1116,8 +1063,9 @@ class Manager(object):
         seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
-                "Raid {} was skipped because only {} seconds "
-                "remained".format(raid.name, seconds_left)
+                "Raid %s was skipped because only %s seconds remained",
+                raid.name,
+                seconds_left,
             )
             return
 
@@ -1168,7 +1116,7 @@ class Manager(object):
         # Make sure that weather changes are enabled
         if self._weather_enabled is False:
             self._log.debug(
-                "Weather ignored: weather change " "notifications are disabled."
+                "Weather ignored: weather change notifications are disabled."
             )
             return
 
@@ -1188,8 +1136,7 @@ class Manager(object):
             and weather.severity_id == cache_severity_id
         ):
             self._log.debug(
-                "weather of %s, alert of %s, and day or night of %s skipped: "
-                "no change detected",
+                "weather of %s, alert of %s, and day or night of %s skipped: no change detected",
                 weather.weather_id,
                 weather.severity_id,
                 weather.day_or_night_id,
@@ -1249,8 +1196,7 @@ class Manager(object):
             == previous_modified
         ):
             self._log.debug(
-                "Quest {} was skipped because it was "
-                "previously processed.".format(quest.name)
+                "Quest %s was skipped because it was previously processed.", quest.name
             )
             return
 

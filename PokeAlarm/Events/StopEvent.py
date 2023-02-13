@@ -73,7 +73,7 @@ class StopEvent(BaseEvent):
                 "stop_name": self.stop_name,
                 "stop_image": self.stop_image,
                 "lure_type_id": self.lure_type_id,
-                "lure_type_id_3": "{:03}".format(self.lure_type_id),
+                "lure_type_id_3": f"{self.lure_type_id:03}",
                 "lure_type_name": locale.get_lure_type_name(self.lure_type_id),
                 # Time left
                 "time_left": time[0],
@@ -90,8 +90,8 @@ class StopEvent(BaseEvent):
                 # Location
                 "lat": self.lat,
                 "lng": self.lng,
-                "lat_5": "{:.5f}".format(self.lat),
-                "lng_5": "{:.5f}".format(self.lng),
+                "lat_5": f"{self.lat:.5f}",
+                "lng_5": f"{self.lat:.5f}",
                 "distance": (
                     get_dist_as_str(self.distance, units)
                     if Unknown.is_not(self.distance)
