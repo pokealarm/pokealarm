@@ -52,7 +52,7 @@ def get_move_id(move_name):
             return int(name)  # try as an integer
     except Exception:
         raise ValueError(
-            f"Unable to interpret '{move_name}' as a valid  move name or id."
+            f"Unable to interpret '{move_name}' as a valid move name or id."
         )
 
 

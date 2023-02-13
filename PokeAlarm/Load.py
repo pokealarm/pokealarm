@@ -42,8 +42,9 @@ def parse_filters_file(mgr, filename):
             "Encountered error while loading Filters: %s: %s", type(e).__name__, e
         )
         log.error(
-            "PokeAlarm was unable to find a filters file at {filepath}. "
-            "Please check that this file exists and that PA has read permissions."
+            "PokeAlarm was unable to find a filters file at %s. "
+            "Please check that this file exists and that PA has read permissions.",
+            filepath,
         )
         log.debug("Stack trace: \n %s", traceback.format_exc())
         sys.exit(1)

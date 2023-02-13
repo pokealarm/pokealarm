@@ -76,7 +76,7 @@ def generic_filter_test(test):
             event = self.gen_event({test.event_key: val})
             self.assertFalse(
                 filt.check_event(event),
-                f"fail_val  passed check in {test.__name__}: \n{event} passed {filt}",
+                f"fail_val passed check in {test.__name__}: \n{event} passed {filt}",
             )
 
     return generic_test
@@ -107,7 +107,7 @@ def full_filter_test(test):
             event = self.gen_event(val)
             self.assertFalse(
                 filt.check_event(event),
-                f"fail_val  passed check in {test.__name__}: \n{event} passed {filt}",
+                f"fail_val passed check in {test.__name__}: \n{event} passed {filt}",
             )
 
     return full_test

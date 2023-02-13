@@ -236,25 +236,26 @@ class Locale(object):
         monster_name = self.get_pokemon_name(monster["id"])
         form_name = self.get_form_name(monster["id"], monster["form"])
 
-        if monster["form"] != 0 and form_name not in ["Normal", "Normale"]:
-            if self.adjective_placement():
-                return f"{form_name} {monster_name}"
-            else:
-                return f"{monster_name} {form_name}"
-        else:
+        if monster["form"] == 0 or form_name in ["Normal", "Normale"]:
             return f"{monster_name}"
+
+        if self.adjective_placement():
+            return f"{form_name} {monster_name}"
+
+        return f"{monster_name} {form_name}"
 
     def get_quest_item_reward(self, item):
         item_name = self.get_item_name(item["id"])
         if self.adjective_placement():
             return f'{item["amount"]} {item_name}'
-        else:
-            return f'{item_name} {item["amount"]}'
+
+        return f'{item_name} {item["amount"]}'
 
     def get_quest_generic_reward(self, reward_type_id, reward_amount):
         reward_name = self.get_quest_type_name(reward_type_id)
         if self.adjective_placement():
             return f"{reward_amount} {reward_name}"
+
         return f"{reward_name} {reward_amount}"
 
     def get_item_name(self, item_id):

@@ -243,6 +243,52 @@ class MonEvent(BaseEvent):
         else:
             ultra_candy = str(self.ultra_candy[0])
 
+        # PvP misc
+        pvpoke_domain = locale.get_pvpoke_domain()
+        great_monster_name_formatted = (
+            re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_pokemon_name(self.great_id),
+            )
+            .lower()
+            .replace(" ", "_")
+        )
+        great_pvpoke_monster_formatted = great_monster_name_formatted
+        if not any(
+            x in locale.get_english_form_name(self.great_id, self.form_id)
+            for x in ["unknown", "Normal"]
+        ):
+            great_pvpoke_monster_formatted += "_" + re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_form_name(self.great_id, self.form_id)
+                .lower()
+                .replace(" ", "_"),
+            )
+
+        ultra_monster_name_formatted = (
+            re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_pokemon_name(self.ultra_id),
+            )
+            .lower()
+            .replace(" ", "_")
+        )
+        ultra_pvpoke_monster_formatted = ultra_monster_name_formatted
+        if not any(
+            x in locale.get_english_form_name(self.ultra_id, self.form_id)
+            for x in ["unknown", "Normal"]
+        ):
+            ultra_pvpoke_monster_formatted += "_" + re.sub(
+                r"[^A-Za-z0-9\s]+",
+                "",
+                locale.get_english_form_name(self.ultra_id, self.form_id)
+                .lower()
+                .replace(" ", "_"),
+            )
+
         dts = self.custom_dts.copy()
         dts.update(
             {
@@ -361,11 +407,7 @@ class MonEvent(BaseEvent):
                 "great_url": "https://www.stadiumgaming.gg/rank-checker?"
                 + urlencode(
                     {
-                        "pokemon": re.sub(
-                            r"[^A-Za-z0-9\s]+",
-                            "",
-                            locale.get_english_pokemon_name(self.great_id),
-                        ),
+                        "pokemon": great_monster_name_formatted,
                         "league": "1500",
                         "att_iv": f'"{self.atk_iv}"',
                         "def_iv": f'"{self.def_iv}"',
@@ -374,29 +416,7 @@ class MonEvent(BaseEvent):
                         "levelCap": "50",
                     }
                 ),
-                "great_pvpoke": "https://{}/rankings/all/1500/overall/{}{}/".format(
-                    locale.get_pvpoke_domain(),
-                    re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_pokemon_name(self.great_id),
-                    )
-                    .lower()
-                    .replace(" ", "_"),
-                    "_"
-                    + re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_form_name(self.great_id, self.form_id)
-                        .lower()
-                        .replace(" ", "_"),
-                    )
-                    if not any(
-                        x in locale.get_english_form_name(self.great_id, self.form_id)
-                        for x in ["unknown", "Normal"]
-                    )
-                    else "",
-                ),
+                "great_pvpoke": f"https://{pvpoke_domain}/rankings/all/1500/overall/{great_pvpoke_monster_formatted}/",
                 "great_candy": great_candy,
                 "great_stardust": f"{self.great_stardust:,}".replace(",", " "),
                 "ultra_mon_id": self.ultra_id,
@@ -407,11 +427,7 @@ class MonEvent(BaseEvent):
                 "ultra_url": "https://www.stadiumgaming.gg/rank-checker?"
                 + urlencode(
                     {
-                        "pokemon": re.sub(
-                            r"[^A-Za-z0-9\s]+",
-                            "",
-                            locale.get_english_pokemon_name(self.ultra_id),
-                        ),
+                        "pokemon": ultra_monster_name_formatted,
                         "league": "2500",
                         "att_iv": f'"{self.atk_iv}"',
                         "def_iv": f'"{self.def_iv}"',
@@ -420,29 +436,7 @@ class MonEvent(BaseEvent):
                         "levelCap": "50",
                     }
                 ),
-                "ultra_pvpoke": "https://{}/rankings/all/2500/overall/{}{}/".format(
-                    locale.get_pvpoke_domain(),
-                    re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_pokemon_name(self.ultra_id),
-                    )
-                    .lower()
-                    .replace(" ", "_"),
-                    "_"
-                    + re.sub(
-                        r"[^A-Za-z0-9\s]+",
-                        "",
-                        locale.get_english_form_name(self.ultra_id, self.form_id)
-                        .lower()
-                        .replace(" ", "_"),
-                    )
-                    if not any(
-                        x in locale.get_english_form_name(self.ultra_id, self.form_id)
-                        for x in ["unknown", "Normal"]
-                    )
-                    else "",
-                ),
+                "ultra_pvpoke": f"https://{pvpoke_domain}/rankings/all/2500/overall/{ultra_pvpoke_monster_formatted}/",
                 "ultra_candy": ultra_candy,
                 "ultra_stardust": f"{self.ultra_stardust:,}".replace(",", " "),
                 # Type

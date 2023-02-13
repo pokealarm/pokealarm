@@ -234,8 +234,8 @@ class GMaps(object):
         origin = f"{origin[0]:.5f},{origin[1]:.5f}"
         dest = f"{dest[0]:.5f},{dest[1]:.5f}"
 
-        # Check for memoized results
-        key = f"{origin} : {dest}"
+        # Check for memorized results
+        key = f"{origin}:{dest}"
         if key in self._dm_hist:
             return self._dm_hist[key]
 
