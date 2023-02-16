@@ -6,7 +6,7 @@ portalocker==1.5.2
 requests==2.22.0
 greenlet==1.1.2
 jinja2==3.0.3; python_version >= '3'
-werkzeug==2.0.3; python_version >= '3'
+werkzeug==2.2.3; python_version >= '3'
 s2cell==1.5.0; python_version >= '3'
 itsdangerous==2.0.1; python_version >= '3'
 json5==0.9.10; python_version >= '3'
