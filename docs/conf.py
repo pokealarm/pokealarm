@@ -57,7 +57,9 @@ master_doc = "index"
 
 # General information about the project.
 project = "PokeAlarm"
-copyright = f"{datetime.datetime.now().year}, PokeAlarm Team"
+copyright = "{}, PokeAlarm Team".format(
+    datetime.datetime.now().year
+)  # PA doc is compiled using Python27
 author = "PokeAlarm Team"
 
 # The version info for the project you're documenting, acts as replacement for
