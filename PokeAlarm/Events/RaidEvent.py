@@ -188,7 +188,7 @@ class RaidEvent(BaseEvent):
                 "spawn_time_raw_hours": egg_spawn[6],
                 "spawn_time_raw_minutes": egg_spawn[7],
                 "spawn_time_raw_seconds": egg_spawn[8],
-                "spawn_time_utc": self.raid_spawn.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "spawn_time_utc": self.egg_spawn_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
                 # Hatch Time Remaining
                 "hatch_time_left": raid_start[0],
                 "12h_hatch_time": raid_start[1],
@@ -199,7 +199,7 @@ class RaidEvent(BaseEvent):
                 "hatch_time_raw_hours": raid_start[6],
                 "hatch_time_raw_minutes": raid_start[7],
                 "hatch_time_raw_seconds": raid_start[8],
-                "hatch_time_utc": self.raid_spawn.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "hatch_time_utc": self.raid_start_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
                 # Raid Time Remaining
                 "raid_time_left": raid_end[0],
                 "12h_raid_end": raid_end[1],
