@@ -52,6 +52,7 @@
     "0503": "Modulo esca silvestre",
     "0504": "Modulo esca magnetico",
     "0505": "Modulo esca pluviale",
+    "0506": "Modulo esca dorato",
     "0602": "Attacco X",
     "0603": "Difesa X",
     "0604": "Miracolo X",
@@ -101,7 +102,8 @@
     "502": "Glaciale",
     "503": "Silvestre",
     "504": "Magnetico",
-    "505": "Pluviale"
+    "505": "Pluviale",
+    "506": "Dorato"
   },
   "misc": {
     "boosted": "potenziato"
@@ -1368,6 +1370,7 @@
     "Fairy": "Fata",
     "Red-Striped": "Red-Striped",
     "Blue-Striped": "Blue-Striped",
+    "White-Striped Form": "White-Striped",
     "Standard": "Standard",
     "Zen": "Zen",
     "Galarian Standard": "Galarian Standard",

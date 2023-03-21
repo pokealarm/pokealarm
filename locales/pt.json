@@ -52,6 +52,7 @@
     "0503": "M\u00f3d. Atrair Musgoso",
     "0504": "M\u00f3d. Atrair Magn\u00e9tico",
     "0505": "M\u00f3d. Atrair Chuvoso",
+    "0506": "M\u00f3d. Atrair Dourado",
     "0602": "Ataque X",
     "0603": "Defesa X",
     "0604": "Milagre X",
@@ -101,7 +102,8 @@
     "502": "Glacial",
     "503": "Musgoso",
     "504": "Magn\u00e9tico",
-    "505": "Chuvoso"
+    "505": "Chuvoso",
+    "506": "Dourado"
   },
   "misc": {
     "boosted": "impulsionado"
@@ -1471,6 +1473,7 @@
     "Fairy": "Fada",
     "Red-Striped": "Red-Striped",
     "Blue-Striped": "Blue-Striped",
+    "White-Striped Form": "White-Striped",
     "Standard": "Standard",
     "Zen": "Zen",
     "Galarian Standard": "Galarian Standard",

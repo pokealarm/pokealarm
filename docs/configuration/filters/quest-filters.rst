@@ -154,6 +154,7 @@ ID    Name
 503   Mossy Lure Module
 504   Magnetic Lure Module
 505   Rainy Lure Module
+506   Golden Lure Module
 602   X-Attack
 603   X-Defense
 604   X-Miracle
