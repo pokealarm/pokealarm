@@ -752,7 +752,7 @@ def get_xl_candy_costs():
 
 
 def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
-    if start_level >= target_level:
+    if Unknown.is_(start_level) or start_level >= target_level:
         return (0, 0)
 
     candy_costs = get_candy_costs()
@@ -771,7 +771,7 @@ def calculate_candy_cost(start_level, target_level, evo_candy_cost=0):
 
 
 def calculate_stardust_cost(start_level, target_level):
-    if start_level >= target_level:
+    if Unknown.is_(start_level) or start_level >= target_level:
         return 0
 
     stardust_costs = get_stardust_costs()

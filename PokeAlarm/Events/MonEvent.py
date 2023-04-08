@@ -89,7 +89,7 @@ class MonEvent(BaseEvent):
         self.atk_iv = check_for_none(int, data.get("individual_attack"), Unknown.TINY)
         self.def_iv = check_for_none(int, data.get("individual_defense"), Unknown.TINY)
         self.sta_iv = check_for_none(int, data.get("individual_stamina"), Unknown.TINY)
-        if Unknown.is_not(self.atk_iv, self.def_iv, self.sta_iv):
+        if Unknown.is_not(self.atk_iv, self.def_iv, self.sta_iv, self.mon_lvl):
             self.iv = 100 * (self.atk_iv + self.def_iv + self.sta_iv) / float(45)
             (
                 self.great_product,
@@ -112,6 +112,8 @@ class MonEvent(BaseEvent):
                 self.sta_iv,
                 self.mon_lvl,
             )
+            self.great_stardust = f"{self.great_stardust:,}".replace(",", " ")
+            self.ultra_stardust = f"{self.ultra_stardust:,}".replace(",", " ")
         else:
             self.iv = Unknown.SMALL
             self.great_product = Unknown.SMALL
@@ -431,7 +433,7 @@ class MonEvent(BaseEvent):
                 ),
                 "great_pvpoke": f"https://{pvpoke_domain}/rankings/all/1500/overall/{great_pvpoke_monster_formatted}/",
                 "great_candy": great_candy,
-                "great_stardust": f"{self.great_stardust:,}".replace(",", " "),
+                "great_stardust": self.great_stardust,
                 "ultra_mon_id": self.ultra_id,
                 "ultra_product": self.ultra_product,
                 "ultra_mon_name": locale.get_pokemon_name(self.ultra_id),
@@ -451,7 +453,7 @@ class MonEvent(BaseEvent):
                 ),
                 "ultra_pvpoke": f"https://{pvpoke_domain}/rankings/all/2500/overall/{ultra_pvpoke_monster_formatted}/",
                 "ultra_candy": ultra_candy,
-                "ultra_stardust": f"{self.ultra_stardust:,}".replace(",", " "),
+                "ultra_stardust": self.ultra_stardust,
                 # Type
                 "type1": type1,
                 "type1_or_empty": Unknown.or_empty(type1),
