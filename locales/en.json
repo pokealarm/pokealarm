@@ -352,6 +352,7 @@
     "345": "Gust",
     "346": "Incinerate",
     "348": "Feather Dance",
+    "350": "Fairy Wind",
     "352": "Weather Ball",
     "353": "Psychic Fangs",
     "354": "Hyperspace Fury",
@@ -379,7 +380,9 @@
     "376": "Poltergeist",
     "377": "High Horsepower",
     "378": "Glaciate",
-    "379": "Breaking Swipe"
+    "379": "Breaking Swipe",
+    "380": "Boomburst",
+    "381": "Double Iron Bash"
   },
   "pokemon": {
     "001": "Bulbasaur",
