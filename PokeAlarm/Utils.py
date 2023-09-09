@@ -363,7 +363,7 @@ def get_evolution_chain(j, id_, form_id_, a=None):
         evolutions = j[id_]["forms"][form_id_].get("evolutions")
         if evolutions is not None:
             for evo_id in evolutions:
-                if int(evo_id) > 905:  # block unreleased generations
+                if int(evo_id) > 1010:  # block unreleased generations
                     continue
 
                 evo_form_id = evolutions[evo_id]["form"]
@@ -376,7 +376,7 @@ def get_evolution_chain(j, id_, form_id_, a=None):
         evolutions = j[id_].get("evolutions")
         if evolutions is not None:
             for evo_id in evolutions:
-                if int(evo_id) > 905:  # block unreleased generations
+                if int(evo_id) > 1010:  # block unreleased generations
                     continue
 
                 evo_form_id = evolutions[evo_id]["form"]
@@ -426,7 +426,7 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
     if form_id_ != "0":
         evolutions = j[id_]["forms"][form_id_].get("evolutions", {})
         for evo_id in evolutions:
-            if int(evo_id) > 905:  # block unreleased generations
+            if int(evo_id) > 1010:  # block unreleased generations
                 continue
 
             candy_cost = int(evolutions[evo_id].get("candyCost", 0))
@@ -441,7 +441,7 @@ def get_evolution_cost_chain(j, id_, form_id_, a=None):
     else:
         evolutions = j[id_].get("evolutions", {})
         for evo_id in evolutions:
-            if int(evo_id) > 905:  # block unreleased generations
+            if int(evo_id) > 1010:  # block unreleased generations
                 continue
 
             candy_cost = int(evolutions[evo_id].get("candyCost", 0))
