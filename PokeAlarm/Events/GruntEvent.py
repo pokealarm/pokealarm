@@ -46,20 +46,26 @@ class GruntEvent(BaseEvent):
             str, data.get("pokestop_url") or data.get("url"), Unknown.REGULAR
         )
 
-        # Time left
-        self.expiration = datetime.utcfromtimestamp(
-            data.get("incident_expiration", data.get("incident_expire_timestamp"))
+        # Time
+        self.start = datetime.utcfromtimestamp(
+            data.get("incident_start", data.get("start", 0))
         )
-
+        self.expiration = datetime.utcfromtimestamp(
+            data.get("incident_expiration", data.get("expiration", 0))
+        )
         self.time_left = None
         if self.expiration is not None:
             self.time_left = get_seconds_remaining(self.expiration)
 
         # Grunt type ID
         self.grunt_type_id = check_for_none(
-            int, data.get("incident_grunt_type", data.get("grunt_type")), 0
+            int, data.get("incident_grunt_type", data.get("character")), 0
         )
         self.grunt_name = get_grunt_name(self.grunt_type_id)
+
+        # Cosmetic
+        self.display_type = check_for_none(str, data.get("display_type"), 0)
+        self.style = check_for_none(str, data.get("style"), 0)
 
         # Grunt gender
         self.gender_id = get_grunt_gender_id(self.grunt_type_id)
@@ -110,7 +116,8 @@ class GruntEvent(BaseEvent):
 
     def generate_dts(self, locale, timezone, units):
         """Return a dict with all the DTS for this event."""
-        time = get_time_as_str(self.expiration, timezone)
+        start_time = get_time_as_str(self.start, timezone)
+        expiration_time = get_time_as_str(self.expiration, timezone)
         dts = self.custom_dts.copy()
         weather_name = locale.get_weather_name(self.weather_id)
         boosted_weather_name = locale.get_weather_name(self.boosted_weather_id)
@@ -128,6 +135,8 @@ class GruntEvent(BaseEvent):
                 "type_emoji": get_type_emoji(self.mon_type_id),
                 "gender_id": self.gender_id,
                 "gender": self.gender,
+                "display_type": self.display_type,
+                "style": self.style,
                 # Rewards
                 "reward_ids": ", ".join(map(str, self.reward_mon_ids)),
                 "reward_names": ", ".join(
@@ -146,16 +155,27 @@ class GruntEvent(BaseEvent):
                 "battle3_names": ", ".join(
                     map(str, [locale.get_pokemon_name(x) for x in self.mon_battle3_ids])
                 ),
+                # Start Time
+                "start_time": start_time[0],
+                "12h_start_time": start_time[1],
+                "24h_start_time": start_time[2],
+                "start_time_no_secs": start_time[3],
+                "12h_start_time_no_secs": start_time[4],
+                "24h_start_time_no_secs": start_time[5],
+                "start_time_raw_hours": start_time[6],
+                "start_time_raw_minutes": start_time[7],
+                "start_time_raw_seconds": start_time[8],
+                "start_utc": self.start,
                 # Time left
-                "time_left": time[0],
-                "12h_time": time[1],
-                "24h_time": time[2],
-                "time_left_no_secs": time[3],
-                "12h_time_no_secs": time[4],
-                "24h_time_no_secs": time[5],
-                "time_left_raw_hours": time[6],
-                "time_left_raw_minutes": time[7],
-                "time_left_raw_seconds": time[8],
+                "time_left": expiration_time[0],
+                "12h_time": expiration_time[1],
+                "24h_time": expiration_time[2],
+                "time_left_no_secs": expiration_time[3],
+                "12h_time_no_secs": expiration_time[4],
+                "24h_time_no_secs": expiration_time[5],
+                "time_left_raw_hours": expiration_time[6],
+                "time_left_raw_minutes": expiration_time[7],
+                "time_left_raw_seconds": expiration_time[8],
                 "expiration_utc": self.expiration,
                 "current_timestamp_utc": datetime.utcnow(),
                 # Location

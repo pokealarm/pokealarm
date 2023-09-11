@@ -49,17 +49,20 @@ class QuestEvent(BaseEvent):
         self.custom_dts = {}
 
         # Quest Details
-        self.quest_type_raw = data["quest_type"]
+        self.quest_type_raw = data.get("quest_type", data.get("type"))
         self.quest_type_id = data.get("quest_type_raw")
-        self.quest_target = data.get("quest_target")
+        self.quest_target = data.get("quest_target", data.get("target"))
         self.quest_task_raw = data.get("quest_task")
-        self.quest_condition_raw = data.get("quest_condition")
-        self.quest_template = data.get("quest_template")
-        self.last_modified = datetime.utcfromtimestamp(data["timestamp"])
+        self.quest_condition_raw = data.get("quest_condition", data.get("conditions"))
+        self.quest_template = data.get("quest_template", data.get("template"))
+        self.last_modified = datetime.utcfromtimestamp(
+            data.get("timestamp", data.get("updated"))
+        )
 
         # Reward Details
         self.reward_type_id = data["quest_reward_type_raw"]
         self.reward_type_raw = data.get("quest_reward_type")
+        self.reward_raw = data.get("quest_reward_raw", data.get("questRewards"))
         self.reward_amount = data.get("item_amount", 1)
 
         # Monster Reward Details
@@ -81,6 +84,15 @@ class QuestEvent(BaseEvent):
         self.item_amount = self.reward_amount
         self.item_type = data.get("item_type")
         self.item_id = data.get("item_id", 0)
+
+        self.ar_scan_eligible = check_for_none(
+            int,
+            data.get("is_ar_scan_eligible", data.get("ar_scan_eligible")),
+            Unknown.TINY,
+        )
+        self.with_ar = check_for_none(
+            bool, data.get("with_ar"), Unknown.TINY
+        )  # RDM only
 
     def update_with_cache(self, cache):
         """Update event infos using cached data from previous events."""
@@ -119,6 +131,9 @@ class QuestEvent(BaseEvent):
                 "waze": get_waze_link(self.lat, self.lng, False),
                 "wazenav": get_waze_link(self.lat, self.lng, True),
                 "geofence": self.geofence,
+                # AR details
+                "ar_scan_eligible": self.ar_scan_eligible,
+                "with_ar": self.with_ar,
                 # Quest Details
                 # ToDo: Interpret the 'quest_condition' field and use that instead
                 #  of 'quest_type'
@@ -136,6 +151,7 @@ class QuestEvent(BaseEvent):
                 "reward_type_id": self.reward_type_id,
                 "reward_type": locale.get_quest_type_name(self.reward_type_id),
                 "reward_type_raw": self.reward_type_raw,
+                "reward_raw": self.reward_raw,
                 "reward_amount": self.item_amount,
                 "reward": reward_string(self, locale),
                 # Monster Reward Details

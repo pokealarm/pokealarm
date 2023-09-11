@@ -23,7 +23,8 @@ class WeatherEvent(BaseEvent):
         check_for_none = BaseEvent.check_for_none
 
         # Identification
-        self.s2_cell_id = data.get("s2_cell_id")
+        self.s2_cell_id = check_for_none(int, data.get("s2_cell_id"), Unknown.SMALL)
+        self.s2_cell_coords = check_for_none(str, data.get("coords"), Unknown.SMALL)
 
         # Location
         self.lat = float(data["latitude"])  # To the center of the cell
@@ -33,12 +34,28 @@ class WeatherEvent(BaseEvent):
 
         # Weather Info
         self.weather_id = check_for_none(
-            int, data.get("condition") or data.get("gameplay_weather"), 0
+            int, data.get("condition") or data.get("gameplay_condition"), 0
         )
         self.severity_id = check_for_none(
             int, data.get("alert_severity") or data.get("severity"), 0
         )
         self.day_or_night_id = data.get("day") or data.get("world_time")
+        self.wind_direction = check_for_none(
+            int, data.get("wind_direction"), Unknown.TINY
+        )
+        self.warn_weather = check_for_none(int, data.get("warn_weather"), Unknown.TINY)
+
+        # Weather levels
+        self.cloud_level = check_for_none(int, data.get("cloud_level"), Unknown.TINY)
+        self.rain_level = check_for_none(int, data.get("rain_level"), Unknown.TINY)
+        self.wind_level = check_for_none(int, data.get("wind_level"), Unknown.TINY)
+        self.snow_level = check_for_none(int, data.get("snow_level"), Unknown.TINY)
+        self.fog_level = check_for_none(int, data.get("fog_level"), Unknown.TINY)
+        self.special_effect_level = check_for_none(
+            int, data.get("special_effect_level"), Unknown.TINY
+        )
+
+        self.updated = check_for_none(bool, data.get("updated"), Unknown.TINY)
 
         self.name = self.s2_cell_id
         self.geofence = Unknown.REGULAR
@@ -59,6 +76,7 @@ class WeatherEvent(BaseEvent):
             {
                 # Identification
                 "s2_cell_id": self.s2_cell_id,
+                "s2_cell_coords": self.s2_cell_coords,
                 # Location - center of the s2 cell
                 "lat": self.lat,
                 "lng": self.lng,
@@ -89,6 +107,16 @@ class WeatherEvent(BaseEvent):
                 "day_or_night_id": self.day_or_night_id,
                 "day_or_night_id_3": f"{self.day_or_night_id:03}",
                 "day_or_night": locale.get_day_or_night(self.day_or_night_id),
+                "wind_direction": self.wind_direction,
+                "warn_weather": self.warn_weather,
+                # Weather Levels
+                "cloud_level": self.cloud_level,
+                "rain_level": self.rain_level,
+                "wind_level": self.wind_level,
+                "snow_level": self.snow_level,
+                "fog_level": self.fog_level,
+                "special_effect_level": self.special_effect_level,
+                "updated": self.updated,
                 "current_timestamp_utc": datetime.utcnow(),
             }
         )

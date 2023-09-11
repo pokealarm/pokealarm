@@ -30,17 +30,34 @@ class StopEvent(BaseEvent):
         self.stop_name = check_for_none(
             str, data.get("pokestop_name") or data.get("name"), Unknown.REGULAR
         )
+        self.stop_description = check_for_none(
+            str, data.get("description"), Unknown.REGULAR
+        ).strip()
         self.stop_image = check_for_none(
             str, data.get("pokestop_url") or data.get("url"), Unknown.REGULAR
         )
-        self.lure_type_id = check_for_none(int, data.get("lure_id"), 0)
 
-        # Time left
-        self.expiration = datetime.utcfromtimestamp(data.get("lure_expiration"))
+        # Lure
+        self.lure_type_id = check_for_none(int, data.get("lure_id"), 0)
+        self.lure_expiration = datetime.utcfromtimestamp(data.get("lure_expiration"))
+
+        self.power_up_points = check_for_none(
+            int, data.get("power_up_points"), Unknown.TINY
+        )  # RDM only
+        self.power_up_level = check_for_none(
+            int, data.get("power_up_level"), Unknown.TINY
+        )  # RDM only
+        self.power_up_end_timestamp = datetime.utcfromtimestamp(
+            data.get("power_up_end_timestamp", 0)
+        )  # RDM only
+
+        self.ar_scan_eligible = check_for_none(
+            int, data.get("ar_scan_eligible"), Unknown.TINY
+        )  # RDM only
 
         self.time_left = None
-        if self.expiration is not None:
-            self.time_left = get_seconds_remaining(self.expiration)
+        if self.lure_expiration is not None:
+            self.time_left = get_seconds_remaining(self.lure_expiration)
 
         # Location
         self.lat = float(data["latitude"])
@@ -63,7 +80,7 @@ class StopEvent(BaseEvent):
 
     def generate_dts(self, locale, timezone, units):
         """Return a dict with all the DTS for this event."""
-        time = get_time_as_str(self.expiration, timezone)
+        time = get_time_as_str(self.lure_expiration, timezone)
         dts = self.custom_dts.copy()
         dts.update(
             {
@@ -71,6 +88,7 @@ class StopEvent(BaseEvent):
                 "stop_id": self.stop_id,
                 # Details
                 "stop_name": self.stop_name,
+                "stop_description": self.stop_description,
                 "stop_image": self.stop_image,
                 "lure_type_id": self.lure_type_id,
                 "lure_type_id_3": f"{self.lure_type_id:03}",
@@ -85,7 +103,7 @@ class StopEvent(BaseEvent):
                 "time_left_raw_hours": time[6],
                 "time_left_raw_minutes": time[7],
                 "time_left_raw_seconds": time[8],
-                "expiration_utc": self.expiration,
+                "expiration_utc": self.lure_expiration,
                 "current_timestamp_utc": datetime.utcnow(),
                 # Location
                 "lat": self.lat,
@@ -105,6 +123,11 @@ class StopEvent(BaseEvent):
                 "waze": get_waze_link(self.lat, self.lng, False),
                 "wazenav": get_waze_link(self.lat, self.lng, True),
                 "geofence": self.geofence,
+                # Misc
+                "power_up_points": self.power_up_points,
+                "power_up_level": self.power_up_level,
+                "power_up_end_timestamp": self.power_up_end_timestamp,
+                "ar_scan_eligible": self.ar_scan_eligible,
             }
         )
         return dts

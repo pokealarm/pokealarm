@@ -991,10 +991,10 @@ class Manager(object):
                 "Egg %s was skipped because it was previously processed.", egg.name
             )
             return
-        self.__cache.egg_expiration(egg.gym_id, egg.hatch_time)
+        self.__cache.egg_expiration(egg.gym_id, egg.raid_start_utc)
 
         # Check the time remaining
-        seconds_left = (egg.hatch_time - datetime.utcnow()).total_seconds()
+        seconds_left = (egg.raid_start_utc - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
                 "Egg %s was skipped because only %s seconds remained",
@@ -1057,10 +1057,10 @@ class Manager(object):
                 "Raid %s was skipped because it was previously processed.", raid.name
             )
             return
-        self.__cache.raid_expiration(raid.gym_id, raid.raid_end)
+        self.__cache.raid_expiration(raid.gym_id, raid.raid_end_utc)
 
         # Check the time remaining
-        seconds_left = (raid.raid_end - datetime.utcnow()).total_seconds()
+        seconds_left = (raid.raid_end_utc - datetime.utcnow()).total_seconds()
         if seconds_left < self.__time_limit:
             self._log.debug(
                 "Raid %s was skipped because only %s seconds remained",

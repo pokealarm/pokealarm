@@ -47,10 +47,10 @@ class RaidEvent(BaseEvent):
         self.gym_id = data.get("gym_id")
 
         # Time Remaining
-        self.raid_end = datetime.utcfromtimestamp(
-            data.get("end") or data.get("raid_end")
-        )  # RM or Monocle
-        self.time_left = get_seconds_remaining(self.raid_end)
+        self.egg_spawn_utc = datetime.utcfromtimestamp(data.get("spawn", 0))
+        self.raid_start_utc = datetime.utcfromtimestamp(data.get("start", 0))
+        self.raid_end_utc = datetime.utcfromtimestamp(data.get("end", 0))
+        self.time_left = get_seconds_remaining(self.raid_end_utc)
 
         # Location
         self.lat = float(data["latitude"])
@@ -99,7 +99,7 @@ class RaidEvent(BaseEvent):
         self.charge_duration = get_move_duration(self.charge_id)
         self.charge_energy = get_move_energy(self.charge_id)
 
-        # Gym Details (currently only sent from Monocle)
+        # Gym Details
         self.gym_name = check_for_none(str, data.get("name"), Unknown.REGULAR).strip()
         self.gym_description = check_for_none(
             str, data.get("description"), Unknown.REGULAR
@@ -109,9 +109,15 @@ class RaidEvent(BaseEvent):
         self.guard_count = Unknown.TINY
 
         self.sponsor_id = check_for_none(int, data.get("sponsor"), Unknown.TINY)
+        self.partner_id = check_for_none(
+            int, data.get("partner_id"), Unknown.TINY
+        )  # RDM only
         self.park = check_for_none(str, data.get("park"), Unknown.REGULAR)
         self.ex_eligible = check_for_none(
             int, data.get("is_ex_raid_eligible"), Unknown.REGULAR
+        )
+        self.is_exclusive = check_for_none(
+            int, data.get("is_exclusive"), Unknown.REGULAR
         )
 
         # Gym Team (this is only available from cache)
@@ -147,7 +153,9 @@ class RaidEvent(BaseEvent):
 
     def generate_dts(self, locale, timezone, units):
         """Return a dict with all the DTS for this event."""
-        raid_end_time = get_time_as_str(self.raid_end, timezone)
+        egg_spawn = get_time_as_str(self.egg_spawn_utc, timezone)
+        raid_start = get_time_as_str(self.raid_start_utc, timezone)
+        raid_end = get_time_as_str(self.raid_end_utc, timezone)
         dts = self.custom_dts.copy()
 
         form_name = locale.get_form_name(self.mon_id, self.form_id)
@@ -170,19 +178,39 @@ class RaidEvent(BaseEvent):
             {
                 # Identification
                 "gym_id": self.gym_id,
-                # Time Remaining
-                "raid_time_left": raid_end_time[0],
-                "12h_raid_end": raid_end_time[1],
-                "24h_raid_end": raid_end_time[2],
-                # Time Remaining Without Seconds
-                "raid_time_no_secs": raid_end_time[3],
-                "12h_raid_end_no_secs": raid_end_time[4],
-                "24h_raid_end_no_secs": raid_end_time[5],
-                # Raw time remaining values
-                "raid_time_raw_hours": raid_end_time[6],
-                "raid_time_raw_minutes": raid_end_time[7],
-                "raid_time_raw_seconds": raid_end_time[8],
-                "raid_end_utc": self.raid_end,
+                # Spawn Time
+                "spawn_time": egg_spawn[0],
+                "12h_spawn_time": egg_spawn[1],
+                "24h_spawn_time": egg_spawn[2],
+                "spawn_time_no_secs": egg_spawn[3],
+                "12h_spawn_time_no_secs": egg_spawn[4],
+                "24h_spawn_time_no_secs": egg_spawn[5],
+                "spawn_time_raw_hours": egg_spawn[6],
+                "spawn_time_raw_minutes": egg_spawn[7],
+                "spawn_time_raw_seconds": egg_spawn[8],
+                "spawn_time_utc": self.egg_spawn_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                # Hatch Time Remaining
+                "hatch_time_left": raid_start[0],
+                "12h_hatch_time": raid_start[1],
+                "24h_hatch_time": raid_start[2],
+                "hatch_time_no_secs": raid_start[3],
+                "12h_hatch_time_no_secs": raid_start[4],
+                "24h_hatch_time_no_secs": raid_start[5],
+                "hatch_time_raw_hours": raid_start[6],
+                "hatch_time_raw_minutes": raid_start[7],
+                "hatch_time_raw_seconds": raid_start[8],
+                "hatch_time_utc": self.raid_start_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                # Raid Time Remaining
+                "raid_time_left": raid_end[0],
+                "12h_raid_end": raid_end[1],
+                "24h_raid_end": raid_end[2],
+                "raid_time_no_secs": raid_end[3],
+                "12h_raid_end_no_secs": raid_end[4],
+                "24h_raid_end_no_secs": raid_end[5],
+                "raid_time_raw_hours": raid_end[6],
+                "raid_time_raw_minutes": raid_end[7],
+                "raid_time_raw_seconds": raid_end[8],
+                "raid_end_utc": self.raid_end_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
                 "current_timestamp_utc": datetime.utcnow(),
                 # Type
                 "type1": type1,
@@ -301,10 +329,14 @@ class RaidEvent(BaseEvent):
                 "sponsored": self.sponsor_id > 0
                 if Unknown.is_not(self.sponsor_id)
                 else Unknown.REGULAR,
+                "partner_id": self.partner_id,
                 "ex_eligible": self.ex_eligible > 0
                 if Unknown.is_not(self.ex_eligible)
                 else Unknown.REGULAR,
                 "ex_eligible_emoji": get_ex_eligible_emoji(self.ex_eligible),
+                "is_exclusive": self.is_exclusive > 0
+                if Unknown.is_not(self.is_exclusive)
+                else Unknown.REGULAR,
                 "park": self.park,
                 "team_id": self.current_team_id,
                 "team_emoji": get_team_emoji(self.current_team_id),

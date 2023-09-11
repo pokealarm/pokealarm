@@ -53,9 +53,12 @@ class MonEvent(BaseEvent):
         self.monster_id = int(data["pokemon_id"])
         self.form_id = check_for_none(int, data.get("form"), 0)
 
-        # Time Left
+        # Time
         self.disappear_time = datetime.utcfromtimestamp(data["disappear_time"])
         self.time_left = get_seconds_remaining(self.disappear_time)
+        self.first_seen = datetime.utcfromtimestamp(
+            data.get("first_seen", 0)
+        )  # RDM only
 
         # Spawn Data
         self.spawn_start = check_for_none(int, data.get("spawn_start"), Unknown.REGULAR)
@@ -68,6 +71,23 @@ class MonEvent(BaseEvent):
         self.spawnpoint_id = check_for_none(
             str, data.get("spawnpoint_id"), Unknown.REGULAR
         )
+
+        # Spawn source
+        self.pokestop_id = check_for_none(int, data.get("pokestop_id"), 0)
+        self.pokestop_name = check_for_none(
+            str, data.get("pokestop_name"), 0
+        )  # MAD only
+        self.pokestop_url = check_for_none(str, data.get("pokestop_url"), 0)  # MAD only
+        self.cell_coords = check_for_none(
+            str, data.get("cell_coords"), Unknown.SMALL
+        )  # MAD only
+        self.cell_id = check_for_none(
+            int, data.get("cell_id"), Unknown.SMALL
+        )  # MAD only
+        self.is_event = check_for_none(
+            bool, data.get("is_event"), Unknown.TINY
+        )  # RDM only
+        self.seen_type = check_for_none(str, data.get("seen_type"), Unknown.SMALL)
 
         # Location
         self.lat = float(data["latitude"])
@@ -84,6 +104,9 @@ class MonEvent(BaseEvent):
         # Encounter Stats
         self.mon_lvl = check_for_none(int, data.get("pokemon_level"), Unknown.TINY)
         self.cp = check_for_none(int, data.get("cp"), Unknown.TINY)
+        self.cp_multiplier = check_for_none(
+            int, data.get("cp_multiplier"), Unknown.TINY
+        )
 
         # IVs
         self.atk_iv = check_for_none(int, data.get("individual_attack"), Unknown.TINY)
@@ -164,13 +187,17 @@ class MonEvent(BaseEvent):
         )
         self.height = check_for_none(float, data.get("height"), Unknown.SMALL)
         self.weight = check_for_none(float, data.get("weight"), Unknown.SMALL)
+
         if Unknown.is_not(self.height, self.weight):
             self.size_id = get_pokemon_size(self.monster_id, self.height, self.weight)
         else:
-            self.size_id = Unknown.SMALL
+            self.size_id = check_for_none(int, data.get("size"), Unknown.SMALL)
 
         self.types = get_base_types(self.monster_id, self.form_id)
         self.can_be_shiny = MonUtils.get_shiny_status(self.monster_id, self.form_id)
+        self.is_shiny = check_for_none(
+            bool, data.get("shiny"), Unknown.TINY
+        )  # RDM only
 
         # Costume
         self.costume_id = check_for_none(int, data.get("costume"), 0)
@@ -228,9 +255,15 @@ class MonEvent(BaseEvent):
         )
 
         # Remove ".0" from full PvP levels
-        if Unknown.is_not(self.great_level) and int(self.great_level) == self.great_level:
+        if (
+            Unknown.is_not(self.great_level)
+            and int(self.great_level) == self.great_level
+        ):
             self.great_level = int(self.great_level)
-        if Unknown.is_not(self.ultra_level) and int(self.ultra_level) == self.ultra_level:
+        if (
+            Unknown.is_not(self.ultra_level)
+            and int(self.ultra_level) == self.ultra_level
+        ):
             self.ultra_level = int(self.ultra_level)
 
         # Stringify PvP candy costs
@@ -297,7 +330,7 @@ class MonEvent(BaseEvent):
                 "mon_name": locale.get_pokemon_name(self.monster_id),
                 "mon_id": self.monster_id,
                 "mon_id_3": f"{self.monster_id:03}",
-                # Time Remaining
+                # Time
                 "time_left": time[0],
                 "12h_time": time[1],
                 "24h_time": time[2],
@@ -309,6 +342,7 @@ class MonEvent(BaseEvent):
                 "time_left_raw_seconds": time[8],
                 "disappear_time_utc": self.disappear_time,
                 "current_timestamp_utc": datetime.utcnow(),
+                "first_seen": self.first_seen,
                 # Spawn Data
                 "spawn_start": self.spawn_start,
                 "spawn_end": self.spawn_end,
@@ -345,6 +379,14 @@ class MonEvent(BaseEvent):
                 "waze": get_waze_link(self.lat, self.lng, False),
                 "wazenav": get_waze_link(self.lat, self.lng, True),
                 "geofence": self.geofence,
+                # Spawn source
+                "pokestop_id": self.pokestop_id,
+                "pokestop_name": self.pokestop_name,
+                "pokestop_url": self.pokestop_url,
+                "cell_coords": self.cell_coords,
+                "cell_id": self.cell_id,
+                "is_event": self.is_event,
+                "seen_type": self.seen_type,
                 # Weather
                 "weather_id": self.weather_id,
                 "weather": weather_name,
@@ -365,6 +407,7 @@ class MonEvent(BaseEvent):
                 # Encounter Stats
                 "mon_lvl": self.mon_lvl,
                 "cp": self.cp,
+                "cp_multiplier": self.cp_multiplier,
                 # Max out
                 "max_cp": calculate_cp(
                     self.monster_id,
@@ -524,6 +567,7 @@ class MonEvent(BaseEvent):
                 ),
                 "size": locale.get_size_name(self.size_id),
                 "shiny_emoji": get_shiny_emoji(self.can_be_shiny),
+                "is_shiny": self.is_shiny,
                 # Display Information (Usually when the actual mon is a ditto)
                 "display_mon_id": self.display_monster_id,
                 "display_mon_name": locale.get_pokemon_name(self.display_monster_id),

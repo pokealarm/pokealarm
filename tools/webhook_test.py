@@ -172,7 +172,7 @@ def set_init(webhook_type):
                 "s2_cell_id": current_time,
                 "latitude": 37.7876146,
                 "longitude": -122.390624,
-                "gameplay_weather": 0,
+                "condition": 0,
                 "severity": 0,
                 "world_time": 1,
             },
@@ -557,7 +557,7 @@ elif type == whtypes["5"]:
 elif type == whtypes["6"]:
     print("What type of weather would you like to report? (default: 0)")
     print(weather_formatted, end="\n> ")
-    int_or_default("gameplay_weather")
+    int_or_default("condition")
     print("What type of severity status would you like? (default: 0)")
     print(severity_formatted, end="\n> ")
     int_or_default("severity")
