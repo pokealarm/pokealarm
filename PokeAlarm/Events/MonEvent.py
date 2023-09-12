@@ -98,12 +98,14 @@ class MonEvent(BaseEvent):
                 self.great_level,
                 self.great_candy,
                 self.great_stardust,
+                self.great_rank,
                 self.ultra_product,
                 self.ultra_id,
                 self.ultra_cp,
                 self.ultra_level,
                 self.ultra_candy,
                 self.ultra_stardust,
+                self.ultra_rank,
             ) = PvpUtils.get_pvp_info(
                 self.monster_id,
                 self.form_id,
@@ -126,6 +128,8 @@ class MonEvent(BaseEvent):
             self.ultra_candy = (Unknown.SMALL, 0)
             self.great_stardust = Unknown.SMALL
             self.ultra_stardust = Unknown.SMALL
+            self.great_rank = Unknown.TINY
+            self.ultra_rank = Unknown.TINY
 
         # Quick Move
         self.quick_id = check_for_none(int, data.get("move_1"), Unknown.TINY)
@@ -419,6 +423,7 @@ class MonEvent(BaseEvent):
                 "great_pvpoke": f"https://{pvpoke_domain}/rankings/all/1500/overall/{great_pvpoke_monster_formatted}/",
                 "great_candy": great_candy,
                 "great_stardust": f"{self.great_stardust:,}".replace(",", " "),
+                "great_rank": self.great_rank,
                 "ultra_mon_id": self.ultra_id,
                 "ultra_product": self.ultra_product,
                 "ultra_mon_name": locale.get_pokemon_name(self.ultra_id),
@@ -439,6 +444,7 @@ class MonEvent(BaseEvent):
                 "ultra_pvpoke": f"https://{pvpoke_domain}/rankings/all/2500/overall/{ultra_pvpoke_monster_formatted}/",
                 "ultra_candy": ultra_candy,
                 "ultra_stardust": f"{self.ultra_stardust:,}".replace(",", " "),
+                "ultra_rank": self.ultra_rank,
                 # Type
                 "type1": type1,
                 "type1_or_empty": Unknown.or_empty(type1),

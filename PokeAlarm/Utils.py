@@ -478,6 +478,33 @@ def get_raw_form_names():
         return get_raw_form_names.info
 
 
+# Returns proto names for all the pokemon
+def get_proto_name(pokemon_id, form_id=0):
+    try:
+        get_proto_name.info
+    except AttributeError:
+        get_proto_name.info = {}
+        file_ = get_path("data/pokemon_data.json")
+        with open(file_, "r") as f:
+            j = json.load(f)
+            f.close()
+        for id_ in j:
+            normal_form_proto = f'{j[id_]["name"]}_normal'.lower()
+            get_proto_name.info[int(id_) * 100_000] = normal_form_proto
+            for form_id_ in j[id_].get("forms", {}):
+                if form_id_ == "0":
+                    continue
+
+                proto_name = j[id_]["forms"][form_id_]["proto"].lower()
+                proto_name = proto_name.replace("_alola", "_alolan")
+
+                mon_key = int(id_) * 100_000 + int(form_id_)
+                get_proto_name.info[mon_key] = proto_name
+
+    mon_key = pokemon_id * 100_000 + form_id
+    return get_proto_name.info.get(mon_key, Unknown.TINY)
+
+
 # Return CP multipliers
 def get_cp_multipliers():
     try:

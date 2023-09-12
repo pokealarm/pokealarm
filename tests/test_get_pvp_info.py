@@ -11,12 +11,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(133, 0, 1, 15, 15, 14)
 
         self.assertEqual(100.0, g_rating, msg="great league rating")
@@ -41,12 +43,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(197, 0, 0, 15, 14, 25)
 
         self.assertEqual(100.0, g_rating, msg="great league rating")
@@ -71,12 +75,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(454, 0, 0, 15, 12, 5)
 
         self.assertEqual(98.03, g_rating, msg="great league rating")
@@ -101,12 +107,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(183, 0, 0, 15, 15, 9)
 
         self.assertEqual(100.0, g_rating, msg="great league rating")
@@ -131,12 +139,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(412, 118, 0, 15, 15, 23)
 
         self.assertEqual(100.0, g_rating, msg="great league rating")
@@ -161,12 +171,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(412, 999999, 0, 15, 15, 23)
 
         self.assertEqual(0.0, g_rating, msg="great league rating")
@@ -191,12 +203,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(487, 90, 0, 14, 15, 20)
 
         self.assertEqual(0.0, g_rating, msg="great league rating")
@@ -221,12 +235,14 @@ class TestGetPvpInfo(unittest.TestCase):
             g_level,
             g_candy,
             g_stardust,
+            g_rank,
             u_rating,
             u_id,
             u_cp,
             u_level,
             u_candy,
             u_stardust,
+            u_rank,
         ) = get_pvp_info(487, 91, 0, 14, 15, 20)
 
         self.assertEqual(0.0, g_rating, msg="great league rating")
